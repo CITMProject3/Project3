@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>List iterator</Title>
+      <Author>Traguill</Author>
+      <Description>Creates the code to iterate a list.</Description>
+      <Shortcut>listi</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CPP">
+        <![CDATA[list<$item$*>::iterator item = $items$.begin();
+        
+while (item != $items$.end())
+{
+    ++item;
+}
+  ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
