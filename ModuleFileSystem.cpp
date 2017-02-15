@@ -352,12 +352,13 @@ bool ModuleFileSystem::Delete(string filename) const
 
 bool ModuleFileSystem::DuplicateFile(const char * src, const char * dst) const
 {
-	char* buffer;
+	char* buffer = nullptr;
 	int size = Load(src, &buffer);
 
 	if (size == 0)
 	{
-		delete[] buffer;
+		if(buffer != nullptr)
+			delete[] buffer;
 		LOG("Couldn't duplicate %s file to %s", src, dst);
 		return false;
 	}

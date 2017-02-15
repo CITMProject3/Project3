@@ -11,12 +11,13 @@
 
 bool ShaderCompiler::TryCompileVertex(const char* path)
 {
-	char* buffer;
+	char* buffer = nullptr;
 	int size = App->file_system->Load(path, &buffer);
 
 	if (size <= 0)
 	{
-		delete[] buffer;
+		if(buffer)
+			delete[] buffer;
 		LOG("Vertex shader: %s can't be loaded with filesystem.", path);
 		return false;
 	}
@@ -46,12 +47,13 @@ bool ShaderCompiler::TryCompileVertex(const char* path)
 
 bool ShaderCompiler::TryCompileFragment(const char * path)
 {
-	char* buffer;
+	char* buffer = nullptr;
 	int size = App->file_system->Load(path, &buffer);
 
 	if (size <= 0)
 	{
-		delete[] buffer;
+		if(buffer)
+			delete[] buffer;
 		LOG("Vertex shader: %s can't be loaded with filesystem.", path);
 		return false;
 	}
@@ -119,12 +121,13 @@ bool ShaderCompiler::TryCompileShader(const char * vertex_path, const char * fra
 int ShaderCompiler::CompileVertex(const char * path)
 {
 	int ret = -1;
-	char* buffer;
+	char* buffer = nullptr;
 	int size = App->file_system->Load(path, &buffer);
 
 	if (size <= 0)
 	{
-		delete[] buffer;
+		if(buffer)
+			delete[] buffer;
 		LOG("Vertex shader: %s can't be loaded with filesystem.", path);
 		return ret;
 	}
@@ -155,12 +158,13 @@ int ShaderCompiler::CompileVertex(const char * path)
 int ShaderCompiler::CompileFragment(const char * path)
 {
 	int ret = -1;
-	char* buffer;
+	char* buffer = nullptr;
 	int size = App->file_system->Load(path, &buffer);
 
 	if (size <= 0)
 	{
-		delete[] buffer;
+		if(buffer)
+			delete[] buffer;
 		LOG("Vertex shader: %s can't be loaded with filesystem.", path);
 		return ret;
 	}
