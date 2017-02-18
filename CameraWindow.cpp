@@ -11,12 +11,12 @@ CameraWindow::CameraWindow()
 CameraWindow::~CameraWindow()
 {}
 
-void CameraWindow::Draw()
+void CameraWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Camera Options", &active);
+	ImGui::Begin("Camera Options", &active, flags);
 
 	//Near plane
 	ImGui::Text("Near Plane: ");

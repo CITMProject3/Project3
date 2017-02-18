@@ -12,7 +12,7 @@ public:
 	FPSGraph();
 	~FPSGraph();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 private:
 	vector<float> frames;
 	int max_fps = 60;

@@ -541,7 +541,9 @@ void ModuleGOManager::DisplayGameObjectsChilds(const std::vector<GameObject*>* c
 
 void ModuleGOManager::InspectorWindow()
 {
-	ImGui::Begin("Inspector");
+	//ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
+	//bool open = true;
+	ImGui::Begin("Inspector");//, &open, flags);
 
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug_inspector);
 	ImGui::Separator();

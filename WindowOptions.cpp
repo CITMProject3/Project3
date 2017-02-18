@@ -10,12 +10,12 @@ WindowOptions::WindowOptions()
 WindowOptions::~WindowOptions()
 {}
 
-void WindowOptions::Draw()
+void WindowOptions::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("WindowOptions", &active);
+	ImGui::Begin("WindowOptions", &active, flags);
 
 	//Brightness
 	ImGui::SliderFloat("Brightness", &brightness, 0.0f, 1.0f);

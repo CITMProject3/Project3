@@ -18,12 +18,12 @@ ShaderEditorWindow::~ShaderEditorWindow()
 	delete[] program;
 }
 
-void ShaderEditorWindow::Draw()
+void ShaderEditorWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 	
-	ImGui::Begin("Shader editor", &active);
+	ImGui::Begin("Shader editor", &active, flags);
 
 	ImGui::Separator();
 	ImGui::TextColored(ImVec4(1, 0, 0, 1), "This feature is still in construction. Do not use it.");

@@ -7,12 +7,12 @@ LightingWindow::LightingWindow()
 LightingWindow::~LightingWindow()
 {}
 
-void LightingWindow::Draw()
+void LightingWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Lighting", &active);
+	ImGui::Begin("Lighting", &active, flags);
 
 	ImGui::Text("Ambient light");
 	ImGui::Separator();

@@ -16,12 +16,13 @@ Assets::~Assets()
 	CleanUp();
 }
 
-void Assets::Draw()
+void Assets::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Assets", &active);
+	//TODO: use flags
+	ImGui::Begin("Assets", &active);// flags);
 
 	//Options
 	if (ImGui::IsMouseHoveringWindow())

@@ -8,12 +8,12 @@ LayersWindow::LayersWindow()
 LayersWindow::~LayersWindow()
 {}
 
-void LayersWindow::Draw()
+void LayersWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Layers", &active);
+	ImGui::Begin("Layers", &active, flags);
 
 	vector<string>* layers = App->go_manager->layer_system->GetEditableLayerList();
 

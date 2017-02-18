@@ -97,6 +97,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HardwareInfo.h" />
+    <ClInclude Include="Hierarchy.h" />
     <ClInclude Include="Imgui\imconfig.h" />
     <ClInclude Include="Imgui\imgui.h" />
     <ClInclude Include="Imgui\imgui_impl_sdl_gl3.h" />
@@ -104,6 +105,7 @@
     <ClInclude Include="Imgui\stb_rect_pack.h" />
     <ClInclude Include="Imgui\stb_textedit.h" />
     <ClInclude Include="Imgui\stb_truetype.h" />
+    <ClInclude Include="Inspector.h" />
     <ClInclude Include="JSON\parson.h" />
     <ClInclude Include="LayersWindow.h" />
     <ClInclude Include="LayerSystem.h" />
@@ -238,10 +240,12 @@
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HardwareInfo.cpp" />
+    <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
     <ClCompile Include="Imgui\imgui_demo.cpp" />
     <ClCompile Include="Imgui\imgui_draw.cpp" />
     <ClCompile Include="Imgui\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="Inspector.cpp" />
     <ClCompile Include="JSON\parson.c" />
     <ClCompile Include="LayersWindow.cpp" />
     <ClCompile Include="LayerSystem.cpp" />
