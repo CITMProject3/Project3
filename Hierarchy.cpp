@@ -17,7 +17,7 @@ Hierarchy::~Hierarchy()
 
 void Hierarchy::Draw(ImGuiWindowFlags flags)
 {
-	ImGui::Begin("Hierarchy");
+	ImGui::Begin("Hierarchy", &active);//, flags);
 
 	DisplayGameObjectsChilds(App->go_manager->root->GetChilds());
 

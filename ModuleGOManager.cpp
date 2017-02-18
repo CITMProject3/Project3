@@ -95,8 +95,8 @@ update_status ModuleGOManager::Update()
 		UpdateGameObjects(time->DeltaTime(), root);
 
 	//Display windows
-	HierarchyWindow();
-	InspectorWindow();
+	//HierarchyWindow();
+	//InspectorWindow();
 
 	PickObjects();
 

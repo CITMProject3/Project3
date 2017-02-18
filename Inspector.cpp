@@ -18,7 +18,7 @@ Inspector::~Inspector()
 
 void Inspector::Draw(ImGuiWindowFlags flags)
 {
-	ImGui::Begin("Inspector", &active, flags);
+	ImGui::Begin("Inspector", &active);//, flags);
 
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug);
 	ImGui::Separator();

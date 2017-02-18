@@ -7,6 +7,8 @@
 #include "HardwareInfo.h"
 #include "Console.h"
 #include "Assets.h"
+#include "Hierarchy.h"
+#include "Inspector.h"
 #include "Profiler.h"
 #include "DebugDraw.h"
 #include "CameraWindow.h"
@@ -17,6 +19,8 @@
 #include "LightingWindow.h"
 #include "LayersWindow.h"
 #include "RenderTexEditorWindow.h"
+#include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -50,6 +54,8 @@ bool Editor::Start()
 	windows.push_back(winoptions_win = new WindowOptions());
 	windows.push_back(hardware_win = new HardwareInfo());
 	windows.push_back(assets = new Assets());
+	windows.push_back(hierarchy = new Hierarchy());
+	windows.push_back(inspector = new Inspector());
 	windows.push_back(camera_win = new CameraWindow());
 	windows.push_back(resource_win = new ResourcesWindow());
 	windows.push_back(material_creator_win = new MaterialCreatorWindow());
@@ -123,6 +129,12 @@ update_status Editor::Update()
 	//Shortcut to save. TODO: Do a better implementation of the shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		save_scene_win = true;
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+	{
+		Ray ray = App->camera->GetCurrentCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+		selected_GO = App->go_manager->Raycast(ray);
+	}
 
 	//Handle Quit event
 	bool quit = false;

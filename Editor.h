@@ -14,6 +14,8 @@ class WindowOptions;
 class HardwareInfo;
 class Console;
 class Assets;
+class Hierarchy;
+class Inspector;
 class CameraWindow;
 class ResourcesWindow;
 class MaterialCreatorWindow;
@@ -69,6 +71,8 @@ private:
 	vector<Window*> windows;
 
 	//Windows
+	Hierarchy* hierarchy = nullptr;
+	Inspector* inspector = nullptr;
 	FPSGraph* fps_graph_win = nullptr;
 	WindowOptions* winoptions_win = nullptr;
 	HardwareInfo* hardware_win = nullptr;
@@ -77,7 +81,7 @@ private:
 	ShaderEditorWindow* shader_editor_win = nullptr;
 	LightingWindow* lighting_win = nullptr;
 	LayersWindow* layers_win = nullptr;
-
+	
 	bool save_scene_win = false;
 	string scene_name_to_save;
 
