@@ -27,7 +27,7 @@ class Editor : public Module
 public:
 	Editor(const char* name, bool start_enabled = true);
 	~Editor();
-
+	 
 	bool Init(Data& config);
 
 	bool Start();
