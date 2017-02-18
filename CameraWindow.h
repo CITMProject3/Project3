@@ -9,7 +9,7 @@ public:
 	CameraWindow();
 	~CameraWindow();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 };
 
 #endif

@@ -36,6 +36,8 @@ public:
 
 	string GetAssetsCurrentDir()const;
 	void RefreshAssets()const;
+	//TODO: Ready for window resizing
+	void OnResize(int screen_width, int screen_height);
 
 private:
 	//Game Simulation Options
@@ -59,6 +61,8 @@ public:
 	MaterialCreatorWindow* material_creator_win = nullptr;
 	RenderTexEditorWindow* rendertex_win = nullptr;
 	Skybox skybox;
+
+	GameObject* selected_GO = nullptr;
 
 private:
 

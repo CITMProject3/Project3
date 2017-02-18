@@ -36,7 +36,7 @@ public:
 	Assets();
 	~Assets();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 	void Refresh();
 	string CurrentDirectory()const;
 	string CurrentLibraryDirectory()const;

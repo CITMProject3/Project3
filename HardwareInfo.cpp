@@ -13,12 +13,12 @@ HardwareInfo::HardwareInfo()
 HardwareInfo::~HardwareInfo()
 {}
 
-void HardwareInfo::Draw()
+void HardwareInfo::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Hardware Info", &active);
+	ImGui::Begin("Hardware Info", &active, flags);
 
 	ImGui::Text("CPUs: "); 
 	ImGui::SameLine(); ImGui::TextColored(TEXT_COLORED, "%d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());

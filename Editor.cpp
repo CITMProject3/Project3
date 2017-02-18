@@ -28,6 +28,13 @@ Editor::~Editor()
 
 bool Editor::Init(Data & config)
 {
+	//TODO: move into parameter configuration setup (like window color)
+
+	ImGuiStyle style = ImGui::GetStyle();
+
+	//Window rounding
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
 	return true;
 }
 
@@ -87,6 +94,11 @@ void Editor::RefreshAssets() const
 {
 	if (assets)
 		assets->Refresh();
+}
+
+void Editor::OnResize(int screen_width, int screen_height)
+{
+
 }
 
 update_status Editor::Update()
@@ -193,11 +205,12 @@ update_status Editor::EditorWindows()
 	}
 
 	//Windows ----------------------------------------------------------------------------------------------------
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
 		PROFILE("Editor::Update-PaintWindows");
-		(*win)->Draw();
+		(*win)->Draw(flags);
 		++win;
 	}
 

@@ -9,7 +9,7 @@ public:
 	ResourcesWindow();
 	~ResourcesWindow();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 };
 
 #endif
