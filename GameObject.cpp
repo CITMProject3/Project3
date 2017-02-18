@@ -127,6 +127,7 @@ GameObject* GameObject::GetParent()const
 	return parent;
 }
 
+//TODO: keep world transformation matrix, change local
 void GameObject::SetParent(GameObject * parent)
 {
 	this->parent = parent;
