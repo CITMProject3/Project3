@@ -46,7 +46,7 @@ void CameraWindow::Draw(ImGuiWindowFlags flags)
 	ImGui::Text("Current camera: ");
 	ImGui::SameLine();
 
-	if (ImGui::BeginMenu(App->camera->GetCurrentCamera()->GetGameObject()->name.data()))
+	if (ImGui::BeginMenu("Camera"))
 	{
 		vector<ComponentCamera*> cameras;
 		App->go_manager->GetAllCameras(cameras);

@@ -15,12 +15,14 @@ ModuleCamera3D::~ModuleCamera3D()
 
 bool ModuleCamera3D::Init(Data & config)
 {
-	go_cam = new GameObject();
-	go_cam->name = "Editor Camera";
-	cam_transform = (ComponentTransform*)go_cam->GetComponent(C_TRANSFORM);
-	editor_cam = (ComponentCamera*)go_cam->AddComponent(C_CAMERA);
+	camera = new ComponentCamera(C_CAMERA, nullptr);
+	camera->frustum.SetPos(vec(0, 3, -10));
 
-	current_camera = editor_cam;
+	reference = float3(0, 0, 0);
+	camera->LookAt(reference);
+
+	App->renderer3D->camera = camera;
+
 	return true;
 }
 
@@ -36,163 +38,180 @@ bool ModuleCamera3D::CleanUp()
 {
 	LOG("Cleaning camera");
 
-	delete go_cam; //Note: components are destroyed inside the destructor of the GameObject
+	delete camera; //Note: components are destroyed inside the destructor of the GameObject
 
 	return true;
 }
 
 update_status ModuleCamera3D::Update()
 {
-	if(current_camera == editor_cam)
-		EditorCameraMovement(time->RealDeltaTime());
-
-	//If the current camera properties has been modified update the projection matrix.
-	if (current_camera->properties_modified)
-	{
-		App->renderer3D->SetPerspective(current_camera->GetProjectionMatrix());
-		current_camera->properties_modified = false;
-	}
+	EditorCameraMovement(time->RealDeltaTime());
 
 	return UPDATE_CONTINUE;
 }
 
 math::float3 ModuleCamera3D::GetPosition() const
 {
-	return current_camera->GetGameObject()->GetGlobalMatrix().TranslatePart();
+	return camera->frustum.Pos();
 }
 
 math::float4x4 ModuleCamera3D::GetViewMatrix() const
 {
-	return current_camera->GetViewMatrix();
+	return camera->GetViewMatrix();
 }
 
 float ModuleCamera3D::GetNearPlane() const
 {
-	return current_camera->GetNearPlane();
+	return camera->GetNearPlane();
 }
 
 float ModuleCamera3D::GetFarPlane() const
 {
-	return current_camera->GetFarPlane();
+	return camera->GetFarPlane();
 }
 
 float ModuleCamera3D::GetFOV() const
 {
-	return current_camera->GetFOV();
+	return camera->GetFOV();
 }
 
 void ModuleCamera3D::SetNearPlane(const float & near_plane)
 {
-	current_camera->SetNearPlane(near_plane);
+	camera->SetNearPlane(near_plane);
 }
 
 void ModuleCamera3D::SetFarPlane(const float & far_plane)
 {
-	current_camera->SetFarPlane(far_plane);
+	camera->SetFarPlane(far_plane);
 }
 
 void ModuleCamera3D::SetFOV(const float & fov)
 {
-	current_camera->SetFOV(fov);
+	camera->SetFOV(fov);
 }
 
 void ModuleCamera3D::SetBackgroundColor(const math::float3 & color)
 {
-	current_camera->SetBackgroundColor(color);
+	camera->SetBackgroundColor(color);
 	App->renderer3D->SetClearColor(color);
+}
+
+bool ModuleCamera3D::MoveArrows(float dt)
+{	
+	float speed = 8.0f * dt;
+
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT)
+		speed *= 2;
+
+	//Arrows movement
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	{
+		reference += camera->frustum.Up() * speed;
+		camera->frustum.SetPos(camera->frustum.Pos() + camera->frustum.Up() * speed);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	{
+		reference -= camera->frustum.Up() * speed;
+		camera->frustum.SetPos(camera->frustum.Pos() - camera->frustum.Up() * speed);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) 
+	{
+		reference -= camera->frustum.WorldRight() * speed;
+		camera->frustum.SetPos(camera->frustum.Pos() - camera->frustum.WorldRight() * speed);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		reference += camera->frustum.WorldRight() * speed;
+		camera->frustum.SetPos(camera->frustum.Pos() + camera->frustum.WorldRight() * speed);
+	}
+	
+	return false;
+}
+
+bool ModuleCamera3D::MoveMouse(float dt)
+{
+	int motion_x, motion_y;
+	bool ret = false;
+	motion_x = -App->input->GetMouseXMotion();
+	motion_y = App->input->GetMouseYMotion();
+
+	//Orbit around reference
+	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	{
+		Orbit(motion_x, -motion_y);
+		ret = true;
+	}
+	
+	//Middle button movement
+	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT && (motion_x != 0 || motion_y != 0))
+	{
+		//TODO: Kind of magic number. Consider other options?
+		float distance = reference.Distance(GetPosition());
+		float3 Y_add = camera->GetUp() * motion_y * (distance / 1000);
+		float3 X_add = camera->GetWorldRight() * motion_x * (distance / 1000);
+
+		reference += X_add;
+		reference += Y_add;
+
+		camera->frustum.SetPos(GetPosition() + X_add + Y_add);
+	}
+
+	//Zoom
+	int wheel = App->input->GetMouseZ();
+	if (wheel != 0)
+	{
+		Zoom(wheel);
+		ret = true;
+	}
+	return ret;
+}
+
+void ModuleCamera3D::Orbit(int x, int y)
+{
+	float3 vector = GetPosition() - reference;
+
+	Quat quat_y(camera->GetUp(), x * 0.003);
+	Quat quat_x(camera->GetWorldRight(), y * 0.003);
+
+	vector = quat_x.Transform(vector);
+	vector = quat_y.Transform(vector);
+
+	camera->frustum.SetPos(vector + reference);
+	camera->LookAt(reference);
+}
+
+void ModuleCamera3D::Zoom(float value)
+{
+	float distance = reference.Distance(GetPosition());
+	float3 front = camera->GetFront();
+	float3 position = camera->frustum.Pos();
+	vec newPos = GetPosition() + camera->GetFront() * value *distance * 0.05f;
+	camera->frustum.SetPos(newPos);
 }
 
 math::float3 ModuleCamera3D::GetBackgroundColor() const
 {
-	return current_camera->GetBackgroundColor();
-}
-
-ComponentCamera * ModuleCamera3D::GetCurrentCamera() const
-{
-	return current_camera;
+	return camera->GetBackgroundColor();
 }
 
 void ModuleCamera3D::ChangeCurrentCamera(ComponentCamera * camera)
 {
 	if (camera != nullptr)
 	{
-		current_camera = camera;
-		App->renderer3D->SetPerspective(current_camera->GetProjectionMatrix());
-		App->renderer3D->SetClearColor(current_camera->GetBackgroundColor());
+		//current_camera = camera;
+		App->renderer3D->SetClearColor(camera->GetBackgroundColor());
 	}
 }
 
 ComponentCamera * ModuleCamera3D::GetEditorCamera() const
 {
-	return editor_cam;
+	return camera;
 }
 
 void ModuleCamera3D::EditorCameraMovement(float dt)
 {
-
-	math::float3 position = cam_transform->GetPosition();
-	float speed = 8.0f * dt;
-
-	math::float4x4 matrix = cam_transform->GetGlobalMatrix();
-
-	math::float3 world_x = matrix.WorldX();
-	math::float3 world_y = matrix.WorldY();
-	math::float3 world_z = matrix.WorldZ();
-
-	//TODO: rotation doesn't apply correctly.
-	math::float3 new_pos = math::float3::zero;
-
-	//Arrows movement
-	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT) new_pos += world_z * speed;
-	if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) new_pos -= world_z * speed;
-	if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) new_pos += world_x * speed;
-	if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) new_pos -= world_x * speed;
-
-	//Middle mouse button movement
-	if (App->input->GetMouseButton(SDL_BUTTON_MIDDLE) == KEY_REPEAT)
-	{
-		int dx = App->input->GetMouseXMotion();
-		int dy = App->input->GetMouseYMotion();
-
-		new_pos += world_x * speed * dx;
-		new_pos += world_y * speed * dy;
-	}
-
-	//Mouse wheel zoom
-	float wheel_speed = 200 * dt;
-
-	if (App->input->GetMouseZ() > 0) new_pos += world_z * speed * wheel_speed;
-	if (App->input->GetMouseZ() < 0) new_pos -= world_z * speed * wheel_speed;
-
-
-	if (new_pos.x != 0 || new_pos.y != 0 || new_pos.z != 0)
-	{
-		position += new_pos;
-		cam_transform->SetPosition(position);
-	}
-
-	if (App->input->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		float sensivity = 0.5f;
-
-		int dx = -App->input->GetMouseXMotion();
-		int dy = -App->input->GetMouseYMotion();
-
-		float delta_x = (float)dx * sensivity;
-		float delta_y = (float)dy * sensivity;
-		
-		Quat yaw, pitch; 
-		yaw = Quat(world_y, DegToRad(delta_x));
-		if (delta_y != 0)
-			pitch = Quat(world_x, DegToRad(-delta_y));
-		else
-			pitch = Quat::identity;
-		Quat rot = yaw * pitch * cam_transform->GetRotation();
-		cam_transform->SetRotation(rot);
-	}
-
-	//Update Transform component manually
-	cam_transform->Update();
+	MoveArrows(dt);
+	MoveMouse(dt);
 }
 
 

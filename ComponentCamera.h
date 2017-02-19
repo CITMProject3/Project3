@@ -9,6 +9,7 @@ class ResourceFileRenderTexture;
 
 class ComponentCamera : public Component, public Observer
 {
+	friend class ModuleCamera3D;
 public:
 	ComponentCamera(ComponentType type, GameObject* game_object);
 	~ComponentCamera();
@@ -24,16 +25,21 @@ public:
 	float GetFOV()const;
 	math::float3 GetFront()const;
 	math::float3 GetUp()const;
-	math::float4x4 GetProjectionMatrix()const;
-	math::float3 GetBackgroundColor()const;
 	math::float3 GetWorldRight()const;
+
+	math::float4x4 GetProjectionMatrix()const;
 	math::float4x4 GetViewMatrix()const;
 	math::float4x4 GetWorldMatrix()const;
+
+	math::float3 GetBackgroundColor()const;
+
 	int GetLayerMask()const;
 
 	void SetNearPlane(float value);
 	void SetFarPlane(float value);
 	void SetFOV(float value);
+	void SetAspectRatio(float value);
+
 	void LookAt(const math::float3& point);
 	void SetBackgroundColor(const math::float3 color);
 	bool Intersects(const math::AABB& box)const;
@@ -48,12 +54,15 @@ public:
 
 	bool properties_modified = false;
 	ResourceFileRenderTexture* render_texture = nullptr;
+
+protected:
+	math::Frustum frustum;
 private:
 	float near_plane = 0.3f;
 	float far_plane = 1000.0f;
 	float fov = 60;
 	float aspect_ratio;
-	math::Frustum frustum;
+
 	math::float3 color; 
 	int layer_mask = -1;
 	

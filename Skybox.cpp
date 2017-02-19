@@ -53,7 +53,8 @@ void Skybox::Render(ComponentCamera* camera)
 
 	if (camera)
 	{
-		math::float3 translate = camera->GetGameObject()->GetGlobalMatrix().TranslatePart();
+		//TODO: been changed
+		math::float3 translate = camera->GetWorldMatrix().TranslatePart();
 		math::float4x4 model_matrix = math::float4x4::identity;
 		model_matrix.SetTranslatePart(translate);
 		model_matrix.Scale(200, 200, 200);

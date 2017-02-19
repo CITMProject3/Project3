@@ -133,11 +133,17 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+	if (camera->properties_modified)
+	{
+		UpdateProjectionMatrix();
+		camera->properties_modified = false;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*App->camera->GetViewMatrix().v);
+	glLoadMatrixf((float*)camera->GetViewMatrix().v);
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->GetPosition().x, App->camera->GetPosition().y, App->camera->GetPosition().z);
@@ -166,9 +172,8 @@ update_status ModuleRenderer3D::PostUpdate()
 	}
 
 	glDisable(GL_CLIP_DISTANCE0);
-	//Current Camera
-	ComponentCamera* current_cam = App->camera->GetCurrentCamera();
-	DrawScene(current_cam);
+
+	DrawScene(camera);
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -191,41 +196,19 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//Calculate perspective
-	float4x4 perspective;
-	float _near = 0.125f;
-	float _far = 512.0f;
-
-	perspective.SetIdentity();
-	float tan_theta_over2 = tan(fovy * pi / 360.0f);
-
-	perspective[0][0] = (1.0f / tan_theta_over2) / ((float) width / (float)height);
-	perspective[1][1] = 1.0f / tan_theta_over2;
-	perspective[2][2] = (_near + _far) / (_near - _far);
-	perspective[3][2] = 2 * _near * _far / (_near - _far);
-	perspective[2][3] = -1;
-	perspective[3][3] = 0;
-
-	ProjectionMatrix = perspective;
-	glLoadMatrixf(*ProjectionMatrix.v);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	camera->SetAspectRatio((float)width / (float)height);
+	UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);
 	SendEvent(this, Event::WINDOW_RESIZE);
 }
 
-void ModuleRenderer3D::SetPerspective(const math::float4x4 & perspective)
+void ModuleRenderer3D::UpdateProjectionMatrix()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	ProjectionMatrix = perspective;
-	glLoadMatrixf(*ProjectionMatrix.v);
+	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix().v);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
