@@ -10,7 +10,7 @@ public:
 	ShaderEditorWindow();
 	~ShaderEditorWindow();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 private:
 	bool edit_vertex_enabled = true;
 	std::string vertex_path = "";

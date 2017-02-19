@@ -11,7 +11,7 @@ public:
 	WindowOptions();
 	~WindowOptions();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 private:
 
 	float brightness;

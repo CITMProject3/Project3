@@ -13,12 +13,12 @@ MaterialCreatorWindow::MaterialCreatorWindow()
 MaterialCreatorWindow::~MaterialCreatorWindow()
 {}
 
-void MaterialCreatorWindow::Draw()
+void MaterialCreatorWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Material Creator", &active);
+	ImGui::Begin("Material Creator", &active, flags);
 
 	ImGui::Text("Save path: "); ImGui::SameLine();
 	ImGui::InputText("###save_path", save_path._Myptr(), save_path.capacity());

@@ -498,6 +498,15 @@
     <ClInclude Include="RenderTexEditorWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="TestWindow.h">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -822,6 +831,15 @@
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
     <ClCompile Include="RenderTexEditorWindow.cpp">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
   </ItemGroup>

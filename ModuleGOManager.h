@@ -51,6 +51,7 @@ public:
 	bool InsertGameObjectInOctree(GameObject* go);
 	bool RemoveGameObjectOfOctree(GameObject* go);
 
+	GameObject* Raycast(const Ray& ray)const;
 private:
 
 	void HierarchyWindow();
@@ -62,8 +63,6 @@ private:
 	void PreUpdateGameObjects(GameObject* obj);
 
 	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const; //Should be a public method?
-
-	GameObject* Raycast(const Ray& ray)const;
 
 private:
 	GameObject* selected_GO = nullptr;
