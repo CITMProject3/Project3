@@ -29,7 +29,10 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 
 	if (ImGui::IsMouseHoveringWindow())
 		if (ImGui::IsMouseClicked(1))
+		{
 			ImGui::OpenPopup("HierarchyOptions");
+		}
+
 
 	if (ImGui::BeginPopup("HierarchyOptions"))
 	{
@@ -59,6 +62,11 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 			}
 		}
 
+		if (ImGui::Selectable("Set Parent"))
+		{
+			settingParent = true;
+		}
+
 		ImGui::EndPopup();
 	}
 
@@ -77,6 +85,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
 
 		bool open = ImGui::TreeNodeEx((*object)->name.data(), flags);
+		bool hasChilds = (*object)->ChildCount() > 0;
 
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
@@ -84,12 +93,23 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
 		}
 
-		if (ImGui::IsItemClicked(0))
+		if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))
 		{
-			App->editor->selected_GO = (*object);
+			if (settingParent == true)
+			{
+				if (App->editor->selected_GO != nullptr)
+				{
+					App->editor->selected_GO->SetParent(*object);
+				}
+				settingParent = false;
+			}
+			else
+			{
+				App->editor->selected_GO = (*object);
+			}
 		}
 
-		if ((*object)->ChildCount() > 0 && open)
+		if (hasChilds > 0 && open)
 		{
 			DisplayGameObjectsChilds((*object)->GetChilds());
 			ImGui::TreePop();

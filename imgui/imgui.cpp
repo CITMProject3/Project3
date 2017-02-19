@@ -3358,7 +3358,7 @@ void ImGui::OpenPopupEx(const char* str_id, bool reopen_existing)
 
 void ImGui::OpenPopup(const char* str_id)
 {
-    ImGui::OpenPopupEx(str_id, false);
+    ImGui::OpenPopupEx(str_id, true);
 }
 
 static void CloseInactivePopups()

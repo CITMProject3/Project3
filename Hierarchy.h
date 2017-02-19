@@ -14,6 +14,8 @@ public:
 
 	void Draw(ImGuiWindowFlags flags);
 	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);
+
+	bool settingParent = false;
 };
 
 #endif
