@@ -22,6 +22,7 @@
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
 #include "TestWindow.h"
+#include "GameObject.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -191,6 +192,25 @@ void Editor::RemoveSelected()
 	selected.clear();
 }
 
+void Editor::Copy(GameObject* game_object)
+{
+	if (copy_go != nullptr)
+		delete copy_go;
+
+	copy_go = new GameObject(*game_object);
+}
+
+void Editor::Paste(GameObject* game_object)
+{
+	GameObject* new_go = App->go_manager->CreateGameObject(game_object->GetParent(), copy_go);
+}
+
+void Editor::Duplicate(GameObject* game_object)
+{
+	Copy(game_object);
+	Paste(game_object->GetParent());
+}
+
 update_status Editor::PreUpdate()
 {
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
@@ -261,14 +281,7 @@ void Editor::HandleInput()
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
 				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
 			{
-				if (IsSelected(game_object))
-				{
-					Unselect(game_object);
-				}
-				else
-				{
-					AddSelect(game_object);
-				}
+				IsSelected(game_object) ? Unselect(game_object) : AddSelect(game_object);
 			}
 			else
 			{

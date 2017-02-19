@@ -59,6 +59,10 @@ public:
 	bool IsSelected(GameObject* game_object) const;
 	void RemoveSelected();
 
+	void Copy(GameObject* game_object);
+	void Paste(GameObject* game_object);
+	void Duplicate(GameObject* game_object);
+
 private:
 	//Game Simulation Options
 	void GameOptions()const;
@@ -83,6 +87,7 @@ public:
 	Skybox skybox;
 
 	std::list<GameObject*> selected;
+	GameObject* copy_go = nullptr;
 
 private:
 

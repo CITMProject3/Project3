@@ -33,33 +33,50 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 		{
 			ImGui::OpenPopup("HierarchyOptions");
 		}
-		if (ImGui::IsMouseClicked(0) && settingParent == true)
+		if (ImGui::IsMouseClicked(0))// && been_selected == false)
 		{
-			if (App->editor->selected.size() > 0)
+			if (setting_parent == true)
 			{
-				App->editor->selected.back()->SetParent(App->go_manager->root);
+				if (App->editor->selected.size() > 0)
+				{
+					App->editor->selected.back()->SetParent(App->go_manager->root);
+				}
 			}
 		}
 	}
 
-
-
 	if (ImGui::BeginPopup("HierarchyOptions"))
 	{
-		if (ImGui::Selectable("Create Empty GameObject"))
+		if (ImGui::Selectable("Copy"))
 		{
-			App->editor->SelectSingle(App->go_manager->CreateGameObject(NULL));
+			if (App->editor->selected.size() > 0)
+				App->editor->Copy(App->editor->selected.back());
+		}
+		if (ImGui::Selectable("Paste"))
+		{
+			if (App->editor->selected.size() > 0)
+				App->editor->Paste(App->editor->selected.back());
+			else
+				App->editor->Paste(nullptr);
+		}
+		ImGui::Separator();
+		if (ImGui::Selectable("Duplicate"))
+		{
+			if (App->editor->selected.size() > 0)
+				App->editor->Duplicate(App->editor->selected.back());
 		}
 
-		if (ImGui::Selectable("Create Empty Child"))
-		{
-			App->editor->SelectSingle(App->go_manager->CreateGameObject(App->editor->selected.back()));
-		}
-
-		if (ImGui::Selectable("Remove selected GameObject"))
+		if (ImGui::Selectable("Delete"))
 		{
 			App->editor->RemoveSelected();
 		}
+		ImGui::Separator();
+		if (ImGui::Selectable("Create Empty"))
+		{
+			GameObject* game_object = (App->editor->selected.size() > 0) ? App->editor->selected.back() : nullptr;
+			App->editor->SelectSingle(App->go_manager->CreateGameObject(game_object));
+		}
+
 		if (ImGui::Selectable("Create Prefab"))
 		{
 			if (App->editor->selected.size() > 0)
@@ -70,12 +87,21 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 
 		if (ImGui::Selectable("Set Parent"))
 		{
-			settingParent = true;
+			setting_parent = true;
 		}
 
 		ImGui::EndPopup();
 	}
-
+	
+	// Quick test for unselecting game objects when not selecting none
+	int size_x = current_size.x;
+	int size_y = current_size.y - ImGui::GetCursorPosY() - 10;
+	ImGui::SetCursorPosX(0);
+	if (ImGui::Button("test: unselect GO", ImVec2(size_x, size_y)))
+	{
+		App->editor->UnselectAll();
+	}
+	
 	ImGui::End();
 }
 
@@ -101,13 +127,13 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 
 		if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))
 		{
-			if (settingParent == true)
+			if (setting_parent == true)
 			{
 				if (App->editor->selected.size() > 0)
 				{
 					App->editor->selected.back()->SetParent(*object);
 				}
-				settingParent = false;
+				setting_parent = false;
 			}
 			else
 			{

@@ -150,7 +150,7 @@ void GameObject::SetParent(GameObject * parent)
 			transform->SetRotation(rotation);
 			transform->SetScale(scale);
 
-			parent->childs.push_back(this);
+			parent->AddChild(this);
 		}
 	}
 
