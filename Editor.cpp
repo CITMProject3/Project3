@@ -21,6 +21,7 @@
 #include "RenderTexEditorWindow.h"
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
+#include "TestWindow.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -34,10 +35,11 @@ bool Editor::Init(Data & config)
 {
 	//TODO: move into parameter configuration setup (like window color)
 
-	ImGuiStyle style = ImGui::GetStyle();
-
 	//Window rounding
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
+	//Child window background
+	ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, ImVec4(0.3, 0.3, 0.3, 0.3));
 
 	return true;
 }
@@ -63,6 +65,7 @@ bool Editor::Start()
 	windows.push_back(lighting_win = new LightingWindow());
 	windows.push_back(layers_win = new LayersWindow());
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
+	windows.push_back(test_win = new TestWindow());
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
@@ -209,9 +212,10 @@ update_status Editor::EditorWindows()
 			DebugMenu();
 			ImGui::EndMenu();
 		}
-		if (ImGui::MenuItem("Quit", NULL))
+		if (ImGui::BeginMenu("Quit"))
 		{
 			ret = UPDATE_STOP;
+			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
@@ -284,7 +288,7 @@ void Editor::WindowsMenu()
 		{
 			hardware_win->SetActive(true);
 		}
-			
+
 		ImGui::EndMenu();
 	}
 
@@ -311,6 +315,21 @@ void Editor::WindowsMenu()
 	if (ImGui::MenuItem("Material Creator"))
 	{
 		material_creator_win->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Hierarchy"))
+	{
+		hierarchy->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Inspector"))
+	{
+		inspector->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Test Window"))
+	{
+		test_win->SetActive(true);
 	}
 }
 

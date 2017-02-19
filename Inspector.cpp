@@ -10,7 +10,7 @@
 
 Inspector::Inspector()
 {
-
+	active = true;
 }
 
 Inspector::~Inspector()
@@ -18,6 +18,8 @@ Inspector::~Inspector()
 
 void Inspector::Draw(ImGuiWindowFlags flags)
 {
+	if (!active) return;
+
 	ImGui::Begin("Inspector", &active);//, flags);
 
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug);

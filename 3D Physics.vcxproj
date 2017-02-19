@@ -121,6 +121,7 @@
     <ClInclude Include="ResourceFileRenderTexture.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="TestWindow.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\GJK.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\Random\LCG.h" />
@@ -263,6 +264,7 @@
     <ClCompile Include="ResourceFileRenderTexture.cpp" />
     <ClCompile Include="ShaderEditorWindow.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="TestWindow.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="MathGeoLib\include\Algorithm\GJK.cpp" />
     <ClCompile Include="MathGeoLib\include\Algorithm\Random\LCG.cpp" />

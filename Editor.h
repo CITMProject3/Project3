@@ -23,6 +23,7 @@ class ShaderEditorWindow;
 class LightingWindow;
 class LayersWindow;
 class RenderTexEditorWindow;
+class TestWindow;
 
 class Editor : public Module
 {
@@ -81,6 +82,7 @@ private:
 	ShaderEditorWindow* shader_editor_win = nullptr;
 	LightingWindow* lighting_win = nullptr;
 	LayersWindow* layers_win = nullptr;
+	TestWindow* test_win = nullptr;
 	
 	bool save_scene_win = false;
 	string scene_name_to_save;
