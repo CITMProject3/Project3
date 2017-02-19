@@ -69,45 +69,30 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 {
 	for (std::vector<GameObject*>::const_iterator object = (*childs).begin(); object != (*childs).end(); ++object)
 	{
-		uint flags = 0;
+		uint flags = ImGuiTreeNodeFlags_OpenOnArrow;
 		if ((*object) == App->editor->selected_GO)
-			flags = ImGuiTreeNodeFlags_Selected;
+			flags |= ImGuiTreeNodeFlags_Selected;
 
-		if ((*object)->ChildCount() > 0)
+		if ((*object)->ChildCount() == 0)
+			flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		bool open = ImGui::TreeNodeEx((*object)->name.data(), flags);
+
+		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
-			if (ImGui::TreeNodeEx((*object)->name.data(), flags))
-			{
-				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
-				{
-					ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
-					App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
-				}
-
-				if (ImGui::IsItemClicked(0))
-				{
-					App->editor->selected_GO = (*object);
-				}
-
-				DisplayGameObjectsChilds((*object)->GetChilds());
-				ImGui::TreePop();
-			}
+			ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
+			App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
 		}
-		else
-		{
-			if (ImGui::TreeNodeEx((*object)->name.data(), flags | ImGuiTreeNodeFlags_Leaf))
-			{
-				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
-				{
-					ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
-					App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
-				}
 
-				if (ImGui::IsItemClicked(0))
-				{
-					App->editor->selected_GO = (*object);
-				}
-				ImGui::TreePop();
-			}
+		if (ImGui::IsItemClicked(0))
+		{
+			App->editor->selected_GO = (*object);
+		}
+
+		if ((*object)->ChildCount() > 0 && open)
+		{
+			DisplayGameObjectsChilds((*object)->GetChilds());
+			ImGui::TreePop();
 		}
 	}
 }
