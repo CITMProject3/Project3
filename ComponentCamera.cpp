@@ -234,6 +234,12 @@ void ComponentCamera::LookAt(const math::float3 & point)
 	properties_modified = true;
 }
 
+void ComponentCamera::Center(const float3& position, float distance)
+{
+	float3 v = frustum.Front().Neg();
+	frustum.SetPos(position + v * distance);
+}
+
 void ComponentCamera::SetBackgroundColor(const math::float3 color)
 {
 	this->color = color;

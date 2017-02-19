@@ -38,6 +38,8 @@ public:
 	void Orbit(int x, int y);
 	void Zoom(float value);
 
+	void Center(const float3& position);
+
 	math::float3 GetBackgroundColor()const;
 	ComponentCamera* GetEditorCamera() const;
 

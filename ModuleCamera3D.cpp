@@ -189,6 +189,14 @@ void ModuleCamera3D::Zoom(float value)
 	camera->frustum.SetPos(newPos);
 }
 
+//Keeping same distance as reference by now
+void ModuleCamera3D::Center(const float3& position)
+{
+	float distance = reference.Distance(camera->frustum.Pos());
+	camera->Center(position, distance);
+	reference = position;
+}
+
 math::float3 ModuleCamera3D::GetBackgroundColor() const
 {
 	return camera->GetBackgroundColor();

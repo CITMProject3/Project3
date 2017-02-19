@@ -4,6 +4,7 @@
 
 #include "GameObject.h"
 #include "Component.h"
+#include "ComponentTransform.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -76,6 +77,12 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 		{
 			if (ImGui::TreeNodeEx((*object)->name.data(), flags))
 			{
+				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+				{
+					ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
+					App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
+				}
+
 				if (ImGui::IsItemClicked(0))
 				{
 					App->editor->selected_GO = (*object);
@@ -89,8 +96,11 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 		{
 			if (ImGui::TreeNodeEx((*object)->name.data(), flags | ImGuiTreeNodeFlags_Leaf))
 			{
-				ImGuiStyle style = ImGui::GetStyle();
-				ImVec4 color = style.Colors[ImGuiCol_FrameBgActive];
+				if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
+				{
+					ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
+					App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
+				}
 
 				if (ImGui::IsItemClicked(0))
 				{

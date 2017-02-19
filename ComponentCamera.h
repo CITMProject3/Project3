@@ -41,6 +41,8 @@ public:
 	void SetAspectRatio(float value);
 
 	void LookAt(const math::float3& point);
+	void Center(const float3& position, float distance);
+
 	void SetBackgroundColor(const math::float3 color);
 	bool Intersects(const math::AABB& box)const;
 
