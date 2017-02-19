@@ -212,7 +212,7 @@ void ModuleGOManager::LoadEmptyScene()
 	root = new GameObject();
 	root->name = "Root";
 	current_scene_path = "";
-	App->camera->ChangeCurrentCamera(App->camera->GetEditorCamera());
+	App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 }
 
 bool ModuleGOManager::IsRoot(const GameObject * go) const

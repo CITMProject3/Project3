@@ -6,10 +6,13 @@
 #include "ModuleGOManager.h"
 
 CameraWindow::CameraWindow()
-{}
+{
+
+}
 
 CameraWindow::~CameraWindow()
-{}
+{
+}
 
 void CameraWindow::Draw(ImGuiWindowFlags flags)
 {
@@ -46,22 +49,29 @@ void CameraWindow::Draw(ImGuiWindowFlags flags)
 	ImGui::Text("Current camera: ");
 	ImGui::SameLine();
 
-	if (ImGui::BeginMenu("Camera"))
+
+	ComponentCamera* current_camera = App->renderer3D->camera;
+	std::string text = "Editor Camera";
+	if (current_camera->GetGameObject() != nullptr)
+	{
+		text = current_camera->GetGameObject()->name.c_str();
+	}
+
+	if (ImGui::BeginMenu(text.c_str()))
 	{
 		vector<ComponentCamera*> cameras;
 		App->go_manager->GetAllCameras(cameras);
 
-		ComponentCamera* cam_editor = App->camera->GetEditorCamera();
 		//Camera editor as option too
-		if (ImGui::MenuItem(cam_editor->GetGameObject()->name.data()))
+		if (ImGui::MenuItem("Editor Camera"))
 		{
-			App->camera->ChangeCurrentCamera(cam_editor);
+			App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 		}
 
 		for (vector<ComponentCamera*>::iterator cam_it = cameras.begin(); cam_it != cameras.end(); cam_it++)
 			if (ImGui::MenuItem((*cam_it)->GetGameObject()->name.data()))
 			{
-				App->camera->ChangeCurrentCamera((*cam_it));
+				App->renderer3D->SetCamera((*cam_it));
 			}
 
 		ImGui::EndMenu();

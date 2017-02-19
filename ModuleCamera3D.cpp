@@ -194,15 +194,6 @@ math::float3 ModuleCamera3D::GetBackgroundColor() const
 	return camera->GetBackgroundColor();
 }
 
-void ModuleCamera3D::ChangeCurrentCamera(ComponentCamera * camera)
-{
-	if (camera != nullptr)
-	{
-		//current_camera = camera;
-		App->renderer3D->SetClearColor(camera->GetBackgroundColor());
-	}
-}
-
 ComponentCamera * ModuleCamera3D::GetEditorCamera() const
 {
 	return camera;

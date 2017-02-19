@@ -30,10 +30,14 @@ public:
 
 	void OnResize(int width, int height, float fovy);
 	void UpdateProjectionMatrix();
+	const ComponentCamera* GetCamera() const;
+	void SetCamera(ComponentCamera* camera);
+
 	void AddToDraw(GameObject* obj);
 
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);
+	
 
 private:
 

@@ -39,7 +39,6 @@ public:
 	void Zoom(float value);
 
 	math::float3 GetBackgroundColor()const;
-	void ChangeCurrentCamera(ComponentCamera* camera);
 	ComponentCamera* GetEditorCamera() const;
 
 private:

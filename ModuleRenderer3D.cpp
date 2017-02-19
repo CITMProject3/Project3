@@ -214,6 +214,20 @@ void ModuleRenderer3D::UpdateProjectionMatrix()
 	glLoadIdentity();
 }
 
+const ComponentCamera* ModuleRenderer3D::GetCamera() const
+{
+	return camera;
+}
+
+void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
+{
+	if (this->camera != camera)
+	{
+		this->camera = camera;
+		UpdateProjectionMatrix();
+	}
+}
+
 void ModuleRenderer3D::AddToDraw(GameObject* obj)
 {
 	if (obj)
