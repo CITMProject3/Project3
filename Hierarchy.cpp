@@ -28,10 +28,20 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 	DisplayGameObjectsChilds(App->go_manager->root->GetChilds());
 
 	if (ImGui::IsMouseHoveringWindow())
+	{
 		if (ImGui::IsMouseClicked(1))
 		{
 			ImGui::OpenPopup("HierarchyOptions");
 		}
+		if (ImGui::IsMouseClicked(0) && settingParent == true)
+		{
+			if (App->editor->selected_GO != nullptr)
+			{
+				App->editor->selected_GO->SetParent(App->go_manager->root);
+			}
+		}
+	}
+
 
 
 	if (ImGui::BeginPopup("HierarchyOptions"))

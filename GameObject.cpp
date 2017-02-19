@@ -130,7 +130,7 @@ GameObject* GameObject::GetParent()const
 //TODO: keep world transformation matrix, change local
 void GameObject::SetParent(GameObject * parent)
 {
-	if (this->parent != parent)
+	if (this->parent != parent && parent != this)
 	{
 		if (this->parent != nullptr)
 		{

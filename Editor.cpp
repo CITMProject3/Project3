@@ -124,6 +124,24 @@ void Editor::OnResize(int screen_width, int screen_height)
 	}
 }
 
+bool Editor::UsingKeyboard() const
+{
+	return using_keyboard;
+}
+
+bool Editor::UsingMouse() const
+{
+	return using_mouse;
+}
+
+update_status Editor::PreUpdate()
+{
+	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
+	using_mouse = ImGui::GetIO().WantCaptureMouse;
+
+	return UPDATE_CONTINUE;
+}
+
 update_status Editor::Update()
 {
 	PROFILE("Editor::Update()");
@@ -144,7 +162,7 @@ update_status Editor::Update()
 	
 
 	//Shortcut to save. TODO: Do a better implementation of the shortcuts
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	if (using_keyboard == false && App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		save_scene_win = true;
 
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)

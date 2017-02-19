@@ -34,6 +34,8 @@ public:
 	bool Init(Data& config);
 
 	bool Start();
+
+	update_status PreUpdate();
 	update_status Update();
 	bool CleanUp();
 
@@ -42,6 +44,9 @@ public:
 
 	void InitSizes();
 	void OnResize(int screen_width, int screen_height);
+
+	bool UsingKeyboard() const;
+	bool UsingMouse() const;
 
 private:
 	//Game Simulation Options
@@ -69,6 +74,9 @@ public:
 	GameObject* selected_GO = nullptr;
 
 private:
+
+	bool using_keyboard;
+	bool using_mouse;
 
 	vector<Window*> windows;
 
