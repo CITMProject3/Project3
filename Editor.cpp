@@ -236,17 +236,17 @@ void Editor::HandleInput()
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		save_scene_win = true;
 
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		RemoveSelected();
+	}
+
 	//GameObject selection (click and drag)
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
 	{
 		select_dragging = true;
 		start_drag.x = App->input->GetMouseX();
 		start_drag.y = App->input->GetMouseY();
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
-	{
-		RemoveSelected();
 	}
 
 	if (select_dragging = true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
