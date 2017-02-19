@@ -39,7 +39,8 @@ public:
 
 	string GetAssetsCurrentDir()const;
 	void RefreshAssets()const;
-	//TODO: Ready for window resizing
+
+	void InitSizes();
 	void OnResize(int screen_width, int screen_height);
 
 private:

@@ -20,7 +20,10 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 {
 	if (!active) return;
 
-	ImGui::Begin("Inspector", &active);//, flags);
+	ImGui::SetNextWindowSize(current_size);
+	ImGui::SetNextWindowPos(current_position);
+
+	ImGui::Begin("Inspector", &active, flags);
 
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug);
 	ImGui::Separator();

@@ -67,6 +67,8 @@ bool Editor::Start()
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
 	windows.push_back(test_win = new TestWindow());
 
+	InitSizes();
+
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
 
@@ -105,9 +107,21 @@ void Editor::RefreshAssets() const
 		assets->Refresh();
 }
 
+void Editor::InitSizes()
+{
+	hierarchy->SetRelativeDimensions(ImVec2(0, 0.0), ImVec2(0.15, 0.8));
+	inspector->SetRelativeDimensions(ImVec2(0.80, 0.0), ImVec2(0.20, 0.8));
+	assets->SetRelativeDimensions(ImVec2(0, 0.8), ImVec2(1.0, 0.2));
+}
+
 void Editor::OnResize(int screen_width, int screen_height)
 {
-
+	vector<Window*>::iterator win = windows.begin();
+	while (win != windows.end())
+	{
+		(*win)->OnResize(screen_width, screen_height);
+		++win;
+	}
 }
 
 update_status Editor::Update()

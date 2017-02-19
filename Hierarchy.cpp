@@ -19,7 +19,10 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 {
 	if (!active) return;
 
-	ImGui::Begin("Hierarchy", &active);//, flags);
+	ImGui::SetNextWindowSize(current_size);
+	ImGui::SetNextWindowPos(current_position);
+
+	ImGui::Begin("Hierarchy", &active, flags);
 	
 	DisplayGameObjectsChilds(App->go_manager->root->GetChilds());
 
