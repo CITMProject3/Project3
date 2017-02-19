@@ -35,9 +35,9 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 		}
 		if (ImGui::IsMouseClicked(0) && settingParent == true)
 		{
-			if (App->editor->selected_GO != nullptr)
+			if (App->editor->selected.size() > 0)
 			{
-				App->editor->selected_GO->SetParent(App->go_manager->root);
+				App->editor->selected.back()->SetParent(App->go_manager->root);
 			}
 		}
 	}
@@ -48,27 +48,23 @@ void Hierarchy::Draw(ImGuiWindowFlags flags)
 	{
 		if (ImGui::Selectable("Create Empty GameObject"))
 		{
-			App->editor->selected_GO = App->go_manager->CreateGameObject(NULL);
+			App->editor->SelectSingle(App->go_manager->CreateGameObject(NULL));
 		}
 
 		if (ImGui::Selectable("Create Empty Child"))
 		{
-			App->editor->selected_GO = App->go_manager->CreateGameObject(App->editor->selected_GO);
+			App->editor->SelectSingle(App->go_manager->CreateGameObject(App->editor->selected.back()));
 		}
 
 		if (ImGui::Selectable("Remove selected GameObject"))
 		{
-			if (App->editor->selected_GO != nullptr)
-			{
-				App->go_manager->RemoveGameObject(App->editor->selected_GO);
-				App->editor->selected_GO = nullptr;
-			}
+			App->editor->RemoveSelected();
 		}
 		if (ImGui::Selectable("Create Prefab"))
 		{
-			if (App->editor->selected_GO != nullptr)
+			if (App->editor->selected.size() > 0)
 			{
-				App->resource_manager->SavePrefab(App->editor->selected_GO);
+				App->resource_manager->SavePrefab(App->editor->selected.back());
 			}
 		}
 
@@ -88,7 +84,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 	for (std::vector<GameObject*>::const_iterator object = (*childs).begin(); object != (*childs).end(); ++object)
 	{
 		uint flags = ImGuiTreeNodeFlags_OpenOnArrow;
-		if ((*object) == App->editor->selected_GO)
+		if (App->editor->IsSelected(*object))
 			flags |= ImGuiTreeNodeFlags_Selected;
 
 		if ((*object)->ChildCount() == 0)
@@ -107,15 +103,15 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 		{
 			if (settingParent == true)
 			{
-				if (App->editor->selected_GO != nullptr)
+				if (App->editor->selected.size() > 0)
 				{
-					App->editor->selected_GO->SetParent(*object);
+					App->editor->selected.back()->SetParent(*object);
 				}
 				settingParent = false;
 			}
 			else
 			{
-				App->editor->selected_GO = (*object);
+				OnClickSelect(*object);
 			}
 		}
 
@@ -124,5 +120,25 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			DisplayGameObjectsChilds((*object)->GetChilds());
 			ImGui::TreePop();
 		}
+	}
+}
+
+void Hierarchy::OnClickSelect(GameObject* game_object)
+{
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
+		App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+	{
+		if (App->editor->IsSelected(game_object))
+		{
+			App->editor->Unselect(game_object);
+		}
+		else
+		{
+			App->editor->AddSelect(game_object);
+		}
+	}
+	else
+	{
+		App->editor->SelectSingle(game_object);
 	}
 }

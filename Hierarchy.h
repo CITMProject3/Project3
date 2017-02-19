@@ -14,6 +14,7 @@ public:
 
 	void Draw(ImGuiWindowFlags flags);
 	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);
+	void OnClickSelect(GameObject* gameObject);
 
 	bool settingParent = false;
 };

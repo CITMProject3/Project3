@@ -134,6 +134,63 @@ bool Editor::UsingMouse() const
 	return using_mouse;
 }
 
+void Editor::SelectSingle(GameObject* game_object)
+{
+	UnselectAll();
+	selected.push_back(game_object);
+}
+
+void Editor::AddSelect(GameObject* game_object)
+{
+	//Just for safety
+	if (IsSelected(game_object) == false)
+		selected.push_back(game_object);
+}
+
+void Editor::Unselect(GameObject* game_object)
+{
+	std::list<GameObject*>::iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			selected.erase(it);
+			break;
+		}
+		it++;
+	}
+}
+
+void Editor::UnselectAll()
+{
+	selected.clear();
+}
+
+bool Editor::IsSelected(GameObject* game_object) const
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			return true;
+		}
+		it++;
+	}
+	return false;
+}
+
+void Editor::RemoveSelected()
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		App->go_manager->RemoveGameObject(*it);
+		it++;
+	}
+	selected.clear();
+}
+
 update_status Editor::PreUpdate()
 {
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
@@ -160,16 +217,7 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
-
-	//Shortcut to save. TODO: Do a better implementation of the shortcuts
-	if (using_keyboard == false && App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		save_scene_win = true;
-
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = App->go_manager->Raycast(ray);
-	}
+	HandleInput();
 
 	//Handle Quit event
 	bool quit = false;
@@ -180,6 +228,54 @@ update_status Editor::Update()
 		ret = UPDATE_STOP;
 
 	return ret;	
+}
+
+void Editor::HandleInput()
+{
+	//Shortcut to save. TODO: Do a better implementation of the shortcuts
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		save_scene_win = true;
+
+	//GameObject selection (click and drag)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		select_dragging = true;
+		start_drag.x = App->input->GetMouseX();
+		start_drag.y = App->input->GetMouseY();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		RemoveSelected();
+	}
+
+	if (select_dragging = true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		ImVec2 end_drag(App->input->GetMouseX(), App->input->GetMouseY());
+		if (start_drag.x == end_drag.x && start_drag.y == end_drag.y)
+		{
+			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+			//TODO:(Ausiàs) change game_object for a list
+			GameObject* game_object = App->go_manager->Raycast(ray);
+
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
+				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+			{
+				if (IsSelected(game_object))
+				{
+					Unselect(game_object);
+				}
+				else
+				{
+					AddSelect(game_object);
+				}
+			}
+			else
+			{
+				SelectSingle(App->go_manager->Raycast(ray));
+			}
+		}
+	}
 }
 
 void Editor::GameOptions() const

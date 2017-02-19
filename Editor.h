@@ -39,6 +39,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void HandleInput();
+
 	string GetAssetsCurrentDir()const;
 	void RefreshAssets()const;
 
@@ -47,6 +49,15 @@ public:
 
 	bool UsingKeyboard() const;
 	bool UsingMouse() const;
+
+	//GameObject selection
+	void SelectSingle(GameObject* game_object);
+	void AddSelect(GameObject* game_object);
+	void Unselect(GameObject* game_object);
+	void UnselectAll();
+
+	bool IsSelected(GameObject* game_object) const;
+	void RemoveSelected();
 
 private:
 	//Game Simulation Options
@@ -71,12 +82,15 @@ public:
 	RenderTexEditorWindow* rendertex_win = nullptr;
 	Skybox skybox;
 
-	GameObject* selected_GO = nullptr;
+	std::list<GameObject*> selected;
 
 private:
 
 	bool using_keyboard;
 	bool using_mouse;
+
+	bool select_dragging = false;
+	ImVec2 start_drag;
 
 	vector<Window*> windows;
 
