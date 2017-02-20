@@ -16,12 +16,16 @@ Assets::~Assets()
 	CleanUp();
 }
 
-void Assets::Draw()
+void Assets::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Assets", &active);
+	ImGui::SetNextWindowSize(current_size);
+	ImGui::SetNextWindowPos(current_position);
+
+	//TODO: use flags
+	ImGui::Begin("Assets", &active, flags);
 
 	//Options
 	if (ImGui::IsMouseHoveringWindow())
@@ -30,6 +34,8 @@ void Assets::Draw()
 	
 
 	ImGui::Text(current_dir->path.data());
+
+	ImGui::BeginChild(1);
 
 	//Back folder
 	if (current_dir->parent != nullptr)
@@ -152,7 +158,7 @@ void Assets::Draw()
 	GeneralOptions();
 	VertexFragmentOptions();
 
-	
+	ImGui::EndChild();
 	ImGui::End();
 }
 

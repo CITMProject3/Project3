@@ -11,7 +11,7 @@ public:
 	HardwareInfo();
 	~HardwareInfo();
 
-	void Draw();
+	void Draw(ImGuiWindowFlags flags);
 };
 
 #endif

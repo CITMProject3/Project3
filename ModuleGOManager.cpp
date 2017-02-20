@@ -95,8 +95,8 @@ update_status ModuleGOManager::Update()
 		UpdateGameObjects(time->DeltaTime(), root);
 
 	//Display windows
-	HierarchyWindow();
-	InspectorWindow();
+	//HierarchyWindow();
+	//InspectorWindow();
 
 	PickObjects();
 
@@ -212,7 +212,7 @@ void ModuleGOManager::LoadEmptyScene()
 	root = new GameObject();
 	root->name = "Root";
 	current_scene_path = "";
-	App->camera->ChangeCurrentCamera(App->camera->GetEditorCamera());
+	App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 }
 
 bool ModuleGOManager::IsRoot(const GameObject * go) const
@@ -232,7 +232,7 @@ void ModuleGOManager::PickObjects()
 {
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
-		Ray ray = App->camera->GetCurrentCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 		selected_GO = Raycast(ray);
 	}
 }
@@ -541,7 +541,9 @@ void ModuleGOManager::DisplayGameObjectsChilds(const std::vector<GameObject*>* c
 
 void ModuleGOManager::InspectorWindow()
 {
-	ImGui::Begin("Inspector");
+	//ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
+	//bool open = true;
+	ImGui::Begin("Inspector");//, &open, flags);
 
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug_inspector);
 	ImGui::Separator();

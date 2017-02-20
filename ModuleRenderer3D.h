@@ -29,11 +29,15 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height, float fovy);
-	void SetPerspective(const math::float4x4& perspective);
+	void UpdateProjectionMatrix();
+	const ComponentCamera* GetCamera() const;
+	void SetCamera(ComponentCamera* camera);
+
 	void AddToDraw(GameObject* obj);
 
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);
+	
 
 private:
 
@@ -46,6 +50,7 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	ComponentCamera* camera;
 
 private:
 

@@ -7,6 +7,8 @@
 #include "HardwareInfo.h"
 #include "Console.h"
 #include "Assets.h"
+#include "Hierarchy.h"
+#include "Inspector.h"
 #include "Profiler.h"
 #include "DebugDraw.h"
 #include "CameraWindow.h"
@@ -17,6 +19,9 @@
 #include "LightingWindow.h"
 #include "LayersWindow.h"
 #include "RenderTexEditorWindow.h"
+#include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
+#include "TestWindow.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -28,6 +33,14 @@ Editor::~Editor()
 
 bool Editor::Init(Data & config)
 {
+	//TODO: move into parameter configuration setup (like window color)
+
+	//Window rounding
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+
+	//Child window background
+	ImGui::PushStyleColor(ImGuiCol_ChildWindowBg, ImVec4(0.3, 0.3, 0.3, 0.3));
+
 	return true;
 }
 
@@ -43,6 +56,8 @@ bool Editor::Start()
 	windows.push_back(winoptions_win = new WindowOptions());
 	windows.push_back(hardware_win = new HardwareInfo());
 	windows.push_back(assets = new Assets());
+	windows.push_back(hierarchy = new Hierarchy());
+	windows.push_back(inspector = new Inspector());
 	windows.push_back(camera_win = new CameraWindow());
 	windows.push_back(resource_win = new ResourcesWindow());
 	windows.push_back(material_creator_win = new MaterialCreatorWindow());
@@ -50,6 +65,9 @@ bool Editor::Start()
 	windows.push_back(lighting_win = new LightingWindow());
 	windows.push_back(layers_win = new LayersWindow());
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
+	windows.push_back(test_win = new TestWindow());
+
+	InitSizes();
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
@@ -89,6 +107,23 @@ void Editor::RefreshAssets() const
 		assets->Refresh();
 }
 
+void Editor::InitSizes()
+{
+	hierarchy->SetRelativeDimensions(ImVec2(0, 0.0), ImVec2(0.15, 0.8));
+	inspector->SetRelativeDimensions(ImVec2(0.80, 0.0), ImVec2(0.20, 0.8));
+	assets->SetRelativeDimensions(ImVec2(0, 0.8), ImVec2(1.0, 0.2));
+}
+
+void Editor::OnResize(int screen_width, int screen_height)
+{
+	vector<Window*>::iterator win = windows.begin();
+	while (win != windows.end())
+	{
+		(*win)->OnResize(screen_width, screen_height);
+		++win;
+	}
+}
+
 update_status Editor::Update()
 {
 	PROFILE("Editor::Update()");
@@ -111,6 +146,12 @@ update_status Editor::Update()
 	//Shortcut to save. TODO: Do a better implementation of the shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
 		save_scene_win = true;
+
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
+	{
+		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+		selected_GO = App->go_manager->Raycast(ray);
+	}
 
 	//Handle Quit event
 	bool quit = false;
@@ -185,19 +226,21 @@ update_status Editor::EditorWindows()
 			DebugMenu();
 			ImGui::EndMenu();
 		}
-		if (ImGui::MenuItem("Quit", NULL))
+		if (ImGui::BeginMenu("Quit"))
 		{
 			ret = UPDATE_STOP;
+			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
 	}
 
 	//Windows ----------------------------------------------------------------------------------------------------
+	ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
 		PROFILE("Editor::Update-PaintWindows");
-		(*win)->Draw();
+		(*win)->Draw(flags);
 		++win;
 	}
 
@@ -259,7 +302,7 @@ void Editor::WindowsMenu()
 		{
 			hardware_win->SetActive(true);
 		}
-			
+
 		ImGui::EndMenu();
 	}
 
@@ -286,6 +329,21 @@ void Editor::WindowsMenu()
 	if (ImGui::MenuItem("Material Creator"))
 	{
 		material_creator_win->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Hierarchy"))
+	{
+		hierarchy->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Inspector"))
+	{
+		inspector->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Test Window"))
+	{
+		test_win->SetActive(true);
 	}
 }
 

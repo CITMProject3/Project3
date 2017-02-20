@@ -9,12 +9,12 @@ ResourcesWindow::ResourcesWindow()
 ResourcesWindow::~ResourcesWindow()
 {}
 
-void ResourcesWindow::Draw()
+void ResourcesWindow::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Resources", &active);
+	ImGui::Begin("Resources", &active, flags);
 
 	ImGui::Text("Num resources: %i", App->resource_manager->GetNumberResources());
 	ImGui::Text("Num meshes: %i", App->resource_manager->GetNumberMeshes());

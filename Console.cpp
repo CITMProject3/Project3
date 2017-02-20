@@ -8,12 +8,12 @@ Console::~Console()
 	buffer.clear();
 }
 
-void Console::Draw()
+void Console::Draw(ImGuiWindowFlags flags)
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Console", &active);
+	ImGui::Begin("Console", &active, flags);
 
 	ImGui::TextUnformatted(buffer.begin());
 	if (ScrollToBottom)

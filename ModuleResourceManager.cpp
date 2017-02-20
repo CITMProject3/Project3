@@ -59,6 +59,7 @@ bool ModuleResourceManager::Init(Data & config)
 bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
+	UpdateAssetsAuto();
 	return true;
 }
 
@@ -83,6 +84,104 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
+void ModuleResourceManager::UpdateAssetsAuto() const
+{
+	vector<tmp_mesh_file> mesh_files;
+	UpdateAssetsAutoRecursive(ASSETS_FOLDER, LIBRARY_FOLDER, mesh_files);
+
+	for (vector<tmp_mesh_file>::iterator tmp = mesh_files.begin(); tmp != mesh_files.end(); tmp++)
+	{
+		ImportFile(tmp->mesh_path.data(), tmp->assets_folder, tmp->library_folder);
+	}
+	mesh_files.clear();
+}
+
+void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) const
+{
+	//Get All files and folders
+	vector<string> files, folders;
+	App->file_system->GetFilesAndDirectories(assets_dir.data(), folders, files);
+
+	const char* meta_ext = "meta";
+	//Files
+	for (vector<string>::const_iterator file = files.begin(); file != files.end(); ++file)
+	{
+		if (GetFileExtension((*file).c_str()) != FileType::NONE)
+		{
+			string file_name = (*file).substr(0, (*file).find_first_of("."));
+
+			bool meta_found = false;
+			//Search for the meta
+			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
+			{
+				//Check if the file is .meta
+				if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+				{
+					string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+					if (file_name.compare(meta_name) == 0)
+					{
+						meta_found = true;
+						break;
+					}
+				}	
+			}
+
+			if (!meta_found)
+			{
+				string path = assets_dir + *file;
+				if (GetFileExtension((*file).c_str()) == FileType::MESH)
+				{
+					tmp_mesh_file tmp_file;
+					tmp_file.mesh_path = path;
+					tmp_file.assets_folder = assets_dir;
+					tmp_file.library_folder = library_dir;
+					mesh_files.push_back(tmp_file);
+				}
+				else
+				{
+					ImportFile(path.c_str(), assets_dir, library_dir);
+				}
+			}
+		}
+	}
+
+	//Folders
+	for (vector<string>::const_iterator folder = folders.begin(); folder != folders.end(); ++folder)
+	{
+		bool meta_found = false;
+
+		string library_path;
+		string path = assets_dir + (*folder);
+		//Search for the meta
+		for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
+		{
+			//Check if the file is .meta
+			if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+			{
+				string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+				if ((*folder).compare(meta_name) == 0)
+				{
+					meta_found = true;
+					//Read the meta and find the library equivalent
+					library_path = FindFile(*folder);
+					break;
+				}
+			}
+		}
+
+		
+		if (!meta_found)
+		{
+			library_path = library_dir;
+			CreateFolder(path.c_str(), library_path); //Library path is updated here
+		}
+		path += +'/';
+		//Search inside the folder
+		UpdateAssetsAutoRecursive(path, library_path, mesh_files);
+	}
+
+}
+
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
 	//Files extensions accepted
@@ -92,7 +191,7 @@ void ModuleResourceManager::FileDropped(const char * file_path)
 
 	if (App->file_system->IsDirectoryOutside(file_path))
 	{
-		vector<tmp_mesh_file> mesh_files;
+		vector<tmp_mesh_file> mesh_files; //Mesh files are imported the last to find all the textures linked.
 		ImportFolder(file_path, mesh_files);
 
 		for (vector<tmp_mesh_file>::iterator tmp = mesh_files.begin(); tmp != mesh_files.end(); tmp++)
@@ -392,7 +491,7 @@ unsigned int ModuleResourceManager::GetDefaultShaderId() const
 	return default_shader;
 }
 
-string ModuleResourceManager::FindFile(const string & assets_file_path)
+string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
 
@@ -644,6 +743,27 @@ void ModuleResourceManager::ImportFolder(const char * path, vector<tmp_mesh_file
 		folder_path = directory_path + (*folder);
 		ImportFolder(folder_path.data(), list_meshes, folder_assets_path, library_path);
 	}
+}
+
+void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_library_path) const
+{
+	//An existing folder must be located in Assets. 
+
+	uint uuid = App->rnd->RandomInt();
+
+	string library_path;
+	if (base_library_path.size() == 0)
+		library_path = LIBRARY_FOLDER;
+	else
+		library_path = base_library_path;
+
+	//Create Folder at Library
+	library_path += std::to_string(uuid);
+	App->file_system->GenerateDirectory(library_path.data());
+
+	GenerateMetaFile(assets_path, FOLDER, uuid, library_path, false);
+	
+	base_library_path = library_path;
 }
 
 void ModuleResourceManager::ImportFile(const char * path, string base_dir, string base_library_dir, unsigned int uuid) const

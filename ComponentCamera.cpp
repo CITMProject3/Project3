@@ -16,11 +16,22 @@ ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : 
 	float horizontal_fov = 2.0f*atanf(tanf(vertical_fov / 2.0f) * aspect_ratio);
 
 	frustum.SetPerspective(horizontal_fov, vertical_fov);
-	frustum.SetKind(FrustumProjectiveSpace::FrustumSpaceGL, FrustumHandedness::FrustumRightHanded);
-	float4x4 matrix = game_object->GetGlobalMatrix();
-	frustum.SetPos(matrix.TranslatePart());
-	frustum.SetFront(matrix.WorldZ());
-	frustum.SetUp(matrix.WorldY());
+	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+
+	if (game_object)
+	{
+		float4x4 matrix = game_object->GetGlobalMatrix();
+		frustum.SetPos(matrix.TranslatePart());
+		frustum.SetFront(matrix.WorldZ());
+		frustum.SetUp(matrix.WorldY());
+	}
+	else
+	{
+		frustum.SetPos(float3(0, 0, 0));
+		frustum.SetFront(float3::unitZ);
+		frustum.SetUp(float3::unitY);
+	}
+
 	frustum.SetViewPlaneDistances(near_plane, far_plane);
 	frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
 
@@ -204,13 +215,29 @@ void ComponentCamera::SetFOV(float value)
 	properties_modified = true;
 }
 
+void ComponentCamera::SetAspectRatio(float value)
+{
+	float horizontalFov = frustum.HorizontalFov();
+	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, value);
+	properties_modified = true;
+}
+
 void ComponentCamera::LookAt(const math::float3 & point)
 {
-	math::float3 look_direction = point - frustum.Pos();
-	math::float3x3 matrix = math::float3x3::LookAt(frustum.Front(), look_direction, frustum.Up(), math::float3::unitY);
+	float3 look_direction = point - frustum.Pos();
+
+	float3x3 matrix = float3x3::LookAt(frustum.Front(), look_direction.Normalized(), frustum.Up(), float3::unitY);
 
 	frustum.SetFront(matrix.MulDir(frustum.Front()).Normalized());
-	frustum.SetFront(matrix.MulDir(frustum.Up()).Normalized());
+	frustum.SetUp(matrix.MulDir(frustum.Up()).Normalized());
+
+	properties_modified = true;
+}
+
+void ComponentCamera::Center(const float3& position, float distance)
+{
+	float3 v = frustum.Front().Neg();
+	frustum.SetPos(position + v * distance);
 }
 
 void ComponentCamera::SetBackgroundColor(const math::float3 color)
