@@ -144,3 +144,13 @@ const Mesh * ComponentMesh::GetMesh() const
 {
 	return mesh;
 }
+
+void ComponentMesh::Remove()
+{
+	game_object->RemoveComponent(this);
+
+	ComponentMaterial* material = (ComponentMaterial*)game_object->GetComponent(C_MATERIAL);
+
+	if (material != nullptr)
+		material->Remove();
+}
