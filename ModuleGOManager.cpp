@@ -358,7 +358,10 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
-	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
+
+	unsigned int prefab_root_uuid = 0;
+	if (is_prefab)
+		prefab_root_uuid = uuids.find(go_data.GetUInt("prefab_root_uuid"))->second;
 	int layer = go_data.GetInt("layer");
 
 	//Find parent GameObject reference
