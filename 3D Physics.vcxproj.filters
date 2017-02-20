@@ -507,6 +507,9 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleCar.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -841,6 +844,9 @@
     </ClCompile>
     <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCar.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -114,6 +114,7 @@
     <ClInclude Include="LinearAllocator.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
+    <ClInclude Include="ModuleCar.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
@@ -257,6 +258,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
+    <ClCompile Include="ModuleCar.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
