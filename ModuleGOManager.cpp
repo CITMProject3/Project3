@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "ComponentLight.h"
 #include "LayerSystem.h"
+#include "ResourceFilePrefab.h"
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -295,13 +296,8 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 {
 	const char* name = go_data.GetString("name");
 	unsigned int uuid = go_data.GetUInt("UUID");
+
 	unsigned int uuid_parent = go_data.GetUInt("parent");
-	bool active = go_data.GetBool("active");
-	bool is_static = go_data.GetBool("static");
-	bool is_prefab = go_data.GetBool("is_prefab");
-	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
-	string prefab_path = go_data.GetString("prefab_path");
-	int layer = go_data.GetInt("layer");
 	//Find parent GameObject reference
 	GameObject* parent = nullptr;
 	if (uuid_parent != 0 && root)
@@ -309,29 +305,51 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		parent = FindGameObjectByUUID(root, uuid_parent);
 	}
 
-	//Basic GameObject properties
-	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid, prefab_path);
-	go->local_uuid = go_data.GetUInt("local_UUID");
-	if(parent)
-		parent->AddChild(go);
-	
-	//Components
-	Data component;
-	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
-	{
-		component = go_data.GetArray("components", i);
+	bool active = go_data.GetBool("active");	
+	bool is_prefab = go_data.GetBool("is_prefab");
+	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
+	string prefab_path = go_data.GetString("prefab_path");
 
-		int type = component.GetInt("type");
-		Component* go_component;
-		if(type != (int)ComponentType::C_TRANSFORM)
-			go_component = go->AddComponent(static_cast<ComponentType>(type));
-		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
-		go_component->Load(component);
+	GameObject* go = nullptr;
+
+	if (is_prefab == false)
+	{	//Normal GameObject
+		bool is_static = go_data.GetBool("static");
+		int layer = go_data.GetInt("layer");
+
+		//Basic GameObject properties
+		go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid, prefab_path);
+		go->local_uuid = go_data.GetUInt("local_UUID");
+		if (parent)
+			parent->AddChild(go);
+
+		//Components
+		Data component;
+		unsigned int comp_size = go_data.GetArraySize("components");
+		for (int i = 0; i < comp_size; i++)
+		{
+			component = go_data.GetArray("components", i);
+
+			int type = component.GetInt("type");
+			Component* go_component;
+			if (type != (int)ComponentType::C_TRANSFORM)
+				go_component = go->AddComponent(static_cast<ComponentType>(type));
+			else
+				go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component->Load(component);
+		}
+	}
+	else
+	{	//Prefab
+		ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)App->resource_manager->LoadResource(prefab_path, ResourceFileType::RES_PREFAB);
+		if (rc_prefab)
+		{
+			go = rc_prefab->LoadPrefabFromScene(go_data, parent);
+		}
 	}
 
-	if (is_static)
+	//Space partioning
+	if (go->IsStatic())
 		octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
 	else
 		dynamic_gameobjects.push_back(go);

@@ -12,11 +12,14 @@ public:
 	~ResourceFilePrefab();
 
 	void LoadPrefabAsCopy(); //Loads a new prefab instance loaded from the Assets(library actually) file
+	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent)const; //Loads a prefab from a scene file
 	void Save(); //Applies new changes
 
 private:
 	void LoadInMemory();
 	void UnloadInMemory();
+
+	void CreateChildsByUUID(const Data & go_data, map<unsigned int, unsigned int>& uuids, unsigned int uuid, list<GameObject*> parents)const;
 
 private:
 	list<GameObject*> instances;

@@ -439,7 +439,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	GameObject* parent = gameobject->GetParent();
 	gameobject->SetParent(nullptr);
 	gameobject->SetAsPrefab(gameobject->GetUUID());
-	gameobject->Save(root_node);
+	gameobject->Save(root_node, true);
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 

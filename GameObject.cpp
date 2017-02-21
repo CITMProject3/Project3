@@ -308,7 +308,7 @@ void GameObject::TransformModified()
 	}
 }
 
-void GameObject::Save(Data & file) const
+void GameObject::Save(Data & file, bool ignore_prefab) const
 {
 	Data data;
 
@@ -326,7 +326,7 @@ void GameObject::Save(Data & file) const
 	data.AppendUInt("prefab_root_uuid", prefab_root_uuid);
 	data.AppendString("prefab_path", prefab_path.data());
 
-	if (is_prefab == false)
+	if (is_prefab == false || ignore_prefab == true)
 	{	//Normal GameObject
 		data.AppendInt("layer", layer);
 		data.AppendBool("static", is_static);
@@ -342,11 +342,10 @@ void GameObject::Save(Data & file) const
 		file.AppendArrayValue(data);
 
 		for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
-			(*child)->Save(file);
+			(*child)->Save(file, ignore_prefab);
 	}
 	else
 	{	//Prefab GameObject
-
 		//Save Component Transform (translation & rotation)
 		ComponentTransform* c_transform = (ComponentTransform*)GetComponent(ComponentType::C_TRANSFORM);
 
