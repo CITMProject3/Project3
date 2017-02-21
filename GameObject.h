@@ -48,6 +48,7 @@ public:
 	void TransformModified();
 
 	void Save(Data& file) const;
+	void SaveAsChildPrefab(Data& file)const; //Only saves the UUID
 
 	bool RayCast(const Ray& ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
 

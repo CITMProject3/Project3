@@ -33,6 +33,7 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 	void Remove();
+	void SaveAsPrefab(Data& file)const;
 
 private:
 

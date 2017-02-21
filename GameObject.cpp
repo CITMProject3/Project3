@@ -321,24 +321,56 @@ void GameObject::Save(Data & file) const
 	else
 		data.AppendUInt("parent", parent->GetUUID());
 	data.AppendBool("active", active);
-	data.AppendBool("static", is_static);
+	
 	data.AppendBool("is_prefab", is_prefab);
 	data.AppendUInt("prefab_root_uuid", prefab_root_uuid);
 	data.AppendString("prefab_path", prefab_path.data());
-	data.AppendInt("layer", layer);
-	data.AppendArray("components");
 
-	//Components data
-	vector<Component*>::const_iterator component = components.begin();
-	for (component; component != components.end(); component++)
-	{
-		(*component)->Save(data);
+	if (is_prefab == false)
+	{	//Normal GameObject
+		data.AppendInt("layer", layer);
+		data.AppendBool("static", is_static);
+		data.AppendArray("components");
+
+		//Components data
+		vector<Component*>::const_iterator component = components.begin();
+		for (component; component != components.end(); component++)
+		{
+			(*component)->Save(data);
+		}
+
+		file.AppendArrayValue(data);
+
+		for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
+			(*child)->Save(file);
 	}
+	else
+	{	//Prefab GameObject
 
-	file.AppendArrayValue(data);
+		//Save Component Transform (translation & rotation)
+		ComponentTransform* c_transform = (ComponentTransform*)GetComponent(ComponentType::C_TRANSFORM);
+
+		data.AppendArray("components");
+		c_transform->SaveAsPrefab(data);
+
+		//Save all children uuids
+		data.AppendArray("children_uuids");
+		for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
+			(*child)->SaveAsChildPrefab(data);
+		file.AppendArrayValue(data);
+	}	
+}
+
+void GameObject::SaveAsChildPrefab(Data & file) const
+{
+	Data data;
+
+	data.AppendUInt("uuid", uuid);
 
 	for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
-		(*child)->Save(file);
+		(*child)->SaveAsChildPrefab(file);
+
+	file.AppendArrayValue(data);
 }
 
 bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
