@@ -130,7 +130,30 @@ GameObject* GameObject::GetParent()const
 //TODO: keep world transformation matrix, change local
 void GameObject::SetParent(GameObject * parent)
 {
-	this->parent = parent;
+	if (this->parent != parent && parent != this)
+	{
+		if (this->parent != nullptr)
+		{
+			this->parent->RemoveChild(this);
+		}
+
+		ComponentTransform* transform = (ComponentTransform*)GetComponent(C_TRANSFORM);
+		float4x4 global = transform->GetGlobalMatrix();
+		this->parent = parent;
+		if (parent)
+		{
+			float4x4 new_local = ((ComponentTransform*)parent->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * global;
+			float3 translate, scale;
+			Quat rotation;
+			new_local.Decompose(translate, rotation, scale);
+			transform->SetPosition(translate);
+			transform->SetRotation(rotation);
+			transform->SetScale(scale);
+
+			parent->AddChild(this);
+		}
+	}
+
 }
 
 const std::vector<GameObject*>* GameObject::GetChilds()

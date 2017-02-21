@@ -8,7 +8,7 @@ RenderTexEditorWindow::RenderTexEditorWindow()
 RenderTexEditorWindow::~RenderTexEditorWindow()
 {}
 
-void RenderTexEditorWindow::Draw(ImGuiWindowFlags flags)
+void RenderTexEditorWindow::Draw()
 {
 	if (!active)
 		return;

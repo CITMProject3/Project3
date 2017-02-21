@@ -9,7 +9,7 @@ public:
 	Console();
 	~Console();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 
 	void Write(const char* text);
 

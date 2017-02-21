@@ -28,6 +28,8 @@ public:
 	void SaveBeforeClosing(Data& data)const;
 
 	GameObject* CreateGameObject(GameObject* parent);
+	GameObject* CreateGameObject(GameObject* parent, GameObject* game_object);
+
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); //Doesn't remove the GameObject from the parent list.
 

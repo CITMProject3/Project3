@@ -7,7 +7,7 @@ LightingWindow::LightingWindow()
 LightingWindow::~LightingWindow()
 {}
 
-void LightingWindow::Draw(ImGuiWindowFlags flags)
+void LightingWindow::Draw()
 {
 	if (!active)
 		return;

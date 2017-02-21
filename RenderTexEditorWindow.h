@@ -9,7 +9,7 @@ public:
 	RenderTexEditorWindow();
 	~RenderTexEditorWindow();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 
 	void LoadToEdit(const char* path);
 

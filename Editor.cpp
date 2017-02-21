@@ -22,6 +22,7 @@
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
 #include "TestWindow.h"
+#include "GameObject.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -67,6 +68,8 @@ bool Editor::Start()
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
 	windows.push_back(test_win = new TestWindow());
 
+	InitSizes();
+
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
 
@@ -105,9 +108,115 @@ void Editor::RefreshAssets() const
 		assets->Refresh();
 }
 
+void Editor::InitSizes()
+{
+	hierarchy->SetRelativeDimensions(ImVec2(0, 0.0), ImVec2(0.15, 0.8));
+	inspector->SetRelativeDimensions(ImVec2(0.80, 0.0), ImVec2(0.20, 0.8));
+	assets->SetRelativeDimensions(ImVec2(0, 0.8), ImVec2(1.0, 0.2));
+}
+
 void Editor::OnResize(int screen_width, int screen_height)
 {
+	vector<Window*>::iterator win = windows.begin();
+	while (win != windows.end())
+	{
+		(*win)->OnResize(screen_width, screen_height);
+		++win;
+	}
+}
 
+bool Editor::UsingKeyboard() const
+{
+	return using_keyboard;
+}
+
+bool Editor::UsingMouse() const
+{
+	return using_mouse;
+}
+
+void Editor::SelectSingle(GameObject* game_object)
+{
+	UnselectAll();
+	selected.push_back(game_object);
+}
+
+void Editor::AddSelect(GameObject* game_object)
+{
+	//Just for safety
+	if (IsSelected(game_object) == false)
+		selected.push_back(game_object);
+}
+
+void Editor::Unselect(GameObject* game_object)
+{
+	std::list<GameObject*>::iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			selected.erase(it);
+			break;
+		}
+		it++;
+	}
+}
+
+void Editor::UnselectAll()
+{
+	selected.clear();
+}
+
+bool Editor::IsSelected(GameObject* game_object) const
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			return true;
+		}
+		it++;
+	}
+	return false;
+}
+
+void Editor::RemoveSelected()
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		App->go_manager->RemoveGameObject(*it);
+		it++;
+	}
+	selected.clear();
+}
+
+void Editor::Copy(GameObject* game_object)
+{
+	if (copy_go != nullptr)
+		delete copy_go;
+
+	copy_go = new GameObject(*game_object);
+}
+
+void Editor::Paste(GameObject* game_object)
+{
+	GameObject* new_go = App->go_manager->CreateGameObject(game_object->GetParent(), copy_go);
+}
+
+void Editor::Duplicate(GameObject* game_object)
+{
+	Copy(game_object);
+	Paste(game_object->GetParent());
+}
+
+update_status Editor::PreUpdate()
+{
+	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
+	using_mouse = ImGui::GetIO().WantCaptureMouse;
+
+	return UPDATE_CONTINUE;
 }
 
 update_status Editor::Update()
@@ -128,16 +237,7 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
-
-	//Shortcut to save. TODO: Do a better implementation of the shortcuts
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		save_scene_win = true;
-
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		Ray ray = App->camera->GetCurrentCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = App->go_manager->Raycast(ray);
-	}
+	HandleInput();
 
 	//Handle Quit event
 	bool quit = false;
@@ -148,6 +248,47 @@ update_status Editor::Update()
 		ret = UPDATE_STOP;
 
 	return ret;	
+}
+
+void Editor::HandleInput()
+{
+	//Shortcut to save. TODO: Do a better implementation of the shortcuts
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+		save_scene_win = true;
+
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		RemoveSelected();
+	}
+
+	//GameObject selection (click and drag)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		select_dragging = true;
+		start_drag.x = App->input->GetMouseX();
+		start_drag.y = App->input->GetMouseY();
+	}
+
+	if (select_dragging = true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		ImVec2 end_drag(App->input->GetMouseX(), App->input->GetMouseY());
+		if (start_drag.x == end_drag.x && start_drag.y == end_drag.y)
+		{
+			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+			//TODO:(Ausiàs) change game_object for a list
+			GameObject* game_object = App->go_manager->Raycast(ray);
+
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
+				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+			{
+				IsSelected(game_object) ? Unselect(game_object) : AddSelect(game_object);
+			}
+			else
+			{
+				SelectSingle(App->go_manager->Raycast(ray));
+			}
+		}
+	}
 }
 
 void Editor::GameOptions() const
@@ -221,12 +362,11 @@ update_status Editor::EditorWindows()
 	}
 
 	//Windows ----------------------------------------------------------------------------------------------------
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
 		PROFILE("Editor::Update-PaintWindows");
-		(*win)->Draw(flags);
+		(*win)->Draw();
 		++win;
 	}
 

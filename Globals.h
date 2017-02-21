@@ -28,6 +28,7 @@ enum update_status
 // Configuration -----------
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
+#define WIN_MAXIMIZED true
 #define WIN_RESIZABLE true
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false

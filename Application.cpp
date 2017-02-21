@@ -25,6 +25,7 @@ Application::Application()
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
+	car = new ModuleCar("car");
 
 	//Globals
 	g_Debug = new DebugDraw("debug_draw");
@@ -39,6 +40,7 @@ Application::Application()
 	AddModule(camera);
 	AddModule(input);
 	AddModule(g_Debug);
+	AddModule(car);
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(lighting);

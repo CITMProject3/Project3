@@ -136,6 +136,21 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 	return object;
 }
 
+GameObject* ModuleGOManager::CreateGameObject(GameObject* parent, GameObject* to_copy)
+{
+	GameObject* obj_parent = parent ? parent : root;
+
+	GameObject* object = new GameObject(*to_copy);
+	object->SetParent(parent);
+
+	if (obj_parent->AddChild(object) == false)
+		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
+
+	dynamic_gameobjects.push_back(object);
+
+	return object;
+}
+
 bool ModuleGOManager::RemoveGameObject(GameObject* object)
 {
 	bool ret = false;
@@ -212,7 +227,7 @@ void ModuleGOManager::LoadEmptyScene()
 	root = new GameObject();
 	root->name = "Root";
 	current_scene_path = "";
-	App->camera->ChangeCurrentCamera(App->camera->GetEditorCamera());
+	App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 }
 
 bool ModuleGOManager::IsRoot(const GameObject * go) const
@@ -232,7 +247,7 @@ void ModuleGOManager::PickObjects()
 {
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
-		Ray ray = App->camera->GetCurrentCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 		selected_GO = Raycast(ray);
 	}
 }
