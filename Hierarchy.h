@@ -12,7 +12,7 @@ public:
 	Hierarchy();
 	~Hierarchy();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);
 	void OnClickSelect(GameObject* gameObject);
 

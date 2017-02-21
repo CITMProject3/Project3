@@ -9,7 +9,7 @@ public:
 	LightingWindow();
 	~LightingWindow();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 };
 
 #endif

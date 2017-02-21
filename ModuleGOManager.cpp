@@ -300,7 +300,10 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 void ModuleGOManager::ClearScene()
 {
 	RemoveGameObject(root);
-	selected_GO = nullptr;
+
+	//TODO: modules should have remove GameObject events and load scene events
+	App->editor->selected.clear();
+
 	root = nullptr;
 	dynamic_gameobjects.clear();
 	octree.Create(OCTREE_SIZE);
