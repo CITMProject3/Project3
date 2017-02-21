@@ -3,10 +3,15 @@
 #include "ModuleCar.h"
 
 #include "ModuleResourceManager.h"
+#include "ModuleGOManager.h"
 #include "ComponentTransform.h"
 #include "Editor.h"
 #include "Assets.h"
 #include "GameObject.h"
+
+#include "ModuleInput.h"
+
+#include "glmath.h"
 
 ModuleCar::ModuleCar(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -26,14 +31,13 @@ bool ModuleCar::Init(Data& config)
 
 bool ModuleCar::Start()
 {
-	
-	//App->resource_manager->LoadFile(file_selected->content_path, MESH);
 	return true;
 }
 
 // Called every draw update
 update_status ModuleCar::PreUpdate()
 {
+#pragma region loading_the_kart
 	if (loaded == false)
 	{
 		AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
@@ -53,6 +57,8 @@ update_status ModuleCar::PreUpdate()
 
 		if (kart != nullptr)
 		{
+			kart_trs = (ComponentTransform*)kart->GetComponent(ComponentType::C_TRANSFORM);
+
 			const vector<GameObject*>* childs = kart->GetChilds();
 			for (vector<GameObject*>::const_iterator it = childs->cbegin(); it != childs->cend(); it++)
 			{
@@ -85,12 +91,27 @@ update_status ModuleCar::PreUpdate()
 
 		loaded = true;
 	}
+#pragma endregion
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCar::Update()
 {
+	float3 pos = kart_trs->GetPosition();
+	float3 newPos = pos;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{		
+		newPos += kart_trs->GetTransformMatrix().WorldZ() * speed * time->DeltaTime();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		newPos -= kart_trs->GetTransformMatrix().WorldZ() * speed * time->DeltaTime();
+	}
+
+	kart_trs->SetPosition(newPos);
+
 	return UPDATE_CONTINUE;
 }
 

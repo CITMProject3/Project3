@@ -3,8 +3,10 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include "ModuleGOManager.h"
 #include <vector>
+
+class GameObject;
+class ComponentTransform;
 
 //This should be now in my branch, so probably no one will see this. Just testing :)
 
@@ -14,12 +16,16 @@ class ModuleCar : public Module
 {
 public:
 	
+	float speed = 1.0f;
+
 	bool loaded = false;
 	GameObject* kart = nullptr;
 	GameObject* chasis = nullptr;
 	GameObject* frontWheel = nullptr;
 	GameObject* backWheel = nullptr;
 	GameObject* cam = nullptr;
+
+	ComponentTransform* kart_trs = nullptr;
 
 	ModuleCar(const char* name, bool start_enabled = true);
 	~ModuleCar();
