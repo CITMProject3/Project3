@@ -248,7 +248,7 @@ void ModuleGOManager::PickObjects()
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = Raycast(ray);
+		selected_GO = Raycast(ray).object;
 	}
 }
 
@@ -447,10 +447,8 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst > b_dst) return 1;
 }
 
-GameObject * ModuleGOManager::Raycast(const Ray & ray) const
+RaycastHit ModuleGOManager::Raycast(const Ray & ray) const
 {
-	GameObject* ret = nullptr;
-
 	vector<GameObject*> collisions;
 	octree.Intersect(collisions, ray);
 	for (list<GameObject*>::const_iterator dyn_go = dynamic_gameobjects.begin(); dyn_go != dynamic_gameobjects.end(); dyn_go++)
@@ -466,7 +464,6 @@ GameObject * ModuleGOManager::Raycast(const Ray & ray) const
 	{
 		if ((*it)->RayCast(ray, hit))
 		{
-			ret = (*it);
 			break;
 		}
 		++it;
@@ -475,7 +472,7 @@ GameObject * ModuleGOManager::Raycast(const Ray & ray) const
 	App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 50);
 	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
 
-	return ret;
+	return hit;
 }
 
 void ModuleGOManager::HierarchyWindow()
