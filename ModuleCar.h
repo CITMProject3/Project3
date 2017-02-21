@@ -18,7 +18,7 @@ public:
 	
 	float maxSpeed = 0.5f;
 	float maxAcceleration = 0.2f;
-	float brakePower = 0.35f;
+	float brakePower = 0.5f;
 	float maneuverability = 6.0f;
 	float maxSteer = 160.0f;
 	float drag = 0.3f;
@@ -54,6 +54,10 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
+
+	void KartLogic();
+
+	void Steer(float amount);
 
 	void Car_Debug_Ui();
 
