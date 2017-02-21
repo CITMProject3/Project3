@@ -112,6 +112,10 @@ update_status ModuleGOManager::Update()
 	if(draw_octree)
 		octree.Draw();
 
+
+	App->renderer3D->DrawLine(lastRayData[0], lastRayData[1]);
+	App->renderer3D->DrawLine(lastRayData[1], lastRayData[1] + lastRayData[2], float4(1, 1, 0, 1));
+
 	return UPDATE_CONTINUE;
 }
 
@@ -450,7 +454,7 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst > b_dst) return 1;
 }
 
-RaycastHit ModuleGOManager::Raycast(const Ray & ray) const
+RaycastHit ModuleGOManager::Raycast(const Ray & ray, bool keepDrawing)
 {
 	vector<GameObject*> collisions;
 	octree.Intersect(collisions, ray);
@@ -472,6 +476,12 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray) const
 		++it;
 	}
 
+	if (keepDrawing && hit.object != nullptr)
+	{
+		lastRayData[0] = ray.pos;
+		lastRayData[1] = hit.point;
+		lastRayData[2] = hit.normal;
+	}
 	App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 50);
 	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
 

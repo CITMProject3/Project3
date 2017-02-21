@@ -277,7 +277,7 @@ void Editor::HandleInput()
 		{
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			//TODO:(Ausiàs) change game_object for a list
-			GameObject* game_object = App->go_manager->Raycast(ray).object;
+			GameObject* game_object = App->go_manager->Raycast(ray, true).object;
 
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
 				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
@@ -286,7 +286,7 @@ void Editor::HandleInput()
 			}
 			else
 			{
-				SelectSingle(App->go_manager->Raycast(ray).object);
+				SelectSingle(App->go_manager->Raycast(ray, true).object);
 			}
 		}
 	}
