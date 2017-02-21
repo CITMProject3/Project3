@@ -9,6 +9,7 @@
 Assets::Assets()
 {
 	Init();
+	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 
 Assets::~Assets()
@@ -16,7 +17,7 @@ Assets::~Assets()
 	CleanUp();
 }
 
-void Assets::Draw(ImGuiWindowFlags flags)
+void Assets::Draw()
 {
 	if (!active)
 		return;

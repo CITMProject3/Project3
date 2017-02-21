@@ -12,11 +12,12 @@
 Hierarchy::Hierarchy()
 {
 	active = true;
+	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 Hierarchy::~Hierarchy()
 {}
 
-void Hierarchy::Draw(ImGuiWindowFlags flags)
+void Hierarchy::Draw()
 {
 	if (!active) return;
 

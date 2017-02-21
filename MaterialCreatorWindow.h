@@ -13,7 +13,7 @@ public:
 	MaterialCreatorWindow();
 	~MaterialCreatorWindow();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 	void LoadToEdit(const char* path);
 
 private:
