@@ -115,7 +115,7 @@ update_status ModuleCar::PreUpdate()
 		ComponentTransform* tmp = (ComponentTransform*) light->GetComponent(C_TRANSFORM);
 		tmp->SetRotation(float3(50, -10, -50));
 
-		cam->AddComponent(C_CAMERA);
+		camera = (ComponentCamera*) cam->AddComponent(C_CAMERA);
 
 		loaded = true;
 	}
@@ -127,6 +127,12 @@ update_status ModuleCar::Update()
 {
 	if (App->IsGameRunning())
 	{
+		if (firstFrameOfExecution)
+		{
+			App->renderer3D->SetCamera(camera);
+			firstFrameOfExecution = false;
+		}
+
 		Car_Debug_Ui();
 
 		if (kart && kart_trs)
@@ -259,6 +265,14 @@ update_status ModuleCar::Update()
 			newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
 
 			kart_trs->SetPosition(newPos);
+		}
+	}
+	else
+	{
+		if (firstFrameOfExecution == false)
+		{
+			App->renderer3D->SetCamera(App->camera->GetEditorCamera());
+			firstFrameOfExecution = true;
 		}
 	}
 	return UPDATE_CONTINUE;

@@ -31,11 +31,15 @@ public:
 	bool steering = false;
 
 	bool loaded = false;
+	bool firstFrameOfExecution = true;
+
 	GameObject* kart = nullptr;
 	GameObject* chasis = nullptr;
 	GameObject* frontWheel = nullptr;
 	GameObject* backWheel = nullptr;
 	GameObject* cam = nullptr;
+
+	ComponentCamera* camera = nullptr;
 
 	GameObject* track = nullptr;
 
