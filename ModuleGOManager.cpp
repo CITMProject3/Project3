@@ -472,6 +472,9 @@ GameObject * ModuleGOManager::Raycast(const Ray & ray) const
 		++it;
 	}
 
+	App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 50);
+	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
+
 	return ret;
 }
 
