@@ -56,6 +56,8 @@ public:
 
 	const Mesh* GetMesh()const;
 
+	void Remove();
+
 private:
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;

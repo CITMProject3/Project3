@@ -136,6 +136,21 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 	return object;
 }
 
+GameObject* ModuleGOManager::CreateGameObject(GameObject* parent, GameObject* to_copy)
+{
+	GameObject* obj_parent = parent ? parent : root;
+
+	GameObject* object = new GameObject(*to_copy);
+	object->SetParent(parent);
+
+	if (obj_parent->AddChild(object) == false)
+		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
+
+	dynamic_gameobjects.push_back(object);
+
+	return object;
+}
+
 bool ModuleGOManager::RemoveGameObject(GameObject* object)
 {
 	bool ret = false;
