@@ -13,7 +13,7 @@ MaterialCreatorWindow::MaterialCreatorWindow()
 MaterialCreatorWindow::~MaterialCreatorWindow()
 {}
 
-void MaterialCreatorWindow::Draw(ImGuiWindowFlags flags)
+void MaterialCreatorWindow::Draw()
 {
 	if (!active)
 		return;

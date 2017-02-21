@@ -11,12 +11,13 @@
 Inspector::Inspector()
 {
 	active = true;
+	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 
 Inspector::~Inspector()
 {}
 
-void Inspector::Draw(ImGuiWindowFlags flags)
+void Inspector::Draw()
 {
 	if (!active) return;
 

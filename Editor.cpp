@@ -363,12 +363,11 @@ update_status Editor::EditorWindows()
 	}
 
 	//Windows ----------------------------------------------------------------------------------------------------
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
 		PROFILE("Editor::Update-PaintWindows");
-		(*win)->Draw(flags);
+		(*win)->Draw();
 		++win;
 	}
 

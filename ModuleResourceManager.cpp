@@ -664,7 +664,7 @@ string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * pat
 	return current_dir;
 }
 
-void ModuleResourceManager::GenerateMetaFile(const char * path, FileType type, uint uuid, string library_path, bool is_file)const
+void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, uint uuid, string library_path, bool is_file) const
 {
 	Data root;
 	root.AppendUInt("Type", static_cast<unsigned int>(type));
@@ -747,8 +747,7 @@ void ModuleResourceManager::ImportFolder(const char * path, vector<tmp_mesh_file
 
 void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_library_path) const
 {
-	//An existing folder must be located in Assets. 
-
+	//An existing folder must be located in Assets.
 	uint uuid = App->rnd->RandomInt();
 
 	string library_path;
@@ -764,6 +763,30 @@ void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_l
 	GenerateMetaFile(assets_path, FOLDER, uuid, library_path, false);
 	
 	base_library_path = library_path;
+}
+
+void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const string &meta_path, const string &old_folder_name, const string &new_folder_name, bool is_file) const
+{
+	char *buf;
+	if (App->file_system->Load((meta_path + meta_file).c_str(), &buf) > 0)
+	{
+		// Once loaded, deleting meta file associated by older folder
+		App->file_system->Delete((meta_path + meta_file).c_str());	
+
+		Data meta(buf);
+		unsigned int type = meta.GetUInt("Type");
+		unsigned int uuid = meta.GetUInt("UUID");
+		double time_mod = meta.GetDouble("time_mod");
+		const char *lib_path = meta.GetString("library_path");
+		
+		string original_path = meta.GetString("original_file");
+		size_t pos = original_path.find(old_folder_name);
+		original_path.replace(pos, old_folder_name.length(), new_folder_name);
+
+		// Generating new meta folder file with new path
+		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		delete[] buf;
+	}
 }
 
 void ModuleResourceManager::ImportFile(const char * path, string base_dir, string base_library_dir, unsigned int uuid) const
