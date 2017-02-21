@@ -8,6 +8,7 @@
 #include "Editor.h"
 #include "Assets.h"
 #include "GameObject.h"
+#include "RaycastHit.h"
 
 #include "ModuleInput.h"
 
@@ -115,6 +116,29 @@ update_status ModuleCar::PreUpdate()
 
 update_status ModuleCar::Update()
 {
+	math::Ray ray;
+	//ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
+	ray.dir = float3(0, -1, 0);
+	ray.pos = kart_trs->GetPosition();
+	ray.pos -= kart_trs->GetGlobalMatrix().WorldY();
+
+	RaycastHit hit;
+	App->go_manager->Raycast(ray, &hit);
+
+	if (hit.object != nullptr && hit.distance < 5)
+	{
+		LOG("\nHit object: %s\nNormal: %f, %f, %f", hit.object->name.data(), hit.point.x, hit.point.y, hit.point.z);
+		Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), hit.normal);
+		//kart_trs->SetRotation(/*kart_trs->GetRotation() * */normal_rot);
+	}
+	else
+	{
+		if (hit.distance > 5) { LOG("\nToo far for hit"); }
+		else { LOG("\nHit no object"); }
+		Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), float3(0,1,0));
+		//kart_trs->SetRotation(/*kart_trs->GetRotation() * */normal_rot);
+	}
+
 	float3 pos = kart_trs->GetPosition();
 	float3 newPos = pos;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
