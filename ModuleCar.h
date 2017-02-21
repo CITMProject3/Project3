@@ -26,6 +26,8 @@ public:
 	GameObject* backWheel = nullptr;
 	GameObject* cam = nullptr;
 
+	GameObject* track = nullptr;
+
 	ComponentTransform* kart_trs = nullptr;
 
 	ModuleCar(const char* name, bool start_enabled = true);

@@ -37,9 +37,9 @@ bool ModuleCar::Start()
 // Called every draw update
 update_status ModuleCar::PreUpdate()
 {
-#pragma region loading_the_kart
 	if (loaded == false)
 	{
+#pragma region loading_the_kart
 		AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
 		if (kartFile != nullptr)
 		{
@@ -88,10 +88,27 @@ update_status ModuleCar::PreUpdate()
 				}
 			}
 		}
+#pragma endregion
+
+#pragma region loading_the_test_track
+		AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
+		if (trackFile != nullptr)
+		{
+			App->resource_manager->LoadFile(trackFile->content_path, FileType::MESH);
+
+			const vector<GameObject*>* rootChilds = App->go_manager->root->GetChilds();
+			for (vector<GameObject*>::const_iterator it = rootChilds->cbegin(); it != rootChilds->cend(); it++)
+			{
+				if ((*it)->name == "track_test")
+				{
+					track = *it;
+				}
+			}
+		}
+#pragma endregion
 
 		loaded = true;
 	}
-#pragma endregion
 
 	return UPDATE_CONTINUE;
 }
