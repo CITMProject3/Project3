@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
+#include "ResourceFilePrefab.h"
 #include "ModuleGOManager.h"
 #include "GameObject.h"
 #include "Assets.h"
@@ -28,7 +29,6 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
-#include "MemLeaks.h"
 #include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -215,7 +215,11 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 		LoadPrefabFile(library_path);
 		break;
 	case PREFAB:
-		LoadPrefabFile(library_path);
+		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+		if (r_prefab)
+		{
+			r_prefab->LoadPrefabAsCopy();
+		}
 		break;
 	}
 }
@@ -256,6 +260,10 @@ ResourceFile * ModuleResourceManager::LoadResource(const string & path, Resource
 		case RES_RENDER_TEX:
 			rc_file = new ResourceFileRenderTexture(type, path, uuid);
 			rc_file->Load();
+			break;
+		case RES_PREFAB:
+			rc_file = new ResourceFilePrefab(type, path, uuid); 
+			rc_file->Load(); //This load doesn't actually do his job. Needs to call another load method after this.
 			break;
 		}
 
@@ -440,6 +448,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	App->file_system->Save(name.data(), buf, size);
 
 	string meta_file = name.substr(0, name.length() - 4) + ".meta";
+	string library_path;
 	if (App->file_system->Exists(meta_file.data()))
 	{
 		char* meta_buf;
@@ -448,7 +457,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		if (meta_size > 0)
 		{
 			Data meta_data(meta_buf);
-			string library_path = meta_data.GetString("library_path");
+			library_path = meta_data.GetString("library_path");
 			App->file_system->Save(library_path.data(), buf, size);
 		}
 		else
@@ -463,13 +472,15 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		unsigned int uuid = App->rnd->RandomInt();
 		string library_dir = App->editor->assets->CurrentLibraryDirectory() + "/" + std::to_string(uuid) + "/";
 		App->file_system->GenerateDirectory(library_dir.data());
-		string library_filename = library_dir + std::to_string(uuid) + ".pfb";
-		GenerateMetaFile(name.data(), FileType::PREFAB, uuid, library_filename.data());
-		App->file_system->Save(library_filename.data(), buf, size); 
+		library_path = library_dir + std::to_string(uuid) + ".pfb";
+		GenerateMetaFile(name.data(), FileType::PREFAB, uuid, library_path.data());
+		App->file_system->Save(library_path.data(), buf, size); 
 	}
 
 	delete[] buf;
 	gameobject->SetParent(parent);
+	gameobject->prefab_path = library_path.data();
+	//BUG: The object should have an instance of the resource used. Destroy the object and create a new?
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)

@@ -16,7 +16,7 @@ class GameObject
 public:
 	GameObject();
 	GameObject(GameObject* parent);
-	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid);
+	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid,const std::string& prefab_path);
 	~GameObject();
 
 	void PreUpdate();
@@ -60,6 +60,8 @@ public:
 	//UUID of the equal GameObject inside the prefab. It's 0 if the GameObject is not a prefab
 	unsigned int local_uuid = 0;
 	int layer = 0;
+
+	std::string prefab_path;
 private:
 	GameObject* parent = NULL;
 	std::vector<GameObject*> childs;
@@ -74,6 +76,7 @@ private:
 	unsigned int uuid = 0;
 
 	unsigned int prefab_root_uuid = 0;
+	
 	
 };
 

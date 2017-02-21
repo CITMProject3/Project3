@@ -35,7 +35,7 @@ public:
 	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;
 
 	void LoadEmptyScene();
-	void LoadPrefabGameObject(const Data& go_data, map<unsigned int, unsigned int>& uuids);
+	GameObject* LoadPrefabGameObject(const Data& go_data, map<unsigned int, unsigned int>& uuids); //Used to load prefabs and mesh files
 
 	bool IsRoot(const GameObject* go)const;
 
