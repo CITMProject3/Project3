@@ -53,12 +53,13 @@ private:
 	void CleanUp();
 	void FillDirectoriesRecursive(Directory* root_dir);
 	void DeleteDirectoriesRecursive(Directory* root_dir, bool keep_root = false);
+public:
 	Directory* FindDirectory(const string& dir)const;
 	AssetFile* FindAssetFile(const string& file);
 
 	bool IsMeshExtension(const std::string& file_name)const;
 	bool IsSceneExtension(const std::string& file_name)const;
-
+private:
 	void OpenInExplorer(const std::string* file = NULL)const;
 
 	void GeneralOptions();

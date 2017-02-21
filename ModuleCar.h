@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "ModuleGOManager.h"
 #include <vector>
 
 //This should be now in my branch, so probably no one will see this. Just testing :)
@@ -13,10 +14,18 @@ class ModuleCar : public Module
 {
 public:
 	
+	bool loaded = false;
+	GameObject* kart = nullptr;
+	GameObject* chasis = nullptr;
+	GameObject* frontWheel = nullptr;
+	GameObject* backWheel = nullptr;
+	GameObject* cam = nullptr;
+
 	ModuleCar(const char* name, bool start_enabled = true);
 	~ModuleCar();
 
 	bool Init(Data& config);
+	bool Start();
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
