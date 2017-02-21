@@ -102,12 +102,24 @@ update_status ModuleCar::Update()
 	float3 newPos = pos;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{		
-		newPos += kart_trs->GetTransformMatrix().WorldZ() * speed * time->DeltaTime();
+		newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed * time->DeltaTime();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		newPos -= kart_trs->GetTransformMatrix().WorldZ() * speed * time->DeltaTime();
+		newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed * time->DeltaTime();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		Quat tmp = kart_trs->GetRotation().RotateAxisAngle(float3(0, 1, 0), -rotateSpeed * DEGTORAD * time->DeltaTime());
+		kart_trs->SetRotation(kart_trs->GetRotation() * tmp);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		Quat tmp = kart_trs->GetRotation().RotateAxisAngle(float3(0, 1, 0), rotateSpeed * DEGTORAD * time->DeltaTime());
+		kart_trs->SetRotation(kart_trs->GetRotation() * tmp);
 	}
 
 	kart_trs->SetPosition(newPos);

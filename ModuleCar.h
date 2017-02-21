@@ -16,7 +16,8 @@ class ModuleCar : public Module
 {
 public:
 	
-	float speed = 1.0f;
+	float speed = 10.0f;
+	float rotateSpeed = 120.0f;
 
 	bool loaded = false;
 	GameObject* kart = nullptr;
