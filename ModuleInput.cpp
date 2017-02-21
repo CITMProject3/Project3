@@ -208,3 +208,29 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	return true;
 }
+
+KEY_STATE ModuleInput::GetKey(int id) const
+{
+	//Warning: noone can recieve input if editor is using keyboard
+	if (App->editor->UsingKeyboard() == false)
+		return keyboard[id];
+	else
+		return KEY_IDLE;
+}
+
+KEY_STATE ModuleInput::GetMouseButton(int id) const
+{
+	//Warning: noone can recieve input if editor is using mouse
+	if (App->editor->UsingMouse() == false)
+		return mouse_buttons[id];
+	else
+		return KEY_IDLE;
+}
+
+int ModuleInput::GetMouseZ() const
+{
+	if (App->editor->UsingMouse() == false)
+		return mouse_z;
+	else
+		return 0;
+}

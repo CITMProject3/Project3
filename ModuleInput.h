@@ -65,15 +65,8 @@ public:
 	update_status PreUpdate();
 	bool CleanUp();
 
-	KEY_STATE GetKey(int id) const
-	{
-		return keyboard[id];
-	}
-
-	KEY_STATE GetMouseButton(int id) const
-	{
-		return mouse_buttons[id];
-	}
+	KEY_STATE GetKey(int id) const;
+	KEY_STATE GetMouseButton(int id) const;
 
 	int GetMouseX() const
 	{
@@ -85,10 +78,7 @@ public:
 		return mouse_y;
 	}
 
-	int GetMouseZ() const
-	{
-		return mouse_z;
-	}
+	int GetMouseZ() const;
 
 	int GetMouseXMotion() const
 	{
