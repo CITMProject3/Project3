@@ -23,6 +23,7 @@
 #include "ComponentCamera.h"
 #include "TestWindow.h"
 #include "GameObject.h"
+#include "ComponentLight.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -194,21 +195,17 @@ void Editor::RemoveSelected()
 
 void Editor::Copy(GameObject* game_object)
 {
-	if (copy_go != nullptr)
-		delete copy_go;
 
-	copy_go = new GameObject(*game_object);
 }
 
 void Editor::Paste(GameObject* game_object)
 {
-	GameObject* new_go = App->go_manager->CreateGameObject(game_object->GetParent(), copy_go);
+	
 }
 
 void Editor::Duplicate(GameObject* game_object)
 {
-	Copy(game_object);
-	Paste(game_object->GetParent());
+
 }
 
 update_status Editor::PreUpdate()
@@ -336,6 +333,11 @@ update_status Editor::EditorWindows()
 		if (ImGui::BeginMenu("Edit"))
 		{
 			EditMenu();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("GameObject"))
+		{
+			GameObjectMenu();
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))
@@ -502,6 +504,42 @@ void Editor::EditMenu()
 
 	ImGui::MenuItem("Disable grid", NULL, &disable_grid);
 	
+}
+
+void Editor::GameObjectMenu()
+{
+	if (ImGui::MenuItem("Create Empty"))
+	{
+
+	}
+	if (ImGui::MenuItem("Create Empty Child"))
+	{
+
+	}
+	if (ImGui::BeginMenu("3D Object"))
+	{
+		if (ImGui::MenuItem("Cube"))
+		{
+
+		}
+		if (ImGui::MenuItem("Sphere"))
+		{
+
+		}
+		if (ImGui::MenuItem("Plane"))
+		{
+
+		}
+		ImGui::EndMenu();
+	}
+	if (ImGui::BeginMenu("Light"))
+	{
+		if (ImGui::MenuItem("Directional Light"))
+		{
+			App->go_manager->CreateLight(nullptr, LightType::DIRECTIONAL_LIGHT);
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void Editor::DebugMenu()

@@ -16,7 +16,7 @@ ComponentLight::~ComponentLight()
 
 void ComponentLight::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Light"))
+	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Text("Light type: ");
 		ImGui::SameLine();
@@ -87,4 +87,10 @@ void ComponentLight::DirectionalLightInspector()
 {
 	ImGui::InputFloat("Intensity: ###directional_in", &intensity);
 	ImGui::ColorEdit3("Color: ###directional_col", color.ptr());
+}
+
+//TODO: add a light to render module and remove previous light?
+void ComponentLight::SetType(LightType type)
+{
+	light_type = type;
 }

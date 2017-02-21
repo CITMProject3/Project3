@@ -12,6 +12,7 @@ class GameObject;
 class ComponentCamera;
 class ComponentLight;
 class LayerSystem;
+enum LightType;
 
 #define OCTREE_SIZE 800
 
@@ -28,7 +29,7 @@ public:
 	void SaveBeforeClosing(Data& data)const;
 
 	GameObject* CreateGameObject(GameObject* parent);
-	GameObject* CreateGameObject(GameObject* parent, GameObject* game_object);
+	GameObject* CreateLight(GameObject* parent, LightType type);
 
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); //Doesn't remove the GameObject from the parent list.

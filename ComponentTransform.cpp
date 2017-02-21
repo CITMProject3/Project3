@@ -28,7 +28,7 @@ void ComponentTransform::Update()
 
 void ComponentTransform::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Transform"))
+	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImVec4 white = ImVec4(1, 1, 1, 1);
 	
@@ -53,7 +53,7 @@ void ComponentTransform::OnInspector()
 		}
 
 		//Scale
-		ImGui::TextColored(white, "Scale: ");
+		ImGui::TextColored(white, "Scale:    ");
 		ImGui::SameLine();
 
 		float3 scale = this->scale;

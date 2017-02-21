@@ -55,7 +55,7 @@ void ComponentCamera::Update()
 
 void ComponentCamera::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Camera"))
+	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Near plane
 		ImGui::Text("Near Plane: ");

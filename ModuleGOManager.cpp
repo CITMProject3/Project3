@@ -136,19 +136,16 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 	return object;
 }
 
-GameObject* ModuleGOManager::CreateGameObject(GameObject* parent, GameObject* to_copy)
+GameObject* ModuleGOManager::CreateLight(GameObject* parent, LightType type)
 {
-	GameObject* obj_parent = parent ? parent : root;
-
-	GameObject* object = new GameObject(*to_copy);
-	object->SetParent(parent);
-
-	if (obj_parent->AddChild(object) == false)
-		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
-
-	dynamic_gameobjects.push_back(object);
-
-	return object;
+	GameObject* obj = CreateGameObject(parent);
+	ComponentLight* light = (ComponentLight*)obj->AddComponent(C_LIGHT);
+	light->SetType(type);
+	switch (type)
+	{
+		case(DIRECTIONAL_LIGHT): obj->name = "Directional Light"; break;
+	}
+	return obj;
 }
 
 bool ModuleGOManager::RemoveGameObject(GameObject* object)

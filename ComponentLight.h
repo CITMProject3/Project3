@@ -24,6 +24,8 @@ public:
 	float GetIntensity()const;
 	float3 GetColor()const;
 	float3 GetDirection()const;
+
+	void SetType(LightType type);
 private:
 
 	void DirectionalLightInspector();

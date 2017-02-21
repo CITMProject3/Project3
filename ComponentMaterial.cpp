@@ -18,7 +18,7 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Material"))
+	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (material_path.size() == 0)
 		{

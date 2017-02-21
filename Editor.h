@@ -76,6 +76,7 @@ private:
 	void WindowsMenu();
 	void EditMenu();
 	void DebugMenu();
+	void GameObjectMenu();
 
 	bool QuitWindow();
 	void SaveSceneWindow();

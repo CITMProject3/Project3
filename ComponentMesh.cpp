@@ -39,7 +39,7 @@ void ComponentMesh::Update()
 
 void ComponentMesh::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Geometry Mesh"))
+	if (ImGui::CollapsingHeader("Geometry Mesh", ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Active
 		bool is_active = IsActive();
