@@ -36,7 +36,7 @@ void Assets::Draw()
 
 	ImGui::Text(current_dir->path.data());
 
-	ImGui::BeginChild(1);
+//	ImGui::BeginChild(1);
 
 	//Back folder
 	if (current_dir->parent != nullptr)
@@ -159,7 +159,7 @@ void Assets::Draw()
 	GeneralOptions();
 	VertexFragmentOptions();
 
-	ImGui::EndChild();
+//	ImGui::EndChild();
 	ImGui::End();
 }
 
@@ -500,7 +500,7 @@ void Assets::SceneFileOptions()
 {
 	if (ImGui::BeginPopup("FileSceneOptions"))
 	{
-		if (ImGui::Selectable("Load to scene"))
+		if (ImGui::Selectable("Open scene"))
 		{
 			App->resource_manager->LoadScene(file_selected->content_path.data()); 
 		}
