@@ -757,7 +757,7 @@ void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_l
 		library_path = base_library_path;
 
 	//Create Folder at Library
-	library_path += std::to_string(uuid);
+	library_path += std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(library_path.data());
 
 	GenerateMetaFile(assets_path, FOLDER, uuid, library_path, false);

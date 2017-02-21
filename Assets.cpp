@@ -47,8 +47,7 @@ void Assets::Draw()
 
 		if (ImGui::Selectable("../"))
 			current_dir = current_dir->parent;	
-	}
-	
+	}	
 
 	//Print folders
 	std::vector<Directory*>::iterator dir = current_dir->directories.begin();
@@ -58,7 +57,7 @@ void Assets::Draw()
 		ImGui::SameLine();
 		
 		// Renaming option enabled
-		if ((*dir) == renamed_dir)
+		if (strcmp((*dir)->path.c_str(), dir_to_rename) == 0)   // I think Directory pointers are deleted so this could be useful...
 		{
 			static char new_folder_name[128];
 			if (ImGui::InputText("", new_folder_name, 128, ImGuiInputTextFlags_EnterReturnsTrue))
@@ -66,7 +65,7 @@ void Assets::Draw()
 				RenameFolder((*dir), new_folder_name);
 
 				// Disabling renaming option and cleaning new folder name
-				renamed_dir = nullptr;
+				dir_to_rename[0] = '\0';
 				new_folder_name[0] = '\0';
 			}				
 		}
@@ -301,7 +300,7 @@ void Assets::RenameFolder(Directory *dir_to_rename, const char *new_folder_name)
 	UpdateFoldersMetaInfo(dir_to_rename, dir_to_rename->name.c_str(), new_folder_name);
 }
 
-void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, const char *old_folder_name, const char *new_folder_name) const
+void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, string old_folder_name, string new_folder_name) const
 {
 	// Changing folder meta file with new folder name
 	string meta_file = curr_dir->name + ".meta";
@@ -309,7 +308,8 @@ void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, const char *old_folder_n
 
 	// Changing old values for the new ones on Directory struct
 	curr_dir->name = new_folder_name;
-	curr_dir->path = curr_dir->parent->path + curr_dir->name + "/";
+	size_t pos = curr_dir->path.find(old_folder_name);
+	curr_dir->path.replace(pos, old_folder_name.length(), new_folder_name);
 	
 	std::vector<AssetFile*>::iterator it_file = curr_dir->files.begin();
 	for (it_file; it_file != curr_dir->files.end(); ++it_file)
@@ -319,11 +319,11 @@ void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, const char *old_folder_n
 		App->resource_manager->NameFolderUpdate(meta_file, curr_dir->path, old_folder_name, new_folder_name, true);
 
 		// Changing old values for the new ones on AssetFile struct
-		size_t pos = (*it_file)->file_path.find(old_folder_name);
-		(*it_file)->file_path.replace(pos, sizeof(old_folder_name) / sizeof(char), new_folder_name);
+		pos = (*it_file)->file_path.find(old_folder_name);
+		(*it_file)->file_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		pos = (*it_file)->original_file.find(old_folder_name);
-		(*it_file)->original_file.replace(pos, sizeof(old_folder_name) / sizeof(char), new_folder_name);
+		(*it_file)->original_file.replace(pos, old_folder_name.length(), new_folder_name);
 	}
 
 	std::vector<Directory*>::iterator it_dir = curr_dir->directories.begin();
@@ -585,7 +585,7 @@ void Assets::DirectoryOptions()
 		}
 		if (ImGui::Selectable("Rename"))
 		{			
-			renamed_dir = dir_selected;
+			strcpy_s(dir_to_rename, 256, dir_selected->path.c_str());
 			dir_selected = nullptr;
 		}
 		if (ImGui::Selectable("Remove"))

@@ -61,7 +61,7 @@ private:
 	bool IsSceneExtension(const std::string& file_name)const;
 
 	void RenameFolder(Directory *dir_to_rename, const char *new_name) const;
-	void UpdateFoldersMetaInfo(Directory *starting_dir, const char *old_folder_name, const char *new_folder_name) const;
+	void UpdateFoldersMetaInfo(Directory *starting_dir, string old_folder_name, string new_folder_name) const;
 
 	void OpenInExplorer(const std::string* file = NULL)const;
 
@@ -84,8 +84,9 @@ private:
 
 	Directory* current_dir = root;
 	Directory* dir_selected = nullptr;
-	const Directory *renamed_dir = nullptr;
 	AssetFile* file_selected = nullptr;
+
+	char dir_to_rename[256] = "\0";
 	
 	//Icons
 	uint folder_id;
