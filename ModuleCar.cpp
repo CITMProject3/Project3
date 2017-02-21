@@ -14,6 +14,8 @@
 
 #include "glmath.h"
 
+#include "imgui\imgui.h"
+
 ModuleCar::ModuleCar(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
 }
@@ -108,6 +110,13 @@ update_status ModuleCar::PreUpdate()
 		}
 #pragma endregion
 
+		GameObject* light = App->go_manager->CreateGameObject(NULL);
+		light->AddComponent(ComponentType::C_LIGHT);
+		ComponentTransform* tmp = (ComponentTransform*) light->GetComponent(C_TRANSFORM);
+		tmp->SetRotation(float3(50, -10, -50));
+
+		cam->AddComponent(C_CAMERA);
+
 		loaded = true;
 	}
 
@@ -116,56 +125,141 @@ update_status ModuleCar::PreUpdate()
 
 update_status ModuleCar::Update()
 {
-	if (kart && kart_trs)
+	if (App->IsGameRunning())
 	{
-		math::Ray ray;
-		//ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
-		ray.dir = float3(0, -1, 0);
-		ray.pos = kart_trs->GetPosition();
-		ray.pos -= kart_trs->GetGlobalMatrix().WorldY();
+		Car_Debug_Ui();
 
-		RaycastHit hit;
-		App->go_manager->Raycast(ray);
+		if (kart && kart_trs)
+		{
+			/*math::Ray ray;
+			//ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
+			ray.dir = float3(0, -1, 0);
+			ray.pos = kart_trs->GetPosition();
+			ray.pos -= kart_trs->GetGlobalMatrix().WorldY();
 
-		if (hit.object != nullptr && hit.distance < 5)
-		{
-			LOG("\nHit object: %s\nNormal: %f, %f, %f", hit.object->name.data(), hit.point.x, hit.point.y, hit.point.z);
-			Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), hit.normal);
-			//kart_trs->SetRotation(/*kart_trs->GetRotation() * */normal_rot);
-		}
-		else
-		{
-			if (hit.distance > 5) { LOG("\nToo far for hit"); }
-			else { LOG("\nHit no object"); }
-			Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), float3(0, 1, 0));
-			//kart_trs->SetRotation(/*kart_trs->GetRotation() * */normal_rot);
-		}
+			RaycastHit hit;
+			App->go_manager->Raycast(ray);
 
-		float3 pos = kart_trs->GetPosition();
-		float3 newPos = pos;
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-		{
-			newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed * time->DeltaTime();
-		}
+			if (hit.object != nullptr && hit.distance < 5)
+			{
+				LOG("\nHit object: %s\nNormal: %f, %f, %f", hit.object->name.data(), hit.point.x, hit.point.y, hit.point.z);
+				Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), hit.normal);
+				//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
+			}
+			else
+			{
+				if (hit.distance > 5) { LOG("\nToo far for hit"); }
+				else { LOG("\nHit no object"); }
+				Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), float3(0, 1, 0));
+				//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
+			}*/
 
-		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-		{
-			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed * time->DeltaTime();
-		}
+			float3 pos = kart_trs->GetPosition();
+			float3 newPos = pos;
+			float acceleration = 0.0f;
 
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-		{
-			Quat tmp = kart_trs->GetRotation().RotateAxisAngle(float3(0, 1, 0), -rotateSpeed * DEGTORAD * time->DeltaTime());
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			{
+				if (speed < -0.01f)
+				{
+					if (speed < -brakePower * time->DeltaTime())
+					{
+						acceleration += brakePower * time->DeltaTime();
+					}
+					else
+					{
+						speed = 0;
+					}
+				}
+				else
+				{
+					acceleration += maxAcceleration * time->DeltaTime();
+				}
+			}
+			else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+			{
+				if (speed > 0.01f)
+				{
+					if (speed > brakePower * time->DeltaTime())
+					{
+						acceleration -= brakePower * time->DeltaTime();
+					}
+					else
+					{
+						speed = 0;
+					}
+				}
+				else
+				{
+					acceleration -= (maxAcceleration / 2.0f) * time->DeltaTime();
+				}
+			}
+			else
+			{
+				if (speed > drag * time->DeltaTime())
+				{
+					acceleration = -drag * time->DeltaTime();
+				}
+				else if (speed < -drag * time->DeltaTime())
+				{
+					acceleration += drag * time->DeltaTime();
+				}
+				else
+				{
+					speed = 0;
+				}
+			}
+
+			speed += acceleration;
+			speed = math::Clamp(speed, -maxSpeed, maxSpeed);
+
+
+			bool steering = false;
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				steering = true;
+				currentSteer += maneuverability * time->DeltaTime();
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				currentSteer -= maneuverability * time->DeltaTime();
+				steering = true;
+			}
+			currentSteer = math::Clamp(currentSteer, -1.0f, 1.0f);
+
+			if (steering == false)
+			{
+				if (currentSteer > maneuverability * time->DeltaTime())
+				{
+					currentSteer -= maneuverability * time->DeltaTime();
+				}
+				else if (currentSteer < -maneuverability * time->DeltaTime())
+				{
+					currentSteer += maneuverability * time->DeltaTime();
+				}
+				else
+				{
+					currentSteer = 0;
+				}
+			}
+
+
+			float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
+			Quat tmp = kart_trs->GetRotation().RotateAxisAngle(float3(0, 1, 0), -rotateAngle * DEGTORAD);
 			kart_trs->SetRotation(kart_trs->GetRotation() * tmp);
-		}
 
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-		{
-			Quat tmp = kart_trs->GetRotation().RotateAxisAngle(float3(0, 1, 0), rotateSpeed * DEGTORAD * time->DeltaTime());
-			kart_trs->SetRotation(kart_trs->GetRotation() * tmp);
-		}
+			ComponentTransform* chasis_trs = (ComponentTransform*) chasis->GetComponent(C_TRANSFORM);
+			chasis_trs->SetRotation(float3(0, -currentSteer * 15 * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f), 0));
 
-		kart_trs->SetPosition(newPos);
+			ComponentTransform* wheel_trs = (ComponentTransform*)frontWheel->GetComponent(C_TRANSFORM);
+			wheel_trs->SetRotation(float3(0, -currentSteer * 15, 0));
+
+
+			newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
+
+			kart_trs->SetPosition(newPos);
+		}
 	}
 	return UPDATE_CONTINUE;
 }
@@ -179,4 +273,25 @@ update_status ModuleCar::PostUpdate()
 bool ModuleCar::CleanUp()
 {
 	return true;
+}
+
+void ModuleCar::Car_Debug_Ui()
+{
+	ImGui::SetNextWindowSize(ImVec2(350, 400));
+	if (ImGui::Begin("Car_Debug"))
+	{
+		ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
+		ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Maneuverability", &maneuverability, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
+		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
+		ImGui::NewLine();
+		ImGui::Separator();
+		ImGui::Text("Just for display, do not touch");
+		ImGui::DragFloat("Speed", &speed);
+		ImGui::DragFloat("Current Steer", &currentSteer);
+		ImGui::Checkbox("Steering", &steering);
+		ImGui::End();
+	}
 }

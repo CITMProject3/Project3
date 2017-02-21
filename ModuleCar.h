@@ -16,8 +16,19 @@ class ModuleCar : public Module
 {
 public:
 	
-	float speed = 10.0f;
-	float rotateSpeed = 120.0f;
+	float maxSpeed = 0.5f;
+	float maxAcceleration = 0.2f;
+	float brakePower = 0.35f;
+	float maneuverability = 6.0f;
+	float maxSteer = 160.0f;
+	float drag = 0.3f;
+
+private:
+	float speed = 0.0f;
+	float currentSteer = 0.0f;
+public:
+
+	bool steering = false;
 
 	bool loaded = false;
 	GameObject* kart = nullptr;
@@ -39,6 +50,8 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
+
+	void Car_Debug_Ui();
 
 	
 };
