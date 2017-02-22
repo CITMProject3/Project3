@@ -237,9 +237,8 @@ update_status Editor::Update()
 	HandleInput();
 
 	//Handle Quit event
-	bool quit = false;
 	if (App->input->Quit())
-		quit = QuitWindow();
+		save_scene_win = true;
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -615,6 +614,8 @@ void Editor::SaveSceneWindow()
 		ImGui::SetNextWindowSize(ImVec2(300, 100));
 		if (ImGui::Begin("Save Scene", &save_scene_win))
 		{
+			if (scene_name_to_save == "")
+				scene_name_to_save = "UntiledScene";
 			ImGui::InputText("", scene_name_to_save._Myptr(), scene_name_to_save.capacity());
 			if (ImGui::Button("Save ##save_scene_button"))
 			{
@@ -622,8 +623,27 @@ void Editor::SaveSceneWindow()
 				scene = assets->CurrentDirectory() + scene;
 				App->resource_manager->SaveScene(scene.data(), assets->CurrentLibraryDirectory());
 				save_scene_win = false;
+				quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Don't Save ##dont_save_scene_button"))
+			{
+				save_scene_win = false;
+				quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel ##cancel_scene_button"))
+			{
+				quit = false;
+				save_scene_win = false;
+				App->input->ResetQuit();
 			}
 			ImGui::End();
 		}
+		
+		if(!save_scene_win)
+			App->input->ResetQuit();
 	}
 }

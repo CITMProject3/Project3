@@ -118,6 +118,7 @@ private:
 
 	bool disable_grid = false;
 
+	bool quit = false;
 };
 
 #endif
