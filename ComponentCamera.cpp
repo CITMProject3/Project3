@@ -55,7 +55,7 @@ void ComponentCamera::Update()
 
 void ComponentCamera::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Camera", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Camera", &alive, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Near plane
 		ImGui::Text("Near Plane: ");
@@ -106,7 +106,7 @@ void ComponentCamera::OnInspector()
 
 			ImGui::EndMenu();
 		}
-		
+
 		ImGui::Separator();
 
 		if (ImGui::Button("Remove ###cam_rem"))
@@ -114,6 +114,10 @@ void ComponentCamera::OnInspector()
 			Remove();
 		}
 	}
+	else
+		Remove();
+
+		
 }
 
 void ComponentCamera::OnTransformModified()
