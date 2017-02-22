@@ -22,10 +22,10 @@ private:
 	void LoadInMemory();
 	void UnloadInMemory();
 
-	void CreateChildsByUUID(const Data & go_data, map<unsigned int, unsigned int>& uuids, unsigned int uuid, list<GameObject*> parents)const;
+	void CreateChildsByUUID(const Data & go_data, map<unsigned int, unsigned int>& uuids, unsigned int uuid, list<GameObject*>& parents)const;
 
 	void SaveNewChanges(GameObject* gameobject)const;
-	void SaveChangesGameObject(Data& file, GameObject* gameobject)const;
+	void SaveChangesGameObject(Data& file, GameObject* gameobject, unsigned int prefab_root_uuid)const;
 
 private:
 	list<GameObject*> instances;
