@@ -8,29 +8,32 @@
 class GameObject;
 class ComponentTransform;
 
-//This should be now in my branch, so probably no one will see this. Just testing :)
+#define CAR_GRAVITY 1.5f
 
 using namespace std;
 
 class ModuleCar : public Module
 {
 public:
-	
+	//Car status info
+	bool onTheGround = true;
+	bool steering = false;
+
+	//Car functionality values
 	float maxSpeed = 0.5f;
 	float maxAcceleration = 0.2f;
 	float brakePower = 0.5f;
 	float maneuverability = 6.0f;
 	float maxSteer = 160.0f;
 	float drag = 0.3f;
-	//Speed at which the car normal tries to reach the terrain normal
-	float normalSpeed = 1.0f;
+	//Time that takes a car on the air to put itself straighta again
+	float recoveryTime = 2.0f;
 
 private:
 	float speed = 0.0f;
 	float currentSteer = 0.0f;
-public:
 
-	bool steering = false;
+	float fallSpeed = 0.0f;
 
 	bool loaded = false;
 	bool firstFrameOfExecution = true;
@@ -45,12 +48,12 @@ public:
 
 	GameObject* track = nullptr;
 	GameObject* light = nullptr;
-	char tmpOutput[1024];
-
-	float3 desiredUp = float3(0,1,0);
 
 	ComponentTransform* kart_trs = nullptr;
 
+	char tmpOutput[1024];
+
+public:
 	ModuleCar(const char* name, bool start_enabled = true);
 	~ModuleCar();
 
@@ -61,9 +64,12 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+private:
 	void KartLogic();
 
+	float AccelerationInput();
 	void Steer(float amount);
+	void AutoSteer();
 
 	void Car_Debug_Ui();
 	void FindKartGOs();

@@ -128,56 +128,105 @@ void ModuleCar::KartLogic()
 {
 	float3 pos = kart_trs->GetPosition();
 	float3 newPos = pos;
+	float3 kartY = kart_trs->GetGlobalMatrix().WorldY();
 
-	math::Ray rayF;
-	rayF.dir = -kart_trs->GetGlobalMatrix().WorldY();
-	rayF.pos = kart_trs->GetPosition();
-	rayF.pos += kart_trs->GetGlobalMatrix().WorldY() + kart_trs->GetGlobalMatrix().WorldZ();
+	//Setting the two rays, Front and Back
+	math::Ray rayF, rayB;
+	rayB.dir = rayF.dir = -kartY;
+	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY;
+	rayF.pos += kart_trs->GetGlobalMatrix().WorldZ();
+	rayB.pos -= kart_trs->GetGlobalMatrix().WorldZ();
+
+	//Raycasting, checking only for the NavMesh layer
 	RaycastHit hitF = App->go_manager->Raycast(rayF, std::vector<int>(1, track->layer));
-
-	math::Ray rayB;
-	rayB.dir = -kart_trs->GetGlobalMatrix().WorldY();
-	rayB.pos = kart_trs->GetPosition();
-	rayB.pos += kart_trs->GetGlobalMatrix().WorldY() - kart_trs->GetGlobalMatrix().WorldZ();
 	RaycastHit hitB = App->go_manager->Raycast(rayB, std::vector<int>(1, track->layer));
 
-	desiredUp = float3::zero;
+	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
+	float3 desiredUp = float3(0, 1, 0);
+	onTheGround = false;
 	if ((hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 1) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 1))
 	{
+		onTheGround = true;
 		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
 		newPos = hitB.point + (hitF.point - hitB.point) / 2;
 	}
 	else if ((hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && !(hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
+		onTheGround = true;
 		desiredUp = hitF.normal;
 	}
 	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
+		onTheGround = true;
 		desiredUp = hitB.normal;
-	}
-	else
-	{
-		desiredUp = float3(0, 1, 0);
 	}
 	desiredUp.Normalize();
 
-	float3 nextStep = kart_trs->GetGlobalMatrix().WorldY().Lerp(desiredUp, 2.0f * time->DeltaTime());
-
-	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() + desiredUp, float4(1,0,0,1));
-	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() * 2, float4(0,0,1,1));	
-	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() + nextStep, float4(0, 1, 0, 1));
-
-	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * DISTANCE_FROM_GROUND, kart_trs->GetPosition() - kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * DISTANCE_FROM_GROUND, float4(1, 0, 0, 1));
-
-	Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), nextStep);
-	float aaa = normal_rot.Angle();
-	if (normal_rot.Angle() > 0.01f)
+	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
 	{
+		//Interpolating to obtain the desired rotation
+		float3 nextStep;
+		if (onTheGround)
+		{
+			nextStep = kartY.Lerp(desiredUp, 2.0f * time->DeltaTime());
+		}
+		else
+		{
+			nextStep = kartY.Lerp(desiredUp, (1.0f/recoveryTime) * time->DeltaTime());
+		}
+		Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), nextStep);
 		kart_trs->Rotate(normal_rot);
 	}
 
-	float acceleration = 0.0f;
 
+	//Manage Input to accelerate/brake. Returns acceleration
+	if (onTheGround)
+	{
+		speed += AccelerationInput();
+		speed = math::Clamp(speed, -maxSpeed, maxSpeed);
+	}
+
+	//Steering
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+	Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
+
+	//Returning steer to 0 gradually if the player isn't inputting anything
+	if (steering == false)
+	{
+		AutoSteer();
+	}
+	steering = false;
+
+	if (onTheGround)
+	{
+		float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
+		Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
+		kart_trs->Rotate(tmp);
+
+		fallSpeed = 0.0f;
+	}
+	else
+	{
+		fallSpeed += CAR_GRAVITY * time->DeltaTime();
+		newPos.y -= fallSpeed;
+	}
+#pragma region Esthetic_rotation_chasis_wheels
+	ComponentTransform* chasis_trs = (ComponentTransform*)chasis->GetComponent(C_TRANSFORM);
+	chasis_trs->SetRotation(float3(0, -currentSteer * 15 * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f), 0));
+
+	ComponentTransform* wheel_trs = (ComponentTransform*)frontWheel->GetComponent(C_TRANSFORM);
+	wheel_trs->SetRotation(float3(0, -currentSteer * 15, 0));
+#pragma endregion
+
+
+	newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
+	kart_trs->SetPosition(newPos);
+}
+
+float ModuleCar::AccelerationInput()
+{
+	float acceleration = 0.0f;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::A))
 	{
 		if (speed < -0.01f)
@@ -229,54 +278,7 @@ void ModuleCar::KartLogic()
 			speed = 0;
 		}
 	}
-
-	speed += acceleration;
-	speed = math::Clamp(speed, -maxSpeed, maxSpeed);
-
-	//Steering
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
-	Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
-
-	//Returning steer to 0 gradually if the player isn't inputting anything
-	if (steering == false)
-	{
-		if (currentSteer > maneuverability * time->DeltaTime())
-		{
-			currentSteer -= maneuverability * time->DeltaTime();
-		}
-		else if (currentSteer < -maneuverability * time->DeltaTime())
-		{
-			currentSteer += maneuverability * time->DeltaTime();
-		}
-		else { currentSteer = 0; }
-	}
-	steering = false;
-
-
-	float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
-	Quat tmp;
-	if (kart_trs->GetGlobalMatrix().WorldY().y > 0)
-	{
-		tmp = kart_trs->GetRotation().RotateAxisAngle(kart_trs->GetGlobalMatrix().WorldY(), -rotateAngle * DEGTORAD);
-	}
-	else
-	{
-		tmp = kart_trs->GetRotation().RotateAxisAngle(-kart_trs->GetGlobalMatrix().WorldY(), -rotateAngle * DEGTORAD);
-	}
-	kart_trs->Rotate(tmp);
-
-#pragma region Esthetic_rotation_chasis_wheels
-	ComponentTransform* chasis_trs = (ComponentTransform*)chasis->GetComponent(C_TRANSFORM);
-	chasis_trs->SetRotation(float3(0, -currentSteer * 15 * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f), 0));
-
-	ComponentTransform* wheel_trs = (ComponentTransform*)frontWheel->GetComponent(C_TRANSFORM);
-	wheel_trs->SetRotation(float3(0, -currentSteer * 15, 0));
-#pragma endregion
-
-	newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
-
-	kart_trs->SetPosition(newPos);
+	return acceleration;
 }
 
 void ModuleCar::Steer(float amount)
@@ -289,6 +291,19 @@ void ModuleCar::Steer(float amount)
 		currentSteer = math::Clamp(currentSteer, -amount, amount);
 		steering = true;
 	}
+}
+
+void ModuleCar::AutoSteer()
+{
+	if (currentSteer > maneuverability * time->DeltaTime())
+	{
+		currentSteer -= maneuverability * time->DeltaTime();
+	}
+	else if (currentSteer < -maneuverability * time->DeltaTime())
+	{
+		currentSteer += maneuverability * time->DeltaTime();
+	}
+	else { currentSteer = 0; }
 }
 
 void ModuleCar::Car_Debug_Ui()
