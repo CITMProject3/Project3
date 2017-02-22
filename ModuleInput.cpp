@@ -73,6 +73,7 @@ bool ModuleInput::Init(Data& config)
 update_status ModuleInput::PreUpdate()
 {
 	SDL_PumpEvents();
+	bool resetDrag = false;
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	
@@ -176,14 +177,14 @@ update_status ModuleInput::PreUpdate()
 					int last_x = mouse_x;
 					App->input->SetMouseX(10);
 					last_mouse_swap = mouse_x - last_x;
-					ResetImGuiDrag();
+					resetDrag = true;
 				}
 				else if (mouse_x < 10)
 				{
 					int last_x = mouse_x;
 					App->input->SetMouseX(App->window->GetScreenWidth() - 10);
 					last_mouse_swap = mouse_x - last_x;
-					ResetImGuiDrag();
+					resetDrag = true;
 				}
 				else
 					last_mouse_swap = 0;
@@ -220,7 +221,8 @@ update_status ModuleInput::PreUpdate()
 		wants_to_quit = true;
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
-
+	if (resetDrag == true)
+		ResetImGuiDrag();
 	infiniteHorizontal = false;
 
 	return UPDATE_CONTINUE;
