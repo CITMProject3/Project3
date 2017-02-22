@@ -54,7 +54,7 @@ public:
 	bool InsertGameObjectInOctree(GameObject* go);
 	bool RemoveGameObjectOfOctree(GameObject* go);
 
-	RaycastHit Raycast(const Ray& ray, bool keepDrawing = false);
+	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
 private:
 
 	void HierarchyWindow();

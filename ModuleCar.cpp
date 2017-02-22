@@ -125,27 +125,26 @@ bool ModuleCar::CleanUp()
 void ModuleCar::KartLogic()
 {
 	math::Ray ray;
-	//ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
-	ray.dir = float3(0, -1, 0);
-	ray.pos = kart_trs->GetPosition() - float3(0,1,0);
-	//ray.pos -= float3(0, 1, 0);
-	//ray.pos -= kart_trs->GetGlobalMatrix().WorldY();
+	ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
+	ray.pos = kart_trs->GetPosition();
+	ray.pos += kart_trs->GetGlobalMatrix().WorldY();
 
-	RaycastHit hit = App->go_manager->Raycast(ray);
+	RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, track->layer));
 
 	if (hit.object != nullptr && hit.distance < 5)
 	{
+		desiredUp = hit.normal;
 		sprintf(tmpOutput, "Hit object: %s\n\nPos: %f, %f, %f\nNormal: %f, %f, %f", hit.object->name.data(), hit.point.x, hit.point.y, hit.point.z, hit.normal.x, hit.normal.y, hit.normal.z);
-		Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), hit.normal);
-		//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
 	}
 	else
 	{
+		desiredUp = float3(0, 1, 0);
 		if (hit.distance > 5) { sprintf(tmpOutput, "Too far from object: %s", hit.object->name.data()); }
 		else { sprintf(tmpOutput, "No hit"); }
-		Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), float3(0, 1, 0));
-		//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
 	}
+
+	//Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), desiredUp);
+	//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
 
 	float3 pos = kart_trs->GetPosition();
 	float3 newPos = pos;
@@ -334,6 +333,7 @@ void ModuleCar::FindKartGOs()
 		if ((*it)->name == "track_test")
 		{
 			track = *it;
+			track->layer = 20;
 		}
 		if ((*it)->name == "Directional_Light")
 		{

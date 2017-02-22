@@ -45,6 +45,8 @@ public:
 	GameObject* light = nullptr;
 	char tmpOutput[1024];
 
+	float3 desiredUp = float3(0,1,0);
+
 	ComponentTransform* kart_trs = nullptr;
 
 	ModuleCar(const char* name, bool start_enabled = true);

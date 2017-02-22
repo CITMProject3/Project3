@@ -454,7 +454,7 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst > b_dst) return 1;
 }
 
-RaycastHit ModuleGOManager::Raycast(const Ray & ray, bool keepDrawing)
+RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCheck, bool keepDrawing)
 {
 	vector<GameObject*> collisions;
 	octree.Intersect(collisions, ray);
@@ -474,9 +474,18 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, bool keepDrawing)
 	RaycastHit hit;
 	for (;it != collisions.end(); it++)
 	{
-		if ((*it)->RayCast(ray, hit))
+		//If layers to check is empty, object must be checked (check = true)
+		bool check = layersToCheck.empty();		
+		for (std::vector<int>::iterator l = layersToCheck.begin(); l != layersToCheck.end() && check == false; l++)
 		{
-			break;
+			if ((*it)->layer == *l) { check = true; }
+		}
+		if (check)
+		{
+			if ((*it)->RayCast(ray, hit))
+			{
+				break;
+			}
 		}
 	}
 
