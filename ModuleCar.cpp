@@ -154,15 +154,21 @@ void ModuleCar::KartLogic()
 	{
 		onTheGround = true;
 		desiredUp = hitF.normal;
-		newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
-		speed = -speed / 4;
+		if (hitB.object == nullptr)
+		{
+			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
+			speed = -speed / 4;
+		}
 	}
 	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
 		onTheGround = true;
 		desiredUp = hitB.normal;
-		newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
-		speed = -speed / 4;
+		if (hitF.object == nullptr)
+		{
+			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
+			speed = -speed / 4;
+		}
 	}
 	desiredUp.Normalize();
 
