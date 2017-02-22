@@ -407,60 +407,30 @@ Directory * Assets::FindDirectory(const string & dir)const
 	return (path_found) ? found : nullptr;
 }
 
-AssetFile * Assets::FindAssetFile(const string & file)
+AssetFile* Assets::FindAssetFile(const string & file)
 {
-	string dir_part;
-	vector<string> dir_splitted;
-	dir_part = root->path;
-	while (dir_part != file)
+	return FindAssetFileRecursive(file, root);
+}
+
+AssetFile* Assets::FindAssetFileRecursive(const string& file, Directory* directory)
+{
+	for (vector<AssetFile*>::iterator asset = directory->files.begin(); asset != directory->files.end(); ++asset)
 	{
-		string tmp = file.substr(dir_part.length(), file.length());
-		size_t pos = tmp.find_first_of("/\\");
-		if (pos != string::npos)
+		if ((*asset)->original_file == file)
 		{
-			dir_part.append(tmp, 0, pos + 1);
-			dir_splitted.push_back(dir_part);
-		}
-		else
-		{
-			dir_part.append(tmp, 0, tmp.length());
-			dir_splitted.push_back(dir_part);
-			break;
+			return *asset;
 		}
 	}
 
-	Directory* found = root;
-	bool path_found = false;
-	AssetFile* ret = nullptr;
-	for (vector<string>::iterator split = dir_splitted.begin(); split != dir_splitted.end(); ++split)
+	for (vector<Directory*>::iterator dir = directory->directories.begin(); dir != directory->directories.end(); ++dir)
 	{
-		path_found = false;
-		if ((*split) == *dir_splitted.rbegin())
+		AssetFile* ret = FindAssetFileRecursive(file, *dir);
+		if (ret != nullptr)
 		{
-			for (vector<AssetFile*>::iterator asset = found->files.begin(); asset != found->files.end(); ++asset)
-			{
-				if ((*asset)->original_file == (*split))
-				{
-					ret = (*asset);
-					break;
-				}
-			}
-			break;
+			return ret;
 		}
-		for (vector<Directory*>::iterator directory = found->directories.begin(); directory != found->directories.end(); ++directory)
-		{
-			if ((*directory)->path == (*split))
-			{
-				found = (*directory);
-				path_found = true;
-				break;
-			}
-		}
-		if (!path_found)
-			break;
 	}
-
-	return ret;
+	return nullptr;
 }
 
 bool Assets::IsSceneExtension(const std::string& file_name) const

@@ -79,6 +79,8 @@ private:
 	void GameObjectMenu();
 
 	bool QuitWindow();
+	void OnSaveCall();
+	void OpenSaveSceneWindow();
 	void SaveSceneWindow();
 
 public:

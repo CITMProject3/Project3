@@ -54,6 +54,8 @@ private:
 	void CleanUp();
 	void FillDirectoriesRecursive(Directory* root_dir);
 	void DeleteDirectoriesRecursive(Directory* root_dir, bool keep_root = false);
+	AssetFile* FindAssetFileRecursive(const string& file, Directory* directory);
+
 public:
 	Directory* FindDirectory(const string& dir)const;
 	AssetFile* FindAssetFile(const string& file);

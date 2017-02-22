@@ -340,6 +340,8 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
 		name_to_save += ".ezx";
 
+	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
+
 	App->file_system->Save(name_to_save.data(), buf, size);
 	
 

@@ -62,7 +62,7 @@ public:
 	void ClearScene(); //Removes the current scene
 	GameObject* LoadGameObject(const Data& go_data);
 	void SetCurrentScenePath(const char* scene_path);
-
+	const char* GetCurrentScenePath();
 	//Handles the insertion / remove of the octree and dynamic gameobjects list. TODO: Rename the methods. Look confusing.
 	bool InsertGameObjectInOctree(GameObject* go);
 	bool RemoveGameObjectOfOctree(GameObject* go);

@@ -399,6 +399,11 @@ void ModuleGOManager::SetCurrentScenePath(const char * scene_path)
 	current_scene_path = scene_path;
 }
 
+const char* ModuleGOManager::GetCurrentScenePath()
+{
+	return current_scene_path.c_str();
+}
+
 void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
 {
 	const char* name = go_data.GetString("name");
