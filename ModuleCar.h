@@ -43,6 +43,7 @@ public:
 
 	GameObject* track = nullptr;
 	GameObject* light = nullptr;
+	char tmpOutput[1024];
 
 	ComponentTransform* kart_trs = nullptr;
 
