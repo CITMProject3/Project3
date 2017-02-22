@@ -10,6 +10,8 @@
 #include "ComponentLight.h"
 #include "LayerSystem.h"
 
+#include "MeshImporter.h"
+
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
 
@@ -146,6 +148,42 @@ GameObject* ModuleGOManager::CreateLight(GameObject* parent, LightType type)
 		case(DIRECTIONAL_LIGHT): obj->name = "Directional Light"; break;
 	}
 	return obj;
+}
+
+void ModuleGOManager::CreatePrimitive(PrimitiveType type)
+{
+	GameObject *primitive = CreateGameObject(root);														// Creating empty GO with root as parent
+	ComponentMesh *mesh_comp = ((ComponentMesh*)primitive->AddComponent(ComponentType::C_MESH));	    // Adding Component Mesh
+	primitive->AddComponent(ComponentType::C_MATERIAL);													// Adding Default Material
+	
+	string prim_path = "Resources/Primitives/";
+
+	switch (type)
+	{
+		case(PrimitiveType::P_CUBE):
+		{
+			primitive->name.assign("Cube");
+			prim_path += "Cube.msh"; break;
+		}
+		case(PrimitiveType::P_SPHERE):
+		{
+			primitive->name.assign("Sphere");
+			prim_path += "Sphere.msh"; break;
+		}
+		case(PrimitiveType::P_PLANE):
+		{
+			primitive->name.assign("Plane");
+			prim_path += "Plane.msh"; break;
+		}
+		case(PrimitiveType::P_CYLINDER):
+		{
+			primitive->name.assign("Cylinder");
+			prim_path += "Cylinder.msh"; break;
+		}
+	}
+
+	// Loading mesh for each primitive
+	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));
 }
 
 bool ModuleGOManager::RemoveGameObject(GameObject* object)

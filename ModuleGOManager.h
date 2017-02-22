@@ -16,6 +16,14 @@ enum LightType;
 
 #define OCTREE_SIZE 800
 
+enum PrimitiveType
+{
+	P_CUBE,
+	P_SPHERE,
+	P_PLANE,
+	P_CYLINDER
+};
+
 class ModuleGOManager : public Module
 {
 public:
@@ -28,8 +36,12 @@ public:
 	update_status Update();
 	void SaveBeforeClosing(Data& data)const;
 
+	// Factory methods
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* CreateLight(GameObject* parent, LightType type);
+	void CreatePrimitive(PrimitiveType type);
+
+	PrimitiveTypes d;
 
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); //Doesn't remove the GameObject from the parent list.

@@ -90,7 +90,7 @@ void ComponentMesh::OnTransformModified()
 	RecalculateBoundingBox();
 }
 
-bool ComponentMesh::SetMesh(Mesh * mesh)
+bool ComponentMesh::SetMesh(Mesh *mesh)
 {
 	bool ret = false;
 	if (mesh)
