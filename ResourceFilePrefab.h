@@ -15,11 +15,17 @@ public:
 	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent)const; //Loads a prefab from a scene file
 	void Save(); //Applies new changes
 
+	void UnloadInstance(GameObject* instance);
+	void ApplyChanges(GameObject* gameobject);
+
 private:
 	void LoadInMemory();
 	void UnloadInMemory();
 
 	void CreateChildsByUUID(const Data & go_data, map<unsigned int, unsigned int>& uuids, unsigned int uuid, list<GameObject*> parents)const;
+
+	void SaveNewChanges(GameObject* gameobject)const;
+	void SaveChangesGameObject(Data& file, GameObject* gameobject)const;
 
 private:
 	list<GameObject*> instances;

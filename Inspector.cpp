@@ -57,6 +57,13 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 		if (selected_GO->IsPrefab())
 		{
 			ImGui::TextColored(ImVec4(0, 0.5f, 1, 1), "Prefab: ");
+			ImGui::SameLine();
+			if (ImGui::Button("Apply"))
+			{
+				selected_GO->ApplyPrefabChanges();
+			}
+			ImGui::SameLine();
+			ImGui::Button("Revert");
 		}
 
 		ImGui::Separator();

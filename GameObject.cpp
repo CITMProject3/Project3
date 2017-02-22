@@ -8,6 +8,7 @@
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
+#include "ResourceFilePrefab.h"
 
 GameObject::GameObject()
 {
@@ -44,6 +45,12 @@ GameObject::~GameObject()
 
 	components.clear();
 	components_to_remove.clear();
+
+	if (rc_prefab)
+	{
+		rc_prefab->UnloadInstance(this);
+		rc_prefab->Unload();
+	}
 }
 
 void GameObject::PreUpdate()
@@ -365,6 +372,7 @@ void GameObject::SaveAsChildPrefab(Data & file) const
 	Data data;
 
 	data.AppendUInt("uuid", uuid);
+	data.AppendUInt("local_uuid", local_uuid);
 
 	for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
 		(*child)->SaveAsChildPrefab(file);
@@ -435,4 +443,12 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 	}
 
 	return ret;
+}
+
+void GameObject::ApplyPrefabChanges()
+{
+	if (rc_prefab)
+	{
+		rc_prefab->ApplyChanges(this);
+	}
 }

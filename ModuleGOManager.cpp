@@ -345,6 +345,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		if (rc_prefab)
 		{
 			go = rc_prefab->LoadPrefabFromScene(go_data, parent);
+			go->rc_prefab = rc_prefab;
 		}
 	}
 

@@ -10,6 +10,7 @@ enum ComponentType;
 struct Mesh;
 class RaycastHit;
 class Data;
+class ResourceFilePrefab;
 
 class GameObject
 {
@@ -52,6 +53,8 @@ public:
 
 	bool RayCast(const Ray& ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
 
+	void ApplyPrefabChanges();
+
 public:
 	std::string name;
 	//Filled the moment to draw. Do not use it elsewhere.
@@ -63,6 +66,8 @@ public:
 	int layer = 0;
 
 	std::string prefab_path;
+	ResourceFilePrefab* rc_prefab = nullptr;
+	unsigned int prefab_root_uuid = 0;
 private:
 	GameObject* parent = NULL;
 	std::vector<GameObject*> childs;
@@ -76,7 +81,7 @@ private:
 	bool is_prefab = false;
 	unsigned int uuid = 0;
 
-	unsigned int prefab_root_uuid = 0;
+	
 	
 	
 };
