@@ -124,6 +124,9 @@ bool ModuleCar::CleanUp()
 
 void ModuleCar::KartLogic()
 {
+	float3 pos = kart_trs->GetPosition();
+	float3 newPos = pos;
+
 	math::Ray rayF;
 	rayF.dir = -kart_trs->GetGlobalMatrix().WorldY();
 	rayF.pos = kart_trs->GetPosition();
@@ -155,7 +158,7 @@ void ModuleCar::KartLogic()
 	}
 	desiredUp.Normalize();
 
-	float3 nextStep = kart_trs->GetGlobalMatrix().WorldY().Lerp(desiredUp, 0.1f);
+	float3 nextStep = kart_trs->GetGlobalMatrix().WorldY().Lerp(desiredUp, 4.0f * time->DeltaTime());
 
 	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() + desiredUp, float4(1,0,0,1));
 	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() * 2, float4(0,0,1,1));	
@@ -163,11 +166,15 @@ void ModuleCar::KartLogic()
 
 	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * 4, kart_trs->GetPosition() - kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * 4, float4(1, 0, 0, 1));
 
-	//Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), nextStep);
-	//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
+	float3 __tmp = kart_trs->GetRotation().WorldY();
 
-	float3 pos = kart_trs->GetPosition();
-	float3 newPos = pos;
+	Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), nextStep);
+	float aaa = normal_rot.Angle();
+	if (normal_rot.Angle() > 0.01f)
+	{
+		kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
+	}
+
 	float acceleration = 0.0f;
 
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::A))
