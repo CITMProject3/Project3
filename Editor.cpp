@@ -24,6 +24,7 @@
 #include "TestWindow.h"
 #include "GameObject.h"
 #include "RaycastHit.h"
+#include "ModuleCar.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -510,6 +511,10 @@ void Editor::DebugMenu()
 	if (ImGui::MenuItem("Show/Hide Octree"))
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
+	}
+	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	{
+		App->car->Load();
 	}
 }
 

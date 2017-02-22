@@ -36,6 +36,7 @@ private:
 	float fallSpeed = 0.0f;
 
 	bool loaded = false;
+	bool wantToLoad = false;
 	bool firstFrameOfExecution = true;
 
 	GameObject* kart = nullptr;
@@ -61,10 +62,11 @@ public:
 	bool Start();
 	update_status PreUpdate();
 	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
 
+	void Load();
 private:
+	void LoadNow();
+
 	void KartLogic();
 
 	float AccelerationInput();

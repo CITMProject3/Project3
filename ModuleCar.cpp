@@ -42,43 +42,10 @@ bool ModuleCar::Start()
 // Called every draw update
 update_status ModuleCar::PreUpdate()
 {
-	if (loaded == false)
+	if (loaded == false && wantToLoad)
 	{
-		FindKartGOs();
-
-		if (kart == nullptr || kart_trs == nullptr)
-		{
-			AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
-			if (kartFile != nullptr)
-			{
-				App->resource_manager->LoadFile(kartFile->content_path, FileType::MESH);
-			}
-		}
-		if (track == nullptr)
-		{
-			AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
-			if (trackFile != nullptr)
-			{
-				App->resource_manager->LoadFile(trackFile->content_path, FileType::MESH);
-			}
-		}
-
-		if (light == nullptr)
-		{
-			light = App->go_manager->CreateGameObject(NULL);
-			light->name = "Directional_Light";
-			light->AddComponent(ComponentType::C_LIGHT);
-			ComponentTransform* tmp = (ComponentTransform*)light->GetComponent(C_TRANSFORM);
-			tmp->SetRotation(float3(50, -10, -50));
-		}
-		if (cam != nullptr)
-		{
-			if (cam->GetComponent(C_CAMERA) == nullptr)
-			{
-				camera = (ComponentCamera*)cam->AddComponent(C_CAMERA);
-			}
-		}
-		loaded = true;
+		wantToLoad = false;
+		LoadNow();
 	}
 
 	return UPDATE_CONTINUE;
@@ -90,15 +57,15 @@ update_status ModuleCar::Update()
 	{
 		if (firstFrameOfExecution)
 		{
+			FindKartGOs();
 			App->renderer3D->SetCamera(camera);
 			firstFrameOfExecution = false;
 		}
 
-		Car_Debug_Ui();
-
 		if (kart && kart_trs)
 		{
 			KartLogic();
+			Car_Debug_Ui();
 		}
 	}
 	else
@@ -113,15 +80,51 @@ update_status ModuleCar::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCar::PostUpdate()
+void ModuleCar::Load()
 {
-	return UPDATE_CONTINUE;
+	wantToLoad = true;
 }
 
-// Called before quitting
-bool ModuleCar::CleanUp()
+void ModuleCar::LoadNow()
 {
-	return true;
+	FindKartGOs();
+
+	if (kart == nullptr || kart_trs == nullptr)
+	{
+		AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
+		if (kartFile != nullptr)
+		{
+			App->resource_manager->LoadFile(kartFile->content_path, FileType::MESH);
+		}
+	}
+	if (track == nullptr)
+	{
+		AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
+		if (trackFile != nullptr)
+		{
+			App->resource_manager->LoadFile(trackFile->content_path, FileType::MESH);
+		}
+	}
+
+	FindKartGOs();
+
+	if (light == nullptr)
+	{
+		light = App->go_manager->CreateGameObject(NULL);
+		light->name = "Directional_Light";
+		light->AddComponent(ComponentType::C_LIGHT);
+		ComponentTransform* tmp = (ComponentTransform*)light->GetComponent(C_TRANSFORM);
+		tmp->SetRotation(float3(50, -10, -50));
+	}
+	if (cam != nullptr)
+	{
+		camera = (ComponentCamera*)cam->GetComponent(C_CAMERA);
+		if (camera == nullptr)
+		{
+			camera = (ComponentCamera*)cam->AddComponent(C_CAMERA);
+		}
+	}
+	loaded = true;
 }
 
 void ModuleCar::KartLogic()
