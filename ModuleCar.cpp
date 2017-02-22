@@ -154,23 +154,25 @@ void ModuleCar::KartLogic()
 	{
 		onTheGround = true;
 		desiredUp = hitF.normal;
-		if (hitB.object == nullptr)
-		{
-			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
-			speed = -speed / 4;
-		}
 	}
 	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
 		onTheGround = true;
 		desiredUp = hitB.normal;
-		if (hitF.object == nullptr)
-		{
-			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
-			speed = -speed / 4;
-		}
 	}
 	desiredUp.Normalize();
+
+	//Checking if the kart is still on the track
+	math::Ray rayN;
+	rayN.dir = float3(0, -1, 0);
+	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
+	//Raycasting, checking only for the NavMesh layer
+	RaycastHit hitN = App->go_manager->Raycast(rayN, std::vector<int>(1, track->layer));
+	if (hitN.object == nullptr)
+	{
+		newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
+		speed = -speed / 4;
+	}
 
 	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
 	{
