@@ -42,6 +42,7 @@ public:
 	ComponentCamera* camera = nullptr;
 
 	GameObject* track = nullptr;
+	GameObject* light = nullptr;
 
 	ComponentTransform* kart_trs = nullptr;
 
@@ -60,7 +61,7 @@ public:
 	void Steer(float amount);
 
 	void Car_Debug_Ui();
-
+	void FindKartGOs();
 	
 };
 

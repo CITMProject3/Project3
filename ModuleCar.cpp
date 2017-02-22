@@ -42,82 +42,39 @@ update_status ModuleCar::PreUpdate()
 {
 	if (loaded == false)
 	{
-#pragma region loading_the_kart
-		AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
-		if (kartFile != nullptr)
-		{
-			App->resource_manager->LoadFile(kartFile->content_path, FileType::MESH);
+		FindKartGOs();
 
-			const vector<GameObject*>* rootChilds = App->go_manager->root->GetChilds();
-			for (vector<GameObject*>::const_iterator it = rootChilds->cbegin(); it != rootChilds->cend(); it++)
+		if (kart == nullptr || kart_trs == nullptr)
+		{
+			AssetFile* kartFile = App->editor->assets->FindAssetFile("/Assets/kart.fbx");
+			if (kartFile != nullptr)
 			{
-				if ((*it)->name == "pivot")
-				{
-					kart = *it;
-				}
+				App->resource_manager->LoadFile(kartFile->content_path, FileType::MESH);
+			}
+		}
+		if (track == nullptr)
+		{
+			AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
+			if (trackFile != nullptr)
+			{
+				App->resource_manager->LoadFile(trackFile->content_path, FileType::MESH);
 			}
 		}
 
-		if (kart != nullptr)
+		if (light == nullptr)
 		{
-			kart_trs = (ComponentTransform*)kart->GetComponent(ComponentType::C_TRANSFORM);
-
-			const vector<GameObject*>* childs = kart->GetChilds();
-			for (vector<GameObject*>::const_iterator it = childs->cbegin(); it != childs->cend(); it++)
-			{
-				if ((*it)->name == "chasis")
-				{
-					chasis = *it;
-				}
-				else if ((*it)->name == "camera")
-				{
-					cam = *it;
-				}
-			}
+			light = App->go_manager->CreateGameObject(NULL);
+			light->name = "Directional_Light";
+			light->AddComponent(ComponentType::C_LIGHT);
+			ComponentTransform* tmp = (ComponentTransform*)light->GetComponent(C_TRANSFORM);
+			tmp->SetRotation(float3(50, -10, -50));
 		}
-
-		if (chasis != nullptr)
+		if (cam != nullptr)
 		{
-			const vector<GameObject*>* childs = chasis->GetChilds();
-			for (vector<GameObject*>::const_iterator it = childs->cbegin(); it != childs->cend(); it++)
+			if (cam->GetComponent(C_CAMERA) == nullptr)
 			{
-				if ((*it)->name == "F_wheel")
-				{
-					frontWheel = *it;
-				}
-				else if ((*it)->name == "B_wheel")
-				{
-					backWheel = *it;
-				}
+				camera = (ComponentCamera*)cam->AddComponent(C_CAMERA);
 			}
-		}
-#pragma endregion
-
-#pragma region loading_the_test_track
-		AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
-		if (trackFile != nullptr)
-		{
-			App->resource_manager->LoadFile(trackFile->content_path, FileType::MESH);
-
-			const vector<GameObject*>* rootChilds = App->go_manager->root->GetChilds();
-			for (vector<GameObject*>::const_iterator it = rootChilds->cbegin(); it != rootChilds->cend(); it++)
-			{
-				if ((*it)->name == "track_test")
-				{
-					track = *it;
-				}
-			}
-		}
-#pragma endregion
-
-		GameObject* light = App->go_manager->CreateGameObject(NULL);
-		light->AddComponent(ComponentType::C_LIGHT);
-		ComponentTransform* tmp = (ComponentTransform*) light->GetComponent(C_TRANSFORM);
-		tmp->SetRotation(float3(50, -10, -50));
-
-		if (cam)
-		{
-			camera = (ComponentCamera*)cam->AddComponent(C_CAMERA);
 		}
 		loaded = true;
 	}
@@ -147,6 +104,7 @@ update_status ModuleCar::Update()
 		if (firstFrameOfExecution == false)
 		{
 			App->renderer3D->SetCamera(App->camera->GetEditorCamera());
+			FindKartGOs();
 			firstFrameOfExecution = true;
 		}
 	}
@@ -316,5 +274,56 @@ void ModuleCar::Car_Debug_Ui()
 		ImGui::DragFloat("Current Steer", &currentSteer);
 		ImGui::Checkbox("Steering", &steering);
 		ImGui::End();
+	}
+}
+
+void ModuleCar::FindKartGOs()
+{
+	kart = nullptr;
+	chasis = nullptr;
+	frontWheel = nullptr;
+	backWheel = nullptr;
+	cam = nullptr;	
+	track = nullptr;
+	kart_trs = nullptr;
+	camera = nullptr;
+	light = nullptr;
+
+	const vector<GameObject*>* rootChilds = App->go_manager->root->GetChilds();
+	for (vector<GameObject*>::const_iterator it = rootChilds->cbegin(); it != rootChilds->cend(); it++)
+	{
+		if ((*it)->name == "pivot")
+		{
+			kart = *it;
+			kart_trs = (ComponentTransform*)kart->GetComponent(ComponentType::C_TRANSFORM);
+			const vector<GameObject*>* kartChilds = kart->GetChilds();
+			for (vector<GameObject*>::const_iterator it = kartChilds->cbegin(); it != kartChilds->cend(); it++)
+			{
+				if ((*it)->name == "chasis")
+				{
+					chasis = *it;
+					const vector<GameObject*>* chasisChilds = chasis->GetChilds();
+					for (vector<GameObject*>::const_iterator it = chasisChilds->cbegin(); it != chasisChilds->cend(); it++)
+					{
+						if ((*it)->name == "F_wheel") {	frontWheel = *it; }
+						else if ((*it)->name == "B_wheel") { backWheel = *it; }
+					}
+				}
+				else if ((*it)->name == "camera")
+				{
+					cam = *it;
+					camera = (ComponentCamera*) cam->GetComponent(C_CAMERA);
+				}
+			}
+		}
+
+		if ((*it)->name == "track_test")
+		{
+			track = *it;
+		}
+		if ((*it)->name == "Directional_Light")
+		{
+			light = *it;
+		}		
 	}
 }

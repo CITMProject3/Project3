@@ -221,7 +221,7 @@ const ComponentCamera* ModuleRenderer3D::GetCamera() const
 
 void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 {
-	if (this->camera != camera)
+	if (this->camera != camera && camera != nullptr)
 	{
 		this->camera = camera;
 		UpdateProjectionMatrix();
