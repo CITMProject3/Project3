@@ -124,26 +124,46 @@ bool ModuleCar::CleanUp()
 
 void ModuleCar::KartLogic()
 {
-	math::Ray ray;
-	ray.dir = -kart_trs->GetGlobalMatrix().WorldY();
-	ray.pos = kart_trs->GetPosition();
-	ray.pos += kart_trs->GetGlobalMatrix().WorldY();
+	math::Ray rayF;
+	rayF.dir = -kart_trs->GetGlobalMatrix().WorldY();
+	rayF.pos = kart_trs->GetPosition();
+	rayF.pos += kart_trs->GetGlobalMatrix().WorldY() + kart_trs->GetGlobalMatrix().WorldZ();
+	RaycastHit hitF = App->go_manager->Raycast(rayF, std::vector<int>(1, track->layer));
 
-	RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, track->layer));
+	math::Ray rayB;
+	rayB.dir = -kart_trs->GetGlobalMatrix().WorldY();
+	rayB.pos = kart_trs->GetPosition();
+	rayB.pos += kart_trs->GetGlobalMatrix().WorldY() - kart_trs->GetGlobalMatrix().WorldZ();
+	RaycastHit hitB = App->go_manager->Raycast(rayB, std::vector<int>(1, track->layer));
 
-	if (hit.object != nullptr && hit.distance < 5)
+	desiredUp = float3::zero;
+	if ((hitF.object != nullptr && hitF.distance < 5) && (hitB.object != nullptr && hitB.distance < 5))
 	{
-		desiredUp = hit.normal;
-		sprintf(tmpOutput, "Hit object: %s\n\nPos: %f, %f, %f\nNormal: %f, %f, %f", hit.object->name.data(), hit.point.x, hit.point.y, hit.point.z, hit.normal.x, hit.normal.y, hit.normal.z);
+		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
+	}
+	else if ((hitF.object != nullptr && hitF.distance < 5) && !(hitB.object != nullptr && hitB.distance < 5))
+	{
+		desiredUp = hitF.normal;
+	}
+	else if (!(hitF.object != nullptr && hitF.distance < 5) && (hitB.object != nullptr && hitB.distance < 5))
+	{
+		desiredUp = hitB.normal;
 	}
 	else
 	{
 		desiredUp = float3(0, 1, 0);
-		if (hit.distance > 5) { sprintf(tmpOutput, "Too far from object: %s", hit.object->name.data()); }
-		else { sprintf(tmpOutput, "No hit"); }
 	}
+	desiredUp.Normalize();
 
-	//Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), desiredUp);
+	float3 nextStep = kart_trs->GetGlobalMatrix().WorldY().Lerp(desiredUp, 0.1f);
+
+	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() + desiredUp, float4(1,0,0,1));
+	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() * 2, float4(0,0,1,1));	
+	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY(), kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldY() + nextStep, float4(0, 1, 0, 1));
+
+	App->renderer3D->DrawLine(kart_trs->GetPosition() + kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * 4, kart_trs->GetPosition() - kart_trs->GetGlobalMatrix().WorldZ() * 2 - kart_trs->GetGlobalMatrix().WorldY() * 4, float4(1, 0, 0, 1));
+
+	//Quat normal_rot = Quat::RotateFromTo(kart_trs->GetRotation().WorldY(), nextStep);
 	//kart_trs->SetRotation(kart_trs->GetRotation() * normal_rot);
 
 	float3 pos = kart_trs->GetPosition();

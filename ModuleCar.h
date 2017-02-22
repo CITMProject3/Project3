@@ -22,6 +22,8 @@ public:
 	float maneuverability = 6.0f;
 	float maxSteer = 160.0f;
 	float drag = 0.3f;
+	//Speed at which the car normal tries to reach the terrain normal
+	float normalSpeed = 1.0f;
 
 private:
 	float speed = 0.0f;
