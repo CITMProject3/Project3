@@ -27,6 +27,8 @@ private:
 	void SaveNewChanges(GameObject* gameobject)const;
 	void SaveChangesGameObject(Data& file, GameObject* gameobject, unsigned int prefab_root_uuid)const;
 
+	void ResetInstance(GameObject* gameobject, vector<GameObject*>& new_gameobjects)const;
+
 private:
 	list<GameObject*> instances;
 };

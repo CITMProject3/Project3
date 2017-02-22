@@ -54,6 +54,7 @@ public:
 	bool RayCast(const Ray& ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
 
 	void ApplyPrefabChanges();
+	void CollectChildrenUUID(std::vector<unsigned int>& uuid, std::vector<unsigned int>& local_uuid)const;
 
 public:
 	std::string name;
@@ -65,7 +66,7 @@ public:
 	unsigned int local_uuid = 0;
 	int layer = 0;
 
-	std::string prefab_path;
+	std::string prefab_path = "";
 	ResourceFilePrefab* rc_prefab = nullptr;
 	unsigned int prefab_root_uuid = 0;
 private:

@@ -173,7 +173,19 @@ void ResourceFilePrefab::ApplyChanges(GameObject* gameobject)
 {
 	//Serialize the GO as new prefab
 	SaveNewChanges(gameobject);
+
 	//LoadAgain all prefabs in instances
+	vector<GameObject*> new_gameobjects;
+	for (list<GameObject*>::iterator it = instances.begin(); it != instances.end(); ++it)
+		ResetInstance(*it, new_gameobjects);
+
+	instances.clear();
+
+	for (vector<GameObject*>::iterator it = new_gameobjects.begin(); it != new_gameobjects.end(); ++it)
+		instances.push_back((*it));
+
+	//TODO:
+	//Selected go bug
 }
 
 void ResourceFilePrefab::LoadInMemory()
@@ -262,7 +274,7 @@ void ResourceFilePrefab::SaveNewChanges(GameObject * gameobject) const
 
 	delete[] buf;
 
-	
+	gameobject->SetParent(parent);
 }
 
 void ResourceFilePrefab::SaveChangesGameObject(Data & file, GameObject* gameobject, unsigned int prefab_root_uuid) const
@@ -299,5 +311,120 @@ void ResourceFilePrefab::SaveChangesGameObject(Data & file, GameObject* gameobje
 	const vector<GameObject*>* childs = gameobject->GetChilds();
 	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
 		SaveChangesGameObject(file, *child, prefab_root_uuid);
+}
+
+void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>& new_gameobjects) const
+{
+	const char* name = origin->name.data();
+	unsigned int uuid = origin->GetUUID();
+	unsigned int local_uuid = origin->local_uuid;
+	unsigned int uuid_parent = origin->GetParent()->GetUUID();
+
+	//parent = App->go_manager->FindGameObjectByUUID(root, uuid_parent); //I wil deal with this later
+	bool active = origin->IsActive();
+	bool is_prefab = true;
+	unsigned int prefab_root_uuid = origin->prefab_root_uuid;
+
+	GameObject* game_object = new GameObject(name, uuid, origin->GetParent(), active, false, true, 0, prefab_root_uuid, file_path);
+
+	if (origin->GetParent())
+		origin->GetParent()->AddChild(game_object);
+
+	ComponentTransform* c_transform = (ComponentTransform*)game_object->GetComponent(ComponentType::C_TRANSFORM);
+	ComponentTransform* origin_c_transform = (ComponentTransform*)origin->GetComponent(ComponentType::C_TRANSFORM);
+	float3 position = origin_c_transform->GetPosition();
+	float3 rotation = origin_c_transform->GetRotationEuler();
+
+	c_transform->SetPosition(position);
+	c_transform->SetRotation(rotation);
+
+	char* buffer = nullptr;
+	uint size = App->file_system->Load(file_path.data(), &buffer);
+	if (size == 0)
+	{
+		LOG("Error while loading: %s", file_path.data());
+		if (buffer)
+			delete[] buffer;
+		return;
+	}
+	Data prefab_file(buffer);
+	Data root_prefab;
+
+	root_prefab = prefab_file.GetArray("GameObjects", 0);
+
+	//Read the prefab file and create all other variables
+	bool is_static = root_prefab.GetBool("static");
+	int layer = root_prefab.GetInt("layer");
+
+	game_object->SetStatic(is_static); //TODO: ERROR WITH THIS. the objects are not inserted right.
+	game_object->layer = layer;
+	game_object->local_uuid = local_uuid;
+
+	Data component;
+	unsigned int comp_size = root_prefab.GetArraySize("components");
+	for (int i = 0; i < comp_size; i++)
+	{
+		component = root_prefab.GetArray("components", i);
+
+		int type = component.GetInt("type");
+		Component* go_component;
+		if (type != (int)ComponentType::C_TRANSFORM)
+		{
+			go_component = game_object->AddComponent(static_cast<ComponentType>(type));
+			go_component->Load(component);
+		}
+		else
+		{
+			c_transform->SetScale(component.GetFloat3("scale"));
+			c_transform->Update(); //To update the matrix manually
+		}
+	}
+
+	//go childs specifiying the uuid
+	//read the prefab_file and create new GO with the given uuid
+	
+	vector<unsigned int> c_childs_uuid;
+	vector<unsigned int> c_childs_local_uuid;
+	origin->CollectChildrenUUID(c_childs_uuid, c_childs_local_uuid);
+	Data child_uuid_info;
+	map<unsigned int, unsigned int> childs_uuid;
+	for (int i = 0; i < c_childs_uuid.size(); i++)
+	{
+		
+		int child_uuid = c_childs_uuid[i];
+		int child_local_uuid = c_childs_local_uuid[i];
+
+		childs_uuid.insert(pair<unsigned int, unsigned int>(child_local_uuid, child_uuid));
+	}
+
+	map<unsigned int, unsigned int> uuids;
+	uuids.insert(pair<unsigned int, unsigned int>(local_uuid, uuid));
+	list<GameObject*> parents;
+	parents.push_back(game_object);
+	for (int i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
+	{
+		//Read the uuid of the prefab
+		//find the local uuid of the child
+
+		//find it -> great, pass the uuid and the local
+		//not find-> new go, new uuid
+		unsigned int prefab_go_uuid = prefab_file.GetArray("GameObjects", i).GetUInt("UUID");
+
+		unsigned int child_uuid = 0;
+		map<unsigned int, unsigned int>::iterator child_it = childs_uuid.find(prefab_go_uuid);
+		if (child_it != childs_uuid.end())
+		{
+			child_uuid = (*child_it).second;
+		}
+		else
+		{
+			child_uuid = App->rnd->RandomInt();
+		}
+
+		CreateChildsByUUID(prefab_file.GetArray("GameObjects", i), uuids, child_uuid, parents);
+	}
+
+	new_gameobjects.push_back(game_object);
+	App->go_manager->RemoveGameObject(origin);
 }
 

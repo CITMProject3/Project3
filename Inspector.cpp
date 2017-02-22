@@ -61,6 +61,9 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 			if (ImGui::Button("Apply"))
 			{
 				selected_GO->ApplyPrefabChanges();
+				App->editor->selected_GO = nullptr;
+				ImGui::End();
+				return; //TODO: Improve this patch
 			}
 			ImGui::SameLine();
 			ImGui::Button("Revert");

@@ -452,3 +452,15 @@ void GameObject::ApplyPrefabChanges()
 		rc_prefab->ApplyChanges(this);
 	}
 }
+
+void GameObject::CollectChildrenUUID(vector<unsigned int>& uuid, vector<unsigned int>& local_uuid) const
+{
+	vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		uuid.push_back((*it)->GetUUID());
+		local_uuid.push_back((*it)->local_uuid);
+
+		(*it)->CollectChildrenUUID(uuid, local_uuid);
+	}
+}
