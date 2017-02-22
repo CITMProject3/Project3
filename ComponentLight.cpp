@@ -16,7 +16,7 @@ ComponentLight::~ComponentLight()
 
 void ComponentLight::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Light", &alive, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		ImGui::Text("Light type: ");
 		ImGui::SameLine();
@@ -44,6 +44,8 @@ void ComponentLight::OnInspector()
 			break;
 		}
 	}
+	else
+		Remove();
 }
 
 void ComponentLight::Save(Data & file) const

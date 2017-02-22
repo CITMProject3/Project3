@@ -35,8 +35,11 @@ public:
 	virtual void Remove();
 	virtual void Load(Data& config);
 
+	void ComponentOptions();
+
 protected:
 	bool active = true;
+	bool alive = true;
 	ComponentType type;
 	GameObject* game_object = nullptr;
 	unsigned int uuid = 0;

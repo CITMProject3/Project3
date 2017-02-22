@@ -39,7 +39,7 @@ void ComponentMesh::Update()
 
 void ComponentMesh::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Geometry Mesh", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Geometry Mesh", &alive, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		//Active
 		bool is_active = IsActive();
@@ -77,12 +77,13 @@ void ComponentMesh::OnInspector()
 			ImGui::TextColored(ImVec4(1, 0, 0, 1), "WARNING");
 			ImGui::SameLine(); ImGui::Text("No mesh was loaded.");
 		}
-
 		if (ImGui::Button("Remove ##mesh_rem"))
 		{
 			Remove();
 		}
 	}
+	else
+		Remove();
 }
 
 void ComponentMesh::OnTransformModified()

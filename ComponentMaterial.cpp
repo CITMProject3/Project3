@@ -18,7 +18,7 @@ ComponentMaterial::~ComponentMaterial()
 
 void ComponentMaterial::OnInspector()
 {
-	if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Material", &alive, ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (material_path.size() == 0)
 		{
@@ -35,7 +35,7 @@ void ComponentMaterial::OnInspector()
 			ImGui::Text("Material: %s", material_name.data());
 			PrintMaterialProperties();
 		}
-		
+
 
 		if (ImGui::Button("Change material"))
 		{
@@ -94,6 +94,8 @@ void ComponentMaterial::OnInspector()
 			}
 		}
 	}
+	else
+		Remove();
 }
 
 void ComponentMaterial::Update()
