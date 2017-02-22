@@ -23,6 +23,8 @@
 #include "ComponentCamera.h"
 #include "TestWindow.h"
 #include "GameObject.h"
+#include "RaycastHit.h"
+#include "ModuleCar.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -276,7 +278,7 @@ void Editor::HandleInput()
 		{
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			//TODO:(Ausiàs) change game_object for a list
-			GameObject* game_object = App->go_manager->Raycast(ray);
+			GameObject* game_object = App->go_manager->Raycast(ray, std::vector<int>(), true).object;
 
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
 				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
@@ -285,7 +287,7 @@ void Editor::HandleInput()
 			}
 			else
 			{
-				SelectSingle(App->go_manager->Raycast(ray));
+				SelectSingle(App->go_manager->Raycast(ray, std::vector<int>(), true).object);
 			}
 		}
 	}
@@ -509,6 +511,10 @@ void Editor::DebugMenu()
 	if (ImGui::MenuItem("Show/Hide Octree"))
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
+	}
+	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	{
+		App->car->Load();
 	}
 }
 
