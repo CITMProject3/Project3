@@ -6,6 +6,11 @@
 #include "ComponentMesh.h"
 #include "Data.h"
 
+//CHANGE - PEP
+//Not sure to include this here, maybe better to create a new file
+//#include "ModuleRenderer3D.h"
+//#include "Application.h"
+
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
 	CalculateFinalTransform();
@@ -129,7 +134,15 @@ void ComponentTransform::SetScale(const math::float3& scale)
 //CHANGE - PEP
 void ComponentTransform::SetGizmo()
 {
+	//WELL WTF
+	/*ImGuizmo::Manipulate((float*)&(App->renderer3D->ViewMatrix), 
+						(float*)&(App->renderer3D->ProjectionMatrix),
+						(ImGuizmo::OPERATION)guizmo_op, 
+						ImGuizmo::WORLD, 
+						(float*)&final_transform_matrix,
+						NULL, NULL);*/
 
+	transform_modified = true;
 }
 
 math::float3 ComponentTransform::GetPosition() const
