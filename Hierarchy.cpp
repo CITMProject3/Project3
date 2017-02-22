@@ -89,17 +89,17 @@ void Hierarchy::Draw()
 		if (ImGui::BeginMenu("3D Object"))
 		{
 			if (ImGui::MenuItem("Cube"))
-			{
-
-			}
+				App->go_manager->CreatePrimitive(PrimitiveType::P_CUBE);
+			
 			if (ImGui::MenuItem("Sphere"))
-			{
-
-			}
+				App->go_manager->CreatePrimitive(PrimitiveType::P_SPHERE);
+			
 			if (ImGui::MenuItem("Plane"))
-			{
+				App->go_manager->CreatePrimitive(PrimitiveType::P_PLANE);
 
-			}
+			if (ImGui::MenuItem("Cylinder"))
+				App->go_manager->CreatePrimitive(PrimitiveType::P_CYLINDER);
+			
 			if (ImGui::BeginMenu("Light"))
 			{
 				if (ImGui::MenuItem("Directional Light"))
