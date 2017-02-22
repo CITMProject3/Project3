@@ -31,6 +31,26 @@ void ComponentTransform::OnInspector()
 	if (ImGui::CollapsingHeader("Transform"))
 	{
 		ImVec4 white = ImVec4(1, 1, 1, 1);
+
+		//CHANGE - PEP
+		//Transform operation
+		if (ImGui::RadioButton("Translate", active_tras))
+		{
+			active_tras = !active_tras;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Rotate", active_rot))
+		{
+			active_rot = !active_rot;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Scale", active_scale))
+		{
+			active_scale = !active_scale;
+		}
+		
 	
 		//Position
 		ImGui::TextColored(white, "Position: ");
