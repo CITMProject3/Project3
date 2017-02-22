@@ -459,21 +459,25 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, bool keepDrawing)
 	vector<GameObject*> collisions;
 	octree.Intersect(collisions, ray);
 	for (list<GameObject*>::const_iterator dyn_go = dynamic_gameobjects.begin(); dyn_go != dynamic_gameobjects.end(); dyn_go++)
-		if((*dyn_go)->bounding_box)
+	{
+		if ((*dyn_go)->bounding_box)
+		{
 			if (ray.Intersects(*(*dyn_go)->bounding_box))
+			{
 				collisions.push_back((*dyn_go));
-
+			}
+		}
+	}
 	std::sort(collisions.begin(), collisions.end(), CompareAABB);
 
 	vector<GameObject*>::iterator it = collisions.begin(); //Test with vertices
 	RaycastHit hit;
-	while (it != collisions.end())
+	for (;it != collisions.end(); it++)
 	{
 		if ((*it)->RayCast(ray, hit))
 		{
 			break;
 		}
-		++it;
 	}
 
 	if (keepDrawing && hit.object != nullptr)
@@ -482,7 +486,7 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, bool keepDrawing)
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
 	}
-	App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 50);
+	App->renderer3D->DrawLine(ray.pos, hit.point);
 	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
 
 	return hit;

@@ -374,38 +374,26 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 			Ray raycast = ray;
 			raycast.Transform(global_matrix->Inverted());
 
-			uint u1, u2, u3;
+			uint u;
 			float3 v1, v2, v3;
 			float distance;
 			vec hit_point;
 			Triangle triangle;
 			for (int i = 0; i < mesh->num_indices / 3; i++)
 			{
-				u1 = mesh->indices[i * 3];
-				u2 = mesh->indices[i * 3 + 1];
-				u3 = mesh->indices[i * 3 + 2];
-				v1 = float3(&mesh->vertices[u1]);
-				v2 = float3(&mesh->vertices[u2]);
-				v3 = float3(&mesh->vertices[u3]);
+				u = mesh->indices[i * 3];
+				v1 = float3(&mesh->vertices[u]);
+				v2 = float3(&mesh->vertices[u + 2]);
+				v3 = float3(&mesh->vertices[u + 3]);
 				triangle = Triangle(v1, v2, v3);
 				if (raycast.Intersects(triangle, &distance, &hit_point))
 				{
 					ret = true;
-					if (hit_info.distance == 0) //First entry
+					if (hit_info.distance > distance || hit_info.distance == 0)
 					{
 						hit_info.distance = distance;
 						hit_info.point = hit_point;
-						hit_info.normal = triangle.PlaneCCW().normal;
-						
-					}
-					else
-					{
-						if (hit_info.distance > distance)
-						{
-							hit_info.distance = distance;
-							hit_info.point = hit_point;
-							hit_info.normal = triangle.PlaneCCW().normal;
-						}
+						hit_info.normal = triangle.NormalCCW();
 					}
 				}
 
