@@ -4,6 +4,13 @@
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+enum GuizmoOperation
+{
+	TRANSLATE,
+	ROTATION,
+	SCALE
+};
+
 class ComponentTransform : public Component
 {
 public:
@@ -18,6 +25,7 @@ public:
 	void SetRotation(const math::float3 &rot_euler);
 	void SetRotation(const math::Quat& rot);
 	void SetScale(const math::float3& scale);
+	
 
 	math::float3 GetPosition()const;
 	math::float3 GetRotationEuler()const;
@@ -37,6 +45,7 @@ public:
 private:
 
 	void CalculateFinalTransform();
+	void SetGizmo();
 
 private:
 	math::float3 position = math::float3::zero;
@@ -52,6 +61,8 @@ private:
 	bool active_tras = false;
 	bool active_rot = false;
 	bool active_scale = false;
+
+	GuizmoOperation guizmo_op = TRANSLATE;
 };
 
 #endif // !__COMPONENT_TRANSFORM_H__

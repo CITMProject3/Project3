@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Globals.h"
 #include "imgui\imgui.h"
+#include "ImGuizmo\ImGuizmo.h"
 #include "ComponentMesh.h"
 #include "Data.h"
 
@@ -9,6 +10,7 @@ ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_obje
 {
 	CalculateFinalTransform();
 	*global_matrix = &final_transform_matrix;
+
 }
 
 ComponentTransform::~ComponentTransform()
@@ -34,23 +36,23 @@ void ComponentTransform::OnInspector()
 
 		//CHANGE - PEP
 		//Transform operation
-		if (ImGui::RadioButton("Translate", active_tras))
+		if (ImGui::RadioButton("Translate", guizmo_op == TRANSLATE))
 		{
-			active_tras = !active_tras;
+			guizmo_op = TRANSLATE;
 		}
 		ImGui::SameLine();
 
-		if (ImGui::RadioButton("Rotate", active_rot))
+		if (ImGui::RadioButton("Rotate", guizmo_op == ROTATION))
 		{
-			active_rot = !active_rot;
+			guizmo_op = ROTATION;
 		}
 		ImGui::SameLine();
 
-		if (ImGui::RadioButton("Scale", active_scale))
+		if (ImGui::RadioButton("Scale", guizmo_op == SCALE))
 		{
-			active_scale = !active_scale;
+			guizmo_op = SCALE;
 		}
-		
+		//
 	
 		//Position
 		ImGui::TextColored(white, "Position: ");
@@ -122,6 +124,12 @@ void ComponentTransform::SetScale(const math::float3& scale)
 	this->scale = scale;
 
 	transform_modified = true;
+}
+
+//CHANGE - PEP
+void ComponentTransform::SetGizmo()
+{
+
 }
 
 math::float3 ComponentTransform::GetPosition() const
