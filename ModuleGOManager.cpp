@@ -114,6 +114,10 @@ update_status ModuleGOManager::Update()
 	if(draw_octree)
 		octree.Draw();
 
+
+	App->renderer3D->DrawLine(lastRayData[0], lastRayData[1]);
+	App->renderer3D->DrawLine(lastRayData[1], lastRayData[1] + lastRayData[2], float4(1, 1, 0, 1));
+
 	return UPDATE_CONTINUE;
 }
 
@@ -283,7 +287,7 @@ void ModuleGOManager::PickObjects()
 	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
 	{
 		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = Raycast(ray);
+		selected_GO = Raycast(ray).object;
 	}
 }
 
@@ -485,32 +489,51 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst > b_dst) return 1;
 }
 
-GameObject * ModuleGOManager::Raycast(const Ray & ray) const
+RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCheck, bool keepDrawing)
 {
-	GameObject* ret = nullptr;
-
 	vector<GameObject*> collisions;
 	octree.Intersect(collisions, ray);
 	for (list<GameObject*>::const_iterator dyn_go = dynamic_gameobjects.begin(); dyn_go != dynamic_gameobjects.end(); dyn_go++)
-		if((*dyn_go)->bounding_box)
+	{
+		if ((*dyn_go)->bounding_box)
+		{
 			if (ray.Intersects(*(*dyn_go)->bounding_box))
+			{
 				collisions.push_back((*dyn_go));
-
+			}
+		}
+	}
 	std::sort(collisions.begin(), collisions.end(), CompareAABB);
 
 	vector<GameObject*>::iterator it = collisions.begin(); //Test with vertices
 	RaycastHit hit;
-	while (it != collisions.end())
+	for (;it != collisions.end(); it++)
 	{
-		if ((*it)->RayCast(ray, hit))
+		//If layers to check is empty, object must be checked (check = true)
+		bool check = layersToCheck.empty();		
+		for (std::vector<int>::iterator l = layersToCheck.begin(); l != layersToCheck.end() && check == false; l++)
 		{
-			ret = (*it);
-			break;
+			if ((*it)->layer == *l) { check = true; }
 		}
-		++it;
+		if (check)
+		{
+			if ((*it)->RayCast(ray, hit))
+			{
+				break;
+			}
+		}
 	}
 
-	return ret;
+	if (keepDrawing && hit.object != nullptr)
+	{
+		lastRayData[0] = ray.pos;
+		lastRayData[1] = hit.point;
+		lastRayData[2] = hit.normal;
+	}
+	App->renderer3D->DrawLine(ray.pos, hit.point);
+	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
+
+	return hit;
 }
 
 void ModuleGOManager::HierarchyWindow()

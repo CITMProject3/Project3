@@ -221,7 +221,7 @@ const ComponentCamera* ModuleRenderer3D::GetCamera() const
 
 void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 {
-	if (this->camera != camera)
+	if (this->camera != camera && camera != nullptr)
 	{
 		this->camera = camera;
 		UpdateProjectionMatrix();
@@ -515,4 +515,16 @@ void ModuleRenderer3D::RemoveBuffer(unsigned int id)
 	//Patch for issue (https://github.com/traguill/Ezwix-Engine/issues/13). TODO: Solve the issue!
 	if(id != 9)
 		glDeleteBuffers(1, (GLuint*)&id);
+}
+
+void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
+{
+	glDisable(GL_LIGHTING);
+
+	glColor4f(color.x, color.y, color.z, color.w);
+	glBegin(GL_LINES);
+	glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
+	glEnd();
+
+	glEnable(GL_LIGHTING);
 }
