@@ -360,7 +360,7 @@ void GameObject::Save(Data & file) const
 		(*child)->Save(file);
 }
 
-bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
+bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
 	RaycastHit hit_info;
 	bool ret = false;
@@ -371,21 +371,18 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 		if (mesh)
 		{
 			//Transform ray into local coordinates
-			Ray raycast = ray;
 			raycast.Transform(global_matrix->Inverted());
 
-			uint u;
-			float3 v1, v2, v3;
+			uint u1, u2, u3;
 			float distance;
 			vec hit_point;
 			Triangle triangle;
-			for (int i = 0; i < mesh->num_indices / 3; i++)
+			for (int i = 0; i < mesh->num_indices; i+=3)
 			{
-				u = mesh->indices[i * 3];
-				v1 = float3(&mesh->vertices[u]);
-				v2 = float3(&mesh->vertices[u + 2]);
-				v3 = float3(&mesh->vertices[u + 3]);
-				triangle = Triangle(v1, v2, v3);
+				u1 = mesh->indices[i];
+				u2 = mesh->indices[i+1];
+				u3 = mesh->indices[i+2];
+				triangle = Triangle(float3(&mesh->vertices[u1 * 3]), float3(&mesh->vertices[u2 * 3]), float3(&mesh->vertices[u3 * 3]));
 				if (raycast.Intersects(triangle, &distance, &hit_point))
 				{
 					ret = true;
@@ -396,15 +393,15 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 						hit_info.normal = triangle.NormalCCW();
 					}
 				}
-
 				if (ret == true)
 				{
 					//Transfrom the hit parameters to global coordinates
-					hit.point = global_matrix->MulPos(hit_info.point);
-					hit.distance = ray.pos.Distance(hit.point);
-					hit.object = this;
-					hit.normal = global_matrix->MulDir(hit_info.normal); //TODO: normal needs revision. May not work as expected.
-					hit.normal.Normalize();
+					hit_OUT.point = global_matrix->MulPos(hit_info.point);
+					hit_OUT.distance = hit_info.distance;
+					//hit_OUT.distance = ray.pos.Distance(hit.point);
+					hit_OUT.object = this;
+					hit_OUT.normal = global_matrix->MulDir(hit_info.normal); //TODO: normal needs revision. May not work as expected.
+					hit_OUT.normal.Normalize();
 				}
 			}
 		}
