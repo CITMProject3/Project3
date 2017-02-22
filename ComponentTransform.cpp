@@ -1,3 +1,5 @@
+#include "Application.h"
+#include "ModuleInput.h"
 #include "ComponentTransform.h"
 #include "GameObject.h"
 #include "Globals.h"
@@ -39,6 +41,7 @@ void ComponentTransform::OnInspector()
 		float3 position = this->position;
 		if (ImGui::DragFloat3("##pos", position.ptr()))
 		{
+			App->input->InfiniteHorizontal();
 			SetPosition(position);
 		}
 
@@ -49,6 +52,7 @@ void ComponentTransform::OnInspector()
 		float3 rotation = this->rotation_euler;
 		if (ImGui::DragFloat3("##rot", rotation_euler.ptr(), 1.0f, -360.0f, 360.0f))
 		{
+			App->input->InfiniteHorizontal();
 			SetRotation(rotation_euler);
 		}
 
@@ -59,14 +63,15 @@ void ComponentTransform::OnInspector()
 		float3 scale = this->scale;
 		if (ImGui::DragFloat3("##scale", scale.ptr()))
 		{
+			App->input->InfiniteHorizontal();
 			SetScale(scale);
 		}
 
 		//Local Matrix
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
+		/*ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
 		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
 		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);*/
 	}
 }
 

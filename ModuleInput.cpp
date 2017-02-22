@@ -4,7 +4,7 @@
 
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
-
+#include "imgui\imgui_internal.h"
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -166,8 +166,33 @@ update_status ModuleInput::PreUpdate()
 			mouse_x = e.motion.x / SCREEN_SIZE;
 			mouse_y = e.motion.y / SCREEN_SIZE;
 
-			mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
+			mouse_x_motion = e.motion.xrel / SCREEN_SIZE - last_mouse_swap;
 			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
+
+			if (infiniteHorizontal)
+			{
+				if (mouse_x > App->window->GetScreenWidth() - 10)
+				{
+					int last_x = mouse_x;
+					App->input->SetMouseX(10);
+					last_mouse_swap = mouse_x - last_x;
+					ResetImGuiDrag();
+				}
+				else if (mouse_x < 10)
+				{
+					int last_x = mouse_x;
+					App->input->SetMouseX(App->window->GetScreenWidth() - 10);
+					last_mouse_swap = mouse_x - last_x;
+					ResetImGuiDrag();
+				}
+				else
+					last_mouse_swap = 0;
+			}
+			else
+			{
+				last_mouse_swap = 0;
+			}
+
 			break;
 
 			case SDL_QUIT:
@@ -195,6 +220,8 @@ update_status ModuleInput::PreUpdate()
 		wants_to_quit = true;
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
+
+	infiniteHorizontal = false;
 
 	return UPDATE_CONTINUE;
 }
@@ -227,10 +254,37 @@ KEY_STATE ModuleInput::GetMouseButton(int id) const
 		return KEY_IDLE;
 }
 
+void ModuleInput::SetMouseX(int x)
+{
+	SDL_WarpMouseInWindow(App->window->window, x, mouse_y);
+	mouse_x = x;
+}
+
+void ModuleInput::SetMouseY(int y)
+{
+	SDL_WarpMouseInWindow(App->window->window, mouse_x, y);
+	mouse_y = y;
+}
+
 int ModuleInput::GetMouseZ() const
 {
 	if (App->editor->UsingMouse() == false)
 		return mouse_z;
 	else
 		return 0;
+}
+
+void ModuleInput::InfiniteHorizontal()
+{
+	infiniteHorizontal = true;
+}
+
+void ModuleInput::ResetImGuiDrag()
+{
+	ImGui::GetIO().MousePos.x = mouse_x;
+	ImGui::GetIO().MousePos.y = mouse_y;
+
+	ImGui::ResetMouseDragDelta(0);
+
+	ImGui::GetCurrentContext()->ActiveIdIsJustActivated = true;
 }
