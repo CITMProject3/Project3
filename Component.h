@@ -35,7 +35,6 @@ public:
 	virtual void Remove();
 	virtual void Load(Data& config);
 
-	void ComponentOptions();
 
 protected:
 	bool active = true;
