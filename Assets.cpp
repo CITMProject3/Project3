@@ -57,7 +57,7 @@ void Assets::Draw()
 		ImGui::SameLine();
 		
 		// Renaming option enabled
-		if (strcmp((*dir)->path.c_str(), dir_to_rename) == 0)   // I think Directory pointers are deleted so this could be useful...
+		if ((*dir) == dir_to_rename)   // I think Directory pointers are deleted so this could be useful...
 		{
 			static char new_folder_name[128];
 			if (ImGui::InputText("", new_folder_name, 128, ImGuiInputTextFlags_EnterReturnsTrue))
@@ -65,7 +65,7 @@ void Assets::Draw()
 				RenameFolder((*dir), new_folder_name);
 
 				// Disabling renaming option and cleaning new folder name
-				dir_to_rename[0] = '\0';
+				dir_to_rename = nullptr;
 				new_folder_name[0] = '\0';
 			}				
 		}
@@ -466,10 +466,13 @@ bool Assets::IsSceneExtension(const std::string& file_name) const
 
 void Assets::Refresh()
 {
-	string file, dir, current;
+	string file, dir, to_rename, current;
 	file = (file_selected) ? file_selected->original_file : "";
 	dir = (dir_selected) ? dir_selected->path : "";
-	current = (current_dir) ? current_dir->path : "";
+	to_rename = (dir_to_rename) ? dir_to_rename->path : "";
+	current = (current_dir) ? current_dir->path : "";	
+
+	// Deleting and creating directory tree
 	DeleteDirectoriesRecursive(root, true);
 	FillDirectoriesRecursive(root);
 	
@@ -477,6 +480,9 @@ void Assets::Refresh()
 		file_selected = FindAssetFile(file);
 	if (dir.length() > 0)
 		dir_selected = FindDirectory(dir);
+	if (to_rename.length() > 0)
+		dir_to_rename = FindDirectory(to_rename);
+
 	current_dir = nullptr;
 	if (current.length() > 0)
 		current_dir = FindDirectory(current);
@@ -585,7 +591,7 @@ void Assets::DirectoryOptions()
 		}
 		if (ImGui::Selectable("Rename"))
 		{			
-			strcpy_s(dir_to_rename, 256, dir_selected->path.c_str());
+			dir_to_rename = dir_selected;
 			dir_selected = nullptr;
 		}
 		if (ImGui::Selectable("Remove"))

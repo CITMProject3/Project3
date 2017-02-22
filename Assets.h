@@ -84,9 +84,8 @@ private:
 
 	Directory* current_dir = root;
 	Directory* dir_selected = nullptr;
+	Directory* dir_to_rename = nullptr;
 	AssetFile* file_selected = nullptr;
-
-	char dir_to_rename[256] = "\0";
 	
 	//Icons
 	uint folder_id;
