@@ -10,6 +10,8 @@ class ComponentTransform;
 
 #define CAR_GRAVITY 1.5f
 
+#define NAVMESH_LAYER 20
+
 using namespace std;
 
 class ModuleCar : public Module
@@ -47,7 +49,7 @@ private:
 
 	ComponentCamera* camera = nullptr;
 
-	GameObject* track = nullptr;
+	std::vector<GameObject*> track;
 	GameObject* light = nullptr;
 
 	ComponentTransform* kart_trs = nullptr;

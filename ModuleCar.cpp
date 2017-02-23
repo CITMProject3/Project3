@@ -97,7 +97,7 @@ void ModuleCar::LoadNow()
 			App->resource_manager->LoadFile(kartFile->content_path, FileType::MESH);
 		}
 	}
-	if (track == nullptr)
+	if (track.empty())
 	{
 		AssetFile* trackFile = App->editor->assets->FindAssetFile("/Assets/track_test.fbx");
 		if (trackFile != nullptr)
@@ -141,9 +141,10 @@ void ModuleCar::KartLogic()
 	rayB.pos -= kart_trs->GetGlobalMatrix().WorldZ();
 
 	//Raycasting, checking only for the NavMesh layer
-	RaycastHit hitF = App->go_manager->Raycast(rayF, std::vector<int>(1, track->layer));
-	RaycastHit hitB = App->go_manager->Raycast(rayB, std::vector<int>(1, track->layer));
+	RaycastHit hitF = App->go_manager->Raycast(rayF, std::vector<int>(1, NAVMESH_LAYER));
+	RaycastHit hitB = App->go_manager->Raycast(rayB, std::vector<int>(1, NAVMESH_LAYER));
 
+	bool checkOffTrack = false;
 	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
 	float3 desiredUp = float3(0, 1, 0);
 	onTheGround = false;
@@ -157,25 +158,30 @@ void ModuleCar::KartLogic()
 	{
 		onTheGround = true;
 		desiredUp = hitF.normal;
+		checkOffTrack = true;
 	}
 	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
 		onTheGround = true;
 		desiredUp = hitB.normal;
+		checkOffTrack = true;
 	}
-	desiredUp.Normalize();
-
-	//Checking if the kart is still on the track
-	math::Ray rayN;
-	rayN.dir = float3(0, -1, 0);
-	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
-	//Raycasting, checking only for the NavMesh layer
-	RaycastHit hitN = App->go_manager->Raycast(rayN, std::vector<int>(1, track->layer));
-	if (hitN.object == nullptr)
+	if (checkOffTrack)
 	{
-		newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
-		speed = -speed / 4;
+		//Checking if the kart is still on the track
+		math::Ray rayN;
+		rayN.dir = float3(0, -1, 0);
+		rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
+		//Raycasting, checking only for the NavMesh layer
+		RaycastHit hitN = App->go_manager->Raycast(rayN, std::vector<int>(1, NAVMESH_LAYER));
+		if (hitN.object == nullptr)
+		{
+			newPos -= kart_trs->GetGlobalMatrix().WorldZ() * speed;
+			speed = -speed / 4;
+		}
 	}
+
+	desiredUp.Normalize();
 
 	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
 	{
@@ -364,7 +370,7 @@ void ModuleCar::FindKartGOs()
 	frontWheel = nullptr;
 	backWheel = nullptr;
 	cam = nullptr;	
-	track = nullptr;
+	track.clear();
 	kart_trs = nullptr;
 	camera = nullptr;
 	light = nullptr;
@@ -397,10 +403,10 @@ void ModuleCar::FindKartGOs()
 			}
 		}
 
-		if ((*it)->name == "track_test")
+		if ((*it)->name.find("__track") != string::npos)
 		{
-			track = *it;
-			track->layer = 20;
+			track.push_back(*it);
+			(*it)->layer = NAVMESH_LAYER;
 		}
 		if ((*it)->name == "Directional_Light")
 		{
