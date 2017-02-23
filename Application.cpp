@@ -109,7 +109,6 @@ bool Application::Init()
 		++i;
 	}
 
-
 	// After all Init calls we call Start() in all modules
 	LOG("Application Start --------------");
 	i = list_modules.begin();

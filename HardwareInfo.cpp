@@ -13,7 +13,7 @@ HardwareInfo::HardwareInfo()
 HardwareInfo::~HardwareInfo()
 {}
 
-void HardwareInfo::Draw(ImGuiWindowFlags flags)
+void HardwareInfo::Draw()
 {
 	if (!active)
 		return;

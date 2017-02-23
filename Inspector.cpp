@@ -11,12 +11,13 @@
 Inspector::Inspector()
 {
 	active = true;
+	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 
 Inspector::~Inspector()
 {}
 
-void Inspector::Draw(ImGuiWindowFlags flags)
+void Inspector::Draw()
 {
 	if (!active) return;
 
@@ -28,7 +29,10 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug);
 	ImGui::Separator();
 
-	GameObject* selected_GO = App->editor->selected_GO;
+	GameObject* selected_GO = nullptr;
+	
+	if (App->editor->selected.size() > 0)
+		selected_GO = App->editor->selected.back();
 
 	if (selected_GO)
 	{

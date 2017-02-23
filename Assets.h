@@ -33,10 +33,11 @@ struct Directory
 class Assets : public Window
 {
 public:
+
 	Assets();
 	~Assets();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 	void Refresh();
 	string CurrentDirectory()const;
 	string CurrentLibraryDirectory()const;
@@ -53,11 +54,15 @@ private:
 	void CleanUp();
 	void FillDirectoriesRecursive(Directory* root_dir);
 	void DeleteDirectoriesRecursive(Directory* root_dir, bool keep_root = false);
+public:
 	Directory* FindDirectory(const string& dir)const;
 	AssetFile* FindAssetFile(const string& file);
 
 	bool IsMeshExtension(const std::string& file_name)const;
 	bool IsSceneExtension(const std::string& file_name)const;
+
+	void RenameFolder(Directory *dir_to_rename, const char *new_name) const;
+	void UpdateFoldersMetaInfo(Directory *starting_dir, const char *old_folder_name, const char *new_folder_name) const;
 
 	void OpenInExplorer(const std::string* file = NULL)const;
 
@@ -73,11 +78,16 @@ private:
 	void DeleteAssetDirectory(Directory* directory);
 
 public:
+
 	Directory* root = nullptr; //Assets directory
+
 private:
+
 	Directory* current_dir = root;
 	Directory* dir_selected = nullptr;
+	const Directory *renamed_dir = nullptr;
 	AssetFile* file_selected = nullptr;
+	
 	//Icons
 	uint folder_id;
 	uint file_id;

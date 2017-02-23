@@ -9,7 +9,7 @@ ResourcesWindow::ResourcesWindow()
 ResourcesWindow::~ResourcesWindow()
 {}
 
-void ResourcesWindow::Draw(ImGuiWindowFlags flags)
+void ResourcesWindow::Draw()
 {
 	if (!active)
 		return;

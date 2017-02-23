@@ -9,7 +9,7 @@ public:
 	Window();
 	~Window();
 
-	virtual void Draw(ImGuiWindowFlags flags);
+	virtual void Draw();
 	void SetActive(bool value);
 
 	//Screen position control
@@ -25,6 +25,8 @@ protected:
 	//0 to 1 in screen
 	ImVec2 relative_position;
 	ImVec2 relative_size;
+
+	ImGuiWindowFlags flags = 0;
 };
 
 #endif // !__WINDOW_H_
