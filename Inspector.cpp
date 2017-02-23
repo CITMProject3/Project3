@@ -66,7 +66,13 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 				return; //TODO: Improve this patch
 			}
 			ImGui::SameLine();
-			ImGui::Button("Revert");
+			if (ImGui::Button("Revert"))
+			{
+				selected_GO->RevertPrefabChanges();
+				App->editor->selected_GO = nullptr;
+				ImGui::End();
+				return; //TODO: Improve this patch
+			}
 		}
 
 		ImGui::Separator();

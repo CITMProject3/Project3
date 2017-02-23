@@ -199,6 +199,15 @@ void ResourceFilePrefab::ApplyChanges(GameObject* gameobject)
 	//Selected go bug
 }
 
+void ResourceFilePrefab::RevertChanges(GameObject * gameobject)
+{
+	vector<GameObject*> new_gameobjects;
+	ResetInstance(gameobject, new_gameobjects);
+
+	instances.remove(gameobject);
+	instances.push_back(new_gameobjects.front());
+}
+
 void ResourceFilePrefab::LoadInMemory()
 {}
 

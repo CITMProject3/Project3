@@ -17,6 +17,7 @@ public:
 
 	void UnloadInstance(GameObject* instance);
 	void ApplyChanges(GameObject* gameobject);
+	void RevertChanges(GameObject* gameobject);
 
 private:
 	void LoadInMemory();

@@ -474,15 +474,18 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 
 void GameObject::ApplyPrefabChanges()
 {
-	if (rc_prefab)
+	if (is_prefab)
 	{
-		rc_prefab->ApplyChanges(this);
-	}
-	else
-	{
-		GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
-		if (prefab_go)
-			prefab_go->rc_prefab->ApplyChanges(prefab_go);
+		if (rc_prefab)
+		{
+			rc_prefab->ApplyChanges(this);
+		}
+		else
+		{
+			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+			if (prefab_go)
+				prefab_go->rc_prefab->ApplyChanges(prefab_go);
+		}
 	}
 }
 
@@ -495,5 +498,22 @@ void GameObject::CollectChildrenUUID(vector<unsigned int>& uuid, vector<unsigned
 		local_uuid.push_back((*it)->local_uuid);
 
 		(*it)->CollectChildrenUUID(uuid, local_uuid);
+	}
+}
+
+void GameObject::RevertPrefabChanges()
+{
+	if (is_prefab)
+	{
+		if (rc_prefab)
+		{
+			rc_prefab->RevertChanges(this);
+		}
+		else
+		{
+			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+			if (prefab_go)
+				prefab_go->rc_prefab->RevertChanges(prefab_go);
+		}
 	}
 }
