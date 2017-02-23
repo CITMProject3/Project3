@@ -64,6 +64,7 @@ private:
 
 	GuizmoOperation guizmo_op = TRANSLATE;
 	bool guizmo_use = false;
+	bool guizmo_enable = true;
 };
 
 #endif // !__COMPONENT_TRANSFORM_H__

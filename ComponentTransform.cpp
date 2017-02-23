@@ -41,9 +41,18 @@ void ComponentTransform::OnInspector()
 		ImVec4 white = ImVec4(1, 1, 1, 1);
 
 		//CHANGE - PEP
-		//Transform operation
+		//---------Transform operation
 		ImGuizmo::BeginFrame();
 
+		//Selection keys
+		if (ImGui::IsKeyPressed(90))
+			guizmo_op = TRANSLATE;
+		if (ImGui::IsKeyPressed(69))
+			guizmo_op = ROTATION;
+		if (ImGui::IsKeyPressed(82))
+			guizmo_op = SCALE;
+
+		//Inspector selection
 		if (ImGui::RadioButton("Translate", guizmo_op == TRANSLATE))
 		{
 			guizmo_op = TRANSLATE;
@@ -60,6 +69,10 @@ void ComponentTransform::OnInspector()
 		{
 			guizmo_op = SCALE;
 		}
+
+		ImGui::Checkbox("Enable Gizmo", &guizmo_enable);
+
+		
 
 		SetGizmo();
 		//
@@ -148,7 +161,7 @@ void ComponentTransform::SetScale(const math::float3& scale)
 //CHANGE - PEP
 void ComponentTransform::SetGizmo()
 {
-	
+	ImGuizmo::Enable(guizmo_enable);
 
 	ComponentCamera* cam = App->camera->GetEditorCamera();
 	float4x4 guizmo_matrix = final_transform_matrix;
@@ -161,12 +174,12 @@ void ComponentTransform::SetGizmo()
 						cam->GetProjectionMatrix().ptr(),
 						(ImGuizmo::OPERATION)guizmo_op, 
 						ImGuizmo::WORLD, 
-						final_transform_matrix.ptr(),
+						transform_matrix.ptr(),
 						manipulated_matrix.ptr(),
 						NULL);
 	
-	ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
-
+	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
+	
 	if (ImGuizmo::IsUsing())
 	{
 	
