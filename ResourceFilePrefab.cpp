@@ -50,7 +50,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	delete[] buffer;
 }
 
-GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameObject* parent) const
+GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameObject* parent)
 {
 	const char* name = go_data.GetString("name");
 	unsigned int uuid = go_data.GetUInt("UUID");
@@ -63,6 +63,8 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid"); 
 
 	GameObject* game_object = new GameObject(name, uuid, parent, active, false, true, 0, prefab_root_uuid, file_path);
+
+	game_object->rc_prefab = this;
 
 	if (parent)
 		parent->AddChild(game_object);
@@ -91,8 +93,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	//Read the prefab file and create all other variables
 	bool is_static = root_prefab.GetBool("static");
 	int layer = root_prefab.GetInt("layer");
-
-	game_object->SetStatic(is_static); //TODO: ERROR WITH THIS. the objects are not inserted right.
+ 
 	game_object->layer = layer;
 	game_object->local_uuid = local_uuid;
 
@@ -111,10 +112,13 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 		}
 		else
 		{
-			c_transform->SetScale(component.GetFloat3("scale"));
+			float4x4 transform_matrix = root_prefab.GetMatrix("matrix");
+			c_transform->SetScale(transform_matrix.GetScale());
 			c_transform->Update(); //To update the matrix manually
 		}
 	}
+
+	game_object->ForceStatic(is_static);
 
 	//go childs specifiying the uuid
 	//read the prefab_file and create new GO with the given uuid
@@ -156,6 +160,8 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 		
 		CreateChildsByUUID(prefab_file.GetArray("GameObjects", i), uuids, child_uuid, parents);
 	}
+
+	instances.push_back(game_object);
 	
 	return game_object;
 }
@@ -313,7 +319,7 @@ void ResourceFilePrefab::SaveChangesGameObject(Data & file, GameObject* gameobje
 		SaveChangesGameObject(file, *child, prefab_root_uuid);
 }
 
-void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>& new_gameobjects) const
+void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>& new_gameobjects) 
 {
 	const char* name = origin->name.data();
 	unsigned int uuid = origin->GetUUID();
@@ -326,6 +332,8 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	unsigned int prefab_root_uuid = origin->prefab_root_uuid;
 
 	GameObject* game_object = new GameObject(name, uuid, origin->GetParent(), active, false, true, 0, prefab_root_uuid, file_path);
+
+	game_object->rc_prefab = this;
 
 	if (origin->GetParent())
 		origin->GetParent()->AddChild(game_object);
@@ -356,7 +364,6 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	bool is_static = root_prefab.GetBool("static");
 	int layer = root_prefab.GetInt("layer");
 
-	game_object->SetStatic(is_static); //TODO: ERROR WITH THIS. the objects are not inserted right.
 	game_object->layer = layer;
 	game_object->local_uuid = local_uuid;
 
@@ -375,10 +382,13 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 		}
 		else
 		{
-			c_transform->SetScale(component.GetFloat3("scale"));
+			float4x4 transform_matrix = root_prefab.GetMatrix("matrix");
+			c_transform->SetScale(transform_matrix.GetScale());
 			c_transform->Update(); //To update the matrix manually
 		}
 	}
+
+	game_object->ForceStatic(is_static);
 
 	//go childs specifiying the uuid
 	//read the prefab_file and create new GO with the given uuid

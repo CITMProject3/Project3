@@ -199,6 +199,24 @@ void GameObject::SetStatic(bool value)
 	}
 }
 
+void GameObject::ForceStatic(bool value)
+{
+	//Only inserts the gameobject in the octree or dynamic vector. Doesn't remove if was inserted previously. Doesn't update parent or children
+	is_static = value;
+	if (is_static) 
+	{
+		bool ret = App->go_manager->InsertGameObjectInOctree(this);
+		if (!ret)
+			LOG("INSERTION FAILED");
+	}
+	else 
+	{
+		bool ret = App->go_manager->RemoveGameObjectOfOctree(this);
+		if (!ret)
+			LOG("REMOVING FAILED");
+	}
+}
+
 void GameObject::SetAsPrefab(unsigned int root_uuid)
 {
 	is_prefab = true;

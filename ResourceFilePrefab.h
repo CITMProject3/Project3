@@ -12,7 +12,7 @@ public:
 	~ResourceFilePrefab();
 
 	void LoadPrefabAsCopy(); //Loads a new prefab instance loaded from the Assets(library actually) file
-	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent)const; //Loads a prefab from a scene file
+	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent); //Loads a prefab from a scene file
 	void Save(); //Applies new changes
 
 	void UnloadInstance(GameObject* instance);
@@ -27,7 +27,7 @@ private:
 	void SaveNewChanges(GameObject* gameobject)const;
 	void SaveChangesGameObject(Data& file, GameObject* gameobject, unsigned int prefab_root_uuid)const;
 
-	void ResetInstance(GameObject* gameobject, vector<GameObject*>& new_gameobjects)const;
+	void ResetInstance(GameObject* gameobject, vector<GameObject*>& new_gameobjects);
 
 private:
 	list<GameObject*> instances;

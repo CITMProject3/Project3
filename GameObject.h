@@ -35,6 +35,7 @@ public:
 	void SetActive(bool value);
 	bool IsStatic()const;
 	void SetStatic(bool value);
+	void ForceStatic(bool value);
 	void SetAsPrefab(unsigned int root_uuid);
 	bool IsPrefab()const;
 
