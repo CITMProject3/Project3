@@ -120,6 +120,7 @@ private:
 
 	bool disable_grid = false;
 
+	bool save_quit = false;
 	bool quit = false;
 };
 

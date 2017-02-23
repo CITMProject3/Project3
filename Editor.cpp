@@ -241,7 +241,10 @@ update_status Editor::Update()
 
 	//Handle Quit event
 	if (App->input->Quit())
-		save_scene_win = true;
+	{
+		save_quit = true;
+		OpenSaveSceneWindow();
+	}
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -696,20 +699,23 @@ void Editor::SaveSceneWindow()
 				scene = assets->CurrentDirectory() + scene;
 				App->resource_manager->SaveScene(scene.data(), assets->CurrentLibraryDirectory());
 				save_scene_win = false;
-			//	quit = true;
+				if (save_quit == true)
+					quit = true;
 			}
 			ImGui::SameLine();
 
 			if (ImGui::Button("Don't Save ##dont_save_scene_button"))
 			{
 				save_scene_win = false;
-				quit = true;
+				if (save_quit == true)
+					quit = true;
 			}
 			ImGui::SameLine();
 
 			if (ImGui::Button("Cancel ##cancel_scene_button"))
 			{
-				quit = false;
+				if (save_quit == true)
+					save_quit = false;
 				save_scene_win = false;
 				App->input->ResetQuit();
 			}
