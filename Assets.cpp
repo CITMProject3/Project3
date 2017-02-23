@@ -39,6 +39,8 @@ void Assets::Draw()
 
 //	ImGui::BeginChild(1);
 
+	bool refresh_needed = false;
+
 	//Back folder
 	if (current_dir->parent != nullptr)
 	{
@@ -47,8 +49,7 @@ void Assets::Draw()
 
 		if (ImGui::Selectable("../"))
 			current_dir = current_dir->parent;	
-	}
-	
+	}	
 
 	//Print folders
 	std::vector<Directory*>::iterator dir = current_dir->directories.begin();
@@ -58,15 +59,16 @@ void Assets::Draw()
 		ImGui::SameLine();
 		
 		// Renaming option enabled
-		if ((*dir) == renamed_dir)
+		if ((*dir) == dir_to_rename)   // I think Directory pointers are deleted so this could be useful...
 		{
 			static char new_folder_name[128];
 			if (ImGui::InputText("", new_folder_name, 128, ImGuiInputTextFlags_EnterReturnsTrue))
 			{
 				RenameFolder((*dir), new_folder_name);
+				refresh_needed = true; // Can be changed by an event? CRZ
 
 				// Disabling renaming option and cleaning new folder name
-				renamed_dir = nullptr;
+				dir_to_rename = nullptr;
 				new_folder_name[0] = '\0';
 			}				
 		}
@@ -162,6 +164,9 @@ void Assets::Draw()
 			
 		}
 	}
+
+	if (refresh_needed)
+		Refresh();
 
 	//PopUps File type options --------------------------------------------------
 
@@ -301,29 +306,32 @@ void Assets::RenameFolder(Directory *dir_to_rename, const char *new_folder_name)
 	UpdateFoldersMetaInfo(dir_to_rename, dir_to_rename->name.c_str(), new_folder_name);
 }
 
-void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, const char *old_folder_name, const char *new_folder_name) const
+void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, string old_folder_name, string new_folder_name) const
 {
 	// Changing folder meta file with new folder name
 	string meta_file = curr_dir->name + ".meta";
 	App->resource_manager->NameFolderUpdate(meta_file, curr_dir->parent->path, old_folder_name, new_folder_name);
 
 	// Changing old values for the new ones on Directory struct
-	curr_dir->name = new_folder_name;
-	curr_dir->path = curr_dir->parent->path + curr_dir->name + "/";
+	//curr_dir->name = new_folder_name;
+	
+	size_t pos = curr_dir->path.find(old_folder_name);
+	string dir_path = curr_dir->path;
+	dir_path.replace(pos, old_folder_name.length(), new_folder_name);
 	
 	std::vector<AssetFile*>::iterator it_file = curr_dir->files.begin();
 	for (it_file; it_file != curr_dir->files.end(); ++it_file)
 	{
 		// Changing meta file with new folder name on each file inside this curr_dir
 		meta_file = (*it_file)->name + ".meta";
-		App->resource_manager->NameFolderUpdate(meta_file, curr_dir->path, old_folder_name, new_folder_name, true);
+		App->resource_manager->NameFolderUpdate(meta_file, dir_path, old_folder_name, new_folder_name, true);
 
 		// Changing old values for the new ones on AssetFile struct
-		size_t pos = (*it_file)->file_path.find(old_folder_name);
-		(*it_file)->file_path.replace(pos, sizeof(old_folder_name) / sizeof(char), new_folder_name);
+		/*pos = (*it_file)->file_path.find(old_folder_name);
+		(*it_file)->file_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		pos = (*it_file)->original_file.find(old_folder_name);
-		(*it_file)->original_file.replace(pos, sizeof(old_folder_name) / sizeof(char), new_folder_name);
+		(*it_file)->original_file.replace(pos, old_folder_name.length(), new_folder_name);*/
 	}
 
 	std::vector<Directory*>::iterator it_dir = curr_dir->directories.begin();
@@ -399,60 +407,30 @@ Directory * Assets::FindDirectory(const string & dir)const
 	return (path_found) ? found : nullptr;
 }
 
-AssetFile * Assets::FindAssetFile(const string & file)
+AssetFile* Assets::FindAssetFile(const string & file)
 {
-	string dir_part;
-	vector<string> dir_splitted;
-	dir_part = root->path;
-	while (dir_part != file)
+	return FindAssetFileRecursive(file, root);
+}
+
+AssetFile* Assets::FindAssetFileRecursive(const string& file, Directory* directory)
+{
+	for (vector<AssetFile*>::iterator asset = directory->files.begin(); asset != directory->files.end(); ++asset)
 	{
-		string tmp = file.substr(dir_part.length(), file.length());
-		size_t pos = tmp.find_first_of("/\\");
-		if (pos != string::npos)
+		if ((*asset)->original_file == file)
 		{
-			dir_part.append(tmp, 0, pos + 1);
-			dir_splitted.push_back(dir_part);
-		}
-		else
-		{
-			dir_part.append(tmp, 0, tmp.length());
-			dir_splitted.push_back(dir_part);
-			break;
+			return *asset;
 		}
 	}
 
-	Directory* found = root;
-	bool path_found = false;
-	AssetFile* ret = nullptr;
-	for (vector<string>::iterator split = dir_splitted.begin(); split != dir_splitted.end(); ++split)
+	for (vector<Directory*>::iterator dir = directory->directories.begin(); dir != directory->directories.end(); ++dir)
 	{
-		path_found = false;
-		if ((*split) == *dir_splitted.rbegin())
+		AssetFile* ret = FindAssetFileRecursive(file, *dir);
+		if (ret != nullptr)
 		{
-			for (vector<AssetFile*>::iterator asset = found->files.begin(); asset != found->files.end(); ++asset)
-			{
-				if ((*asset)->original_file == (*split))
-				{
-					ret = (*asset);
-					break;
-				}
-			}
-			break;
+			return ret;
 		}
-		for (vector<Directory*>::iterator directory = found->directories.begin(); directory != found->directories.end(); ++directory)
-		{
-			if ((*directory)->path == (*split))
-			{
-				found = (*directory);
-				path_found = true;
-				break;
-			}
-		}
-		if (!path_found)
-			break;
 	}
-
-	return ret;
+	return nullptr;
 }
 
 bool Assets::IsSceneExtension(const std::string& file_name) const
@@ -466,10 +444,13 @@ bool Assets::IsSceneExtension(const std::string& file_name) const
 
 void Assets::Refresh()
 {
-	string file, dir, current;
+	string file, dir, to_rename, current;
 	file = (file_selected) ? file_selected->original_file : "";
 	dir = (dir_selected) ? dir_selected->path : "";
-	current = (current_dir) ? current_dir->path : "";
+	to_rename = (dir_to_rename) ? dir_to_rename->path : "";
+	current = (current_dir) ? current_dir->path : "";	
+
+	// Deleting and creating directory tree
 	DeleteDirectoriesRecursive(root, true);
 	FillDirectoriesRecursive(root);
 	
@@ -477,6 +458,9 @@ void Assets::Refresh()
 		file_selected = FindAssetFile(file);
 	if (dir.length() > 0)
 		dir_selected = FindDirectory(dir);
+	if (to_rename.length() > 0)
+		dir_to_rename = FindDirectory(to_rename);
+
 	current_dir = nullptr;
 	if (current.length() > 0)
 		current_dir = FindDirectory(current);
@@ -585,7 +569,7 @@ void Assets::DirectoryOptions()
 		}
 		if (ImGui::Selectable("Rename"))
 		{			
-			renamed_dir = dir_selected;
+			dir_to_rename = dir_selected;
 			dir_selected = nullptr;
 		}
 		if (ImGui::Selectable("Remove"))

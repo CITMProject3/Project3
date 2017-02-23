@@ -10,6 +10,8 @@
 #include "ComponentLight.h"
 #include "LayerSystem.h"
 
+#include "MeshImporter.h"
+
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
 
@@ -140,19 +142,52 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 	return object;
 }
 
-GameObject* ModuleGOManager::CreateGameObject(GameObject* parent, GameObject* to_copy)
+GameObject* ModuleGOManager::CreateLight(GameObject* parent, LightType type)
 {
-	GameObject* obj_parent = parent ? parent : root;
+	GameObject* obj = CreateGameObject(parent);
+	ComponentLight* light = (ComponentLight*)obj->AddComponent(C_LIGHT);
+	light->SetType(type);
+	switch (type)
+	{
+		case(DIRECTIONAL_LIGHT): obj->name = "Directional Light"; break;
+	}
+	return obj;
+}
 
-	GameObject* object = new GameObject(*to_copy);
-	object->SetParent(parent);
+void ModuleGOManager::CreatePrimitive(PrimitiveType type)
+{
+	GameObject *primitive = CreateGameObject(root);														// Creating empty GO with root as parent
+	ComponentMesh *mesh_comp = ((ComponentMesh*)primitive->AddComponent(ComponentType::C_MESH));	    // Adding Component Mesh
+	primitive->AddComponent(ComponentType::C_MATERIAL);													// Adding Default Material
+	
+	string prim_path = "Resources/Primitives/";
 
-	if (obj_parent->AddChild(object) == false)
-		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
+	switch (type)
+	{
+		case(PrimitiveType::P_CUBE):
+		{
+			primitive->name.assign("Cube");
+			prim_path += "Cube.msh"; break;
+		}
+		case(PrimitiveType::P_SPHERE):
+		{
+			primitive->name.assign("Sphere");
+			prim_path += "Sphere.msh"; break;
+		}
+		case(PrimitiveType::P_PLANE):
+		{
+			primitive->name.assign("Plane");
+			prim_path += "Plane.msh"; break;
+		}
+		case(PrimitiveType::P_CYLINDER):
+		{
+			primitive->name.assign("Cylinder");
+			prim_path += "Cylinder.msh"; break;
+		}
+	}
 
-	dynamic_gameobjects.push_back(object);
-
-	return object;
+	// Loading mesh for each primitive
+	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));
 }
 
 bool ModuleGOManager::RemoveGameObject(GameObject* object)
@@ -362,6 +397,11 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 void ModuleGOManager::SetCurrentScenePath(const char * scene_path)
 {
 	current_scene_path = scene_path;
+}
+
+const char* ModuleGOManager::GetCurrentScenePath()
+{
+	return current_scene_path.c_str();
 }
 
 void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
@@ -632,7 +672,7 @@ void ModuleGOManager::InspectorWindow()
 		const std::vector<Component*>* components = selected_GO->GetComponents();
 		for (std::vector<Component*>::const_iterator component = (*components).begin(); component != (*components).end(); ++component)
 		{
-			(*component)->OnInspector();
+			(*component)->OnInspector(debug_inspector);
 		}
 
 		//Options

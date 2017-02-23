@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
+#include "ComponentLight.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -48,12 +49,12 @@ void Hierarchy::Draw()
 
 	if (ImGui::BeginPopup("HierarchyOptions"))
 	{
-		if (ImGui::Selectable("Copy"))
+		if (ImGui::MenuItem("Copy"))
 		{
 			if (App->editor->selected.size() > 0)
 				App->editor->Copy(App->editor->selected.back());
 		}
-		if (ImGui::Selectable("Paste"))
+		if (ImGui::MenuItem("Paste"))
 		{
 			if (App->editor->selected.size() > 0)
 				App->editor->Paste(App->editor->selected.back());
@@ -61,32 +62,56 @@ void Hierarchy::Draw()
 				App->editor->Paste(nullptr);
 		}
 		ImGui::Separator();
-		if (ImGui::Selectable("Duplicate"))
+		if (ImGui::MenuItem("Duplicate"))
 		{
 			if (App->editor->selected.size() > 0)
 				App->editor->Duplicate(App->editor->selected.back());
 		}
 
-		if (ImGui::Selectable("Delete"))
+		if (ImGui::MenuItem("Delete"))
 		{
 			App->editor->RemoveSelected();
 		}
 		ImGui::Separator();
-		if (ImGui::Selectable("Create Empty"))
-		{
-			GameObject* game_object = (App->editor->selected.size() > 0) ? App->editor->selected.back() : nullptr;
-			App->editor->SelectSingle(App->go_manager->CreateGameObject(game_object));
-		}
-
-		if (ImGui::Selectable("Create Prefab"))
+		if (ImGui::MenuItem("Create Prefab"))
 		{
 			if (App->editor->selected.size() > 0)
 			{
 				App->resource_manager->SavePrefab(App->editor->selected.back());
 			}
 		}
+		ImGui::Separator();
+		if (ImGui::MenuItem("Create Empty"))
+		{
+			GameObject* game_object = (App->editor->selected.size() > 0) ? App->editor->selected.back() : nullptr;
+			App->editor->SelectSingle(App->go_manager->CreateGameObject(game_object));
+		}
+		if (ImGui::BeginMenu("3D Object"))
+		{
+			if (ImGui::MenuItem("Cube"))
+				App->go_manager->CreatePrimitive(PrimitiveType::P_CUBE);
+			
+			if (ImGui::MenuItem("Sphere"))
+				App->go_manager->CreatePrimitive(PrimitiveType::P_SPHERE);
+			
+			if (ImGui::MenuItem("Plane"))
+				App->go_manager->CreatePrimitive(PrimitiveType::P_PLANE);
 
-		if (ImGui::Selectable("Set Parent"))
+			if (ImGui::MenuItem("Cylinder"))
+				App->go_manager->CreatePrimitive(PrimitiveType::P_CYLINDER);
+			
+			if (ImGui::BeginMenu("Light"))
+			{
+				if (ImGui::MenuItem("Directional Light"))
+				{
+					App->go_manager->CreateLight(nullptr, DIRECTIONAL_LIGHT);
+				}
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::MenuItem("Set Parent"))
 		{
 			setting_parent = true;
 		}

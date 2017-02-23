@@ -19,7 +19,7 @@ public:
 
 	void Update();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 
 	void SetPosition(const math::float3& pos);
 	void SetRotation(const math::float3 &rot_euler);
@@ -40,6 +40,7 @@ public:
 
 	void Save(Data& file)const;
 	void Load(Data& conf);
+	void Reset();
 	void Remove();
 
 private:

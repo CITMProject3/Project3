@@ -45,7 +45,7 @@ public:
 
 	void Update();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 	void OnTransformModified();
 
 	bool SetMesh(Mesh* mesh);

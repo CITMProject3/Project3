@@ -68,6 +68,9 @@ public:
 	KEY_STATE GetKey(int id) const;
 	KEY_STATE GetMouseButton(int id) const;
 
+	void SetMouseX(int x);
+	void SetMouseY(int y);
+
 	int GetMouseX() const
 	{
 		return mouse_x;
@@ -127,6 +130,11 @@ public:
 		wants_to_quit = false;
 	}
 
+	void InfiniteHorizontal();
+
+private:
+
+	void ResetImGuiDrag();
 
 private:
 	KEY_STATE* keyboard;
@@ -142,6 +150,10 @@ private:
 	vector<JOYSTICK*>	joysticks;
 
 	bool wants_to_quit = false;
+
+	int last_mouse_swap = 0;
+
+	bool infiniteHorizontal = false;
 };
 
 #endif // !__MODULEINPUT_H__

@@ -340,6 +340,8 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
 		name_to_save += ".ezx";
 
+	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
+
 	App->file_system->Save(name_to_save.data(), buf, size);
 	
 
@@ -757,7 +759,7 @@ void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_l
 		library_path = base_library_path;
 
 	//Create Folder at Library
-	library_path += std::to_string(uuid);
+	library_path += std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(library_path.data());
 
 	GenerateMetaFile(assets_path, FOLDER, uuid, library_path, false);

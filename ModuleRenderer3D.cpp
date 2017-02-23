@@ -404,6 +404,9 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
 	//Directional
+	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	glUniform1i(has_directional_location, light.has_directional);
+
 	if (light.has_directional)
 	{
 		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
@@ -415,8 +418,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-	}
-	
+	}	
 	
 	//Other uniforms
 	if (material->rc_material)

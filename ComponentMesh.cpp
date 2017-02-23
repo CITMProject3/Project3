@@ -37,10 +37,25 @@ void ComponentMesh::Update()
 	}
 }
 
-void ComponentMesh::OnInspector()
+void ComponentMesh::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Geometry Mesh"))
+	string str = (string("Geometry Mesh") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##mesh");
+		}
+
+		if (ImGui::BeginPopup("delete##mesh"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		//Active
 		bool is_active = IsActive();
 		if (ImGui::Checkbox("###activeMesh", &is_active))
@@ -77,11 +92,6 @@ void ComponentMesh::OnInspector()
 			ImGui::TextColored(ImVec4(1, 0, 0, 1), "WARNING");
 			ImGui::SameLine(); ImGui::Text("No mesh was loaded.");
 		}
-
-		if (ImGui::Button("Remove ##mesh_rem"))
-		{
-			Remove();
-		}
 	}
 }
 
@@ -90,7 +100,7 @@ void ComponentMesh::OnTransformModified()
 	RecalculateBoundingBox();
 }
 
-bool ComponentMesh::SetMesh(Mesh * mesh)
+bool ComponentMesh::SetMesh(Mesh *mesh)
 {
 	bool ret = false;
 	if (mesh)

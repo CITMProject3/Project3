@@ -54,6 +54,8 @@ private:
 	void CleanUp();
 	void FillDirectoriesRecursive(Directory* root_dir);
 	void DeleteDirectoriesRecursive(Directory* root_dir, bool keep_root = false);
+	AssetFile* FindAssetFileRecursive(const string& file, Directory* directory);
+
 public:
 	Directory* FindDirectory(const string& dir)const;
 	AssetFile* FindAssetFile(const string& file);
@@ -62,7 +64,7 @@ public:
 	bool IsSceneExtension(const std::string& file_name)const;
 
 	void RenameFolder(Directory *dir_to_rename, const char *new_name) const;
-	void UpdateFoldersMetaInfo(Directory *starting_dir, const char *old_folder_name, const char *new_folder_name) const;
+	void UpdateFoldersMetaInfo(Directory *starting_dir, string old_folder_name, string new_folder_name) const;
 
 	void OpenInExplorer(const std::string* file = NULL)const;
 
@@ -85,7 +87,7 @@ private:
 
 	Directory* current_dir = root;
 	Directory* dir_selected = nullptr;
-	const Directory *renamed_dir = nullptr;
+	Directory* dir_to_rename = nullptr;
 	AssetFile* file_selected = nullptr;
 	
 	//Icons
