@@ -168,7 +168,7 @@ void ModuleCar::KartLogic()
 		desiredUp = hitB.normal;
 		checkOffTrack = true;
 	}
-	if (checkOffTrack)
+	if (checkOffTrack || onTheGround == false)
 	{
 		//Checking if the kart is still on the track
 		math::Ray rayN;
