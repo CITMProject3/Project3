@@ -123,7 +123,7 @@ void Hierarchy::Draw()
 	int size_x = current_size.x;
 	int size_y = current_size.y - ImGui::GetCursorPosY() - 10;
 	ImGui::SetCursorPosX(0);
-	if (ImGui::Button("test: unselect GO", ImVec2(size_x, size_y)))
+	if (ImGui::InvisibleButton("test: unselect GO", ImVec2(size_x, size_y)))
 	{
 		App->editor->UnselectAll();
 	}
