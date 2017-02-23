@@ -85,6 +85,18 @@ void PhysBody3D::SetBounciness(float restitution, float friction)
 }
 
 //----------------------------------------------------------
+void PhysBody3D::SetAngularSpeed(float x, float y, float z)
+{
+	body->setAngularVelocity(btVector3(x, y, z));
+}
+
+//----------------------------------------------------------
+void PhysBody3D::SetLinearSpeed(float x, float y, float z)
+{
+	body->setLinearVelocity(btVector3(x, y, z));
+}
+
+//----------------------------------------------------------
 math::vec PhysBody3D::GetPosition()const
 {
 	math::vec ret;
