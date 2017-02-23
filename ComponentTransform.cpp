@@ -151,24 +151,26 @@ void ComponentTransform::SetGizmo()
 	
 
 	ComponentCamera* cam = App->camera->GetEditorCamera();
-	float4x4 guizmo_matrix = transform_matrix;
+	float4x4 guizmo_matrix = final_transform_matrix;
 	float4x4 manipulated_matrix = manipulated_matrix.identity;
 
 	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), guizmo_matrix.ptr());
-	ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), manipulated_matrix.ptr());
+	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), manipulated_matrix.ptr());
 
 	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), 
 						cam->GetProjectionMatrix().ptr(),
 						(ImGuizmo::OPERATION)guizmo_op, 
 						ImGuizmo::WORLD, 
-						guizmo_matrix.ptr(),
+						final_transform_matrix.ptr(),
 						manipulated_matrix.ptr(),
 						NULL);
 	
+	ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
+
 	if (ImGuizmo::IsUsing())
 	{
 	
-		transform_matrix = guizmo_matrix;
+		//transform_matrix = guizmo_matrix;
 		//transform_matrix += manipulated_matrix;
 
 		//transform_matrix.Decompose(position, rotation, scale);
