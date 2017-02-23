@@ -164,39 +164,20 @@ void ComponentTransform::SetGizmo()
 	ImGuizmo::Enable(guizmo_enable);
 
 	ComponentCamera* cam = App->camera->GetEditorCamera();
-	float4x4 guizmo_matrix = final_transform_matrix;
-	float4x4 manipulated_matrix = manipulated_matrix.identity;
+	float4x4 used_matrix = transform_matrix.Transposed();
 
-	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), guizmo_matrix.ptr());
-	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), manipulated_matrix.ptr());
-
-	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), 
-						cam->GetProjectionMatrix().ptr(),
-						(ImGuizmo::OPERATION)guizmo_op, 
-						ImGuizmo::WORLD, 
-						transform_matrix.ptr(),
-						manipulated_matrix.ptr(),
-						NULL);
+	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)guizmo_op, ImGuizmo::LOCAL,	used_matrix.ptr());
 	
 	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
-	
+
 	if (ImGuizmo::IsUsing())
 	{
-	
-		//transform_matrix = guizmo_matrix;
-		//transform_matrix += manipulated_matrix;
+		used_matrix.Transpose();
+		used_matrix.Decompose(position, rotation, scale);
 
-		//transform_matrix.Decompose(position, rotation, scale);
-		//float3 d_position, d_rotation, d_scale;
-		ImGuizmo::DecomposeMatrixToComponents(manipulated_matrix.ptr(), position.ptr(), rotation.ptr(), scale.ptr());
-		SetPosition(position);
-		SetRotation(rotation);
-		SetScale(scale);
-		
-	
-	}
-
-	
+		transform_matrix = transform_matrix.FromTRS(position, rotation, scale);
+		transform_modified = true;
+	}	
 }
 
 math::float3 ComponentTransform::GetPosition() const
