@@ -16,7 +16,7 @@ public:
 	ComponentMaterial(ComponentType type, GameObject* game_object);
 	~ComponentMaterial();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 	void Update();
 
 	void Save(Data& file)const;
@@ -31,7 +31,7 @@ public:
 	ResourceFileMaterial* rc_material = nullptr;
 	std::map<string, uint> texture_ids; //name of the variable texture in the shader and id
 private:
-	std::string material_name; //Assets path
+	std::string material_name = "Default"; //Assets path
 	//Note: All materials must have model, view and projection uniforms. 
 	std::vector<ResourceFile*> tex_resources;
 	std::vector<std::string> list_textures_paths; //Default textures from fbx

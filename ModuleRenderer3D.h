@@ -38,6 +38,7 @@ public:
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);
 	
+	void DrawLine(float3 pos1, float3 pos2, float4 color = float4(1,1,1,1));
 
 private:
 

@@ -49,7 +49,7 @@ public:
 
 	void Save(Data& file) const;
 
-	bool RayCast(const Ray& ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
+	bool RayCast(Ray ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
 
 public:
 	std::string name;

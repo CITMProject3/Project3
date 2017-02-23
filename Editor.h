@@ -79,6 +79,8 @@ private:
 	void GameObjectMenu();
 
 	bool QuitWindow();
+	void OnSaveCall();
+	void OpenSaveSceneWindow();
 	void SaveSceneWindow();
 
 public:
@@ -118,6 +120,8 @@ private:
 
 	bool disable_grid = false;
 
+	bool save_quit = false;
+	bool quit = false;
 };
 
 #endif

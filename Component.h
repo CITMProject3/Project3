@@ -24,7 +24,7 @@ public:
 
 	bool IsActive();
 	void SetActive(bool value);
-	virtual void OnInspector();
+	virtual void OnInspector(bool debug);
 
 	ComponentType GetType()const;
 	GameObject* GetGameObject()const;
@@ -38,7 +38,6 @@ public:
 
 protected:
 	bool active = true;
-	bool alive = true;
 	ComponentType type;
 	GameObject* game_object = nullptr;
 	unsigned int uuid = 0;

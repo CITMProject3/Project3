@@ -24,6 +24,9 @@
 #include "TestWindow.h"
 #include "GameObject.h"
 #include "ComponentLight.h"
+#include "RaycastHit.h"
+#include "ModuleCar.h"
+#include "ModuleGOManager.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -237,9 +240,11 @@ update_status Editor::Update()
 	HandleInput();
 
 	//Handle Quit event
-	bool quit = false;
 	if (App->input->Quit())
-		quit = QuitWindow();
+	{
+		save_quit = true;
+		OpenSaveSceneWindow();
+	}
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -251,7 +256,9 @@ void Editor::HandleInput()
 {
 	//Shortcut to save. TODO: Do a better implementation of the shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		save_scene_win = true;
+	{
+		OnSaveCall();
+	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{
@@ -273,7 +280,7 @@ void Editor::HandleInput()
 		{
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			//TODO:(Ausiàs) change game_object for a list
-			GameObject* game_object = App->go_manager->Raycast(ray);
+			GameObject* game_object = App->go_manager->Raycast(ray, std::vector<int>(), true).object;
 
 			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
 				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
@@ -282,7 +289,7 @@ void Editor::HandleInput()
 			}
 			else
 			{
-				SelectSingle(App->go_manager->Raycast(ray));
+				SelectSingle(App->go_manager->Raycast(ray, std::vector<int>(), true).object);
 			}
 		}
 	}
@@ -380,9 +387,31 @@ update_status Editor::EditorWindows()
 
 void Editor::FileMenu()
 {
-	if (ImGui::MenuItem("Create New Scene"))
+	if (ImGui::MenuItem("New Scene"))
 	{
 		App->go_manager->LoadEmptyScene();
+	}
+	if (ImGui::BeginMenu("Open Scene"))
+	{
+		std::vector<std::string> scenes;
+		assets->GetAllFilesByType(FileType::SCENE, scenes);
+		for (uint i = 0; i < scenes.size(); i++)
+		{
+			std::string name = App->file_system->GetNameFromPath(scenes[i].c_str());
+			if (ImGui::MenuItem(name.c_str()))
+			{
+				App->resource_manager->LoadScene(scenes[i].c_str());
+			}
+		}
+		ImGui::EndMenu();
+	}
+	if (ImGui::MenuItem("Save Scene"))
+	{
+		OnSaveCall();
+	}
+	if (ImGui::MenuItem("Save Scene as..."))
+	{
+		OpenSaveSceneWindow();
 	}
 }
 
@@ -548,6 +577,10 @@ void Editor::DebugMenu()
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
 	}
+	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	{
+		App->car->Load();
+	}
 }
 
 bool Editor::QuitWindow()
@@ -607,6 +640,48 @@ bool Editor::QuitWindow()
 	return ret;
 }
 
+void Editor::OnSaveCall()
+{
+	std::string scene = App->go_manager->GetCurrentScenePath();
+	if (scene == "")
+	{
+		OpenSaveSceneWindow();
+	}
+	else
+	{
+		AssetFile* asset = assets->FindAssetFile(scene);
+		if (asset != nullptr)
+		{
+			const char* lib_path = asset->directory->library_path.c_str();
+			App->resource_manager->SaveScene(scene.c_str(), lib_path);
+		}
+		else
+		{
+			OpenSaveSceneWindow();
+		}
+	}
+}
+
+void Editor::OpenSaveSceneWindow()
+{
+	std::string scene_name_path = App->go_manager->GetCurrentScenePath();
+	if (scene_name_path != "")
+	{
+		std::string scene_name = App->file_system->GetNameFromPath(scene_name_path.c_str());
+		uint period = scene_name.find_last_of(".");
+		if (period == std::string::npos)
+		{
+			period = scene_name.length();
+		}
+		scene_name_to_save = scene_name.substr(0, period);
+	}
+	else
+	{
+		scene_name_to_save = "Untitled";
+	}
+	save_scene_win = true;
+}
+
 void Editor::SaveSceneWindow()
 {
 	if (save_scene_win)
@@ -615,6 +690,8 @@ void Editor::SaveSceneWindow()
 		ImGui::SetNextWindowSize(ImVec2(300, 100));
 		if (ImGui::Begin("Save Scene", &save_scene_win))
 		{
+			if (scene_name_to_save == "")
+				scene_name_to_save = "Untiled";
 			ImGui::InputText("", scene_name_to_save._Myptr(), scene_name_to_save.capacity());
 			if (ImGui::Button("Save ##save_scene_button"))
 			{
@@ -622,8 +699,30 @@ void Editor::SaveSceneWindow()
 				scene = assets->CurrentDirectory() + scene;
 				App->resource_manager->SaveScene(scene.data(), assets->CurrentLibraryDirectory());
 				save_scene_win = false;
+				if (save_quit == true)
+					quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Don't Save ##dont_save_scene_button"))
+			{
+				save_scene_win = false;
+				if (save_quit == true)
+					quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel ##cancel_scene_button"))
+			{
+				if (save_quit == true)
+					save_quit = false;
+				save_scene_win = false;
+				App->input->ResetQuit();
 			}
 			ImGui::End();
 		}
+		
+		if(!save_scene_win)
+			App->input->ResetQuit();
 	}
 }
