@@ -34,6 +34,7 @@ public:
 
 	void Rotate(const math::Quat& quaternion);
 
+	math::float4x4 GetLocalTransformMatrix()const;
 	// Returns the final transformation matrix. Not the local one!
 	math::float4x4 GetTransformMatrix()const;
 	math::float4x4 GetGlobalMatrix()const;
@@ -44,9 +45,7 @@ public:
 	void Remove();
 
 private:
-
 	void CalculateFinalTransform();
-	void SetGizmo();
 
 private:
 	math::float3 position = math::float3::zero;
@@ -59,13 +58,6 @@ private:
 	math::float4x4 final_transform_matrix = math::float4x4::identity;
 
 	bool transform_modified = false;
-	bool active_tras = false;
-	bool active_rot = false;
-	bool active_scale = false;
-
-	GuizmoOperation guizmo_op = TRANSLATE;
-	bool guizmo_use = false;
-	bool guizmo_enable = true;
 };
 
 #endif // !__COMPONENT_TRANSFORM_H__

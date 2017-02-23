@@ -6,6 +6,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include "ImGuizmo\ImGuizmo.h"
 #include "Window.h"
 #include <list>
 #include <vector>
@@ -71,7 +72,7 @@ private:
 
 	//Editor Windows
 	update_status EditorWindows();
-
+	
 	//Menus
 	void FileMenu();
 	void HelpMenu();
@@ -85,6 +86,8 @@ private:
 	void OpenSaveSceneWindow();
 	void SaveSceneWindow();
 
+	void DisplayGizmo();
+
 public:
 	Assets* assets = nullptr;
 	MaterialCreatorWindow* material_creator_win = nullptr;
@@ -93,6 +96,9 @@ public:
 
 	std::list<GameObject*> selected;
 	GameObject* copy_go = nullptr;
+
+	ImGuizmo::OPERATION gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	bool gizmo_enabled = true;
 
 private:
 

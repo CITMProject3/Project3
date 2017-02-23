@@ -27,6 +27,9 @@
 #include "RaycastHit.h"
 #include "ModuleCar.h"
 #include "ModuleGOManager.h"
+#include "ImGuizmo\ImGuizmo.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -142,13 +145,14 @@ bool Editor::UsingMouse() const
 void Editor::SelectSingle(GameObject* game_object)
 {
 	UnselectAll();
-	selected.push_back(game_object);
+	if (game_object != nullptr)
+		selected.push_back(game_object);
 }
 
 void Editor::AddSelect(GameObject* game_object)
 {
 	//Just for safety
-	if (IsSelected(game_object) == false)
+	if (game_object != nullptr && IsSelected(game_object) == false)
 		selected.push_back(game_object);
 }
 
@@ -226,7 +230,7 @@ update_status Editor::Update()
 	update_status ret = UPDATE_CONTINUE;
 
 	GameOptions(); //Play/Stop/Next Frame buttons
-
+	DisplayGizmo();
 	ret = EditorWindows(); //Update the windows of the editor
 	
 	//Draw Grid
@@ -724,5 +728,44 @@ void Editor::SaveSceneWindow()
 		
 		if(!save_scene_win)
 			App->input->ResetQuit();
+	}
+}
+
+
+void Editor::DisplayGizmo()
+{
+	//Selection keys
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::SCALE;
+
+	ImGuizmo::BeginFrame();
+
+	if (selected.size() > 0)
+	{
+		GameObject* go = selected.back();
+
+		ImGuizmo::Enable(gizmo_enabled);
+
+		ComponentCamera* camera = App->camera->GetEditorCamera();
+		ComponentTransform* transform = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+		float4x4 matrix = transform->GetLocalTransformMatrix().Transposed();
+
+		ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+
+		if (ImGuizmo::IsUsing())
+		{
+			matrix.Transpose();
+			float3 position, scale;
+			Quat rotation;
+			matrix.Decompose(position, rotation, scale);
+
+			transform->SetPosition(position);
+			transform->SetRotation(rotation);
+			transform->SetScale(scale);
+		}
 	}
 }

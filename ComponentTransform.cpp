@@ -61,39 +61,26 @@ void ComponentTransform::OnInspector(bool debug)
 		//---------Transform operation
 		ImGuizmo::BeginFrame();
 
-		//Selection keys
-		if (ImGui::IsKeyPressed(90))
-			guizmo_op = TRANSLATE;
-		if (ImGui::IsKeyPressed(69))
-			guizmo_op = ROTATION;
-		if (ImGui::IsKeyPressed(82))
-			guizmo_op = SCALE;
-
 		//Inspector selection
-		if (ImGui::RadioButton("Translate", guizmo_op == TRANSLATE))
+		if (ImGui::RadioButton("Translate", App->editor->gizmo_operation == TRANSLATE))
 		{
-			guizmo_op = TRANSLATE;
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 		}
 		ImGui::SameLine();
 
-		if (ImGui::RadioButton("Rotate", guizmo_op == ROTATION))
+		if (ImGui::RadioButton("Rotate", App->editor->gizmo_operation == ROTATION))
 		{
-			guizmo_op = ROTATION;
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::ROTATE;
 		}
 		ImGui::SameLine();
 
-		if (ImGui::RadioButton("Scale", guizmo_op == SCALE))
+		if (ImGui::RadioButton("Scale", App->editor->gizmo_operation == SCALE))
 		{
-			guizmo_op = SCALE;
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::SCALE;
 		}
 
-		ImGui::Checkbox("Enable Gizmo", &guizmo_enable);
+		ImGui::Checkbox("Enable Gizmo", &App->editor->gizmo_enabled);
 
-		
-
-		SetGizmo();
-		//
-	
 		//Position
 		ImGui::TextColored(white, "Position: ");
 		ImGui::SameLine();
@@ -137,21 +124,7 @@ void ComponentTransform::OnInspector(bool debug)
 			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
 			ImGui::PopStyleColor();
 		}
-
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
-
-		//Global Matrix
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[0][0], final_transform_matrix.v[0][1], final_transform_matrix.v[0][2], final_transform_matrix.v[0][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[1][0], final_transform_matrix.v[1][1], final_transform_matrix.v[1][2], final_transform_matrix.v[1][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[2][0], final_transform_matrix.v[2][1], final_transform_matrix.v[2][2], final_transform_matrix.v[2][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[3][0], final_transform_matrix.v[3][1], final_transform_matrix.v[3][2], final_transform_matrix.v[3][3]);
 	}
-
-	
-	
 }
 
 void ComponentTransform::SetPosition(const math::float3& pos)
@@ -188,30 +161,6 @@ void ComponentTransform::SetScale(const math::float3& scale)
 	transform_modified = true;
 }
 
-//CHANGE - PEP
-void ComponentTransform::SetGizmo()
-{
-	ImGuizmo::Enable(guizmo_enable);
-
-	ComponentCamera* cam = App->camera->GetEditorCamera();
-	float4x4 used_matrix = transform_matrix.Transposed();
-
-	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)guizmo_op, ImGuizmo::LOCAL,	used_matrix.ptr());
-	
-	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
-
-	if (ImGuizmo::IsUsing())
-	{
-		used_matrix.Transpose();
-		used_matrix.Decompose(position, rotation, scale);
-
-		SetPosition(position);
-		SetRotation(rotation);
-		SetScale(scale);
-		transform_modified = true;
-	}	
-}
-
 math::float3 ComponentTransform::GetPosition() const
 {
 	return position;
@@ -230,6 +179,11 @@ math::Quat ComponentTransform::GetRotation() const
 math::float3 ComponentTransform::GetScale()const
 {
 	return scale;
+}
+
+math::float4x4 ComponentTransform::GetLocalTransformMatrix() const
+{
+	return transform_matrix;
 }
 
 math::float4x4 ComponentTransform::GetTransformMatrix()const
