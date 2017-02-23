@@ -63,6 +63,7 @@ private:
 	bool active_scale = false;
 
 	GuizmoOperation guizmo_op = TRANSLATE;
+	bool guizmo_use = false;
 };
 
 #endif // !__COMPONENT_TRANSFORM_H__

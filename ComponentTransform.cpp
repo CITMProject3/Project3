@@ -99,7 +99,16 @@ void ComponentTransform::OnInspector()
 		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
 		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
 		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+
+		//Global Matrix
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[0][0], final_transform_matrix.v[0][1], final_transform_matrix.v[0][2], final_transform_matrix.v[0][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[1][0], final_transform_matrix.v[1][1], final_transform_matrix.v[1][2], final_transform_matrix.v[1][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[2][0], final_transform_matrix.v[2][1], final_transform_matrix.v[2][2], final_transform_matrix.v[2][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[3][0], final_transform_matrix.v[3][1], final_transform_matrix.v[3][2], final_transform_matrix.v[3][3]);
 	}
+
+	
+	
 }
 
 void ComponentTransform::SetPosition(const math::float3& pos)
@@ -139,18 +148,40 @@ void ComponentTransform::SetScale(const math::float3& scale)
 //CHANGE - PEP
 void ComponentTransform::SetGizmo()
 {
+	
 
 	ComponentCamera* cam = App->camera->GetEditorCamera();
+	float4x4 guizmo_matrix = transform_matrix;
+	float4x4 manipulated_matrix = manipulated_matrix.identity;
 
-	//WELL WTF
-	ImGuizmo::Manipulate((float*)&(cam->GetViewMatrix()), 
-						(float*)&(cam->GetProjectionMatrix()),
+	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), guizmo_matrix.ptr());
+	ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), manipulated_matrix.ptr());
+
+	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), 
+						cam->GetProjectionMatrix().ptr(),
 						(ImGuizmo::OPERATION)guizmo_op, 
 						ImGuizmo::WORLD, 
-						(float*)&final_transform_matrix,
-						NULL, NULL);
+						guizmo_matrix.ptr(),
+						manipulated_matrix.ptr(),
+						NULL);
+	
+	if (ImGuizmo::IsUsing())
+	{
+	
+		transform_matrix = guizmo_matrix;
+		//transform_matrix += manipulated_matrix;
 
-	transform_modified = true;
+		//transform_matrix.Decompose(position, rotation, scale);
+		//float3 d_position, d_rotation, d_scale;
+		ImGuizmo::DecomposeMatrixToComponents(manipulated_matrix.ptr(), position.ptr(), rotation.ptr(), scale.ptr());
+		SetPosition(position);
+		SetRotation(rotation);
+		SetScale(scale);
+		
+	
+	}
+
+	
 }
 
 math::float3 ComponentTransform::GetPosition() const
