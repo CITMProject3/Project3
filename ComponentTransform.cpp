@@ -4,13 +4,21 @@
 #include "GameObject.h"
 #include "Globals.h"
 #include "imgui\imgui.h"
+#include "ImGuizmo\ImGuizmo.h"
 #include "ComponentMesh.h"
 #include "Data.h"
+
+//CHANGE - PEP
+//Not sure to include this here, maybe better to create a new file
+#include "Application.h"
+#include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
 
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
 	CalculateFinalTransform();
 	*global_matrix = &final_transform_matrix;
+
 }
 
 ComponentTransform::~ComponentTransform()
@@ -48,6 +56,43 @@ void ComponentTransform::OnInspector(bool debug)
 		}
 
 		ImVec4 white = ImVec4(1, 1, 1, 1);
+
+		//CHANGE - PEP
+		//---------Transform operation
+		ImGuizmo::BeginFrame();
+
+		//Selection keys
+		if (ImGui::IsKeyPressed(90))
+			guizmo_op = TRANSLATE;
+		if (ImGui::IsKeyPressed(69))
+			guizmo_op = ROTATION;
+		if (ImGui::IsKeyPressed(82))
+			guizmo_op = SCALE;
+
+		//Inspector selection
+		if (ImGui::RadioButton("Translate", guizmo_op == TRANSLATE))
+		{
+			guizmo_op = TRANSLATE;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Rotate", guizmo_op == ROTATION))
+		{
+			guizmo_op = ROTATION;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Scale", guizmo_op == SCALE))
+		{
+			guizmo_op = SCALE;
+		}
+
+		ImGui::Checkbox("Enable Gizmo", &guizmo_enable);
+
+		
+
+		SetGizmo();
+		//
 	
 		//Position
 		ImGui::TextColored(white, "Position: ");
@@ -92,7 +137,21 @@ void ComponentTransform::OnInspector(bool debug)
 			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
 			ImGui::PopStyleColor();
 		}
+
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+
+		//Global Matrix
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[0][0], final_transform_matrix.v[0][1], final_transform_matrix.v[0][2], final_transform_matrix.v[0][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[1][0], final_transform_matrix.v[1][1], final_transform_matrix.v[1][2], final_transform_matrix.v[1][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[2][0], final_transform_matrix.v[2][1], final_transform_matrix.v[2][2], final_transform_matrix.v[2][3]);
+		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", final_transform_matrix.v[3][0], final_transform_matrix.v[3][1], final_transform_matrix.v[3][2], final_transform_matrix.v[3][3]);
 	}
+
+	
+	
 }
 
 void ComponentTransform::SetPosition(const math::float3& pos)
@@ -127,6 +186,30 @@ void ComponentTransform::SetScale(const math::float3& scale)
 	this->scale = scale;
 
 	transform_modified = true;
+}
+
+//CHANGE - PEP
+void ComponentTransform::SetGizmo()
+{
+	ImGuizmo::Enable(guizmo_enable);
+
+	ComponentCamera* cam = App->camera->GetEditorCamera();
+	float4x4 used_matrix = transform_matrix.Transposed();
+
+	ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)guizmo_op, ImGuizmo::LOCAL,	used_matrix.ptr());
+	
+	//ImGuizmo::DrawCube(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), final_transform_matrix.ptr());
+
+	if (ImGuizmo::IsUsing())
+	{
+		used_matrix.Transpose();
+		used_matrix.Decompose(position, rotation, scale);
+
+		SetPosition(position);
+		SetRotation(rotation);
+		SetScale(scale);
+		transform_modified = true;
+	}	
 }
 
 math::float3 ComponentTransform::GetPosition() const
