@@ -175,7 +175,9 @@ void ComponentTransform::SetGizmo()
 		used_matrix.Transpose();
 		used_matrix.Decompose(position, rotation, scale);
 
-		transform_matrix = transform_matrix.FromTRS(position, rotation, scale);
+		SetPosition(position);
+		SetRotation(rotation);
+		SetScale(scale);
 		transform_modified = true;
 	}	
 }
