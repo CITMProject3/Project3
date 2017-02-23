@@ -95,6 +95,7 @@
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="Hierarchy.h" />
@@ -241,6 +242,7 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="glmath.cpp" />
     <ClCompile Include="HardwareInfo.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="Imgui\imgui.cpp" />
