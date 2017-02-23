@@ -36,6 +36,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 			if (i == 0)
 			{
 				instances.push_back(root); //Save the root GO of the prefab
+				Load();
 				root->rc_prefab = this;
 			}
 		}
@@ -162,6 +163,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	}
 
 	instances.push_back(game_object);
+	Load();
 	
 	return game_object;
 }
@@ -188,7 +190,10 @@ void ResourceFilePrefab::ApplyChanges(GameObject* gameobject)
 	instances.clear();
 
 	for (vector<GameObject*>::iterator it = new_gameobjects.begin(); it != new_gameobjects.end(); ++it)
+	{
 		instances.push_back((*it));
+		Load();
+	}
 
 	//TODO:
 	//Selected go bug

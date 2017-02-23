@@ -469,6 +469,10 @@ void GameObject::ApplyPrefabChanges()
 	{
 		rc_prefab->ApplyChanges(this);
 	}
+	else
+	{
+		App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+	}
 }
 
 void GameObject::CollectChildrenUUID(vector<unsigned int>& uuid, vector<unsigned int>& local_uuid) const
