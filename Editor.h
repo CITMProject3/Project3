@@ -1,6 +1,8 @@
 #ifndef __EDITOR_H__
 #define __EDITOR_H__
 
+//PEP : this is a git bash test
+
 #include "Module.h"
 #include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
