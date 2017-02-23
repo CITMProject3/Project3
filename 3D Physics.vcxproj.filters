@@ -70,6 +70,9 @@
     <Filter Include="Sources\Editor\Windows\Edit">
       <UniqueIdentifier>{e13ba9a3-3138-4541-a0a0-365cfbbed148}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\ImGuizmo">
+      <UniqueIdentifier>{8b055770-4e01-4aa1-b23a-5aeaa19ddfe7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -510,6 +513,9 @@
     <ClInclude Include="ModuleCar.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ImGuizmo\ImGuizmo.h">
+      <Filter>3rd Party Tools\ImGuizmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -847,6 +853,9 @@
     </ClCompile>
     <ClCompile Include="ModuleCar.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
+      <Filter>3rd Party Tools\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

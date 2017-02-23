@@ -8,8 +8,9 @@
 
 //CHANGE - PEP
 //Not sure to include this here, maybe better to create a new file
-//#include "ModuleRenderer3D.h"
-//#include "Application.h"
+#include "Application.h"
+#include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
 
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
@@ -41,6 +42,8 @@ void ComponentTransform::OnInspector()
 
 		//CHANGE - PEP
 		//Transform operation
+		ImGuizmo::BeginFrame();
+
 		if (ImGui::RadioButton("Translate", guizmo_op == TRANSLATE))
 		{
 			guizmo_op = TRANSLATE;
@@ -57,6 +60,8 @@ void ComponentTransform::OnInspector()
 		{
 			guizmo_op = SCALE;
 		}
+
+		SetGizmo();
 		//
 	
 		//Position
@@ -134,13 +139,16 @@ void ComponentTransform::SetScale(const math::float3& scale)
 //CHANGE - PEP
 void ComponentTransform::SetGizmo()
 {
+
+	ComponentCamera* cam = App->camera->GetEditorCamera();
+
 	//WELL WTF
-	/*ImGuizmo::Manipulate((float*)&(App->renderer3D->ViewMatrix), 
-						(float*)&(App->renderer3D->ProjectionMatrix),
+	ImGuizmo::Manipulate((float*)&(cam->GetViewMatrix()), 
+						(float*)&(cam->GetProjectionMatrix()),
 						(ImGuizmo::OPERATION)guizmo_op, 
 						ImGuizmo::WORLD, 
 						(float*)&final_transform_matrix,
-						NULL, NULL);*/
+						NULL, NULL);
 
 	transform_modified = true;
 }
