@@ -28,10 +28,25 @@ void ComponentTransform::Update()
 	}
 }
 
-void ComponentTransform::OnInspector()
+void ComponentTransform::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Transform", ImGuiTreeNodeFlags_DefaultOpen))
+	string str = (string("Transform") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("reset##transform");
+		}
+
+		if (ImGui::BeginPopup("reset##transform"))
+		{
+			if (ImGui::MenuItem("Reset"))
+			{
+				Reset();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImVec4 white = ImVec4(1, 1, 1, 1);
 	
 		//Position
@@ -68,10 +83,15 @@ void ComponentTransform::OnInspector()
 		}
 
 		//Local Matrix
-		/*ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);*/
+		if (debug == true)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(255, 255, 0, 255));
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+			ImGui::PopStyleColor();
+		}
 	}
 }
 
@@ -163,6 +183,13 @@ void ComponentTransform::Load(Data & conf)
 	rotation_euler = RadToDeg(rotation_euler); //To degrees
 	scale = transform_matrix.GetScale();
 	CalculateFinalTransform();
+}
+
+void ComponentTransform::Reset()
+{
+	SetPosition(float3::zero);
+	SetRotation(Quat::identity);
+	SetScale(float3::one);
 }
 
 void ComponentTransform::Remove()

@@ -15,7 +15,7 @@ public:
 	ComponentLight(ComponentType type, GameObject* game_object);
 	~ComponentLight();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 
 	void Save(Data& file)const;
 	void Load(Data& conf);

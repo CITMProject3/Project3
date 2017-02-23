@@ -16,13 +16,78 @@ ComponentMaterial::~ComponentMaterial()
 	CleanUp();
 }
 
-void ComponentMaterial::OnInspector()
+void ComponentMaterial::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Material", &alive, ImGuiTreeNodeFlags_DefaultOpen))
+	string str = (string("Material") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##material");
+		}
+
+		if (ImGui::BeginPopup("delete##material"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		if (material_path.size() == 0)
 		{
-			ImGui::Text("Material: Default material");
+			ImGui::Text("Material: ");
+			ImGui::SameLine();
+			std::string str = (material_name + "##" + std::to_string(uuid));
+			if (ImGui::BeginMenu(str.c_str()))
+			{
+				vector<string> materials;
+				App->editor->assets->GetAllFilesByType(FileType::MATERIAL, materials);
+
+				for (vector<string>::iterator it = materials.begin(); it != materials.end(); ++it)
+				{
+					if (ImGui::MenuItem((*it).data()))
+					{
+						CleanUp();
+
+						change_material_enabled = false;
+						material_name = (*it).data();
+						if (rc_material)
+						{
+							rc_material->Unload();
+						}
+						material_path = App->resource_manager->FindFile(material_name);
+						rc_material = (ResourceFileMaterial*)App->resource_manager->LoadResource(material_path, ResourceFileType::RES_MATERIAL);
+						for (vector<Uniform*>::iterator uni = rc_material->material.uniforms.begin(); uni != rc_material->material.uniforms.end(); ++uni)
+						{
+							if ((*uni)->type == UniformType::U_SAMPLER2D)
+							{
+								string texture_path;
+								int name_size = *reinterpret_cast<int*>((*uni)->value);
+								texture_path.resize(name_size);
+								memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
+
+								ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());
+
+								if (type == ResourceFileType::RES_TEXTURE)
+								{
+									ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_TEXTURE);
+									tex_resources.push_back(rc_tmp);
+									texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
+								}
+								else
+								{
+									ResourceFileRenderTexture* rc_rndtx = (ResourceFileRenderTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_RENDER_TEX);
+									tex_resources.push_back(rc_rndtx);
+									texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_rndtx->GetTexture()));
+								}
+							}
+						}
+					}
+				}
+				ImGui::EndMenu();
+			}
 
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
@@ -35,59 +100,7 @@ void ComponentMaterial::OnInspector()
 			ImGui::Text("Material: %s", material_name.data());
 			PrintMaterialProperties();
 		}
-
-		if (ImGui::BeginMenu("Select a material"))
-		{
-			vector<string> materials;
-			App->editor->assets->GetAllFilesByType(FileType::MATERIAL, materials);
-
-			for (vector<string>::iterator it = materials.begin(); it != materials.end(); ++it)
-			{
-				if (ImGui::MenuItem((*it).data()))
-				{
-					CleanUp();
-
-					change_material_enabled = false;
-					material_name = (*it).data();
-					if (rc_material)
-					{
-						rc_material->Unload();
-					}
-					material_path = App->resource_manager->FindFile(material_name);
-					rc_material = (ResourceFileMaterial*)App->resource_manager->LoadResource(material_path, ResourceFileType::RES_MATERIAL);
-					for (vector<Uniform*>::iterator uni = rc_material->material.uniforms.begin(); uni != rc_material->material.uniforms.end(); ++uni)
-					{
-						if ((*uni)->type == UniformType::U_SAMPLER2D)
-						{
-							string texture_path;
-							int name_size = *reinterpret_cast<int*>((*uni)->value);
-							texture_path.resize(name_size);
-							memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
-
-							ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());
-
-							if (type == ResourceFileType::RES_TEXTURE)
-							{
-								ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_TEXTURE);
-								tex_resources.push_back(rc_tmp);
-								texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
-							}
-							else
-							{
-								ResourceFileRenderTexture* rc_rndtx = (ResourceFileRenderTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_RENDER_TEX);
-								tex_resources.push_back(rc_rndtx);
-								texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_rndtx->GetTexture()));
-							}
-						}
-					}
-				}
-			}
-			ImGui::EndMenu();
-		}
-
 	}
-	else
-		Remove();
 }
 
 void ComponentMaterial::Update()

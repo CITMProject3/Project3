@@ -12,7 +12,7 @@ Component::Component(ComponentType type, GameObject* game_object) : type (type),
 Component::~Component()
 {}
 
-void Component::OnInspector()
+void Component::OnInspector(bool debug)
 {}
 
 ComponentType Component::GetType() const

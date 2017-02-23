@@ -672,7 +672,7 @@ void ModuleGOManager::InspectorWindow()
 		const std::vector<Component*>* components = selected_GO->GetComponents();
 		for (std::vector<Component*>::const_iterator component = (*components).begin(); component != (*components).end(); ++component)
 		{
-			(*component)->OnInspector();
+			(*component)->OnInspector(debug_inspector);
 		}
 
 		//Options

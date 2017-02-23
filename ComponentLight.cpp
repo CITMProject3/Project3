@@ -14,10 +14,25 @@ ComponentLight::~ComponentLight()
 {
 }
 
-void ComponentLight::OnInspector()
+void ComponentLight::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Light", &alive, ImGuiTreeNodeFlags_DefaultOpen))
+	string str = (string("Light") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##light");
+		}
+
+		if (ImGui::BeginPopup("delete##light"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImGui::Text("Light type: ");
 		ImGui::SameLine();
 		string light_type_name = "";
@@ -44,8 +59,6 @@ void ComponentLight::OnInspector()
 			break;
 		}
 	}
-	else
-		Remove();
 }
 
 void ComponentLight::Save(Data & file) const
