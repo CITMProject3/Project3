@@ -24,6 +24,15 @@ GameObject::GameObject(GameObject* parent) : parent(parent)
 	name = "Empty GameObject";
 	uuid = App->rnd->RandomInt();
 	AddComponent(C_TRANSFORM);
+	if (parent)
+	{
+		if (parent->IsPrefab())
+		{
+			is_prefab = true;
+			prefab_path = parent->prefab_path;
+			prefab_root_uuid = parent->prefab_root_uuid;
+		}
+	}
 }
 
 GameObject::GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid, const string& prefab_path) 
@@ -471,7 +480,9 @@ void GameObject::ApplyPrefabChanges()
 	}
 	else
 	{
-		App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+		GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+		if (prefab_go)
+			prefab_go->rc_prefab->ApplyChanges(prefab_go);
 	}
 }
 
