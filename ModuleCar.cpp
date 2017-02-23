@@ -16,7 +16,7 @@
 
 #include "imgui\imgui.h"
 
-#define DISTANCE_FROM_GROUND 1
+#define DISTANCE_FROM_GROUND 1.0
 
 ModuleCar::ModuleCar(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -60,6 +60,8 @@ update_status ModuleCar::Update()
 			FindKartGOs();
 			App->renderer3D->SetCamera(camera);
 			firstFrameOfExecution = false;
+			speed = 0.0f;
+			fallSpeed = 0.0f;
 		}
 
 		if (kart && kart_trs)
@@ -154,13 +156,13 @@ void ModuleCar::KartLogic()
 		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
 		newPos = hitB.point + (hitF.point - hitB.point) / 2;
 	}
-	else if ((hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && !(hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
+	else if ((hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND/2.0 + 1) && !(hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
 		onTheGround = true;
 		desiredUp = hitF.normal;
 		checkOffTrack = true;
 	}
-	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
+	else if (!(hitF.object != nullptr && hitF.distance < DISTANCE_FROM_GROUND/2.0 + 1) && (hitB.object != nullptr && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
 	{
 		onTheGround = true;
 		desiredUp = hitB.normal;
@@ -243,6 +245,13 @@ void ModuleCar::KartLogic()
 
 	newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
 	kart_trs->SetPosition(newPos);
+
+	if (kart_trs->GetPosition().y < -200)
+	{
+		kart_trs->SetPosition(float3(0, 1, 0));
+		speed = 0.0f;
+		fallSpeed = 0.0f;
+	}
 }
 
 float ModuleCar::AccelerationInput()
