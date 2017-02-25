@@ -516,6 +516,12 @@
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>3rd Party Tools\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceFileAnimation.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationImporter.h">
+      <Filter>Sources\Importer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -856,6 +862,12 @@
     </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>3rd Party Tools\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceFileAnimation.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationImporter.cpp">
+      <Filter>Sources\Importer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
