@@ -480,7 +480,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	delete[] buf;
 	gameobject->SetParent(parent);
 	gameobject->prefab_path = library_path.data();
-	//BUG: The object should have an instance of the resource used. Destroy the object and create a new?
+	
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
