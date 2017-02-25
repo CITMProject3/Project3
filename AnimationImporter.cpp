@@ -18,7 +18,7 @@ bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* 
 	{
 		//In case there is more than one animation, all animations will be imported
 		//but only the first one will be assigned to the root
-		for (uint i = scene->mNumAnimations - 1; i >= 0; i++)
+		for (int i = scene->mNumAnimations - 1; i >= 0; i--)
 		{
 			bool imported = ImportAnimation(scene->mAnimations[i], base_path, output_name);
 			if (imported == false)
@@ -40,7 +40,10 @@ bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* bas
 	for (uint i = 0; i < anim->mNumChannels; i++)
 		ImportChannel(anim->mChannels[i], animation.channels[i]);
 
-	return Save(animation, base_path, output_name);
+	bool ret = Save(animation, base_path, output_name);
+
+	delete[] animation.channels;
+	animation.channels = nullptr;
 	//animation->ID = ID;
 	//animation->name = anim->mName.C_Str();
 	//std::string full_path("/Library/Animations/");
@@ -48,6 +51,7 @@ bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* bas
 	//animation->resource_file = full_path;
 	//animation->original_file = source_file;
 	//animation->LoadOnMemory();
+	return ret;
 }
 
 void AnimationImporter::ImportChannel(const aiNodeAnim* node, Channel& channel)

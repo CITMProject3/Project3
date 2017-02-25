@@ -45,11 +45,11 @@ private:
 	void UnloadInMemory();
 
 public:
-	float full_duration;
-	uint ticks_per_second;
+	float full_duration = 0;
+	uint ticks_per_second = 0;
 
-	uint num_channels;
-	Channel* channels;
+	uint num_channels = 0;
+	Channel* channels = nullptr;
 };
 
 #endif // !__RESOURCEFILANIMATION_H__
