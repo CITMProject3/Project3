@@ -396,7 +396,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 		}
 		else
 		{
-			float4x4 transform_matrix = root_prefab.GetMatrix("matrix");
+			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
 			c_transform->Update(); //To update the matrix manually
 		}
