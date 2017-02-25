@@ -208,6 +208,11 @@ void ResourceFilePrefab::RevertChanges(GameObject * gameobject)
 	instances.push_back(new_gameobjects.front());
 }
 
+void ResourceFilePrefab::InsertOriginalInstance(GameObject * original_go)
+{
+	instances.push_back(original_go);
+}
+
 void ResourceFilePrefab::LoadInMemory()
 {}
 

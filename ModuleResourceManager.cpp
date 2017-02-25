@@ -481,6 +481,13 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	gameobject->SetParent(parent);
 	gameobject->prefab_path = library_path.data();
 	
+	ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+	if (rc_prefab)
+	{
+		gameobject->rc_prefab = rc_prefab;
+		rc_prefab->InsertOriginalInstance(gameobject);
+	}
+	
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)

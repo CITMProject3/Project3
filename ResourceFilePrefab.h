@@ -19,6 +19,8 @@ public:
 	void ApplyChanges(GameObject* gameobject);
 	void RevertChanges(GameObject* gameobject);
 
+	void InsertOriginalInstance(GameObject* original_go);
+
 private:
 	void LoadInMemory();
 	void UnloadInMemory();
