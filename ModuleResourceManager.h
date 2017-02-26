@@ -78,6 +78,8 @@ public:
 	void CreateFolder(const char* assets_path, string& base_library_path) const;
 	void NameFolderUpdate(const string &meta_file, const string &meta_path, const string &old_folder_name, const string &new_folder_name, bool is_file = false) const;
 
+	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, double& time_mod, string& library_path, string& assets_path)const;
+
 private:
 
 	FileType GetFileExtension(const char* path)const;
@@ -102,6 +104,8 @@ private:
 
 	void UpdateAssetsAuto()const;
 	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)const;
+	void UpdateFileWithMeta(const string& meta_file)const;
+	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path)const;
 
 
 private:

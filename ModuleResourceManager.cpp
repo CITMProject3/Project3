@@ -121,6 +121,8 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 					if (file_name.compare(meta_name) == 0)
 					{
 						meta_found = true;
+						string meta_complete_path = assets_dir + *meta;
+						UpdateFileWithMeta(meta_complete_path);
 						break;
 					}
 				}	
@@ -162,6 +164,9 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 				if ((*folder).compare(meta_name) == 0)
 				{
 					meta_found = true;
+
+					//TODO: UPDATE FOLDER WITH META
+
 					//Read the meta and find the library equivalent
 					library_path = FindFile(*folder);
 					break;
@@ -180,6 +185,69 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 		UpdateAssetsAutoRecursive(path, library_path, mesh_files);
 	}
 
+}
+
+void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file) const
+{
+	unsigned int type, uuid;
+	double time_mod;
+	string library_path, assets_path;
+
+	ReadMetaFile(meta_file.data(), type, uuid, time_mod, library_path, assets_path);
+
+	if (App->file_system->Exists(library_path.data()))
+	{
+		//Check file modification
+	}
+	else
+	{
+		//Create the file in library
+		ImportFileWithMeta(type, uuid, library_path, assets_path);
+	}
+}
+
+void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path) const
+{
+	//Create the folder in library
+	string lib_folder_path = library_path.data();
+	lib_folder_path = lib_folder_path.substr(0, lib_folder_path.find_last_of("/\\") + 1);
+	App->file_system->GenerateDirectory(lib_folder_path.data());
+
+	switch (type)
+	{
+		case IMAGE:
+			break;
+		case MESH:
+			break;
+		case PREFAB:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case SCENE:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case VERTEX:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case FRAGMENT:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case MATERIAL:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case RENDER_TEXTURE:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+	}
+	//Switch by type and import
+
+	//Textrure->call import (special) specify uuid
+	//Mesh->call import (special) specify uuid and msh uuids
+	//vertex->duplicate file
+	//fragment->duplicate file
+	//mat->duplicate file
+	//foldre->duplicate file
+	//pref->duplicate file
+	//scene->duplicate file
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)
@@ -789,6 +857,29 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
 		delete[] buf;
 	}
+}
+
+bool ModuleResourceManager::ReadMetaFile(const char * path, unsigned int & type, unsigned int & uuid, double & time_mod, string & library_path, string & assets_path) const
+{
+	bool ret = false;
+
+	char* buffer = nullptr;
+	if (App->file_system->Load(path, &buffer) > 0)
+	{
+		ret = true;
+
+		Data meta(buffer);
+		type = meta.GetUInt("Type");
+		uuid = meta.GetUInt("UUID");
+		time_mod = meta.GetDouble("time_mod");
+		library_path = meta.GetString("library_path");
+		assets_path = meta.GetString("original_file");
+	}
+
+	if (buffer)
+		delete[] buffer;
+
+	return ret;
 }
 
 void ModuleResourceManager::ImportFile(const char * path, string base_dir, string base_library_dir, unsigned int uuid) const
