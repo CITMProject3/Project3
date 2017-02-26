@@ -58,7 +58,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	unsigned int local_uuid = go_data.GetUInt("local_UUID");
 	unsigned int uuid_parent = go_data.GetUInt("parent");
 
-	//parent = App->go_manager->FindGameObjectByUUID(root, uuid_parent); //I wil deal with this later
+	
 	bool active = go_data.GetBool("active");
 	bool is_prefab = true;
 	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid"); 
@@ -345,17 +345,17 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	unsigned int local_uuid = origin->local_uuid;
 	unsigned int uuid_parent = origin->GetParent()->GetUUID();
 
-	//parent = App->go_manager->FindGameObjectByUUID(root, uuid_parent); //I wil deal with this later
+	GameObject* parent = App->go_manager->FindGameObjectByUUID(App->go_manager->root, uuid_parent); 
 	bool active = origin->IsActive();
 	bool is_prefab = true;
 	unsigned int prefab_root_uuid = origin->prefab_root_uuid;
 
-	GameObject* game_object = new GameObject(name, uuid, origin->GetParent(), active, false, true, 0, prefab_root_uuid, file_path);
+	GameObject* game_object = new GameObject(name, uuid, parent, active, false, true, 0, prefab_root_uuid, file_path);
 
 	game_object->rc_prefab = this;
 
-	if (origin->GetParent())
-		origin->GetParent()->AddChild(game_object);
+	if (parent)
+		parent->AddChild(game_object);
 
 	ComponentTransform* c_transform = (ComponentTransform*)game_object->GetComponent(ComponentType::C_TRANSFORM);
 	ComponentTransform* origin_c_transform = (ComponentTransform*)origin->GetComponent(ComponentType::C_TRANSFORM);
