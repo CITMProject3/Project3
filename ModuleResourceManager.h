@@ -104,8 +104,8 @@ private:
 
 	void UpdateAssetsAuto()const;
 	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)const;
-	void UpdateFileWithMeta(const string& meta_file)const;
-	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path)const;
+	void UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir)const;
+	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir)const;
 
 
 private:

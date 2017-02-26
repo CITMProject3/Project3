@@ -122,7 +122,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 					{
 						meta_found = true;
 						string meta_complete_path = assets_dir + *meta;
-						UpdateFileWithMeta(meta_complete_path);
+						UpdateFileWithMeta(meta_complete_path, assets_dir, library_dir);
 						break;
 					}
 				}	
@@ -187,7 +187,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 
 }
 
-void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file) const
+void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir) const
 {
 	unsigned int type, uuid;
 	double time_mod;
@@ -202,11 +202,11 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file) const
 	else
 	{
 		//Create the file in library
-		ImportFileWithMeta(type, uuid, library_path, assets_path);
+		ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir);
 	}
 }
 
-void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path) const
+void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir) const
 {
 	//Create the folder in library
 	string lib_folder_path = library_path.data();
@@ -216,8 +216,10 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 	switch (type)
 	{
 		case IMAGE:
+			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
 			break;
 		case MESH:
+			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
 			break;
 		case PREFAB:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
@@ -238,16 +240,6 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
 	}
-	//Switch by type and import
-
-	//Textrure->call import (special) specify uuid
-	//Mesh->call import (special) specify uuid and msh uuids
-	//vertex->duplicate file
-	//fragment->duplicate file
-	//mat->duplicate file
-	//foldre->duplicate file
-	//pref->duplicate file
-	//scene->duplicate file
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)
