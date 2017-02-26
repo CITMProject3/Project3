@@ -53,10 +53,25 @@ void ComponentCamera::Update()
 	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
-void ComponentCamera::OnInspector()
+void ComponentCamera::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Camera"))
+	string str = (string("Camera") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##camera");
+		}
+
+		if (ImGui::BeginPopup("delete##camera"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		//Near plane
 		ImGui::Text("Near Plane: ");
 		float near_value = near_plane;
@@ -106,14 +121,14 @@ void ComponentCamera::OnInspector()
 
 			ImGui::EndMenu();
 		}
-		
+
 		ImGui::Separator();
 
 		if (ImGui::Button("Remove ###cam_rem"))
 		{
 			Remove();
 		}
-	}
+	}		
 }
 
 void ComponentCamera::OnTransformModified()

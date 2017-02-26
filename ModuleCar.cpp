@@ -4,6 +4,22 @@
 #include "PhysVehicle3D.h"
 #include "glmath.h"
 
+#include "ModuleResourceManager.h"
+#include "ModuleGOManager.h"
+#include "ComponentTransform.h"
+#include "Editor.h"
+#include "Assets.h"
+#include "GameObject.h"
+#include "RaycastHit.h"
+
+#include "ModuleInput.h"
+
+#include "glmath.h"
+
+#include "imgui\imgui.h"
+
+#define DISTANCE_FROM_GROUND 1.0
+
 ModuleCar::ModuleCar(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
 }
@@ -20,9 +36,15 @@ bool ModuleCar::Init(Data& config)
 	return ret;
 }
 
+bool ModuleCar::Start()
+{
+	return true;
+}
+
 // Called every draw update
 update_status ModuleCar::PreUpdate()
 {
+
 	return UPDATE_CONTINUE;
 }
 
@@ -82,20 +104,7 @@ update_status ModuleCar::Update()
 			AddDummyCar();
 		}
 	}
-	
-
 	return UPDATE_CONTINUE;
-}
-
-update_status ModuleCar::PostUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
-// Called before quitting
-bool ModuleCar::CleanUp()
-{
-	return true;
 }
 
 void ModuleCar::AddDummyCar()

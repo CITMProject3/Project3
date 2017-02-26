@@ -9,7 +9,7 @@ public:
 	LayersWindow();
 	~LayersWindow();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 };
 
 #endif

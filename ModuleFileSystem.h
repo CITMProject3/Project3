@@ -47,6 +47,7 @@ public:
 
 	string GetNameFromPath(const string& path)const;
 	double GetLastModificationTime(const char* file_path)const;
+	const char *GetRealPath(const string &virtual_path) const;
 	bool GenerateDirectory(const char* path)const;
 	bool Delete(string filename)const;
 	bool DuplicateFile(const char* src, const char* dst)const;

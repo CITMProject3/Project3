@@ -18,7 +18,7 @@ ShaderEditorWindow::~ShaderEditorWindow()
 	delete[] program;
 }
 
-void ShaderEditorWindow::Draw(ImGuiWindowFlags flags)
+void ShaderEditorWindow::Draw()
 {
 	if (!active)
 		return;

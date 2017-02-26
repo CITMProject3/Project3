@@ -16,7 +16,7 @@ public:
 
 	void Update();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 	void OnTransformModified();
 	void OnNotify(void* entity, Event event);
 

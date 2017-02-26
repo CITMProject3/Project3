@@ -14,7 +14,7 @@ CameraWindow::~CameraWindow()
 {
 }
 
-void CameraWindow::Draw(ImGuiWindowFlags flags)
+void CameraWindow::Draw()
 {
 	if (!active)
 		return;

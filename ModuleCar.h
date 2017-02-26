@@ -10,21 +10,21 @@
 #define BRAKE_POWER 500.0f
 
 struct PhysVehicle3D;
+class GameObject;
+class ComponentTransform;
 
 using namespace std;
 
 class ModuleCar : public Module
 {
 public:
-	
 	ModuleCar(const char* name, bool start_enabled = true);
 	~ModuleCar();
 
 	bool Init(Data& config);
+	bool Start();
 	update_status PreUpdate();
 	update_status Update();
-	update_status PostUpdate();
-	bool CleanUp();
 
 	/*/ roads
 	void AddStraightRoad(int large, const vec& pos, int orientation);

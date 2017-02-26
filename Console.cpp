@@ -8,7 +8,7 @@ Console::~Console()
 	buffer.clear();
 }
 
-void Console::Draw(ImGuiWindowFlags flags)
+void Console::Draw()
 {
 	if (!active)
 		return;
