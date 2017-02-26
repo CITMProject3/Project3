@@ -498,6 +498,9 @@
     <ClInclude Include="RenderTexEditorWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+    <ClInclude Include="Wwise_Library.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">

@@ -2,9 +2,9 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
-#pragma comment( lib, "SDL_mixer/libx86/SDL2_mixer.lib" )
+#include "Wwise_Library.h"
 
-ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled), music(NULL)
+ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
 
 // Destructor
@@ -14,32 +14,15 @@ ModuleAudio::~ModuleAudio()
 // Called before render is available
 bool ModuleAudio::Init(Data& config)
 {
-	LOG("Loading Audio Mixer");
+	LOG("Loading Audio Wwise Library");
+	
 	bool ret = true;
-	SDL_Init(0);
 
-	if(SDL_InitSubSystem(SDL_INIT_AUDIO) < 0)
-	{
-		LOG("SDL_INIT_AUDIO could not initialize! SDL_Error: %s\n", SDL_GetError());
-		ret = false;
-	}
-
-	// load support for the OGG format
-	int flags = MIX_INIT_OGG;
-	int init = Mix_Init(flags);
-
-	if((init & flags) != flags)
-	{
-		LOG("Could not initialize Mixer lib. Mix_Init: %s", Mix_GetError());
-		ret = false;
-	}
-
-	//Initialize SDL_mixer
-	if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	{
-		LOG("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-		ret = false;
-	}
+	InitMemoryManager();
+	InitStreamingManager();
+	InitSoundEngine();
+	InitMusicEngine();
+	InitCommunicationModule();
 
 	return ret;
 }
@@ -47,113 +30,174 @@ bool ModuleAudio::Init(Data& config)
 // Called before quitting
 bool ModuleAudio::CleanUp()
 {
-	LOG("Freeing sound FX, closing Mixer and Audio subsystem");
+	LOG("Terminating Audio Wwise Library");
 
-	if(music != NULL)
-	{
-		Mix_FreeMusic(music);
-	}
+	//Termination will be done in the reverse order compared to initialization.
+	StopCommunicationModule();
+	StopMusicEngine();
+	StopSoundEngine();
+	StopStreamingManager();
+	StopMemoryManager();
 
-	list<Mix_Chunk*>::iterator i = fx.begin();
-
-	while (i != fx.end())
-	{
-		Mix_FreeChunk(*i);
-		++i;
-	}
-
-	fx.clear();
-	Mix_CloseAudio();
-	Mix_Quit();
-	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 	return true;
 }
 
-// Play a music file
-bool ModuleAudio::PlayMusic(const char* path, float fade_time)
+bool ModuleAudio::InitMemoryManager()
 {
-	bool ret = true;
-	
-	if(music != NULL)
-	{
-		if(fade_time > 0.0f)
-		{
-			Mix_FadeOutMusic((int) (fade_time * 1000.0f));
-		}
-		else
-		{
-			Mix_HaltMusic();
-		}
+	// Create and initialize an instance of the default memory manager. Note
+	// that you can override the default memory manager with your own. Refer
+	// to the SDK documentation for more information.
 
-		// this call blocks until fade out is done
-		Mix_FreeMusic(music);
+	AkMemSettings memSettings;
+	memSettings.uMaxNumPools = 20;
+
+	if (AK::MemoryMgr::Init(&memSettings) != AK_Success)
+	{
+		assert(!"Could not create the memory manager.");
+		return false;
 	}
 
-	music = Mix_LoadMUS(path);
-
-	if(music == NULL)
-	{
-		LOG("Cannot load music %s. Mix_GetError(): %s\n", path, Mix_GetError());
-		ret = false;
-	}
-	else
-	{
-		if(fade_time > 0.0f)
-		{
-			if(Mix_FadeInMusic(music, -1, (int) (fade_time * 1000.0f)) < 0)
-			{
-				LOG("Cannot fade in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
-		}
-		else
-		{
-			if(Mix_PlayMusic(music, -1) < 0)
-			{
-				LOG("Cannot play in music %s. Mix_GetError(): %s", path, Mix_GetError());
-				ret = false;
-			}
-		}
-	}
-
-	LOG("Successfully playing %s", path);
-	return ret;
+	return true;
 }
 
-// Load WAV
-unsigned int ModuleAudio::LoadFx(const char* path)
+// We're using the default Low-Level I/O implementation that's part
+// of the SDK's sample code, with the file package extension
+//CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+
+bool ModuleAudio::InitStreamingManager()
 {
-	unsigned int ret = 0;
+	// Create and initialize an instance of the default streaming manager. Note
+	// that you can override the default streaming manager with your own. Refer
+	// to the SDK documentation for more information.
 
-	Mix_Chunk* chunk = Mix_LoadWAV(path);
+	AkStreamMgrSettings stmSettings;
+	AK::StreamMgr::GetDefaultSettings(stmSettings);
 
-	if(chunk == NULL)
+	// Customize the Stream Manager settings here.
+
+	if (!AK::StreamMgr::Create(stmSettings))
 	{
-		LOG("Cannot load wav %s. Mix_GetError(): %s", path, Mix_GetError());
-	}
-	else
-	{
-		fx.push_back(chunk);
-		ret = fx.size();
+		assert(!"Could not create the Streaming Manager");
+		return false;
 	}
 
-	return ret;
+	// Create a streaming device with blocking low-level I/O handshaking.
+	// Note that you can override the default low-level I/O module with your own. Refer
+	// to the SDK documentation for more information.        
+	//
+	AkDeviceSettings deviceSettings;
+	AK::StreamMgr::GetDefaultDeviceSettings(deviceSettings);
+
+	// Customize the streaming device settings here.
+
+	// CAkFilePackageLowLevelIOBlocking::Init() creates a streaming device
+	// in the Stream Manager, and registers itself as the File Location Resolver.
+	/*if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
+	{
+		assert(!"Could not create the streaming device and Low-Level I/O system");
+		return false;
+	}*/
+
+	return true;
 }
 
-// Play WAV
-bool ModuleAudio::PlayFx(unsigned int id, int repeat)
+bool ModuleAudio::InitSoundEngine()
 {
-	bool ret = false;
+	// Create the Sound Engine
+	// Using default initialization parameters
 
-	list<Mix_Chunk*>::iterator chunk = fx.begin();
+	AkInitSettings initSettings;
+	AkPlatformInitSettings platformInitSettings;
+	AK::SoundEngine::GetDefaultInitSettings(initSettings);
+	AK::SoundEngine::GetDefaultPlatformInitSettings(platformInitSettings);
 
-	advance(chunk, id - 1);
-	
-	if(chunk != fx.end())
+	if (AK::SoundEngine::Init(&initSettings, &platformInitSettings) != AK_Success)
 	{
-		Mix_PlayChannel(-1, *chunk, repeat);
-		ret = true;
+		assert(!"Could not initialize the Sound Engine.");
+		return false;
 	}
 
-	return ret;
+	return true;
+}
+
+bool ModuleAudio::InitMusicEngine()
+{
+	// Initialize the music engine
+	// Using default initialization parameters
+
+	AkMusicSettings musicInit;
+	AK::MusicEngine::GetDefaultInitSettings(musicInit);
+
+	if (AK::MusicEngine::Init(&musicInit) != AK_Success)
+	{
+		assert(!"Could not initialize the Music Engine.");
+		return false;
+	}
+
+	return true;
+}
+
+bool ModuleAudio::InitCommunicationModule()
+{
+	#ifndef AK_OPTIMIZED
+	
+	// Initialize communications (not in release build!)
+	AkCommSettings commSettings;
+	AK::Comm::GetDefaultInitSettings(commSettings);
+	if (AK::Comm::Init(commSettings) != AK_Success)
+	{
+		assert(!"Could not initialize communication.");
+		return false;
+	}
+	#endif // AK_OPTIMIZED
+
+	return true;
+}
+
+bool ModuleAudio::StopMemoryManager()
+{
+	// Terminate the Memory Manager
+	AK::MemoryMgr::Term();
+
+	return true;
+}
+
+bool ModuleAudio::StopStreamingManager()
+{
+	// Terminate the streaming device and streaming manager
+
+	// CAkFilePackageLowLevelIOBlocking::Term() destroys its associated streaming device 
+	// that lives in the Stream Manager, and unregisters itself as the File Location Resolver.
+	//g_lowLevelIO.Term();
+
+	if (AK::IAkStreamMgr::Get())
+		AK::IAkStreamMgr::Get()->Destroy();
+
+	return true;
+}
+
+bool ModuleAudio::StopSoundEngine()
+{
+	// Terminate the sound engine
+	AK::SoundEngine::Term();
+
+	return true;
+}
+
+bool ModuleAudio::StopMusicEngine()
+{
+	// Terminate the music engine
+	AK::MusicEngine::Term();
+
+	return true;
+}
+
+bool ModuleAudio::StopCommunicationModule()
+{
+	#ifndef AK_OPTIMIZED
+	// Terminate Communication Services
+	AK::Comm::Term();
+	#endif
+
+	return true;
 }
