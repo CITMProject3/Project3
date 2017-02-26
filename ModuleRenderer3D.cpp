@@ -530,3 +530,39 @@ void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
 
 	glEnable(GL_LIGHTING);
 }
+
+void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		glDisable(GL_LIGHTING);
+
+		glPushMatrix();
+		glMultMatrixf(transform.Transposed().ptr());
+
+		glColor4f(color.x, color.y, color.z, color.w);
+
+		glBegin(GL_LINES);
+
+		glVertex3f(0.5f, 0.0f, 0.0f); glVertex3f(-0.5f, 0.0f, 0.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f); glVertex3f(0.0f, -0.5f, 0.0f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.0f, 0.0f, -0.5f);
+		//Arrow indicating forward
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.1f, 0.0f, 0.4f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(-0.1f, 0.0f, 0.4f);
+
+		glEnd();
+
+		glEnable(GL_LIGHTING);
+
+		glPopMatrix();
+	}
+}
+
+void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		DrawLocator(float4x4::FromTRS(pos, rot, float3(1, 1, 1)), color);
+	}
+}
