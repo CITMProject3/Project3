@@ -46,7 +46,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 		aiNode* tmp_node = root;
 
- 		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node);
+ 		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node, path);
 
 		std::string output_animation;
 		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
@@ -87,10 +87,11 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 	return ret;
 }
 
-void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, string mesh_file_directory, vector<GameObject*>& objects_created, string folder_path, Data& root_data_node)
+void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, string mesh_file_directory, vector<GameObject*>& objects_created, string folder_path, Data& root_data_node, const char* assets_file)
 {
 	//Transformation ------------------------------------------------------------------------------------------------------------------
 	GameObject* go_root = new GameObject(parent);
+
 	objects_created.push_back(go_root);
 	ComponentTransform* c_transform = (ComponentTransform*)go_root->GetComponent(C_TRANSFORM);
 
@@ -100,14 +101,9 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 	node->mTransformation.Decompose(scaling, rotation, translation);
 
-	math::float3 pos;
-	pos.x = translation.x; pos.y = translation.y; pos.z = translation.z;
-
-	math::Quat rot;
-	rot.x = rotation.x; rot.y = rotation.y; rot.z = rotation.z; rot.w = rotation.w;
-
-	math::float3 scale;
-	scale.x = scaling.x; scale.y = scaling.y; scale.z = scaling.z;
+	float3 pos(translation.x, translation.y, translation.z);
+	Quat rot(rotation.x, rotation.y, rotation.z, rotation.w);
+	float3 scale(scaling.x, scaling.y, scaling.z);
 
 	//Don't load fbx dummies as gameobjects. 
 	static const char* dummies[5] =
@@ -138,41 +134,61 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 	c_transform->Update(); //Force it to update the matrix
 
+	if (node->mName.length > 0)
+		go_root->name = node->mName.C_Str();
+
+	if (go_root->name == "RootNode")
+	{
+		go_root->name = assets_file;
+		uint slashPos;
+		if ((slashPos = go_root->name.find_last_of("/")) != std::string::npos)
+			go_root->name = go_root->name.substr(slashPos + 1, go_root->name.size() - slashPos);
+
+		uint pointPos;
+		if ((pointPos = go_root->name.find_first_of(".")) != std::string::npos)
+			go_root->name = go_root->name.substr(0, go_root->name.size() - (go_root->name.size() - pointPos));
+	}
+
+	//Save GameObject basic info + Transform comopnent
+	Data data;
+	data.AppendString("name", go_root->name.data());
+	data.AppendUInt("UUID", go_root->GetUUID());
+	if (go_root->GetParent() == nullptr)
+		data.AppendUInt("parent", 0);
+	else
+		data.AppendUInt("parent", go_root->GetParent()->GetUUID());
+	data.AppendBool("active", true);
+	data.AppendBool("static", false);
+	data.AppendArray("components");
+
+	c_transform->Save(data);
+
 	for (int i = 0; i < node->mNumMeshes; i++)
 	{
-		aiMesh* mesh_to_load = scene->mMeshes[node->mMeshes[i]];
+		bool child_created = false;
+		Data data_child;
 
-		GameObject* game_object;
-		ComponentTransform* go_transform;
-		//Transform
 		if (node->mNumMeshes > 1)
 		{
-			game_object = new GameObject(go_root);
-			go_transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+			GameObject* game_object = new GameObject(go_root);
 			objects_created.push_back(game_object);
+
+			data_child.AppendString("name", go_root->name.data());
+			data_child.AppendUInt("UUID", go_root->GetUUID());
+			if (go_root->GetParent() == nullptr)
+				data_child.AppendUInt("parent", 0);
+			else
+				data_child.AppendUInt("parent", go_root->GetParent()->GetUUID());
+			data_child.AppendBool("active", true);
+			data_child.AppendBool("static", false);
+			data_child.AppendArray("components");
+
+			ComponentTransform* child_transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+			child_transform->Save(data_child);
+			child_created = true;
 		}
-		else
-		{
-			game_object = go_root;
-			go_transform = c_transform;
-		}
 
-		if (node->mName.length > 0)
-			game_object->name = node->mName.C_Str();
-
-		//Save GameObject basic info + Transform comopnent
-		Data data;
-		data.AppendString("name", game_object->name.data());
-		data.AppendUInt("UUID", game_object->GetUUID());
-		if (game_object->GetParent() == nullptr)
-			data.AppendUInt("parent", 0);
-		else
-			data.AppendUInt("parent", game_object->GetParent()->GetUUID());
-		data.AppendBool("active", true);
-		data.AppendBool("static", false);
-		data.AppendArray("components");
-
-		go_transform->Save(data);
+		aiMesh* mesh_to_load = scene->mMeshes[node->mMeshes[i]];
 
 		//Mesh --------------------------------------------------------------------------------------------------------------------------------
 		string mesh_path;
@@ -259,13 +275,14 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 				data.AppendArrayValue(tex_data);
 			}
 		}
-		
-
-		root_data_node.AppendArrayValue(data);
+		if (child_created)
+		{
+			root_data_node.AppendArrayValue(data_child);
+		}
 	}
-
+	root_data_node.AppendArrayValue(data);
 	for (int i = 0; i < node->mNumChildren; i++)
-		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, mesh_file_directory, objects_created, folder_path, root_data_node);
+		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, mesh_file_directory, objects_created, folder_path, root_data_node, assets_file);
 }
 
 bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_path, string& output_name)
