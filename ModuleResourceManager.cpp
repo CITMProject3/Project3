@@ -259,7 +259,7 @@ ResourceFile * ModuleResourceManager::LoadResource(const string & path, Resource
 			rc_file->Load();
 			break;
 		case RES_ANIMATION:
-			rc_file = new ResourceFileAnimation()
+			rc_file = new ResourceFileAnimation(path, uuid);
 		}
 
 		resource_files.push_back(rc_file);

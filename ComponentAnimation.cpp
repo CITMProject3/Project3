@@ -90,7 +90,7 @@ void ComponentAnimation::Save(Data& file)const
 	data.AppendInt("type", ComponentType::C_ANIMATION);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendString("path", rAnimation->file_path.data());
+	data.AppendString("path", rAnimation->GetFile());
 
 	file.AppendArrayValue(data);
 }
