@@ -102,6 +102,10 @@ update_status ModuleCar::Update()
 			AddCar();
 		}
 	}
+	else
+	{
+		vehicle = nullptr;
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -111,16 +115,16 @@ void ModuleCar::AddCar()
 
 	// Car properties ----------------------------------------
 	VehicleInfo car;
-	car.chassis_size.Set(4, 1, 8);
-	car.chassis_offset.Set(0, 0.9, 0);
+	car.chassis_size.Set(2, 1, 2);
+	car.chassis_offset.Set(0.1, 0.9, 0.1);
 
-	car.mass = 300.0f;
+	car.mass = 5.0f;
 	car.suspensionStiffness = 15.88f;
 	car.suspensionCompression = 0.83f;
 	car.suspensionDamping = 0.88f;
-	car.maxSuspensionTravelCm = 1000.0f;
+	car.maxSuspensionTravelCm = 2.0f;
 	car.frictionSlip = 500.0f;
-	car.maxSuspensionForce = 6000.0f;
+	car.maxSuspensionForce = 3.0f;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -188,5 +192,5 @@ void ModuleCar::AddCar()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(10, 12, 0);
+	vehicle->SetPos(0, 1, 0);
 }

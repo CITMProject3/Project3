@@ -20,14 +20,25 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
-	float tmp[16];
-	body->GetTransform(tmp);
-	float4x4 physBodyTrs;
-	physBodyTrs.Set(tmp);
-	
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	trs->Set(physBodyTrs);
-	
+
+	if (App->IsGameRunning() == false)
+	{
+		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		body->SetTransform(trs->GetTransformMatrix().ptr());
+	}
+	else
+	{
+		float tmp[16];
+		body->GetTransform(tmp);
+		float4x4 physBodyTrs;
+		physBodyTrs.Set(tmp);
+
+		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		trs->Set(physBodyTrs);
+	}
+	transformModified = false;
+
+	body->ApplyCentralForce(btVector3(0, 0, 0.1));
 }
 
 void ComponentCollider::OnInspector(bool debug)
@@ -82,7 +93,7 @@ void ComponentCollider::OnInspector(bool debug)
 
 void ComponentCollider::OnTransformModified()
 {
-
+	transformModified = true;
 }
 
 void ComponentCollider::Save(Data & file)const

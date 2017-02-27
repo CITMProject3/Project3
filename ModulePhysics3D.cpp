@@ -73,7 +73,10 @@ bool ModulePhysics3D::Start()
 update_status ModulePhysics3D::PreUpdate()
 {
 	float dt = time->DeltaTime();
-	world->stepSimulation(dt, 15);
+	if (App->IsGameRunning())
+	{
+		world->stepSimulation(dt, 15);
+	}
 
 	int numManifolds = world->getDispatcher()->getNumManifolds();
 	for(int i = 0; i<numManifolds; i++)
@@ -120,16 +123,6 @@ update_status ModulePhysics3D::Update()
 	if(debug == true)
 	{
 		world->debugDrawWorld();
-
-		// Render vehicles
-		list<PhysVehicle3D*>::iterator item = vehicles.begin();
-
-		while (item != vehicles.end())
-		{
-			(*item)->Render();
-			++item;
-		}
-
 	}
 
 	return UPDATE_CONTINUE;

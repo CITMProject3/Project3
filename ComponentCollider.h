@@ -30,6 +30,8 @@ public:
 
 	void SetShape(Collider_Shapes new_shape);
 
+	bool transformModified = true;
+
 	Collider_Shapes shape = S_CUBE;
 	PhysBody3D* body;
 };
