@@ -6,7 +6,8 @@
 
 enum Collider_Shapes
 {
-	S_CUBE = 0,
+	S_NONE = 0,
+	S_CUBE,
 	S_PLANE,
 	S_SPHERE
 };
@@ -27,7 +28,9 @@ public:
 	void Save(Data& file) const;
 	void Load(Data& config);
 
-	Collider_Shapes shape = S_CUBE;
+	void SetShape(Collider_Shapes new_shape);
 
+	Collider_Shapes shape = S_CUBE;
+	PhysBody3D* body;
 };
 #endif // !__COMPONENT_COLLIDER_H__

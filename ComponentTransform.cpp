@@ -161,6 +161,19 @@ void ComponentTransform::SetScale(const math::float3& scale)
 	transform_modified = true;
 }
 
+void ComponentTransform::Set(math::float4x4 matrix)
+{
+	transform_modified = true;
+
+	position = matrix.TranslatePart();
+
+	rotation_euler = matrix.ToEulerXYZ();
+	float3 rot_deg = DegToRad(rotation_euler);
+	rotation = rotation.FromEulerXYZ(rot_deg.x, rot_deg.y, rot_deg.z);
+
+	this->scale = matrix.GetScale();
+}
+
 math::float3 ComponentTransform::GetPosition() const
 {
 	return position;

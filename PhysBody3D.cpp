@@ -31,7 +31,7 @@ void PhysBody3D::GetTransform(float* matrix) const
 // ---------------------------------------------------------
 void PhysBody3D::SetTransform(const float* matrix) const
 {
-	if(body != NULL && matrix != NULL)
+	if(body != nullptr && matrix != nullptr)
 	{
 		btTransform t;
 		t.setFromOpenGLMatrix(matrix);

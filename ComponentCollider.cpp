@@ -5,9 +5,12 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 
-ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object)
-{
+#include "ModulePhysics3D.h"
+#include "PhysBody3D.h"
 
+ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
+{
+	SetShape(S_CUBE);
 }
 
 ComponentCollider::~ComponentCollider()
@@ -17,7 +20,14 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
-
+	float tmp[16];
+	body->GetTransform(tmp);
+	float4x4 physBodyTrs;
+	physBodyTrs.Set(tmp);
+	
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	trs->Set(physBodyTrs);
+	
 }
 
 void ComponentCollider::OnInspector(bool debug)
@@ -82,6 +92,8 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
+	data.AppendInt("shape", shape);
+
 	file.AppendArrayValue(data);
 }
 
@@ -89,4 +101,16 @@ void ComponentCollider::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+
+	shape = (Collider_Shapes) conf.GetInt("shape");
+}
+
+void ComponentCollider::SetShape(Collider_Shapes new_shape)
+{
+	shape = new_shape;
+
+	body = App->physics->AddBody(Cube_P(1, 1, 1));
+
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	body->SetTransform(trs->GetTransformMatrix().ptr());	
 }
