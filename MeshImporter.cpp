@@ -17,7 +17,7 @@
 #include "ComponentMaterial.h"
 #include "TextureImporter.h"
 
-bool MeshImporter::Import(const char * file, const char * path, const char* base_path)
+bool MeshImporter::Import(const char * file, const char * path, const char* base_path, vector<unsigned int>& uuids)
 {
 	bool ret = false;
 	char* buff;
@@ -45,7 +45,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 		aiNode* tmp_node = root;
 
-		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node);
+		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node, uuids);
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)
 			delete (*go);
@@ -73,7 +73,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 	return ret;
 }
 
-void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, string mesh_file_directory, vector<GameObject*>& objects_created, string folder_path, Data& root_data_node)
+void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, string mesh_file_directory, vector<GameObject*>& objects_created, string folder_path, Data& root_data_node, vector<unsigned int>& uuids)
 {
 	//Transformation ------------------------------------------------------------------------------------------------------------------
 	GameObject* go_root = new GameObject(parent);
@@ -162,7 +162,9 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 		//Mesh --------------------------------------------------------------------------------------------------------------------------------
 		string mesh_path;
-		bool ret = MeshImporter::ImportMesh(mesh_to_load, folder_path.data(), mesh_path); 
+		unsigned int msh_uuid;
+		bool ret = MeshImporter::ImportMesh(mesh_to_load, folder_path.data(), mesh_path, msh_uuid); 
+		uuids.push_back(msh_uuid);
 		Data mesh_data;
 		mesh_data.AppendInt("type", ComponentType::C_MESH);
 		mesh_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
@@ -251,10 +253,10 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 	}
 
 	for (int i = 0; i < node->mNumChildren; i++)
-		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, mesh_file_directory, objects_created, folder_path, root_data_node);
+		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, mesh_file_directory, objects_created, folder_path, root_data_node, uuids);
 }
 
-bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_path, string& output_name)
+bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_path, string& output_name, unsigned int& msh_uuid)
 {
 	//Mesh --------------------------------------------------------------------------------------------------------------------------------
 
@@ -317,10 +319,10 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 		memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
 	}
 		
-	return Save(mesh, folder_path, output_name);
+	return Save(mesh, folder_path, output_name, msh_uuid);
 }
 
-bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name)
+bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name, unsigned int& msh_uuid)
 {
 	bool ret = false;
 
@@ -388,7 +390,8 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 	cursor += bytes;
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "msh", output_name);
+	msh_uuid = (unsigned int)App->rnd->RandomInt();
+	ret = App->file_system->SaveUnique(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;

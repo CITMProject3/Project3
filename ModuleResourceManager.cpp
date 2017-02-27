@@ -748,6 +748,36 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	delete[] buf;
 }
 
+void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<unsigned int>& meshes_uuids) const
+{
+	Data root;
+	root.AppendUInt("Type", static_cast<unsigned int>(FileType::MESH));
+	root.AppendUInt("UUID", uuid);
+	root.AppendDouble("time_mod", App->file_system->GetLastModificationTime(path));
+	root.AppendString("library_path", library_path.data());
+	root.AppendString("original_file", path);
+
+	root.AppendArray("meshes");
+
+	for (vector<unsigned int>::const_iterator it = meshes_uuids.begin(); it != meshes_uuids.end(); ++it)
+	{
+		Data msh_data;
+		msh_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(msh_data);
+	}
+
+	char* buf;
+	size_t size = root.Serialize(&buf);
+
+	string final_path = path;
+	final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+	final_path += ".meta";
+
+	App->file_system->Save(final_path.data(), buf, size);
+
+	delete[] buf;
+}
+
 void ModuleResourceManager::ImportFolder(const char * path, vector<tmp_mesh_file>& list_meshes, string base_dir, string base_library_dir) const
 {
 	vector<string> files, folders;
@@ -944,8 +974,10 @@ void ModuleResourceManager::MeshDropped(const char * path, string base_dir, stri
 	string library_dir = final_mesh_path;
 	final_mesh_path += std::to_string(uuid) + ".inf";
 
-	GenerateMetaFile(file_assets_path.data(), FileType::MESH, uuid, final_mesh_path);
-	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data());
+	vector<unsigned int> meshes_uuids;
+	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids);
+	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids);
+	
 }
 
 void ModuleResourceManager::VertexDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const

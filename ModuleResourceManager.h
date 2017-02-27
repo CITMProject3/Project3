@@ -86,6 +86,7 @@ private:
 	string CopyOutsideFileToAssetsCurrentDir(const char* path, string base_dir = string())const;
 
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, string library_path, bool is_file = true)const;
+	void GenerateMetaFileMesh(const char* path, uint uuid, string library_path, const vector<unsigned int>& meshes_uuids)const;
 
 	void ImportFolder(const char* path, vector<tmp_mesh_file>& list_meshes, string base_dir = string(), string base_library_dir = string())const;	
 	void ImportFile(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
