@@ -84,7 +84,7 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
-void ModuleResourceManager::UpdateAssetsAuto() const
+void ModuleResourceManager::UpdateAssetsAuto() 
 {
 	vector<tmp_mesh_file> mesh_files;
 	UpdateAssetsAutoRecursive(ASSETS_FOLDER, LIBRARY_FOLDER, mesh_files);
@@ -93,10 +93,17 @@ void ModuleResourceManager::UpdateAssetsAuto() const
 	{
 		ImportFile(tmp->mesh_path.data(), tmp->assets_folder, tmp->library_folder);
 	}
+
+	for (vector<tmp_mesh_file_uuid>::iterator tmp = tmp_mesh_uuid_files.begin(); tmp != tmp_mesh_uuid_files.end(); tmp++)
+	{
+		ImportMeshFileWithMeta(tmp->mesh_path.data(), tmp->assets_folder, tmp->library_folder, tmp->uuid, tmp->meta_path);
+	}
+
+	tmp_mesh_uuid_files.clear();
 	mesh_files.clear();
 }
 
-void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) const
+void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) 
 {
 	//Get All files and folders
 	vector<string> files, folders;
@@ -187,7 +194,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 
 }
 
-void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir) const
+void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir) 
 {
 	unsigned int type, uuid;
 	double time_mod;
@@ -202,11 +209,11 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	else
 	{
 		//Create the file in library
-		ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir);
+		ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file);
 	}
 }
 
-void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir) const
+void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir, const string& meta_path)
 {
 	//Create the folder in library
 	string lib_folder_path = library_path.data();
@@ -219,8 +226,18 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
 			break;
 		case MESH:
-			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
+		{
+			tmp_mesh_file_uuid tmp;
+			tmp.mesh_path = assets_path.data();
+			tmp.assets_folder = base_assets_dir.data();
+			tmp.library_folder = base_lib_dir.data();
+			tmp.uuid = uuid;
+			tmp.meta_path = meta_path.data();
+
+			tmp_mesh_uuid_files.push_back(tmp);
+		}
 			break;
+
 		case PREFAB:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
@@ -240,6 +257,43 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
 	}
+}
+
+void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const string& base_dir, const string& base_library_dir, unsigned int id, const string& meta_path) 
+{
+	uint uuid = id;
+
+	//Create the link to Library
+	string final_mesh_path;
+	if (base_library_dir.size() == 0)
+		final_mesh_path = LIBRARY_FOLDER;
+	else
+		final_mesh_path = base_library_dir;
+
+	final_mesh_path += std::to_string(uuid) + "/";
+	string library_dir = final_mesh_path;
+	final_mesh_path += std::to_string(uuid) + ".inf";
+
+	//Read the meta uuids
+	stack<unsigned int> meshes_uuids;
+
+	char* buffer = nullptr;
+	if (App->file_system->Load(meta_path.data(), &buffer) > 0)
+	{
+		Data meta(buffer);
+		
+		int size = meta.GetArraySize("meshes");
+		for (int i = size - 1; i >= 0; i--)
+		{
+			meshes_uuids.push(meta.GetArray("meshes", i).GetUInt("uuid"));
+		}
+	}
+
+	if (buffer)
+		delete[] buffer;
+
+	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids);
+
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)

@@ -30,6 +30,15 @@ struct tmp_mesh_file
 	string library_folder;
 };
 
+struct tmp_mesh_file_uuid
+{
+	string mesh_path;
+	string assets_folder;
+	string library_folder;
+	unsigned int uuid;
+	string meta_path;
+};
+
 struct Directory;
 class ResourceFileMaterial;
 
@@ -103,10 +112,11 @@ private:
 	ResourceFileMaterial* FindMaterialUsing(bool vertex_program, const string& path)const;
 	void FindAllResourcesByType(ResourceFileType type, vector<ResourceFile*>& result)const;
 
-	void UpdateAssetsAuto()const;
-	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)const;
-	void UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir)const;
-	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir)const;
+	void UpdateAssetsAuto();
+	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files);
+	void UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir);
+	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir, const string& meta_path);
+	void ImportMeshFileWithMeta(const char* path,const string& base_dir,const string& base_library_dir, unsigned int uuid, const string& meta_path);
 
 
 private:
@@ -120,6 +130,8 @@ private:
 	unsigned int mesh_bytes = 0;
 
 	unsigned int default_shader = -1;
+
+	vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 
 
 };
