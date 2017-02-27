@@ -282,17 +282,18 @@ const std::vector<Component*>* GameObject::GetComponents()
 
 void* GameObject::GetComponent(ComponentType type)const
 {
-	std::vector<Component*>::const_iterator comp = components.begin();
-
-	while (comp != components.end())
+	if (components.empty() == false)
 	{
-		if ((*comp)->GetType() == type)
+		std::vector<Component*>::const_iterator comp = components.begin();
+		while (comp != components.end())
 		{
-			return (*comp);
+			if ((*comp)->GetType() == type)
+			{
+				return (*comp);
+			}
+			++comp;
 		}
-		++comp;
 	}
-
 	return NULL;
 }
 
