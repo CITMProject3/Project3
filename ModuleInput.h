@@ -65,15 +65,11 @@ public:
 	update_status PreUpdate();
 	bool CleanUp();
 
-	KEY_STATE GetKey(int id) const
-	{
-		return keyboard[id];
-	}
+	KEY_STATE GetKey(int id) const;
+	KEY_STATE GetMouseButton(int id) const;
 
-	KEY_STATE GetMouseButton(int id) const
-	{
-		return mouse_buttons[id];
-	}
+	void SetMouseX(int x);
+	void SetMouseY(int y);
 
 	int GetMouseX() const
 	{
@@ -85,10 +81,7 @@ public:
 		return mouse_y;
 	}
 
-	int GetMouseZ() const
-	{
-		return mouse_z;
-	}
+	int GetMouseZ() const;
 
 	int GetMouseXMotion() const
 	{
@@ -102,16 +95,24 @@ public:
 
 	KEY_STATE GetJoystickButton(int joy, JOY_BUTTON id) const
 	{
-		return joysticks[joy]->button[id];
+		if (joy < joysticks.size() && joy >= 0)
+		{
+			return joysticks[joy]->button[id];
+		}
+		return KEY_IDLE;
 	}
 
 	float GetJoystickAxis(int joy, JOY_AXIS id) const //From -1.0f to 1.0f
 	{
-		float ret = (float)joysticks[joy]->axis[id] / 32768;
-		
-		if (ret < TOLERANCE && ret > TOLERANCE) ret = 0;
+		if (joy < joysticks.size() && joy >= 0)
+		{
+			float ret = (float)joysticks[joy]->axis[id] / 32768;
 
-		return ret;
+			if (ret < TOLERANCE && ret > TOLERANCE) ret = 0;
+
+			return ret;
+		}
+		return 0.0f;
 	}
 
 	int GetNumberJoysticks() const
@@ -129,6 +130,11 @@ public:
 		wants_to_quit = false;
 	}
 
+	void InfiniteHorizontal();
+
+private:
+
+	void ResetImGuiDrag();
 
 private:
 	KEY_STATE* keyboard;
@@ -144,6 +150,10 @@ private:
 	vector<JOYSTICK*>	joysticks;
 
 	bool wants_to_quit = false;
+
+	int last_mouse_swap = 0;
+
+	bool infiniteHorizontal = false;
 };
 
 #endif // !__MODULEINPUT_H__

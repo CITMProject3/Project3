@@ -32,9 +32,15 @@ public:
 	void SetFOV(const float& fov);
 	void SetBackgroundColor(const math::float3& color);
 
+	//Movement---------------------
+	bool MoveArrows(float dt);
+	bool MoveMouse(float dt);
+	void Orbit(int x, int y);
+	void Zoom(float value);
+
+	void Center(const float3& position);
+
 	math::float3 GetBackgroundColor()const;
-	ComponentCamera* GetCurrentCamera()const;
-	void ChangeCurrentCamera(ComponentCamera* camera);
 	ComponentCamera* GetEditorCamera() const;
 
 private:
@@ -42,12 +48,9 @@ private:
 	void EditorCameraMovement(float dt);
 
 private:
-	GameObject* go_cam = nullptr;
-	ComponentTransform* cam_transform = nullptr;
-	ComponentCamera* editor_cam = nullptr;
+	float3 reference;
 
-	ComponentCamera* current_camera = nullptr;
-
+	ComponentCamera* camera = nullptr;
 };
 
 #endif // !__MODULECAMERA3D_H__

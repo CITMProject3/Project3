@@ -73,6 +73,9 @@
     <Filter Include="3rd Party Tools\Wwise_IOInterfaces">
       <UniqueIdentifier>{b94b17eb-903e-46bc-ac21-ff17c19e4afc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\ImGuizmo">
+      <UniqueIdentifier>{8b055770-4e01-4aa1-b23a-5aeaa19ddfe7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -528,6 +531,21 @@
     <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h">
       <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
     </ClInclude>
+    <ClInclude Include="Hierarchy.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Inspector.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="TestWindow.h">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleCar.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuizmo\ImGuizmo.h">
+      <Filter>3rd Party Tools\ImGuizmo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -868,6 +886,21 @@
     </ClCompile>
     <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp">
       <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="Hierarchy.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Inspector.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="TestWindow.cpp">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCar.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
+      <Filter>3rd Party Tools\ImGuizmo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -45,7 +45,7 @@ public:
 
 	void Update();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 	void OnTransformModified();
 
 	bool SetMesh(Mesh* mesh);
@@ -55,6 +55,8 @@ public:
 	void Load(Data& conf);
 
 	const Mesh* GetMesh()const;
+
+	void Remove();
 
 private:
 	ResourceFileMesh* rc_mesh = nullptr;

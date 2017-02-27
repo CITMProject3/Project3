@@ -86,7 +86,7 @@ bool ModuleFileSystem::IsDirectoryOutside(const char * file) const
 // Read a whole file and put it in a new buffer
 unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 {
-	unsigned int ret = 0;
+	unsigned int ret = -1;
 
 	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
@@ -94,7 +94,7 @@ unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 	{
 		PHYSFS_sint64 size = PHYSFS_fileLength(fs_file);
 
-		if (size > 0)
+		if (size >= 0)
 		{
 			*buffer = new char[(uint)size];
 			PHYSFS_sint64 readed = PHYSFS_read(fs_file, *buffer, 1, (PHYSFS_sint32)size);
@@ -324,6 +324,11 @@ double ModuleFileSystem::GetLastModificationTime(const char * file_path) const
 	return PHYSFS_getLastModTime(file_path);
 }
 
+const char *ModuleFileSystem::GetRealPath(const string &virtual_path) const
+{
+	return PHYSFS_getRealDir(virtual_path.c_str());
+}
+
 bool ModuleFileSystem::GenerateDirectory(const char * path) const
 {
 	return PHYSFS_mkdir(path);
@@ -355,7 +360,7 @@ bool ModuleFileSystem::DuplicateFile(const char * src, const char * dst) const
 	char* buffer = nullptr;
 	int size = Load(src, &buffer);
 
-	if (size == 0)
+	if (size == -1)
 	{
 		if(buffer != nullptr)
 			delete[] buffer;

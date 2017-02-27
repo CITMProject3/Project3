@@ -18,7 +18,7 @@ void HardwareInfo::Draw()
 	if (!active)
 		return;
 
-	ImGui::Begin("Hardware Info", &active);
+	ImGui::Begin("Hardware Info", &active, flags);
 
 	ImGui::Text("CPUs: "); 
 	ImGui::SameLine(); ImGui::TextColored(TEXT_COLORED, "%d (Cache: %dkb)", SDL_GetCPUCount(), SDL_GetCPUCacheLineSize());

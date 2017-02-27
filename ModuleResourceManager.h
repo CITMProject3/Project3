@@ -62,7 +62,7 @@ public:
 	unsigned int GetDefaultShaderId()const;
 
 	//Returns the path of the file in library
-	string FindFile(const string& assets_file_path);
+	string FindFile(const string& assets_file_path)const;
 
 	ResourceFileType GetResourceType(const string& path)const;
 	int GetNumberResources()const;
@@ -75,6 +75,9 @@ public:
 	void CreateRenderTexture(const string& assets_path, const string& library_path);
 	void SaveRenderTexture(const string& assets_path, const string& library_path, int width, int height, bool use_depth_as_texture)const;
 
+	void CreateFolder(const char* assets_path, string& base_library_path) const;
+	void NameFolderUpdate(const string &meta_file, const string &meta_path, const string &old_folder_name, const string &new_folder_name, bool is_file = false) const;
+
 private:
 
 	FileType GetFileExtension(const char* path)const;
@@ -82,7 +85,7 @@ private:
 
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, string library_path, bool is_file = true)const;
 
-	void ImportFolder(const char* path, vector<tmp_mesh_file>& list_meshes, string base_dir = string(), string base_library_dir = string())const;
+	void ImportFolder(const char* path, vector<tmp_mesh_file>& list_meshes, string base_dir = string(), string base_library_dir = string())const;	
 	void ImportFile(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 	void ImageDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 	void MeshDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
@@ -96,6 +99,10 @@ private:
 	//If vertex program is false it will find the fragment program.
 	ResourceFileMaterial* FindMaterialUsing(bool vertex_program, const string& path)const;
 	void FindAllResourcesByType(ResourceFileType type, vector<ResourceFile*>& result)const;
+
+	void UpdateAssetsAuto()const;
+	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)const;
+
 
 private:
 	list<ResourceFile*> resource_files;
