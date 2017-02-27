@@ -1,5 +1,9 @@
 #include "ComponentAnimation.h"
 #include "imgui\imgui.h"
+#include "ResourceFileAnimation.h"
+#include "Data.h"
+#include "Application.h"
+#include "ModuleResourceManager.h"
 
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
 {
@@ -82,12 +86,23 @@ void ComponentAnimation::OnInspector(bool debug)
 
 void ComponentAnimation::Save(Data& file)const
 {
+	Data data;
+	data.AppendInt("type", ComponentType::C_ANIMATION);
+	data.AppendUInt("UUID", uuid);
+	data.AppendBool("active", active);
+	data.AppendString("path", rAnimation->file_path.data());
 
+	file.AppendArrayValue(data);
 }
 
 void ComponentAnimation::Load(Data& conf)
 {
+	uuid = conf.GetUInt("UUID");
+	active = conf.GetBool("active");
 
+	const char* path = conf.GetString("path");
+
+	rAnimation = (ResourceFileAnimation*)App->resource_manager->LoadResource(path, ResourceFileType::RES_ANIMATION);
 }
 //-------------------------------------------
 

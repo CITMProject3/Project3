@@ -8,6 +8,7 @@
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
+#include "ComponentAnimation.h"
 
 GameObject::GameObject()
 {
@@ -253,6 +254,9 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
 		break;
+	case C_ANIMATION:
+		if (GetComponent(C_TRANSFORM) && GetComponent(C_ANIMATION) == nullptr)
+			item = new ComponentAnimation(this);
 	default:
 		break;
 	}

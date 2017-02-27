@@ -58,7 +58,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 			anim_data.AppendBool("active", true);
 			anim_data.AppendString("path", output_animation.data());
 			root_go.LoadArray("components");
-		//	root_go.AppendArrayValue(anim_data);
+			root_go.AppendArrayValue(anim_data);
 		}
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)

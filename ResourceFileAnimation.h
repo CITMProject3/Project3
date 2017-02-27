@@ -45,6 +45,8 @@ private:
 	void UnloadInMemory();
 
 public:
+	std::string file_path = "";
+
 	float full_duration = 0;
 	uint ticks_per_second = 0;
 

@@ -13,6 +13,7 @@
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 #include "RenderTexEditorWindow.h"
+#include "ResourceFileAnimation.h"
 
 #include "Glew\include\glew.h"
 #include <gl\GL.h>
@@ -257,6 +258,8 @@ ResourceFile * ModuleResourceManager::LoadResource(const string & path, Resource
 			rc_file = new ResourceFileRenderTexture(type, path, uuid);
 			rc_file->Load();
 			break;
+		case RES_ANIMATION:
+			rc_file = new ResourceFileAnimation()
 		}
 
 		resource_files.push_back(rc_file);
