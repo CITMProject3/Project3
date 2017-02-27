@@ -54,17 +54,9 @@ update_status ModuleCar::Update()
 	{
 		if (vehicle != nullptr)
 		{
-			Plane_P p(0, 1, 0, 0);
+			/*Plane_P p(0, 0, 0, 10);
 			p.color = Black;
-			p.Render();
-
-			// Render Circuit
-			list<Cube_P*>::iterator item = roads.begin();
-			while (item != roads.end())
-			{
-				(*item)->Render();
-				++item;
-			}
+			p.Render();*/
 
 			// Vehicle Input
 			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
@@ -97,18 +89,26 @@ update_status ModuleCar::Update()
 			vehicle->ApplyEngineForce(acceleration);
 			vehicle->Turn(turn);
 			vehicle->Brake(brake);
-			vehicle->Render();
+			//vehicle->Render();
+			float4x4 vehicleTrs;
+			float tmp[16];
+			vehicle->GetTransform(tmp);
+			vehicleTrs.Set(tmp);
+			((ComponentTransform*)(chasis->GetComponent(C_TRANSFORM)))->SetPosition(vehicle->GetPos());
+			((ComponentTransform*)(chasis->GetComponent(C_TRANSFORM)))->SetRotation(vehicleTrs.ToEulerXYZ());
 		}
 		else
 		{
-			AddDummyCar();
+			AddCar();
 		}
 	}
 	return UPDATE_CONTINUE;
 }
 
-void ModuleCar::AddDummyCar()
+void ModuleCar::AddCar()
 {
+	chasis = App->go_manager->CreatePrimitive(PrimitiveType::P_CUBE);
+
 	// Car properties ----------------------------------------
 	VehicleInfo car;
 	car.chassis_size.Set(4, 1, 8);

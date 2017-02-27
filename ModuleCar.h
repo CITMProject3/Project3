@@ -26,17 +26,9 @@ public:
 	update_status PreUpdate();
 	update_status Update();
 
-	/*/ roads
-	void AddStraightRoad(int large, const vec& pos, int orientation);
-	void AddCurve(const int large, const vec& pos, int orientation);
-	void AddCurveX(const int large, const vec& pos, int orientation);
-	void AddCorner(const int large, const vec& pos, int orientation);
-	void AddCornerX(const int large, const vec& pos, int orientation);
-	void RenderRoads();*/
+	GameObject* chasis = nullptr;
 
-	list<Cube_P*> roads;
-
-	void AddDummyCar();
+	void AddCar();
 
 private:
 	// Vehicle control

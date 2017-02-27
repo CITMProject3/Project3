@@ -154,7 +154,7 @@ GameObject* ModuleGOManager::CreateLight(GameObject* parent, LightType type)
 	return obj;
 }
 
-void ModuleGOManager::CreatePrimitive(PrimitiveType type)
+GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 {
 	GameObject *primitive = CreateGameObject(root);														// Creating empty GO with root as parent
 	ComponentMesh *mesh_comp = ((ComponentMesh*)primitive->AddComponent(ComponentType::C_MESH));	    // Adding Component Mesh
@@ -188,6 +188,8 @@ void ModuleGOManager::CreatePrimitive(PrimitiveType type)
 
 	// Loading mesh for each primitive
 	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));
+
+	return primitive;
 }
 
 bool ModuleGOManager::RemoveGameObject(GameObject* object)
@@ -700,6 +702,11 @@ void ModuleGOManager::InspectorWindow()
 			if (ImGui::Selectable("Add Camera"))
 			{
 				selected_GO->AddComponent(C_CAMERA);
+			}
+
+			if (ImGui::Selectable("Add Collider"))
+			{
+				selected_GO->AddComponent(C_COLLIDER);
 			}
 
 			if (ImGui::Selectable("Add Light"))
