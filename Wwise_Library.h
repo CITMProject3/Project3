@@ -7,8 +7,8 @@
 #include <AK/SoundEngine/Common/AkMemoryMgr.h>         // Memory Manager
 #include <AK/SoundEngine/Common/AkModule.h>            // Default memory and stream managers  
 #include <AK/SoundEngine/Common/AkStreamMgrModule.h>   // Streaming Manager
+#include <AK/SoundEngine/Common/AkTypes.h>
 #include <AK/Tools/Common/AkPlatformFuncs.h>           // Thread defines
-//#include <AkFilePackageLowLevelIOBlocking.h> 
 
 // http://stackoverflow.com/questions/7668200/error-lnk2038-mismatch-detected-for-iterator-debug-level-value-0-doesnt
 

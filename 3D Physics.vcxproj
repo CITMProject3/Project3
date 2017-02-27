@@ -41,11 +41,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(WWISESDK)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(WWISESDK)\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,6 +90,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFileLocationBase.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackage.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
@@ -235,6 +243,11 @@
     <ClInclude Include="Wwise_Library.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackage.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
@@ -345,6 +358,8 @@
     <ClCompile Include="WindowOptions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl" />
+    <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl" />
     <None Include="ListIterator.snippet" />
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

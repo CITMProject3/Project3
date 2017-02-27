@@ -27,6 +27,20 @@ bool ModuleAudio::Init(Data& config)
 	return ret;
 }
 
+bool ModuleAudio::Start()
+{
+	// Load the Init bank and the "All in one" bank.
+	AkBankID bankID; // not used in this sample.
+	// Init SoundBank
+	AKRESULT eResult = AK::SoundEngine::LoadBank(L"Init.bnk", AK_DEFAULT_POOL_ID, bankID);
+	assert(eResult == AK_Success);
+	// Load Test SoundBank
+	eResult = AK::SoundEngine::LoadBank(L"Karts.bnk", AK_DEFAULT_POOL_ID, bankID);
+	assert(eResult == AK_Success);
+
+	return true;
+}
+
 // Called before quitting
 bool ModuleAudio::CleanUp()
 {
@@ -41,6 +55,15 @@ bool ModuleAudio::CleanUp()
 
 	return true;
 }
+
+update_status ModuleAudio::PostUpdate()
+{
+	// Process bank requests, events, positions, RTPC, etc.
+	AK::SoundEngine::RenderAudio();
+
+	return UPDATE_CONTINUE;
+}
+
 
 bool ModuleAudio::InitMemoryManager()
 {
@@ -92,11 +115,15 @@ bool ModuleAudio::InitStreamingManager()
 
 	// CAkFilePackageLowLevelIOBlocking::Init() creates a streaming device
 	// in the Stream Manager, and registers itself as the File Location Resolver.
-	/*if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
+	if (g_lowLevelIO.Init(deviceSettings) != AK_Success)
 	{
 		assert(!"Could not create the streaming device and Low-Level I/O system");
 		return false;
-	}*/
+	}
+
+	// Setup banks path
+	g_lowLevelIO.SetBasePath(AKTEXT("./Windows/"));
+	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
 	return true;
 }
@@ -105,6 +132,9 @@ bool ModuleAudio::InitSoundEngine()
 {
 	// Create the Sound Engine
 	// Using default initialization parameters
+
+	// CRZ: These are default options. In order to adjust memory usage:
+	// https://www.audiokinetic.com/library/edge/?source=SDK&id=goingfurther__optimizingmempools.html#soundengine_initialization_advanced_soundengine_pool_size
 
 	AkInitSettings initSettings;
 	AkPlatformInitSettings platformInitSettings;
@@ -139,8 +169,7 @@ bool ModuleAudio::InitMusicEngine()
 
 bool ModuleAudio::InitCommunicationModule()
 {
-	#ifndef AK_OPTIMIZED
-	
+	#ifndef AK_OPTIMIZED	
 	// Initialize communications (not in release build!)
 	AkCommSettings commSettings;
 	AK::Comm::GetDefaultInitSettings(commSettings);

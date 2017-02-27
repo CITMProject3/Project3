@@ -70,6 +70,9 @@
     <Filter Include="Sources\Editor\Windows\Edit">
       <UniqueIdentifier>{e13ba9a3-3138-4541-a0a0-365cfbbed148}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\Wwise_IOInterfaces">
+      <UniqueIdentifier>{b94b17eb-903e-46bc-ac21-ff17c19e4afc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -501,6 +504,30 @@
     <ClInclude Include="Wwise_Library.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFileLocationBase.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackage.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -827,6 +854,21 @@
     <ClCompile Include="RenderTexEditorWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackage.cpp">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ListIterator.snippet">
@@ -849,6 +891,12 @@
     </None>
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>3rd Party Tools\MathGeoLib\Include</Filter>
+    </None>
+    <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
+    </None>
+    <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl">
+      <Filter>3rd Party Tools\Wwise_IOInterfaces</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
