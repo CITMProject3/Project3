@@ -46,7 +46,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 		aiNode* tmp_node = root;
 
-		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node);
+ 		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node);
 
 		std::string output_animation;
 		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
@@ -57,7 +57,8 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 			anim_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
 			anim_data.AppendBool("active", true);
 			anim_data.AppendString("path", output_animation.data());
-			root_go.AppendArrayValue(anim_data);
+			root_go.LoadArray("components");
+		//	root_go.AppendArrayValue(anim_data);
 		}
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)

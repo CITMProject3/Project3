@@ -188,6 +188,13 @@ double Data::GetDouble(const char * name) const
 	return json_object_get_number(root, name);
 }
 
+void Data::LoadArray(const char* name)
+{
+	JSON_Array* j_array = json_object_get_array(root, name);
+	if (j_array)
+		array = j_array;
+}
+
 size_t Data::Serialize(char ** buffer)
 {
 	size_t size = json_serialization_size_pretty(root_value); //TODO: Change for normal serialization. Pretty is enabled now for testing.

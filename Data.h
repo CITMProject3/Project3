@@ -40,6 +40,9 @@ public:
 	float3 GetFloat3(const char* name)const;
 	double GetDouble(const char* name)const;
 
+	//Loading an array into the data
+	void LoadArray(const char* name);
+
 	//Save
 	size_t Serialize(char** buffer);
 
