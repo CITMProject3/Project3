@@ -47,8 +47,19 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 		aiNode* tmp_node = root;
 
 		MeshImporter::ImportNode(tmp_node, scene, NULL, file_mesh_directory, objects_created, base_path, root_node);
+
 		std::string output_animation;
-		AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation);
+		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
+		{
+			Data root_go = root_node.GetArray("GameObjects", 0);
+			Data anim_data;
+			anim_data.AppendInt("type", ComponentType::C_ANIMATION);
+			anim_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
+			anim_data.AppendBool("active", true);
+			anim_data.AppendString("path", output_animation.data());
+			root_go.AppendArrayValue(anim_data);
+		}
+
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)
 			delete (*go);
 
@@ -390,7 +401,7 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 	cursor += bytes;
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "anim", output_name);
+	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;

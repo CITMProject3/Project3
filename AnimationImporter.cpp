@@ -22,7 +22,13 @@ bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* 
 		{
 			bool imported = ImportAnimation(scene->mAnimations[i], base_path, output_name);
 			if (imported == false)
+			{
 				LOG("Warning: could not import animation nº %i / %i", i, scene->mNumAnimations);
+			}
+			else
+			{
+				ret = true;
+			}
 		}
 	}
 	return ret;
@@ -105,7 +111,7 @@ bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* fold
 		SaveChannelData(anim.channels[i], &cursor);
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "anim", output_name);
 
 	delete[] data;
 	data = nullptr;

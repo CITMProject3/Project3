@@ -522,6 +522,9 @@
     <ClInclude Include="AnimationImporter.h">
       <Filter>Sources\Importer</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentAnimation.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -868,6 +871,9 @@
     </ClCompile>
     <ClCompile Include="AnimationImporter.cpp">
       <Filter>Sources\Importer</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAnimation.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
