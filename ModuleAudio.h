@@ -14,6 +14,7 @@ public:
 	ModuleAudio(const char* name, bool start_enabled = true);
 	~ModuleAudio();
 
+	update_status Update();
 	update_status PostUpdate();
 
 	bool Init(Data& config);
