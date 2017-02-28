@@ -299,6 +299,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
+	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
 	int layer = go_data.GetInt("layer");
 	//Find parent GameObject reference
 	GameObject* parent = nullptr;
@@ -308,7 +309,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 	}
 
 	//Basic GameObject properties
-	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer);
+	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid);
 	go->local_uuid = go_data.GetUInt("local_UUID");
 	if(parent)
 		parent->AddChild(go);
@@ -357,6 +358,7 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
+	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
 	int layer = go_data.GetInt("layer");
 
 	//Find parent GameObject reference
@@ -367,7 +369,7 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 		parent = root;
 
 	//Basic GameObject properties
-	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer);
+	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid);
 
 	if(is_prefab)
 		go->local_uuid = go_data.GetUInt("UUID");

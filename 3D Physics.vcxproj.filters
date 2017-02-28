@@ -507,8 +507,13 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="ModuleCar.h">
       <Filter>Sources\Modules</Filter>
+=======
+    <ClInclude Include="ResourceFilePrefab.h">
+      <Filter>Sources\Resources</Filter>
+>>>>>>> GameObjects serialize the root of a Prefab
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -845,8 +850,13 @@
     <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="ModuleCar.cpp">
       <Filter>Sources\Modules</Filter>
+=======
+    <ClCompile Include="ResourceFilePrefab.cpp">
+      <Filter>Sources\Resources</Filter>
+>>>>>>> GameObjects serialize the root of a Prefab
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

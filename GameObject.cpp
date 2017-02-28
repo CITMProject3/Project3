@@ -25,7 +25,7 @@ GameObject::GameObject(GameObject* parent) : parent(parent)
 	AddComponent(C_TRANSFORM);
 }
 
-GameObject::GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer) : name(name), uuid(uuid), parent(parent), active(active), is_static(is_static), is_prefab(is_prefab), layer(layer)
+GameObject::GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid) : name(name), uuid(uuid), parent(parent), active(active), is_static(is_static), is_prefab(is_prefab), layer(layer), prefab_root_uuid(prefab_root_uuid)
 {
 	AddComponent(C_TRANSFORM);
 }
@@ -191,12 +191,13 @@ void GameObject::SetStatic(bool value)
 	}
 }
 
-void GameObject::SetAsPrefab()
+void GameObject::SetAsPrefab(unsigned int root_uuid)
 {
 	is_prefab = true;
 	local_uuid = uuid;
+	prefab_root_uuid = root_uuid;
 	for (vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
-		(*child)->SetAsPrefab();
+		(*child)->SetAsPrefab(root_uuid);
 }
 
 bool GameObject::IsPrefab() const
@@ -321,6 +322,7 @@ void GameObject::Save(Data & file) const
 	data.AppendBool("active", active);
 	data.AppendBool("static", is_static);
 	data.AppendBool("is_prefab", is_prefab);
+	data.AppendUInt("prefab_root_uuid", prefab_root_uuid);
 	data.AppendInt("layer", layer);
 	data.AppendArray("components");
 

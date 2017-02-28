@@ -16,7 +16,7 @@ class GameObject
 public:
 	GameObject();
 	GameObject(GameObject* parent);
-	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer);
+	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid);
 	~GameObject();
 
 	void PreUpdate();
@@ -34,7 +34,7 @@ public:
 	void SetActive(bool value);
 	bool IsStatic()const;
 	void SetStatic(bool value);
-	void SetAsPrefab();
+	void SetAsPrefab(unsigned int root_uuid);
 	bool IsPrefab()const;
 
 	Component* AddComponent(ComponentType type);
@@ -72,6 +72,8 @@ private:
 	float4x4* global_matrix = nullptr;
 	bool is_prefab = false;
 	unsigned int uuid = 0;
+
+	unsigned int prefab_root_uuid = 0;
 	
 };
 

@@ -3,12 +3,10 @@
 #include "ShaderComplier.h"
 
 ResourceFileMaterial::ResourceFileMaterial(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
-{
-}
+{}
 
 ResourceFileMaterial::~ResourceFileMaterial()
-{
-}
+{}
 
 uint ResourceFileMaterial::GetShaderId()
 {
