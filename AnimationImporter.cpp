@@ -164,6 +164,99 @@ void AnimationImporter::SaveKeys(const std::map<double, Quat>& map, char** curso
 	}
 }
 
+//Animation Load -------------------------------------------
+void AnimationImporter::LoadAnimation(const char* path, ResourceFileAnimation* animation)
+{
+	char* buffer = nullptr;
+
+	if (App->file_system->Load(path, &buffer) != 0)
+	{
+		char* cursor = buffer;
+
+		//Duration
+		memcpy(&animation->full_duration, cursor, sizeof(float));
+		cursor += sizeof(float);
+
+		//Ticks per sec
+		memcpy(&animation->ticks_per_second, cursor, sizeof(float));
+		cursor += sizeof(float);
+
+		//Channels number
+		memcpy(&animation->num_channels, cursor, sizeof(uint));
+		cursor += sizeof(uint);
+
+		animation->channels = new Channel[animation->num_channels];
+		for (uint i = 0; i < animation->num_channels; i++)
+		{
+			LoadChannelData(animation->channels[i], &cursor);
+		}
+	}
+	if (buffer)
+		delete[] buffer;
+	buffer = nullptr;
+}
+
+void AnimationImporter::LoadChannelData(Channel& channel, char** cursor)
+{
+	uint bytes = 0;
+
+	//Name (size and string)
+	uint nameSize = 0;
+	memcpy(&nameSize, *cursor, sizeof(uint));
+	*cursor += sizeof(uint);
+
+	if (nameSize > 0)
+	{
+		char* string = new char[nameSize + 1];
+		bytes = sizeof(char) * nameSize;
+		memcpy(string, *cursor, bytes);
+		*cursor += bytes;
+		string[nameSize] = '\0';
+		channel.name = string;
+		delete[] string;
+	}
+
+	//Ranges
+	uint ranges[3];
+	memcpy(&ranges, *cursor, sizeof(uint) * 3);
+	*cursor += sizeof(uint) * 3;
+
+	LoadKeys(channel.positionKeys, cursor, ranges[0]);
+	LoadKeys(channel.rotationKeys, cursor, ranges[1]);
+	LoadKeys(channel.scaleKeys, cursor, ranges[2]);
+}
+
+void AnimationImporter::LoadKeys(std::map<double, float3>& map, char** cursor, uint size)
+{
+	for (uint i = 0; i < size; i++)
+	{
+		double time;
+		memcpy(&time, *cursor, sizeof(double));
+		*cursor += sizeof(double);
+		float data[3];
+		memcpy(&data, *cursor, sizeof(float) * 3);
+		*cursor += sizeof(float) * 3;
+
+		map[time] = float3(data);
+	}
+}
+
+void AnimationImporter::LoadKeys(std::map<double, Quat>& map, char** cursor, uint size)
+{
+	for (uint i = 0; i < size; i++)
+	{
+		double time;
+		memcpy(&time, *cursor, sizeof(double));
+		*cursor += sizeof(double);
+		float data[4];
+		memcpy(&data, *cursor, sizeof(float) * 4);
+		*cursor += sizeof(float) * 4;
+
+		map[time] = Quat(data);
+	}
+}
+//-----------------------------------------------------------
+
 uint AnimationImporter::CalcChannelSize(const Channel& channel)
 {
 	//Name (size and string) // Ranges (pos, rot, scale) // Pos floats // Pos // Rot floats // Rots // Scale floats // Scales
@@ -208,6 +301,7 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 			if (bone_it != map.end())
 			{
 				ComponentBone* bone = (ComponentBone*)bone_it->second->AddComponent(C_BONE);
+				bone->SetResource((ResourceFileBone*)App->resource_manager->LoadResource(bone_file, RES_BONE));
 			//	bone->SetResource(App->resource_manager->FindFile(bone_file));
 			//	bone->set
 			}
@@ -272,5 +366,39 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 	data = nullptr;
 
 	return ret;
+}
+
+void AnimationImporter::LoadBone(const char* path, ResourceFileBone* bone)
+{
+	char* buffer;
+	uint size = App->file_system->Load(path, &buffer);
+
+	if (size > 0)
+	{
+		char* cursor = buffer;
+
+		memcpy(&bone->numWeights, cursor, sizeof(uint));
+		cursor += sizeof(uint);
+
+		bone->weights = new float[bone->numWeights];
+		memcpy(bone->weights, cursor, sizeof(float) * bone->numWeights);
+		cursor += sizeof(float) * bone->numWeights;
+
+		bone->weightsIndex = new uint[bone->numWeights];
+		memcpy(bone->weightsIndex, cursor, sizeof(uint) * bone->numWeights);
+		cursor += sizeof(uint) * bone->numWeights;
+
+		float* offset = new float[16];
+		memcpy(offset, cursor, sizeof(float) * 16);
+		cursor += sizeof(float) * 16;
+
+		bone->offset = float4x4(offset[0], offset[1], offset[2], offset[3],
+			offset[4], offset[5], offset[6], offset[7],
+			offset[8], offset[9], offset[10], offset[11],
+			offset[12], offset[13], offset[14], offset[15]);
+
+		delete [] offset;
+		delete [] buffer;
+	}
 }
 

@@ -14,6 +14,7 @@
 #include "ResourceFileRenderTexture.h"
 #include "RenderTexEditorWindow.h"
 #include "ResourceFileAnimation.h"
+#include "ResourceFileBone.h"
 
 #include "Glew\include\glew.h"
 #include <gl\GL.h>
@@ -260,6 +261,12 @@ ResourceFile * ModuleResourceManager::LoadResource(const string & path, Resource
 			break;
 		case RES_ANIMATION:
 			rc_file = new ResourceFileAnimation(path, uuid);
+			rc_file->Load();
+			break;
+		case RES_BONE:
+			rc_file = new ResourceFileBone(path, uuid);
+			rc_file->Load();
+			break;
 		}
 
 		resource_files.push_back(rc_file);

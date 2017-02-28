@@ -17,6 +17,7 @@ public:
 	void Load(Data& conf);
 
 	void SetResource(ResourceFileBone* rBone);
+	const char* GetResourcePath() const;
 private:
 
 public:

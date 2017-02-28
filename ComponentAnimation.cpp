@@ -4,10 +4,12 @@
 #include "Data.h"
 #include "Application.h"
 #include "ModuleResourceManager.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 float Animation::GetDuration()
 {
-	return 0;
+	return ((float)end_frame - (float)start_frame) / ticksPerSecond;
 }
 
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
@@ -114,22 +116,67 @@ void ComponentAnimation::Load(Data& conf)
 //Single animation management----------------
 void ComponentAnimation::AddAnimation()
 {
+	//Just some simple and stupid way to avoid name duplication
+	std::string new_name = "Default";
+	uint defCount = 0;
+	for (uint i = 0; i < animations.size(); i++)
+	{
+		if (animations[i].name.find("Default") != std::string::npos)
+			defCount++;
+	}
+	if (defCount > 0)
+		new_name.append(std::to_string(defCount));
 
+	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, 24);
 }
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
 {
+	Animation animation;
+	animation.name = name;
+	animation.start_frame = init;
+	animation.end_frame = end;
+	animation.ticksPerSecond = ticksPerSec;
 
+	animations.push_back(animation);
 }
 
 void ComponentAnimation::SetAnimation(uint index, float blendTime)
 {
+	if (index < animations.size())
+	{
+		if (current_animation < animations.size() && index != current_animation)
+		{
+			animations[current_animation].current = false;
 
+			if (blendTime > 0 && playing == true)
+			{
+				previous_animation = current_animation;
+				prevAnimTime = time;
+				blendTimeDuration = blendTime;
+				this->blendTime = 0.0f;
+			}
+		}
+		current_animation = index;
+		animations[current_animation].current = true;
+		time = 0.0f;
+		playing = true;
+	}
 }
 
 void ComponentAnimation::SetAnimation(const char* name, float blendTime)
 {
-
+	if (animations[current_animation].name != name)
+	{
+		for (uint i = 0; i < animations.size(); i++)
+		{
+			if (animations[i].name == name)
+			{
+				SetAnimation(i, blendTime);
+				return;
+			}
+		}
+	}
 }
 
 const char* ComponentAnimation::GetResourcePath()
@@ -143,22 +190,110 @@ void ComponentAnimation::SetResource(ResourceFileAnimation* resource)
 }
 
 //-------------------------------------------
-void ComponentAnimation::UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio)
+void ComponentAnimation::UpdateChannelsTransform(const Animation* settings, const Animation* blend, float blendRatio)
 {
+	ResourceFileAnimation* resource = rAnimation;
+	uint currentFrame = settings->start_frame + (settings->ticksPerSecond > 0.0f ? resource->ticks_per_second : settings->ticksPerSecond) * time;
 
+	uint prevBlendFrame = 0;
+	if (blend != nullptr)
+	{
+		prevBlendFrame = blend->start_frame + (blend->ticksPerSecond > 0.0f ? resource->ticks_per_second : blend->ticksPerSecond) * prevAnimTime;
+	}
+
+	for (uint i = 0; i < links.size(); i++)
+	{
+		ComponentTransform* transform = (ComponentTransform*)links[i].gameObject->GetComponent(C_TRANSFORM);
+
+		float3 position = GetChannelPosition(links[i], currentFrame, transform->GetPosition(), *settings);
+		Quat rotation = GetChannelRotation(links[i], currentFrame, transform->GetRotation(), *settings);
+		float3 scale = GetChannelScale(links[i], currentFrame, transform->GetScale(), *settings);
+
+		if (blend != nullptr)
+		{
+			position = float3::Lerp(GetChannelPosition(links[i], prevBlendFrame, transform->GetPosition(), *blend), position, blendRatio);
+			rotation = Quat::Slerp(GetChannelRotation(links[i], prevBlendFrame, transform->GetRotation(), *blend), rotation, blendRatio);
+			scale = float3::Lerp(GetChannelScale(links[i], prevBlendFrame, transform->GetScale(), *blend), scale, blendRatio);
+		}
+
+		transform->SetPosition(position);
+		transform->SetRotation(rotation);
+		transform->SetScale(scale);
+	}
 }
 
 float3 ComponentAnimation::GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings)
 {
-	return float3::zero;
+	float3 position = default;
+
+	if (link.channel->HasPosKey())
+	{
+		std::map<double, float3>::iterator previous = link.channel->GetPrevPosKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, float3>::iterator next = link.channel->GetNextPosKey(currentKey, settings.start_frame, settings.end_frame);
+
+		if (next == link.channel->positionKeys.end())
+			next = previous;
+
+		//If both keys are the same, no need to blend
+		if (previous == next)
+			position = previous->second;
+		else //blend between both keys
+		{
+			//0 to 1
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			position = previous->second.Lerp(next->second, ratio);
+		}
+	}
+
+	return position;
 }
 
 Quat ComponentAnimation::GetChannelRotation(Link& link, float currentKey, Quat default, const Animation& settings)
 {
-	return Quat::identity;
+	Quat rotation = default;
+
+	if (link.channel->HasRotKey())
+	{
+		std::map<double, Quat>::iterator previous = link.channel->GetPrevRotKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, Quat>::iterator next = link.channel->GetNextRotKey(currentKey, settings.start_frame, settings.end_frame);
+
+		if (next == link.channel->rotationKeys.end())
+			next = previous;
+
+		//If both keys are the same, no need to blend
+		if (previous == next)
+			rotation = previous->second;
+		else //blend between both keys
+		{
+			//0 to 1
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			rotation = previous->second.Slerp(next->second, ratio);
+		}
+	}
+	return rotation;
 }
 
 float3 ComponentAnimation::GetChannelScale(Link& link, float currentKey, float3 default, const Animation& settings)
 {
-	return float3::zero;
+	float3 scale = default;
+
+	if (link.channel->HasScaleKey())
+	{
+		std::map<double, float3>::iterator previous = link.channel->GetPrevScaleKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, float3>::iterator next = link.channel->GetPrevScaleKey(currentKey, settings.start_frame, settings.end_frame);
+
+		if (next == link.channel->scaleKeys.end())
+			next = previous;
+
+		//If both keys are the same, no need to blend
+		if (previous == next)
+			scale = previous->second;
+		else //blend between both keys
+		{
+			//0 to 1
+			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			scale = previous->second.Lerp(next->second, ratio);
+		}
+	}
+	return scale;
 }

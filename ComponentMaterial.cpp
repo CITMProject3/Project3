@@ -133,7 +133,6 @@ void ComponentMaterial::Save(Data & file)const
 
 void ComponentMaterial::Load(Data & conf)
 {
-
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	material_path = conf.GetString("path");

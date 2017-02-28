@@ -18,6 +18,7 @@
 #include "TextureImporter.h"
 #include "AnimationImporter.h"
 #include "ComponentAnimation.h"
+#include "ComponentBone.h"
 
 bool MeshImporter::Import(const char * file, const char * path, const char* base_path)
 {
@@ -552,9 +553,11 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 					}
 						break;
 				}
-					
 				case(C_ANIMATION):
 					component_data.AppendString("path", ((ComponentAnimation*)*component)->GetResourcePath());
+					break;
+				case(C_BONE):
+					component_data.AppendString("path", ((ComponentBone*)*component)->GetResourcePath());
 					break;
 			}
 			go_data.AppendArrayValue(component_data);

@@ -1,4 +1,5 @@
 #include "ResourceFileAnimation.h"
+#include "AnimationImporter.h"
 
 bool Channel::HasPosKey() const
 {
@@ -101,7 +102,7 @@ ResourceFileAnimation::~ResourceFileAnimation()
 
 void ResourceFileAnimation::LoadInMemory()
 {
-
+	AnimationImporter::LoadAnimation(file_path.c_str(), this);
 }
 
 void ResourceFileAnimation::UnloadInMemory()

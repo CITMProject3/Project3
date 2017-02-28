@@ -258,9 +258,11 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_ANIMATION:
 		if (GetComponent(C_TRANSFORM) && GetComponent(C_ANIMATION) == nullptr)
 			item = new ComponentAnimation(this);
+		break;
 	case C_BONE:
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentBone(this);
+		break;
 	default:
 		break;
 	}

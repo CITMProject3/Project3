@@ -61,7 +61,7 @@ public:
 	void SetResource(ResourceFileAnimation* resource);
 
 private:
-	void UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio);
+	void UpdateChannelsTransform(const Animation* settings, const Animation* blend, float blendRatio);
 	float3 GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings);
 	Quat GetChannelRotation(Link& link, float currentKey, Quat default, const Animation& settings);
 	float3 GetChannelScale(Link& link, float currentKey, float3 default, const Animation& settings);
