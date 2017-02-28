@@ -35,9 +35,7 @@ void ComponentCollider::Update()
 			LoadShape();
 			exists = true;
 		}
-		float4x4 tmp = body->GetTransform().Transposed();
-		tmp.Translate(tmp.Float3x3Part() * offset_pos);
-		trs->Set(tmp);
+		trs->Set(body->GetTransform().Transposed());
 	}
 
 	if (primitive)

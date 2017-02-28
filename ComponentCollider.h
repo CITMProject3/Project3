@@ -32,7 +32,6 @@ public:
 private:
 	void LoadShape();
 public:
-
 	bool Static = true;
 	float mass = 10.0f;
 

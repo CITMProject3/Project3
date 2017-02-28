@@ -581,6 +581,11 @@ void Editor::DebugMenu()
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
 	}
+	if (ImGui::MenuItem("Render AABBs"))
+	{
+		App->renderer3D->renderAABBs = !App->renderer3D->renderAABBs;
+	}
+	if (App->renderer3D->renderAABBs) { ImGui::SameLine(); ImGui::Text("X"); }
 }
 
 bool Editor::QuitWindow()

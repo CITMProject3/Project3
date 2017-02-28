@@ -36,9 +36,12 @@ void ComponentMesh::Update()
 
 		App->renderer3D->AddToDraw(GetGameObject());
 	}
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	if (App->renderer3D->renderAABBs)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
 
 void ComponentMesh::OnInspector(bool debug)

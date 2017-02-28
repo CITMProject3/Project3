@@ -49,13 +49,12 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
 
 public:
-
+	bool renderAABBs = false;
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	ComponentCamera* camera;
-
 private:
 
 	vector<GameObject*> objects_to_draw;
