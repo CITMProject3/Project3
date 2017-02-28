@@ -23,28 +23,30 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 
 	if (App->IsGameRunning() == false)
 	{
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		body->SetTransform(trs->GetTransformMatrix().ptr());
-		body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);		
+		exists = false;
 	}
 	else
 	{
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		if (exists == false)
+		{
+			LoadShape();
+			exists = true;
+		}
 		float4x4 tmp = body->GetTransform().Transposed();
 		tmp.Translate(tmp.Float3x3Part() * offset_pos);
 		trs->Set(tmp);
 	}
-	transformModified = false;
 
 	if (primitive)
 	{		
 		float3 translate;
 		Quat rotation;
 		float3 scale;
-		body->GetTransform().Transposed().Decompose(translate, rotation, scale);
+		trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
 		primitive->SetPos(translate.x, translate.y, translate.z);
 		primitive->SetRotation(rotation.Inverted());
 		primitive->Scale(scale.x, scale.y, scale.z);
@@ -100,7 +102,6 @@ void ComponentCollider::OnInspector(bool debug)
 
 void ComponentCollider::OnTransformModified()
 {
-	transformModified = true;
 }
 
 void ComponentCollider::Save(Data & file)const
@@ -127,10 +128,6 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 {
 	if (shape != new_shape)
 	{
-		if (shape != S_NONE && body != nullptr)
-		{
-			App->physics->RemoveBody(body);
-		}
 		if (primitive != nullptr)
 		{
 			delete primitive;
@@ -154,7 +151,6 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 			{
 				primitive = new Cube_P(1, 1, 1);
 			}
-			body = App->physics->AddBody(*((Cube_P*)primitive));
 			break;
 		case S_SPHERE:
 			if (msh)
@@ -165,12 +161,23 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 			{
 				primitive = new Sphere_P(1);
 			}
-			body = App->physics->AddBody(*((Sphere_P*)primitive));
 			break;
 		}
-
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		body->SetTransform(trs->GetTransformMatrix().ptr());
-		body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);
 	}
+}
+
+void ComponentCollider::LoadShape()
+{
+	switch (shape)
+	{
+	case S_CUBE:
+		body = App->physics->AddBody(*((Cube_P*)primitive));
+		break;
+	case S_SPHERE:
+		body = App->physics->AddBody(*((Sphere_P*)primitive));
+		break;
+	}
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	body->SetTransform(trs->GetTransformMatrix().ptr());
+	//body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);
 }

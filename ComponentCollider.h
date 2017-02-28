@@ -29,11 +29,15 @@ public:
 
 	void SetShape(Collider_Shapes new_shape);
 
-	bool transformModified = true;
+private:
+	void LoadShape();
+public:
 
 	Collider_Shapes shape = S_CUBE;
 	float3 offset_pos;
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
+
+	bool exists = false;
 };
 #endif // !__COMPONENT_COLLIDER_H__

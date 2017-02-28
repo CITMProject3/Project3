@@ -55,17 +55,7 @@ bool ModulePhysics3D::Start()
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
-	// Big plane as ground
-	
-		btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
-
-		btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
-
-		btRigidBody* body = new btRigidBody(rbInfo);
-		world->addRigidBody(body);
-	
-
+	CreateGround();
 	return true;
 }
 
@@ -131,6 +121,16 @@ update_status ModulePhysics3D::Update()
 // ---------------------------------------------------------
 update_status ModulePhysics3D::PostUpdate()
 {
+	if (App->IsGameRunning() == false && gameRunning == true)
+	{
+		CleanWorld();
+		gameRunning = false;
+	}
+	else if (gameRunning == false)
+	{
+		gameRunning = true;
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -139,45 +139,65 @@ bool ModulePhysics3D::CleanUp()
 {
 	LOG("Destroying 3D Physics simulation");
 
-	// Remove from the world all collision bodies
-	for(int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
-	{
-		btCollisionObject* obj = world->getCollisionObjectArray()[i];
-		world->removeCollisionObject(obj);
-	}
-
-	for(list<btTypedConstraint*>::iterator item = constraints.begin(); item != constraints.end(); item++)
-	{
-		world->removeConstraint(*item);
-		delete *item;
-	}
-	
-	constraints.clear();
-
-	for(list<btDefaultMotionState*>::iterator item = motions.begin(); item != motions.end(); item++)
-		delete *item;
-
-	motions.clear();
-
-	for(list<btCollisionShape*>::iterator item = shapes.begin(); item != shapes.end(); item++)
-		delete *item;
-
-	shapes.clear();
-
-	for(list<PhysBody3D*>::iterator item = bodies.begin(); item != bodies.end(); item++)
-		delete *item;
-
-	bodies.clear();
-
-	for(list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
-		delete *item;
-
-	vehicles.clear();
+	CleanWorld();
 
 	delete vehicle_raycaster;
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics3D::CleanWorld()
+{
+	// Remove from the world all collision bodies
+	for (int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
+	{
+		btCollisionObject* obj = world->getCollisionObjectArray()[i];
+		world->removeCollisionObject(obj);
+	}
+
+	for (list<btTypedConstraint*>::iterator item = constraints.begin(); item != constraints.end(); item++)
+	{
+		world->removeConstraint(*item);
+		delete *item;
+	}
+
+	constraints.clear();
+
+	for (list<btDefaultMotionState*>::iterator item = motions.begin(); item != motions.end(); item++)
+		delete *item;
+
+	motions.clear();
+
+	for (list<btCollisionShape*>::iterator item = shapes.begin(); item != shapes.end(); item++)
+		delete *item;
+
+	shapes.clear();
+
+	for (list<PhysBody3D*>::iterator item = bodies.begin(); item != bodies.end(); item++)
+		delete *item;
+
+	bodies.clear();
+
+	for (list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
+		delete *item;
+
+	vehicles.clear();
+
+
+	CreateGround();
+}
+
+void ModulePhysics3D::CreateGround()
+{
+	// Big plane as ground
+	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+
+	btDefaultMotionState* myMotionState = new btDefaultMotionState();
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
+
+	btRigidBody* body = new btRigidBody(rbInfo);
+	world->addRigidBody(body);
 }
 
 // ---------------------------------------------------------
@@ -269,31 +289,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	bodies.push_back(pbody);
 
 	return pbody;
-}
-
-bool ModulePhysics3D::RemoveBody(PhysBody3D * toRemove)
-{
-	std::list<PhysBody3D*>::iterator it = bodies.begin();
-	for (; it != bodies.end(); it++)
-	{
-		if ((*it) == toRemove)
-		{
-			/*world->removeRigidBody(toRemove->body);
-			delete (*it)->body;
-
-			btMotionState* mt = toRemove->body->getMotionState();
-			delete mt;
-
-			btCollisionShape* cs = toRemove->body->getCollisionShape();			
-			shapes.remove(cs);
-			delete cs;*/
-
-			bodies.remove(*it);
-			delete toRemove;
-			return true;
-		}
-	}	
-	return false;
 }
 
 // ---------------------------------------------------------
