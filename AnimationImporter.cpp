@@ -5,6 +5,10 @@
 #include "application.h"
 
 #include "ModuleFileSystem.h"
+#include "GameObject.h"
+#include "ComponentMesh.h"
+#include "ResourceFileBone.h"
+#include "ComponentBone.h"
 
 //External libraries
 #include "Assimp\include\scene.h"
@@ -50,13 +54,6 @@ bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* bas
 
 	delete[] animation.channels;
 	animation.channels = nullptr;
-	//animation->ID = ID;
-	//animation->name = anim->mName.C_Str();
-	//std::string full_path("/Library/Animations/");
-	//full_path.append(std::to_string(ID));
-	//animation->resource_file = full_path;
-	//animation->original_file = source_file;
-	//animation->LoadOnMemory();
 	return ret;
 }
 
@@ -181,8 +178,99 @@ uint AnimationImporter::CalcChannelSize(const Channel& channel)
 	return ret;
 }
 
-void AnimationImporter::CollectGameObjectNames(GameObject* gameObject, std::map<std::string, GameObject*>& map)
+void AnimationImporter::CollectGameObjectNames(GameObject* game_object, std::map<std::string, GameObject*>& map)
 {
+	map[game_object->name.c_str()] = game_object;
 
+	for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
+		CollectGameObjectNames(*it, map);
+}
+
+void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned_meshes, const std::vector<const GameObject*>& boned_game_objects, GameObject* root, const char* base_path)
+{
+	std::map<std::string, GameObject*> map;
+	CollectGameObjectNames(root, map);
+
+	for (uint i = 0; i < boned_meshes.size(); i++)
+	{
+		for (uint b = 0; b < boned_meshes[i]->mNumBones; b++)
+		{
+			std::string mesh_path = "";
+			ComponentMesh* mesh = (ComponentMesh*)boned_game_objects[i]->GetComponent(C_MESH);
+			if (mesh != nullptr)
+			{
+				mesh_path = mesh->GetMesh()->file_path;
+			}
+
+			std::string bone_file = "";
+			ImportBone(boned_meshes[i]->mBones[b], base_path, mesh_path.c_str(), bone_file);
+			std::map<std::string, GameObject*>::iterator bone_it = map.find(boned_meshes[i]->mBones[b]->mName.C_Str());
+			if (bone_it != map.end())
+			{
+				ComponentBone* bone = (ComponentBone*)bone_it->second->AddComponent(C_BONE);
+			//	bone->SetResource(App->resource_manager->FindFile(bone_file));
+			//	bone->set
+			}
+		}
+	}
+}
+
+bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, const char* mesh_path, std::string& output_name)
+{
+	ResourceFileBone rBone(base_path, 0);
+	rBone.numWeights = bone->mNumWeights;
+	rBone.weights = new float[rBone.numWeights];
+	rBone.weightsIndex = new uint[rBone.numWeights];
+	rBone.mesh_path = mesh_path;
+
+	rBone.offset = float4x4(bone->mOffsetMatrix.a1, bone->mOffsetMatrix.a2, bone->mOffsetMatrix.a3, bone->mOffsetMatrix.a4,
+		bone->mOffsetMatrix.b1, bone->mOffsetMatrix.b2, bone->mOffsetMatrix.b3, bone->mOffsetMatrix.b4,
+		bone->mOffsetMatrix.c1, bone->mOffsetMatrix.c2, bone->mOffsetMatrix.c3, bone->mOffsetMatrix.c4,
+		bone->mOffsetMatrix.d1, bone->mOffsetMatrix.d2, bone->mOffsetMatrix.d3, bone->mOffsetMatrix.d4);
+
+	for (uint i = 0; i < rBone.numWeights; i++)
+		memcpy(rBone.weights + i, &((bone->mWeights + i)->mWeight), sizeof(float));
+
+	for (uint i = 0; i < rBone.numWeights; i++)
+		memcpy(rBone.weightsIndex + i, &((bone->mWeights + i)->mVertexId), sizeof(uint));
+
+	delete[] rBone.weights;
+	delete[] rBone.weightsIndex;
+
+	bool ret = SaveBone(rBone, base_path, output_name);
+	return ret;
+}
+
+bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folder_path, std::string& output_name)
+{
+	uint size = sizeof(uint) + bone.mesh_path.size() + sizeof(uint) + bone.numWeights * sizeof(float) + bone.numWeights * sizeof(uint)
+		+ sizeof(float) * 16;
+
+	char* data = new char[size];
+	char* cursor = data;
+
+	//Num weights
+	memcpy(cursor, &bone.numWeights, sizeof(uint));
+	cursor += sizeof(uint);
+
+	//Weights
+	memcpy(cursor, bone.weights, sizeof(float) * bone.numWeights);
+	cursor += sizeof(float) * bone.numWeights;
+
+	//Weights index
+	memcpy(cursor, bone.weightsIndex, sizeof(uint) * bone.numWeights);
+	cursor += sizeof(uint) * bone.numWeights;
+
+	//Offset matrix
+	memcpy(cursor, &bone.offset, sizeof(float) * 16);
+	cursor += sizeof(float) * 16;
+
+	//Generate random UUID for the name
+	bool ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "bone", output_name);
+
+	delete[] data;
+	data = nullptr;
+
+	return ret;
 }
 

@@ -11,9 +11,11 @@ struct aiScene;
 struct aiAnimation;
 struct aiBone;
 struct aiNodeAnim;
+struct aiMesh;
 
 class GameObject;
 class ResourceFileAnimation;
+class ResourceFileBone;
 
 namespace AnimationImporter
 {
@@ -28,13 +30,11 @@ namespace AnimationImporter
 	void SaveKeys(const std::map<double, Quat>&, char** cursor);
 
 	uint CalcChannelSize(const Channel& channel);
-	//void ImportNode(aiNode* node, const aiScene* scene, GameObject* parent, std::string mesh_file_directory, std::vector<GameObject*>& objects_created, std::string folder_path, Data& root_data_node);
 
-//	bool ImportMesh(const aiMesh* mesh, const char* folder_path, std::string& output_name);
-//	bool Save(Mesh& mesh, const char* folder_path, std::string& output_name);
-//	Mesh* Load(const char* path);
-
-	void CollectGameObjectNames(GameObject* gameObject, std::map<std::string, GameObject*>& map);
+	void CollectGameObjectNames(GameObject* game_object, std::map<std::string, GameObject*>& map);
+	void ImportSceneBones(const std::vector<const aiMesh*>& boned_meshes, const std::vector<const GameObject*>& boned_game_objects, GameObject* root, const char* base_path);
+	bool ImportBone(const aiBone* bone, const char* base_path, const char* mesh_path, std::string& output_name);
+	bool SaveBone(const ResourceFileBone& bone, const char* folder_path, std::string& output_name);
 }
 
 #endif // !__MESH_IMPORTER_H_

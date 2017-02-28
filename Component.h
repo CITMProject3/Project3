@@ -9,6 +9,7 @@ enum ComponentType
 	C_CAMERA = 3,
 	C_LIGHT = 4,
 	C_ANIMATION,
+	C_BONE,
 
 };
 

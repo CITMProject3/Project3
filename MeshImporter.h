@@ -13,7 +13,8 @@ namespace MeshImporter
 {
 	//File is the final path of the imported file with the extension. Path is from the file is converted. Base path is the directory to save all generated files
 	bool Import(const char* file, const char* path,const char* base_path);
-	void ImportNode(aiNode* node, const aiScene* scene, GameObject* parent, std::vector<GameObject*>& created_go, std::string mesh_file_directory, std::string folder_path, Data& root_data_node, const char* assets_file);
+	void ImportNode(aiNode* node, const aiScene* scene, GameObject* parent, std::vector<GameObject*>& created_go, std::vector<const aiMesh*>& boned_meshes, std::vector<const GameObject*>& boned_game_objects,
+					std::string mesh_file_directory, std::string folder_path);
 	bool ImportMesh(const aiMesh* mesh, const char* folder_path, std::string& output_name);
 	bool Save(Mesh& mesh, const char* folder_path, std::string& output_name);
 	Mesh* Load(const char* path);

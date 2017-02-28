@@ -9,6 +9,7 @@
 #include "RaycastHit.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
+#include "ComponentBone.h"
 
 GameObject::GameObject()
 {
@@ -257,6 +258,9 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_ANIMATION:
 		if (GetComponent(C_TRANSFORM) && GetComponent(C_ANIMATION) == nullptr)
 			item = new ComponentAnimation(this);
+	case C_BONE:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentBone(this);
 	default:
 		break;
 	}

@@ -10,6 +10,7 @@ enum ResourceFileType
 	RES_MATERIAL,
 	RES_RENDER_TEX,
 	RES_ANIMATION,
+	RES_BONE,
 };
 
 class ResourceFile

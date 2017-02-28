@@ -35,52 +35,46 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
-		//Save mesh file as scene file
-		Data root_node;
-		root_node.AppendArray("GameObjects");
-
 		string file_mesh_directory = path;
 		file_mesh_directory = file_mesh_directory.substr(0, file_mesh_directory.find_last_of("\//") + 1);
 
 		aiNode* root = scene->mRootNode;
 		vector<GameObject*> objects_created;
+		vector<const aiMesh*> boned_meshes;
+		vector<const GameObject*> boned_game_objects;
+ 		MeshImporter::ImportNode(root, scene, nullptr, objects_created, boned_meshes, boned_game_objects, file_mesh_directory, base_path);
 
-		aiNode* tmp_node = root;
+		//Renaming RootNode
+		if (objects_created[0]->name == "RootNode")
+		{
+			std::string name = path;
+			uint slashPos;
+			if ((slashPos = name.find_last_of("/")) != std::string::npos)
+				name = name.substr(slashPos + 1, name.size() - slashPos);
 
- 		MeshImporter::ImportNode(tmp_node, scene, nullptr, objects_created, file_mesh_directory, base_path, root_node, path);
+			uint pointPos;
+			if ((pointPos = name.find_first_of(".")) != std::string::npos)
+				name = name.substr(0, name.size() - (name.size() - pointPos));
+			objects_created[0]->name = name;
+		}
 
+		//Importing animations ----------
 		std::string output_animation;
 		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
 		{
 			ComponentAnimation* animation = (ComponentAnimation*)objects_created[0]->AddComponent(C_ANIMATION);
 			animation->SetResource((ResourceFileAnimation*)App->resource_manager->LoadResource(output_animation, RES_ANIMATION));
-		//	App->resource_manager->LoadResource()
-			/*
-			Data root_go = root_node.GetArray("GameObjects", 0);
-			Data anim_data;
-			anim_data.AppendInt("type", ComponentType::C_ANIMATION);
-			anim_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
-			anim_data.AppendBool("active", true);
-			anim_data.AppendString("path", output_animation.data());
-			root_go.LoadArray("components");
-			root_go.AppendArrayValue(anim_data);
-			*/
 		}
+		//-------------------------------
+		//Importing bones ---------------
+		AnimationImporter::ImportSceneBones(boned_meshes, boned_game_objects, objects_created[0], base_path);
+		//-------------------------------
 
 		SaveInfoFile(objects_created, file);
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)
 			delete (*go);
-
 		objects_created.clear();
-
-		//char* buf;
-		//size_t size = root_node.Serialize(&buf);
-
-		//App->file_system->Save(file, buf, size);
-
-		//delete[] buf;
-
 		aiReleaseImport(scene);
 
 		ret = true;
@@ -95,7 +89,8 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 	return ret;
 }
 
-void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, std::vector<GameObject*>& created_go, string mesh_file_directory, string folder_path, Data& root_data_node, const char* assets_file)
+void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, std::vector<GameObject*>& created_go, std::vector<const aiMesh*>& boned_meshes,
+	std::vector<const GameObject*>& boned_game_objects, string mesh_file_directory, string folder_path)
 {
 	//Transformation ------------------------------------------------------------------------------------------------------------------
 	aiVector3D translation;
@@ -152,34 +147,6 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();
 
-	if (go_root->name == "RootNode")
-	{
-		go_root->name = assets_file;
-		uint slashPos;
-		if ((slashPos = go_root->name.find_last_of("/")) != std::string::npos)
-			go_root->name = go_root->name.substr(slashPos + 1, go_root->name.size() - slashPos);
-
-		uint pointPos;
-		if ((pointPos = go_root->name.find_first_of(".")) != std::string::npos)
-			go_root->name = go_root->name.substr(0, go_root->name.size() - (go_root->name.size() - pointPos));
-	}
-
-	//Save GameObject basic info + Transform comopnent
-	Data data;
-	data.AppendString("name", go_root->name.data());
-	data.AppendUInt("UUID", go_root->GetUUID());
-
-//	if (go_root->GetParent() == nullptr)
-//		data.AppendUInt("parent", 0);
-//	else
-	//	data.AppendUInt("parent", go_root->GetParent()->GetUUID());
-
-	data.AppendBool("active", true);
-	data.AppendBool("static", false);
-	data.AppendArray("components");
-
-	c_transform->Save(data);
-
 	for (int i = 0; i < node->mNumMeshes; i++)
 	{
 		GameObject* child = nullptr;
@@ -194,6 +161,12 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 		else
 		{
 			child = go_root;
+		}
+
+		if (scene->mMeshes[node->mMeshes[i]]->HasBones())
+		{
+			boned_meshes.push_back(scene->mMeshes[node->mMeshes[i]]);
+			boned_game_objects.push_back(child);
 		}
 
 		aiMesh* mesh_to_load = scene->mMeshes[node->mMeshes[i]];
@@ -250,47 +223,11 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 				c_material->list_textures_paths.push_back(complete_path);
 				if (normal_path.length > 0)
 					c_material->list_textures_paths.push_back(normal_complete_path);
-
-				/*
-				Data tex_data;
-				tex_data.AppendInt("type", ComponentType::C_MATERIAL);
-				tex_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
-				tex_data.AppendBool("active", true);
-				tex_data.AppendString("path", "");
-
-				tex_data.AppendArray("textures");
-				Data diffuse_data;
-				diffuse_data.AppendString("path", App->resource_manager->FindFile(complete_path).data());
-				tex_data.AppendArrayValue(diffuse_data);
-				if (normal_path.length > 0)
-				{
-					Data normal_data;
-					normal_data.AppendString("path", App->resource_manager->FindFile(normal_complete_path).data());
-					tex_data.AppendArrayValue(normal_data);
-				}
-
-				data.AppendArrayValue(tex_data);
-				*/
-			}
-			else
-			{
-				/*
-				//Load default material without textures
-				Data tex_data;
-				tex_data.AppendInt("type", ComponentType::C_MATERIAL);
-				tex_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
-				tex_data.AppendBool("active", true);
-				tex_data.AppendString("path", "");
-
-				tex_data.AppendArray("textures");
-				data.AppendArrayValue(tex_data);
-				*/
-			}
-			
+			}	
 		}
 	}
 	for (int i = 0; i < node->mNumChildren; i++)
-		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, created_go, mesh_file_directory, folder_path, root_data_node, assets_file);
+		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, created_go, boned_meshes, boned_game_objects, mesh_file_directory, folder_path);
 }
 
 bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_path, string& output_name)
