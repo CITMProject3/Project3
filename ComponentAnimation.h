@@ -57,6 +57,8 @@ public:
 	void SetAnimation(const char* name, float blendTime = 0.0f);
 	//-------------------------------------------
 
+	const char* GetResourcePath();
+
 private:
 	void UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio);
 	float3 GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings);

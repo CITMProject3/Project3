@@ -49,6 +49,7 @@ public:
 	void OnTransformModified();
 
 	bool SetMesh(Mesh* mesh);
+	void SetResourceMesh(ResourceFileMesh* resource);
 	void RecalculateBoundingBox();
 
 	void Save(Data& file)const;

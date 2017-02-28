@@ -116,6 +116,12 @@ bool ComponentMesh::SetMesh(Mesh *mesh)
 	return ret;
 }
 
+void ComponentMesh::SetResourceMesh(ResourceFileMesh* resource)
+{
+	rc_mesh = resource;
+	mesh = rc_mesh->GetMesh();
+}
+
 void ComponentMesh::RecalculateBoundingBox()
 {
 	math::OBB ob = aabb.Transform(game_object->GetGlobalMatrix());

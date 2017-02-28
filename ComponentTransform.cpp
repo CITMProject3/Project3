@@ -23,6 +23,7 @@ ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_obje
 
 ComponentTransform::~ComponentTransform()
 {
+
 }
 
 void ComponentTransform::Update()

@@ -49,6 +49,7 @@ void Component::OnTransformModified()
 
 void Component::Save(Data & file) const
 {
+
 }
 
 void Component::Remove()
@@ -57,5 +58,7 @@ void Component::Remove()
 }
 
 void Component::Load(Data & config)
-{}
+{
+
+}
 

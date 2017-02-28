@@ -5,6 +5,11 @@
 #include "Application.h"
 #include "ModuleResourceManager.h"
 
+float Animation::GetDuration()
+{
+
+}
+
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
 {
 
@@ -127,6 +132,10 @@ void ComponentAnimation::SetAnimation(const char* name, float blendTime)
 
 }
 
+const char* ComponentAnimation::GetResourcePath()
+{
+	return (rAnimation != nullptr ? rAnimation->GetFile() : nullptr);
+}
 //-------------------------------------------
 
 void ComponentAnimation::UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio)
