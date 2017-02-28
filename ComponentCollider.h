@@ -37,6 +37,7 @@ public:
 
 	Collider_Shapes shape = S_CUBE;
 	float3 offset_pos;
+	float3 offset_scale;
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 

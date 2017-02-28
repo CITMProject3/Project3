@@ -187,7 +187,7 @@ Sphere_P::Sphere_P(float radius) : Primitive(), radius(radius)
 
 void Sphere_P::InnerRender() const
 {
-	glutSolidSphere(radius, 25, 25);
+	glutSolidSphere(radius, 10, 10);
 }
 
 

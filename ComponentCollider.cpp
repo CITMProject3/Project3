@@ -27,6 +27,17 @@ void ComponentCollider::Update()
 	if (App->IsGameRunning() == false)
 	{
 		exists = false;
+
+		//Setting the primitive pos
+		float3 translate;
+		Quat rotation;
+		float3 scale;
+		trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
+		translate += offset_pos;
+		primitive->SetPos(translate.x, translate.y, translate.z);
+		primitive->SetRotation(rotation.Inverted());
+		primitive->Scale(scale.x, scale.y, scale.z);
+		primitive->Render();
 	}
 	else
 	{
@@ -35,19 +46,17 @@ void ComponentCollider::Update()
 			LoadShape();
 			exists = true;
 		}
-		trs->Set(body->GetTransform().Transposed());
-	}
-
-	if (primitive)
-	{		
+		//Setting the primitive pos
 		float3 translate;
 		Quat rotation;
 		float3 scale;
-		trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
+		body->GetTransform().Transposed().Decompose(translate, rotation, scale);
 		primitive->SetPos(translate.x, translate.y, translate.z);
 		primitive->SetRotation(rotation.Inverted());
 		primitive->Scale(scale.x, scale.y, scale.z);
 		primitive->Render();
+		float3 real_offset = rotation.Transform(offset_pos);
+		trs->Set(float4x4::FromTRS(translate - real_offset, rotation, scale));
 	}
 	return;
 }
@@ -70,29 +79,34 @@ void ComponentCollider::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
-		if (ImGui::BeginMenu("Shape: "))
+		if (App->IsGameRunning() == false)
 		{
-			if (ImGui::MenuItem("Cube", NULL))
+			if (ImGui::BeginMenu("Shape: "))
 			{
-				SetShape(S_CUBE);
+				if (ImGui::MenuItem("Cube", NULL))
+				{
+					SetShape(S_CUBE);
+				}
+				if (ImGui::MenuItem("Sphere", NULL))
+				{
+					SetShape(S_SPHERE);
+				}
+				ImGui::EndMenu();
 			}
-			if (ImGui::MenuItem("Sphere", NULL))
+
+			ImGui::SameLine();
+			if (shape == S_CUBE) { ImGui::Text("Cube"); }
+			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
+
+			ImGui::NewLine();
+			ImGui::Checkbox("Static object: ", &Static);
+			ImGui::DragFloat("Mass: ", &mass, 1.0f, 1.0f, 10000.0f);
+			if (shape == S_CUBE || shape == S_SPHERE)
 			{
-				SetShape(S_SPHERE);
+				ImGui::DragFloat3("Collider offset: ", offset_pos.ptr(), 0.1f, -1000.0f, 1000.0f);
+				ImGui::DragFloat3("Scale offset: ", offset_scale.ptr(), 0.1f, -1000.0f, 1000.0f);
 			}
-			ImGui::EndMenu();
 		}
-
-		ImGui::SameLine();
-		if(shape == S_CUBE) { ImGui::Text("Cube"); }
-		if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
-
-		ImGui::NewLine();
-		ImGui::Checkbox("Static object: ", &Static);
-		ImGui::DragFloat3("Collider offset: ", offset_pos.ptr());
-		ImGui::DragFloat("Mass: ", &mass, 1.0f, 1.0f, 10000.0f);
-
 		ImGui::Separator();
 
 		if (ImGui::Button("Remove ###cam_rem"))
@@ -139,14 +153,14 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	{
 		delete primitive;
 	}
-	shape = new_shape;
+	
 	ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-	/*if (msh)
+	if (msh && shape != new_shape)
 	{
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		offset_pos = msh->GetBoundingBox().CenterPoint() - trs->GetPosition();
-	}*/
-
+	}
+	shape = new_shape;
 	switch (new_shape)
 	{
 	case S_CUBE:
@@ -189,8 +203,5 @@ void ComponentCollider::LoadShape()
 		body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
 		break;
 	}
-
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	body->SetTransform(trs->GetTransformMatrix().ptr());
-	//body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);
+	body->SetTransform(primitive->transform.ptr());
 }
