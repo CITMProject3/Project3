@@ -101,8 +101,8 @@ void Primitive::SetRotation(Quat rot)
 // ------------------------------------------------------------
 void Primitive::Scale(float x, float y, float z)
 {
-	transform.RemoveScale();
-	transform.Scale(x, y, z); 
+	//transform.RemoveScale();
+	transform.Set3x3Part(transform.Float3x3Part() * transform.Scale(x, y, z).ToFloat3x3()); 
 }
 
 // ------------------------------------------------------------

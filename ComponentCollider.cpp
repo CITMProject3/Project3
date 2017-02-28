@@ -27,17 +27,19 @@ void ComponentCollider::Update()
 	if (App->IsGameRunning() == false)
 	{
 		exists = false;
+		if (primitive != nullptr)
+		{
+			//Setting the primitive pos
+			float3 translate;
+			Quat rotation;
+			float3 scale;
+			trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
+			translate += offset_pos;
+			primitive->SetPos(translate.x, translate.y, translate.z);
+			primitive->SetRotation(rotation.Inverted());
 
-		//Setting the primitive pos
-		float3 translate;
-		Quat rotation;
-		float3 scale;
-		trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
-		translate += offset_pos;
-		primitive->SetPos(translate.x, translate.y, translate.z);
-		primitive->SetRotation(rotation.Inverted());
-		primitive->Scale(scale.x, scale.y, scale.z);
-		primitive->Render();
+			primitive->Render();
+		}
 	}
 	else
 	{
@@ -46,17 +48,19 @@ void ComponentCollider::Update()
 			LoadShape();
 			exists = true;
 		}
-		//Setting the primitive pos
-		float3 translate;
-		Quat rotation;
-		float3 scale;
-		body->GetTransform().Transposed().Decompose(translate, rotation, scale);
-		primitive->SetPos(translate.x, translate.y, translate.z);
-		primitive->SetRotation(rotation.Inverted());
-		primitive->Scale(scale.x, scale.y, scale.z);
-		primitive->Render();
-		float3 real_offset = rotation.Transform(offset_pos);
-		trs->Set(float4x4::FromTRS(translate - real_offset, rotation, scale));
+		if (primitive != nullptr)
+		{
+			//Setting the primitive pos
+			float3 translate;
+			Quat rotation;
+			float3 scale;
+			body->GetTransform().Transposed().Decompose(translate, rotation, scale);
+			primitive->SetPos(translate.x, translate.y, translate.z);
+			primitive->SetRotation(rotation.Inverted());
+			primitive->Render();
+			float3 real_offset = rotation.Transform(offset_pos);
+			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
+		}
 	}
 	return;
 }
@@ -104,7 +108,10 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE || shape == S_SPHERE)
 			{
 				ImGui::DragFloat3("Collider offset: ", offset_pos.ptr(), 0.1f, -1000.0f, 1000.0f);
-				ImGui::DragFloat3("Scale offset: ", offset_scale.ptr(), 0.1f, -1000.0f, 1000.0f);
+				if (shape == S_CUBE)
+				{
+				//	ImGui::DragFloat3("Scale offset: ", primitive->.ptr(), 0.1f, -1000.0f, 1000.0f);
+				}
 			}
 		}
 		ImGui::Separator();

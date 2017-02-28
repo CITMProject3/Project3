@@ -8,7 +8,9 @@ enum Collider_Shapes
 {
 	S_NONE = 0,
 	S_CUBE,
-	S_SPHERE
+	S_SPHERE,
+	S_CONVEX,
+	S_CONCAVE
 };
 
 
