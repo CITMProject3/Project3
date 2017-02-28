@@ -117,7 +117,7 @@ private:
 	void UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir);
 	void ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir, const string& meta_path);
 	void ImportMeshFileWithMeta(const char* path,const string& base_dir,const string& base_library_dir, unsigned int uuid, const string& meta_path);
-
+	string UpdateFolderWithMeta(const string& meta_path);
 
 private:
 	list<ResourceFile*> resource_files;

@@ -171,11 +171,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 				if ((*folder).compare(meta_name) == 0)
 				{
 					meta_found = true;
-
-					//TODO: UPDATE FOLDER WITH META
-
-					//Read the meta and find the library equivalent
-					library_path = FindFile(*folder);
+					library_path = UpdateFolderWithMeta(assets_dir + (*meta));
 					break;
 				}
 			}
@@ -294,6 +290,21 @@ void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const strin
 
 	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids);
 
+}
+
+string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
+{
+	unsigned int type, uuid;
+	double time_mod;
+	string assets_path, library_path;
+	ReadMetaFile(meta_path.data(), type, uuid, time_mod, library_path, assets_path);
+
+	if (App->file_system->Exists(library_path.data()) == false)
+	{
+		App->file_system->GenerateDirectory(library_path.data());
+	}
+
+	return library_path;
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)
