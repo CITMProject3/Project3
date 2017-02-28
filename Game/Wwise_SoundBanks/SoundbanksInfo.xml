@@ -3,7 +3,7 @@
 	<RootPaths>
 		<ProjectRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\</ProjectRoot>
 		<SourceFilesRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\</SourceFilesRoot>
-		<SoundBanksRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</SoundBanksRoot>
+		<SoundBanksRoot>C:\Users\Carlos\Documents\GitHub\Project3\Game\Wwise_SoundBanks\</SoundBanksRoot>
 		<ExternalSourcesInputFile></ExternalSourcesInputFile>
 		<ExternalSourcesOutputRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
 	</RootPaths>
@@ -14,12 +14,12 @@
 		<SoundBank Id="1355168291" Language="SFX">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
-			<Path>Init.bnk</Path>
+			<Path>1355168291.bnk</Path>
 		</SoundBank>
 		<SoundBank Id="2248052978" Language="SFX">
 			<ObjectPath>\SoundBanks\Default Work Unit\Karts</ObjectPath>
 			<ShortName>Karts</ShortName>
-			<Path>Karts.bnk</Path>
+			<Path>2248052978.bnk</Path>
 			<IncludedEvents>
 				<Event Id="251412229" Name="Shot" ObjectPath="\Events\Default Work Unit\Shot"/>
 			</IncludedEvents>

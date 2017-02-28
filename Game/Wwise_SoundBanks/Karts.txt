@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	251412229	Shot			\Default Work Unit\Shot	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	614738307	Go	C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\SFX\Go_9E69E797.wem		\Actor-Mixer Hierarchy\Default Work Unit\Go		87104
+

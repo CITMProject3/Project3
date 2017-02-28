@@ -184,6 +184,11 @@ math::float3 ComponentCamera::GetUp() const
 	return frustum.Up();
 }
 
+math::float3 ComponentCamera::GetPos()const
+{
+	return frustum.Pos();
+}
+
 math::float4x4 ComponentCamera::GetProjectionMatrix() const
 {
 	math::float4x4 matrix = frustum.ProjectionMatrix();

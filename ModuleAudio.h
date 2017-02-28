@@ -4,6 +4,8 @@
 #include "Module.h"
 #include "AK/include/Win32/AkFilePackageLowLevelIOBlocking.h" // Sample low-level I/O implementation
 
+class ComponentCamera;
+
 // Wwise docuemntation:
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
@@ -21,11 +23,16 @@ public:
 	bool Start();
 	bool CleanUp();
 
+	void SetListener(const ComponentCamera *listener);
+
 private:
 
 	// We're using the default Low-Level I/O implementation that's part
 	// of the SDK's sample code, with the file package extension
 	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+
+	// Component camera that incorporates the audio listener
+	const ComponentCamera *listener = nullptr;
 
 	// Init methods
 	bool InitMemoryManager();
@@ -40,6 +47,9 @@ private:
 	bool StopSoundEngine();
 	bool StopMusicEngine();
 	bool StopCommunicationModule();
+
+	// Update position and orientation of listener
+	void UpdateListenerPos();
 
 };
 

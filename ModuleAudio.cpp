@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleAudio.h"
 
+#include "ComponentCamera.h"
+
 #include "Wwise_Library.h"
 
 ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -30,20 +32,20 @@ bool ModuleAudio::Init(Data& config)
 bool ModuleAudio::Start()
 {
 	// Load the Init bank and the "All in one" bank.
-	AkBankID bankID; // not used in this sample.
+	AkBankID returned_bankID; // not used in this sample.
 
 	// To work with IDs, the banks must be generated with the "Generate header file" option in the
 	// Generate SoundBanks dialog box in Wwise.The definition file, named Wwise_IDs.h, contains all
 	// the required IDs.It is updated at each bank generation.
 
 	// Init SoundBank
-	AKRESULT eResult = AK::SoundEngine::LoadBank(L"Init.bnk", AK_DEFAULT_POOL_ID, bankID);
+	AKRESULT eResult = AK::SoundEngine::LoadBank(AK::BANKS::INIT, AK_DEFAULT_POOL_ID);
 	assert(eResult == AK_Success);
 	// Load Test SoundBank
-	eResult = AK::SoundEngine::LoadBank(L"Karts.bnk", AK_DEFAULT_POOL_ID, bankID);
+	eResult = AK::SoundEngine::LoadBank(AK::BANKS::KARTS, AK_DEFAULT_POOL_ID);
 	assert(eResult == AK_Success);
 
-	//AK::SoundEngine::RegisterGameObj(365, "Car");
+	AK::SoundEngine::RegisterGameObj(365, "Car");
 
 	return true;
 }
@@ -68,6 +70,9 @@ update_status ModuleAudio::Update()
 	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_STATE::KEY_DOWN)
 		AK::SoundEngine::PostEvent(L"Shot", 365);
 
+	if (listener)
+		UpdateListenerPos();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -79,6 +84,24 @@ update_status ModuleAudio::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
+void ModuleAudio::SetListener(const ComponentCamera *listener)
+{
+	this->listener = listener;
+}
+
+void ModuleAudio::UpdateListenerPos()
+{
+	math::float3 front = listener->GetFront();  // Orientation of the listener
+	math::float3 up = listener->GetUp();		// Top orientation of the listener
+	math::float3 pos = listener->GetPos();	    // Position of the listener
+
+	AkListenerPosition ak_pos;
+	ak_pos.Set(pos.x, pos.y, pos.z, front.x, front.y, front.z, up.x, up.y, up.z);
+
+	AK::SoundEngine::SetListenerPosition(ak_pos);
+}
+
+// --- Initialization methods ---
 
 bool ModuleAudio::InitMemoryManager()
 {
@@ -137,7 +160,7 @@ bool ModuleAudio::InitStreamingManager()
 	}
 
 	// Setup banks path
-	g_lowLevelIO.SetBasePath(AKTEXT("./Windows/"));
+	g_lowLevelIO.SetBasePath(AKTEXT("./Wwise_SoundBanks/"));
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
 	return true;

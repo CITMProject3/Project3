@@ -19,9 +19,12 @@ bool ModuleCamera3D::Init(Data & config)
 	camera->frustum.SetPos(vec(0, 3, -10));
 
 	reference = float3(0, 0, 0);
-	camera->LookAt(reference);
+	camera->LookAt(reference);	
 
 	App->renderer3D->camera = camera;
+
+	// Camera acts as the audio listener
+	App->audio->SetListener(camera);
 
 	return true;
 }
