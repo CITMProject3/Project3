@@ -165,13 +165,13 @@ void ComponentTransform::Set(math::float4x4 matrix)
 {
 	transform_modified = true;
 
-	position = matrix.TranslatePart();
+	float3 pos, scal;
+	Quat rot;
+	matrix.Decompose(pos, rot, scal);
 
-	rotation_euler = matrix.ToEulerXYZ();
-	float3 rot_deg = DegToRad(rotation_euler);
-	rotation = rotation.FromEulerXYZ(rot_deg.x, rot_deg.y, rot_deg.z);
-
-	this->scale = matrix.GetScale();
+	SetPosition(pos);
+	SetRotation(rot);
+	SetScale(scal);
 }
 
 math::float3 ComponentTransform::GetPosition() const

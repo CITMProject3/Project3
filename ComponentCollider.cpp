@@ -4,9 +4,12 @@
 #include "DebugDraw.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
 
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
+
+#include "ModuleInput.h"
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
@@ -25,20 +28,29 @@ void ComponentCollider::Update()
 	{
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		body->SetTransform(trs->GetTransformMatrix().ptr());
+		body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);		
 	}
 	else
 	{
-		float tmp[16];
-		body->GetTransform(tmp);
-		float4x4 physBodyTrs;
-		physBodyTrs.Set(tmp);
-
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		trs->Set(physBodyTrs);
+		float4x4 tmp = body->GetTransform().Transposed();
+		tmp.Translate(tmp.Float3x3Part() * offset_pos);
+		trs->Set(tmp);
 	}
 	transformModified = false;
 
-	body->ApplyCentralForce(btVector3(0, 0, 0.1));
+	if (primitive)
+	{		
+		float3 translate;
+		Quat rotation;
+		float3 scale;
+		body->GetTransform().Transposed().Decompose(translate, rotation, scale);
+		primitive->SetPos(translate.x, translate.y, translate.z);
+		primitive->SetRotation(rotation.Inverted());
+		primitive->Scale(scale.x, scale.y, scale.z);
+		primitive->Render();
+	}
+	return;
 }
 
 void ComponentCollider::OnInspector(bool debug)
@@ -64,22 +76,17 @@ void ComponentCollider::OnInspector(bool debug)
 		{
 			if (ImGui::MenuItem("Cube", NULL))
 			{
-				shape = S_CUBE;
-			}
-			if (ImGui::MenuItem("Plane", NULL))
-			{
-				shape = S_PLANE;
+				SetShape(S_CUBE);
 			}
 			if (ImGui::MenuItem("Sphere", NULL))
 			{
-				shape = S_SPHERE;
+				SetShape(S_SPHERE);
 			}
 			ImGui::EndMenu();
 		}
 
 		ImGui::SameLine();
 		if(shape == S_CUBE) { ImGui::Text("Cube"); }
-		if (shape == S_PLANE) { ImGui::Text("Plane"); }
 		if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 
 		ImGui::Separator();
@@ -118,10 +125,52 @@ void ComponentCollider::Load(Data & conf)
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)
 {
-	shape = new_shape;
+	if (shape != new_shape)
+	{
+		if (shape != S_NONE && body != nullptr)
+		{
+			App->physics->RemoveBody(body);
+		}
+		if (primitive != nullptr)
+		{
+			delete primitive;
+		}
+		shape = new_shape;
+		ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
+		if (msh)
+		{
+			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+			offset_pos = msh->GetBoundingBox().CenterPoint() - trs->GetPosition();
+		}
 
-	body = App->physics->AddBody(Cube_P(1, 1, 1));
+		switch (new_shape)
+		{
+		case S_CUBE:			
+			if (msh)
+			{
+				primitive = new Cube_P(msh->GetLocalAABB().Size().x, msh->GetLocalAABB().Size().y, msh->GetLocalAABB().Size().z);
+			}
+			else
+			{
+				primitive = new Cube_P(1, 1, 1);
+			}
+			body = App->physics->AddBody(*((Cube_P*)primitive));
+			break;
+		case S_SPHERE:
+			if (msh)
+			{
+				primitive = new Sphere_P(msh->GetLocalAABB().Diagonal().Length()/2.0f);
+			}
+			else
+			{
+				primitive = new Sphere_P(1);
+			}
+			body = App->physics->AddBody(*((Sphere_P*)primitive));
+			break;
+		}
 
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	body->SetTransform(trs->GetTransformMatrix().ptr());	
+		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		body->SetTransform(trs->GetTransformMatrix().ptr());
+		body->SetPos(trs->GetPosition().x, trs->GetPosition().y, trs->GetPosition().z);
+	}
 }

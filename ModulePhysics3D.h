@@ -31,6 +31,7 @@ public:
 	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
 	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
 	PhysBody3D* AddBody(const Cylinder_P& cylinder, float mass = 1.0f, bool isSensor = false);
+	bool RemoveBody(PhysBody3D* toRemove);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);

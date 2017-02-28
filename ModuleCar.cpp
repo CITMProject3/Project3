@@ -50,13 +50,10 @@ update_status ModuleCar::PreUpdate()
 
 update_status ModuleCar::Update()
 {
-	if (App->IsGameRunning())
+	/*if (App->IsGameRunning())
 	{
 		if (vehicle != nullptr)
 		{
-			/*Plane_P p(0, 0, 0, 10);
-			p.color = Black;
-			p.Render();*/
 
 			// Vehicle Input
 			if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN)
@@ -90,12 +87,8 @@ update_status ModuleCar::Update()
 			vehicle->Turn(turn);
 			vehicle->Brake(brake);
 			//vehicle->Render();
-			float4x4 vehicleTrs;
-			float tmp[16];
-			vehicle->GetTransform(tmp);
-			vehicleTrs.Set(tmp);
 			((ComponentTransform*)(chasis->GetComponent(C_TRANSFORM)))->SetPosition(vehicle->GetPos());
-			((ComponentTransform*)(chasis->GetComponent(C_TRANSFORM)))->SetRotation(vehicleTrs.ToEulerXYZ());
+			((ComponentTransform*)(chasis->GetComponent(C_TRANSFORM)))->SetRotation(vehicle->GetTransform().ToEulerXYZ());
 		}
 		else
 		{
@@ -105,7 +98,7 @@ update_status ModuleCar::Update()
 	else
 	{
 		vehicle = nullptr;
-	}
+	}*/
 	return UPDATE_CONTINUE;
 }
 

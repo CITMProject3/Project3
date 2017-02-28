@@ -58,6 +58,8 @@ public:
 
 	void Remove();
 
+	AABB GetBoundingBox() { return bounding_box; }
+	AABB GetLocalAABB() { return aabb; }
 private:
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;

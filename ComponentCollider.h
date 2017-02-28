@@ -8,7 +8,6 @@ enum Collider_Shapes
 {
 	S_NONE = 0,
 	S_CUBE,
-	S_PLANE,
 	S_SPHERE
 };
 
@@ -33,6 +32,8 @@ public:
 	bool transformModified = true;
 
 	Collider_Shapes shape = S_CUBE;
+	float3 offset_pos;
 	PhysBody3D* body;
+	Primitive* primitive = nullptr;
 };
 #endif // !__COMPONENT_COLLIDER_H__

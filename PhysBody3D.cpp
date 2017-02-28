@@ -20,12 +20,16 @@ void PhysBody3D::Push(float x, float y, float z)
 }
 
 // ---------------------------------------------------------
-void PhysBody3D::GetTransform(float* matrix) const
+float4x4 PhysBody3D::GetTransform() const
 {
-	if(body != NULL && matrix != NULL)
+	float4x4 ret = float4x4::identity;
+	if(body != NULL)
 	{
-		body->getWorldTransform().getOpenGLMatrix(matrix);
+		float tmp[16];
+		body->getWorldTransform().getOpenGLMatrix(tmp);
+		ret.Set(tmp);
 	}
+	return ret;
 }
 
 // ---------------------------------------------------------

@@ -57,14 +57,12 @@ void Primitive::Render() const
 
 	glColor3f(color.r, color.g, color.b);
 
-	if(wire)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	InnerRender();
 
 	glPopMatrix();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 // ------------------------------------------------------------
@@ -95,9 +93,15 @@ void Primitive::SetRotation(float angle, const vec &u)
 	transform.SetRotatePart(u, angle);
 }
 
+void Primitive::SetRotation(Quat rot)
+{
+	transform.SetRotatePart(rot);
+}
+
 // ------------------------------------------------------------
 void Primitive::Scale(float x, float y, float z)
 {
+	transform.RemoveScale();
 	transform.Scale(x, y, z); 
 }
 
@@ -129,6 +133,7 @@ void Cube_P::InnerRender() const
 	float sz = size.z * 0.5f;
 
 	glBegin(GL_QUADS);
+	
 
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(-sx, -sy, sz);

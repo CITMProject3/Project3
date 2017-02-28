@@ -271,6 +271,31 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	return pbody;
 }
 
+bool ModulePhysics3D::RemoveBody(PhysBody3D * toRemove)
+{
+	std::list<PhysBody3D*>::iterator it = bodies.begin();
+	for (; it != bodies.end(); it++)
+	{
+		if ((*it) == toRemove)
+		{
+			/*world->removeRigidBody(toRemove->body);
+			delete (*it)->body;
+
+			btMotionState* mt = toRemove->body->getMotionState();
+			delete mt;
+
+			btCollisionShape* cs = toRemove->body->getCollisionShape();			
+			shapes.remove(cs);
+			delete cs;*/
+
+			bodies.remove(*it);
+			delete toRemove;
+			return true;
+		}
+	}	
+	return false;
+}
+
 // ---------------------------------------------------------
 PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 {
