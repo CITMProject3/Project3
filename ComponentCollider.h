@@ -33,6 +33,9 @@ private:
 	void LoadShape();
 public:
 
+	bool Static = true;
+	float mass = 10.0f;
+
 	Collider_Shapes shape = S_CUBE;
 	float3 offset_pos;
 	PhysBody3D* body;
