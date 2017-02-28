@@ -58,6 +58,7 @@ public:
 	//-------------------------------------------
 
 	const char* GetResourcePath();
+	void SetResource(ResourceFileAnimation* resource);
 
 private:
 	void UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio);

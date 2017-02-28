@@ -30,11 +30,12 @@ public:
 	std::string material_path; //To Library. If is "" means that this component uses the default material.
 	ResourceFileMaterial* rc_material = nullptr;
 	std::map<string, uint> texture_ids; //name of the variable texture in the shader and id
+	std::vector<std::string> list_textures_paths; //Default textures from fbx
+
 private:
 	std::string material_name = "Default"; //Assets path
 	//Note: All materials must have model, view and projection uniforms. 
 	std::vector<ResourceFile*> tex_resources;
-	std::vector<std::string> list_textures_paths; //Default textures from fbx
 	bool change_material_enabled = false;
 
 };

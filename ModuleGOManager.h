@@ -55,8 +55,6 @@ public:
 
 	bool IsRoot(const GameObject* go)const;
 
-	void PickObjects();
-
 	void SaveSceneBeforeRunning();//Saves the scene before running the game
 	void LoadSceneBeforeRunning();
 	void ClearScene(); //Removes the current scene
@@ -70,18 +68,12 @@ public:
 	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
 private:
 
-	void HierarchyWindow();
-	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);
-
-	void InspectorWindow();
-
 	void UpdateGameObjects(float dt, GameObject* obj);
 	void PreUpdateGameObjects(GameObject* obj);
 
 	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const; //Should be a public method?
 
 private:
-	GameObject* selected_GO = nullptr;
 	vector<GameObject*> go_to_remove;
 	string current_scene_path = "";
 
@@ -96,7 +88,6 @@ public:
 	GameObject* root = nullptr;
 
 	float3 lastRayData[3];
-
 };
 
 #endif // !__MODULE_GO_MANAGER_H__

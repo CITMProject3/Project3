@@ -241,6 +241,12 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
+	for (std::list<GameObject*>::iterator it = selected.begin(); it != selected.end(); it++)
+	{
+		if ((*it)->bounding_box != nullptr)
+			g_Debug->AddAABB(*(*it)->bounding_box, g_Debug->green);
+	}
+
 	HandleInput();
 
 	//Handle Quit event
@@ -249,6 +255,7 @@ update_status Editor::Update()
 		save_quit = true;
 		OpenSaveSceneWindow();
 	}
+
 
 	if (quit)
 		ret = UPDATE_STOP;

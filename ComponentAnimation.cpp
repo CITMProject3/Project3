@@ -7,7 +7,7 @@
 
 float Animation::GetDuration()
 {
-
+	return 0;
 }
 
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
@@ -136,8 +136,13 @@ const char* ComponentAnimation::GetResourcePath()
 {
 	return (rAnimation != nullptr ? rAnimation->GetFile() : nullptr);
 }
-//-------------------------------------------
 
+void ComponentAnimation::SetResource(ResourceFileAnimation* resource)
+{
+	rAnimation = resource;
+}
+
+//-------------------------------------------
 void ComponentAnimation::UpdateChannelsTransform(const Animation& settings, const Animation& blend, float blendRatio)
 {
 

@@ -47,11 +47,13 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 		aiNode* tmp_node = root;
 
- 		MeshImporter::ImportNode(tmp_node, scene, App->go_manager->root, objects_created, file_mesh_directory, base_path, root_node, path);
+ 		MeshImporter::ImportNode(tmp_node, scene, nullptr, objects_created, file_mesh_directory, base_path, root_node, path);
 
 		std::string output_animation;
 		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
 		{
+			ComponentAnimation* animation = (ComponentAnimation*)objects_created[0]->AddComponent(C_ANIMATION);
+			animation->SetResource((ResourceFileAnimation*)App->resource_manager->LoadResource(output_animation, RES_ANIMATION));
 		//	App->resource_manager->LoadResource()
 			/*
 			Data root_go = root_node.GetArray("GameObjects", 0);
@@ -65,19 +67,19 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 			*/
 		}
 
-		SaveInfoFile(objects_created);
+		SaveInfoFile(objects_created, file);
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)
 			delete (*go);
 
 		objects_created.clear();
 
-		char* buf;
-		size_t size = root_node.Serialize(&buf);
+		//char* buf;
+		//size_t size = root_node.Serialize(&buf);
 
-		App->file_system->Save(file, buf, size);
+		//App->file_system->Save(file, buf, size);
 
-		delete[] buf;
+		//delete[] buf;
 
 		aiReleaseImport(scene);
 
@@ -93,7 +95,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 	return ret;
 }
 
-void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, std::vector<GameObject*> created_go, string mesh_file_directory, string folder_path, Data& root_data_node, const char* assets_file)
+void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* parent, std::vector<GameObject*>& created_go, string mesh_file_directory, string folder_path, Data& root_data_node, const char* assets_file)
 {
 	//Transformation ------------------------------------------------------------------------------------------------------------------
 	aiVector3D translation;
@@ -132,7 +134,9 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 	}
 
 	GameObject* go_root = new GameObject(parent);
-	parent->AddChild(go_root);
+	if (parent)
+		parent->AddChild(go_root);
+
 	created_go.push_back(go_root);
 
 	go_root->name = name;
@@ -168,7 +172,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 //	if (go_root->GetParent() == nullptr)
 //		data.AppendUInt("parent", 0);
 //	else
-		data.AppendUInt("parent", go_root->GetParent()->GetUUID());
+	//	data.AppendUInt("parent", go_root->GetParent()->GetUUID());
 
 	data.AppendBool("active", true);
 	data.AppendBool("static", false);
@@ -209,8 +213,8 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 			aiString path;
 			material->GetTexture(aiTextureType_DIFFUSE, 0, &path);
-			ComponentMaterial* material = (ComponentMaterial*)child->AddComponent(C_MATERIAL);
-			/*
+			ComponentMaterial* c_material = (ComponentMaterial*)child->AddComponent(C_MATERIAL);
+			
 			if (path.length > 0)
 			{
 				string complete_path = path.data; 
@@ -243,8 +247,11 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 					normal_complete_path.erase(0, 1);
 				}
 
-				
+				c_material->list_textures_paths.push_back(complete_path);
+				if (normal_path.length > 0)
+					c_material->list_textures_paths.push_back(normal_complete_path);
 
+				/*
 				Data tex_data;
 				tex_data.AppendInt("type", ComponentType::C_MATERIAL);
 				tex_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
@@ -263,10 +270,11 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 				}
 
 				data.AppendArrayValue(tex_data);
-				
+				*/
 			}
 			else
 			{
+				/*
 				//Load default material without textures
 				Data tex_data;
 				tex_data.AppendInt("type", ComponentType::C_MATERIAL);
@@ -276,8 +284,9 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 				tex_data.AppendArray("textures");
 				data.AppendArrayValue(tex_data);
+				*/
 			}
-			*/
+			
 		}
 	}
 	for (int i = 0; i < node->mNumChildren; i++)
@@ -544,9 +553,21 @@ void MeshImporter::CollectGameObjects(GameObject* root, std::vector<GameObject*>
 	}
 }
 
-void MeshImporter::SaveInfoFile(std::vector<GameObject*> vector)
+void MeshImporter::SaveInfoFile(std::vector<GameObject*> vector, const char* file)
 {
+	Data data;
+	data.AppendArray("GameObjects");
+	for (uint i = 0; i < vector.size(); i++)
+	{
+		SaveGameObjectInfo(vector[i], data);
+	}
 
+	char* buf;
+	size_t size = data.Serialize(&buf);
+
+	App->file_system->Save(file, buf, size);
+
+	delete[] buf;
 }
 
 void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
@@ -554,14 +575,14 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 	Data go_data;
 	go_data.AppendString("name", gameObject->name.data());
 	go_data.AppendUInt("UUID", gameObject->GetUUID());
-	go_data.AppendUInt("parent", gameObject->GetParent()->GetUUID());
+	go_data.AppendUInt("parent", gameObject->GetParent() == nullptr ? 0 : gameObject->GetParent()->GetUUID());
 	go_data.AppendBool("active", true);
 	go_data.AppendBool("static", false);
 	go_data.AppendArray("components");
 
 	//WARNING: dirty shit because mesh importer is a mess. Any new resource needs to be added in here
 	std::vector<Component*>::const_iterator component = gameObject->GetComponents()->begin();
-	while (component != gameObject->GetComponents()->end)
+	while (component != gameObject->GetComponents()->end())
 	{
 		Data component_data;
 		if ((*component)->GetType() != C_TRANSFORM)
@@ -576,21 +597,34 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 					component_data.AppendString("path", ((ComponentMesh*)*component)->GetMesh()->file_path.c_str());
 					break;
 				case(C_MATERIAL):
+				{
+					ComponentMaterial* material = ((ComponentMaterial*)*component);
 					component_data.AppendString("path", "");
 					component_data.AppendArray("textures");
-					break;
+					if (material->list_textures_paths.size() > 0)
+					{
+						Data tex_data;
+						tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[0]).c_str());
+						component_data.AppendArrayValue(tex_data);
+					}
+					if (material->list_textures_paths.size() > 1)
+					{
+						Data tex_data;
+						tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[1]).c_str());
+						component_data.AppendArrayValue(tex_data);
+					}
+						break;
+				}
+					
 				case(C_ANIMATION):
 					component_data.AppendString("path", ((ComponentAnimation*)*component)->GetResourcePath());
 					break;
 			}
-
-
+			go_data.AppendArrayValue(component_data);
 		}
 		else
-			(*component)->Save(component_data);
+			(*component)->Save(go_data);
 
-
-		go_data.AppendArrayValue(component_data);
 		component++;
 	}
 
