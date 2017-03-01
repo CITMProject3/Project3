@@ -249,7 +249,7 @@ void ComponentCollider::LoadShape()
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
-			body->SetTransform(trs->GetGlobalMatrix().ptr());
+			body->SetTransform(trs->GetGlobalMatrix().Transposed().ptr());
 		}
 		
 	}
