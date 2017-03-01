@@ -4,7 +4,7 @@
 
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
-
+#include "imgui\imgui_internal.h"
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -73,6 +73,7 @@ bool ModuleInput::Init(Data& config)
 update_status ModuleInput::PreUpdate()
 {
 	SDL_PumpEvents();
+	bool resetDrag = false;
 
 	const Uint8* keys = SDL_GetKeyboardState(NULL);
 	
@@ -166,8 +167,33 @@ update_status ModuleInput::PreUpdate()
 			mouse_x = e.motion.x / SCREEN_SIZE;
 			mouse_y = e.motion.y / SCREEN_SIZE;
 
-			mouse_x_motion = e.motion.xrel / SCREEN_SIZE;
+			mouse_x_motion = e.motion.xrel / SCREEN_SIZE - last_mouse_swap;
 			mouse_y_motion = e.motion.yrel / SCREEN_SIZE;
+
+			if (infiniteHorizontal)
+			{
+				if (mouse_x > App->window->GetScreenWidth() - 10)
+				{
+					int last_x = mouse_x;
+					App->input->SetMouseX(10);
+					last_mouse_swap = mouse_x - last_x;
+					resetDrag = true;
+				}
+				else if (mouse_x < 10)
+				{
+					int last_x = mouse_x;
+					App->input->SetMouseX(App->window->GetScreenWidth() - 10);
+					last_mouse_swap = mouse_x - last_x;
+					resetDrag = true;
+				}
+				else
+					last_mouse_swap = 0;
+			}
+			else
+			{
+				last_mouse_swap = 0;
+			}
+
 			break;
 
 			case SDL_QUIT:
@@ -175,8 +201,11 @@ update_status ModuleInput::PreUpdate()
 			break;
 
 			case SDL_WINDOWEVENT:
-				if(e.window.event == SDL_WINDOWEVENT_RESIZED)
+				if (e.window.event == SDL_WINDOWEVENT_RESIZED)
+				{
 					App->renderer3D->OnResize(e.window.data1, e.window.data2, 60.0f);
+					App->editor->OnResize(e.window.data1, e.window.data2);
+				}
 			break;
 
 			case SDL_DROPFILE:
@@ -192,6 +221,9 @@ update_status ModuleInput::PreUpdate()
 		wants_to_quit = true;
 
 	ImGui_ImplSdlGL3_NewFrame(App->window->window);
+	if (resetDrag == true)
+		ResetImGuiDrag();
+	infiniteHorizontal = false;
 
 	return UPDATE_CONTINUE;
 }
@@ -204,4 +236,57 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
 	return true;
+}
+
+KEY_STATE ModuleInput::GetKey(int id) const
+{
+	//Warning: noone can recieve input if editor is using keyboard
+	if (App->editor->UsingKeyboard() == false)
+		return keyboard[id];
+	else
+		return KEY_IDLE;
+}
+
+KEY_STATE ModuleInput::GetMouseButton(int id) const
+{
+	//Warning: noone can recieve input if editor is using mouse
+	if (App->editor->UsingMouse() == false)
+		return mouse_buttons[id];
+	else
+		return KEY_IDLE;
+}
+
+void ModuleInput::SetMouseX(int x)
+{
+	SDL_WarpMouseInWindow(App->window->window, x, mouse_y);
+	mouse_x = x;
+}
+
+void ModuleInput::SetMouseY(int y)
+{
+	SDL_WarpMouseInWindow(App->window->window, mouse_x, y);
+	mouse_y = y;
+}
+
+int ModuleInput::GetMouseZ() const
+{
+	if (App->editor->UsingMouse() == false)
+		return mouse_z;
+	else
+		return 0;
+}
+
+void ModuleInput::InfiniteHorizontal()
+{
+	infiniteHorizontal = true;
+}
+
+void ModuleInput::ResetImGuiDrag()
+{
+	ImGui::GetIO().MousePos.x = mouse_x;
+	ImGui::GetIO().MousePos.y = mouse_y;
+
+	ImGui::ResetMouseDragDelta(0);
+
+	ImGui::GetCurrentContext()->ActiveIdIsJustActivated = true;
 }

@@ -29,11 +29,18 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height, float fovy);
-	void SetPerspective(const math::float4x4& perspective);
+	void UpdateProjectionMatrix();
+	const ComponentCamera* GetCamera() const;
+	void SetCamera(ComponentCamera* camera);
+
 	void AddToDraw(GameObject* obj);
 
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);
+	
+	void DrawLine(float3 pos1, float3 pos2, float4 color = float4(1,1,1,1));
+	void DrawLocator(float4x4 transform, float4 color = float4(1, 1, 1, 1));
+	void DrawLocator(float3 pos, Quat rot, float4 color = float4(1, 1, 1, 1));
 
 private:
 
@@ -46,6 +53,7 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
+	ComponentCamera* camera;
 
 private:
 

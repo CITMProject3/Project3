@@ -16,35 +16,31 @@ ComponentMaterial::~ComponentMaterial()
 	CleanUp();
 }
 
-void ComponentMaterial::OnInspector()
+void ComponentMaterial::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Material"))
+	string str = (string("Material") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##material");
+		}
+
+		if (ImGui::BeginPopup("delete##material"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		if (material_path.size() == 0)
 		{
-			ImGui::Text("Material: Default material");
-
-			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
-			{
-				ImGui::Text("%s", (*it).first.data());
-				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
-			}
-		}
-		else
-		{
-			ImGui::Text("Material: %s", material_name.data());
-			PrintMaterialProperties();
-		}
-		
-
-		if (ImGui::Button("Change material"))
-		{
-			change_material_enabled = true;
-		}
-
-		if (change_material_enabled)
-		{
-			if (ImGui::BeginMenu("Select a material"))
+			ImGui::Text("Material: ");
+			ImGui::SameLine();
+			std::string str = (material_name + "##" + std::to_string(uuid));
+			if (ImGui::BeginMenu(str.c_str()))
 			{
 				vector<string> materials;
 				App->editor->assets->GetAllFilesByType(FileType::MATERIAL, materials);
@@ -92,6 +88,17 @@ void ComponentMaterial::OnInspector()
 				}
 				ImGui::EndMenu();
 			}
+
+			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
+			{
+				ImGui::Text("%s", (*it).first.data());
+				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
+			}
+		}
+		else
+		{
+			ImGui::Text("Material: %s", material_name.data());
+			PrintMaterialProperties();
 		}
 	}
 }

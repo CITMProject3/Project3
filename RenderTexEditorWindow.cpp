@@ -13,7 +13,7 @@ void RenderTexEditorWindow::Draw()
 	if (!active)
 		return;
 
-	ImGui::Begin("Render Texure Configuration", &active);
+	ImGui::Begin("Render Texure Configuration", &active, flags);
 
 	if (assets_path.size() == 0)
 	{

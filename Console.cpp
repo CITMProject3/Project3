@@ -13,7 +13,7 @@ void Console::Draw()
 	if (!active)
 		return;
 
-	ImGui::Begin("Console", &active);
+	ImGui::Begin("Console", &active, flags);
 
 	ImGui::TextUnformatted(buffer.begin());
 	if (ScrollToBottom)

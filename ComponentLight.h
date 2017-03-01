@@ -15,7 +15,7 @@ public:
 	ComponentLight(ComponentType type, GameObject* game_object);
 	~ComponentLight();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 
 	void Save(Data& file)const;
 	void Load(Data& conf);
@@ -24,6 +24,8 @@ public:
 	float GetIntensity()const;
 	float3 GetColor()const;
 	float3 GetDirection()const;
+
+	void SetType(LightType type);
 private:
 
 	void DirectionalLightInspector();

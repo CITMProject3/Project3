@@ -30,7 +30,7 @@ void FPSGraph::Draw()
 		frames.push_back(fps);
 	}
 	
-	ImGui::Begin("FPS Graph", &active);
+	ImGui::Begin("FPS Graph", &active, flags);
 	
 	char text[20];
 	sprintf_s(text, 20, "Frames: %d", fps);

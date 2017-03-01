@@ -133,11 +133,17 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+	if (camera->properties_modified)
+	{
+		UpdateProjectionMatrix();
+		camera->properties_modified = false;
+	}
+
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*App->camera->GetViewMatrix().v);
+	glLoadMatrixf((float*)camera->GetViewMatrix().v);
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->GetPosition().x, App->camera->GetPosition().y, App->camera->GetPosition().z);
@@ -166,9 +172,8 @@ update_status ModuleRenderer3D::PostUpdate()
 	}
 
 	glDisable(GL_CLIP_DISTANCE0);
-	//Current Camera
-	ComponentCamera* current_cam = App->camera->GetCurrentCamera();
-	DrawScene(current_cam);
+
+	DrawScene(camera);
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -191,44 +196,36 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	//Calculate perspective
-	float4x4 perspective;
-	float _near = 0.125f;
-	float _far = 512.0f;
-
-	perspective.SetIdentity();
-	float tan_theta_over2 = tan(fovy * pi / 360.0f);
-
-	perspective[0][0] = (1.0f / tan_theta_over2) / ((float) width / (float)height);
-	perspective[1][1] = 1.0f / tan_theta_over2;
-	perspective[2][2] = (_near + _far) / (_near - _far);
-	perspective[3][2] = 2 * _near * _far / (_near - _far);
-	perspective[2][3] = -1;
-	perspective[3][3] = 0;
-
-	ProjectionMatrix = perspective;
-	glLoadMatrixf(*ProjectionMatrix.v);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	camera->SetAspectRatio((float)width / (float)height);
+	UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);
 	SendEvent(this, Event::WINDOW_RESIZE);
 }
 
-void ModuleRenderer3D::SetPerspective(const math::float4x4 & perspective)
+void ModuleRenderer3D::UpdateProjectionMatrix()
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
-	ProjectionMatrix = perspective;
-	glLoadMatrixf(*ProjectionMatrix.v);
+	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix().v);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
+}
+
+const ComponentCamera* ModuleRenderer3D::GetCamera() const
+{
+	return camera;
+}
+
+void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
+{
+	if (this->camera != camera && camera != nullptr)
+	{
+		this->camera = camera;
+		UpdateProjectionMatrix();
+	}
 }
 
 void ModuleRenderer3D::AddToDraw(GameObject* obj)
@@ -407,6 +404,9 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
 	//Directional
+	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	glUniform1i(has_directional_location, light.has_directional);
+
 	if (light.has_directional)
 	{
 		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
@@ -418,8 +418,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-	}
-	
+	}	
 	
 	//Other uniforms
 	if (material->rc_material)
@@ -518,4 +517,52 @@ void ModuleRenderer3D::RemoveBuffer(unsigned int id)
 	//Patch for issue (https://github.com/traguill/Ezwix-Engine/issues/13). TODO: Solve the issue!
 	if(id != 9)
 		glDeleteBuffers(1, (GLuint*)&id);
+}
+
+void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
+{
+	glDisable(GL_LIGHTING);
+
+	glColor4f(color.x, color.y, color.z, color.w);
+	glBegin(GL_LINES);
+	glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
+	glEnd();
+
+	glEnable(GL_LIGHTING);
+}
+
+void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		glDisable(GL_LIGHTING);
+
+		glPushMatrix();
+		glMultMatrixf(transform.Transposed().ptr());
+
+		glColor4f(color.x, color.y, color.z, color.w);
+
+		glBegin(GL_LINES);
+
+		glVertex3f(0.5f, 0.0f, 0.0f); glVertex3f(-0.5f, 0.0f, 0.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f); glVertex3f(0.0f, -0.5f, 0.0f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.0f, 0.0f, -0.5f);
+		//Arrow indicating forward
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.1f, 0.0f, 0.4f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(-0.1f, 0.0f, 0.4f);
+
+		glEnd();
+
+		glEnable(GL_LIGHTING);
+
+		glPopMatrix();
+	}
+}
+
+void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		DrawLocator(float4x4::FromTRS(pos, rot, float3(1, 1, 1)), color);
+	}
 }

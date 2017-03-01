@@ -14,7 +14,7 @@ void ResourcesWindow::Draw()
 	if (!active)
 		return;
 
-	ImGui::Begin("Resources", &active);
+	ImGui::Begin("Resources", &active, flags);
 
 	ImGui::Text("Num resources: %i", App->resource_manager->GetNumberResources());
 	ImGui::Text("Num meshes: %i", App->resource_manager->GetNumberMeshes());

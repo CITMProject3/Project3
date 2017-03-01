@@ -12,7 +12,7 @@ void LightingWindow::Draw()
 	if (!active)
 		return;
 
-	ImGui::Begin("Lighting", &active);
+	ImGui::Begin("Lighting", &active, flags);
 
 	ImGui::Text("Ambient light");
 	ImGui::Separator();
