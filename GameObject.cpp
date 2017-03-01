@@ -6,6 +6,7 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ComponentCollider.h"
+#include "ComponentCar.h"
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
@@ -258,6 +259,13 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
 		break;
+		//PEP -CHANGE
+	case C_CAR:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentCar(this);
+		break;
+		//
+
 	default:
 		break;
 	}

@@ -522,6 +522,9 @@
     <ClInclude Include="ComponentCollider.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentCar.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -867,6 +870,9 @@
       <Filter>3rd Party Tools\Gizmo</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCollider.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCar.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
