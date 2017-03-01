@@ -947,8 +947,6 @@ void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir,
 	GenerateMetaFile(file_assets_path.data(), FileType::SOUNDBANK, uuid, final_soundbank_path);
 
 	App->file_system->DuplicateFile(file_assets_path.data(), final_soundbank_path.data());
-	
-	// Y aquí que hacemos??
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)

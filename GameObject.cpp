@@ -1,13 +1,16 @@
 #include "Application.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentLight.h"
+#include "ComponentAudio.h"
+
 #include "MeshImporter.h"
 #include "RaycastHit.h"
-#include "ComponentLight.h"
 
 GameObject::GameObject()
 {
@@ -252,6 +255,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_LIGHT:	
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
+		break;
+	case C_AUDIO:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentAudio(type, this);
 		break;
 	default:
 		break;
