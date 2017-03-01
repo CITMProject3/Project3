@@ -57,6 +57,7 @@ public:
 	void Load(Data& conf);
 
 	const Mesh* GetMesh()const;
+	ResourceFileMesh* GetResource() const;
 
 	void Remove();
 
