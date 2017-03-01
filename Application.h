@@ -21,6 +21,7 @@
 #include "Random.h"
 #include "Time.h"
 #include "ModuleLighting.h"
+#include "ModuleScripting.h"
 #include "ModuleCar.h"
 
 using namespace std; 
@@ -77,6 +78,7 @@ public:
 	ModuleLighting* lighting;
 	Editor* editor;
 	Random* rnd = nullptr;
+	ModuleScripting* scripting;
 	ModuleCar* car = nullptr;
 private:
 

@@ -25,6 +25,7 @@ Application::Application()
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
+	scripting = new ModuleScripting("scripting");
 	car = new ModuleCar("car");
 
 	//Globals
@@ -45,6 +46,7 @@ Application::Application()
 	AddModule(physics);
 	AddModule(lighting);
 	AddModule(go_manager);
+	AddModule(scripting);
 	
 	// Scenes
 	AddModule(scene_intro);
