@@ -10,6 +10,7 @@
 #include "PhysBody3D.h"
 
 #include "ModuleInput.h"
+#include "glut\glut.h"
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
@@ -27,6 +28,7 @@ void ComponentCollider::Update()
 	if (App->IsGameRunning() == false)
 	{
 		exists = false;
+		convexShape = nullptr;
 		if (primitive != nullptr)
 		{
 			//Setting the primitive pos
@@ -40,10 +42,6 @@ void ComponentCollider::Update()
 
 			primitive->Render();
 		}
-		if (shape == S_CONVEX)
-		{
-			//for(body->)
-		}
 	}
 	else
 	{
@@ -52,7 +50,24 @@ void ComponentCollider::Update()
 			LoadShape();
 			exists = true;
 		}
-		if (primitive != nullptr)
+		if (shape == S_CONVEX)
+		{
+			trs->Set(body->GetTransform().Transposed());
+			if (convexShape != nullptr)
+			{
+				int nEdges = convexShape->getNumEdges();
+				for (int n = 0; n < nEdges; n++)
+				{
+					glPushMatrix();
+					glMultMatrixf(body->GetTransform().ptr());
+					btVector3 a, b;
+					convexShape->getEdge(n, a, b);
+					App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
+					glPopMatrix();
+				}
+			}
+		}
+		else if (primitive != nullptr)
 		{
 			//Setting the primitive pos
 			float3 translate;
@@ -64,10 +79,6 @@ void ComponentCollider::Update()
 			primitive->Render();
 			float3 real_offset = rotation.Transform(offset_pos);
 			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
-		}
-		if (shape == S_CONVEX)
-		{
-			trs->Set(body->GetTransform().Transposed());
 		}
 	}
 	return;
@@ -174,7 +185,8 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 		delete primitive;
 		primitive = nullptr;
 	}
-	
+	convexShape = nullptr;
+
 	ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 	if (msh && shape != new_shape)
 	{
@@ -236,7 +248,7 @@ void ComponentCollider::LoadShape()
 		case S_CONVEX:
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-			body = App->physics->AddBody(*msh, _mass);
+			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
 			body->SetTransform(trs->GetGlobalMatrix().ptr());
 		}
 		

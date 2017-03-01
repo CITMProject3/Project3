@@ -42,6 +42,7 @@ public:
 	float3 offset_scale;
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
+	btConvexHullShape* convexShape = nullptr;
 
 	bool exists = false;
 };

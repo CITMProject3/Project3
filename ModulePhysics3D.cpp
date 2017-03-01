@@ -293,9 +293,13 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
+	if (out_shape != nullptr)
+	{
+		*out_shape = colShape;
+	}
 
 	float3* vertices = (float3*)mesh.GetMeshData()->vertices;
 	uint nVertices = mesh.GetMeshData()->num_vertices;
