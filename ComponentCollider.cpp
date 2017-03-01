@@ -40,6 +40,10 @@ void ComponentCollider::Update()
 
 			primitive->Render();
 		}
+		if (shape == S_CONVEX)
+		{
+			//for(body->)
+		}
 	}
 	else
 	{
@@ -60,6 +64,10 @@ void ComponentCollider::Update()
 			primitive->Render();
 			float3 real_offset = rotation.Transform(offset_pos);
 			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
+		}
+		if (shape == S_CONVEX)
+		{
+			trs->Set(body->GetTransform().Transposed());
 		}
 	}
 	return;
@@ -95,12 +103,17 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_SPHERE);
 				}
+				if (ImGui::MenuItem("Convex mesh", NULL))
+				{
+					SetShape(S_CONVEX);
+				}
 				ImGui::EndMenu();
 			}
 
 			ImGui::SameLine();
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
+			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
 
 			ImGui::NewLine();
 			ImGui::Checkbox("Static object: ", &Static);
@@ -159,6 +172,7 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	if (primitive != nullptr)
 	{
 		delete primitive;
+		primitive = nullptr;
 	}
 	
 	ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
@@ -190,25 +204,41 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 			primitive = new Sphere_P(1);
 		}
 		break;
+	case S_CONVEX:
+		if (msh == false)
+		{
+			shape == S_NONE;
+		}
+		break;
 	}
 }
 
 void ComponentCollider::LoadShape()
 {
-	float _mass = mass;
-	if (Static)
+	if (shape != S_NONE)
 	{
-		_mass = 0.0f;
-	}
+		float _mass = mass;
+		if (Static)
+		{
+			_mass = 0.0f;
+		}
 
-	switch (shape)
-	{
-	case S_CUBE:
-		body = App->physics->AddBody(*((Cube_P*)primitive), _mass);
-		break;
-	case S_SPHERE:
-		body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
-		break;
+		switch (shape)
+		{
+		case S_CUBE:
+			body = App->physics->AddBody(*((Cube_P*)primitive), _mass);
+			body->SetTransform(primitive->transform.ptr());
+			break;
+		case S_SPHERE:
+			body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
+			body->SetTransform(primitive->transform.ptr());
+			break;
+		case S_CONVEX:
+			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
+			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+			body = App->physics->AddBody(*msh, _mass);
+			body->SetTransform(trs->GetGlobalMatrix().ptr());
+		}
+		
 	}
-	body->SetTransform(primitive->transform.ptr());
 }

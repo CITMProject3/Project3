@@ -4,6 +4,7 @@
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
+#include "ComponentMesh.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -292,9 +293,18 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const int& meshTest, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor)
 {
-	btCollisionShape* colShape = new btConvexHullShape();
+	btConvexHullShape* colShape = new btConvexHullShape();
+
+	float3* vertices = (float3*)mesh.GetMeshData()->vertices;
+	uint nVertices = mesh.GetMeshData()->num_vertices;
+
+	for (uint n = 0; n < nVertices; n++)
+	{
+		colShape->addPoint(btVector3(vertices[n].x, vertices[n].y, vertices[n].z));
+	}
+
 	shapes.push_back(colShape);
 
 	btTransform startTransform;
