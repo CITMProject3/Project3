@@ -6,6 +6,9 @@
 #include "ModuleResourceManager.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentMesh.h"
+#include "ComponentBone.h"
+#include "ResourceFileMesh.h"
 
 float Animation::GetDuration()
 {
@@ -98,6 +101,24 @@ void ComponentAnimation::Save(Data& file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("path", rAnimation->GetFile());
+	data.AppendArray("animations");
+
+	for (uint i = 0; i < animations.size(); i++)
+	{
+		Data anim_data;
+		anim_data.AppendString("name", animations[i].name.c_str());
+
+		anim_data.AppendUInt("start_frame", animations[i].start_frame);
+		anim_data.AppendUInt("end_frame", animations[i].end_frame);
+
+		anim_data.AppendFloat("ticks_per_second", animations[i].ticksPerSecond);
+		anim_data.AppendFloat("duration", animations[i].duration);
+
+		anim_data.AppendBool("loopable", animations[i].loopable);
+		anim_data.AppendBool("current", animations[i].current);
+		
+		data.AppendArrayValue(anim_data);
+	}
 
 	file.AppendArrayValue(data);
 }
@@ -110,6 +131,16 @@ void ComponentAnimation::Load(Data& conf)
 	const char* path = conf.GetString("path");
 
 	rAnimation = (ResourceFileAnimation*)App->resource_manager->LoadResource(path, ResourceFileType::RES_ANIMATION);
+
+	for (uint i = 0; i < conf.GetArraySize("animations"); i++)
+	{
+		Data anim_data = conf.GetArray("animations", i);
+		AddAnimation(anim_data.GetString("name"), anim_data.GetUInt("start_frame"), anim_data.GetUInt("end_frame"), anim_data.GetFloat("ticks_per_second"));
+		animations[animations.size() - 1].duration = anim_data.GetFloat("duration");
+		animations[animations.size() - 1].loopable = anim_data.GetBool("loopable");
+		if (animations[animations.size() - 1].current = anim_data.GetBool("current"))
+			SetAnimation(animations.size() - 1, 0.0f);
+	}
 }
 //-------------------------------------------
 
@@ -297,3 +328,40 @@ float3 ComponentAnimation::GetChannelScale(Link& link, float currentKey, float3 
 	}
 	return scale;
 }
+
+void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std::string, ComponentMesh*>& meshes, std::vector<ComponentBone*>& bones)
+{
+	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
+	if (mesh != nullptr)
+	{
+		meshes[mesh->GetResource()->GetFile()] = mesh;
+	}
+	ComponentBone* bone = (ComponentBone*)gameObject->GetComponent(C_BONE);
+	if (bone != nullptr)
+	{
+		bones.push_back(bone);
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
+	{
+		CollectMeshesBones(*it, meshes, bones);
+	}
+}
+
+void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
+{
+	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
+	if (mesh != nullptr)
+	{
+		mesh->StartBoneDeformation();
+		mesh->DeformAnimMesh();
+	//	App->renderer3D->LoadBuffers(mesh->animMesh);
+	}
+
+	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
+	{
+		UpdateMeshAnimation(*it);
+	}
+}
+
+

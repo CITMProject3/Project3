@@ -3,8 +3,12 @@
 #include "imgui\imgui.h"
 #include "ResourceFileBone.h"
 #include "Application.h"
+#include "ModuleRenderer3D.h"
+
 #include "ModuleResourceManager.h"
 #include "Data.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 ComponentBone::ComponentBone(GameObject* game_object) : Component(C_BONE, game_object)
 {
@@ -56,7 +60,36 @@ void ComponentBone::SetResource(ResourceFileBone* rBone)
 	this->rBone = rBone;
 }
 
+ResourceFileBone* ComponentBone::GetResource() const
+{
+	return rBone;
+}
+
 const char* ComponentBone::GetResourcePath() const
 {
 	return rBone == nullptr ? nullptr : rBone->GetFile();
+}
+
+void ComponentBone::Update()
+{
+	for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
+	{
+		float3 pos1 = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetGlobalMatrix().TranslatePart();
+		float3 pos2 = ((ComponentTransform*)(*it)->GetComponent(C_TRANSFORM))->GetGlobalMatrix().TranslatePart();
+		App->renderer3D->DrawLine(pos1, pos2, float4(1, 0, 1, 1));
+	}
+}
+
+float4x4 ComponentBone::GetSystemTransform()
+{
+	float4x4 transform = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetGlobalMatrix();
+	return ((ComponentTransform*)GetRoot()->game_object->GetParent()->GetParent()->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * transform;
+
+}
+
+ComponentBone* ComponentBone::GetRoot()
+{
+	ComponentBone* parentBone = (ComponentBone*)game_object->GetParent()->GetComponent(C_BONE);
+	return parentBone == nullptr ? this : parentBone->GetRoot();
+
 }

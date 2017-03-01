@@ -9,6 +9,8 @@
 class GameObject;
 class Channel;
 class ComponentMesh;
+class ComponentBone;
+
 class ResourceFileAnimation;
 
 struct Animation
@@ -65,6 +67,9 @@ private:
 	float3 GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings);
 	Quat GetChannelRotation(Link& link, float currentKey, Quat default, const Animation& settings);
 	float3 GetChannelScale(Link& link, float currentKey, float3 default, const Animation& settings);
+
+	void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std::string, ComponentMesh*>& meshes, std::vector<ComponentBone*>& bones);
+	void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject);
 
 public:
 	std::vector<Animation> animations;

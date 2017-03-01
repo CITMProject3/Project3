@@ -36,6 +36,7 @@ struct Mesh
 };
 
 class ResourceFileMesh;
+class ComponentBone;
 
 class ComponentMesh : public Component
 {
@@ -59,9 +60,16 @@ public:
 
 	void Remove();
 
+	void StartBoneDeformation();
+	void DeformAnimMesh();
+
 private:
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;
+
+	Mesh* deformable = nullptr;
+	std::vector<ComponentBone*> bones;
+
 	math::AABB aabb; //Local one
 	math::AABB bounding_box; //In the world position
 };

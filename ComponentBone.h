@@ -2,6 +2,7 @@
 #define __COMPONENT_BONE_H__
 
 #include "Component.h"
+#include "MathGeoLib\include\MathGeoLib.h"
 
 class ResourceFileBone;
 
@@ -17,7 +18,14 @@ public:
 	void Load(Data& conf);
 
 	void SetResource(ResourceFileBone* rBone);
+	ResourceFileBone* GetResource() const;
+
 	const char* GetResourcePath() const;
+
+	void Update();
+
+	float4x4 GetSystemTransform();
+	ComponentBone* GetRoot();
 private:
 
 public:

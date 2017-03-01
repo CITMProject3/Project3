@@ -7,6 +7,9 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ResourceFileMesh.h"
+#include "ComponentBone.h"
+#include "ResourceFileBone.h"
+
 
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -161,6 +164,11 @@ const Mesh * ComponentMesh::GetMesh() const
 	return mesh;
 }
 
+ResourceFileMesh* ComponentMesh::GetResource() const
+{
+	return rc_mesh;
+}
+
 void ComponentMesh::Remove()
 {
 	game_object->RemoveComponent(this);
@@ -169,4 +177,68 @@ void ComponentMesh::Remove()
 
 	if (material != nullptr)
 		material->Remove();
+}
+
+void ComponentMesh::StartBoneDeformation()
+{
+	if (deformable == nullptr)
+	{
+		deformable = new Mesh();
+
+		deformable->num_vertices = mesh->num_vertices;
+		deformable->num_indices = mesh->num_indices;
+		deformable->num_uvs = mesh->num_uvs;
+
+		deformable->vertices = new float[deformable->num_vertices * 3];
+		deformable->uvs = new float[deformable->num_uvs * 2];
+		deformable->indices = new uint[deformable->num_indices];
+		deformable->normals = new float[deformable->num_vertices * 3];
+
+		memcpy(deformable->indices, mesh->indices, deformable->num_indices * sizeof(uint));
+		memset(deformable->vertices, 0, deformable->num_vertices * sizeof(float) * 3);
+
+		if (mesh->normals != nullptr)
+		{
+			memset(deformable->normals, 0, deformable->num_vertices * sizeof(float) * 3);
+		}
+	}
+}
+
+void ComponentMesh::DeformAnimMesh()
+{
+	//Just for security
+	if (deformable == nullptr)
+		StartBoneDeformation();
+
+	for (uint i = 0; i < bones.size(); i++)
+	{
+		ResourceFileBone* rBone = bones[i]->GetResource();
+		ComponentBone* rootBone = bones[i]->GetRoot();
+
+		float4x4 matrix = bones[i]->GetSystemTransform();
+		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
+		//	bones[i]->gameObject->GetComponent<C_Transform>()->GetGlobalTransform();
+		//matrix = gameObject->parent->GetComponent<C_Transform>()->GetTransform().Inverted() * matrix;
+		matrix = matrix * rBone->offset;
+
+		for (uint i = 0; i < rBone->numWeights; i++)
+		{
+			uint index = rBone->weightsIndex[i];
+			float3 originalV(&mesh->vertices[index * 3]);
+
+			float3 toAdd = matrix.TransformPos(originalV);
+
+			deformable->vertices[index * 3] += toAdd.x  * rBone->weights[i];
+			deformable->vertices[index * 3 + 1] += toAdd.y * rBone->weights[i];
+			deformable->vertices[index * 3 + 2] += toAdd.z * rBone->weights[i];
+
+			if (mesh->normals != nullptr)
+			{
+				toAdd = matrix.TransformPos(float3(&mesh->normals[index * 3]));
+				deformable->normals[index * 3] += toAdd.x * rBone->weights[i];
+				deformable->normals[index * 3 + 1] += toAdd.y * rBone->weights[i];
+				deformable->normals[index * 3 + 2] += toAdd.z * rBone->weights[i];
+			}
+		}
+	}
 }

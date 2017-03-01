@@ -1,0 +1,881 @@
+{
+    "GameObjects": [
+        {
+            "name": "track_test",
+            "UUID": 1312283786,
+            "parent": 0,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3133858216,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track",
+            "UUID": 132370334,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 484819791,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform3",
+            "UUID": 2519972034,
+            "parent": 132370334,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1104055143,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n2__track",
+            "UUID": 2132146552,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4129353902,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform4",
+            "UUID": 3185726169,
+            "parent": 2132146552,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1806248697,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n3__track",
+            "UUID": 3182227258,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 73610610,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform1",
+            "UUID": 2289507486,
+            "parent": 3182227258,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 582894970,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n4__track",
+            "UUID": 673522381,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 210224870,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform2",
+            "UUID": 2189790814,
+            "parent": 673522381,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1585961788,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n5__track",
+            "UUID": 273357081,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1393831288,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform5",
+            "UUID": 1435743220,
+            "parent": 273357081,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 526279898,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "___",
+            "UUID": 3519256653,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2218837545,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track1",
+            "UUID": 440406921,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3262963258,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface3",
+            "UUID": 4114540226,
+            "parent": 440406921,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3939159379,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform8",
+            "UUID": 1445466536,
+            "parent": 4114540226,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1484899257,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface4",
+            "UUID": 1715971156,
+            "parent": 440406921,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 52463629,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform10",
+            "UUID": 2879305825,
+            "parent": 1715971156,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3415405836,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 3417252206,
+            "parent": 440406921,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 770786166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform9",
+            "UUID": 1689349311,
+            "parent": 3417252206,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1413513656,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform7",
+            "UUID": 3385023357,
+            "parent": 440406921,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2588008092,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n5__track1",
+            "UUID": 1297821132,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1750125496,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface1",
+            "UUID": 4041282485,
+            "parent": 1297821132,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3720659086,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform11",
+            "UUID": 849416616,
+            "parent": 4041282485,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3330555121,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface2",
+            "UUID": 2529665484,
+            "parent": 1297821132,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3259735504,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform12",
+            "UUID": 1143208529,
+            "parent": 2529665484,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3606452116,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform6",
+            "UUID": 85821555,
+            "parent": 1297821132,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 214265527,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track2",
+            "UUID": 2406145938,
+            "parent": 1312283786,
+            "active": true,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4005374619,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1123616327,
+                    "active": true,
+                    "path": "\/Library\/1834740761\/2138439480.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1804679721,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        }
+    ]
+} 
