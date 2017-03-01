@@ -182,12 +182,13 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 
 }
 
+
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
 	//Files extensions accepted
 	//Images: PNG TGA
 	//Meshes: FBX / OBJ
-	//Audio: PENDING
+	//Audio: BNK
 
 	if (App->file_system->IsDirectoryOutside(file_path))
 	{
@@ -621,12 +622,14 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 ///Given a path returns if the file is one of the valid extensions to import.
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
+	// Extensions must always contain 3 letters!
 	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
 	char* image_extensions[] = {"png", "PNG", "tga", "TGA"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
+	char* soundbank_extension = "bnk";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -650,6 +653,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(render_texture_extension) == 0)
 		return FileType::RENDER_TEXTURE;
+
+	if (extension.compare(soundbank_extension) == 0)
+		return FileType::SOUNDBANK;
 	
 	return NONE;
 }
