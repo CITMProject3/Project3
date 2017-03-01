@@ -221,7 +221,7 @@ const ComponentCamera* ModuleRenderer3D::GetCamera() const
 
 void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 {
-	if (this->camera != camera)
+	if (this->camera != camera && camera != nullptr)
 	{
 		this->camera = camera;
 		UpdateProjectionMatrix();
@@ -404,6 +404,9 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
 	//Directional
+	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	glUniform1i(has_directional_location, light.has_directional);
+
 	if (light.has_directional)
 	{
 		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
@@ -415,8 +418,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-	}
-	
+	}	
 	
 	//Other uniforms
 	if (material->rc_material)
@@ -515,4 +517,52 @@ void ModuleRenderer3D::RemoveBuffer(unsigned int id)
 	//Patch for issue (https://github.com/traguill/Ezwix-Engine/issues/13). TODO: Solve the issue!
 	if(id != 9)
 		glDeleteBuffers(1, (GLuint*)&id);
+}
+
+void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
+{
+	glDisable(GL_LIGHTING);
+
+	glColor4f(color.x, color.y, color.z, color.w);
+	glBegin(GL_LINES);
+	glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
+	glEnd();
+
+	glEnable(GL_LIGHTING);
+}
+
+void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		glDisable(GL_LIGHTING);
+
+		glPushMatrix();
+		glMultMatrixf(transform.Transposed().ptr());
+
+		glColor4f(color.x, color.y, color.z, color.w);
+
+		glBegin(GL_LINES);
+
+		glVertex3f(0.5f, 0.0f, 0.0f); glVertex3f(-0.5f, 0.0f, 0.0f);
+		glVertex3f(0.0f, 0.5f, 0.0f); glVertex3f(0.0f, -0.5f, 0.0f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.0f, 0.0f, -0.5f);
+		//Arrow indicating forward
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(0.1f, 0.0f, 0.4f);
+		glVertex3f(0.0f, 0.0f, 0.5f); glVertex3f(-0.1f, 0.0f, 0.4f);
+
+		glEnd();
+
+		glEnable(GL_LIGHTING);
+
+		glPopMatrix();
+	}
+}
+
+void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
+{
+	if (App->IsGameRunning() == false)
+	{
+		DrawLocator(float4x4::FromTRS(pos, rot, float3(1, 1, 1)), color);
+	}
 }

@@ -10,7 +10,7 @@ WindowOptions::WindowOptions()
 WindowOptions::~WindowOptions()
 {}
 
-void WindowOptions::Draw(ImGuiWindowFlags flags)
+void WindowOptions::Draw()
 {
 	if (!active)
 		return;

@@ -14,10 +14,25 @@ ComponentLight::~ComponentLight()
 {
 }
 
-void ComponentLight::OnInspector()
+void ComponentLight::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Light"))
+	string str = (string("Light") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##light");
+		}
+
+		if (ImGui::BeginPopup("delete##light"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImGui::Text("Light type: ");
 		ImGui::SameLine();
 		string light_type_name = "";
@@ -87,4 +102,10 @@ void ComponentLight::DirectionalLightInspector()
 {
 	ImGui::InputFloat("Intensity: ###directional_in", &intensity);
 	ImGui::ColorEdit3("Color: ###directional_col", color.ptr());
+}
+
+//TODO: add a light to render module and remove previous light?
+void ComponentLight::SetType(LightType type)
+{
+	light_type = type;
 }

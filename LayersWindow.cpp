@@ -8,7 +8,7 @@ LayersWindow::LayersWindow()
 LayersWindow::~LayersWindow()
 {}
 
-void LayersWindow::Draw(ImGuiWindowFlags flags)
+void LayersWindow::Draw()
 {
 	if (!active)
 		return;

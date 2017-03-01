@@ -22,6 +22,14 @@
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
 #include "TestWindow.h"
+#include "GameObject.h"
+#include "ComponentLight.h"
+#include "RaycastHit.h"
+#include "ModuleCar.h"
+#include "ModuleGOManager.h"
+#include "ImGuizmo\ImGuizmo.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -124,6 +132,97 @@ void Editor::OnResize(int screen_width, int screen_height)
 	}
 }
 
+bool Editor::UsingKeyboard() const
+{
+	return using_keyboard;
+}
+
+bool Editor::UsingMouse() const
+{
+	return using_mouse;
+}
+
+void Editor::SelectSingle(GameObject* game_object)
+{
+	UnselectAll();
+	if (game_object != nullptr)
+		selected.push_back(game_object);
+}
+
+void Editor::AddSelect(GameObject* game_object)
+{
+	//Just for safety
+	if (game_object != nullptr && IsSelected(game_object) == false)
+		selected.push_back(game_object);
+}
+
+void Editor::Unselect(GameObject* game_object)
+{
+	std::list<GameObject*>::iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			selected.erase(it);
+			break;
+		}
+		it++;
+	}
+}
+
+void Editor::UnselectAll()
+{
+	selected.clear();
+}
+
+bool Editor::IsSelected(GameObject* game_object) const
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		if (*it == game_object)
+		{
+			return true;
+		}
+		it++;
+	}
+	return false;
+}
+
+void Editor::RemoveSelected()
+{
+	std::list<GameObject*>::const_iterator it = selected.begin();
+	while (it != selected.end())
+	{
+		App->go_manager->RemoveGameObject(*it);
+		it++;
+	}
+	selected.clear();
+}
+
+void Editor::Copy(GameObject* game_object)
+{
+
+}
+
+void Editor::Paste(GameObject* game_object)
+{
+	
+}
+
+void Editor::Duplicate(GameObject* game_object)
+{
+
+}
+
+update_status Editor::PreUpdate()
+{
+	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
+	using_mouse = ImGui::GetIO().WantCaptureMouse;
+
+	return UPDATE_CONTINUE;
+}
+
 update_status Editor::Update()
 {
 	PROFILE("Editor::Update()");
@@ -131,7 +230,7 @@ update_status Editor::Update()
 	update_status ret = UPDATE_CONTINUE;
 
 	GameOptions(); //Play/Stop/Next Frame buttons
-
+	DisplayGizmo();
 	ret = EditorWindows(); //Update the windows of the editor
 	
 	//Draw Grid
@@ -142,26 +241,62 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
-
-	//Shortcut to save. TODO: Do a better implementation of the shortcuts
-	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
-		save_scene_win = true;
-
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = App->go_manager->Raycast(ray);
-	}
+	HandleInput();
 
 	//Handle Quit event
-	bool quit = false;
 	if (App->input->Quit())
-		quit = QuitWindow();
+	{
+		save_quit = true;
+		OpenSaveSceneWindow();
+	}
 
 	if (quit)
 		ret = UPDATE_STOP;
 
 	return ret;	
+}
+
+void Editor::HandleInput()
+{
+	//Shortcut to save. TODO: Do a better implementation of the shortcuts
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
+	{
+		OnSaveCall();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
+	{
+		RemoveSelected();
+	}
+
+	//GameObject selection (click and drag)
+	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN)
+	{
+		select_dragging = true;
+		start_drag.x = App->input->GetMouseX();
+		start_drag.y = App->input->GetMouseY();
+	}
+
+	if (select_dragging = true && App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+	{
+		ImVec2 end_drag(App->input->GetMouseX(), App->input->GetMouseY());
+		if (start_drag.x == end_drag.x && start_drag.y == end_drag.y)
+		{
+			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+			//TODO:(Ausiàs) change game_object for a list
+			GameObject* game_object = App->go_manager->Raycast(ray, std::vector<int>(), true).object;
+
+			if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RSHIFT) == KEY_REPEAT ||
+				App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RCTRL) == KEY_REPEAT)
+			{
+				IsSelected(game_object) ? Unselect(game_object) : AddSelect(game_object);
+			}
+			else
+			{
+				SelectSingle(App->go_manager->Raycast(ray, std::vector<int>(), true).object);
+			}
+		}
+	}
 }
 
 void Editor::GameOptions() const
@@ -211,6 +346,11 @@ update_status Editor::EditorWindows()
 			EditMenu();
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("GameObject"))
+		{
+			GameObjectMenu();
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Windows"))
 		{
 			WindowsMenu();
@@ -235,12 +375,11 @@ update_status Editor::EditorWindows()
 	}
 
 	//Windows ----------------------------------------------------------------------------------------------------
-	ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
 		PROFILE("Editor::Update-PaintWindows");
-		(*win)->Draw(flags);
+		(*win)->Draw();
 		++win;
 	}
 
@@ -252,9 +391,31 @@ update_status Editor::EditorWindows()
 
 void Editor::FileMenu()
 {
-	if (ImGui::MenuItem("Create New Scene"))
+	if (ImGui::MenuItem("New Scene"))
 	{
 		App->go_manager->LoadEmptyScene();
+	}
+	if (ImGui::BeginMenu("Open Scene"))
+	{
+		std::vector<std::string> scenes;
+		assets->GetAllFilesByType(FileType::SCENE, scenes);
+		for (uint i = 0; i < scenes.size(); i++)
+		{
+			std::string name = App->file_system->GetNameFromPath(scenes[i].c_str());
+			if (ImGui::MenuItem(name.c_str()))
+			{
+				App->resource_manager->LoadScene(scenes[i].c_str());
+			}
+		}
+		ImGui::EndMenu();
+	}
+	if (ImGui::MenuItem("Save Scene"))
+	{
+		OnSaveCall();
+	}
+	if (ImGui::MenuItem("Save Scene as..."))
+	{
+		OpenSaveSceneWindow();
 	}
 }
 
@@ -378,11 +539,51 @@ void Editor::EditMenu()
 	
 }
 
+void Editor::GameObjectMenu()
+{
+	if (ImGui::MenuItem("Create Empty"))
+	{
+
+	}
+	if (ImGui::MenuItem("Create Empty Child"))
+	{
+
+	}
+	if (ImGui::BeginMenu("3D Object"))
+	{
+		if (ImGui::MenuItem("Cube"))
+			App->go_manager->CreatePrimitive(PrimitiveType::P_CUBE);
+
+		if (ImGui::MenuItem("Sphere"))
+			App->go_manager->CreatePrimitive(PrimitiveType::P_SPHERE);
+
+		if (ImGui::MenuItem("Plane"))
+			App->go_manager->CreatePrimitive(PrimitiveType::P_PLANE);
+
+		if (ImGui::MenuItem("Cylinder"))
+			App->go_manager->CreatePrimitive(PrimitiveType::P_CYLINDER);
+
+		ImGui::EndMenu();
+	}
+	if (ImGui::BeginMenu("Light"))
+	{
+		if (ImGui::MenuItem("Directional Light"))
+		{
+			App->go_manager->CreateLight(nullptr, LightType::DIRECTIONAL_LIGHT);
+		}
+		ImGui::EndMenu();
+	}
+}
+
 void Editor::DebugMenu()
 {
 	if (ImGui::MenuItem("Show/Hide Octree"))
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
+	}
+	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	{
+		App->car->Load();
 	}
 }
 
@@ -443,6 +644,48 @@ bool Editor::QuitWindow()
 	return ret;
 }
 
+void Editor::OnSaveCall()
+{
+	std::string scene = App->go_manager->GetCurrentScenePath();
+	if (scene == "")
+	{
+		OpenSaveSceneWindow();
+	}
+	else
+	{
+		AssetFile* asset = assets->FindAssetFile(scene);
+		if (asset != nullptr)
+		{
+			const char* lib_path = asset->directory->library_path.c_str();
+			App->resource_manager->SaveScene(scene.c_str(), lib_path);
+		}
+		else
+		{
+			OpenSaveSceneWindow();
+		}
+	}
+}
+
+void Editor::OpenSaveSceneWindow()
+{
+	std::string scene_name_path = App->go_manager->GetCurrentScenePath();
+	if (scene_name_path != "")
+	{
+		std::string scene_name = App->file_system->GetNameFromPath(scene_name_path.c_str());
+		uint period = scene_name.find_last_of(".");
+		if (period == std::string::npos)
+		{
+			period = scene_name.length();
+		}
+		scene_name_to_save = scene_name.substr(0, period);
+	}
+	else
+	{
+		scene_name_to_save = "Untitled";
+	}
+	save_scene_win = true;
+}
+
 void Editor::SaveSceneWindow()
 {
 	if (save_scene_win)
@@ -451,6 +694,8 @@ void Editor::SaveSceneWindow()
 		ImGui::SetNextWindowSize(ImVec2(300, 100));
 		if (ImGui::Begin("Save Scene", &save_scene_win))
 		{
+			if (scene_name_to_save == "")
+				scene_name_to_save = "Untiled";
 			ImGui::InputText("", scene_name_to_save._Myptr(), scene_name_to_save.capacity());
 			if (ImGui::Button("Save ##save_scene_button"))
 			{
@@ -458,8 +703,69 @@ void Editor::SaveSceneWindow()
 				scene = assets->CurrentDirectory() + scene;
 				App->resource_manager->SaveScene(scene.data(), assets->CurrentLibraryDirectory());
 				save_scene_win = false;
+				if (save_quit == true)
+					quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Don't Save ##dont_save_scene_button"))
+			{
+				save_scene_win = false;
+				if (save_quit == true)
+					quit = true;
+			}
+			ImGui::SameLine();
+
+			if (ImGui::Button("Cancel ##cancel_scene_button"))
+			{
+				if (save_quit == true)
+					save_quit = false;
+				save_scene_win = false;
+				App->input->ResetQuit();
 			}
 			ImGui::End();
+		}
+		
+		if(!save_scene_win)
+			App->input->ResetQuit();
+	}
+}
+
+
+void Editor::DisplayGizmo()
+{
+	//Selection keys
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::SCALE;
+
+	ImGuizmo::BeginFrame();
+
+	if (selected.size() > 0)
+	{
+		GameObject* go = selected.back();
+
+		ImGuizmo::Enable(gizmo_enabled);
+
+		ComponentCamera* camera = App->camera->GetEditorCamera();
+		ComponentTransform* transform = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+		float4x4 matrix = transform->GetLocalTransformMatrix().Transposed();
+
+		ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+
+		if (ImGuizmo::IsUsing())
+		{
+			matrix.Transpose();
+			float3 position, scale;
+			Quat rotation;
+			matrix.Decompose(position, rotation, scale);
+
+			transform->SetPosition(position);
+			transform->SetRotation(rotation);
+			transform->SetScale(scale);
 		}
 	}
 }

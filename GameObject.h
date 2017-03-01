@@ -52,7 +52,7 @@ public:
 	void Save(Data& file, bool ignore_prefab = false) const;
 	void SaveAsChildPrefab(Data& file)const; //Only saves the UUID
 
-	bool RayCast(const Ray& ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
+	bool RayCast(Ray ray, RaycastHit& hit); //Raycast testing ONLY against geometry. 
 
 	void ApplyPrefabChanges();
 	void CollectChildrenUUID(std::vector<unsigned int>& uuid, std::vector<unsigned int>& local_uuid)const;

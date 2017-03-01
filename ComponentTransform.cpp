@@ -1,14 +1,24 @@
+#include "Application.h"
+#include "ModuleInput.h"
 #include "ComponentTransform.h"
 #include "GameObject.h"
 #include "Globals.h"
 #include "imgui\imgui.h"
+#include "ImGuizmo\ImGuizmo.h"
 #include "ComponentMesh.h"
 #include "Data.h"
+
+//CHANGE - PEP
+//Not sure to include this here, maybe better to create a new file
+#include "Application.h"
+#include "ModuleCamera3D.h"
+#include "ComponentCamera.h"
 
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
 	CalculateFinalTransform();
 	*global_matrix = &final_transform_matrix;
+
 }
 
 ComponentTransform::~ComponentTransform()
@@ -26,12 +36,51 @@ void ComponentTransform::Update()
 	}
 }
 
-void ComponentTransform::OnInspector()
+void ComponentTransform::OnInspector(bool debug)
 {
-	if (ImGui::CollapsingHeader("Transform"))
+	string str = (string("Transform") + string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("reset##transform");
+		}
+
+		if (ImGui::BeginPopup("reset##transform"))
+		{
+			if (ImGui::MenuItem("Reset"))
+			{
+				Reset();
+			}
+			ImGui::EndPopup();
+		}
+
 		ImVec4 white = ImVec4(1, 1, 1, 1);
-	
+
+		//CHANGE - PEP
+		//---------Transform operation
+		ImGuizmo::BeginFrame();
+
+		//Inspector selection
+		if (ImGui::RadioButton("Translate", App->editor->gizmo_operation == TRANSLATE))
+		{
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Rotate", App->editor->gizmo_operation == ROTATION))
+		{
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Scale", App->editor->gizmo_operation == SCALE))
+		{
+			App->editor->gizmo_operation = ImGuizmo::OPERATION::SCALE;
+		}
+
+		ImGui::Checkbox("Enable Gizmo", &App->editor->gizmo_enabled);
+
 		//Position
 		ImGui::TextColored(white, "Position: ");
 		ImGui::SameLine();
@@ -39,6 +88,7 @@ void ComponentTransform::OnInspector()
 		float3 position = this->position;
 		if (ImGui::DragFloat3("##pos", position.ptr()))
 		{
+			App->input->InfiniteHorizontal();
 			SetPosition(position);
 		}
 
@@ -49,24 +99,31 @@ void ComponentTransform::OnInspector()
 		float3 rotation = this->rotation_euler;
 		if (ImGui::DragFloat3("##rot", rotation_euler.ptr(), 1.0f, -360.0f, 360.0f))
 		{
+			App->input->InfiniteHorizontal();
 			SetRotation(rotation_euler);
 		}
 
 		//Scale
-		ImGui::TextColored(white, "Scale: ");
+		ImGui::TextColored(white, "Scale:    ");
 		ImGui::SameLine();
 
 		float3 scale = this->scale;
 		if (ImGui::DragFloat3("##scale", scale.ptr()))
 		{
+			App->input->InfiniteHorizontal();
 			SetScale(scale);
 		}
 
 		//Local Matrix
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
-		ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+		if (debug == true)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(255, 255, 0, 255));
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[0][0], transform_matrix.v[0][1], transform_matrix.v[0][2], transform_matrix.v[0][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[1][0], transform_matrix.v[1][1], transform_matrix.v[1][2], transform_matrix.v[1][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[2][0], transform_matrix.v[2][1], transform_matrix.v[2][2], transform_matrix.v[2][3]);
+			ImGui::Text("%0.2f %0.2f %0.2f %0.2f", transform_matrix.v[3][0], transform_matrix.v[3][1], transform_matrix.v[3][2], transform_matrix.v[3][3]);
+			ImGui::PopStyleColor();
+		}
 	}
 }
 
@@ -124,6 +181,11 @@ math::float3 ComponentTransform::GetScale()const
 	return scale;
 }
 
+math::float4x4 ComponentTransform::GetLocalTransformMatrix() const
+{
+	return transform_matrix;
+}
+
 math::float4x4 ComponentTransform::GetTransformMatrix()const
 {
 	return final_transform_matrix.Transposed();
@@ -158,6 +220,13 @@ void ComponentTransform::Load(Data & conf)
 	rotation_euler = RadToDeg(rotation_euler); //To degrees
 	scale = transform_matrix.GetScale();
 	CalculateFinalTransform();
+}
+
+void ComponentTransform::Reset()
+{
+	SetPosition(float3::zero);
+	SetRotation(Quat::identity);
+	SetScale(float3::one);
 }
 
 void ComponentTransform::Remove()

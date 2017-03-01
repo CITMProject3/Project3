@@ -24,7 +24,7 @@ public:
 
 	bool IsActive();
 	void SetActive(bool value);
-	virtual void OnInspector();
+	virtual void OnInspector(bool debug);
 
 	ComponentType GetType()const;
 	GameObject* GetGameObject()const;
@@ -34,6 +34,7 @@ public:
 	virtual void Save(Data& file) const;
 	virtual void Remove();
 	virtual void Load(Data& config);
+
 
 protected:
 	bool active = true;

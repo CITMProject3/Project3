@@ -4,6 +4,13 @@
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+enum GuizmoOperation
+{
+	TRANSLATE,
+	ROTATION,
+	SCALE
+};
+
 class ComponentTransform : public Component
 {
 public:
@@ -12,12 +19,13 @@ public:
 
 	void Update();
 
-	void OnInspector();
+	void OnInspector(bool debug);
 
 	void SetPosition(const math::float3& pos);
 	void SetRotation(const math::float3 &rot_euler);
 	void SetRotation(const math::Quat& rot);
 	void SetScale(const math::float3& scale);
+	
 
 	math::float3 GetPosition()const;
 	math::float3 GetRotationEuler()const;
@@ -26,17 +34,18 @@ public:
 
 	void Rotate(const math::Quat& quaternion);
 
+	math::float4x4 GetLocalTransformMatrix()const;
 	// Returns the final transformation matrix. Not the local one!
 	math::float4x4 GetTransformMatrix()const;
 	math::float4x4 GetGlobalMatrix()const;
 
 	void Save(Data& file)const;
 	void Load(Data& conf);
+	void Reset();
 	void Remove();
 	void SaveAsPrefab(Data& file)const;
 
 private:
-
 	void CalculateFinalTransform();
 
 private:

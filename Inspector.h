@@ -9,7 +9,7 @@ public:
 	Inspector();
 	~Inspector();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
 
 public:
 	bool debug = false;

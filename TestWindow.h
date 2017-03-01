@@ -11,8 +11,14 @@ public:
 	TestWindow();
 	~TestWindow();
 
-	void Draw(ImGuiWindowFlags flags);
+	void Draw();
+	void DrawResizeWindows();
+	void DrawSecondPanel();
+	void ChangePanel(int panel);
+
 	Hierarchy* hierarchy = nullptr;
+	int current_panel = 0;
+	bool set_dimensions = false;
 };
 
 #endif

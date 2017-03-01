@@ -268,7 +268,7 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 	//Vertices ------------------------------------------------------------------------------------------------------
 	mesh.num_vertices = mesh_to_load->mNumVertices;
 	mesh.vertices = new float[mesh.num_vertices * 3];
-	memcpy(mesh.vertices, mesh_to_load->mVertices, sizeof(float)*mesh.num_vertices * 3);
+	memcpy(mesh.vertices, mesh_to_load->mVertices, sizeof(float3) * mesh.num_vertices);
 	
 
 	//Indices --------------------------------------------------------------------------------------------------------
@@ -361,7 +361,7 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 	cursor += bytes;
 
 	//Vertices
-	bytes = sizeof(float) * header[1] * 3;
+	bytes = sizeof(float3) * header[1];
 	memcpy(cursor, mesh.vertices, bytes);
 
 	cursor += bytes;

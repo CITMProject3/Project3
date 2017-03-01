@@ -12,8 +12,18 @@ class GameObject;
 class ComponentCamera;
 class ComponentLight;
 class LayerSystem;
+enum LightType;
+class RaycastHit;
 
 #define OCTREE_SIZE 800
+
+enum PrimitiveType
+{
+	P_CUBE,
+	P_SPHERE,
+	P_PLANE,
+	P_CYLINDER
+};
 
 class ModuleGOManager : public Module
 {
@@ -27,7 +37,13 @@ public:
 	update_status Update();
 	void SaveBeforeClosing(Data& data)const;
 
+	// Factory methods
 	GameObject* CreateGameObject(GameObject* parent);
+	GameObject* CreateLight(GameObject* parent, LightType type);
+	void CreatePrimitive(PrimitiveType type);
+
+	PrimitiveTypes d;
+
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); //Doesn't remove the GameObject from the parent list.
 
@@ -46,14 +62,15 @@ public:
 	void ClearScene(); //Removes the current scene
 	GameObject* LoadGameObject(const Data& go_data);
 	void SetCurrentScenePath(const char* scene_path);
-
+	const char* GetCurrentScenePath();
 	//Handles the insertion / remove of the octree and dynamic gameobjects list. TODO: Rename the methods. Look confusing.
 	bool InsertGameObjectInOctree(GameObject* go);
 	bool RemoveGameObjectOfOctree(GameObject* go);
 
-	GameObject* Raycast(const Ray& ray)const;
-
 	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const;
+
+	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
+
 private:
 
 	void HierarchyWindow();
@@ -80,6 +97,8 @@ public:
 	list<GameObject*> dynamic_gameobjects;
 	bool draw_octree = false;
 	GameObject* root = nullptr;
+
+	float3 lastRayData[3];
 
 };
 

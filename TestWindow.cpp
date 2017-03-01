@@ -7,16 +7,59 @@
 TestWindow::TestWindow()
 {
 	hierarchy = new Hierarchy();
+	flags |=  ImGuiWindowFlags_MenuBar;
 }
 
 TestWindow::~TestWindow(){}
 
-void TestWindow::Draw(ImGuiWindowFlags flags)
+void TestWindow::Draw()
 {
 	if (!active)
 		return;
 
-	ImGui::Begin("Splitter test", &active);
+	if (set_dimensions == true)
+	{
+		set_dimensions = false;
+		ImGui::SetNextWindowPos(current_position);
+		ImGui::SetNextWindowSize(current_size);
+	}
+
+	std::string name;
+	name = current_panel == 0 ? "Show windows" : "Second panel";
+	ImGui::Begin(name.c_str(), &active, flags);
+	ImGui::BeginMenuBar();
+	if (ImGui::BeginMenu("Show windows"))
+	{
+		ImGui::CloseCurrentPopup();
+		ImGui::EndMenu();
+		ChangePanel(0);
+	}
+	if (ImGui::BeginMenu("Second panel"))
+	{
+		ImGui::CloseCurrentPopup();
+		ImGui::EndMenu();
+		ChangePanel(1);
+	}
+	ImGui::EndMenuBar();
+
+	switch (current_panel)
+	{
+		case(0):
+		{
+			DrawResizeWindows();
+			break;
+		}
+		case(1):
+		{
+			DrawSecondPanel();
+		}
+	}
+
+	ImGui::End();
+}
+
+void TestWindow::DrawResizeWindows()
+{
 	int sizeX = ImGui::GetWindowSize().x;
 
 	static float w = 100.0f;
@@ -28,13 +71,13 @@ void TestWindow::Draw(ImGuiWindowFlags flags)
 	float newW = w;
 	float newW2 = w2;
 
-	//ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 	ImGui::BeginChild("child1", ImVec2(w, h), true);
 	ImGui::Text("%f", w);
 	ImGui::Separator();
-//	ImGui::PopStyleVar();
-//	hierarchy->Draw(flags);
-//	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
+	//	ImGui::PopStyleVar();
+	//	hierarchy->Draw(flags);
+	//	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0, 0));
 	ImGui::EndChild();
 	ImGui::SameLine();
 	ImGui::InvisibleButton("vsplitter", ImVec2(8.0f, h));
@@ -70,10 +113,23 @@ void TestWindow::Draw(ImGuiWindowFlags flags)
 	ImGui::Text("Window Size = %f", sizeX);
 
 	ImGui::EndChild();
-//	ImGui::PopStyleVar();
-
-	ImGui::End();
 
 	w = newW;
 	w2 = newW2;
+	ImGui::PopStyleVar();
+}
+
+void TestWindow::DrawSecondPanel()
+{
+	ImGui::Text("Second panel");
+}
+
+void TestWindow::ChangePanel(int panel)
+{
+	if (current_panel != panel)
+	{
+		current_size = ImGui::GetWindowSize();
+		current_position = ImGui::GetWindowPos();
+		set_dimensions = true;
+	}
 }

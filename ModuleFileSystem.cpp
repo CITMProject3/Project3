@@ -324,6 +324,11 @@ double ModuleFileSystem::GetLastModificationTime(const char * file_path) const
 	return PHYSFS_getLastModTime(file_path);
 }
 
+const char *ModuleFileSystem::GetRealPath(const string &virtual_path) const
+{
+	return PHYSFS_getRealDir(virtual_path.c_str());
+}
+
 bool ModuleFileSystem::GenerateDirectory(const char * path) const
 {
 	return PHYSFS_mkdir(path);

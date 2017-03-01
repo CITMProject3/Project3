@@ -11,12 +11,13 @@
 Inspector::Inspector()
 {
 	active = true;
+	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 
 Inspector::~Inspector()
 {}
 
-void Inspector::Draw(ImGuiWindowFlags flags)
+void Inspector::Draw()
 {
 	if (!active) return;
 
@@ -28,7 +29,10 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug);
 	ImGui::Separator();
 
-	GameObject* selected_GO = App->editor->selected_GO;
+	GameObject* selected_GO = nullptr;
+	
+	if (App->editor->selected.size() > 0)
+		selected_GO = App->editor->selected.back();
 
 	if (selected_GO)
 	{
@@ -61,7 +65,7 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 			if (ImGui::Button("Apply"))
 			{
 				selected_GO->ApplyPrefabChanges();
-				App->editor->selected_GO = nullptr;
+				App->editor->UnselectAll();
 				ImGui::End();
 				return; //TODO: Improve this patch
 			}
@@ -69,7 +73,7 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 			if (ImGui::Button("Revert"))
 			{
 				selected_GO->RevertPrefabChanges();
-				App->editor->selected_GO = nullptr;
+				App->editor->UnselectAll();
 				ImGui::End();
 				return; //TODO: Improve this patch
 			}
@@ -80,22 +84,26 @@ void Inspector::Draw(ImGuiWindowFlags flags)
 
 		if (debug)
 		{
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(255, 255, 0, 255));
 			ImGui::Text("UUID: %u", (int)selected_GO->GetUUID());
 			ImGui::Text("Local UUID: %u", (int)selected_GO->local_uuid);
 			ImGui::Text("Layer id: %i", selected_GO->layer);
+			ImGui::PopStyleColor();
 		}
 
 		//Components
 		const std::vector<Component*>* components = selected_GO->GetComponents();
 		for (std::vector<Component*>::const_iterator component = (*components).begin(); component != (*components).end(); ++component)
 		{
-			(*component)->OnInspector();
+			(*component)->OnInspector(debug);
 		}
 
-		//Options
-		if (ImGui::IsMouseHoveringWindow())
-			if (ImGui::IsMouseClicked(1))
-				ImGui::OpenPopup("InspectorOptions");
+		// Quick test for creating new components when clicking on no component
+		ImGui::NewLine();
+		if (ImGui::Button("Create component", ImVec2(current_size.x, 30)))
+		{
+			ImGui::OpenPopup("InspectorOptions");
+		}
 
 		if (ImGui::BeginPopup("InspectorOptions"))
 		{

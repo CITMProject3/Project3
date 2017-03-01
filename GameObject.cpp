@@ -147,7 +147,30 @@ GameObject* GameObject::GetParent()const
 //TODO: keep world transformation matrix, change local
 void GameObject::SetParent(GameObject * parent)
 {
-	this->parent = parent;
+	if (this->parent != parent && parent != this)
+	{
+		if (this->parent != nullptr)
+		{
+			this->parent->RemoveChild(this);
+		}
+
+		ComponentTransform* transform = (ComponentTransform*)GetComponent(C_TRANSFORM);
+		float4x4 global = transform->GetGlobalMatrix();
+		this->parent = parent;
+		if (parent)
+		{
+			float4x4 new_local = ((ComponentTransform*)parent->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * global;
+			float3 translate, scale;
+			Quat rotation;
+			new_local.Decompose(translate, rotation, scale);
+			transform->SetPosition(translate);
+			transform->SetRotation(rotation);
+			transform->SetScale(scale);
+
+			parent->AddChild(this);
+		}
+	}
+
 }
 
 const std::vector<GameObject*>* GameObject::GetChilds()
@@ -407,7 +430,7 @@ void GameObject::SaveAsChildPrefab(Data & file) const
 	file.AppendArrayValue(data);
 }
 
-bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
+bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
 	RaycastHit hit_info;
 	bool ret = false;
@@ -418,52 +441,37 @@ bool GameObject::RayCast(const Ray & ray, RaycastHit & hit)
 		if (mesh)
 		{
 			//Transform ray into local coordinates
-			Ray raycast = ray;
 			raycast.Transform(global_matrix->Inverted());
 
 			uint u1, u2, u3;
-			float3 v1, v2, v3;
 			float distance;
 			vec hit_point;
 			Triangle triangle;
-			for (int i = 0; i < mesh->num_indices / 3; i++)
+			for (int i = 0; i < mesh->num_indices; i+=3)
 			{
-				u1 = mesh->indices[i * 3];
-				u2 = mesh->indices[i * 3 + 1];
-				u3 = mesh->indices[i * 3 + 2];
-				v1 = float3(&mesh->vertices[u1]);
-				v2 = float3(&mesh->vertices[u2]);
-				v3 = float3(&mesh->vertices[u3]);
-				triangle = Triangle(v1, v2, v3);
+				u1 = mesh->indices[i];
+				u2 = mesh->indices[i+1];
+				u3 = mesh->indices[i+2];
+				triangle = Triangle(float3(&mesh->vertices[u1 * 3]), float3(&mesh->vertices[u2 * 3]), float3(&mesh->vertices[u3 * 3]));
 				if (raycast.Intersects(triangle, &distance, &hit_point))
 				{
 					ret = true;
-					if (hit_info.distance == 0) //First entry
+					if (hit_info.distance > distance || hit_info.distance == 0)
 					{
 						hit_info.distance = distance;
 						hit_info.point = hit_point;
-						hit_info.normal = triangle.PlaneCCW().normal;
-						
-					}
-					else
-					{
-						if (hit_info.distance > distance)
-						{
-							hit_info.distance = distance;
-							hit_info.point = hit_point;
-							hit_info.normal = triangle.PlaneCCW().normal;
-						}
+						hit_info.normal = triangle.NormalCCW();
 					}
 				}
-
 				if (ret == true)
 				{
 					//Transfrom the hit parameters to global coordinates
-					hit.point = global_matrix->MulPos(hit_info.point);
-					hit.distance = ray.pos.Distance(hit.point);
-					hit.object = this;
-					hit.normal = global_matrix->MulDir(hit_info.normal); //TODO: normal needs revision. May not work as expected.
-					hit.normal.Normalize();
+					hit_OUT.point = global_matrix->MulPos(hit_info.point);
+					hit_OUT.distance = hit_info.distance;
+					//hit_OUT.distance = ray.pos.Distance(hit.point);
+					hit_OUT.object = this;
+					hit_OUT.normal = global_matrix->MulDir(hit_info.normal); //TODO: normal needs revision. May not work as expected.
+					hit_OUT.normal.Normalize();
 				}
 			}
 		}

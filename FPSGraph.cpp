@@ -9,7 +9,7 @@ FPSGraph::FPSGraph()
 FPSGraph::~FPSGraph()
 {}
 
-void FPSGraph::Draw(ImGuiWindowFlags flags)
+void FPSGraph::Draw()
 {
 	if (!active)
 		return;
