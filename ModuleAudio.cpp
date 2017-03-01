@@ -160,7 +160,7 @@ bool ModuleAudio::InitStreamingManager()
 	}
 
 	// Setup banks path
-	g_lowLevelIO.SetBasePath(AKTEXT("./Wwise_SoundBanks/"));
+	g_lowLevelIO.SetBasePath(AKTEXT("./Assets/Soundbanks/"));
 	AK::StreamMgr::SetCurrentLanguage(AKTEXT("English(US)"));
 
 	return true;

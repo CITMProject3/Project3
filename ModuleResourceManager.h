@@ -20,7 +20,8 @@ enum FileType
 	VERTEX,
 	FRAGMENT,
 	MATERIAL,
-	RENDER_TEXTURE
+	RENDER_TEXTURE,
+	SOUNDBANK
 };
 
 struct tmp_mesh_file
@@ -87,10 +88,12 @@ private:
 
 	void ImportFolder(const char* path, vector<tmp_mesh_file>& list_meshes, string base_dir = string(), string base_library_dir = string())const;	
 	void ImportFile(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
+
 	void ImageDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 	void MeshDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 	void VertexDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 	void FragmentDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
+	void SoundbankDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
 
 	void LoadPrefabFile(const string& library_path);
 
