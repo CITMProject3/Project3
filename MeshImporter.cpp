@@ -143,7 +143,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 	c_transform->SetRotation(rot);
 	c_transform->SetScale(scale);
 
-	c_transform->Update(); //Force it to update the matrix
+	c_transform->Update(0); //Force it to update the matrix
 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();
@@ -439,45 +439,56 @@ Mesh * MeshImporter::Load(const char * path)
 		memcpy(mesh->tangents, cursor, bytes);
 		cursor += bytes;
 
-		//Vertices ------------------------------------------------------------------------------------------------------
-		
-		//Load buffer to VRAM
-		glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->vertices, GL_STATIC_DRAW);
-
-		//Indices --------------------------------------------------------------------------------------------------------
-
-		//Load indices buffer to VRAM
-		glGenBuffers(1, (GLuint*) &(mesh->id_indices));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_indices, mesh->indices, GL_STATIC_DRAW);
-
-		//Load UVs -----------------------------------------------------------------------------------------------------------------------
-
-		glGenBuffers(1, (GLuint*)&(mesh->id_uvs));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * mesh->num_uvs, mesh->uvs, GL_STATIC_DRAW);
-
-		//Load Normals -----------------------------------------------------------------------------------------------------------------------
-
-		if (mesh->normals)
-		{
-			glGenBuffers(1, (GLuint*)&(mesh->id_normals));
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->normals, GL_STATIC_DRAW);
-		}
-
-		//Load Tangents-----------------------------------------------------------------------------------------------------------------------
-		glGenBuffers(1, (GLuint*)&(mesh->id_tangents));
-		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->tangents, GL_STATIC_DRAW);
+		LoadBuffers(mesh);
 	}
 	if(buffer)
 		delete[] buffer;
 	buffer = nullptr;
 
 	return mesh;
+}
+
+void MeshImporter::LoadBuffers(Mesh* mesh)
+{
+	//Vertices ------------------------------------------------------------------------------------------------------
+
+	//Load buffer to VRAM
+	glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->vertices, GL_STATIC_DRAW);
+
+	//Indices --------------------------------------------------------------------------------------------------------
+
+	//Load indices buffer to VRAM
+	glGenBuffers(1, (GLuint*) &(mesh->id_indices));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_indices, mesh->indices, GL_STATIC_DRAW);
+	//Load UVs -----------------------------------------------------------------------------------------------------------------------
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_uvs));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * mesh->num_uvs, mesh->uvs, GL_STATIC_DRAW);
+
+	//Load Normals -----------------------------------------------------------------------------------------------------------------------
+
+	if (mesh->normals)
+	{
+		glGenBuffers(1, (GLuint*)&(mesh->id_normals));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->normals, GL_STATIC_DRAW);
+	}
+
+	//Load Tangents-----------------------------------------------------------------------------------------------------------------------
+	glGenBuffers(1, (GLuint*)&(mesh->id_tangents));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->tangents, GL_STATIC_DRAW);
+}
+
+void MeshImporter::DeleteBuffers(Mesh* mesh)
+{
+	App->renderer3D->RemoveBuffer(mesh->id_vertices);
+	App->renderer3D->RemoveBuffer(mesh->id_indices);
+	App->renderer3D->RemoveBuffer(mesh->id_uvs);
 }
 
 void MeshImporter::CollectGameObjects(GameObject* root, std::vector<GameObject*> vector)

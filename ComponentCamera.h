@@ -14,7 +14,7 @@ public:
 	ComponentCamera(ComponentType type, GameObject* game_object);
 	~ComponentCamera();
 
-	void Update();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
 	void OnTransformModified();

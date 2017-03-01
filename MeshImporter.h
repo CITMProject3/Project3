@@ -18,6 +18,8 @@ namespace MeshImporter
 	bool ImportMesh(const aiMesh* mesh, const char* folder_path, std::string& output_name);
 	bool Save(Mesh& mesh, const char* folder_path, std::string& output_name);
 	Mesh* Load(const char* path);
+	void LoadBuffers(Mesh* mesh);
+	void DeleteBuffers(Mesh* mesh);
 
 	void CollectGameObjects(GameObject* root, std::vector<GameObject*> vector);
 	void SaveInfoFile(std::vector<GameObject*> vector, const char* file);

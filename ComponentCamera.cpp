@@ -48,7 +48,7 @@ ComponentCamera::~ComponentCamera()
 		render_texture->Unload();
 }
 
-void ComponentCamera::Update()
+void ComponentCamera::Update(float dt)
 {
 	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }

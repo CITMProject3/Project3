@@ -69,13 +69,13 @@ void GameObject::PreUpdate()
 	components_to_remove.clear();
 }
 
-void GameObject::Update()
+void GameObject::Update(float dt)
 {
 	std::vector<Component*>::iterator comp = components.begin();
 
 	for (comp; comp != components.end(); comp++)
 	{
-		(*comp)->Update();
+		(*comp)->Update(dt);
 	}
 }
 
@@ -166,6 +166,13 @@ const std::vector<GameObject*>* GameObject::GetChilds()
 size_t GameObject::ChildCount()
 {
 	return childs.size();
+}
+
+void GameObject::CollectAllChilds(std::vector<GameObject*>& vector)
+{
+	vector.push_back(this);
+	for (uint i = 0; i < childs.size(); i++)
+		childs[i]->CollectAllChilds(vector);
 }
 
 bool GameObject::IsActive() const

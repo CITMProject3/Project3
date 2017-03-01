@@ -20,7 +20,7 @@ public:
 	~GameObject();
 
 	void PreUpdate();
-	void Update();
+	void Update(float dt);
 
 	bool AddChild(GameObject* child);
 	bool RemoveChild(GameObject* child); //Breaks the link with the parent but does not delete the child.
@@ -29,6 +29,7 @@ public:
 	void SetParent(GameObject* parent);
 	const std::vector<GameObject*>* GetChilds();
 	size_t ChildCount();
+	void CollectAllChilds(std::vector<GameObject*>& vector);
 
 	bool IsActive()const;
 	void SetActive(bool value);

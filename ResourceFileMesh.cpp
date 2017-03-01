@@ -28,8 +28,6 @@ void ResourceFileMesh::LoadInMemory()
 
 void ResourceFileMesh::UnloadInMemory()
 {
-	App->renderer3D->RemoveBuffer(mesh->id_vertices);
-	App->renderer3D->RemoveBuffer(mesh->id_indices);
-	App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	MeshImporter::DeleteBuffers(mesh);
 	App->resource_manager->RemoveResourceFromList(this);
 }

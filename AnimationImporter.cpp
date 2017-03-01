@@ -328,10 +328,11 @@ bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, co
 	for (uint i = 0; i < rBone.numWeights; i++)
 		memcpy(rBone.weightsIndex + i, &((bone->mWeights + i)->mVertexId), sizeof(uint));
 
+	bool ret = SaveBone(rBone, base_path, output_name);
+
 	delete[] rBone.weights;
 	delete[] rBone.weightsIndex;
 
-	bool ret = SaveBone(rBone, base_path, output_name);
 	return ret;
 }
 
@@ -342,6 +343,14 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 
 	char* data = new char[size];
 	char* cursor = data;
+
+	//Mesh resource path
+	uint fileSize = bone.mesh_path.size();
+	memcpy(cursor, &fileSize, sizeof(uint));
+	cursor += sizeof(uint);
+
+	memcpy(cursor, bone.mesh_path.c_str(), bone.mesh_path.size());
+	cursor += bone.mesh_path.size();
 
 	//Num weights
 	memcpy(cursor, &bone.numWeights, sizeof(uint));
@@ -376,6 +385,20 @@ void AnimationImporter::LoadBone(const char* path, ResourceFileBone* bone)
 	if (size > 0)
 	{
 		char* cursor = buffer;
+
+		uint stringSize = 0;
+		memcpy(&stringSize, cursor, sizeof(uint));
+		cursor += sizeof(uint);
+
+		if (stringSize > 0)
+		{
+			char* string = new char[stringSize + 1];
+			memcpy(string, cursor, sizeof(char) * stringSize);
+			cursor += sizeof(char) * stringSize;
+			string[stringSize] = '\0';
+			bone->mesh_path = string;
+			delete [] string;
+		}
 
 		memcpy(&bone->numWeights, cursor, sizeof(uint));
 		cursor += sizeof(uint);

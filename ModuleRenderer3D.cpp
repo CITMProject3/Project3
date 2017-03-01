@@ -237,7 +237,7 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 	}
 }
 
-void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) const
+void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
 	if (has_render_tex)
 	{
@@ -252,7 +252,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) cons
 
 	for (vector<GameObject*>::iterator obj = static_objects.begin(); obj != static_objects.end(); ++obj)
 	{
-		if ((*obj)->IsActive()) //TODO: if component mesh is not active don't draw the object.
+		if ((*obj)->IsActive())
 		{
 			if (layer_mask == (layer_mask | (1 << (*obj)->layer)))
 				Draw(*obj, App->lighting->GetLightInfo(), cam);
@@ -274,7 +274,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) cons
 		cam->render_texture->Unbind();
 }
 
-void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam) const
+void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)
 {
 	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
 
@@ -479,9 +479,28 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
 
+	ComponentMesh* mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
+	const Mesh* base_mesh = mesh->GetMesh();
+
+	
+	//Generate buffers for animation mesh
+	if (mesh->deformable != nullptr)
+	{
+		glGenBuffers(1, (GLuint*)&(mesh->deformable->id_vertices));
+		glBindBuffer(GL_ARRAY_BUFFER,mesh->deformable->id_vertices);
+		glBufferData(GL_ARRAY_BUFFER, base_mesh->num_vertices * sizeof(float) * 3, mesh->deformable->vertices, GL_STATIC_DRAW);
+
+		if (base_mesh->normals != nullptr)
+		{
+			glGenBuffers(1, (GLuint*)&(mesh->deformable->id_normals));
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable->id_normals);
+			glBufferData(GL_ARRAY_BUFFER, base_mesh->num_vertices * sizeof(float) * 3, mesh->deformable->normals, GL_STATIC_DRAW);
+		}
+	}
+
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable == nullptr ? base_mesh->id_vertices : mesh->deformable->id_vertices);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 	//Buffer uvs == 1
@@ -491,7 +510,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	//Buffer normals == 2
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable == nullptr ? base_mesh->id_normals : mesh->deformable->id_normals);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 	//Buffer tangents == 3
@@ -505,6 +524,19 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+
+	/*
+	//Deleting deformable buffers
+	if (mesh->deformable != nullptr)
+	{
+		RemoveBuffer(mesh->deformable->id_vertices);
+
+		if (base_mesh->normals != nullptr)
+		{
+			RemoveBuffer(mesh->deformable->id_normals);
+		}
+	}
+	*/
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const

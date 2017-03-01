@@ -17,7 +17,7 @@ public:
 	~ComponentMaterial();
 
 	void OnInspector(bool debug);
-	void Update();
+	void Update(float dt);
 
 	void Save(Data& file)const;
 	void Load(Data& conf);

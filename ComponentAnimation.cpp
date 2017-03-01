@@ -9,6 +9,7 @@
 #include "ComponentMesh.h"
 #include "ComponentBone.h"
 #include "ResourceFileMesh.h"
+#include "ResourceFileBone.h"
 
 float Animation::GetDuration()
 {
@@ -210,6 +211,44 @@ void ComponentAnimation::SetAnimation(const char* name, float blendTime)
 	}
 }
 
+void ComponentAnimation::LinkChannels()
+{
+	std::vector<GameObject*> gameObjects;
+	game_object->CollectAllChilds(gameObjects);
+
+	for (uint i = 0; i < rAnimation->num_channels; i++)
+	{
+		for (uint g = 0; g < gameObjects.size(); g++)
+		{
+			if (gameObjects[g]->name == rAnimation->channels[i].name.c_str() && gameObjects[g]->GetComponent(C_BONE))
+			{
+				links.push_back(Link(gameObjects[g], &rAnimation->channels[i]));
+				break;
+			}
+		}
+	}
+	channelsLinked = true;
+	bonesLinked = false;
+}
+
+void ComponentAnimation::LinkBones()
+{
+	std::map<std::string, ComponentMesh*> meshes;
+	std::vector<ComponentBone*> bones;
+	CollectMeshesBones(game_object, meshes, bones);
+
+	for (uint i = 0; i < bones.size(); i++)
+	{
+		std::string string = bones[i]->GetResource()->mesh_path;
+		std::map<std::string, ComponentMesh*>::iterator it = meshes.find(string);
+		if (it != meshes.end())
+		{
+			it->second->AddBone(bones[i]);
+		}
+	}
+	bonesLinked = true;
+}
+
 const char* ComponentAnimation::GetResourcePath()
 {
 	return (rAnimation != nullptr ? rAnimation->GetFile() : nullptr);
@@ -218,6 +257,85 @@ const char* ComponentAnimation::GetResourcePath()
 void ComponentAnimation::SetResource(ResourceFileAnimation* resource)
 {
 	rAnimation = resource;
+}
+
+void ComponentAnimation::Start()
+{
+	if (channelsLinked == false)
+	{
+		LinkChannels();
+	}
+	if (bonesLinked == false)
+	{
+		LinkBones();
+	}
+
+	if (animations.size() > 0)
+	{
+		animations[current_animation].current = true;
+		started = true;
+	}
+}
+
+void ComponentAnimation::Update(float dt)
+{
+//dt = Time::deltaTime;
+	//"if" not necessary but we avoid all calculations
+	if (dt > 0.0f)
+	{
+		if (playing == true)
+		{
+			if (started == false)
+				Start();
+			if (started == false)
+				return;
+
+			//Updating animation blend
+			float blendRatio = 0.0f;
+			if (blendTimeDuration > 0.0f)
+			{
+				prevAnimTime += dt;
+				blendTime += dt;
+
+				if (blendTime >= blendTimeDuration)
+				{
+					blendTimeDuration = 0.0f;
+				}
+
+				else if (prevAnimTime >= animations[previous_animation].GetDuration())
+				{
+					if (animations[previous_animation].loopable == true)
+					{
+						prevAnimTime = 0.0f;
+						// + (currentFrame - endFrame);
+					}
+				}
+
+				if (blendTimeDuration > 0.0f)
+					blendRatio = blendTime / blendTimeDuration;
+			}
+			//Endof Updating animation blend
+
+			time += dt;
+
+			if (time > animations[current_animation].GetDuration())
+			{
+				if (animations[current_animation].loopable == true)
+				{
+					time = 0.0f;
+				}
+				else
+				{
+					playing = false;
+					//TODO: is it really necessary? Not returning could end in last anim frame
+					return;
+				}
+			}
+
+			UpdateChannelsTransform(&animations[current_animation], blendRatio > 0.0f ? &animations[previous_animation] : nullptr, blendRatio);
+			UpdateMeshAnimation(game_object);
+		}
+	}
 }
 
 //-------------------------------------------

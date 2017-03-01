@@ -23,7 +23,7 @@ public:
 	Component(ComponentType type, GameObject* game_object);
 	virtual ~Component();
 
-	virtual void Update();
+	virtual void Update(float dt);
 
 	bool IsActive();
 	void SetActive(bool value);
@@ -37,7 +37,6 @@ public:
 	virtual void Save(Data& file) const;
 	virtual void Remove();
 	virtual void Load(Data& config);
-
 
 protected:
 	bool active = true;

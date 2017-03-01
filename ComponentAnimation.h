@@ -5,6 +5,7 @@
 #include <string>
 #include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include <map>
 
 class GameObject;
 class Channel;
@@ -59,8 +60,14 @@ public:
 	void SetAnimation(const char* name, float blendTime = 0.0f);
 	//-------------------------------------------
 
+	void LinkChannels();
+	void LinkBones();
+
 	const char* GetResourcePath();
 	void SetResource(ResourceFileAnimation* resource);
+
+	void Start();
+	void Update(float dt);
 
 private:
 	void UpdateChannelsTransform(const Animation* settings, const Animation* blend, float blendRatio);
@@ -76,7 +83,7 @@ public:
 	//Used for blending
 	uint previous_animation = 0;
 	uint current_animation = 0;
-	bool playing = false;
+	bool playing = true;
 
 private:
 	ResourceFileAnimation* rAnimation;

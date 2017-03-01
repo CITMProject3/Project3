@@ -103,7 +103,7 @@ void ComponentMaterial::OnInspector(bool debug)
 	}
 }
 
-void ComponentMaterial::Update()
+void ComponentMaterial::Update(float dt)
 {
 
 	

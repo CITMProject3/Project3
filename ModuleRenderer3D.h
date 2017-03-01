@@ -42,8 +42,8 @@ public:
 
 private:
 
-	void DrawScene(ComponentCamera* cam, bool has_render_tex = false)const;
-	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
+	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
+	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam);
 
 public:
 

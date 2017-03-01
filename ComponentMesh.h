@@ -44,7 +44,7 @@ public:
 	ComponentMesh(ComponentType type, GameObject* game_object);
 	~ComponentMesh();
 
-	void Update();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
 	void OnTransformModified();
@@ -61,14 +61,16 @@ public:
 
 	void Remove();
 
+	void AddBone(ComponentBone* bone);
 	void StartBoneDeformation();
 	void DeformAnimMesh();
+
+	Mesh* deformable = nullptr;
 
 private:
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;
 
-	Mesh* deformable = nullptr;
 	std::vector<ComponentBone*> bones;
 
 	math::AABB aabb; //Local one
