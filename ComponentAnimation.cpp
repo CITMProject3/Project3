@@ -332,22 +332,21 @@ void ComponentAnimation::Update(float dt)
 				}
 			}
 
-			UpdateChannelsTransform(&animations[current_animation], blendRatio > 0.0f ? &animations[previous_animation] : nullptr, blendRatio);
+			UpdateBonesTransform(&animations[current_animation], blendRatio > 0.0f ? &animations[previous_animation] : nullptr, blendRatio);
 			UpdateMeshAnimation(game_object);
 		}
 	}
 }
 
 //-------------------------------------------
-void ComponentAnimation::UpdateChannelsTransform(const Animation* settings, const Animation* blend, float blendRatio)
+void ComponentAnimation::UpdateBonesTransform(const Animation* settings, const Animation* blend, float blendRatio)
 {
-	ResourceFileAnimation* resource = rAnimation;
-	uint currentFrame = settings->start_frame + (settings->ticksPerSecond > 0.0f ? resource->ticks_per_second : settings->ticksPerSecond) * time;
+	uint currentFrame = settings->start_frame + settings->ticksPerSecond * time;
 
 	uint prevBlendFrame = 0;
 	if (blend != nullptr)
 	{
-		prevBlendFrame = blend->start_frame + (blend->ticksPerSecond > 0.0f ? resource->ticks_per_second : blend->ticksPerSecond) * prevAnimTime;
+		prevBlendFrame = blend->start_frame + blend->ticksPerSecond * prevAnimTime;
 	}
 
 	for (uint i = 0; i < links.size(); i++)
@@ -371,14 +370,14 @@ void ComponentAnimation::UpdateChannelsTransform(const Animation* settings, cons
 	}
 }
 
-float3 ComponentAnimation::GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings)
+float3 ComponentAnimation::GetChannelPosition(Link& link, float current_frame, float3 default, const Animation& settings)
 {
 	float3 position = default;
 
 	if (link.channel->HasPosKey())
 	{
-		std::map<double, float3>::iterator previous = link.channel->GetPrevPosKey(currentKey, settings.start_frame, settings.end_frame);
-		std::map<double, float3>::iterator next = link.channel->GetNextPosKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, float3>::iterator previous = link.channel->GetPrevPosKey(current_frame);
+		std::map<double, float3>::iterator next = link.channel->GetNextPosKey(current_frame);
 
 		if (next == link.channel->positionKeys.end())
 			next = previous;
@@ -389,7 +388,7 @@ float3 ComponentAnimation::GetChannelPosition(Link& link, float currentKey, floa
 		else //blend between both keys
 		{
 			//0 to 1
-			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			float ratio = (current_frame - previous->first) / (next->first - previous->first);
 			position = previous->second.Lerp(next->second, ratio);
 		}
 	}
@@ -397,14 +396,14 @@ float3 ComponentAnimation::GetChannelPosition(Link& link, float currentKey, floa
 	return position;
 }
 
-Quat ComponentAnimation::GetChannelRotation(Link& link, float currentKey, Quat default, const Animation& settings)
+Quat ComponentAnimation::GetChannelRotation(Link& link, float current_frame, Quat default, const Animation& settings)
 {
 	Quat rotation = default;
 
 	if (link.channel->HasRotKey())
 	{
-		std::map<double, Quat>::iterator previous = link.channel->GetPrevRotKey(currentKey, settings.start_frame, settings.end_frame);
-		std::map<double, Quat>::iterator next = link.channel->GetNextRotKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, Quat>::iterator previous = link.channel->GetPrevRotKey(current_frame);
+		std::map<double, Quat>::iterator next = link.channel->GetNextRotKey(current_frame);
 
 		if (next == link.channel->rotationKeys.end())
 			next = previous;
@@ -415,21 +414,21 @@ Quat ComponentAnimation::GetChannelRotation(Link& link, float currentKey, Quat d
 		else //blend between both keys
 		{
 			//0 to 1
-			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			float ratio = (current_frame - previous->first) / (next->first - previous->first);
 			rotation = previous->second.Slerp(next->second, ratio);
 		}
 	}
 	return rotation;
 }
 
-float3 ComponentAnimation::GetChannelScale(Link& link, float currentKey, float3 default, const Animation& settings)
+float3 ComponentAnimation::GetChannelScale(Link& link, float current_frame, float3 default, const Animation& settings)
 {
 	float3 scale = default;
 
 	if (link.channel->HasScaleKey())
 	{
-		std::map<double, float3>::iterator previous = link.channel->GetPrevScaleKey(currentKey, settings.start_frame, settings.end_frame);
-		std::map<double, float3>::iterator next = link.channel->GetPrevScaleKey(currentKey, settings.start_frame, settings.end_frame);
+		std::map<double, float3>::iterator previous = link.channel->GetPrevScaleKey(current_frame);
+		std::map<double, float3>::iterator next = link.channel->GetPrevScaleKey(current_frame);
 
 		if (next == link.channel->scaleKeys.end())
 			next = previous;
@@ -440,7 +439,7 @@ float3 ComponentAnimation::GetChannelScale(Link& link, float currentKey, float3 
 		else //blend between both keys
 		{
 			//0 to 1
-			float ratio = (currentKey - previous->first) / (next->first - previous->first);
+			float ratio = (current_frame - previous->first) / (next->first - previous->first);
 			scale = previous->second.Lerp(next->second, ratio);
 		}
 	}
@@ -471,7 +470,6 @@ void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		mesh->StartBoneDeformation();
 		mesh->DeformAnimMesh();
 	//	App->renderer3D->LoadBuffers(mesh->animMesh);
 	}

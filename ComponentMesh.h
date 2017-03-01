@@ -62,7 +62,7 @@ public:
 	void Remove();
 
 	void AddBone(ComponentBone* bone);
-	void StartBoneDeformation();
+	void ResetDeformable();
 	void DeformAnimMesh();
 
 	Mesh* deformable = nullptr;

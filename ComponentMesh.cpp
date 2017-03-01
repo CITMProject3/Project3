@@ -188,7 +188,7 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 	bones.push_back(bone);
 }
 
-void ComponentMesh::StartBoneDeformation()
+void ComponentMesh::ResetDeformable()
 {
 	if (deformable == nullptr)
 	{
@@ -209,9 +209,7 @@ void ComponentMesh::StartBoneDeformation()
 
 void ComponentMesh::DeformAnimMesh()
 {
-	//Just for security
-	if (deformable == nullptr)
-		StartBoneDeformation();
+	ResetDeformable();
 
 	for (uint i = 0; i < bones.size(); i++)
 	{

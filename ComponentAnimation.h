@@ -70,7 +70,7 @@ public:
 	void Update(float dt);
 
 private:
-	void UpdateChannelsTransform(const Animation* settings, const Animation* blend, float blendRatio);
+	void UpdateBonesTransform(const Animation* settings, const Animation* blend, float blendRatio);
 	float3 GetChannelPosition(Link& link, float currentKey, float3 default, const Animation& settings);
 	Quat GetChannelRotation(Link& link, float currentKey, Quat default, const Animation& settings);
 	float3 GetChannelScale(Link& link, float currentKey, float3 default, const Animation& settings);
