@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Sources">
@@ -507,13 +507,12 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
-<<<<<<< HEAD
+
     <ClInclude Include="ModuleCar.h">
       <Filter>Sources\Modules</Filter>
-=======
+	</ClInclude>
     <ClInclude Include="ResourceFilePrefab.h">
       <Filter>Sources\Resources</Filter>
->>>>>>> GameObjects serialize the root of a Prefab
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -850,13 +849,11 @@
     <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="ModuleCar.cpp">
       <Filter>Sources\Modules</Filter>
-=======
+    </ClCompile>
     <ClCompile Include="ResourceFilePrefab.cpp">
       <Filter>Sources\Resources</Filter>
->>>>>>> GameObjects serialize the root of a Prefab
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
