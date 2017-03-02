@@ -76,6 +76,7 @@ public:
 	void MaterialFileOptions();
 	void RenderTextureOptions();
 	void VertexFragmentOptions();
+	void SoundbankOptions();
 
 	void DeleteAssetDirectory(Directory* directory);
 
@@ -99,6 +100,7 @@ private:
 	uint vertex_id;
 	uint fragment_id;
 	uint material_id;
+	uint soundbank_id;
 
 };
 

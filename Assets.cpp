@@ -160,6 +160,15 @@ void Assets::Draw()
 					ImGui::OpenPopup("RenderTextureOptions");
 				}
 				break;
+			case FileType::SOUNDBANK:
+				ImGui::Image((ImTextureID)soundbank_id, ImVec2(15, 15));
+				ImGui::SameLine();
+				if (ImGui::Selectable((*file)->name.data()))
+				{
+					file_selected = (*file);
+					ImGui::OpenPopup("SoundbankOptions");
+				}
+				break;
 			}
 			
 		}
@@ -178,6 +187,7 @@ void Assets::Draw()
 	RenderTextureOptions();
 	GeneralOptions();
 	VertexFragmentOptions();
+	SoundbankOptions();
 
 //	ImGui::EndChild();
 	ImGui::End();
@@ -220,6 +230,7 @@ void Assets::Init()
 	vertex_id = TextureImporter::LoadSimpleFile("Resources/vertex.dds");
 	fragment_id = TextureImporter::LoadSimpleFile("Resources/fragment.dds");
 	material_id = TextureImporter::LoadSimpleFile("Resources/material.dds");
+	soundbank_id = TextureImporter::LoadSimpleFile("Resources/soundbank.dds");
 }
 
 void Assets::FillDirectoriesRecursive(Directory* root_dir)
@@ -325,13 +336,6 @@ void Assets::UpdateFoldersMetaInfo(Directory *curr_dir, string old_folder_name, 
 		// Changing meta file with new folder name on each file inside this curr_dir
 		meta_file = (*it_file)->name + ".meta";
 		App->resource_manager->NameFolderUpdate(meta_file, dir_path, old_folder_name, new_folder_name, true);
-
-		// Changing old values for the new ones on AssetFile struct
-		/*pos = (*it_file)->file_path.find(old_folder_name);
-		(*it_file)->file_path.replace(pos, old_folder_name.length(), new_folder_name);
-
-		pos = (*it_file)->original_file.find(old_folder_name);
-		(*it_file)->original_file.replace(pos, old_folder_name.length(), new_folder_name);*/
 	}
 
 	std::vector<Directory*>::iterator it_dir = curr_dir->directories.begin();
@@ -664,6 +668,18 @@ void Assets::VertexFragmentOptions()
 		{
 			DeleteAssetFile(file_selected);
 		}
+
+		ImGui::EndPopup();
+	}
+}
+
+void Assets::SoundbankOptions()
+{
+	if (ImGui::BeginPopup("SoundbankOptions"))
+	{
+		if (ImGui::Selectable("Remove")) DeleteAssetFile(file_selected);
+		if (ImGui::Selectable("Refresh")) Refresh();
+		if (ImGui::Selectable("Open in Explorer")) OpenInExplorer();
 
 		ImGui::EndPopup();
 	}

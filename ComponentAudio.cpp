@@ -42,6 +42,30 @@ void ComponentAudio::OnInspector(bool debug)
 			SetActive(is_active);
 		}
 
+		// Event selection
+		ImGui::Text("Event: ");
+		ImGui::SameLine();
+
+		/*string light_type_name = "";
+		switch (light_type)
+		{
+		case DIRECTIONAL_LIGHT:
+			light_type_name = "DirectionalLight";
+			break;
+		}
+
+		if (ImGui::BeginMenu(light_type_name.data()))
+		{
+			if (ImGui::MenuItem("Directional light"))
+			{
+				light_type = DIRECTIONAL_LIGHT;
+			}
+			ImGui::EndMenu();
+		}*/
+		ImGui::Button("PLAY");
+
+		
+
 		/*if (mesh)
 		{
 			ImGui::Text("Number of vertices %d", mesh->num_vertices);
