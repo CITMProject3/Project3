@@ -4,7 +4,8 @@
 #include "Component.h"
 
 
-
+struct VehicleInfo;
+class PhysVehicle3D;
 class ComponentCar : public Component
 {
 public:
@@ -18,7 +19,6 @@ public:
 
 	void OnTransformModified();
 	void Save(Data& file) const;
-	void Remove();
 	void Load(Data& config);
 
 	void OnInspector(bool debug);
@@ -26,7 +26,15 @@ public:
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 
+private:
 
+	void CreateCar();
+	bool CleanUp();
+
+public:
+
+	VehicleInfo* car;
+	PhysVehicle3D* vehicle = nullptr;
 };
 
 
