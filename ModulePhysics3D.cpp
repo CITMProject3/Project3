@@ -7,8 +7,10 @@
 #include "ComponentMesh.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "Assets.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -417,6 +419,18 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	vehicles.push_back(pvehicle);
 
 	return pvehicle;
+}
+
+void ModulePhysics3D::AddTerrain()
+{	
+	std::vector<string> images;
+	App->editor->assets->GetAllFilesByType(FileType::IMAGE, images);
+	if (images.empty() == false)
+	{
+		AssetFile* file = App->editor->assets->FindAssetFile(images.front());
+		//file->
+		//btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(100, 100, , 10, 0, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
+	}
 }
 
 // ---------------------------------------------------------

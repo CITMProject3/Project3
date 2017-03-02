@@ -118,6 +118,10 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
+				if (ImGui::MenuItem("Terrain collider", NULL))
+				{
+					SetShape(S_TERRAIN);
+				}
 				ImGui::EndMenu();
 			}
 
@@ -125,6 +129,7 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
+			if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
 			ImGui::Checkbox("Static object: ", &Static);
@@ -262,17 +267,29 @@ void ComponentCollider::LoadShape()
 		switch (shape)
 		{
 		case S_CUBE:
+		{
 			body = App->physics->AddBody(*((Cube_P*)primitive), _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
+		}
 		case S_SPHERE:
+		{
 			body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
+		}
 		case S_CONVEX:
+		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
+			break;
+		}
+		case S_TERRAIN:
+		{
+			App->physics->AddTerrain();
+			break;
+		}
 		}
 		
 	}

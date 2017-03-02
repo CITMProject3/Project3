@@ -10,7 +10,7 @@ enum Collider_Shapes
 	S_CUBE,
 	S_SPHERE,
 	S_CONVEX,
-	S_CONCAVE
+	S_TERRAIN
 };
 
 
