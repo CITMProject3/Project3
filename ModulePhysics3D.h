@@ -7,6 +7,8 @@
 #include "Primitive.h"
 
 #include "Bullet\include\btBulletDynamicsCommon.h"
+#include "Bullet\include\btBulletCollisionCommon.h"
+
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
@@ -53,7 +55,7 @@ private:
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld*			world;
 	btDefaultVehicleRaycaster*			vehicle_raycaster;
-	DebugDrawer*						debug_draw;
+	DebugDrawer*						debug_draw = nullptr;
 
 	list<btCollisionShape*> shapes;
 	list<PhysBody3D*> bodies;

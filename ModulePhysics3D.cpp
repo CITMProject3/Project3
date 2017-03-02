@@ -6,6 +6,8 @@
 #include "Primitive.h"
 #include "ComponentMesh.h"
 
+#include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -24,7 +26,7 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
-	//debug_draw = new DebugDrawer(); DEBUG DISABLED
+	debug_draw = new DebugDrawer(); //DEBUG DISABLED
 }
 
 // Destructor
@@ -308,6 +310,8 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 	{
 		colShape->addPoint(btVector3(vertices[n].x, vertices[n].y, vertices[n].z));
 	}
+
+
 
 	shapes.push_back(colShape);
 
