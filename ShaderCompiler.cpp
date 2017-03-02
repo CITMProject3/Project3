@@ -227,15 +227,19 @@ int ShaderCompiler::LoadDefaultShader()
 		"out vec2 TexCoord;\n"
 		"out vec3 normal0;\n"
 		"out vec3 tangent0;\n"
+		"out vec4 color; "
 		"uniform mat4 model;\n"
 		"uniform mat4 view;\n"
 		"uniform mat4 projection;\n"
+		"uniform vec4 material_color;\n"
 		"void main()\n"
 		"{\n"
 		"	gl_Position = projection * view * model * vec4(position, 1.0f);\n"
 		"	TexCoord = texCoord;\n"
 		"	normal0 = (model * vec4(normal, 0.0f)).xyz;\n"
 		"   tangent0 = (model * vec4(tangent, 0.0f)).xyz;\n"
+		"   color = material_color;\n"
+		"   color.w = material_color.w;\n"
 		"}\n";
 
 	const GLchar* fragment_code =

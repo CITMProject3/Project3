@@ -300,6 +300,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	GLint view_location = glGetUniformLocation(shader_id, "view");
 	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);	
 
+	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
+
 	int count = 0;
 	//Good code for textures. The code above must be removed.
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
@@ -340,8 +342,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		}
 	}
 
+//Color
 	
-
 	//Textures
 	/*if (material->GetDiffuseId() != 0)
 	{
@@ -478,7 +480,15 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	{
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
-
+	if (material->rc_material != nullptr)
+	{
+		if (colorLoc != -1) 
+		{ 
+			glUniform4fv(colorLoc, 1, material->rc_material->material.color); 
+		}
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor4fv(material->rc_material->material.color);
+	}
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
@@ -498,6 +508,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		
 
 	//Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);

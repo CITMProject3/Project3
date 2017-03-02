@@ -99,7 +99,10 @@ void ComponentMaterial::OnInspector(bool debug)
 		{
 			ImGui::Text("Material: %s", material_name.data());
 			PrintMaterialProperties();
+			ImGui::ColorEdit4("Color: ###materialColor", rc_material->material.color);
 		}
+		
+		
 	}
 }
 
