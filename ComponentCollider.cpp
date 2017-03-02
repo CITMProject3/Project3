@@ -133,8 +133,12 @@ void ComponentCollider::OnInspector(bool debug)
 			{
 				ImGui::DragFloat3("Collider offset: ", offset_pos.ptr(), 0.1f, -1000.0f, 1000.0f);
 				if (shape == S_CUBE)
+				{					
+					ImGui::DragFloat3("Scale offset: ", ((Cube_P*)primitive)->size.ptr(), 0.1f, -1000.0f, 1000.0f);
+				}
+				else if (shape == S_SPHERE)
 				{
-				//	ImGui::DragFloat3("Scale offset: ", primitive->.ptr(), 0.1f, -1000.0f, 1000.0f);
+					ImGui::DragFloat("Radius", &((Sphere_P*)primitive)->radius, 0.1f, 0.1f, 1000.0f);					
 				}
 			}
 		}
@@ -163,6 +167,16 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendFloat("mass", mass);
 	data.AppendFloat3("offset_pos", offset_pos.ptr());
 
+	switch (shape)
+	{
+	case S_CUBE:
+		data.AppendFloat3("size", ((Cube_P*)primitive)->size.ptr());
+		break;
+	case S_SPHERE:
+		data.AppendFloat("radius", ((Sphere_P*)primitive)->radius);
+		break;
+	}
+
 	file.AppendArrayValue(data);
 }
 
@@ -176,6 +190,16 @@ void ComponentCollider::Load(Data & conf)
 	mass = conf.GetFloat("mass");
 	offset_pos = conf.GetFloat3("offset_pos");
 	SetShape(shape);
+
+	switch (shape)
+	{
+	case S_CUBE:
+		((Cube_P*)primitive)->size = conf.GetFloat3("size");
+		break;
+	case S_SPHERE:
+		((Sphere_P*)primitive)->radius = conf.GetFloat("radius");
+		break;
+	}
 }
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)
@@ -249,7 +273,6 @@ void ComponentCollider::LoadShape()
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
-			body->SetTransform(trs->GetGlobalMatrix().Transposed().ptr());
 		}
 		
 	}

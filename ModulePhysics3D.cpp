@@ -5,6 +5,8 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 #include "ComponentMesh.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 
@@ -298,10 +300,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
-	if (out_shape != nullptr)
-	{
-		*out_shape = colShape;
-	}
 
 	float3* vertices = (float3*)mesh.GetMeshData()->vertices;
 	uint nVertices = mesh.GetMeshData()->num_vertices;
@@ -311,26 +309,39 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 		colShape->addPoint(btVector3(vertices[n].x, vertices[n].y, vertices[n].z));
 	}
 
+	btShapeHull* hull = new btShapeHull(colShape);
+	hull->buildHull(colShape->getMargin());
+	btConvexHullShape* simplifiedColShape = new btConvexHullShape((btScalar*)hull->getVertexPointer(), hull->numVertices());
 
 
-	shapes.push_back(colShape);
+
+	shapes.push_back(simplifiedColShape);
+
+	if (out_shape != nullptr)
+	{
+		*out_shape = simplifiedColShape;
+	}
 
 	btTransform startTransform;
-	//startTransform.setFromOpenGLMatrix(*cylinder.transform.v);
+	float4x4 go_trs = ((ComponentTransform*)(mesh.GetGameObject()->GetComponent(C_TRANSFORM)))->GetGlobalMatrix().Transposed();
+	startTransform.setFromOpenGLMatrix(go_trs.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 	if (mass != 0.f)
-		colShape->calculateLocalInertia(mass, localInertia);
+		simplifiedColShape->calculateLocalInertia(mass, localInertia);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	motions.push_back(myMotionState);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, simplifiedColShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body);
 
 	if (isSensor)
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+	delete hull;
+	delete colShape;
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
