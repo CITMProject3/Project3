@@ -83,7 +83,7 @@ private:
 public:
 	std::vector<Animation> animations;
 	Animation* current_animation = nullptr;
-	//Animation out
+	//Animation out of blend
 	Animation* blend_animation = nullptr;
 
 	bool playing = true;

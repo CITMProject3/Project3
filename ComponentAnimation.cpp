@@ -17,10 +17,13 @@ bool Animation::Advance(float dt)
 
 	if (time > GetDuration())
 	{
-		//TODO: time = 0 + (time - duration)
-		time = 0.0f;
 		if (loopable == false)
+		{
+			time = 0.0f;
 			return false;
+		}
+		else
+			time = time - GetDuration();
 	}
 	return true;
 }
@@ -302,10 +305,14 @@ void ComponentAnimation::Update(float dt)
 				blend_time += dt;
 				if (blend_animation->Advance(dt) == false)
 				{
-					blend_animation == nullptr;
+					blend_animation = nullptr;
 				}
 				else
+				{
 					blend_ratio = blend_time / blend_time_duration;
+					if (blend_ratio >= 1.0f)
+						blend_animation = nullptr;
+				}
 			}
 			
 			if (current_animation->Advance(dt) == false)

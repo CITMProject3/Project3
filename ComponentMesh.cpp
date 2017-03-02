@@ -197,10 +197,10 @@ void ComponentMesh::ResetDeformable()
 		deformable->normals = new float[mesh->num_vertices * 3];
 	}
 
-	memset(deformable->vertices, 0, deformable->num_vertices * sizeof(float) * 3);
+	memset(deformable->vertices, 0, mesh->num_vertices * sizeof(float) * 3);
 	if (mesh->normals != nullptr)
 	{
-		memset(deformable->normals, 0, deformable->num_vertices * sizeof(float) * 3);
+		memset(deformable->normals, 0, mesh->num_vertices * sizeof(float) * 3);
 	}
 }
 
@@ -222,7 +222,8 @@ void ComponentMesh::DeformAnimMesh()
 		for (uint i = 0; i < rBone->numWeights; i++)
 		{
 			uint index = rBone->weightsIndex[i];
-			float3 toAdd = matrix.TransformPos(float3(&mesh->vertices[index * 3]));
+			float3 originalV(&mesh->vertices[index * 3]);
+			float3 toAdd = matrix.TransformPos(originalV);
 
 			deformable->vertices[index * 3] += toAdd.x  * rBone->weights[i];
 			deformable->vertices[index * 3 + 1] += toAdd.y * rBone->weights[i];
@@ -230,7 +231,8 @@ void ComponentMesh::DeformAnimMesh()
 
 			if (mesh->normals != nullptr)
 			{
-				toAdd = matrix_normals.TransformPos(float3(&mesh->normals[index * 3]));
+				float3 originalVN(&mesh->normals[index * 3]);
+				toAdd = matrix_normals.TransformPos(originalVN);
 				deformable->normals[index * 3] += toAdd.x * rBone->weights[i];
 				deformable->normals[index * 3 + 1] += toAdd.y * rBone->weights[i];
 				deformable->normals[index * 3 + 2] += toAdd.z * rBone->weights[i];
