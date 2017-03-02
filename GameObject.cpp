@@ -168,6 +168,33 @@ void GameObject::SetParent(GameObject * parent)
 			transform->SetScale(scale);
 
 			parent->AddChild(this);
+
+			if (rc_prefab == nullptr)
+			{
+				if (parent->IsPrefab())
+				{
+					prefab_path = parent->prefab_path;
+					SetAsPrefab(parent->prefab_root_uuid);
+				}
+				else
+				{
+					if (is_prefab)
+					{
+						is_prefab = false;
+						prefab_root_uuid = 0;
+						prefab_path = "";
+						local_uuid = 0;
+
+						for (vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
+						{
+							(*child)->is_prefab = false;
+							(*child)->prefab_root_uuid = 0;
+							(*child)->prefab_path = "";
+							(*child)->local_uuid = 0;
+						}
+					}
+				}
+			}	
 		}
 	}
 

@@ -138,6 +138,15 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 	if (obj_parent->AddChild(object) == false)
 		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
 
+	if (parent)
+	{
+		if (parent->IsPrefab())
+		{
+			object->SetAsPrefab(parent->prefab_root_uuid);
+			object->prefab_path = parent->prefab_path;
+		}
+	}
+
 	dynamic_gameobjects.push_back(object);
 
 	return object;
