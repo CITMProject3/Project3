@@ -21,12 +21,14 @@ struct Animation
 	uint start_frame;
 	uint end_frame;
 
-	float ticksPerSecond;
-	float duration;
+	float ticks_per_second;
 
 	bool loopable = false;
-	bool current = false;
+	float time = 0.0f;
 
+	uint index;
+
+	bool Advance(float dt);
 	float GetDuration();
 };
 
@@ -56,8 +58,8 @@ public:
 	void AddAnimation();
 	void AddAnimation(const char* name, uint init, uint end, float ticksPerSec);
 
-	void SetAnimation(uint index, float blendTime = 0.0f);
-	void SetAnimation(const char* name, float blendTime = 0.0f);
+	void PlayAnimation(uint index, float blendTime = 0.0f);
+	void PlayAnimation(const char* name, float blendTime = 0.0f);
 	//-------------------------------------------
 
 	void LinkChannels();
@@ -66,7 +68,7 @@ public:
 	const char* GetResourcePath();
 	void SetResource(ResourceFileAnimation* resource);
 
-	void Start();
+	bool StartAnimation();
 	void Update(float dt);
 
 private:
@@ -80,9 +82,10 @@ private:
 
 public:
 	std::vector<Animation> animations;
-	//Used for blending
-	uint previous_animation = 0;
-	uint current_animation = 0;
+	Animation* current_animation = nullptr;
+	//Animation out
+	Animation* blend_animation = nullptr;
+
 	bool playing = true;
 
 private:
@@ -90,10 +93,8 @@ private:
 
 	bool started = false;
 
-	float prevAnimTime = 0.0f;
-	float time = 0.0f;
-	float blendTime = 0.0f;
-	float blendTimeDuration = 0.0f;
+	float blend_time = 0.0f;
+	float blend_time_duration = 0.0f;
 
 	std::vector<Link> links;
 

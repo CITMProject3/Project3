@@ -193,14 +193,11 @@ void ComponentMesh::ResetDeformable()
 	if (deformable == nullptr)
 	{
 		deformable = new Mesh();
-
-		deformable->num_vertices = mesh->num_vertices;
-
-		deformable->vertices = new float[deformable->num_vertices * 3];
-		deformable->normals = new float[deformable->num_vertices * 3];
+		deformable->vertices = new float[mesh->num_vertices * 3];
+		deformable->normals = new float[mesh->num_vertices * 3];
 	}
-	memset(deformable->vertices, 0, deformable->num_vertices * sizeof(float) * 3);
 
+	memset(deformable->vertices, 0, deformable->num_vertices * sizeof(float) * 3);
 	if (mesh->normals != nullptr)
 	{
 		memset(deformable->normals, 0, deformable->num_vertices * sizeof(float) * 3);
@@ -219,15 +216,13 @@ void ComponentMesh::DeformAnimMesh()
 		float4x4 matrix = bones[i]->GetSystemTransform();
 		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
 
-		float4x4 matrixN = matrix;
+		float4x4 matrix_normals = matrix;
 		matrix = matrix * rBone->offset;
 		
 		for (uint i = 0; i < rBone->numWeights; i++)
 		{
 			uint index = rBone->weightsIndex[i];
-			float3 originalV(&mesh->vertices[index * 3]);
-
-			float3 toAdd = matrix.TransformPos(originalV);
+			float3 toAdd = matrix.TransformPos(float3(&mesh->vertices[index * 3]));
 
 			deformable->vertices[index * 3] += toAdd.x  * rBone->weights[i];
 			deformable->vertices[index * 3 + 1] += toAdd.y * rBone->weights[i];
@@ -235,8 +230,7 @@ void ComponentMesh::DeformAnimMesh()
 
 			if (mesh->normals != nullptr)
 			{
-				float3 originalVN(&mesh->normals[index * 3]);
-				toAdd = matrixN.TransformPos(originalVN);
+				toAdd = matrix_normals.TransformPos(float3(&mesh->normals[index * 3]));
 				deformable->normals[index * 3] += toAdd.x * rBone->weights[i];
 				deformable->normals[index * 3 + 1] += toAdd.y * rBone->weights[i];
 				deformable->normals[index * 3 + 2] += toAdd.z * rBone->weights[i];

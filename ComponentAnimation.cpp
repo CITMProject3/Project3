@@ -11,9 +11,23 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
 
+bool Animation::Advance(float dt)
+{
+	time += dt;
+
+	if (time > GetDuration())
+	{
+		//TODO: time = 0 + (time - duration)
+		time = 0.0f;
+		if (loopable == false)
+			return false;
+	}
+	return true;
+}
+
 float Animation::GetDuration()
 {
-	return ((float)end_frame - (float)start_frame) / ticksPerSecond;
+	return ((float)end_frame - (float)start_frame) / ticks_per_second;
 }
 
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
@@ -33,7 +47,7 @@ void ComponentAnimation::OnInspector(bool debug)
 	{
 		if (ImGui::Checkbox("Playing", &playing))
 		{
-			SetAnimation(current_animation);
+			PlayAnimation(current_animation->index);
 		}
 
 		ImGui::Text("Animations size: %i", animations.size());
@@ -47,14 +61,14 @@ void ComponentAnimation::OnInspector(bool debug)
 			std::string loop_label = std::string("Loop##") + std::string(std::to_string(i));
 			ImGui::Checkbox(loop_label.c_str(), &animations[i].loopable);
 
-			bool isCurrent = animations[i].current;
+			bool isCurrent = (&animations[i] == current_animation);
 			std::string current_label = std::string("CurrentAnimation##") + std::string(std::to_string(i));
 
 			if (ImGui::Checkbox(current_label.c_str(), &isCurrent))
 			{
 				if (isCurrent == true)
 				{
-					SetAnimation(i, 2.0f);
+					PlayAnimation(i, 2.0f);
 				}
 			}
 
@@ -77,12 +91,12 @@ void ComponentAnimation::OnInspector(bool debug)
 				}
 			}
 
-			float ticksPerSecond = animations[i].ticksPerSecond;
+			float ticksPerSecond = animations[i].ticks_per_second;
 			std::string speed_label = std::string("Speed##") + std::string(std::to_string(i));
 			if (ImGui::InputFloat(speed_label.c_str(), &ticksPerSecond))
 			{
 				if (ticksPerSecond >= 0)
-					animations[i].ticksPerSecond = ticksPerSecond;
+					animations[i].ticks_per_second = ticksPerSecond;
 			}
 			ImGui::Separator();
 			ImGui::Separator();
@@ -112,11 +126,9 @@ void ComponentAnimation::Save(Data& file)const
 		anim_data.AppendUInt("start_frame", animations[i].start_frame);
 		anim_data.AppendUInt("end_frame", animations[i].end_frame);
 
-		anim_data.AppendFloat("ticks_per_second", animations[i].ticksPerSecond);
-		anim_data.AppendFloat("duration", animations[i].duration);
+		anim_data.AppendFloat("ticks_per_second", animations[i].ticks_per_second);
 
 		anim_data.AppendBool("loopable", animations[i].loopable);
-		anim_data.AppendBool("current", animations[i].current);
 		
 		data.AppendArrayValue(anim_data);
 	}
@@ -137,10 +149,7 @@ void ComponentAnimation::Load(Data& conf)
 	{
 		Data anim_data = conf.GetArray("animations", i);
 		AddAnimation(anim_data.GetString("name"), anim_data.GetUInt("start_frame"), anim_data.GetUInt("end_frame"), anim_data.GetFloat("ticks_per_second"));
-		animations[animations.size() - 1].duration = anim_data.GetFloat("duration");
 		animations[animations.size() - 1].loopable = anim_data.GetBool("loopable");
-		if (animations[animations.size() - 1].current = anim_data.GetBool("current"))
-			SetAnimation(animations.size() - 1, 0.0f);
 	}
 }
 //-------------------------------------------
@@ -164,47 +173,49 @@ void ComponentAnimation::AddAnimation()
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
 {
+	int index = -1;
+	if (current_animation != nullptr)
+		index = current_animation->index;
+
 	Animation animation;
 	animation.name = name;
 	animation.start_frame = init;
 	animation.end_frame = end;
-	animation.ticksPerSecond = ticksPerSec;
-
+	animation.ticks_per_second = ticksPerSec;
+	animation.index = animations.size();
 	animations.push_back(animation);
+
+	if (index != -1)
+		current_animation = &animations[index];
 }
 
-void ComponentAnimation::SetAnimation(uint index, float blendTime)
+void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 {
 	if (index < animations.size())
 	{
-		if (current_animation < animations.size() && index != current_animation)
+		if (current_animation != nullptr && (&animations[index] != current_animation))
 		{
-			animations[current_animation].current = false;
-
-			if (blendTime > 0 && playing == true)
+			if (blend_time > 0 && playing == true)
 			{
-				previous_animation = current_animation;
-				prevAnimTime = time;
-				blendTimeDuration = blendTime;
-				this->blendTime = 0.0f;
+				blend_animation = current_animation;
+				blend_time_duration = blend_time;
+				this->blend_time = 0.0f;
 			}
 		}
-		current_animation = index;
-		animations[current_animation].current = true;
-		time = 0.0f;
+		current_animation = &animations[index];
 		playing = true;
 	}
 }
 
-void ComponentAnimation::SetAnimation(const char* name, float blendTime)
+void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
 {
-	if (animations[current_animation].name != name)
+	if (current_animation->name != name)
 	{
 		for (uint i = 0; i < animations.size(); i++)
 		{
 			if (animations[i].name == name)
 			{
-				SetAnimation(i, blendTime);
+				PlayAnimation(i, blendTime);
 				return;
 			}
 		}
@@ -259,7 +270,7 @@ void ComponentAnimation::SetResource(ResourceFileAnimation* resource)
 	rAnimation = resource;
 }
 
-void ComponentAnimation::Start()
+bool ComponentAnimation::StartAnimation()
 {
 	if (channelsLinked == false)
 	{
@@ -269,70 +280,40 @@ void ComponentAnimation::Start()
 	{
 		LinkBones();
 	}
-
-	if (animations.size() > 0)
-	{
-		animations[current_animation].current = true;
+	if (current_animation != nullptr)
 		started = true;
-	}
+	return started;
 }
 
 void ComponentAnimation::Update(float dt)
 {
-//dt = Time::deltaTime;
-	//"if" not necessary but we avoid all calculations
 	if (dt > 0.0f)
 	{
 		if (playing == true)
 		{
 			if (started == false)
-				Start();
-			if (started == false)
-				return;
+				if (StartAnimation() == false)
+					return;
+			
+			float blend_ratio = 0.0f;
 
-			//Updating animation blend
-			float blendRatio = 0.0f;
-			if (blendTimeDuration > 0.0f)
+			if (blend_animation != nullptr)
 			{
-				prevAnimTime += dt;
-				blendTime += dt;
-
-				if (blendTime >= blendTimeDuration)
+				blend_time += dt;
+				if (blend_animation->Advance(dt) == false)
 				{
-					blendTimeDuration = 0.0f;
-				}
-
-				else if (prevAnimTime >= animations[previous_animation].GetDuration())
-				{
-					if (animations[previous_animation].loopable == true)
-					{
-						prevAnimTime = 0.0f;
-						// + (currentFrame - endFrame);
-					}
-				}
-
-				if (blendTimeDuration > 0.0f)
-					blendRatio = blendTime / blendTimeDuration;
-			}
-			//Endof Updating animation blend
-
-			time += dt;
-
-			if (time > animations[current_animation].GetDuration())
-			{
-				if (animations[current_animation].loopable == true)
-				{
-					time = 0.0f;
+					blend_animation == nullptr;
 				}
 				else
-				{
-					playing = false;
-					//TODO: is it really necessary? Not returning could end in last anim frame
-					return;
-				}
+					blend_ratio = blend_time / blend_time_duration;
+			}
+			
+			if (current_animation->Advance(dt) == false)
+			{
+				playing = false;
 			}
 
-			UpdateBonesTransform(&animations[current_animation], blendRatio > 0.0f ? &animations[previous_animation] : nullptr, blendRatio);
+			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 			UpdateMeshAnimation(game_object);
 		}
 	}
@@ -341,27 +322,22 @@ void ComponentAnimation::Update(float dt)
 //-------------------------------------------
 void ComponentAnimation::UpdateBonesTransform(const Animation* settings, const Animation* blend, float blendRatio)
 {
-	uint currentFrame = settings->start_frame + settings->ticksPerSecond * time;
-
-	uint prevBlendFrame = 0;
-	if (blend != nullptr)
-	{
-		prevBlendFrame = blend->start_frame + blend->ticksPerSecond * prevAnimTime;
-	}
+	uint current_frame = settings->start_frame + settings->ticks_per_second * settings->time;
 
 	for (uint i = 0; i < links.size(); i++)
 	{
 		ComponentTransform* transform = (ComponentTransform*)links[i].gameObject->GetComponent(C_TRANSFORM);
 
-		float3 position = GetChannelPosition(links[i], currentFrame, transform->GetPosition(), *settings);
-		Quat rotation = GetChannelRotation(links[i], currentFrame, transform->GetRotation(), *settings);
-		float3 scale = GetChannelScale(links[i], currentFrame, transform->GetScale(), *settings);
+		float3 position = GetChannelPosition(links[i], current_frame, transform->GetPosition(), *settings);
+		Quat rotation = GetChannelRotation(links[i], current_frame, transform->GetRotation(), *settings);
+		float3 scale = GetChannelScale(links[i], current_frame, transform->GetScale(), *settings);
 
 		if (blend != nullptr)
 		{
-			position = float3::Lerp(GetChannelPosition(links[i], prevBlendFrame, transform->GetPosition(), *blend), position, blendRatio);
-			rotation = Quat::Slerp(GetChannelRotation(links[i], prevBlendFrame, transform->GetRotation(), *blend), rotation, blendRatio);
-			scale = float3::Lerp(GetChannelScale(links[i], prevBlendFrame, transform->GetScale(), *blend), scale, blendRatio);
+			uint blend_frame = blend->start_frame + blend->ticks_per_second * blend->time;
+			position = float3::Lerp(GetChannelPosition(links[i], blend_frame, transform->GetPosition(), *blend), position, blendRatio);
+			rotation = Quat::Slerp(GetChannelRotation(links[i], blend_frame, transform->GetRotation(), *blend), rotation, blendRatio);
+			scale = float3::Lerp(GetChannelScale(links[i], blend_frame, transform->GetScale(), *blend), scale, blendRatio);
 		}
 
 		transform->SetPosition(position);
@@ -471,7 +447,6 @@ void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 	if (mesh != nullptr)
 	{
 		mesh->DeformAnimMesh();
-	//	App->renderer3D->LoadBuffers(mesh->animMesh);
 	}
 
 	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
