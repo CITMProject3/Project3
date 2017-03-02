@@ -134,7 +134,7 @@ void ComponentCollider::OnInspector(bool debug)
 				ImGui::DragFloat3("Collider offset: ", offset_pos.ptr(), 0.1f, -1000.0f, 1000.0f);
 				if (shape == S_CUBE)
 				{					
-					ImGui::DragFloat3("Scale offset: ", ((Cube_P*)primitive)->size.ptr(), 0.1f, -1000.0f, 1000.0f);
+					ImGui::DragFloat3("Size: ", ((Cube_P*)primitive)->size.ptr(), 0.1f, -1000.0f, 1000.0f);
 				}
 				else if (shape == S_SPHERE)
 				{
