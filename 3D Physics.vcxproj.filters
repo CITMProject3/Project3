@@ -516,6 +516,12 @@
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
       <Filter>3rd Party Tools\ImGuizmo</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleScripting.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentScript.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -856,6 +862,12 @@
     </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
       <Filter>3rd Party Tools\ImGuizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScripting.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentScript.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

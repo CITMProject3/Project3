@@ -14,10 +14,11 @@
     <ProjectGuid>{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}</ProjectGuid>
     <RootNamespace>SDLGame</RootNamespace>
     <ProjectName>Engine</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -86,6 +87,7 @@
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentScript.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="CubeMap.h" />
@@ -117,6 +119,7 @@
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="ModuleCar.h" />
     <ClInclude Include="ModuleLighting.h" />
+    <ClInclude Include="ModuleScripting.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileMaterial.h" />
@@ -234,6 +237,7 @@
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentScript.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CubeMap.cpp" />
@@ -262,6 +266,7 @@
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleCar.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
+    <ClCompile Include="ModuleScripting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileMaterial.cpp" />

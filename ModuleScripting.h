@@ -13,12 +13,18 @@ public:
 	bool Init(Data& config);
 	bool Start();
 
-	update_status PreUpdate();
-	update_status Update();
-	update_status PostUpdate();
+	//update_status PreUpdate();
+	//update_status Update();
+	//update_status PostUpdate();
 
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
+
+	bool LoadScriptLibrary(const char* path, HINSTANCE* script);
+	bool FreeScriptLibrary(HINSTANCE& script);
+
+private:
+	DWORD last_error = 0;
 };
 
 #endif // !__MOUDLESCRIPTING_H__
