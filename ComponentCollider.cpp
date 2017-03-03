@@ -111,6 +111,7 @@ void ComponentCollider::OnInspector(bool debug)
 		}
 		if (App->IsGameRunning() == false)
 		{
+			ImGui::NewLine();
 			if (ImGui::BeginMenu("Shape: "))
 			{
 				if (ImGui::MenuItem("Cube", NULL))
@@ -125,10 +126,10 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
-				if (ImGui::MenuItem("Terrain collider", NULL))
+				/*if (ImGui::MenuItem("Terrain collider", NULL))
 				{
 					SetShape(S_TERRAIN);
-				}
+				}*/
 				ImGui::EndMenu();
 			}
 
@@ -136,10 +137,13 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
-			if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
+			//if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
-			ImGui::Checkbox("Static object: ", &Static);
+			if (shape != S_CONVEX)
+			{
+				ImGui::Checkbox("Static object: ", &Static);
+			}
 			ImGui::DragFloat("Mass: ", &mass, 1.0f, 1.0f, 10000.0f);
 			if (shape == S_CUBE || shape == S_SPHERE)
 			{
@@ -257,6 +261,10 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 		{
 			shape == S_NONE;
 		}
+		else
+		{
+			Static = true;
+		}
 		break;
 	}
 }
@@ -292,11 +300,11 @@ void ComponentCollider::LoadShape()
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
 			break;
 		}
-		case S_TERRAIN:
+		/*case S_TERRAIN:
 		{
 			body = App->physics->AddTerrain("/Assets/hieghtmap_test.png", &terrain, &heightmap_buffer_id);
 			break;
-		}
+		}*/
 		}
 		
 	}

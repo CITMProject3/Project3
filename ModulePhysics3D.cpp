@@ -203,13 +203,13 @@ void ModulePhysics3D::CleanWorld()
 void ModulePhysics3D::CreateGround()
 {
 	// Big plane as ground
-	/*btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState();
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	world->addRigidBody(body);*/
+	world->addRigidBody(body);
 }
 
 // ---------------------------------------------------------
