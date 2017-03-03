@@ -15,7 +15,8 @@ public:
 
 	std::vector<std::vector<ImVec2>> points;
 	ImGuiCurveEditorMode_ mode = ImGuiCurveEditorMode_EditPoints;
-	bool axis[3] = { true, true, true };
+	bool show_axis[3] = { true, true, true };
+	int edit_axis = 0;
 };
 
 #endif

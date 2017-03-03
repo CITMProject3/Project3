@@ -19,6 +19,10 @@ void CurveWindow::Draw()
 
 	ImGui::Begin("Curve Window", &active, flags);
 
+	ImGui::Checkbox("X Axis##1", &show_axis[0]); ImGui::SameLine();
+	ImGui::Checkbox("Y Axis##1", &show_axis[1]); ImGui::SameLine();
+	ImGui::Checkbox("Z Axis##1", &show_axis[2]);
+
 	if (ImGui::RadioButton("Create points", mode == ImGuiCurveEditorMode_CreatePoints))
 	{
 		mode = ImGuiCurveEditorMode_CreatePoints;
@@ -29,15 +33,40 @@ void CurveWindow::Draw()
 		mode = ImGuiCurveEditorMode_EditPoints;
 	}
 
+	if (mode == ImGuiCurveEditorMode_EditPoints)
+	{
+		ImGui::SameLine();
+		if (ImGui::RadioButton("X Axis##2", edit_axis == 0))
+		{
+			edit_axis = 0;
+		}
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Y Axis##2", edit_axis == 1))
+		{
+			edit_axis = 1;
+		}
+		ImGui::SameLine();
+		if (ImGui::RadioButton("Z Axis##2", edit_axis == 2))
+		{
+			edit_axis = 2;
+		}
+	}
+
 	if (ImGui::RadioButton("Edit tangents", mode == ImGuiCurveEditorMode_EditTangents))
 	{
 		mode = ImGuiCurveEditorMode_EditTangents;
 	}
 
-	if (ImGui::Curve("Curve Editor", ImVec2(600, 200), points, mode, axis))
+	if (ImGui::Button("Reset points"))
+	{
+		ResetPoints();
+	}
+
+	if (ImGui::Curve("Curve Editor", ImVec2(600, 200), points, mode, show_axis))
 	{
 		// curve changed
 	}
+
 
 	ImGui::Text("Values");
 	ImGui::Separator();
@@ -50,7 +79,8 @@ void CurveWindow::Draw()
 	for (uint aX = 0; aX < 3; aX++)
 	{
 		ImGui::Text(titles[aX].c_str());
-		for (uint i = 0; i < points.size(); i++)
+		ImGui::Separator();
+		for (uint i = 0; i < points[aX].size(); i++)
 		{
 			std::string id = "##" + std::to_string(i) + std::to_string(aX);
 			float value[2] = { points[aX][i].x, points[aX][i].y };
@@ -61,20 +91,11 @@ void CurveWindow::Draw()
 			}
 		}
 		if (aX < 3)
+		{
 			ImGui::Separator();
+			ImGui::Separator();
+		}
 	}
-
-
-	if (ImGui::Button("Add Point"))
-	{
-		//points.push_back(ImVec2(1, 0.5f));
-	}
-
-	if (ImGui::Button("Reset points"))
-	{
-		ResetPoints();
-	}
-
 	//float value_you_care_about = ImGui::CurveValue(0.7f, 10, points); // calculate value at position 0.7
 
 	ImGui::End();
