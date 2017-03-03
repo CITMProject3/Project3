@@ -30,8 +30,6 @@ public:
 	void SetPath(const char* path);
 
 private:
-	HINSTANCE script;
-
 	string path;
 
 	bool started = false;

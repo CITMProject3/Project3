@@ -3,10 +3,19 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
+	if ((script = LoadLibrary("Game")) == NULL)
+	{
+		last_error = GetLastError();
+		scripts_loaded = false;
+	}
+	else
+		scripts_loaded = true;
 }
 
 ModuleScripting::~ModuleScripting()
 {
+	if(script)
+		FreeLibrary(script);
 }
 
 bool ModuleScripting::Init(Data &config)
@@ -43,7 +52,7 @@ void ModuleScripting::SaveBeforeClosing(Data &data) const
 {
 }
 
-bool ModuleScripting::LoadScriptLibrary(const char* path, HINSTANCE* script)
+/*bool ModuleScripting::LoadScriptLibrary(const char* path, HINSTANCE* script)
 {
 	bool ret = false;
 	if (*script = LoadLibrary(path))
@@ -70,4 +79,4 @@ bool ModuleScripting::FreeScriptLibrary(HINSTANCE& script)
 		ret = true;
 	}
 	return ret;
-}
+}*/

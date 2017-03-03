@@ -20,11 +20,16 @@ public:
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
 
-	bool LoadScriptLibrary(const char* path, HINSTANCE* script);
-	bool FreeScriptLibrary(HINSTANCE& script);
+	//bool LoadScriptLibrary(const char* path, HINSTANCE* script);
+	//bool FreeScriptLibrary(HINSTANCE& script);
+
+	bool scripts_loaded;
 
 private:
 	DWORD last_error = 0;
+
+public:
+	HINSTANCE script;
 };
 
 #endif // !__MOUDLESCRIPTING_H__

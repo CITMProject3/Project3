@@ -1,0 +1,5 @@
+LIBRARY SCRIPTINGPROJECT
+
+EXPORTS
+	Start		@1
+	Update		@2
