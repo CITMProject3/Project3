@@ -41,6 +41,10 @@ void ComponentCar::Update()
 
 void ComponentCar::OnInspector(bool debug)
 {
+	//
+	//ImGui::ShowTestWindow();
+	//
+
 	string str = (string("Car") + string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -58,7 +62,58 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 
-		ImGui::Text("Hello World");
+		str = (string("Car mechanics")); //+ string("##") + std::to_string(uuid));
+		if (ImGui::TreeNode(str.c_str()))
+		{
+			ImGui::Text("Turn degree");
+			ImGui::SameLine();
+
+			if (ImGui::DragFloat("##dturn", &dturn, 1.0f, -2.0f, 2.0f))
+			{
+				
+			}
+
+			ImGui::Text("Brake force");
+			ImGui::SameLine();
+
+			if (ImGui::DragFloat("##brkF", &brakeForce, 1.0f, 0.0f, 200.0f))
+			{
+				//dturn = dgt;
+			}
+
+			ImGui::Text("Kick force");
+			ImGui::SameLine();
+
+			if (ImGui::DragFloat("##kckF", &force, 10000.0f, 0.0f))
+			{
+				//dturn = dgt;
+			}
+
+			ImGui::Text("Kick cooldown");
+			ImGui::SameLine();
+
+			if (ImGui::DragFloat("##kckCool", &kickCooldown, 1.0f, 100.0f))
+			{
+				//dturn = dgt;
+			}
+
+			ImGui::TreePop();
+		}
+
+		str = (string("Car physics")); //+ string("##") + std::to_string(uuid));
+		if (ImGui::TreeNode(str.c_str()))
+		{
+			/*ImGui::Text("Turn degree");
+			ImGui::SameLine();
+
+			float dgt = dturn;
+			if (ImGui::DragFloat("##dturn", &dgt, 1.0f, -180.0f, 180.0f))
+			{
+				dturn = dgt;
+			}*/
+			ImGui::TreePop();
+		}
+		
 
 	}
 	
@@ -66,9 +121,6 @@ void ComponentCar::OnInspector(bool debug)
 
 void ComponentCar::HandlePlayerInput()
 {
-	float dturn = 0.7f;
-	float force = 100000.0f;
-	float brakeForce = 20.0f;
 
 	float accel,turn,brake;
 

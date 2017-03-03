@@ -38,8 +38,13 @@ public:
 	VehicleInfo* car;
 	PhysVehicle3D* vehicle = nullptr;
 
+
 	float kickCooldown = 3.0f;
 	float kickTimer = 0.0f;
+
+	float dturn = 0.7f;
+	float force = 100000.0f;
+	float brakeForce = 20.0f;
 
 };
 
