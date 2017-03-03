@@ -10,6 +10,10 @@
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
 
+#include "ModuleInput.h"
+#include "ModuleResourceManager.h"
+#include "ModuleCamera3D.h"
+
 Hierarchy::Hierarchy()
 {
 	active = true;

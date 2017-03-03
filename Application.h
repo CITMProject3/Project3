@@ -11,6 +11,8 @@
 #include "AutoProfile.h"
 #include "Random.h"
 #include "Time.h"
+#include <string>
+#include <stdlib.h>
 
 
 class ModuleCamera3D;

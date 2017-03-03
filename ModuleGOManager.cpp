@@ -9,6 +9,11 @@
 #include <algorithm>
 #include "ComponentLight.h"
 #include "LayerSystem.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
+#include "ModuleCamera3D.h"
+#include "ModuleInput.h"
+#include "ModuleFileSystem.h"
 
 #include "MeshImporter.h"
 

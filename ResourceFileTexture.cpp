@@ -2,6 +2,7 @@
 #include "ModuleRenderer3D.h"
 #include "ResourceFileTexture.h"
 #include "TextureImporter.h"
+#include "ModuleResourceManager.h"
 
 ResourceFileTexture::ResourceFileTexture(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {

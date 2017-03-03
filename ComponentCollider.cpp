@@ -5,13 +5,17 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ModuleRenderer3D.h"
 
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 
+#include "imgui\imgui.h"
+
 #include "ModuleInput.h"
 #include "glut\glut.h"
 
+#include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
 

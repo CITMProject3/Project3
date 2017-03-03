@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include "Octree.h"
+#include "Primitive.h"
 
 class GameObject;
 class ComponentCamera;

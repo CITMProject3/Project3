@@ -17,6 +17,8 @@
 #include "ComponentMaterial.h"
 #include "TextureImporter.h"
 
+#include "ModuleResourceManager.h"
+
 bool MeshImporter::Import(const char * file, const char * path, const char* base_path)
 {
 	bool ret = false;

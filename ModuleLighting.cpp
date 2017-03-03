@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ModuleLighting.h"
 #include "ComponentLight.h"
+#include "ModuleGOManager.h"
 
 ModuleLighting::ModuleLighting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}

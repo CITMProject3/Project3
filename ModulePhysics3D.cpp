@@ -9,6 +9,7 @@
 #include "ComponentTransform.h"
 #include "Assets.h"
 #include "ModuleFileSystem.h"
+#include "ModuleInput.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"

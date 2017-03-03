@@ -13,6 +13,7 @@
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 #include "RenderTexEditorWindow.h"
+#include "ModuleFileSystem.h"
 
 #include "Glew\include\glew.h"
 #include <gl\GL.h>

@@ -9,6 +9,7 @@
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
+#include "ModuleGOManager.h"
 
 GameObject::GameObject()
 {
