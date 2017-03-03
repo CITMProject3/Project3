@@ -141,10 +141,10 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 
 		if ((*object)->ChildCount() == 0)
 			flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
-
+		ImGui::PushID((*object)->GetUUID());
 		bool open = ImGui::TreeNodeEx((*object)->name.data(), flags);
 		bool hasChilds = (*object)->ChildCount() > 0;
-
+		ImGui::PopID();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
 			ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
