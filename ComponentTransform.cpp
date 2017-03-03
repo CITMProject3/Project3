@@ -247,6 +247,16 @@ void ComponentTransform::Remove()
 	LOG("Component Transform from GO(%s) can't be removed.",GetGameObject()->name);
 }
 
+void ComponentTransform::SaveAsPrefab(Data & file) const
+{
+	Data data;
+
+	data.AppendFloat3("position", position.ptr());
+	data.AppendFloat3("rotation", rotation_euler.ptr()); //Euler rotation
+
+	file.AppendArrayValue(data);
+}
+
 void ComponentTransform::CalculateFinalTransform()
 {
 	GameObject* game_object = GetGameObject();

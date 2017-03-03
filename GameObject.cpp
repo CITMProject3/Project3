@@ -10,6 +10,8 @@
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
+#include "ModuleGOManager.h"
+#include "ResourceFilePrefab.h"
 
 GameObject::GameObject()
 {
@@ -25,9 +27,19 @@ GameObject::GameObject(GameObject* parent) : parent(parent)
 	name = "Empty GameObject";
 	uuid = App->rnd->RandomInt();
 	AddComponent(C_TRANSFORM);
+	if (parent)
+	{
+		if (parent->IsPrefab())
+		{
+			is_prefab = true;
+			prefab_path = parent->prefab_path;
+			prefab_root_uuid = parent->prefab_root_uuid;
+		}
+	}
 }
 
-GameObject::GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer) : name(name), uuid(uuid), parent(parent), active(active), is_static(is_static), is_prefab(is_prefab), layer(layer)
+GameObject::GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid, const string& prefab_path) 
+	: name(name), uuid(uuid), parent(parent), active(active), is_static(is_static), is_prefab(is_prefab), layer(layer), prefab_root_uuid(prefab_root_uuid), prefab_path(prefab_path)
 {
 	AddComponent(C_TRANSFORM);
 }
@@ -45,6 +57,12 @@ GameObject::~GameObject()
 
 	components.clear();
 	components_to_remove.clear();
+
+	if (rc_prefab)
+	{
+		rc_prefab->UnloadInstance(this);
+		rc_prefab->Unload();
+	}
 }
 
 void GameObject::PreUpdate()
@@ -153,6 +171,33 @@ void GameObject::SetParent(GameObject * parent)
 			transform->SetScale(scale);
 
 			parent->AddChild(this);
+
+			if (rc_prefab == nullptr)
+			{
+				if (parent->IsPrefab())
+				{
+					prefab_path = parent->prefab_path;
+					SetAsPrefab(parent->prefab_root_uuid);
+				}
+				else
+				{
+					if (is_prefab)
+					{
+						is_prefab = false;
+						prefab_root_uuid = 0;
+						prefab_path = "";
+						local_uuid = 0;
+
+						for (vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
+						{
+							(*child)->is_prefab = false;
+							(*child)->prefab_root_uuid = 0;
+							(*child)->prefab_path = "";
+							(*child)->local_uuid = 0;
+						}
+					}
+				}
+			}	
 		}
 	}
 
@@ -216,12 +261,31 @@ void GameObject::SetStatic(bool value)
 	}
 }
 
-void GameObject::SetAsPrefab()
+void GameObject::ForceStatic(bool value)
+{
+	//Only inserts the gameobject in the octree or dynamic vector. Doesn't remove if was inserted previously. Doesn't update parent or children
+	is_static = value;
+	if (is_static) 
+	{
+		bool ret = App->go_manager->InsertGameObjectInOctree(this);
+		if (!ret)
+			LOG("INSERTION FAILED");
+	}
+	else 
+	{
+		bool ret = App->go_manager->RemoveGameObjectOfOctree(this);
+		if (!ret)
+			LOG("REMOVING FAILED");
+	}
+}
+
+void GameObject::SetAsPrefab(unsigned int root_uuid)
 {
 	is_prefab = true;
 	local_uuid = uuid;
+	prefab_root_uuid = root_uuid;
 	for (vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
-		(*child)->SetAsPrefab();
+		(*child)->SetAsPrefab(root_uuid);
 }
 
 bool GameObject::IsPrefab() const
@@ -343,7 +407,7 @@ void GameObject::TransformModified()
 	}
 }
 
-void GameObject::Save(Data & file) const
+void GameObject::Save(Data & file, bool ignore_prefab) const
 {
 	Data data;
 
@@ -356,22 +420,56 @@ void GameObject::Save(Data & file) const
 	else
 		data.AppendUInt("parent", parent->GetUUID());
 	data.AppendBool("active", active);
-	data.AppendBool("static", is_static);
+	
 	data.AppendBool("is_prefab", is_prefab);
-	data.AppendInt("layer", layer);
-	data.AppendArray("components");
+	data.AppendUInt("prefab_root_uuid", prefab_root_uuid);
+	data.AppendString("prefab_path", prefab_path.data());
 
-	//Components data
-	vector<Component*>::const_iterator component = components.begin();
-	for (component; component != components.end(); component++)
-	{
-		(*component)->Save(data);
+	if (is_prefab == false || ignore_prefab == true)
+	{	//Normal GameObject
+		data.AppendInt("layer", layer);
+		data.AppendBool("static", is_static);
+		data.AppendArray("components");
+
+		//Components data
+		vector<Component*>::const_iterator component = components.begin();
+		for (component; component != components.end(); component++)
+		{
+			(*component)->Save(data);
+		}
+
+		file.AppendArrayValue(data);
+
+		for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
+			(*child)->Save(file, ignore_prefab);
 	}
+	else
+	{	//Prefab GameObject
+		//Save Component Transform (translation & rotation)
+		ComponentTransform* c_transform = (ComponentTransform*)GetComponent(ComponentType::C_TRANSFORM);
 
-	file.AppendArrayValue(data);
+		data.AppendArray("components");
+		c_transform->SaveAsPrefab(data);
+
+		//Save all children uuids
+		data.AppendArray("children_uuids");
+		for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
+			(*child)->SaveAsChildPrefab(data);
+		file.AppendArrayValue(data);
+	}	
+}
+
+void GameObject::SaveAsChildPrefab(Data & file) const
+{
+	Data data;
+
+	data.AppendUInt("uuid", uuid);
+	data.AppendUInt("local_uuid", local_uuid);
 
 	for (vector<GameObject*>::const_iterator child = childs.begin(); child != childs.end(); ++child)
-		(*child)->Save(file);
+		(*child)->SaveAsChildPrefab(file);
+
+	file.AppendArrayValue(data);
 }
 
 bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
@@ -422,4 +520,50 @@ bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 	}
 
 	return ret;
+}
+
+void GameObject::ApplyPrefabChanges()
+{
+	if (is_prefab)
+	{
+		if (rc_prefab)
+		{
+			rc_prefab->ApplyChanges(this);
+		}
+		else
+		{
+			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+			if (prefab_go)
+				prefab_go->rc_prefab->ApplyChanges(prefab_go);
+		}
+	}
+}
+
+void GameObject::CollectChildrenUUID(vector<unsigned int>& uuid, vector<unsigned int>& local_uuid) const
+{
+	vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		uuid.push_back((*it)->GetUUID());
+		local_uuid.push_back((*it)->local_uuid);
+
+		(*it)->CollectChildrenUUID(uuid, local_uuid);
+	}
+}
+
+void GameObject::RevertPrefabChanges()
+{
+	if (is_prefab)
+	{
+		if (rc_prefab)
+		{
+			rc_prefab->RevertChanges(this);
+		}
+		else
+		{
+			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+			if (prefab_go)
+				prefab_go->rc_prefab->RevertChanges(prefab_go);
+		}
+	}
 }

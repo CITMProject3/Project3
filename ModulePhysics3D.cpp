@@ -5,6 +5,17 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 #include "ComponentMesh.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
+#include "Assets.h"
+#include "ModuleFileSystem.h"
+#include "ModuleInput.h"
+
+#include "Devil/include/il.h"
+#include "Devil/include/ilut.h"
+
+#include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -24,7 +35,7 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
-	//debug_draw = new DebugDrawer(); DEBUG DISABLED
+	debug_draw = new DebugDrawer(); //DEBUG DISABLED
 }
 
 // Destructor
@@ -296,10 +307,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
-	if (out_shape != nullptr)
-	{
-		*out_shape = colShape;
-	}
 
 	float3* vertices = (float3*)mesh.GetMeshData()->vertices;
 	uint nVertices = mesh.GetMeshData()->num_vertices;
@@ -309,24 +316,39 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 		colShape->addPoint(btVector3(vertices[n].x, vertices[n].y, vertices[n].z));
 	}
 
-	shapes.push_back(colShape);
+	btShapeHull* hull = new btShapeHull(colShape);
+	hull->buildHull(colShape->getMargin());
+	btConvexHullShape* simplifiedColShape = new btConvexHullShape((btScalar*)hull->getVertexPointer(), hull->numVertices());
+
+
+
+	shapes.push_back(simplifiedColShape);
+
+	if (out_shape != nullptr)
+	{
+		*out_shape = simplifiedColShape;
+	}
 
 	btTransform startTransform;
-	//startTransform.setFromOpenGLMatrix(*cylinder.transform.v);
+	float4x4 go_trs = ((ComponentTransform*)(mesh.GetGameObject()->GetComponent(C_TRANSFORM)))->GetGlobalMatrix().Transposed();
+	startTransform.setFromOpenGLMatrix(go_trs.ptr());
 
 	btVector3 localInertia(0, 0, 0);
 	if (mass != 0.f)
-		colShape->calculateLocalInertia(mass, localInertia);
+		simplifiedColShape->calculateLocalInertia(mass, localInertia);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	motions.push_back(myMotionState);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, simplifiedColShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body);
 
 	if (isSensor)
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+
+	delete hull;
+	delete colShape;
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -402,6 +424,74 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	vehicles.push_back(pvehicle);
 
 	return pvehicle;
+}
+
+PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
+{
+	//https://www.bulletphysics.org/Bullet/phpBB3/viewtopic.php?f=9&t=7915
+
+	PhysBody3D* pbody = nullptr;
+	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
+
+	int test[256*256];
+	for (int y = 0; y < 256; y++)
+	{
+		for (int x = 0; x < 256; x++)
+		{
+			test[y*256+x] = math::Abs( 256 - (x+y));
+		}
+	}
+	if (Asset_file)
+	{
+		int GL_buffer_id = -1;
+		char* buffer = nullptr;
+		unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
+
+		if (size > 0)
+		{
+			ILuint id;
+			ilGenImages(1, &id);
+			ilBindImage(id);
+			if (ilLoadL(IL_DDS, (const void*)buffer, size))
+			{
+				GL_buffer_id = ilutGLBindTexImage();
+				ilDeleteImages(1, &id);
+			}
+
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(128, 128, test, 2.0f, 0, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
+			shapes.push_back(terrain);
+
+			btDefaultMotionState* myMotionState = new btDefaultMotionState();
+			motions.push_back(myMotionState);
+			btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
+
+			btRigidBody* body = new btRigidBody(rbInfo);
+			pbody = new PhysBody3D(body);
+
+			body->setUserPointer(pbody);
+			world->addRigidBody(body);
+			bodies.push_back(pbody);
+
+			if (image_buffer_id != nullptr)
+			{
+				*image_buffer_id = GL_buffer_id;
+			}
+			if (OUT_shape != nullptr)
+			{
+				*OUT_shape = terrain;
+			}
+		}
+		else
+		{
+			LOG("Could not load texture: %s", Asset_file->name.data());
+		}
+
+		if (buffer != nullptr)
+		{
+			delete[] buffer;
+		}
+	}
+	return pbody;
 }
 
 // ---------------------------------------------------------

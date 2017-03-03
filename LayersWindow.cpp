@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "LayersWindow.h"
 #include "LayerSystem.h"
+#include "ModuleGOManager.h"
 
 LayersWindow::LayersWindow()
 {}

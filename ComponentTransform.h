@@ -44,6 +44,7 @@ public:
 	void Load(Data& conf);
 	void Reset();
 	void Remove();
+	void SaveAsPrefab(Data& file)const;
 
 private:
 	void CalculateFinalTransform();

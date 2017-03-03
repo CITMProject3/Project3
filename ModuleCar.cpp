@@ -13,6 +13,7 @@
 #include "RaycastHit.h"
 
 #include "ModuleInput.h"
+#include "ModulePhysics3D.h"
 
 #include "glmath.h"
 

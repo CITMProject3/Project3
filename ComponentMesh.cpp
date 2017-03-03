@@ -9,6 +9,9 @@
 #include "ResourceFileMesh.h"
 #include "glut/glut.h"
 
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
+
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	aabb.SetNegativeInfinity();

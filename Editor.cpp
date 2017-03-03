@@ -30,6 +30,10 @@
 #include "ImGuizmo\ImGuizmo.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ModuleInput.h"
+#include "ModuleFileSystem.h"
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {

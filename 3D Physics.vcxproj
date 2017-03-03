@@ -123,6 +123,7 @@
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileMaterial.h" />
+    <ClInclude Include="ResourceFilePrefab.h" />
     <ClInclude Include="ResourceFileRenderTexture.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
@@ -271,6 +272,7 @@
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileMaterial.cpp" />
+    <ClCompile Include="ResourceFilePrefab.cpp" />
     <ClCompile Include="ResourceFileRenderTexture.cpp" />
     <ClCompile Include="ShaderEditorWindow.cpp" />
     <ClCompile Include="Skybox.cpp" />

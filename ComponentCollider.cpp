@@ -5,12 +5,19 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
+#include "ModuleRenderer3D.h"
 
 #include "ModulePhysics3D.h"
 #include "PhysBody3D.h"
 
+#include "imgui\imgui.h"
+
 #include "ModuleInput.h"
 #include "glut\glut.h"
+
+#include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
+
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
@@ -104,6 +111,7 @@ void ComponentCollider::OnInspector(bool debug)
 		}
 		if (App->IsGameRunning() == false)
 		{
+			ImGui::NewLine();
 			if (ImGui::BeginMenu("Shape: "))
 			{
 				if (ImGui::MenuItem("Cube", NULL))
@@ -118,6 +126,10 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
+				/*if (ImGui::MenuItem("Terrain collider", NULL))
+				{
+					SetShape(S_TERRAIN);
+				}*/
 				ImGui::EndMenu();
 			}
 
@@ -125,16 +137,24 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
+			//if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
-			ImGui::Checkbox("Static object: ", &Static);
+			if (shape != S_CONVEX)
+			{
+				ImGui::Checkbox("Static object: ", &Static);
+			}
 			ImGui::DragFloat("Mass: ", &mass, 1.0f, 1.0f, 10000.0f);
 			if (shape == S_CUBE || shape == S_SPHERE)
 			{
 				ImGui::DragFloat3("Collider offset: ", offset_pos.ptr(), 0.1f, -1000.0f, 1000.0f);
 				if (shape == S_CUBE)
+				{					
+					ImGui::DragFloat3("Size: ", ((Cube_P*)primitive)->size.ptr(), 0.1f, -1000.0f, 1000.0f);
+				}
+				else if (shape == S_SPHERE)
 				{
-				//	ImGui::DragFloat3("Scale offset: ", primitive->.ptr(), 0.1f, -1000.0f, 1000.0f);
+					ImGui::DragFloat("Radius", &((Sphere_P*)primitive)->radius, 0.1f, 0.1f, 1000.0f);					
 				}
 			}
 		}
@@ -163,6 +183,16 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendFloat("mass", mass);
 	data.AppendFloat3("offset_pos", offset_pos.ptr());
 
+	switch (shape)
+	{
+	case S_CUBE:
+		data.AppendFloat3("size", ((Cube_P*)primitive)->size.ptr());
+		break;
+	case S_SPHERE:
+		data.AppendFloat("radius", ((Sphere_P*)primitive)->radius);
+		break;
+	}
+
 	file.AppendArrayValue(data);
 }
 
@@ -176,6 +206,16 @@ void ComponentCollider::Load(Data & conf)
 	mass = conf.GetFloat("mass");
 	offset_pos = conf.GetFloat3("offset_pos");
 	SetShape(shape);
+
+	switch (shape)
+	{
+	case S_CUBE:
+		((Cube_P*)primitive)->size = conf.GetFloat3("size");
+		break;
+	case S_SPHERE:
+		((Sphere_P*)primitive)->radius = conf.GetFloat("radius");
+		break;
+	}
 }
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)
@@ -221,6 +261,10 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 		{
 			shape == S_NONE;
 		}
+		else
+		{
+			Static = true;
+		}
 		break;
 	}
 }
@@ -238,18 +282,29 @@ void ComponentCollider::LoadShape()
 		switch (shape)
 		{
 		case S_CUBE:
+		{
 			body = App->physics->AddBody(*((Cube_P*)primitive), _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
+		}
 		case S_SPHERE:
+		{
 			body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
+		}
 		case S_CONVEX:
+		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
-			body->SetTransform(trs->GetGlobalMatrix().Transposed().ptr());
+			break;
+		}
+		/*case S_TERRAIN:
+		{
+			body = App->physics->AddTerrain("/Assets/hieghtmap_test.png", &terrain, &heightmap_buffer_id);
+			break;
+		}*/
 		}
 		
 	}

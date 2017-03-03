@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "LightingWindow.h"
+#include "ModuleLighting.h"
 
 LightingWindow::LightingWindow()
 {}
