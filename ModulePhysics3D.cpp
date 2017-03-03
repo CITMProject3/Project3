@@ -428,8 +428,19 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 
 PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
 {
+	//https://www.bulletphysics.org/Bullet/phpBB3/viewtopic.php?f=9&t=7915
+
 	PhysBody3D* pbody = nullptr;
 	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
+
+	int test[256*256];
+	for (int y = 0; y < 256; y++)
+	{
+		for (int x = 0; x < 256; x++)
+		{
+			test[y*256+x] = math::Abs( 256 - (x+y));
+		}
+	}
 	if (Asset_file)
 	{
 		int GL_buffer_id = -1;
@@ -447,7 +458,7 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 				ilDeleteImages(1, &id);
 			}
 
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(510, 510, buffer, 2.0f, -50, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(128, 128, test, 2.0f, 0, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
 			shapes.push_back(terrain);
 
 			btDefaultMotionState* myMotionState = new btDefaultMotionState();
