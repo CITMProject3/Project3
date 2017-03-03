@@ -18,6 +18,7 @@
 #include "ShaderEditorWindow.h"
 #include "LightingWindow.h"
 #include "LayersWindow.h"
+#include "CurveWindow.h"
 #include "RenderTexEditorWindow.h"
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
@@ -74,7 +75,7 @@ bool Editor::Start()
 	windows.push_back(layers_win = new LayersWindow());
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
 	windows.push_back(test_win = new TestWindow());
-
+	windows.push_back(curve_win = new CurveWindow());
 	InitSizes();
 
 	//Testing
@@ -98,6 +99,8 @@ bool Editor::CleanUp()
 	delete lighting_win;
 	delete layers_win;
 	delete rendertex_win;
+	delete test_win;
+	delete curve_win;
 
 	windows.clear();
 
@@ -512,6 +515,11 @@ void Editor::WindowsMenu()
 	if (ImGui::MenuItem("Test Window"))
 	{
 		test_win->SetActive(true);
+	}
+
+	if (ImGui::MenuItem("Curve Window"))
+	{
+		curve_win->SetActive(true);
 	}
 }
 

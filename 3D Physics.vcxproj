@@ -92,6 +92,7 @@
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="CubeMap.h" />
+    <ClInclude Include="CurveWindow.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Editor.h" />
@@ -245,6 +246,7 @@
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CubeMap.cpp" />
+    <ClCompile Include="CurveWindow.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Editor.cpp" />

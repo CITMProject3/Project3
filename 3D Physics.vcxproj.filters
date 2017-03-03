@@ -531,6 +531,9 @@
     <ClInclude Include="ResourceFileBone.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="CurveWindow.h">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -886,6 +889,9 @@
     </ClCompile>
     <ClCompile Include="ResourceFileBone.cpp">
       <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="CurveWindow.cpp">
+      <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
