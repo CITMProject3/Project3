@@ -17,6 +17,7 @@ struct PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
 class ComponentMesh;
+class btHeightfieldTerrainShape;
 
 class ModulePhysics3D : public Module
 {
@@ -41,7 +42,7 @@ public:
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
 
-	void AddTerrain();
+	PhysBody3D* AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape = nullptr, int* image_buffer_id = nullptr);
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);

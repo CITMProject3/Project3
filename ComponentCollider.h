@@ -4,6 +4,8 @@
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+class btHeightfieldTerrainShape;
+
 enum Collider_Shapes
 {
 	S_NONE = 0,
@@ -43,6 +45,9 @@ public:
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
+
+	btHeightfieldTerrainShape* terrain = nullptr;
+	int heightmap_buffer_id = -1;
 
 	bool exists = false;
 };

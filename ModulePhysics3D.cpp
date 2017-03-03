@@ -8,6 +8,10 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "Assets.h"
+#include "ModuleFileSystem.h"
+
+#include "Devil/include/il.h"
+#include "Devil/include/ilut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
@@ -198,13 +202,13 @@ void ModulePhysics3D::CleanWorld()
 void ModulePhysics3D::CreateGround()
 {
 	// Big plane as ground
-	btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
+	/*btCollisionShape* colShape = new btStaticPlaneShape(btVector3(0, 1, 0), 0);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState();
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	world->addRigidBody(body);
+	world->addRigidBody(body);*/
 }
 
 // ---------------------------------------------------------
@@ -421,16 +425,59 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
-void ModulePhysics3D::AddTerrain()
-{	
-	std::vector<string> images;
-	App->editor->assets->GetAllFilesByType(FileType::IMAGE, images);
-	if (images.empty() == false)
+PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
+{
+	PhysBody3D* pbody = nullptr;
+	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
+
+	int GL_buffer_id = -1;
+	char* buffer = nullptr;
+	unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
+
+	if (size > 0)
 	{
-		AssetFile* file = App->editor->assets->FindAssetFile(images.front());
-		//file->
-		//btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(100, 100, , 10, 0, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
+		ILuint id;
+		ilGenImages(1, &id);
+		ilBindImage(id);
+		if (ilLoadL(IL_DDS, (const void*)buffer, size))
+		{
+			GL_buffer_id = ilutGLBindTexImage();
+			ilDeleteImages(1, &id);
+		}
+
+		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(510, 510, buffer, 2.0f, -50, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
+		shapes.push_back(terrain);
+
+		btDefaultMotionState* myMotionState = new btDefaultMotionState();
+		motions.push_back(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
+
+		btRigidBody* body = new btRigidBody(rbInfo);
+		pbody = new PhysBody3D(body);
+
+		body->setUserPointer(pbody);
+		world->addRigidBody(body);
+		bodies.push_back(pbody);
+
+		if (image_buffer_id != nullptr)
+		{
+			*image_buffer_id = GL_buffer_id;
+		}
+		if (OUT_shape != nullptr)
+		{
+			*OUT_shape = terrain;
+		}
 	}
+	else
+	{
+		LOG("Could not load texture: %s", Asset_file->name.data());
+	}
+
+	if (buffer != nullptr)
+	{
+		delete[] buffer;
+	}
+	return pbody;
 }
 
 // ---------------------------------------------------------

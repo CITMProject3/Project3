@@ -12,6 +12,9 @@
 #include "ModuleInput.h"
 #include "glut\glut.h"
 
+#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
+
+
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
 }
@@ -287,7 +290,7 @@ void ComponentCollider::LoadShape()
 		}
 		case S_TERRAIN:
 		{
-			App->physics->AddTerrain();
+			body = App->physics->AddTerrain("/Assets/hieghtmap_test.png", &terrain, &heightmap_buffer_id);
 			break;
 		}
 		}

@@ -5,23 +5,25 @@
 #include "Globals.h"
 #include "Timer.h"
 #include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
 #include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
 #include "Editor.h"
-#include "ModuleFileSystem.h"
-#include "ModuleGOManager.h"
-#include "ModuleResourceManager.h"
 #include "DebugDraw.h"
 #include "AutoProfile.h"
 #include "Random.h"
 #include "Time.h"
-#include "ModuleLighting.h"
-#include "ModuleCar.h"
+
+
+class ModuleCamera3D;
+class ModuleCar;
+class ModuleFileSystem;
+class ModuleGOManager;
+class ModuleInput;
+class ModuleLighting;
+class ModulePhysics3D;
+class ModuleRenderer3D;
+class ModuleResourceManager;
+class ModuleWindow;
+class ModuleAudio;
 
 using namespace std; 
 
