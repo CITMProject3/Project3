@@ -17,6 +17,7 @@ class ComponentScript : public Component
 {
 public:
 	ComponentScript(ComponentType type, GameObject* game_object, const char* path);
+	ComponentScript(ComponentType type, GameObject* game_object);
 	~ComponentScript();
 
 	void Update();

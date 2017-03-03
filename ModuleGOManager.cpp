@@ -707,6 +707,11 @@ void ModuleGOManager::InspectorWindow()
 				selected_GO->AddComponent(C_LIGHT);
 			}
 
+			if (ImGui::Selectable("Add Script"))
+			{
+				selected_GO->AddComponent(C_SCRIPT);
+			}
+
 			ImGui::EndPopup();
 		}
 	}
