@@ -47,6 +47,7 @@ void PhysVehicle3D::Render()
 
 	chassis.transform.SetTranslatePart(offset.getX(), offset.getY(), offset.getZ());
 
+	//Chassis render doesn't work well
 	chassis.Render();
 
 	Cube_P nose(info.nose_size.x, info.nose_size.y, info.nose_size.z);

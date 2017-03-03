@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "PhysVehicle3D.h"
 #include "ModulePhysics3D.h"
+#include "ModuleInput.h"
 
 #include <string>
 
@@ -26,6 +27,7 @@ void ComponentCar::Update()
 	{
 		if (vehicle)
 		{
+			HandlePlayerInput();
 			vehicle->Render();
 		}
 		else
@@ -63,7 +65,37 @@ void ComponentCar::OnInspector(bool debug)
 
 void ComponentCar::HandlePlayerInput()
 {
+	float dturn = 0.25f;
+	float force = 200.0f;
 
+	float accel,turn,brake;
+
+	accel = turn = brake = 0.0f;
+
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		if (accel < force)
+			accel += force;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	{
+		if (turn < dturn)
+			turn += dturn;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	{
+		if(turn > -dturn)
+			turn -= dturn;
+	}
+
+	if (vehicle)
+	{
+		vehicle->ApplyEngineForce(accel);
+		vehicle->Turn(turn);
+		vehicle->Brake(brake);
+	}
 }
 
 void ComponentCar::CreateCar()
