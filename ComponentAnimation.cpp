@@ -59,6 +59,23 @@ void ComponentAnimation::OnInspector(bool debug)
 		for (uint i = 0; i < animations.size(); i++)
 		{
 			ImGui::Text(animations[i].name.c_str());
+			if (ImGui::IsItemHovered())
+			{
+				ImGui::OpenPopup("AnimPopup");
+			}
+
+			if (ImGui::BeginPopup("AnimPopup"))
+			{
+				if (ImGui::MenuItem("Rename"))
+				{
+
+				}
+				if (ImGui::MenuItem("Delete"))
+				{
+
+				}
+			}
+
 			ImGui::Separator();
 
 			std::string loop_label = std::string("Loop##") + std::string(std::to_string(i));
