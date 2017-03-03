@@ -58,22 +58,22 @@ void ComponentAnimation::OnInspector(bool debug)
 		ImGui::Separator();
 		for (uint i = 0; i < animations.size(); i++)
 		{
-			ImGui::Text(animations[i].name.c_str());
-			if (ImGui::IsItemHovered())
+			if (renaming_animation == i)
 			{
-				ImGui::OpenPopup("AnimPopup");
+				static char new_name[128];
+				if (ImGui::InputText("##", new_name, 128, ImGuiInputTextFlags_EnterReturnsTrue))
+				{
+					animations[renaming_animation].name = new_name;
+					renaming_animation = -1;
+					new_name[0] = '\0';
+				}
 			}
-
-			if (ImGui::BeginPopup("AnimPopup"))
+			else
+				ImGui::Text(animations[i].name.c_str());
+			if (ImGui::IsItemClicked(1))
 			{
-				if (ImGui::MenuItem("Rename"))
-				{
-
-				}
-				if (ImGui::MenuItem("Delete"))
-				{
-
-				}
+				popup_animation = i;
+				ImGui::OpenPopup("AnimPopup");
 			}
 
 			ImGui::Separator();
@@ -120,6 +120,20 @@ void ComponentAnimation::OnInspector(bool debug)
 			}
 			ImGui::Separator();
 			ImGui::Separator();
+		}
+
+		if (ImGui::BeginPopup("AnimPopup"))
+		{
+			if (ImGui::MenuItem("Rename"))
+			{
+				renaming_animation = popup_animation;
+			}
+
+			if (ImGui::MenuItem("Delete"))
+			{
+				RemoveAnimation(popup_animation);
+			}
+			ImGui::EndPopup();
 		}
 
 		if (ImGui::Button("Add Animation"))
@@ -207,6 +221,13 @@ void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, flo
 
 	if (index != -1)
 		current_animation = &animations[index];
+}
+
+void ComponentAnimation::RemoveAnimation(uint index)
+{
+	if (current_animation == (animations.begin() + index)._Ptr)
+		current_animation = nullptr;
+	animations.erase(animations.begin() + index);
 }
 
 void ComponentAnimation::PlayAnimation(uint index, float blend_time)

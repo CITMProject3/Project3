@@ -57,6 +57,7 @@ public:
 	//Single animation management----------------
 	void AddAnimation();
 	void AddAnimation(const char* name, uint init, uint end, float ticksPerSec);
+	void RemoveAnimation(uint index);
 
 	void PlayAnimation(uint index, float blendTime = 0.0f);
 	void PlayAnimation(const char* name, float blendTime = 0.0f);
@@ -100,5 +101,8 @@ private:
 
 	bool channelsLinked = false;
 	bool bonesLinked = false;
+
+	int renaming_animation = -1;
+	int popup_animation = -1;
 };
 #endif // !__COMPONENT_LIGHT_H__
