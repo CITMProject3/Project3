@@ -25,6 +25,7 @@ public:
 	void SetRotation(const math::float3 &rot_euler);
 	void SetRotation(const math::Quat& rot);
 	void SetScale(const math::float3& scale);
+	void Set(math::float4x4 matrix);
 	
 
 	math::float3 GetPosition()const;

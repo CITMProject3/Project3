@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="Sources">
@@ -70,8 +70,8 @@
     <Filter Include="Sources\Editor\Windows\Edit">
       <UniqueIdentifier>{e13ba9a3-3138-4541-a0a0-365cfbbed148}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd Party Tools\ImGuizmo">
-      <UniqueIdentifier>{8b055770-4e01-4aa1-b23a-5aeaa19ddfe7}</UniqueIdentifier>
+    <Filter Include="3rd Party Tools\Gizmo">
+      <UniqueIdentifier>{ad0c5c7e-2683-4664-ab1e-a8749f618363}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -510,15 +510,17 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
-
     <ClInclude Include="ModuleCar.h">
       <Filter>Sources\Modules</Filter>
-	</ClInclude>
-    <ClInclude Include="ResourceFilePrefab.h">
-      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="glmath.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
-      <Filter>3rd Party Tools\ImGuizmo</Filter>
+      <Filter>3rd Party Tools\Gizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCollider.h">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -858,12 +860,14 @@
     <ClCompile Include="ModuleCar.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
-
-    <ClCompile Include="ResourceFilePrefab.cpp">
-      <Filter>Sources\Resources</Filter>
-	</ClCompile>
+    <ClCompile Include="glmath.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
-      <Filter>3rd Party Tools\ImGuizmo</Filter>
+      <Filter>3rd Party Tools\Gizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCollider.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

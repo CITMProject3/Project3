@@ -6,6 +6,7 @@
 #include "RenderTexEditorWindow.h"
 
 #include <stack>
+#include <algorithm>
 
 Assets::Assets()
 {
@@ -696,6 +697,7 @@ void Assets::DeleteAssetFile(AssetFile * file)
 	App->file_system->Delete(library_folder.data());
 	App->file_system->Delete(file->file_path.data());
 	App->file_system->Delete(file->original_file.data());
+
 
 	Directory* dir = file->directory;
 	dir->files.erase(std::remove(dir->files.begin(), dir->files.end(), file), dir->files.end());

@@ -1,6 +1,8 @@
 #include "Application.h"
+#include "ShaderComplier.h"
 #include "ResourceFileMaterial.h"
 #include "ShaderComplier.h"
+#include "Material.h"
 
 ResourceFileMaterial::ResourceFileMaterial(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {}

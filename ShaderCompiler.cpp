@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ShaderComplier.h"
+#include "ModuleFileSystem.h"
 #include "Glew\include\glew.h"
 #include "SDL\include\SDL_opengl.h"
 #include <gl/GL.h>
