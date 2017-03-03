@@ -124,7 +124,16 @@ void ComponentCar::HandlePlayerInput()
 		{
 			turn = dturn * X_joy_input;
 		}
-
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
+		{
+			if (turn < dturn)
+				turn -= dturn;
+		}
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_LEFT))
+		{
+			if (turn < dturn)
+				turn += dturn;
+		}
 	}
 
 
