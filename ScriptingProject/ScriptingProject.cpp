@@ -4,15 +4,29 @@
 #include "stdafx.h"
 
 #include "../Application.h"
-
-//namespace Test
-//{
-	extern "C" void Start(Application* engine_app, GameObject* game_object)
+extern "C"
+{
+	namespace Test
 	{
+		void Test_Start(Application* engine_app, GameObject* game_object)
+		{
+		}
+
+		void Test_Update(Application* engine_app, GameObject* game_object)
+		{
+			engine_app->window->SetTitle("Hello World from Script");
+		}
 	}
 
-	extern "C" void Update(Application* engine_app, GameObject* game_object)
+	namespace Test2
 	{
-		engine_app->window->SetTitle("Hello World from Script");
+		void Test2_Start(Application* engine_app, GameObject* game_object)
+		{
+		}
+
+		void Test2_Update(Application* engine_app, GameObject* game_object)
+		{
+			engine_app->window->SetTitle("Hello World from Script2");
+		}
 	}
-//}
+}

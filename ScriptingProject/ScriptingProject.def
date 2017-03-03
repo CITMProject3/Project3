@@ -1,5 +1,8 @@
 LIBRARY SCRIPTINGPROJECT
 
 EXPORTS
-	Start		@1
-	Update		@2
+	Test::Start = Test_Start		@1
+	Test::Update = Test_Update		@2
+
+	Test2::Start = Test2_Start			@3
+	Test2::Update = Test2_Update		@4

@@ -31,7 +31,7 @@ void ComponentScript::Update()
 		{
 			string start_path = path.c_str();
 			start_path.append("::Start");
-			if (f_start start = (f_start)GetProcAddress(App->scripting->script, "Start"))
+			if (f_start start = (f_start)GetProcAddress(App->scripting->script, start_path.c_str()))
 			{
 				start(App, GetGameObject());
 				started = true;
@@ -45,7 +45,7 @@ void ComponentScript::Update()
 		{
 			string update_path = path.c_str();
 			update_path.append("::Update");
-			if (f_update update = (f_update)GetProcAddress(App->scripting->script, "Update"))
+			if (f_update update = (f_update)GetProcAddress(App->scripting->script, update_path.c_str()))
 			{
 				update(App, GetGameObject());
 			}
