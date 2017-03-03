@@ -5,9 +5,11 @@
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentCollider.h"
 #include "MeshImporter.h"
 #include "RaycastHit.h"
 #include "ComponentLight.h"
+#include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
 
 GameObject::GameObject()
@@ -312,6 +314,10 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentCamera(type, this);
 		break;
+	case C_COLLIDER:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentCollider(this);
+		break;
 	case C_LIGHT:	
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
@@ -340,17 +346,18 @@ const std::vector<Component*>* GameObject::GetComponents()
 
 void* GameObject::GetComponent(ComponentType type)const
 {
-	std::vector<Component*>::const_iterator comp = components.begin();
-
-	while (comp != components.end())
+	if (components.empty() == false)
 	{
-		if ((*comp)->GetType() == type)
+		std::vector<Component*>::const_iterator comp = components.begin();
+		while (comp != components.end())
 		{
-			return (*comp);
+			if ((*comp)->GetType() == type)
+			{
+				return (*comp);
+			}
+			++comp;
 		}
-		++comp;
 	}
-
 	return NULL;
 }
 

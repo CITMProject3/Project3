@@ -127,6 +127,11 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_CAMERA);
 			}
 
+			if (ImGui::Selectable("Add Collider"))
+			{
+				selected_GO->AddComponent(C_COLLIDER);
+			}
+
 			if (ImGui::Selectable("Add Light"))
 			{
 				selected_GO->AddComponent(C_LIGHT);

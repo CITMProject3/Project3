@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "RenderTexEditorWindow.h"
 #include "Globals.h"
+#include "ModuleResourceManager.h"
+#include "ModuleFileSystem.h"
 
 RenderTexEditorWindow::RenderTexEditorWindow()
 {}

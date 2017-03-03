@@ -4,6 +4,20 @@
 #include "Profiler.h"
 #include "Data.h"
 
+#include "Module.h"
+#include "ModuleAudio.h"
+#include "ModuleCamera3D.h"
+#include "ModuleCar.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
+#include "ModuleInput.h"
+#include "ModuleLighting.h"
+#include "ModulePhysics3D.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
+#include "ModuleWindow.h"
+
+
 using namespace std;
 
 Application::Application()

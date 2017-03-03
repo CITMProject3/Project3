@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include "Octree.h"
+#include "Primitive.h"
 
 class GameObject;
 class ComponentCamera;
@@ -40,7 +41,7 @@ public:
 	// Factory methods
 	GameObject* CreateGameObject(GameObject* parent);
 	GameObject* CreateLight(GameObject* parent, LightType type);
-	void CreatePrimitive(PrimitiveType type);
+	GameObject* CreatePrimitive(PrimitiveType type);
 
 	PrimitiveTypes d;
 
