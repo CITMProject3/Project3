@@ -6,7 +6,7 @@
 #include "PhysVehicle3D.h"
 #include "ModulePhysics3D.h"
 #include "ModuleInput.h"
-
+#include "ComponentTransform.h"
 #include <string>
 
 using namespace std;
@@ -29,6 +29,7 @@ void ComponentCar::Update()
 		{
 			HandlePlayerInput();
 			vehicle->Render();
+			UpdateGO();
 		}
 		else
 			CreateCar();
@@ -65,30 +66,76 @@ void ComponentCar::OnInspector(bool debug)
 
 void ComponentCar::HandlePlayerInput()
 {
-	float dturn = 0.25f;
-	float force = 200.0f;
+	float dturn = 0.7f;
+	float force = 100000.0f;
+	float brakeForce = 20.0f;
 
 	float accel,turn,brake;
 
 	accel = turn = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
+	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
+	if (kickTimer >= kickCooldown)
 	{
-		if (accel < force)
-			accel += force;
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+		{
+			accel = force;
+			kickTimer = 0.0f;
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		if (turn < dturn)
-			turn += dturn;
+			turn -= dturn;
 	}
-
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		if(turn > -dturn)
-			turn -= dturn;
+			turn += dturn;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	{
+		brake = brakeForce;
+	}
+
+
+	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
+	if (App->input->GetNumberJoysticks() > 0)
+	{
+		//Kick to accelerate
+		if (kickTimer >= kickCooldown)
+		{
+			if (App->input->GetJoystickButton(0, JOY_BUTTON::A))
+			{
+				accel = force;
+				kickTimer = 0.0f;
+			}
+		}
+		//Brake
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::B))
+		{
+			brake = brakeForce;
+		}
+		//Turn
+		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
+		if (math::Abs(X_joy_input) > 0.1f)
+		{
+			turn = dturn * X_joy_input;
+		}
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
+		{
+			if (turn < dturn)
+				turn -= dturn;
+		}
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_LEFT))
+		{
+			if (turn < dturn)
+				turn += dturn;
+		}
+	}
+
 
 	if (vehicle)
 	{
@@ -200,6 +247,12 @@ bool ComponentCar::CleanUp()
 	}
 
 	return ret;
+}
+
+void ComponentCar::UpdateGO()
+{
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	trs->Set(vehicle->GetTransform().Transposed());
 }
 
 void ComponentCar::Save(Data& file) const

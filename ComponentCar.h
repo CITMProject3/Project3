@@ -31,10 +31,16 @@ private:
 	void CreateCar();
 	bool CleanUp();
 
+	void UpdateGO();
+
 public:
 
 	VehicleInfo* car;
 	PhysVehicle3D* vehicle = nullptr;
+
+	float kickCooldown = 3.0f;
+	float kickTimer = 0.0f;
+
 };
 
 
