@@ -4,6 +4,7 @@
 #include "Component.h"
 
 class ResourceFileMesh;
+struct AudioEvent;
 
 class ComponentAudio : public Component
 {
@@ -22,6 +23,8 @@ public:
 	void Remove();
 
 private:
+
+	AudioEvent *current_event = nullptr;
 	
 	//ResourceFileMesh* rc_mesh = nullptr;
 	//Mesh* mesh = nullptr;

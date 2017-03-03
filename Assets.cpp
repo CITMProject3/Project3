@@ -37,8 +37,6 @@ void Assets::Draw()
 
 	ImGui::Text(current_dir->path.data());
 
-//	ImGui::BeginChild(1);
-
 	bool refresh_needed = false;
 
 	//Back folder
@@ -169,8 +167,7 @@ void Assets::Draw()
 					ImGui::OpenPopup("SoundbankOptions");
 				}
 				break;
-			}
-			
+			}			
 		}
 	}
 
@@ -189,7 +186,6 @@ void Assets::Draw()
 	VertexFragmentOptions();
 	SoundbankOptions();
 
-//	ImGui::EndChild();
 	ImGui::End();
 }
 

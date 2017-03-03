@@ -1,5 +1,8 @@
 #include "ComponentAudio.h"
 
+#include "ModuleAudio.h"
+#include "Application.h"
+
 #include "GameObject.h"
 
 #include "imgui\imgui.h"
@@ -7,10 +10,15 @@
 #include <string>
 
 ComponentAudio::ComponentAudio(ComponentType type, GameObject* game_object) : Component(type, game_object)
-{ }
+{
+	App->audio->RegisterGameObject(game_object->GetUUID());
+}
 
 ComponentAudio::~ComponentAudio()
-{ }
+{ 
+	App->audio->UnregisterGameObject(game_object->GetUUID());
+	if(current_event != nullptr) App->audio->UnloadSoundBank(current_event->parent_soundbank->path.c_str());
+}
 
 void ComponentAudio::Update()
 {
@@ -46,55 +54,28 @@ void ComponentAudio::OnInspector(bool debug)
 		ImGui::Text("Event: ");
 		ImGui::SameLine();
 
-		/*string light_type_name = "";
-		switch (light_type)
-		{
-		case DIRECTIONAL_LIGHT:
-			light_type_name = "DirectionalLight";
-			break;
-		}
-
-		if (ImGui::BeginMenu(light_type_name.data()))
-		{
-			if (ImGui::MenuItem("Directional light"))
-			{
-				light_type = DIRECTIONAL_LIGHT;
-			}
-			ImGui::EndMenu();
-		}*/
-		ImGui::Button("PLAY");
-
+		std::vector<AudioEvent*> events;
+		App->audio->ObtainEvents(events);
+		static std::string event_selected = current_event != nullptr ? current_event->name : "";
 		
-
-		/*if (mesh)
+		if (ImGui::BeginMenu(event_selected.c_str()))
 		{
-			ImGui::Text("Number of vertices %d", mesh->num_vertices);
-			ImGui::Text("Number of indices %d", mesh->num_indices);
+			for (std::vector<AudioEvent*>::iterator it = events.begin(); it != events.end(); ++it)
+			{
+				if (ImGui::MenuItem((*it)->name.c_str()))
+				{
+					if (current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
+					App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);
 
-			if (mesh->uvs != nullptr)
-				ImGui::Text("Has UVs: yes");
-			else
-				ImGui::Text("Has UVs: no");
-
-			if (mesh->normals != nullptr)
-				ImGui::Text("Has Normals: yes");
-			else
-				ImGui::Text("Has Normals: no");
-
-			if (mesh->colors != nullptr)
-				ImGui::Text("Has Colors: yes");
-			else
-				ImGui::Text("Has Colors: no");
-
-			ImGui::Text("Vertices id: %i", mesh->id_vertices);
-			ImGui::Text("Indices id: %i", mesh->id_indices);
-			ImGui::Text("UVs id: %i", mesh->id_uvs);
+					event_selected = (*it)->name; // Name to show on Inspector
+					current_event = *it;		  // Variable that handles the new event
+				}				
+			}
+			ImGui::EndMenu();			
 		}
-		else
-		{
-			ImGui::TextColored(ImVec4(1, 0, 0, 1), "WARNING");
-			ImGui::SameLine(); ImGui::Text("No mesh was loaded.");
-		}*/
+		
+		if (ImGui::Button("PLAY") && current_event != nullptr)
+			App->audio->PostEvent(current_event, game_object->GetUUID());
 	}
 }
 

@@ -4,6 +4,25 @@
 #include "Module.h"
 #include "AK/include/Win32/AkFilePackageLowLevelIOBlocking.h" // Sample low-level I/O implementation
 
+#include <string>
+
+class SoundBank;
+
+struct AudioEvent
+{
+	std::string name;
+	long unsigned int id = 0;
+	SoundBank *parent_soundbank = nullptr;
+};
+
+struct SoundBank
+{
+	std::string name;
+	std::string path;
+	long unsigned int id = 0;
+	std::vector<AudioEvent*> events;
+};
+
 class ComponentCamera;
 
 // Wwise docuemntation:
@@ -24,15 +43,32 @@ public:
 	bool CleanUp();
 
 	void SetListener(const ComponentCamera *listener);
+	long unsigned int ExtractSoundBankInfo(std::string soundbank_path);
+	void ObtainEvents(std::vector<AudioEvent*> &events);
+
+	void LoadSoundBank(const char *soundbank_path);
+	void UnloadSoundBank(const char *soundbank_path);
+	void PostEvent(const AudioEvent *ev, long unsigned int id);
+
+	void RegisterGameObject(long unsigned int id);
+	void UnregisterGameObject(long unsigned int id);
+
+	void SetLibrarySoundbankPath(const char *lib_path);
+
 
 private:
 
 	// We're using the default Low-Level I/O implementation that's part
 	// of the SDK's sample code, with the file package extension
-	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;
+	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;	
+	
+	const ComponentCamera *listener = nullptr;	// Component camera that incorporates the audio listener
 
-	// Component camera that incorporates the audio listener
-	const ComponentCamera *listener = nullptr;
+	// Soundbank related variables
+	std::string lib_base_path;
+	SoundBank *init_sb = nullptr;
+	bool init_sb_loaded = false;
+	std::vector<SoundBank*> soundbank_list; // List of soundbanks
 
 	// Init methods
 	bool InitMemoryManager();
@@ -50,6 +86,8 @@ private:
 
 	// Update position and orientation of listener
 	void UpdateListenerPos();
+
+	bool IsSoundBank(const std::string &file_to_check) const;
 
 };
 
