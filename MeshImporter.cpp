@@ -156,6 +156,11 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 			data.AppendUInt("parent", game_object->GetParent()->GetUUID());
 		data.AppendBool("active", true);
 		data.AppendBool("static", false);
+		data.AppendUInt("local_UUID", 0);
+		data.AppendBool("is_prefab", false);
+		data.AppendUInt("prefab_root_uuid", 0);
+		data.AppendString("prefab_path", "");
+		data.AppendInt("layer", 0);
 		data.AppendArray("components");
 
 		go_transform->Save(data);
