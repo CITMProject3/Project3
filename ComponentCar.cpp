@@ -74,6 +74,12 @@ void ComponentCar::HandlePlayerInput()
 
 	accel = turn = brake = 0.0f;
 
+	// DEBUG CONTROLS  ///////////////////////////////////////////////////////////////////////////////
+	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (App->input->GetNumberJoysticks() > 0 && App->input->GetJoystickButton(0, JOY_BUTTON::START) == KEY_DOWN))
+	{
+		vehicle->SetRotation(0, 0, 0);
+	}
+
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
 	if (kickTimer >= kickCooldown)
@@ -107,7 +113,7 @@ void ComponentCar::HandlePlayerInput()
 		//Kick to accelerate
 		if (kickTimer >= kickCooldown)
 		{
-			if (App->input->GetJoystickButton(0, JOY_BUTTON::A))
+			if (App->input->GetJoystickButton(0, JOY_BUTTON::A) == KEY_DOWN)
 			{
 				accel = force;
 				kickTimer = 0.0f;
@@ -149,7 +155,8 @@ void ComponentCar::CreateCar()
 {
 	car = new VehicleInfo();
 
-
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	car->transform.Set(trs->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
 	car->chassis_size.Set(2, 2, 4);
@@ -256,9 +263,18 @@ void ComponentCar::UpdateGO()
 }
 
 void ComponentCar::Save(Data& file) const
-{}
+{
+	Data data;
+	data.AppendInt("type", type);
+	data.AppendUInt("UUID", uuid);
+	data.AppendBool("active", active);
 
-void ComponentCar::Load(Data& config)
-{}
+}
+
+void ComponentCar::Load(Data& conf)
+{
+	uuid = conf.GetUInt("UUID");
+	active = conf.GetBool("active");
+}
 
 

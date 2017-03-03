@@ -423,6 +423,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	world->addVehicle(vehicle);
 	vehicles.push_back(pvehicle);
 
+	pvehicle->SetTransform(info.transform.Transposed().ptr());
+
 	return pvehicle;
 }
 

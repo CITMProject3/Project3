@@ -27,6 +27,7 @@ struct VehicleInfo
 {
 	~VehicleInfo();
 	
+	float4x4 transform = float4x4::identity;
 	vec chassis_size;
 	vec chassis_offset;
 	vec nose_size;
