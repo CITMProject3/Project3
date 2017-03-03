@@ -14,6 +14,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+#include "ResourceFilePrefab.h"
 
 #include "MeshImporter.h"
 
@@ -141,6 +142,15 @@ GameObject* ModuleGOManager::CreateGameObject(GameObject* parent)
 
 	if (obj_parent->AddChild(object) == false)
 		LOG("A child insertion to GameObject %s could not be done", obj_parent->name.data());
+
+	if (parent)
+	{
+		if (parent->IsPrefab())
+		{
+			object->SetAsPrefab(parent->prefab_root_uuid);
+			object->prefab_path = parent->prefab_path;
+		}
+	}
 
 	dynamic_gameobjects.push_back(object);
 
@@ -359,11 +369,8 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 {
 	const char* name = go_data.GetString("name");
 	unsigned int uuid = go_data.GetUInt("UUID");
+
 	unsigned int uuid_parent = go_data.GetUInt("parent");
-	bool active = go_data.GetBool("active");
-	bool is_static = go_data.GetBool("static");
-	bool is_prefab = go_data.GetBool("is_prefab");
-	int layer = go_data.GetInt("layer");
 	//Find parent GameObject reference
 	GameObject* parent = nullptr;
 	if (uuid_parent != 0 && root)
@@ -371,29 +378,52 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		parent = FindGameObjectByUUID(root, uuid_parent);
 	}
 
-	//Basic GameObject properties
-	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer);
-	go->local_uuid = go_data.GetUInt("local_UUID");
-	if(parent)
-		parent->AddChild(go);
-	
-	//Components
-	Data component;
-	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
-	{
-		component = go_data.GetArray("components", i);
+	bool active = go_data.GetBool("active");	
+	bool is_prefab = go_data.GetBool("is_prefab");
+	unsigned int prefab_root_uuid = go_data.GetUInt("prefab_root_uuid");
+	string prefab_path = go_data.GetString("prefab_path");
 
-		int type = component.GetInt("type");
-		Component* go_component;
-		if(type != (int)ComponentType::C_TRANSFORM)
-			go_component = go->AddComponent(static_cast<ComponentType>(type));
-		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
-		go_component->Load(component);
+	GameObject* go = nullptr;
+
+	if (is_prefab == false)
+	{	//Normal GameObject
+		bool is_static = go_data.GetBool("static");
+		int layer = go_data.GetInt("layer");
+
+		//Basic GameObject properties
+		go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid, prefab_path);
+		go->local_uuid = go_data.GetUInt("local_UUID");
+		if (parent)
+			parent->AddChild(go);
+
+		//Components
+		Data component;
+		unsigned int comp_size = go_data.GetArraySize("components");
+		for (int i = 0; i < comp_size; i++)
+		{
+			component = go_data.GetArray("components", i);
+
+			int type = component.GetInt("type");
+			Component* go_component;
+			if (type != (int)ComponentType::C_TRANSFORM)
+				go_component = go->AddComponent(static_cast<ComponentType>(type));
+			else
+				go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component->Load(component);
+		}
+	}
+	else
+	{	//Prefab
+		ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)App->resource_manager->LoadResource(prefab_path, ResourceFileType::RES_PREFAB);
+		if (rc_prefab)
+		{
+			go = rc_prefab->LoadPrefabFromScene(go_data, parent);
+			go->rc_prefab = rc_prefab;
+		}
 	}
 
-	if (is_static)
+	//Space partioning
+	if (go->IsStatic())
 		octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
 	else
 		dynamic_gameobjects.push_back(go);
@@ -406,12 +436,13 @@ void ModuleGOManager::SetCurrentScenePath(const char * scene_path)
 	current_scene_path = scene_path;
 }
 
+
 const char* ModuleGOManager::GetCurrentScenePath()
 {
 	return current_scene_path.c_str();
 }
 
-void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
+GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
 {
 	const char* name = go_data.GetString("name");
 	unsigned int uuid = App->rnd->RandomInt();
@@ -426,6 +457,10 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
+	string prefab_path = go_data.GetString("prefab_path");
+	unsigned int prefab_root_uuid = 0;
+	if (is_prefab)
+		prefab_root_uuid = uuids.find(go_data.GetUInt("prefab_root_uuid"))->second;
 	int layer = go_data.GetInt("layer");
 
 	//Find parent GameObject reference
@@ -436,7 +471,7 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 		parent = root;
 
 	//Basic GameObject properties
-	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer);
+	GameObject* go = new GameObject(name, uuid, parent, active, is_static, is_prefab, layer, prefab_root_uuid, prefab_path);
 
 	if(is_prefab)
 		go->local_uuid = go_data.GetUInt("UUID");
@@ -464,6 +499,8 @@ void ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned in
 		octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
 	else
 		dynamic_gameobjects.push_back(go);
+
+	return go;
 }
 
 GameObject * ModuleGOManager::FindGameObjectByUUID(GameObject* start, unsigned int uuid) const

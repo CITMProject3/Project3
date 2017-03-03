@@ -52,7 +52,7 @@ public:
 	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;
 
 	void LoadEmptyScene();
-	void LoadPrefabGameObject(const Data& go_data, map<unsigned int, unsigned int>& uuids);
+	GameObject* LoadPrefabGameObject(const Data& go_data, map<unsigned int, unsigned int>& uuids); //Used to load prefabs and mesh files
 
 	bool IsRoot(const GameObject* go)const;
 
@@ -68,7 +68,10 @@ public:
 	bool InsertGameObjectInOctree(GameObject* go);
 	bool RemoveGameObjectOfOctree(GameObject* go);
 
+	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const;
+
 	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
+
 private:
 
 	void HierarchyWindow();
@@ -79,7 +82,7 @@ private:
 	void UpdateGameObjects(float dt, GameObject* obj);
 	void PreUpdateGameObjects(GameObject* obj);
 
-	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const; //Should be a public method?
+	
 
 private:
 	GameObject* selected_GO = nullptr;
