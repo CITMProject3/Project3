@@ -430,53 +430,55 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 {
 	PhysBody3D* pbody = nullptr;
 	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
-
-	int GL_buffer_id = -1;
-	char* buffer = nullptr;
-	unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
-
-	if (size > 0)
+	if (Asset_file)
 	{
-		ILuint id;
-		ilGenImages(1, &id);
-		ilBindImage(id);
-		if (ilLoadL(IL_DDS, (const void*)buffer, size))
+		int GL_buffer_id = -1;
+		char* buffer = nullptr;
+		unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
+
+		if (size > 0)
 		{
-			GL_buffer_id = ilutGLBindTexImage();
-			ilDeleteImages(1, &id);
+			ILuint id;
+			ilGenImages(1, &id);
+			ilBindImage(id);
+			if (ilLoadL(IL_DDS, (const void*)buffer, size))
+			{
+				GL_buffer_id = ilutGLBindTexImage();
+				ilDeleteImages(1, &id);
+			}
+
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(510, 510, buffer, 2.0f, -50, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
+			shapes.push_back(terrain);
+
+			btDefaultMotionState* myMotionState = new btDefaultMotionState();
+			motions.push_back(myMotionState);
+			btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
+
+			btRigidBody* body = new btRigidBody(rbInfo);
+			pbody = new PhysBody3D(body);
+
+			body->setUserPointer(pbody);
+			world->addRigidBody(body);
+			bodies.push_back(pbody);
+
+			if (image_buffer_id != nullptr)
+			{
+				*image_buffer_id = GL_buffer_id;
+			}
+			if (OUT_shape != nullptr)
+			{
+				*OUT_shape = terrain;
+			}
+		}
+		else
+		{
+			LOG("Could not load texture: %s", Asset_file->name.data());
 		}
 
-		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(510, 510, buffer, 2.0f, -50, 50, 1, PHY_ScalarType::PHY_FLOAT, false);
-		shapes.push_back(terrain);
-
-		btDefaultMotionState* myMotionState = new btDefaultMotionState();
-		motions.push_back(myMotionState);
-		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
-
-		btRigidBody* body = new btRigidBody(rbInfo);
-		pbody = new PhysBody3D(body);
-
-		body->setUserPointer(pbody);
-		world->addRigidBody(body);
-		bodies.push_back(pbody);
-
-		if (image_buffer_id != nullptr)
+		if (buffer != nullptr)
 		{
-			*image_buffer_id = GL_buffer_id;
+			delete[] buffer;
 		}
-		if (OUT_shape != nullptr)
-		{
-			*OUT_shape = terrain;
-		}
-	}
-	else
-	{
-		LOG("Could not load texture: %s", Asset_file->name.data());
-	}
-
-	if (buffer != nullptr)
-	{
-		delete[] buffer;
 	}
 	return pbody;
 }

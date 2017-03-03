@@ -4,7 +4,6 @@
 #include <list>
 #include "Globals.h"
 #include "Timer.h"
-#include "Module.h"
 #include "ModuleSceneIntro.h"
 #include "Editor.h"
 #include "DebugDraw.h"
@@ -14,7 +13,7 @@
 #include <string>
 #include <stdlib.h>
 
-
+class Module;
 class ModuleCamera3D;
 class ModuleCar;
 class ModuleFileSystem;
