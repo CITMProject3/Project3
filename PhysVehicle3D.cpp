@@ -37,7 +37,7 @@ void PhysVehicle3D::Render()
 
 		wheel.Render();
 	}
-/*
+
 	Cube_P chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(*chassis.transform.v);
 	chassis.color = color;
@@ -45,11 +45,12 @@ void PhysVehicle3D::Render()
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
 	offset = offset.rotate(q.getAxis(), q.getAngle());
 
-	chassis.transform.SetTranslatePart(offset.getX(), offset.getY(), offset.getZ());
+	chassis.transform = chassis.transform.Transposed() * chassis.transform.Translate(offset.getX(), offset.getY(), offset.getZ());
+	chassis.transform.Transpose();
 
 	//Chassis render doesn't work well
 	chassis.Render();
-	
+/*
 	Cube_P nose(info.nose_size.x, info.nose_size.y, info.nose_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(*nose.transform.v);
 	nose.color = color;
