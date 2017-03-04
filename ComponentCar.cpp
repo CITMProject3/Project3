@@ -331,7 +331,23 @@ void ComponentCar::Save(Data& file) const
 
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
+
 	data.AppendFloat("kick_cooldown", kickCooldown);
+	data.AppendFloat("connection_height", connection_height);
+	data.AppendFloat("wheel_radius", wheel_radius);
+	data.AppendFloat("wheel_width", wheel_width);
+	data.AppendFloat("suspensionRestLength", suspensionRestLength);
+	data.AppendFloat("dturn", dturn);
+	data.AppendFloat("force", force);
+	data.AppendFloat("brakeForce", brakeForce);
+
+	data.AppendFloat("mass", car->mass);
+	data.AppendFloat("suspensionStiffness", car->suspensionStiffness);
+	data.AppendFloat("suspensionCompression", car->suspensionCompression);
+	data.AppendFloat("suspensionDamping", car->suspensionDamping);
+	data.AppendFloat("maxSuspensionTravelCm", car->maxSuspensionTravelCm);
+	data.AppendFloat("frictionSlip", car->frictionSlip);
+	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
 
 	file.AppendArrayValue(data);
 }
@@ -340,6 +356,26 @@ void ComponentCar::Load(Data& conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+
+	chasis_size = conf.GetFloat3("chasis_size");
+	chasis_offset = conf.GetFloat3("chasis_offset");
+
+	kickCooldown = conf.GetFloat("kick_cooldown");
+	connection_height  = conf.GetFloat("connection_height");
+	wheel_radius = conf.GetFloat("wheel_radius");
+	wheel_width = conf.GetFloat("wheel_width");
+	suspensionRestLength = conf.GetFloat("suspensionRestLength");
+	dturn = conf.GetFloat("dturn");
+	force = conf.GetFloat("force");
+	brakeForce = conf.GetFloat("brakeForce");
+
+	car->mass = conf.GetFloat("mass");
+	car->suspensionStiffness = conf.GetFloat("suspensionStiffness");
+	car->suspensionCompression = conf.GetFloat("suspensionCompression");
+	car->suspensionDamping = conf.GetFloat("suspensionDamping");
+	car->maxSuspensionTravelCm = conf.GetFloat("maxSuspensionTravelCm");
+	car->frictionSlip = conf.GetFloat("frictionSlip");
+	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
 }
 
 
