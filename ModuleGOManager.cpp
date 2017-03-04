@@ -794,3 +794,60 @@ void ModuleGOManager::PreUpdateGameObjects(GameObject * obj)
 		PreUpdateGameObjects((*child));
 	}
 }
+
+void ModuleGOManager::OnPlay()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnPlayGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPlayGameObjects(GameObject * obj)
+{
+	obj->OnPlay();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnPlayGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPause()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnPauseGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPauseGameObjects(GameObject * obj)
+{
+	obj->OnPause();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnPauseGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnStop()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnStopGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnStopGameObjects(GameObject * obj)
+{
+	obj->OnStop();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnStopGameObjects((*child));
+	}
+}

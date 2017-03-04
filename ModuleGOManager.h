@@ -82,7 +82,16 @@ private:
 	void UpdateGameObjects(float dt, GameObject* obj);
 	void PreUpdateGameObjects(GameObject* obj);
 
-	
+	void OnPlay();
+	void OnPlayGameObjects(GameObject* obj);
+
+	void OnPause();
+	void OnPauseGameObjects(GameObject* obj);
+
+	void OnStop();
+	void OnStopGameObjects(GameObject* obj);
+
+
 
 private:
 	GameObject* selected_GO = nullptr;

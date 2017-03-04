@@ -11,6 +11,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleGOManager.h"
+#include "ModuleCamera3D.h"
 
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -50,6 +51,11 @@ ComponentCamera::~ComponentCamera()
 	App->renderer3D->RemoveObserver(this);
 	if(render_texture)
 		render_texture->Unload();
+
+	if (App->camera->playCamera == this)
+	{
+		App->camera->playCamera = nullptr;
+	}
 }
 
 void ComponentCamera::Update()
@@ -74,6 +80,19 @@ void ComponentCamera::OnInspector(bool debug)
 				Remove();
 			}
 			ImGui::EndPopup();
+		}
+
+		bool isPlayCam = (App->camera->playCamera == this);
+		if (ImGui::Checkbox("Set as Game camera", &isPlayCam))
+		{
+			if (isPlayCam == false)
+			{
+				App->camera->playCamera = nullptr;
+			}
+			else
+			{
+				App->camera->playCamera = this;
+			}
 		}
 
 		//Near plane
@@ -329,6 +348,8 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendString("render_texture_path", render_texture_path.data());
 	data.AppendString("render_texture_path_lib", render_texture_path_lib.data());
 
+	data.AppendBool("is_game_camera", (App->camera->playCamera == this));
+
 	file.AppendArrayValue(data);
 }
 
@@ -345,6 +366,11 @@ void ComponentCamera::Load(Data & conf)
 	layer_mask = conf.GetInt("layer_mask");
 	render_texture_path = conf.GetString("render_texture_path");
 	render_texture_path_lib = conf.GetString("render_texture_path_lib");
+
+	if (conf.GetBool("is_game_camera"))
+	{
+		App->camera->playCamera = this;
+	}
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);

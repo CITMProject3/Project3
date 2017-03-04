@@ -48,6 +48,19 @@ bool ModuleCamera3D::CleanUp()
 	return true;
 }
 
+void ModuleCamera3D::OnPlay()
+{
+	if (playCamera != nullptr)
+	{
+		App->renderer3D->SetCamera(playCamera);
+	}
+}
+
+void ModuleCamera3D::OnStop()
+{
+	App->renderer3D->SetCamera(GetEditorCamera());
+}
+
 update_status ModuleCamera3D::Update()
 {
 	EditorCameraMovement(time->RealDeltaTime());

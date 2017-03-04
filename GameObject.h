@@ -31,6 +31,10 @@ public:
 	const std::vector<GameObject*>* GetChilds();
 	size_t ChildCount();
 
+	void OnPlay();
+	void OnStop();
+	void OnPause();
+
 	bool IsActive()const;
 	void SetActive(bool value);
 	bool IsStatic()const;

@@ -39,6 +39,9 @@ public:
 	float3 chasis_size;
 	float3 chasis_offset;
 	float kickCooldown = 3.0f;
+	float kick_force_time = 2.0f;
+	bool  on_kick = false;
+
 private:
 	float kickTimer = 0.0f;
 public:
@@ -48,9 +51,15 @@ public:
 	float wheel_width = 0.2f;
 	float suspensionRestLength = 0.6f;
 
-	float dturn = 0.7f;
-	float force = 10000.0f;
+	float turn_max = 0.7f;
+	float turn_speed = 0.1f;
+
+
+	float force = 1000.0f;
 	float brakeForce = 20.0f;
+
+	//update variables
+	float turn_current = 0.0f;
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
