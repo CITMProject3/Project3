@@ -76,7 +76,8 @@ void ComponentCar::OnInspector(bool debug)
 
 			if (ImGui::TreeNode("Control settings"))
 			{
-				ImGui::DragFloat("Wheel turn", &dturn, 0.1f, 0.0f, 2.0f);
+				ImGui::DragFloat("Wheel  max turn", &turn_max, 0.1f, 0.0f, 2.0f);
+				ImGui::DragFloat("Wheel turn speed", &turn_speed, 0.01f, 0.0f, 2.0f);
 				ImGui::DragFloat("Brake force", &brakeForce, 1.0f, 0.0f, 1000.0f);
 				ImGui::DragFloat("Kick force", &force, 1.0f, 0.0f, floatMax);
 				ImGui::DragFloat("Kick cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f);
@@ -118,9 +119,10 @@ void ComponentCar::OnInspector(bool debug)
 void ComponentCar::HandlePlayerInput()
 {
 
-	float accel,turn,brake;
+	float accel,brake;
+	bool turning = false;
 
-	accel = turn = brake = 0.0f;
+	accel = brake = 0.0f;
 
 	// DEBUG CONTROLS  ///////////////////////////////////////////////////////////////////////////////
 	if (App->input->GetKey(SDL_SCANCODE_RETURN) == KEY_DOWN || (App->input->GetNumberJoysticks() > 0 && App->input->GetJoystickButton(0, JOY_BUTTON::START) == KEY_DOWN))
@@ -141,13 +143,20 @@ void ComponentCar::HandlePlayerInput()
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		if (turn < dturn)
-			turn -= dturn;
+		turning = true;
+
+			turn_current -= turn_speed;
+			if (turn_current < -turn_max)
+				turn_current = -turn_max;
+			
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		if(turn > -dturn)
-			turn += dturn;
+		turning = true;
+		
+		turn_current += turn_speed;
+		if (turn_current > turn_max)
+			turn_current = turn_max;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
@@ -176,25 +185,48 @@ void ComponentCar::HandlePlayerInput()
 		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
 		if (math::Abs(X_joy_input) > 0.1f)
 		{
-			turn = dturn * X_joy_input;
+			turn_current = turn_max * X_joy_input;
 		}
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
 		{
-			if (turn < dturn)
-				turn -= dturn;
+			turning = true;
+
+			turn_current -= turn_speed;
+			if (turn_current < -turn_max)
+				turn_current = -turn_max;
 		}
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_LEFT))
 		{
-			if (turn < dturn)
-				turn += dturn;
+			turning = true;
+
+			turn_current += turn_speed;
+			if (turn_current > turn_max)
+				turn_current = turn_max;
 		}
 	}
 
 
+	//---------------------
+	if (!turning)
+	{
+		if (turn_current > 0)
+		{
+			turn_current -= turn_speed;
+			if (turn_current < 0)
+				turn_current = 0;
+		}
+		else if (turn_current < 0)
+		{
+			turn_current += turn_speed;
+			if (turn_current > 0)
+				turn_current = 0;
+		}
+	}
+
 	if (vehicle)
 	{
 		vehicle->ApplyEngineForce(accel);
-		vehicle->Turn(turn);
+		vehicle->Turn(turn_current);
 		vehicle->Brake(brake);
 	}
 }
@@ -336,7 +368,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("wheel_radius", wheel_radius);
 	data.AppendFloat("wheel_width", wheel_width);
 	data.AppendFloat("suspensionRestLength", suspensionRestLength);
-	data.AppendFloat("dturn", dturn);
+	data.AppendFloat("turn_max", turn_max);
+	data.AppendFloat("turn_speed", turn_speed);
 	data.AppendFloat("force", force);
 	data.AppendFloat("brakeForce", brakeForce);
 
@@ -364,7 +397,8 @@ void ComponentCar::Load(Data& conf)
 	wheel_radius = conf.GetFloat("wheel_radius");
 	wheel_width = conf.GetFloat("wheel_width");
 	suspensionRestLength = conf.GetFloat("suspensionRestLength");
-	dturn = conf.GetFloat("dturn");
+	turn_max = conf.GetFloat("turn_max");
+	turn_speed = conf.GetFloat("turn_speed");
 	force = conf.GetFloat("force");
 	brakeForce = conf.GetFloat("brakeForce");
 

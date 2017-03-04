@@ -48,9 +48,15 @@ public:
 	float wheel_width = 0.2f;
 	float suspensionRestLength = 0.6f;
 
-	float dturn = 0.7f;
+	float turn_max = 0.7f;
+	float turn_speed = 0.1f;
+
+
 	float force = 10000.0f;
 	float brakeForce = 20.0f;
+
+	//update variables
+	float turn_current = 0.0f;
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
