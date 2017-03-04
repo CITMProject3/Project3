@@ -192,7 +192,7 @@ void ComponentCar::HandlePlayerInput()
 		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
 		if (math::Abs(X_joy_input) > 0.1f)
 		{
-			turn_current = turn_max * X_joy_input;
+			turn_current = turn_max * -X_joy_input;
 		}
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
 		{
