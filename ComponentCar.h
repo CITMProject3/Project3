@@ -38,10 +38,10 @@ public:
 	float kickCooldown = 3.0f;
 	float kickTimer = 0.0f;
 
-	float connection_height = 1.2f;
-	float wheel_radius = 0.6f;
-	float wheel_width = 0.5f;
-	float suspensionRestLength = 1.2f;
+	float connection_height = 0.2f;
+	float wheel_radius = 0.3f;
+	float wheel_width = 0.2f;
+	float suspensionRestLength = 0.6f;
 
 	float dturn = 0.7f;
 	float force = 100000.0f;

@@ -10,7 +10,7 @@
 #include "PhysVehicle3D.h"
 #include <string>
 
-ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)//, chasis_size(2.0f, 2.0f, 4.0f), chasis_offset(0.0f, 0.0f, 0.0f)
+ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 1.0f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
 	car = new VehicleInfo();
 
@@ -47,6 +47,14 @@ void ComponentCar::Update()
 		chasis.size = chasis_size;
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		chasis.transform = trs->GetGlobalMatrix().Transposed();
+		float3 pos, scal;
+		float3x3 rot;
+		chasis.transform.Decompose(pos, rot, scal);
+		float3 realOffset = rot * chasis_offset;
+		
+		chasis.transform = chasis.transform.Transposed() * chasis.transform.Translate(chasis_offset.x, chasis_offset.y, chasis_offset.z);
+		chasis.transform.Transpose();
+
 		chasis.Render();
 	}
 
@@ -206,10 +214,10 @@ void ComponentCar::CreateCar()
 	car->transform.Set(trs->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
-	//car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
-	//car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
-	car->chassis_size.Set(2, 2, 4);
-	car->chassis_offset.Set(0.0f,1.5f,0.0f);
+	car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
+	car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
+	//car->chassis_size.Set(2, 2, 4);
+	//car->chassis_offset.Set(0.0f,1.5f,0.0f);
 
 	// Don't change anything below this line ------------------
 
@@ -223,7 +231,7 @@ void ComponentCar::CreateCar()
 	car->wheels = new Wheel[4];
 
 	// FRONT-LEFT ------------------------
-	car->wheels[0].connection.Set(half_width - 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+	car->wheels[0].connection.Set(half_width - 0.1f * wheel_width, connection_height, half_length - wheel_radius);
 	car->wheels[0].direction = direction;
 	car->wheels[0].axis = axis;
 	car->wheels[0].suspensionRestLength = suspensionRestLength;
@@ -235,7 +243,7 @@ void ComponentCar::CreateCar()
 	car->wheels[0].steering = true;
 
 	// FRONT-RIGHT ------------------------
-	car->wheels[1].connection.Set(-half_width + 0.3f * wheel_width, connection_height, half_length - wheel_radius);
+	car->wheels[1].connection.Set(-half_width + 0.1 * wheel_width, connection_height, half_length - wheel_radius);
 	car->wheels[1].direction = direction;
 	car->wheels[1].axis = axis;
 	car->wheels[1].suspensionRestLength = suspensionRestLength;
@@ -247,7 +255,7 @@ void ComponentCar::CreateCar()
 	car->wheels[1].steering = true;
 
 	// REAR-LEFT ------------------------
-	car->wheels[2].connection.Set(half_width - 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+	car->wheels[2].connection.Set(half_width - 0.1f * wheel_width, connection_height, -half_length + wheel_radius);
 	car->wheels[2].direction = direction;
 	car->wheels[2].axis = axis;
 	car->wheels[2].suspensionRestLength = suspensionRestLength;
@@ -259,7 +267,7 @@ void ComponentCar::CreateCar()
 	car->wheels[2].steering = false;
 
 	// REAR-RIGHT ------------------------
-	car->wheels[3].connection.Set(-half_width + 0.3f * wheel_width, connection_height, -half_length + wheel_radius);
+	car->wheels[3].connection.Set(-half_width + 0.1f * wheel_width, connection_height, -half_length + wheel_radius);
 	car->wheels[3].direction = direction;
 	car->wheels[3].axis = axis;
 	car->wheels[3].suspensionRestLength = suspensionRestLength;
