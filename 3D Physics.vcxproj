@@ -107,6 +107,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentAudio.h" />
     <ClInclude Include="ComponentCamera.h" />
+    <ClInclude Include="ComponentCar.h" />
     <ClInclude Include="ComponentCollider.h" />
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
@@ -266,6 +267,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentAudio.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
+    <ClCompile Include="ComponentCar.cpp" />
     <ClCompile Include="ComponentCollider.cpp" />
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />

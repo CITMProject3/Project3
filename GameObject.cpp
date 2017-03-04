@@ -9,6 +9,7 @@
 #include "ComponentLight.h"
 #include "ComponentAudio.h"
 #include "ComponentCollider.h"
+#include "ComponentCar.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -324,6 +325,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_LIGHT:	
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
+		break;
+	case C_CAR:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentCar(this);
 		break;
 	case C_AUDIO:
 		if (GetComponent(C_TRANSFORM))

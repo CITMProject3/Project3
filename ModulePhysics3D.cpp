@@ -192,10 +192,14 @@ void ModulePhysics3D::CleanWorld()
 	bodies.clear();
 
 	for (list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
+	{
+		world->removeVehicle((*item)->vehicle);
 		delete *item;
+	}
 
 	vehicles.clear();
 
+	world->clearForces();
 
 	CreateGround();
 }
@@ -422,6 +426,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info);
 	world->addVehicle(vehicle);
 	vehicles.push_back(pvehicle);
+
+	pvehicle->SetTransform(info.transform.Transposed().ptr());
 
 	return pvehicle;
 }

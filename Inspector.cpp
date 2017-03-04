@@ -132,6 +132,11 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_COLLIDER);
 			}
 
+			if (ImGui::Selectable("Add Car"))
+			{
+				selected_GO->AddComponent(C_CAR);
+			}
+
 			if (ImGui::Selectable("Add Light"))
 			{
 				selected_GO->AddComponent(C_LIGHT);
