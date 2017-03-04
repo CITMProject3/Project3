@@ -7,7 +7,6 @@
 #include "Module.h"
 #include "ModuleAudio.h"
 #include "ModuleCamera3D.h"
-#include "ModuleCar.h"
 #include "ModuleFileSystem.h"
 #include "ModuleGOManager.h"
 #include "ModuleInput.h"
@@ -39,7 +38,6 @@ Application::Application()
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
-	car = new ModuleCar("car");
 
 	//Globals
 	g_Debug = new DebugDraw("debug_draw");
@@ -51,14 +49,13 @@ Application::Application()
 	AddModule(file_system);
 	AddModule(resource_manager);
 	AddModule(window);
-	AddModule(camera);
 	AddModule(input);
 	AddModule(g_Debug);
-	AddModule(car);
+	AddModule(go_manager);
+	AddModule(camera);
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(lighting);
-	AddModule(go_manager);
 	
 	// Scenes
 	AddModule(scene_intro);

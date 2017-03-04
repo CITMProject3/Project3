@@ -348,6 +348,8 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendString("render_texture_path", render_texture_path.data());
 	data.AppendString("render_texture_path_lib", render_texture_path_lib.data());
 
+	data.AppendBool("is_game_camera", (App->camera->playCamera == this));
+
 	file.AppendArrayValue(data);
 }
 
@@ -364,6 +366,11 @@ void ComponentCamera::Load(Data & conf)
 	layer_mask = conf.GetInt("layer_mask");
 	render_texture_path = conf.GetString("render_texture_path");
 	render_texture_path_lib = conf.GetString("render_texture_path_lib");
+
+	if (conf.GetBool("is_game_camera"))
+	{
+		App->camera->playCamera = this;
+	}
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);

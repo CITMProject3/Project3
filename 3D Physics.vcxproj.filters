@@ -510,9 +510,6 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCar.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="glmath.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
@@ -525,6 +522,18 @@
     <ClInclude Include="ComponentCar.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFileLocationBase.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackage.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h" />
+    <ClInclude Include="ComponentAudio.h" />
+    <ClInclude Include="ResourceFileAudio.h" />
+    <ClInclude Include="ResourceFilePrefab.h" />
+    <ClInclude Include="Wwise_Library.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -860,9 +869,6 @@
     <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCar.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
@@ -875,6 +881,14 @@
     <ClCompile Include="ComponentCar.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackage.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp" />
+    <ClCompile Include="ComponentAudio.cpp" />
+    <ClCompile Include="ResourceFileAudio.cpp" />
+    <ClCompile Include="ResourceFilePrefab.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ListIterator.snippet">
@@ -898,6 +912,8 @@
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>3rd Party Tools\MathGeoLib\Include</Filter>
     </None>
+    <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl" />
+    <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl" />
   </ItemGroup>
   <ItemGroup>
     <Xsd Include="Window.snippet">

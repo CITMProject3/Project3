@@ -15,7 +15,6 @@
 
 class Module;
 class ModuleCamera3D;
-class ModuleCar;
 class ModuleFileSystem;
 class ModuleGOManager;
 class ModuleInput;
@@ -80,7 +79,6 @@ public:
 	ModuleLighting* lighting;
 	Editor* editor;
 	Random* rnd = nullptr;
-	ModuleCar* car = nullptr;
 private:
 
 
