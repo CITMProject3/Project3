@@ -3,6 +3,8 @@
 #include "ResourceFileMesh.h"
 #include "ComponentMesh.h"
 #include "MeshImporter.h"
+#include "ModuleResourceManager.h"
+
 ResourceFileMesh::ResourceFileMesh(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {
 }

@@ -2,6 +2,8 @@
 #define __RESOURCEFILEMATERIAL_H__
 
 #include "ResourceFile.h"
+#include "ResourceFileMaterial.h"
+#include "Material.h"
 
 class ResourceFileMaterial : public ResourceFile
 {

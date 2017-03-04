@@ -8,6 +8,10 @@
 #include "ResourceFileRenderTexture.h"
 #include "Assets.h"
 
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleGOManager.h"
+
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	//Init frustrum

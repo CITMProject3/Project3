@@ -2,10 +2,12 @@
 #define __MODULE_RESOURCE_MANAGER_H__
 
 #include "Module.h"
-#include <list>
-#include <map>
 #include "ResourceFile.h"
 #include "Material.h"
+
+#include <list>
+#include <string>
+#include <vector>
 
 #define CHECK_MOD_TIME 3
 
@@ -26,9 +28,18 @@ enum FileType
 
 struct tmp_mesh_file
 {
-	string mesh_path;
-	string assets_folder;
-	string library_folder;
+	std::string mesh_path;
+	std::string assets_folder;
+	std::string library_folder;
+};
+
+struct tmp_mesh_file_uuid
+{
+	std::string mesh_path;
+	std::string assets_folder;
+	std::string library_folder;
+	unsigned int uuid;
+	std::string meta_path;
 };
 
 struct Directory;
@@ -46,16 +57,16 @@ public:
 	bool CleanUp();
 
 	void FileDropped(const char* file_path);
-	void LoadFile(const string& library_path, const FileType& type);
+	void LoadFile(const std::string& library_path, const FileType& type);
 
-	ResourceFile* LoadResource(const string& path, ResourceFileType type);
+	ResourceFile* LoadResource(const std::string& path, ResourceFileType type);
 	//Deprecated
-	void UnloadResource(const string& path);
+	void UnloadResource(const std::string& path);
 	void RemoveResourceFromList(ResourceFile* file);
 	ResourceFile* FindResourceByUUID(unsigned int uuid);
-	ResourceFile* FindResourceByLibraryPath(const string& library);
+	ResourceFile* FindResourceByLibraryPath(const std::string& library);
 
-	void SaveScene(const char* file_name, string base_library_path);
+	void SaveScene(const char* file_name, std::string base_library_path);
 	bool LoadScene(const char* file_name);
 	void SavePrefab(GameObject* gameobject);
 
@@ -63,9 +74,9 @@ public:
 	unsigned int GetDefaultShaderId()const;
 
 	//Returns the path of the file in library
-	string FindFile(const string& assets_file_path)const;
+	std::string FindFile(const std::string& assets_file_path)const;
 
-	ResourceFileType GetResourceType(const string& path)const;
+	ResourceFileType GetResourceType(const std::string& path)const;
 	int GetNumberResources()const;
 	int GetNumberTexures()const;
 	int GetNumberMeshes()const;
@@ -73,42 +84,48 @@ public:
 	int GetTextureBytes()const;
 	int GetMeshBytes()const;
 
-	void CreateRenderTexture(const string& assets_path, const string& library_path);
-	void SaveRenderTexture(const string& assets_path, const string& library_path, int width, int height, bool use_depth_as_texture)const;
+	void CreateRenderTexture(const std::string& assets_path, const std::string& library_path);
+	void SaveRenderTexture(const std::string& assets_path, const std::string& library_path, int width, int height, bool use_depth_as_texture)const;
 
-	void CreateFolder(const char* assets_path, string& base_library_path) const;
-	void NameFolderUpdate(const string &meta_file, const string &meta_path, const string &old_folder_name, const string &new_folder_name, bool is_file = false) const;
+	void CreateFolder(const char* assets_path, std::string& base_library_path) const;
+	void NameFolderUpdate(const std::string &meta_file, const std::string &meta_path, const std::string &old_folder_name, const std::string &new_folder_name, bool is_file = false) const;
+
+	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, double& time_mod, std::string& library_path, std::string& assets_path)const;
 
 private:
 
 	FileType GetFileExtension(const char* path)const;
-	string CopyOutsideFileToAssetsCurrentDir(const char* path, string base_dir = string())const;
+	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
-	void GenerateMetaFile(const char* path, FileType type, uint uuid, string library_path, bool is_file = true)const;
+	void GenerateMetaFile(const char* path, FileType type, uint uuid, std::string library_path, bool is_file = true)const;
+	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids)const;
 
-	void ImportFolder(const char* path, vector<tmp_mesh_file>& list_meshes, string base_dir = string(), string base_library_dir = string())const;	
-	void ImportFile(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
+	void ImportFolder(const char* path, std::vector<tmp_mesh_file>& list_meshes, std::string base_dir = std::string(), std::string base_library_dir = std::string())const;
+	void ImportFile(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
-	void ImageDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
-	void MeshDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
-	void VertexDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
-	void FragmentDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
-	void SoundbankDropped(const char* path, string base_dir = string(), string base_library_dir = string(), unsigned int uuid = 0)const;
+	void ImageDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void MeshDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void VertexDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void FragmentDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void SoundbankDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
-	void LoadPrefabFile(const string& library_path);
+	void LoadPrefabFile(const std::string& library_path);
 
 	void CheckDirectoryModification(Directory* directory);
 
 	//If vertex program is false it will find the fragment program.
-	ResourceFileMaterial* FindMaterialUsing(bool vertex_program, const string& path)const;
-	void FindAllResourcesByType(ResourceFileType type, vector<ResourceFile*>& result)const;
+	ResourceFileMaterial* FindMaterialUsing(bool vertex_program, const std::string& path)const;
+	void FindAllResourcesByType(ResourceFileType type, std::vector<ResourceFile*>& result)const;
 
-	void UpdateAssetsAuto()const;
-	void UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)const;
-
+	void UpdateAssetsAuto();
+	void UpdateAssetsAutoRecursive(const std::string& assets_dir, const std::string& library_dir, std::vector<tmp_mesh_file>& mesh_files);
+	void UpdateFileWithMeta(const std::string& meta_file, const std::string& base_assets_dir, const std::string& base_lib_dir);
+	void ImportFileWithMeta(unsigned int type, unsigned int uuid, std::string library_path, std::string assets_path, const std::string& base_assets_dir, const std::string& base_lib_dir, const std::string& meta_path);
+	void ImportMeshFileWithMeta(const char* path,const std::string& base_dir,const std::string& base_library_dir, unsigned int uuid, const std::string& meta_path);
+	std::string UpdateFolderWithMeta(const std::string& meta_path);
 
 private:
-	list<ResourceFile*> resource_files;
+	std::list<ResourceFile*> resource_files;
 	float modification_timer = 0.0f;
 
 	unsigned int num_textures = 0;
@@ -119,6 +136,7 @@ private:
 
 	unsigned int default_shader = -1;
 
+	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 
 };
 #endif // !__MODULE_RESOURCE_MANAGER_H__

@@ -28,6 +28,8 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 
+using namespace std;
+
 class Editor : public Module
 {
 public:

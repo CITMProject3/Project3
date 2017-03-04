@@ -107,6 +107,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentAudio.h" />
     <ClInclude Include="ComponentCamera.h" />
+    <ClInclude Include="ComponentCollider.h" />
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="glmath.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="HardwareInfo.h" />
     <ClInclude Include="Hierarchy.h" />
@@ -145,6 +147,7 @@
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAudio.h" />
     <ClInclude Include="ResourceFileMaterial.h" />
+    <ClInclude Include="ResourceFilePrefab.h" />
     <ClInclude Include="ResourceFileRenderTexture.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
@@ -263,6 +266,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentAudio.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
+    <ClCompile Include="ComponentCollider.cpp" />
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
@@ -274,6 +278,7 @@
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="glmath.cpp" />
     <ClCompile Include="HardwareInfo.cpp" />
     <ClCompile Include="Hierarchy.cpp" />
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp" />
@@ -298,6 +303,7 @@
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAudio.cpp" />
     <ClCompile Include="ResourceFileMaterial.cpp" />
+    <ClCompile Include="ResourceFilePrefab.cpp" />
     <ClCompile Include="ResourceFileRenderTexture.cpp" />
     <ClCompile Include="ShaderEditorWindow.cpp" />
     <ClCompile Include="Skybox.cpp" />

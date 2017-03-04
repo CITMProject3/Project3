@@ -8,7 +8,9 @@ enum ComponentType
 	C_MATERIAL = 2,
 	C_CAMERA = 3,
 	C_LIGHT = 4,
-	C_AUDIO = 5
+	C_AUDIO = 5,
+	C_COLLIDER
+
 };
 
 class GameObject;

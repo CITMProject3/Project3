@@ -2,6 +2,7 @@
 
 #include "Application.h"
 #include "ModuleAudio.h"
+#include "ModuleFileSystem.h"
 
 #include "ComponentCamera.h"
 

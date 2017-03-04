@@ -57,14 +57,12 @@ void Primitive::Render() const
 
 	glColor3f(color.r, color.g, color.b);
 
-	if(wire)
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	else
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
 	InnerRender();
 
 	glPopMatrix();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 // ------------------------------------------------------------
@@ -95,10 +93,16 @@ void Primitive::SetRotation(float angle, const vec &u)
 	transform.SetRotatePart(u, angle);
 }
 
+void Primitive::SetRotation(Quat rot)
+{
+	transform.SetRotatePart(rot);
+}
+
 // ------------------------------------------------------------
 void Primitive::Scale(float x, float y, float z)
 {
-	transform.Scale(x, y, z); 
+	//transform.RemoveScale();
+	transform.Set3x3Part(transform.Float3x3Part() * transform.Scale(x, y, z).ToFloat3x3()); 
 }
 
 // ------------------------------------------------------------
@@ -129,6 +133,7 @@ void Cube_P::InnerRender() const
 	float sz = size.z * 0.5f;
 
 	glBegin(GL_QUADS);
+	
 
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(-sx, -sy, sz);
@@ -182,7 +187,7 @@ Sphere_P::Sphere_P(float radius) : Primitive(), radius(radius)
 
 void Sphere_P::InnerRender() const
 {
-	glutSolidSphere(radius, 25, 25);
+	glutSolidSphere(radius, 10, 10);
 }
 
 

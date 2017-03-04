@@ -73,8 +73,8 @@
     <Filter Include="3rd Party Tools\Wwise_IOInterfaces">
       <UniqueIdentifier>{b94b17eb-903e-46bc-ac21-ff17c19e4afc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd Party Tools\ImGuizmo">
-      <UniqueIdentifier>{8b055770-4e01-4aa1-b23a-5aeaa19ddfe7}</UniqueIdentifier>
+    <Filter Include="3rd Party Tools\Gizmo">
+      <UniqueIdentifier>{ad0c5c7e-2683-4664-ab1e-a8749f618363}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -543,8 +543,14 @@
     <ClInclude Include="ModuleCar.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="glmath.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
     <ClInclude Include="ImGuizmo\ImGuizmo.h">
-      <Filter>3rd Party Tools\ImGuizmo</Filter>
+      <Filter>3rd Party Tools\Gizmo</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCollider.h">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentAudio.h">
       <Filter>Sources\GameObjects\Components</Filter>
@@ -905,8 +911,14 @@
     <ClCompile Include="ModuleCar.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
+    <ClCompile Include="glmath.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
     <ClCompile Include="ImGuizmo\ImGuizmo.cpp">
-      <Filter>3rd Party Tools\ImGuizmo</Filter>
+      <Filter>3rd Party Tools\Gizmo</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCollider.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
     <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>

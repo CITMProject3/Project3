@@ -1,6 +1,7 @@
 #include "ComponentAudio.h"
 
 #include "ModuleAudio.h"
+#include "ModuleResourceManager.h"
 #include "Application.h"
 
 #include "GameObject.h"
