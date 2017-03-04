@@ -94,7 +94,15 @@ void GameObject::Update()
 {
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
+		(*comp)->PreUpdate();
+	}
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
 		(*comp)->Update();
+	}
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->PostUpdate();
 	}
 }
 

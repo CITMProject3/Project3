@@ -23,20 +23,22 @@ public:
 	Component(ComponentType type, GameObject* game_object);
 	virtual ~Component();
 
-	virtual void Update();
+	virtual void PreUpdate() {}
+	virtual void Update() {}
+	virtual void PostUpdate() {}
 
 	bool IsActive();
 	void SetActive(bool value);
-	virtual void OnInspector(bool debug);
+	virtual void OnInspector(bool debug) {}
 
 	ComponentType GetType()const;
 	GameObject* GetGameObject()const;
 	unsigned int GetUUID()const;
 
-	virtual void OnTransformModified();
-	virtual void Save(Data& file) const;
+	virtual void OnTransformModified() {}
+	virtual void Save(Data& file) const {}
 	virtual void Remove();
-	virtual void Load(Data& config);
+	virtual void Load(Data& config) {}
 
 	virtual void OnPlay() {}
 	virtual void OnPause() {}
