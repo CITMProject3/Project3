@@ -297,13 +297,19 @@ void ComponentCar::RenderWithoutCar()
 
 	Cylinder_P wheel;
 	float3 wheelOffset;
+	int _x, _z;
 	for (int i = 0; i < 4; i++)
 	{
 		wheel.radius = wheel_radius;
 		wheel.height = wheel_width;
 
 		wheel.transform = trs->GetGlobalMatrix().Transposed();
-		wheelOffset = float3(-chasis_size.x / 2.0f + 0.1f * wheel_width, connection_height, -chasis_size.z / 2.0f + wheel_radius);
+		if (i == 0) { _x = 1; _z = 1; }
+		else if (i == 1) { _x = -1; _z = -1; }
+		else if (i == 2) { _x = -1; _z = 1; }
+		else { _x = 1; _z = -1; }
+
+		wheelOffset = float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y/2.0f,( -chasis_size.z / 2.0f + wheel_radius) * _z);
 
 		realOffset = rot * wheelOffset;
 		wheel.transform = wheel.transform.Transposed() * wheel.transform.Translate(wheelOffset);
