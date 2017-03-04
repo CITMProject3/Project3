@@ -121,6 +121,7 @@ void ComponentCar::HandlePlayerInput()
 
 	float accel,brake;
 	bool turning = false;
+	float extra_force = 1000.0f;
 
 	accel = brake = 0.0f;
 
@@ -161,6 +162,12 @@ void ComponentCar::HandlePlayerInput()
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
 		brake = brakeForce;
+	}
+
+	//fOR DEBUG FOR NOW
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		accel += extra_force;
 	}
 
 
