@@ -84,7 +84,7 @@ public:
 private:
 
 
-	list<Module*> list_modules;
+	vector<Module*> list_modules;
 	int fps = 60;
 	int capped_ms = -1;
 

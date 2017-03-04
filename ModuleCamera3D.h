@@ -51,6 +51,7 @@ private:
 	float3 reference;
 
 	ComponentCamera* camera = nullptr;
+	ComponentCamera* playCamera = nullptr;
 };
 
 #endif // !__MODULECAMERA3D_H__
