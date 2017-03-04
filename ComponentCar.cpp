@@ -81,6 +81,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::DragFloat("Brake force", &brakeForce, 1.0f, 0.0f, 1000.0f);
 				ImGui::DragFloat("Kick force", &force, 1.0f, 0.0f, floatMax);
 				ImGui::DragFloat("Kick cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f);
+				ImGui::DragFloat("Kick force time", &kick_force_time, 0.025f, 0.0f, 20.0f);
 				ImGui::TreePop();
 			}
 
@@ -137,9 +138,14 @@ void ComponentCar::HandlePlayerInput()
 	{
 		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
 		{
-			accel = force;
+			//accel = force;
+			on_kick = true;
 			kickTimer = 0.0f;
 		}
+	}
+	if (on_kick && kickTimer < kick_force_time)
+	{
+		accel = force;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)

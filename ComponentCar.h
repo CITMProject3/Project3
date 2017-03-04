@@ -39,6 +39,9 @@ public:
 	float3 chasis_size;
 	float3 chasis_offset;
 	float kickCooldown = 3.0f;
+	float kick_force_time = 2.0f;
+	bool  on_kick = false;
+
 private:
 	float kickTimer = 0.0f;
 public:
@@ -52,7 +55,7 @@ public:
 	float turn_speed = 0.1f;
 
 
-	float force = 10000.0f;
+	float force = 1000.0f;
 	float brakeForce = 20.0f;
 
 	//update variables
