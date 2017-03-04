@@ -2,10 +2,12 @@
 #define _COMPONENT_CAR_H_
 
 #include "Component.h"
-
+#include "Globals.h"
+#include "MathGeoLib\include\MathGeoLib.h"
 
 struct VehicleInfo;
-class PhysVehicle3D;
+struct PhysVehicle3D;
+
 class ComponentCar : public Component
 {
 public:
@@ -27,25 +29,26 @@ public:
 	void HandlePlayerInput();
 
 private:
-
 	void CreateCar();
-	bool CleanUp();
-
 	void UpdateGO();
 
 public:
-
-	VehicleInfo* car;
-	PhysVehicle3D* vehicle = nullptr;
-
-
+	float3 chasis_size;
+	float3 chasis_offset;
 	float kickCooldown = 3.0f;
 	float kickTimer = 0.0f;
+
+	float connection_height = 1.2f;
+	float wheel_radius = 0.6f;
+	float wheel_width = 0.5f;
+	float suspensionRestLength = 1.2f;
 
 	float dturn = 0.7f;
 	float force = 100000.0f;
 	float brakeForce = 20.0f;
 
+	VehicleInfo* car = nullptr;
+	PhysVehicle3D* vehicle = nullptr;
 };
 
 

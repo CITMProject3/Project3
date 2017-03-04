@@ -3,22 +3,29 @@
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "Globals.h"
-#include "PhysVehicle3D.h"
 #include "ModulePhysics3D.h"
 #include "ModuleInput.h"
 #include "ComponentTransform.h"
+#include "Primitive.h"
+#include "PhysVehicle3D.h"
 #include <string>
 
-using namespace std;
-
-ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
+ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)//, chasis_size(2.0f, 2.0f, 4.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
-	//CreateCar();
+	car = new VehicleInfo();
+
+	car->mass = 500.0f;
+	car->suspensionStiffness = 15.88f;
+	car->suspensionCompression = 0.83f;
+	car->suspensionDamping = 0.88f;
+	car->maxSuspensionTravelCm = 1000.0f;
+	car->frictionSlip = 50.5;
+	car->maxSuspensionForce = 6000.0f;
 }
 
 ComponentCar::~ComponentCar()
 {
-	
+	delete car;
 }
 
 void ComponentCar::Update()
@@ -34,17 +41,19 @@ void ComponentCar::Update()
 		else
 			CreateCar();
 	}
-	else if(App->IsGamePaused())
-			CleanUp();
+	else 
+	{
+		Cube_P chasis;
+		chasis.size = chasis_size;
+		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		chasis.transform = trs->GetGlobalMatrix().Transposed();
+		chasis.Render();
+	}
 
 }
 
 void ComponentCar::OnInspector(bool debug)
 {
-	//
-	//ImGui::ShowTestWindow();
-	//
-
 	string str = (string("Car") + string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -55,68 +64,55 @@ void ComponentCar::OnInspector(bool debug)
 
 		if (ImGui::BeginPopup("delete##car"))
 		{
-			if (ImGui::MenuItem("Delete"))
+			if (ImGui::MenuItem("Delete##car"))
 			{
 				Remove();
 			}
 			ImGui::EndPopup();
 		}
 
-		str = (string("Car mechanics")); //+ string("##") + std::to_string(uuid));
-		if (ImGui::TreeNode(str.c_str()))
+		if (ImGui::TreeNode("Car settings"))
 		{
-			ImGui::Text("Turn degree");
-			ImGui::SameLine();
 
-			if (ImGui::DragFloat("##dturn", &dturn, 1.0f, -2.0f, 2.0f))
+			if (ImGui::TreeNode("Control settings"))
 			{
-				
+				ImGui::DragFloat("Wheel turn", &dturn, 0.1f, 0.0f, 2.0f);
+				ImGui::DragFloat("Brake force", &brakeForce, 1.0f, 0.0f, 1000.0f);
+				ImGui::DragFloat("Kick force", &force, 1.0f, 0.0f, floatMax);
+				ImGui::DragFloat("Kick cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f);
+				ImGui::TreePop();
 			}
 
-			ImGui::Text("Brake force");
-			ImGui::SameLine();
-
-			if (ImGui::DragFloat("##brkF", &brakeForce, 1.0f, 0.0f, 200.0f))
+			if (App->IsGameRunning() == false)
 			{
-				//dturn = dgt;
-			}
-
-			ImGui::Text("Kick force");
-			ImGui::SameLine();
-
-			if (ImGui::DragFloat("##kckF", &force, 10000.0f, 0.0f))
-			{
-				//dturn = dgt;
-			}
-
-			ImGui::Text("Kick cooldown");
-			ImGui::SameLine();
-
-			if (ImGui::DragFloat("##kckCool", &kickCooldown, 1.0f, 100.0f))
-			{
-				//dturn = dgt;
-			}
-
+				if (ImGui::TreeNode("Chasis settings"))
+				{
+					ImGui::DragFloat3("Chasis size", chasis_size.ptr(), 0.1f, 0.1f, 5.0f);
+					ImGui::DragFloat3("Chasis offset", chasis_offset.ptr(), 0.1f, 0.1f, 5.0f);
+					ImGui::DragFloat("Mass", &car->mass, 1.0f, 0.1f, floatMax);					
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Suspension"))
+				{
+					ImGui::DragFloat("Suspension rest length", &suspensionRestLength, 0.1f, 0.1f, floatMax);
+					ImGui::DragFloat("Max suspension travel Cm", &car->maxSuspensionTravelCm, 1.0f, 0.1f, floatMax);
+					ImGui::DragFloat("Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
+					ImGui::DragFloat("Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);					
+					ImGui::DragFloat("Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Wheel settings"))
+				{
+					ImGui::DragFloat("Connection height", &connection_height, 0.1f, 0.1f, floatMax);
+					ImGui::DragFloat("Wheel radius", &wheel_radius, 0.1f, 0.1f, floatMax);
+					ImGui::DragFloat("Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);					
+					ImGui::TreePop();
+				}
+				ImGui::DragFloat("Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
+			}//Endof IsGameRunning() == false
 			ImGui::TreePop();
-		}
-
-		str = (string("Car physics")); //+ string("##") + std::to_string(uuid));
-		if (ImGui::TreeNode(str.c_str()))
-		{
-			/*ImGui::Text("Turn degree");
-			ImGui::SameLine();
-
-			float dgt = dturn;
-			if (ImGui::DragFloat("##dturn", &dgt, 1.0f, -180.0f, 180.0f))
-			{
-				dturn = dgt;
-			}*/
-			ImGui::TreePop();
-		}
-		
-
-	}
-	
+		} //Endof Car settings
+	}//Endof Collapsing header
 }
 
 void ComponentCar::HandlePlayerInput()
@@ -205,27 +201,15 @@ void ComponentCar::HandlePlayerInput()
 
 void ComponentCar::CreateCar()
 {
-	car = new VehicleInfo();
 
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	car->transform.Set(trs->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
+	//car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
+	//car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
 	car->chassis_size.Set(2, 2, 4);
-	car->chassis_offset.Set(0, 1.5, 0);
-	car->mass = 500.0f;
-	car->suspensionStiffness = 15.88f;
-	car->suspensionCompression = 0.83f;
-	car->suspensionDamping = 0.88f;
-	car->maxSuspensionTravelCm = 1000.0f;
-	car->frictionSlip = 50.5;
-	car->maxSuspensionForce = 6000.0f;
-
-	// Wheel properties ---------------------------------------
-	float connection_height = 1.2f;
-	float wheel_radius = 0.6f;
-	float wheel_width = 0.5f;
-	float suspensionRestLength = 1.2f;
+	car->chassis_offset.Set(0.0f,1.5f,0.0f);
 
 	// Don't change anything below this line ------------------
 
@@ -246,7 +230,7 @@ void ComponentCar::CreateCar()
 	car->wheels[0].radius = wheel_radius;
 	car->wheels[0].width = wheel_width;
 	car->wheels[0].front = true;
-	car->wheels[0].drive = true;
+	car->wheels[0].drive = false;
 	car->wheels[0].brake = false;
 	car->wheels[0].steering = true;
 
@@ -258,7 +242,7 @@ void ComponentCar::CreateCar()
 	car->wheels[1].radius = wheel_radius;
 	car->wheels[1].width = wheel_width;
 	car->wheels[1].front = true;
-	car->wheels[1].drive = true;
+	car->wheels[1].drive = false;
 	car->wheels[1].brake = false;
 	car->wheels[1].steering = true;
 
@@ -270,7 +254,7 @@ void ComponentCar::CreateCar()
 	car->wheels[2].radius = wheel_radius;
 	car->wheels[2].width = wheel_width;
 	car->wheels[2].front = false;
-	car->wheels[2].drive = false;
+	car->wheels[2].drive = true;
 	car->wheels[2].brake = true;
 	car->wheels[2].steering = false;
 
@@ -282,7 +266,7 @@ void ComponentCar::CreateCar()
 	car->wheels[3].radius = wheel_radius;
 	car->wheels[3].width = wheel_width;
 	car->wheels[3].front = false;
-	car->wheels[3].drive = false;
+	car->wheels[3].drive = true;
 	car->wheels[3].brake = true;
 	car->wheels[3].steering = false;
 
@@ -294,19 +278,6 @@ void ComponentCar::CreateCar()
 
 void ComponentCar::OnTransformModified()
 {}
-
-bool ComponentCar::CleanUp()
-{
-	bool ret = false;
-
-	if (car != nullptr)
-	{
-		delete car;
-		ret = true;
-	}
-
-	return ret;
-}
 
 void ComponentCar::UpdateGO()
 {
