@@ -2,8 +2,9 @@
 #define __COMPONENTAUDIO_H__
 
 #include "Component.h"
+#include <string>
 
-class ResourceFileMesh;
+class ResourceFileAudio;
 struct AudioEvent;
 
 class ComponentAudio : public Component
@@ -17,19 +18,18 @@ public:
 
 	void OnInspector(bool debug);
 
-	void Save(Data& file)const;
+	void Save(Data& file) const;
 	void Load(Data& conf);
 	
 	void Remove();
 
 private:
 
+	ResourceFileAudio *rc_audio = nullptr;
 	AudioEvent *current_event = nullptr;
-	
-	//ResourceFileMesh* rc_mesh = nullptr;
-	//Mesh* mesh = nullptr;
-	//math::AABB aabb; //Local one
-	//math::AABB bounding_box; //In the world position
+
+	std::string event_selected;
+
 };
 
 

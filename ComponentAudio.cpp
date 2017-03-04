@@ -7,8 +7,6 @@
 
 #include "imgui\imgui.h"
 
-#include <string>
-
 ComponentAudio::ComponentAudio(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	App->audio->RegisterGameObject(game_object->GetUUID());
@@ -17,7 +15,7 @@ ComponentAudio::ComponentAudio(ComponentType type, GameObject* game_object) : Co
 ComponentAudio::~ComponentAudio()
 { 
 	App->audio->UnregisterGameObject(game_object->GetUUID());
-	if(current_event != nullptr) App->audio->UnloadSoundBank(current_event->parent_soundbank->path.c_str());
+	if(current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
 }
 
 void ComponentAudio::Update()
@@ -56,7 +54,7 @@ void ComponentAudio::OnInspector(bool debug)
 
 		std::vector<AudioEvent*> events;
 		App->audio->ObtainEvents(events);
-		static std::string event_selected = current_event != nullptr ? current_event->name : "";
+		event_selected = current_event != nullptr ? current_event->name : "";
 		
 		if (ImGui::BeginMenu(event_selected.c_str()))
 		{
@@ -65,7 +63,7 @@ void ComponentAudio::OnInspector(bool debug)
 				if (ImGui::MenuItem((*it)->name.c_str()))
 				{
 					if (current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
-					App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);
+					rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);
 
 					event_selected = (*it)->name; // Name to show on Inspector
 					current_event = *it;		  // Variable that handles the new event
@@ -81,29 +79,35 @@ void ComponentAudio::OnInspector(bool debug)
 
 void ComponentAudio::Save(Data & file)const
 {
-	/*Data data;
+	Data data;
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendString("path", mesh->file_path.data());
 
-	file.AppendArrayValue(data);*/
+	// Current event on this component Audio
+	if (current_event)
+	{
+		data.AppendUInt("event_id", current_event->id);
+		data.AppendString("event_name", current_event->name.c_str());
+		data.AppendString("soundbank_lib_path", current_event->parent_soundbank->path.c_str());
+	}		
+
+	file.AppendArrayValue(data);
 }
 
 void ComponentAudio::Load(Data & conf)
 {
-	/*uuid = conf.GetUInt("UUID");
+	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 
-	const char* path = conf.GetString("path");
+	if (conf.GetUInt("event_id") != 0)
+	{
+		event_selected = conf.GetString("event_name");
+		current_event = App->audio->FindEventById(conf.GetUInt("event_id"));
+		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
 
-	rc_mesh = (ResourceFileMesh*)App->resource_manager->LoadResource(path, ResourceFileType::RES_MESH);
-	Mesh* mesh = rc_mesh->GetMesh();
-	if (mesh)
-		mesh->file_path = path;
-	SetMesh(mesh);
-
-	OnTransformModified();*/
+	}
+		
 }
 
 void ComponentAudio::Remove()

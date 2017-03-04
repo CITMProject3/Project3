@@ -43,6 +43,7 @@ public:
 	bool CleanUp();
 
 	void SetListener(const ComponentCamera *listener);
+	void SetLibrarySoundbankPath(const char *lib_path);
 	long unsigned int ExtractSoundBankInfo(std::string soundbank_path);
 	void ObtainEvents(std::vector<AudioEvent*> &events);
 
@@ -53,7 +54,7 @@ public:
 	void RegisterGameObject(long unsigned int id);
 	void UnregisterGameObject(long unsigned int id);
 
-	void SetLibrarySoundbankPath(const char *lib_path);
+	AudioEvent *FindEventById(long unsigned event_id);
 
 
 private:

@@ -62,22 +62,6 @@ bool ModuleAudio::Start()
 		}			
 	}
 
-	// Load the Init bank and the "All in one" bank.
-	AkBankID returned_bankID; // not used in this sample.
-
-	// To work with IDs, the banks must be generated with the "Generate header file" option in the
-	// Generate SoundBanks dialog box in Wwise.The definition file, named Wwise_IDs.h, contains all
-	// the required IDs.It is updated at each bank generation.
-
-	//// Init SoundBank
-	//AKRESULT eResult = AK::SoundEngine::LoadBank("Init.bnk", AK_DEFAULT_POOL_ID, returned_bankID);
-	//assert(eResult == AK_Success);
-	//// Load Test SoundBank
-	//eResult = AK::SoundEngine::LoadBank("Karts.bnk", AK_DEFAULT_POOL_ID, returned_bankID);
-	//assert(eResult == AK_Success);
-
-	AK::SoundEngine::RegisterGameObj(365, "Car");
-
 	return true;
 }
 
@@ -107,9 +91,6 @@ bool ModuleAudio::CleanUp()
 
 update_status ModuleAudio::Update()
 {
-	if (App->input->GetKey(SDL_SCANCODE_P) == KEY_STATE::KEY_DOWN)
-		AK::SoundEngine::PostEvent(L"Shot", 365);
-
 	if (listener)
 		UpdateListenerPos();
 
@@ -244,6 +225,19 @@ void ModuleAudio::UnregisterGameObject(long unsigned int id)
 void ModuleAudio::SetLibrarySoundbankPath(const char *lib_path)
 {
 	lib_base_path = lib_path;
+}
+
+AudioEvent *ModuleAudio::FindEventById(long unsigned event_id)
+{
+	// Deleting soundbank information
+	for (std::vector<SoundBank*>::const_iterator it_sb = soundbank_list.begin(); it_sb != soundbank_list.end(); ++it_sb)
+	{
+		for (std::vector<AudioEvent*>::iterator it_ev = (*it_sb)->events.begin(); it_ev != (*it_sb)->events.end(); ++it_ev)
+			if ((*it_ev)->id == event_id)
+				return *it_ev;
+	}
+
+	return nullptr;
 }
 
 // --- Initialization methods ---
