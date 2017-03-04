@@ -32,13 +32,16 @@ private:
 	void CreateCar();
 	void UpdateGO();
 
+	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
+	void RenderWithoutCar();
+
 public:
 	float3 chasis_size;
 	float3 chasis_offset;
 	float kickCooldown = 3.0f;
 	float kickTimer = 0.0f;
 
-	float connection_height = 0.2f;
+	float connection_height = -0.2f;
 	float wheel_radius = 0.3f;
 	float wheel_width = 0.2f;
 	float suspensionRestLength = 0.6f;

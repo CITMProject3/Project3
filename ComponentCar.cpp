@@ -43,19 +43,7 @@ void ComponentCar::Update()
 	}
 	else 
 	{
-		Cube_P chasis;
-		chasis.size = chasis_size;
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		chasis.transform = trs->GetGlobalMatrix().Transposed();
-		float3 pos, scal;
-		float3x3 rot;
-		chasis.transform.Decompose(pos, rot, scal);
-		float3 realOffset = rot * chasis_offset;
-		
-		chasis.transform = chasis.transform.Transposed() * chasis.transform.Translate(chasis_offset.x, chasis_offset.y, chasis_offset.z);
-		chasis.transform.Transpose();
-
-		chasis.Render();
+		RenderWithoutCar();
 	}
 
 }
@@ -111,7 +99,7 @@ void ComponentCar::OnInspector(bool debug)
 				}
 				if (ImGui::TreeNode("Wheel settings"))
 				{
-					ImGui::DragFloat("Connection height", &connection_height, 0.1f, 0.1f, floatMax);
+					ImGui::DragFloat("Connection height", &connection_height, 0.1f, floatMin, floatMax);
 					ImGui::DragFloat("Wheel radius", &wheel_radius, 0.1f, 0.1f, floatMax);
 					ImGui::DragFloat("Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);					
 					ImGui::TreePop();
@@ -216,8 +204,6 @@ void ComponentCar::CreateCar()
 	// Car properties ----------------------------------------
 	car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
 	car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
-	//car->chassis_size.Set(2, 2, 4);
-	//car->chassis_offset.Set(0.0f,1.5f,0.0f);
 
 	// Don't change anything below this line ------------------
 
@@ -278,10 +264,7 @@ void ComponentCar::CreateCar()
 	car->wheels[3].brake = true;
 	car->wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(*car);
-
-
-	
+	vehicle = App->physics->AddVehicle(*car);	
 }
 
 void ComponentCar::OnTransformModified()
@@ -293,6 +276,45 @@ void ComponentCar::UpdateGO()
 	trs->Set(vehicle->GetTransform().Transposed());
 }
 
+void ComponentCar::RenderWithoutCar()
+{
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+
+	//RENDERING CHASIS
+
+	Cube_P chasis;
+	chasis.size = chasis_size;
+	chasis.transform = trs->GetGlobalMatrix().Transposed();
+	float3 pos, scal;
+	float3x3 rot;
+	chasis.transform.Decompose(pos, rot, scal);
+	float3 realOffset = rot * chasis_offset;
+	chasis.transform = chasis.transform.Transposed() * chasis.transform.Translate(chasis_offset);
+	chasis.transform.Transpose();
+	chasis.Render();
+
+	//RENDERING WHEELS
+
+	Cylinder_P wheel;
+	float3 wheelOffset;
+	for (int i = 0; i < 4; i++)
+	{
+		wheel.radius = wheel_radius;
+		wheel.height = wheel_width;
+
+		wheel.transform = trs->GetGlobalMatrix().Transposed();
+		wheelOffset = float3(-chasis_size.x / 2.0f + 0.1f * wheel_width, connection_height, -chasis_size.z / 2.0f + wheel_radius);
+
+		realOffset = rot * wheelOffset;
+		wheel.transform = wheel.transform.Transposed() * wheel.transform.Translate(wheelOffset);
+		wheel.transform.Transpose();
+
+		wheel.transform.Translate(realOffset);
+
+		wheel.Render();
+	}
+}
+
 void ComponentCar::Save(Data& file) const
 {
 	Data data;
@@ -300,6 +322,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
+	file.AppendArrayValue(data);
 }
 
 void ComponentCar::Load(Data& conf)

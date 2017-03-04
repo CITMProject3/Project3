@@ -22,7 +22,7 @@ void Primitive::Render() const
 {
 	glPushMatrix();
 	glMultMatrixf(*transform.v);
-
+	glDisable(GL_LIGHTING);
 	if(axis == true)
 	{
 		// Draw Axis Grid
@@ -63,6 +63,7 @@ void Primitive::Render() const
 
 	glPopMatrix();
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glEnable(GL_LIGHTING);
 }
 
 // ------------------------------------------------------------
