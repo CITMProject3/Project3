@@ -34,7 +34,7 @@ bool ModuleAudio::Start()
 {
 	// Looking for library directory for Soundbanks
 	char *buf;
-	if(App->file_system->Load("Assets/Soundbanks.meta", &buf))
+	if(App->file_system->Load("Assets/Soundbanks.meta", &buf) > 0)
 	{
 		Data sb(buf);
 		lib_base_path = sb.GetString("library_path");

@@ -105,9 +105,7 @@ void ComponentAudio::Load(Data & conf)
 		event_selected = conf.GetString("event_name");
 		current_event = App->audio->FindEventById(conf.GetUInt("event_id"));
 		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
-
-	}
-		
+	}		
 }
 
 void ComponentAudio::Remove()

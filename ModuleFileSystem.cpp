@@ -86,7 +86,7 @@ bool ModuleFileSystem::IsDirectoryOutside(const char * file) const
 // Read a whole file and put it in a new buffer
 unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 {
-	unsigned int ret = -1;
+	unsigned int ret = 0;
 
 	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
