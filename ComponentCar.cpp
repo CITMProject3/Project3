@@ -217,7 +217,7 @@ void ComponentCar::CreateCar()
 	car->wheels = new Wheel[4];
 
 	// FRONT-LEFT ------------------------
-	car->wheels[0].connection.Set(half_width - 0.1f * wheel_width, connection_height, half_length - wheel_radius);
+	car->wheels[0].connection.Set(half_width - 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, half_length - wheel_radius + chasis_offset.z);
 	car->wheels[0].direction = direction;
 	car->wheels[0].axis = axis;
 	car->wheels[0].suspensionRestLength = suspensionRestLength;
@@ -229,7 +229,7 @@ void ComponentCar::CreateCar()
 	car->wheels[0].steering = true;
 
 	// FRONT-RIGHT ------------------------
-	car->wheels[1].connection.Set(-half_width + 0.1 * wheel_width, connection_height, half_length - wheel_radius);
+	car->wheels[1].connection.Set(-half_width + 0.1 * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, half_length - wheel_radius + chasis_offset.z);
 	car->wheels[1].direction = direction;
 	car->wheels[1].axis = axis;
 	car->wheels[1].suspensionRestLength = suspensionRestLength;
@@ -241,7 +241,7 @@ void ComponentCar::CreateCar()
 	car->wheels[1].steering = true;
 
 	// REAR-LEFT ------------------------
-	car->wheels[2].connection.Set(half_width - 0.1f * wheel_width, connection_height, -half_length + wheel_radius);
+	car->wheels[2].connection.Set(half_width - 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, -half_length + wheel_radius + chasis_offset.z);
 	car->wheels[2].direction = direction;
 	car->wheels[2].axis = axis;
 	car->wheels[2].suspensionRestLength = suspensionRestLength;
@@ -253,7 +253,7 @@ void ComponentCar::CreateCar()
 	car->wheels[2].steering = false;
 
 	// REAR-RIGHT ------------------------
-	car->wheels[3].connection.Set(-half_width + 0.1f * wheel_width, connection_height, -half_length + wheel_radius);
+	car->wheels[3].connection.Set(-half_width + 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, -half_length + wheel_radius + chasis_offset.z);
 	car->wheels[3].direction = direction;
 	car->wheels[3].axis = axis;
 	car->wheels[3].suspensionRestLength = suspensionRestLength;
@@ -309,7 +309,8 @@ void ComponentCar::RenderWithoutCar()
 		else if (i == 2) { _x = -1; _z = 1; }
 		else { _x = 1; _z = -1; }
 
-		wheelOffset = float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y/2.0f,( -chasis_size.z / 2.0f + wheel_radius) * _z);
+		wheelOffset = chasis_offset;
+		wheelOffset += float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y/2.0f,( -chasis_size.z / 2.0f + wheel_radius) * _z);
 
 		realOffset = rot * wheelOffset;
 		wheel.transform = wheel.transform.Transposed() * wheel.transform.Translate(wheelOffset);
@@ -327,6 +328,10 @@ void ComponentCar::Save(Data& file) const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
+
+	data.AppendFloat3("chasis_size", chasis_size.ptr());
+	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
+	data.AppendFloat("kick_cooldown", kickCooldown);
 
 	file.AppendArrayValue(data);
 }
