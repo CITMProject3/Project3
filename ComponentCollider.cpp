@@ -21,6 +21,7 @@
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
+	SetShape(S_CUBE);
 }
 
 ComponentCollider::~ComponentCollider()
@@ -232,6 +233,10 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	{
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		offset_pos = msh->GetBoundingBox().CenterPoint() - trs->GetPosition();
+	}
+	else
+	{
+		offset_pos = float3::zero;
 	}
 	shape = new_shape;
 	switch (new_shape)
