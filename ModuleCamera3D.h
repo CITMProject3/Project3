@@ -20,6 +20,9 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void OnPlay();
+	void OnStop();
+
 	math::float3 GetPosition() const;
 	math::float4x4 GetViewMatrix() const;
 
@@ -51,6 +54,7 @@ private:
 	float3 reference;
 
 	ComponentCamera* camera = nullptr;
+public:
 	ComponentCamera* playCamera = nullptr;
 };
 

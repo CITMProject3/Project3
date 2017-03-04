@@ -11,6 +11,7 @@
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleGOManager.h"
+#include "ModuleCamera3D.h"
 
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -50,6 +51,11 @@ ComponentCamera::~ComponentCamera()
 	App->renderer3D->RemoveObserver(this);
 	if(render_texture)
 		render_texture->Unload();
+
+	if (App->camera->playCamera == this)
+	{
+		App->camera->playCamera = nullptr;
+	}
 }
 
 void ComponentCamera::Update()
@@ -74,6 +80,19 @@ void ComponentCamera::OnInspector(bool debug)
 				Remove();
 			}
 			ImGui::EndPopup();
+		}
+
+		bool isPlayCam = (App->camera->playCamera == this);
+		if (ImGui::Checkbox("Set as Game camera", &isPlayCam))
+		{
+			if (isPlayCam == false)
+			{
+				App->camera->playCamera = nullptr;
+			}
+			else
+			{
+				App->camera->playCamera = this;
+			}
 		}
 
 		//Near plane
