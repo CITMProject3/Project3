@@ -231,15 +231,12 @@ int ShaderCompiler::LoadDefaultShader()
 		"uniform mat4 model;\n"
 		"uniform mat4 view;\n"
 		"uniform mat4 projection;\n"
-		"uniform vec4 material_color;\n"
 		"void main()\n"
 		"{\n"
 		"	gl_Position = projection * view * model * vec4(position, 1.0f);\n"
 		"	TexCoord = texCoord;\n"
 		"	normal0 = (model * vec4(normal, 0.0f)).xyz;\n"
 		"   tangent0 = (model * vec4(tangent, 0.0f)).xyz;\n"
-		"   color = material_color;\n"
-		"   color.w = material_color.w;\n"
 		"}\n";
 
 	const GLchar* fragment_code =
@@ -258,6 +255,7 @@ int ShaderCompiler::LoadDefaultShader()
 		"uniform float _DirectionalIntensity;\n"
 		"uniform vec3 _DirectionalColor;\n"
 		"uniform vec3 _DirectionalDirection;\n"
+		"uniform vec4 material_color;\n"
 		"vec3 CalculateBumpedNormal()\n"
 		"{\n"
 		"	vec3 normal = normalize(normal0);\n"
@@ -288,7 +286,8 @@ int ShaderCompiler::LoadDefaultShader()
 		"		diffuse = vec4(0,0,0,0);\n"
 		"   }\n"
 		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
-		"	color = tex_color * (ambient + diffuse);\n"
+		"	color = material_color * tex_color * (ambient + diffuse);\n"
+		"   color.w = material_color.w;\n"
 		"}\n";
 
 	GLint success;

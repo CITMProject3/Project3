@@ -7,6 +7,7 @@
 #include "Assets.h"
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
+#include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {}
@@ -94,12 +95,15 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::Text("%s", (*it).first.data());
 				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
 			}
+			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
+			ChooseAlphaType();
 		}
 		else
 		{
 			ImGui::Text("Material: %s", material_name.data());
 			PrintMaterialProperties();
 			ImGui::ColorEdit4("Color: ###materialColor", rc_material->material.color);
+			ChooseAlphaType();
 		}
 		
 		
@@ -248,6 +252,53 @@ void ComponentMaterial::PrintMaterialProperties()
 		}
 		ImGui::Separator();
 	}
+}
+
+void ComponentMaterial::ChooseAlphaType()
+{
+	if (ImGui::RadioButton("OPAQUE", alpha == 0))
+	{
+		alpha = 0;
+	}
+	ImGui::SameLine();
+
+	if (ImGui::RadioButton("ALPHA", alpha == 1))
+	{
+		alpha = 1;
+	}
+	ImGui::SameLine();
+
+	if (ImGui::RadioButton("BLEND", alpha == 2))
+	{
+		alpha = 2;
+	}
+
+	if (alpha > 0)
+	{
+		if (ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f));
+	}
+
+	if (alpha == 2)
+	{
+		if (ImGui::CollapsingHeader("Alpha Blend Types"))
+		{
+			ImGui::RadioButton("Zero##BlendTypes", &blend_type, GL_ZERO);
+			ImGui::RadioButton("One##BlendTypes", &blend_type, GL_ONE);
+			ImGui::RadioButton("Src_Color##BlendTypes", &blend_type, GL_SRC_COLOR);
+			ImGui::RadioButton("One_Minus_Src_Color##BlendTypes", &blend_type, GL_ONE_MINUS_SRC_COLOR);
+			ImGui::RadioButton("Dst_Color##BlendTypes", &blend_type, GL_DST_COLOR);
+			ImGui::RadioButton("One_Minus_Dst_Color##BlendTypes", &blend_type, GL_ONE_MINUS_DST_COLOR);
+			ImGui::RadioButton("Src_Alpha##BlendTypes", &blend_type, GL_SRC_ALPHA);
+			ImGui::RadioButton("One_Minus_Src_Alpha##BlendTypes", &blend_type, GL_ONE_MINUS_SRC_ALPHA);
+			ImGui::RadioButton("Dst_Alpha##BlendTypes", &blend_type, GL_DST_ALPHA);
+			ImGui::RadioButton("One_Minus_Dst_Alpha##BlendTypes", &blend_type, GL_ONE_MINUS_DST_ALPHA);
+			ImGui::RadioButton("Constant_Color##BlendTypes", &blend_type, GL_CONSTANT_COLOR);
+			ImGui::RadioButton("One_Minus_Constant_Color##BlendTypes", &blend_type, GL_ONE_MINUS_CONSTANT_COLOR);
+			ImGui::RadioButton("Constant_Alpha##BlendTypes", &blend_type, GL_CONSTANT_ALPHA);
+			ImGui::RadioButton("One_Minus_Constant_Alpha##BlendTypes", &blend_type, GL_ONE_MINUS_CONSTANT_ALPHA);
+		}
+	}
+
 }
 
 void ComponentMaterial::CleanUp()

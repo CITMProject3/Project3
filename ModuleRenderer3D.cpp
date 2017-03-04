@@ -8,6 +8,7 @@
 #include "ModuleGOManager.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
+#include "ComponentTransform.h"
 #include "ResourceFileMaterial.h"
 #include "ComponentLight.h"
 #include "ResourceFileRenderTexture.h"
@@ -244,7 +245,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) cons
 		cam->render_texture->Bind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
-
+	map<float, GameObject*> alpha_objects;
 	int layer_mask = cam->GetLayerMask();
 	//Draw Static GO
 	vector<GameObject*> static_objects;
@@ -255,7 +256,15 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) cons
 		if ((*obj)->IsActive()) //TODO: if component mesh is not active don't draw the object.
 		{
 			if (layer_mask == (layer_mask | (1 << (*obj)->layer)))
-				Draw(*obj, App->lighting->GetLightInfo(), cam);
+			{
+				pair<float, GameObject*> alpha_object;
+				Draw(*obj, App->lighting->GetLightInfo(), cam, alpha_object);
+				if (alpha_object.second != nullptr)
+				{
+					alpha_objects.insert(alpha_object);
+				}
+			}
+				
 		}
 	}
 
@@ -265,28 +274,75 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex) cons
 		if (cam->Intersects(*(*obj)->bounding_box))
 		{
 			if (layer_mask == (layer_mask | (1 << (*obj)->layer)))
-				Draw((*obj), App->lighting->GetLightInfo(), cam);
+			{
+				pair<float, GameObject*> alpha_object;
+				Draw(*obj, App->lighting->GetLightInfo(), cam, alpha_object);
+				if (alpha_object.second != nullptr)
+				{
+					alpha_objects.insert(alpha_object);
+				}
+			}
 		}
 	}
+
+	std::multimap<float, GameObject*>::reverse_iterator it = alpha_objects.rbegin();
+	for (; it != alpha_objects.rend(); it++)
+	{
+		pair<float, GameObject*> alpha_object;
+		Draw(it->second, App->lighting->GetLightInfo(),cam, alpha_object,true);
+	}
+	alpha_objects.clear();
+
 	App->editor->skybox.Render(cam);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
 }
 
-void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam) const
+void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, pair<float, GameObject*>& alpha_object, bool alpha_render) const
 {
 	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
 
 	if (material == nullptr)
 		return;
-
+	float4 color = { 1.0f,1.0f,1.0f,1.0f };
 	uint shader_id = 0;
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultShaderId();
 
+	if (material->rc_material)
+	{
+		shader_id = material->rc_material->GetShaderId();
+		color = float4(material->rc_material->material.color);
+	}
+	else
+	{
+		shader_id = App->resource_manager->GetDefaultShaderId();
+		color = float4(material->color);
+	}
+
+	if (material->alpha == 2 && alpha_render == false)
+	{
+		
+		ComponentTransform* obj_tran = (ComponentTransform*)obj->GetComponent(C_TRANSFORM);
+		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj_tran->GetPosition());
+		alpha_object = pair<float, GameObject*>(distance, obj);
+		return;
+	}
+	
+	switch (material->alpha)
+	{
+	case (2):
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, material->blend_type);
+	}
+	case (1):
+	{
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, material->alpha_test);
+		break;
+	}
+	}
+	
 	//Use shader
 	glUseProgram(shader_id);
 
@@ -480,15 +536,16 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	{
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
-	if (material->rc_material != nullptr)
+
+	
+	if (colorLoc != -1)
 	{
-		if (colorLoc != -1) 
-		{ 
-			glUniform4fv(colorLoc, 1, material->rc_material->material.color); 
-		}
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor4fv(material->rc_material->material.color);
+		glUniform4fv(colorLoc, 1, color.ptr());
 	}
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glColor4fv(color.ptr());
+
+
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
@@ -516,6 +573,9 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_BLEND);
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const
