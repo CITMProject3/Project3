@@ -38,6 +38,9 @@ public:
 	virtual void Remove();
 	virtual void Load(Data& config);
 
+	virtual void OnPlay() {}
+	virtual void OnPause() {}
+	virtual void OnStop() {}
 
 protected:
 	bool active = true;

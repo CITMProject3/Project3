@@ -92,9 +92,7 @@ void GameObject::PreUpdate()
 
 void GameObject::Update()
 {
-	std::vector<Component*>::iterator comp = components.begin();
-
-	for (comp; comp != components.end(); comp++)
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
 		(*comp)->Update();
 	}
@@ -214,6 +212,30 @@ const std::vector<GameObject*>* GameObject::GetChilds()
 size_t GameObject::ChildCount()
 {
 	return childs.size();
+}
+
+void GameObject::OnPlay()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnPlay();
+	}
+}
+
+void GameObject::OnStop()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnStop();
+	}
+}
+
+void GameObject::OnPause()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnPause();
+	}
 }
 
 bool GameObject::IsActive() const
