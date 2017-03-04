@@ -9,7 +9,9 @@ enum ResourceFileType
 	RES_TEXTURE,
 	RES_MATERIAL,
 	RES_RENDER_TEX,
-	RES_PREFAB,
+	RES_SOUNDBANK,
+	RES_PREFAB
+
 };
 
 class ResourceFile

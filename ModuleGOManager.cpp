@@ -756,6 +756,11 @@ void ModuleGOManager::InspectorWindow()
 				selected_GO->AddComponent(C_LIGHT);
 			}
 
+			if (ImGui::Selectable("Add Audio"))
+			{
+				selected_GO->AddComponent(C_AUDIO);
+			}
+
 			ImGui::EndPopup();
 		}
 	}
