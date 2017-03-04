@@ -21,6 +21,9 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	car->maxSuspensionTravelCm = 1000.0f;
 	car->frictionSlip = 50.5;
 	car->maxSuspensionForce = 6000.0f;
+
+	car->num_wheels = 4;
+	car->wheels = new Wheel[4];
 }
 
 ComponentCar::~ComponentCar()
@@ -43,6 +46,7 @@ void ComponentCar::Update()
 	}
 	else 
 	{
+		vehicle = nullptr;
 		RenderWithoutCar();
 	}
 
@@ -197,7 +201,6 @@ void ComponentCar::HandlePlayerInput()
 
 void ComponentCar::CreateCar()
 {
-
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	car->transform.Set(trs->GetGlobalMatrix());
 
@@ -205,16 +208,12 @@ void ComponentCar::CreateCar()
 	car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
 	car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
 
-	// Don't change anything below this line ------------------
 
 	float half_width = car->chassis_size.x*0.5f;
 	float half_length = car->chassis_size.z*0.5f;
 
 	float3 direction(0, -1, 0);
 	float3 axis(-1, 0, 0);
-
-	car->num_wheels = 4;
-	car->wheels = new Wheel[4];
 
 	// FRONT-LEFT ------------------------
 	car->wheels[0].connection.Set(half_width - 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, half_length - wheel_radius + chasis_offset.z);

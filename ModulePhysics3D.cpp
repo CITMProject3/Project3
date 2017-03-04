@@ -192,10 +192,14 @@ void ModulePhysics3D::CleanWorld()
 	bodies.clear();
 
 	for (list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
+	{
+		world->removeVehicle((*item)->vehicle);
 		delete *item;
+	}
 
 	vehicles.clear();
 
+	world->clearForces();
 
 	CreateGround();
 }
