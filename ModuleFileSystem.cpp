@@ -376,7 +376,7 @@ bool ModuleFileSystem::DuplicateFile(const char * src, const char * dst) const
 
 void ModuleFileSystem::SearchResourceFolders()
 {
-	const char* folders[] = { ASSETS_FOLDER, LIBRARY_FOLDER}; //2 folders
+	const char* folders[] = { ASSETS_FOLDER, LIBRARY_FOLDER}; // 2 folders
 
 	for (int i = 0; i < 2; i++)
 		if (PHYSFS_exists(folders[i]) == 0)
