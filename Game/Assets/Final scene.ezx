@@ -2572,6 +2572,61 @@
                     "textures": []
                 }
             ]
+        },
+        {
+            "name": "Camera",
+            "UUID": 3901231258,
+            "local_UUID": 0,
+            "parent": 2893470035,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2600348938,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.961262,
+                        -0.275637,
+                        2,
+                        0,
+                        0.275637,
+                        0.961262,
+                        -5,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 2320810006,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.886051,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "is_game_camera": false
+                }
+            ]
         }
     ]
 } 
