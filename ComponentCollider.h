@@ -27,6 +27,9 @@ public:
 
 	void Update();
 
+	void OnPlay();
+	void OnStop();
+
 	void OnInspector(bool debug);
 
 	void OnTransformModified();
@@ -51,7 +54,5 @@ public:
 
 	btHeightfieldTerrainShape* terrain = nullptr;
 	int heightmap_buffer_id = -1;
-
-	bool exists = false;
 };
 #endif // !__COMPONENT_COLLIDER_H__

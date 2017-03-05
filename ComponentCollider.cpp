@@ -33,10 +33,8 @@ void ComponentCollider::Update()
 {
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 
-	if (App->IsGameRunning() == false)
+	if (App->IsGameRunning() == false || Static == true)
 	{
-		exists = false;
-		convexShape = nullptr;
 		if (primitive != nullptr)
 		{
 			//Setting the primitive pos
@@ -53,11 +51,6 @@ void ComponentCollider::Update()
 	}
 	else
 	{
-		if (exists == false)
-		{
-			LoadShape();
-			exists = true;
-		}
 		if (shape == S_CONVEX)
 		{
 			trs->Set(body->GetTransform().Transposed());
@@ -90,6 +83,16 @@ void ComponentCollider::Update()
 		}
 	}
 	return;
+}
+
+void ComponentCollider::OnPlay()
+{
+	LoadShape();
+}
+
+void ComponentCollider::OnStop()
+{
+	convexShape = nullptr;
 }
 
 void ComponentCollider::OnInspector(bool debug)
