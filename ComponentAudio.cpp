@@ -84,14 +84,9 @@ void ComponentAudio::OnInspector(bool debug)
 			ImGui::EndMenu();			
 		}
 		
-		if (ImGui::Button("PLAY"))
+		if (ImGui::Button("PLAY") && current_event != nullptr)
 			App->audio->PostEvent(current_event, game_object->GetUUID());
 	}
-}
-
-void ComponentAudio::OnPlay()
-{
-	App->audio->PostEvent(current_event, game_object->GetUUID());
 }
 
 void ComponentAudio::Save(Data & file)const
