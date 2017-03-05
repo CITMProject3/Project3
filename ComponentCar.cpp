@@ -298,6 +298,11 @@ void ComponentCar::HandlePlayerInput()
 			if (turn_current > turn_max)
 				turn_current = turn_max;
 		}
+
+		if (App->input->GetJoystickButton(0, JOY_BUTTON::SELECT))
+		{
+			Reset();
+		}
 	}
 
 
