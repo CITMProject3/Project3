@@ -247,6 +247,11 @@ void ComponentCar::HandlePlayerInput()
 		brake = brakeForce;
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		Reset();
+	}
+
 	//fOR DEBUG FOR NOW
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
 	{
