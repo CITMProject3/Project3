@@ -22,9 +22,7 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Li]brary/
-[As]sets/
 Game/Library/
-Game/Assets/
 Game/Imgui.ini
 
 # Visual Studio 2015 cache/options directory
@@ -53,7 +51,6 @@ artifacts/
 *_p.c
 *_i.h
 *.ilk
-*.meta
 *.obj
 *.pch
 *.pdb
