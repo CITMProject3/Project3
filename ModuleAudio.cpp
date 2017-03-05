@@ -144,15 +144,7 @@ long unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 
 		// Is Init Soundbank?
 		if (soundbank->name.compare("Init") == 0)
-		{
-			init_sb = soundbank;
-			//init_sb_loaded = true;
-
-			//// Load the Init bank
-			//AkBankID returned_bankID; // not used in this sample.
-			//AKRESULT eResult = AK::SoundEngine::LoadBank(soundbank->path.c_str(), AK_DEFAULT_POOL_ID, returned_bankID);
-			//assert(eResult == AK_Success);
-		}			
+			init_sb = soundbank;		
 
 		// Events Information
 		uint num_events = sb_info.GetArraySize("IncludedEvents");
@@ -211,7 +203,12 @@ void ModuleAudio::UnloadSoundBank(const char *soundbank_path)
 
 void ModuleAudio::PostEvent(const AudioEvent *ev, long unsigned int id)
 {
-	AK::SoundEngine::PostEvent(ev->name.c_str(), id);
+	if(ev) AK::SoundEngine::PostEvent(ev->name.c_str(), id);
+}
+
+void ModuleAudio::StopEvent(const AudioEvent *ev, long unsigned int id)
+{
+	if (ev) AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
 }
 
 void ModuleAudio::RegisterGameObject(long unsigned int id)

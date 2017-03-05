@@ -10,17 +10,27 @@
 
 ComponentAudio::ComponentAudio(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
-	App->audio->RegisterGameObject(game_object->GetUUID());
+	wwise_id_go = App->rnd->RandomInt();
+	App->audio->RegisterGameObject(wwise_id_go);
 }
 
 ComponentAudio::~ComponentAudio()
 { 
-	App->audio->UnregisterGameObject(game_object->GetUUID());
+	App->audio->StopEvent(current_event, wwise_id_go);
+	App->audio->UnregisterGameObject(wwise_id_go);
 	if(current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
 }
 
 void ComponentAudio::Update()
-{ }
+{ 
+	// I don't like this snippet here, but it has to be checked soon!
+	// Setting current event, from Selection on Inspector or loading form the value of event_id
+	if (current_event == nullptr)
+	{
+		current_event = App->audio->FindEventById(event_id);
+		event_selected = current_event != nullptr ? current_event->name : "";
+	}
+}
 
 void ComponentAudio::OnInspector(bool debug)
 {
@@ -50,14 +60,7 @@ void ComponentAudio::OnInspector(bool debug)
 
 		// Event selection
 		ImGui::Text("Event: ");
-		ImGui::SameLine();
-
-		// Setting current event, from Selection on Inspector or loading form the value of event_id
-		if (current_event == nullptr)
-		{
-			current_event = App->audio->FindEventById(event_id);
-			event_selected = current_event != nullptr ? current_event->name : "";
-		}			
+		ImGui::SameLine();		
 
 		std::vector<AudioEvent*> events;
 		App->audio->ObtainEvents(events);
@@ -84,9 +87,23 @@ void ComponentAudio::OnInspector(bool debug)
 			ImGui::EndMenu();			
 		}
 		
-		if (ImGui::Button("PLAY") && current_event != nullptr)
-			App->audio->PostEvent(current_event, game_object->GetUUID());
+		if (ImGui::Button("PLAY"))
+			App->audio->PostEvent(current_event, wwise_id_go);
+		ImGui::SameLine();
+		if (ImGui::Button("STOP"))
+			App->audio->StopEvent(current_event, wwise_id_go);
+
 	}
+}
+
+void ComponentAudio::OnPlay()
+{
+	App->audio->PostEvent(current_event, wwise_id_go);
+}
+
+void ComponentAudio::OnStop()
+{
+	App->audio->StopEvent(current_event, wwise_id_go);
 }
 
 void ComponentAudio::Save(Data & file)const
@@ -124,6 +141,7 @@ void ComponentAudio::Load(Data & conf)
 
 	// There are some events and the corresponding Soundbanks to load?
 	event_id = conf.GetUInt("event_id");
+	current_event = App->audio->FindEventById(event_id);
 	if (event_id != 0)
 		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);	
 }
