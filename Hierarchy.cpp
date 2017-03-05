@@ -162,6 +162,9 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 				if (App->editor->selected.size() > 0)
 				{
 					App->editor->selected.back()->SetParent(*object);
+					setting_parent = false;
+					App->editor->UnselectAll();
+					break;
 				}
 				setting_parent = false;
 			}

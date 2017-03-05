@@ -2424,7 +2424,7 @@
                 {
                     "type": 1,
                     "UUID": 3941805856,
-                    "active": true,
+                    "active": false,
                     "path": "\/Library\/4064503324\/3511167081.msh"
                 },
                 {
@@ -2591,7 +2591,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.814745,
+                    "aspect_ratio": 1.887906,
                     "color": [
                         0,
                         0,
@@ -2601,6 +2601,129 @@
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
                     "is_game_camera": true
+                }
+            ]
+        },
+        {
+            "name": "KartChild",
+            "UUID": 2946382228,
+            "local_UUID": 0,
+            "parent": 2888653115,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1252105948,
+                    "active": true,
+                    "matrix": [
+                        0.600000,
+                        0,
+                        0,
+                        -1.300000,
+                        0,
+                        0.600000,
+                        0,
+                        -1,
+                        0,
+                        0,
+                        0.600000,
+                        -1.761000,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kart",
+            "UUID": 1413648582,
+            "local_UUID": 4054932523,
+            "parent": 2946382228,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1413648582,
+            "prefab_path": "\/Library\/4194184132\/\/822742291\/822742291.pfb",
+            "components": [
+                {
+                    "position": [
+                        2.361325,
+                        3.226191,
+                        2.673809
+                    ],
+                    "rotation": [
+                        0,
+                        0.326727,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3900707432,
+                    "local_uuid": 4005488792
+                },
+                {
+                    "uuid": 738564321,
+                    "local_uuid": 3484900458
+                },
+                {
+                    "uuid": 2833475076,
+                    "local_uuid": 2998636301
+                },
+                {
+                    "uuid": 3109585226,
+                    "local_uuid": 1717229924
+                },
+                {
+                    "uuid": 1056728847,
+                    "local_uuid": 4146202417
+                },
+                {
+                    "uuid": 317851163,
+                    "local_uuid": 961103954
+                },
+                {
+                    "uuid": 1502626947,
+                    "local_uuid": 4230302164
+                },
+                {
+                    "uuid": 2893382373,
+                    "local_uuid": 1485481956
+                },
+                {
+                    "uuid": 1256987648,
+                    "local_uuid": 2939265205
+                },
+                {
+                    "uuid": 2398671710,
+                    "local_uuid": 3941689591
+                },
+                {
+                    "uuid": 1657386825,
+                    "local_uuid": 2901631071
+                },
+                {
+                    "uuid": 1155031977,
+                    "local_uuid": 3822864793
+                },
+                {
+                    "uuid": 872090666,
+                    "local_uuid": 257017555
+                },
+                {
+                    "uuid": 3188121362,
+                    "local_uuid": 923114093
+                },
+                {
+                    "uuid": 3275282342,
+                    "local_uuid": 1753102863
                 }
             ]
         },
