@@ -118,7 +118,7 @@ update_status ModuleGOManager::Update()
 	{
 		if (selected_GO->bounding_box)
 		{
-			g_Debug->AddAABB(*selected_GO->bounding_box, g_Debug->green);
+		//	g_Debug->AddAABB(*selected_GO->bounding_box, g_Debug->green);
 		}
 	}
 
