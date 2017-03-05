@@ -1694,16 +1694,16 @@
                     "matrix": [
                         0,
                         0,
-                        -0.999992,
-                        3.066000,
+                        -0.999982,
+                        6.686495,
                         0,
                         1,
                         0,
-                        144.238342,
-                        0.999992,
+                        143.767975,
+                        0.999982,
                         0,
                         0,
-                        6.753813,
+                        5.280887,
                         0,
                         0,
                         0,
@@ -2746,6 +2746,620 @@
                     "UUID": 3530884673,
                     "active": true,
                     "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Portal",
+            "UUID": 1850522881,
+            "local_UUID": 0,
+            "parent": 1645147647,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1347870137,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        0.040000,
+                        1.866542,
+                        0,
+                        0.040000,
+                        0,
+                        141.221512,
+                        -0.040000,
+                        0,
+                        0,
+                        6.154084,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rope1",
+            "UUID": 4177435078,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1256997185,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 307636418,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/3461366466.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2095903451,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/2991662439\/2991662439.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol4",
+            "UUID": 2661143571,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3096389111,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3362791487,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/4074422923.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1526139902,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/3322324214\/3322324214.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Column2",
+            "UUID": 2653436323,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1275831413,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1978664046,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/2468940332.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 910384298,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/662316259\/662316259.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol3",
+            "UUID": 448558697,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3098100138,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1844477616,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/3431080097.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 766829581,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/3322324214\/3322324214.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol2",
+            "UUID": 3697762967,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1842902215,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3156732441,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/1657208464.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 234919148,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/3322324214\/3322324214.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Column",
+            "UUID": 1285143764,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2591083368,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2749558075,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/3484306533.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 836001761,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/662316259\/662316259.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol1",
+            "UUID": 2467247959,
+            "local_UUID": 0,
+            "parent": 1850522881,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3232749380,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1841728949,
+                    "active": true,
+                    "path": "\/Library\/400983952\/1178437901\/2176241197.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2440394924,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/400983952\/3322324214\/3322324214.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Arc",
+            "UUID": 1074399199,
+            "local_UUID": 0,
+            "parent": 1645147647,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 326462568,
+                    "active": true,
+                    "matrix": [
+                        0.192040,
+                        0,
+                        0.461650,
+                        -93.810410,
+                        0,
+                        0.500000,
+                        0,
+                        91.634331,
+                        -0.461650,
+                        0,
+                        0.192040,
+                        92.948044,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface20",
+            "UUID": 2006323469,
+            "local_UUID": 0,
+            "parent": 1074399199,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2485087166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2235571236,
+                    "active": true,
+                    "path": "\/Library\/16141560\/2714930038\/3948566638.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2113821880,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/16141560\/1923473094\/1923473094.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface20",
+            "UUID": 1871222211,
+            "local_UUID": 0,
+            "parent": 1074399199,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1924615680,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 201659905,
+                    "active": true,
+                    "path": "\/Library\/16141560\/2714930038\/867471860.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2756670687,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/16141560\/1856798040\/1856798040.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface20",
+            "UUID": 1321557910,
+            "local_UUID": 0,
+            "parent": 1074399199,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2474669946,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 35258013,
+                    "active": true,
+                    "path": "\/Library\/16141560\/2714930038\/32020430.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 137176844,
+                    "active": true,
+                    "path": "",
+                    "textures": [
+                        {
+                            "path": "\/Library\/16141560\/2448925574\/2448925574.dds"
+                        }
+                    ]
                 }
             ]
         }
