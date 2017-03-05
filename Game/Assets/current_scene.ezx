@@ -489,19 +489,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 2224031130,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -552,19 +539,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 2995819935,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -615,19 +589,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3251485166,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -678,19 +639,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3878467962,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -741,19 +689,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 2891676262,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -804,19 +739,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3933654727,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -867,19 +789,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 812895122,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -930,19 +839,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3168348231,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -993,19 +889,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3636121286,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1056,19 +939,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 918498974,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1119,19 +989,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3055556041,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1182,19 +1039,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 4201530108,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1245,19 +1089,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 1598796620,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1308,19 +1139,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 941794210,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1371,19 +1189,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 565846356,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1434,19 +1239,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 2840704292,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1497,19 +1289,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 1537322396,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1560,19 +1339,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3402485180,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1623,19 +1389,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 1330153055,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1686,19 +1439,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 822255677,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1749,19 +1489,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 1155360552,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1812,19 +1539,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 44634276,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1875,19 +1589,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 3051857788,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -1938,19 +1639,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 1305680358,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         },
@@ -2001,19 +1689,6 @@
                     "active": true,
                     "path": "",
                     "textures": []
-                },
-                {
-                    "type": 6,
-                    "UUID": 441561447,
-                    "active": true,
-                    "shape": 3,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ]
                 }
             ]
         }
