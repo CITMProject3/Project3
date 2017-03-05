@@ -11,8 +11,6 @@ public:
 
 private:
 
-	std::string init_sb_lib_path;
-
 	void LoadInMemory();
 	void UnloadInMemory();
 

@@ -23,6 +23,8 @@ public:
 	
 	void Remove();
 
+	void OnPlay();
+
 private:
 
 	ResourceFileAudio *rc_audio = nullptr;

@@ -1,0 +1,41 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "11",
+  "SoundbankVersion": "120",
+  "RootPaths": {
+   "ProjectRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\",
+   "SourceFilesRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\.cache\\Windows\\",
+   "SoundBanksRoot": "C:\\Users\\Carlos\\Documents\\GitHub\\Project3\\Game\\Assets\\Soundbanks\\",
+   "ExternalSourcesInputFile": "",
+   "ExternalSourcesOutputRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\GeneratedSoundBanks\\Windows\\"
+  },
+  "SoundBanks": [
+   {
+    "Id": "3991942870",
+    "GUID": "{76AADC40-19AB-41F7-8FF2-E1BA4AD446B7}",
+    "Language": "SFX",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Music",
+    "ShortName": "Music",
+    "Path": "Music.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "2932040671",
+      "Name": "Play_Music",
+      "ObjectPath": "\\Events\\Default Work Unit\\Play_Music",
+      "GUID": "{E1EA6A83-4CF3-43E8-8C61-8D985CC28522}"
+     }
+    ],
+    "IncludedMemoryFiles": [
+     {
+      "Id": "417704114",
+      "Language": "SFX",
+      "ShortName": "street_fighter_honda.wav",
+      "Path": "SFX\\street_fighter_honda_4B8CC0C5.wem"
+     }
+    ]
+   }
+  ]
+ }
+}
