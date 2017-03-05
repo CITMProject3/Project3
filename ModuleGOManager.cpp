@@ -202,7 +202,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	}
 
 	// Loading mesh for each primitive
-	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));
+	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));  // BUG: This is tha Resource Path. Loading must be done from the library counterpart path.
 
 	return primitive;
 }
