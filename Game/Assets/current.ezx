@@ -1,0 +1,1722 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 3826697897,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3582221241,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 638401760,
+            "local_UUID": 0,
+            "parent": 3826697897,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 214626549,
+                    "active": true,
+                    "matrix": [
+                        0.753950,
+                        0.454622,
+                        -0.474222,
+                        -0.886391,
+                        -0.576155,
+                        0.110790,
+                        -0.809802,
+                        -1.267499,
+                        -0.315612,
+                        0.883777,
+                        0.345460,
+                        -0.062811,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 4051762802,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface1",
+            "UUID": 1763710889,
+            "local_UUID": 0,
+            "parent": 3826697897,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1082113286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        42.966614,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3687641046,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2903638022.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 928374814,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 828995040,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -5.955255,
+                        95.606995,
+                        -9.018318
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface5",
+            "UUID": 1475299441,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2300690872,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4208589964,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/3929736119.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3644583423,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 227400798,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -29.236629,
+                        125.815826,
+                        -3.615822
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface6",
+            "UUID": 867541366,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1836979435,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 86623780,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1813874607.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2769586476,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2967354668,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -62.355717,
+                        111.216324,
+                        10.426823
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface7",
+            "UUID": 4263057980,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2403985756,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 880530760,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/4220235770.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2049815683,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1814878304,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -82.209839,
+                        118.642517,
+                        28.780838
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface8",
+            "UUID": 3843713349,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3502831306,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 934300597,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/3184013307.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2926774236,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2241261150,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -90.097282,
+                        117.178391,
+                        37.751678
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface9",
+            "UUID": 297386814,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2508322449,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1616946097,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1245469512.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1905933303,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3857542663,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -100.643585,
+                        115.946739,
+                        41.033726
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface10",
+            "UUID": 2096056386,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1264231404,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1620753472,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/603478170.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2154045545,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1222202466,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -111.574074,
+                        115.232254,
+                        43.712044
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface11",
+            "UUID": 1009412046,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3226436006,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2424691227,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2814893659.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2392636239,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2946541756,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -122.387810,
+                        115.985786,
+                        46.096424
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface12",
+            "UUID": 1067387234,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 462137323,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4020226362,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/3590279473.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 98917901,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3060778705,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -125.737679,
+                        115.338165,
+                        56.779968
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface13",
+            "UUID": 2798391689,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2415528107,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3742521883,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1587453139.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1801723763,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2661601801,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -123.950645,
+                        114.407776,
+                        70.432045
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface14",
+            "UUID": 4025006892,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 467408523,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1018125019,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1999405661.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4178816347,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3305928093,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -102.644669,
+                        106.823593,
+                        77.422638
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface15",
+            "UUID": 3803372092,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 7195016,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3535024154,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2029067759.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2310184971,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1157196011,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -76.651962,
+                        97.432198,
+                        86.255676
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface16",
+            "UUID": 2743294708,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3415679793,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3802594606,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/3839175755.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 692462116,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 796418344,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -64.382828,
+                        93.130424,
+                        103.768723
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface17",
+            "UUID": 1844333676,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3263978518,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1250381123,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1406336232.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2179179348,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3705906442,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -54.668739,
+                        87.205414,
+                        126.280563
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface18",
+            "UUID": 291477295,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1722225294,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1432228296,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/578062436.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1483527785,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1708473458,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -40.018303,
+                        80.866020,
+                        138.903030
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface19",
+            "UUID": 3037695966,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3384407327,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1612817398,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/1588073349.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1638505368,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 40247399,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -11.118928,
+                        78.558983,
+                        142.178955
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface20",
+            "UUID": 1336829204,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3683511274,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1060779970,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/658771118.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3338212708,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3870702614,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -0.989588,
+                        78.253723,
+                        128.796890
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface21",
+            "UUID": 3354177121,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2058345877,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3203873637,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/4195381270.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1690732167,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 746548123,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -3.597506,
+                        76.707054,
+                        109.883224
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface22",
+            "UUID": 3347191228,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 151550806,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585213,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4005425157,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/697449006.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2039223866,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1180049067,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -27.009239,
+                        70.794769,
+                        98.417839
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface33",
+            "UUID": 2979648822,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2731238424,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4169452673,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/330216423.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4003270283,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2834986533,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -43.628223,
+                        64.788826,
+                        80.004509
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface34",
+            "UUID": 2339832182,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 630720669,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3223519413,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/838226613.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3574085453,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1542637344,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -43.135078,
+                        49.369583,
+                        54.294998
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface35",
+            "UUID": 3141469767,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3728991797,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 188951800,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2581318252.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2857310605,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1332253233,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -34.813976,
+                        30.352163,
+                        25.724663
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface36",
+            "UUID": 4168223800,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1330324697,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3622152930,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/747188100.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4282033509,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1032730119,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -26.174124,
+                        21.785152,
+                        6.779982
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface37",
+            "UUID": 3405752003,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1820700561,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2029437286,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/4057510131.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3982157969,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2674506912,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -20.918552,
+                        19.971169,
+                        -5.508795
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface38",
+            "UUID": 2032417241,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1331299100,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585215,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1390355142,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2748273551.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1207420061,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3845336593,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -20.851727,
+                        20.394588,
+                        -25.496695
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Hi:polySurface39",
+            "UUID": 247522268,
+            "local_UUID": 0,
+            "parent": 1763710889,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 238780035,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.585214,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 92676780,
+                    "active": true,
+                    "path": "\/Library\/3643505894\/2649486790.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3836777215,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2523485958,
+                    "active": true,
+                    "shape": 3,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        -33.888306,
+                        20.237545,
+                        -33.525108
+                    ]
+                }
+            ]
+        }
+    ]
+} 
