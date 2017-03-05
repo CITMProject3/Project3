@@ -24,6 +24,10 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	car->num_wheels = 4;
 	car->wheels = new Wheel[4];
+
+	//
+	reset_pos = { 0.0f, 0.0f, 0.0f };
+	reset_rot = { 0.0f, 0.0f, 0.0f };
 }
 
 ComponentCar::~ComponentCar()
@@ -40,6 +44,7 @@ void ComponentCar::Update()
 			HandlePlayerInput();
 			vehicle->Render();
 			UpdateGO();
+			GameLoopCheck();
 		}
 		else
 			CreateCar();
@@ -73,6 +78,23 @@ void ComponentCar::OnInspector(bool debug)
 
 		if (ImGui::TreeNode("Car settings"))
 		{
+			if (ImGui::TreeNode("Game loop settings"))
+			{
+				ImGui::Text("Lose height");
+				ImGui::SameLine();
+				ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
+
+				ImGui::Text("Reset position");
+				ImGui::SameLine();
+				ImGui::DragFloat3("##Rpoint", reset_pos.ptr());
+
+				ImGui::Text("Reset rotation");
+				ImGui::SameLine();
+				ImGui::DragFloat3("##Rrot", reset_rot.ptr());
+
+			
+				ImGui::TreePop();
+			}
 
 			if (ImGui::TreeNode("Control settings"))
 			{
@@ -299,6 +321,21 @@ void ComponentCar::HandlePlayerInput()
 	}
 }
 
+void ComponentCar::GameLoopCheck()
+{
+	if (((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetPosition().y <= lose_height)
+	{
+		Reset();
+	}
+}
+
+void ComponentCar::Reset()
+{
+	vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
+	vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+}
+
 void ComponentCar::CreateCar()
 {
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
@@ -428,6 +465,12 @@ void ComponentCar::Save(Data& file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
+	//Game loop settings
+	data.AppendFloat("lose_height", lose_height);
+	data.AppendFloat3("reset_pos", reset_pos.ptr());
+	data.AppendFloat3("reset_rot", reset_rot.ptr());
+
+
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
@@ -456,6 +499,11 @@ void ComponentCar::Load(Data& conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+
+	//Game loop settings
+	lose_height = conf.GetFloat("lose_height");
+	reset_pos = conf.GetFloat3("reset_pos");
+	reset_rot = conf.GetFloat3("reset_rot");
 
 	chasis_size = conf.GetFloat3("chasis_size");
 	chasis_offset = conf.GetFloat3("chasis_offset");

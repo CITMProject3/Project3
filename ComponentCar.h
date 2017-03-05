@@ -27,6 +27,9 @@ public:
 
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
+	void GameLoopCheck();
+	void Reset();
+
 
 private:
 	void CreateCar();
@@ -34,6 +37,7 @@ private:
 
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
+	
 
 public:
 	float3 chasis_size;
@@ -60,6 +64,11 @@ public:
 
 	//update variables
 	float turn_current = 0.0f;
+
+	//Game Loop variables
+	float lose_height = 0.0f;
+	float3 reset_pos;
+	float3 reset_rot;
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
