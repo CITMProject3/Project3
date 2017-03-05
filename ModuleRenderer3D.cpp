@@ -303,6 +303,11 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	GLint view_location = glGetUniformLocation(shader_id, "view");
 	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);	
 
+	if (material->texture_ids.empty() == true)
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
 	int count = 0;
 	//Good code for textures. The code above must be removed.
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
@@ -342,7 +347,6 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 			++count;
 		}
 	}
-
 	
 
 	//Textures
