@@ -23,13 +23,18 @@ public:
 	
 	void Remove();
 
+	void OnPlay();
+	void OnStop();
+
 private:
 
 	ResourceFileAudio *rc_audio = nullptr;
 	AudioEvent *current_event = nullptr;
 
 	std::string event_selected;
-	long unsigned event_id = 0;				// only used when loading components from a saved scene. 
+	long unsigned event_id = 0;				// only used when loading components from a saved scene.
+
+	long unsigned wwise_id_go;
 
 };
 

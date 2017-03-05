@@ -1778,7 +1778,7 @@
                         0,
                         0.906308,
                         -0.422618,
-                        3.000000,
+                        3,
                         0,
                         0.422618,
                         0.906308,
@@ -1805,7 +1805,7 @@
                     "layer_mask": -1,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
-                    "is_game_camera": false
+                    "is_game_camera": true
                 }
             ]
         },

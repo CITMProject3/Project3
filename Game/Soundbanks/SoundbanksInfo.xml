@@ -35,7 +35,7 @@
 			<ShortName>Music</ShortName>
 			<Path>Music.bnk</Path>
 			<IncludedEvents>
-				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\Default Work Unit\Play_Music" GUID="{E1EA6A83-4CF3-43E8-8C61-8D985CC28522}"/>
+				<Event Id="417627684" Name="PlayMusic" ObjectPath="\Events\Default Work Unit\PlayMusic" GUID="{E1EA6A83-4CF3-43E8-8C61-8D985CC28522}"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="417704114" Language="SFX">

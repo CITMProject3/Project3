@@ -54,6 +54,7 @@ public:
 	void LoadSoundBank(const char *soundbank_path);
 	void UnloadSoundBank(const char *soundbank_path);
 	void PostEvent(const AudioEvent *ev, long unsigned int id);
+	void StopEvent(const AudioEvent *ev, long unsigned int id);
 
 	void RegisterGameObject(long unsigned int id);
 	void UnregisterGameObject(long unsigned int id);

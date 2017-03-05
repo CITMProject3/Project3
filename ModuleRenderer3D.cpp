@@ -512,6 +512,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const
