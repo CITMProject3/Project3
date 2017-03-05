@@ -10,14 +10,14 @@
 #include "PhysVehicle3D.h"
 #include <string>
 
-ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 1.0f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
+ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
 	car = new VehicleInfo();
 
-	car->mass = 500.0f;
-	car->suspensionStiffness = 15.88f;
+	car->mass = 400.0f;
+	car->suspensionStiffness = 100.0f;
 	car->suspensionCompression = 0.83f;
-	car->suspensionDamping = 0.88f;
+	car->suspensionDamping = 20.0f;
 	car->maxSuspensionTravelCm = 1000.0f;
 	car->frictionSlip = 50.5;
 	car->maxSuspensionForce = 6000.0f;
@@ -76,12 +76,32 @@ void ComponentCar::OnInspector(bool debug)
 
 			if (ImGui::TreeNode("Control settings"))
 			{
-				ImGui::DragFloat("Wheel  max turn", &turn_max, 0.1f, 0.0f, 2.0f);
-				ImGui::DragFloat("Wheel turn speed", &turn_speed, 0.01f, 0.0f, 2.0f);
-				ImGui::DragFloat("Brake force", &brakeForce, 1.0f, 0.0f, 1000.0f);
-				ImGui::DragFloat("Kick force", &force, 1.0f, 0.0f, floatMax);
-				ImGui::DragFloat("Kick cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f);
-				ImGui::DragFloat("Kick force time", &kick_force_time, 0.025f, 0.0f, 20.0f);
+				ImGui::Text("Turn max");
+				ImGui::SameLine();
+				if(ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)){}
+				
+
+				ImGui::Text("Wheel turn speed");
+				ImGui::SameLine();
+				if(ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)){}
+
+
+				ImGui::Text("Brake force");
+				ImGui::SameLine();
+				if (ImGui::DragFloat("##Brake_force", &brakeForce, 1.0f, 0.0f, 1000.0f)){}
+
+				ImGui::Text("Kick force");
+				ImGui::SameLine();
+				if(ImGui::DragFloat("##Kick_force", &force, 1.0f, 0.0f, floatMax)){}
+
+				ImGui::Text("Kick cooldown");
+				ImGui::SameLine();
+				if(ImGui::DragFloat("##Kick_cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f)){}
+
+				ImGui::Text("Kick force time");
+				ImGui::SameLine();
+				if(ImGui::DragFloat("##Kick_force_time", &kick_force_time, 0.025f, 0.0f, 20.0f)){}
+
 				ImGui::TreePop();
 			}
 
@@ -89,28 +109,63 @@ void ComponentCar::OnInspector(bool debug)
 			{
 				if (ImGui::TreeNode("Chasis settings"))
 				{
-					ImGui::DragFloat3("Chasis size", chasis_size.ptr(), 0.1f, 0.1f, 5.0f);
-					ImGui::DragFloat3("Chasis offset", chasis_offset.ptr(), 0.1f, 0.1f, 5.0f);
-					ImGui::DragFloat("Mass", &car->mass, 1.0f, 0.1f, floatMax);					
+					ImGui::Text("Size");
+					ImGui::SameLine();
+					ImGui::DragFloat3("##Chasis size", chasis_size.ptr(), 0.1f, 0.1f, 5.0f);
+
+					ImGui::Text("Offset");
+					ImGui::SameLine();
+					ImGui::DragFloat3("##Chasis offset", chasis_offset.ptr(), 0.1f, 0.1f, 5.0f);
+
+					ImGui::Text("Mass");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Mass", &car->mass, 1.0f, 0.1f, floatMax);	
+
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Suspension"))
 				{
-					ImGui::DragFloat("Suspension rest length", &suspensionRestLength, 0.1f, 0.1f, floatMax);
-					ImGui::DragFloat("Max suspension travel Cm", &car->maxSuspensionTravelCm, 1.0f, 0.1f, floatMax);
-					ImGui::DragFloat("Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
-					ImGui::DragFloat("Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);					
-					ImGui::DragFloat("Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Rest length");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension rest length", &suspensionRestLength, 0.1f, 0.1f, floatMax);
+
+					ImGui::Text("Max travel (Cm)");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Max suspension travel Cm", &car->maxSuspensionTravelCm, 1.0f, 0.1f, floatMax);
+
+					ImGui::Text("Stiffness");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
+
+					ImGui::Text("Damping");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);	
+
+					ImGui::Text("Max force");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+
 					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Wheel settings"))
 				{
-					ImGui::DragFloat("Connection height", &connection_height, 0.1f, floatMin, floatMax);
-					ImGui::DragFloat("Wheel radius", &wheel_radius, 0.1f, 0.1f, floatMax);
-					ImGui::DragFloat("Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);					
+					ImGui::Text("Connection height");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Connection height", &connection_height, 0.1f, floatMin, floatMax);
+
+					ImGui::Text("Radius");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Wheel radius", &wheel_radius, 0.1f, 0.1f, floatMax);
+
+					ImGui::Text("Width");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);					
 					ImGui::TreePop();
 				}
-				ImGui::DragFloat("Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
+
+				ImGui::Text("Friction Slip");
+				ImGui::SameLine();
+				ImGui::DragFloat("##Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
 			}//Endof IsGameRunning() == false
 			ImGui::TreePop();
 		} //Endof Car settings

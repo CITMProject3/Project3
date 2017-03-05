@@ -49,7 +49,7 @@ public:
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
 	float wheel_width = 0.2f;
-	float suspensionRestLength = 0.6f;
+	float suspensionRestLength = 0.3f;
 
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
