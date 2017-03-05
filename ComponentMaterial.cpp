@@ -89,14 +89,17 @@ void ComponentMaterial::OnInspector(bool debug)
 				}
 				ImGui::EndMenu();
 			}
-
+			AddTexture();
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
 				ImGui::Text("%s", (*it).first.data());
 				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
+				ChangeTextureNoMaterial((*it).first);
 			}
+			
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 			ChooseAlphaType();
+
 		}
 		else
 		{
@@ -241,7 +244,7 @@ void ComponentMaterial::PrintMaterialProperties()
 			string tex_name;
 			tex_name.resize(*reinterpret_cast<int*>((*it)->value));
 			memcpy(tex_name._Myptr(), (*it)->value + sizeof(int), *reinterpret_cast<int*>((*it)->value));
-
+			ChangeTexture(tex_name, (*it));
 			/*ResourceFileTexture* rc = texture_list.at(tex_name.data());
 			if (rc)
 			{
@@ -299,6 +302,145 @@ void ComponentMaterial::ChooseAlphaType()
 		}
 	}
 
+}
+
+void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
+{
+	ImGui::Text("Change Texture: ");
+	ImGui::SameLine();
+	std::string str = ("Textures: ##ChangeTexture" + tex_name);
+	if (ImGui::BeginMenu(str.c_str()))
+	{
+		vector<string> textures;
+		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures);
+
+		for (vector<string>::iterator it = textures.begin(); it != textures.end(); ++it)
+		{
+			if (ImGui::MenuItem((*it).data()))
+			{
+				
+				string u_sampler2d = App->resource_manager->FindFile(*it);
+				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(u_sampler2d, ResourceFileType::RES_TEXTURE);
+				if (rc_tmp)
+				{
+					tex_resources.pop_back();
+					texture_ids.at("") = rc_tmp->GetTexture();
+					list_textures_paths.pop_back();
+					tex_resources.push_back(rc_tmp);
+					list_textures_paths.push_back(u_sampler2d);
+				}
+				else
+				{
+					LOG("Material: error while loading texture %s", (*it).data());
+				}
+			}
+		}
+		ImGui::EndMenu();
+	}
+}
+
+void ComponentMaterial::ChangeTexture(string tex_name, Uniform* &value)
+{
+		ImGui::Text("Texture: ");
+		ImGui::SameLine();
+		string name = "Textures:";
+		if (value->name != "")
+			name = value->name;
+		std::string str = (name + "##ChangeTexture" + tex_name);
+		if (ImGui::BeginMenu(str.c_str()))
+		{
+			vector<string> textures;
+			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures);
+			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures);
+
+			for (vector<string>::iterator it = textures.begin(); it != textures.end(); ++it)
+			{
+				if (ImGui::MenuItem((*it).data()))
+				{
+					string u_sampler2d = App->resource_manager->FindFile(*it);
+
+					if (value != nullptr)
+					{
+						int sampler_size = u_sampler2d.size();
+						char* content = new char[sizeof(int) + sampler_size * sizeof(char)];
+						memcpy(content, &sampler_size, sizeof(int));
+						char* pointer = content + sizeof(int);
+						memcpy(pointer, u_sampler2d.c_str(), sizeof(char)* sampler_size);
+						int size;
+						memcpy(&size, content, sizeof(int));
+						value->value = new char[sizeof(int) + sizeof(char) * size];
+						memcpy(value->value, content, sizeof(int) + sizeof(char) * size);
+						RefreshTextures();
+					}
+					
+				}
+			}
+			ImGui::EndMenu();
+		}
+}
+
+void ComponentMaterial::RefreshTextures()
+{
+	texture_ids.clear();
+	for (vector<Uniform*>::iterator uni = rc_material->material.uniforms.begin(); uni != rc_material->material.uniforms.end(); ++uni)
+	{
+		if ((*uni)->type == UniformType::U_SAMPLER2D)
+		{
+			string texture_path;
+			int name_size = *reinterpret_cast<int*>((*uni)->value);
+			texture_path.resize(name_size);
+			memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
+
+
+			ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());
+
+			if (type == ResourceFileType::RES_TEXTURE)
+			{
+				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_TEXTURE);
+				tex_resources.push_back(rc_tmp);
+				texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
+			}
+			else
+			{
+				ResourceFileRenderTexture* rc_rndtx = (ResourceFileRenderTexture*)App->resource_manager->LoadResource(texture_path, ResourceFileType::RES_RENDER_TEX);
+				tex_resources.push_back(rc_rndtx);
+				texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_rndtx->GetTexture()));
+			}
+		}
+	}
+}
+
+void ComponentMaterial::AddTexture()
+{
+	ImGui::Text("Add Texture: ");
+	ImGui::SameLine();
+	std::string str = ("##AddTexture");
+	if (ImGui::BeginMenu(str.c_str()))
+	{
+		vector<string> textures;
+		
+		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures);
+
+		for (vector<string>::iterator it = textures.begin(); it != textures.end(); ++it)
+		{
+			if (ImGui::MenuItem((*it).data()))
+			{
+				string path = App->resource_manager->FindFile((*it).data());
+				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(path, ResourceFileType::RES_TEXTURE);
+				if (rc_tmp)
+				{
+					tex_resources.push_back(rc_tmp);
+					texture_ids.insert(pair<string, uint>("", rc_tmp->GetTexture()));
+					list_textures_paths.push_back(path);
+				}
+				else
+				{
+					LOG("Material: error while loading texture %s", (*it).data());
+				}
+			}
+		}
+		ImGui::EndMenu();
+	}
 }
 
 void ComponentMaterial::CleanUp()

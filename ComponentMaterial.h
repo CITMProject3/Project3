@@ -25,6 +25,10 @@ public:
 private:
 	void PrintMaterialProperties();
 	void ChooseAlphaType();
+	void ChangeTextureNoMaterial(string tex_num);
+	void ChangeTexture(string tex_num, Uniform* &value);
+	void RefreshTextures();
+	void AddTexture();
 	void CleanUp();
 
 public:
@@ -41,5 +45,6 @@ private:
 	std::vector<ResourceFile*> tex_resources;
 	std::vector<std::string> list_textures_paths; //Default textures from fbx
 	bool change_material_enabled = false;
+	
 };
 #endif // !__COMPONENT_MATERIAL_H__
