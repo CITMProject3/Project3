@@ -11,7 +11,7 @@ public:
 
 private:
 
-	long unsigned int soundbank_id;
+	std::string init_sb_lib_path;
 
 	void LoadInMemory();
 	void UnloadInMemory();

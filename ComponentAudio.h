@@ -29,6 +29,7 @@ private:
 	AudioEvent *current_event = nullptr;
 
 	std::string event_selected;
+	long unsigned event_id = 0;				// only used when loading components from a saved scene. 
 
 };
 

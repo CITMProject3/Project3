@@ -146,12 +146,12 @@ long unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 		if (soundbank->name.compare("Init") == 0)
 		{
 			init_sb = soundbank;
-			init_sb_loaded = true;
+			//init_sb_loaded = true;
 
-			// Load the Init bank
-			AkBankID returned_bankID; // not used in this sample.
-			AKRESULT eResult = AK::SoundEngine::LoadBank(soundbank->path.c_str(), AK_DEFAULT_POOL_ID, returned_bankID);
-			assert(eResult == AK_Success);
+			//// Load the Init bank
+			//AkBankID returned_bankID; // not used in this sample.
+			//AKRESULT eResult = AK::SoundEngine::LoadBank(soundbank->path.c_str(), AK_DEFAULT_POOL_ID, returned_bankID);
+			//assert(eResult == AK_Success);
 		}			
 
 		// Events Information
@@ -194,8 +194,9 @@ bool ModuleAudio::IsSoundBank(const std::string &file_to_check) const
 
 void ModuleAudio::LoadSoundBank(const char *soundbank_path)
 {
+	AkBankID returned_bankID;
+
 	// Load the corresponding soundbank
-	AkBankID returned_bankID; 
 	AKRESULT eResult = AK::SoundEngine::LoadBank(soundbank_path, AK_DEFAULT_POOL_ID, returned_bankID);
 	assert(eResult == AK_Success);
 }
@@ -226,6 +227,23 @@ void ModuleAudio::UnregisterGameObject(long unsigned int id)
 void ModuleAudio::SetLibrarySoundbankPath(const char *lib_path)
 {
 	lib_base_path = lib_path;
+}
+
+const char *ModuleAudio::GetInitLibrarySoundbankPath() const
+{
+	if (init_sb)
+		return init_sb->path.c_str();
+	return "";
+}
+
+void ModuleAudio::InitSoundbankLoaded()
+{
+	init_sb_loaded = true;
+}
+
+bool ModuleAudio::IsInitSoundbankLoaded() const
+{
+	return init_sb_loaded;
 }
 
 AudioEvent *ModuleAudio::FindEventById(long unsigned event_id)

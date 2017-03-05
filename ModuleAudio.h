@@ -44,8 +44,12 @@ public:
 
 	void SetListener(const ComponentCamera *listener);
 	void SetLibrarySoundbankPath(const char *lib_path);
+	const char *GetInitLibrarySoundbankPath() const;
 	long unsigned int ExtractSoundBankInfo(std::string soundbank_path);
 	void ObtainEvents(std::vector<AudioEvent*> &events);
+
+	void InitSoundbankLoaded();
+	bool IsInitSoundbankLoaded() const;
 
 	void LoadSoundBank(const char *soundbank_path);
 	void UnloadSoundBank(const char *soundbank_path);
