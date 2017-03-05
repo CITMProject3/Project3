@@ -1,20 +1,101 @@
 {
     "GameObjects": [
         {
-            "name": "Kart",
-            "UUID": 4054932523,
-            "local_UUID": 4054932523,
+            "name": "pivot_car",
+            "UUID": 2888653115,
+            "local_UUID": 2888653115,
             "parent": 0,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 547717853,
+                    "UUID": 2353552303,
+                    "active": true,
+                    "matrix": [
+                        0.029188,
+                        0,
+                        -0.999574,
+                        -1.018531,
+                        0,
+                        1,
+                        0,
+                        67.966888,
+                        0.999574,
+                        0,
+                        0.029188,
+                        0.029741,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2483437783,
+                    "active": true,
+                    "path": "\/Library\/4064503324\/1434587606.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 661777669,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 7,
+                    "UUID": 918669242,
+                    "active": true,
+                    "chasis_size": [
+                        1,
+                        0.200000,
+                        2
+                    ],
+                    "chasis_offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "kick_cooldown": 3,
+                    "connection_height": 0.100000,
+                    "wheel_radius": 0.300000,
+                    "wheel_width": 0.200000,
+                    "suspensionRestLength": 0.300000,
+                    "turn_max": 0.700000,
+                    "turn_speed": 0.100000,
+                    "force": 1000,
+                    "brakeForce": 20,
+                    "mass": 400,
+                    "suspensionStiffness": 100,
+                    "suspensionCompression": 0.830000,
+                    "suspensionDamping": 20,
+                    "maxSuspensionTravelCm": 1000,
+                    "frictionSlip": 50.500000,
+                    "maxSuspensionForce": 6000
+                }
+            ]
+        },
+        {
+            "name": "camera",
+            "UUID": 3683081769,
+            "local_UUID": 3683081769,
+            "parent": 2888653115,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2888653115,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 775101455,
                     "active": true,
                     "matrix": [
                         1,
@@ -22,13 +103,81 @@
                         0,
                         0,
                         0,
-                        1,
+                        0.953818,
+                        -0.300385,
+                        2.449797,
+                        0,
+                        0.300385,
+                        0.953818,
+                        -4.985808,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 555585102,
+                    "active": true,
+                    "path": "\/Library\/4064503324\/4255122859.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2847468012,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 3,
+                    "UUID": 1366264819,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.886051,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "is_game_camera": true
+                }
+            ]
+        },
+        {
+            "name": "Car mesh",
+            "UUID": 965984700,
+            "local_UUID": 965984700,
+            "parent": 2888653115,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2888653115,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4043436451,
+                    "active": true,
+                    "matrix": [
+                        0.080000,
                         0,
                         0,
                         0,
                         0,
-                        1,
+                        0.080000,
                         0,
+                        1.200000,
+                        0,
+                        0,
+                        0.080000,
+                        0.200000,
                         0,
                         0,
                         0,
@@ -39,19 +188,19 @@
         },
         {
             "name": "Head2",
-            "UUID": 4005488792,
-            "local_UUID": 4005488792,
-            "parent": 4054932523,
+            "UUID": 3660966428,
+            "local_UUID": 3660966428,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1035409324,
+                    "UUID": 2274653254,
                     "active": true,
                     "matrix": [
                         1,
@@ -74,13 +223,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2325530503,
+                    "UUID": 3949170899,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1598003267.msh"
+                    "path": "\/Library\/3874916471\/860635153.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 2579312326,
+                    "UUID": 1115241983,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -89,19 +238,19 @@
         },
         {
             "name": "Tongue",
-            "UUID": 3484900458,
-            "local_UUID": 3484900458,
-            "parent": 4054932523,
+            "UUID": 2188055940,
+            "local_UUID": 2188055940,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2793238165,
+                    "UUID": 434670648,
                     "active": true,
                     "matrix": [
                         1,
@@ -124,13 +273,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2291329940,
+                    "UUID": 1616491640,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/489643696.msh"
+                    "path": "\/Library\/3874916471\/452137200.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 672699752,
+                    "UUID": 2960416833,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -139,19 +288,19 @@
         },
         {
             "name": "Teeth",
-            "UUID": 2998636301,
-            "local_UUID": 2998636301,
-            "parent": 4054932523,
+            "UUID": 4118089628,
+            "local_UUID": 4118089628,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3127512806,
+                    "UUID": 1686885233,
                     "active": true,
                     "matrix": [
                         1,
@@ -174,13 +323,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 60199800,
+                    "UUID": 246019180,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1010218360.msh"
+                    "path": "\/Library\/3874916471\/2289214940.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 547021215,
+                    "UUID": 1073279127,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -189,19 +338,19 @@
         },
         {
             "name": "LowTeeth",
-            "UUID": 1717229924,
-            "local_UUID": 1717229924,
-            "parent": 4054932523,
+            "UUID": 1360749911,
+            "local_UUID": 1360749911,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3389599405,
+                    "UUID": 272216016,
                     "active": true,
                     "matrix": [
                         1,
@@ -224,13 +373,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 537872723,
+                    "UUID": 3817431695,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1090533610.msh"
+                    "path": "\/Library\/3874916471\/3560407346.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1480354816,
+                    "UUID": 986200006,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -239,19 +388,19 @@
         },
         {
             "name": "UpTeeth",
-            "UUID": 4146202417,
-            "local_UUID": 4146202417,
-            "parent": 4054932523,
+            "UUID": 3089714118,
+            "local_UUID": 3089714118,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2683900821,
+                    "UUID": 2749988094,
                     "active": true,
                     "matrix": [
                         1,
@@ -274,13 +423,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 862972350,
+                    "UUID": 753485844,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1455529070.msh"
+                    "path": "\/Library\/3874916471\/1858426697.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 4204433640,
+                    "UUID": 3233079574,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -289,19 +438,19 @@
         },
         {
             "name": "Body",
-            "UUID": 961103954,
-            "local_UUID": 961103954,
-            "parent": 4054932523,
+            "UUID": 1940820611,
+            "local_UUID": 1940820611,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1521282421,
+                    "UUID": 1232964245,
                     "active": true,
                     "matrix": [
                         1,
@@ -324,13 +473,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2404512239,
+                    "UUID": 2643853226,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/3279924639.msh"
+                    "path": "\/Library\/3874916471\/3576986259.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1045773105,
+                    "UUID": 3858210106,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -339,19 +488,19 @@
         },
         {
             "name": "wheel",
-            "UUID": 4230302164,
-            "local_UUID": 4230302164,
-            "parent": 4054932523,
+            "UUID": 2722355658,
+            "local_UUID": 2722355658,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1159303080,
+                    "UUID": 3387082793,
                     "active": true,
                     "matrix": [
                         1,
@@ -374,13 +523,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 1091339223,
+                    "UUID": 1141450368,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1845342507.msh"
+                    "path": "\/Library\/3874916471\/2594460951.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1197509072,
+                    "UUID": 2413569071,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -389,19 +538,19 @@
         },
         {
             "name": "Tire_r_r",
-            "UUID": 1485481956,
-            "local_UUID": 1485481956,
-            "parent": 4054932523,
+            "UUID": 1406677970,
+            "local_UUID": 1406677970,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2978496995,
+                    "UUID": 2136189861,
                     "active": true,
                     "matrix": [
                         1,
@@ -411,7 +560,7 @@
                         0,
                         1,
                         0,
-                        0.401633,
+                        0,
                         0,
                         0,
                         1,
@@ -424,13 +573,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 632450313,
+                    "UUID": 4206777110,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/2711230848.msh"
+                    "path": "\/Library\/3874916471\/3720346355.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1831839255,
+                    "UUID": 4045916087,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -439,19 +588,19 @@
         },
         {
             "name": "Tire_r_l",
-            "UUID": 2939265205,
-            "local_UUID": 2939265205,
-            "parent": 4054932523,
+            "UUID": 3979876213,
+            "local_UUID": 3979876213,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 804668480,
+                    "UUID": 3198918673,
                     "active": true,
                     "matrix": [
                         1,
@@ -461,7 +610,7 @@
                         0,
                         1,
                         0,
-                        0.401633,
+                        0,
                         0,
                         0,
                         1,
@@ -474,13 +623,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 4193278807,
+                    "UUID": 639014365,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/2670274614.msh"
+                    "path": "\/Library\/3874916471\/2632175564.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 952014318,
+                    "UUID": 3556843356,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -489,19 +638,19 @@
         },
         {
             "name": "Tire_f_l",
-            "UUID": 3941689591,
-            "local_UUID": 3941689591,
-            "parent": 4054932523,
+            "UUID": 2653689695,
+            "local_UUID": 2653689695,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1918678856,
+                    "UUID": 3823008702,
                     "active": true,
                     "matrix": [
                         1,
@@ -511,7 +660,7 @@
                         0,
                         1,
                         0,
-                        0.401633,
+                        0,
                         0,
                         0,
                         1,
@@ -524,13 +673,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2580610864,
+                    "UUID": 1609420400,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1261409946.msh"
+                    "path": "\/Library\/3874916471\/2640769398.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1363924296,
+                    "UUID": 907388624,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -539,19 +688,19 @@
         },
         {
             "name": "Tire_f_r",
-            "UUID": 2901631071,
-            "local_UUID": 2901631071,
-            "parent": 4054932523,
+            "UUID": 3166798821,
+            "local_UUID": 3166798821,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2578298369,
+                    "UUID": 1291229024,
                     "active": true,
                     "matrix": [
                         1,
@@ -561,7 +710,7 @@
                         0,
                         1,
                         0,
-                        0.401633,
+                        0,
                         0,
                         0,
                         1,
@@ -574,13 +723,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 3807409039,
+                    "UUID": 1817112794,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/2879105146.msh"
+                    "path": "\/Library\/3874916471\/1519942275.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 2181202527,
+                    "UUID": 2154168413,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -589,19 +738,19 @@
         },
         {
             "name": "Seat",
-            "UUID": 3822864793,
-            "local_UUID": 3822864793,
-            "parent": 4054932523,
+            "UUID": 2936750809,
+            "local_UUID": 2936750809,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 388878873,
+                    "UUID": 4153036960,
                     "active": true,
                     "matrix": [
                         1,
@@ -624,13 +773,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2865740554,
+                    "UUID": 1014621150,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1452369093.msh"
+                    "path": "\/Library\/3874916471\/3067927074.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 1022337164,
+                    "UUID": 1665175218,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -639,19 +788,19 @@
         },
         {
             "name": "Panel",
-            "UUID": 257017555,
-            "local_UUID": 257017555,
-            "parent": 4054932523,
+            "UUID": 2251505731,
+            "local_UUID": 2251505731,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3098633323,
+                    "UUID": 2521303661,
                     "active": true,
                     "matrix": [
                         1,
@@ -674,13 +823,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 3483573695,
+                    "UUID": 1989790237,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/146793700.msh"
+                    "path": "\/Library\/3874916471\/2376391751.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 3416023770,
+                    "UUID": 3435956985,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -689,19 +838,19 @@
         },
         {
             "name": "Ornament",
-            "UUID": 923114093,
-            "local_UUID": 923114093,
-            "parent": 4054932523,
+            "UUID": 412902851,
+            "local_UUID": 412902851,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3911512829,
+                    "UUID": 1363813355,
                     "active": true,
                     "matrix": [
                         1,
@@ -724,13 +873,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 920512589,
+                    "UUID": 2643410152,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/2727142024.msh"
+                    "path": "\/Library\/3874916471\/2070552761.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 3028627562,
+                    "UUID": 907635181,
                     "active": true,
                     "path": "",
                     "textures": []
@@ -739,19 +888,19 @@
         },
         {
             "name": "Ornament2",
-            "UUID": 1753102863,
-            "local_UUID": 1753102863,
-            "parent": 4054932523,
+            "UUID": 3823180068,
+            "local_UUID": 3823180068,
+            "parent": 965984700,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 4054932523,
+            "prefab_root_uuid": 2888653115,
             "prefab_path": "",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3949003407,
+                    "UUID": 2680400602,
                     "active": true,
                     "matrix": [
                         1,
@@ -774,13 +923,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 3936045132,
+                    "UUID": 1412838716,
                     "active": true,
-                    "path": "\/Library\/3230927892\/1456771128\/1444884517.msh"
+                    "path": "\/Library\/3874916471\/2328282989.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 3289651678,
+                    "UUID": 1870089016,
                     "active": true,
                     "path": "",
                     "textures": []
