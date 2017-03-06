@@ -51,24 +51,7 @@ void ComponentCollider::Update()
 	}
 	else
 	{
-		if (shape == S_CONVEX)
-		{
-			trs->Set(body->GetTransform().Transposed());
-			if (convexShape != nullptr)
-			{
-				int nEdges = convexShape->getNumEdges();
-				for (int n = 0; n < nEdges; n++)
-				{
-					glPushMatrix();
-					glMultMatrixf(body->GetTransform().ptr());
-					btVector3 a, b;
-					convexShape->getEdge(n, a, b);
-					App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
-					glPopMatrix();
-				}
-			}
-		}
-		else if (primitive != nullptr)
+		if (primitive != nullptr)
 		{
 			//Setting the primitive pos
 			float3 translate;
@@ -80,6 +63,24 @@ void ComponentCollider::Update()
 			primitive->Render();
 			float3 real_offset = rotation.Transform(offset_pos);
 			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
+		}
+	}
+
+	//Rendering Convex shapes
+	if (shape == S_CONVEX && body != nullptr && App->IsGameRunning())
+	{
+		if (convexShape != nullptr)
+		{
+			int nEdges = convexShape->getNumEdges();
+			for (int n = 0; n < nEdges; n++)
+			{
+				glPushMatrix();
+				glMultMatrixf(body->GetTransform().ptr());
+				btVector3 a, b;
+				convexShape->getEdge(n, a, b);
+				App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
+				glPopMatrix();
+			}
 		}
 	}
 	return;
