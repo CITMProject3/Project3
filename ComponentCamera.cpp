@@ -58,6 +58,11 @@ ComponentCamera::~ComponentCamera()
 	}
 }
 
+void ComponentCamera::PreUpdate()
+{
+	UpdateCameraFrustum();
+}
+
 void ComponentCamera::Update()
 {
 	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
@@ -93,6 +98,15 @@ void ComponentCamera::OnInspector(bool debug)
 			{
 				App->camera->playCamera = this;
 			}
+		}
+
+		ImGui::Checkbox("Smooth follow", &smoothFollow);
+		if (smoothFollow)
+		{
+			ImGui::Text("Position follow speed:");
+			ImGui::DragFloat("#smoothFollowPos", &followMoveSpeed, 0.01f, 0.01f, 0.99f);
+			ImGui::Text("Rotation follow speed:");
+			ImGui::DragFloat("#smoothFollowRot", &followRotateSpeed, 0.01f, 0.01f, 0.99f);
 		}
 
 		//Near plane
@@ -160,13 +174,8 @@ void ComponentCamera::OnTransformModified()
 
 	if (game_object)
 	{
-		ComponentTransform* trans = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		
-		float4x4 matrix = trans->GetGlobalMatrix();
-
-		frustum.SetPos(matrix.TranslatePart());
-		frustum.SetFront(matrix.WorldZ());
-		frustum.SetUp(matrix.WorldY());
+		ComponentTransform* trans = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);		
+		desiredTransform = trans->GetGlobalMatrix();
 	}
 	else
 		LOG("Error: Component Camera is trying to update it's matrix but it is not attached to any game object.");
@@ -350,6 +359,10 @@ void ComponentCamera::Save(Data & file)const
 
 	data.AppendBool("is_game_camera", (App->camera->playCamera == this));
 
+	data.AppendBool("followSmooth", smoothFollow);
+	data.AppendFloat("followMovSpeed", followMoveSpeed);
+	data.AppendFloat("followRotSpeed", followRotateSpeed);
+
 	file.AppendArrayValue(data);
 }
 
@@ -371,6 +384,10 @@ void ComponentCamera::Load(Data & conf)
 	{
 		App->camera->playCamera = this;
 	}
+
+	smoothFollow = conf.GetBool("followSmooth");
+	followMoveSpeed = conf.GetFloat("followMovSpeed");
+	followRotateSpeed = conf.GetFloat("followRotSpeed");
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);
@@ -401,4 +418,26 @@ math::Ray ComponentCamera::CastCameraRay(math::float2 screen_pos)
 	Ray ray = frustum.UnProjectFromNearPlane(pos.x, pos.y);
  
 	return ray;
+}
+
+void ComponentCamera::UpdateCameraFrustum()
+{
+	if (smoothFollow == true)
+	{		
+		float3 curr_pos, des_pos, scale;
+		Quat curr_rot, des_rot;
+		desiredTransform.Decompose(des_pos, des_rot, scale);
+		currentTransform.Decompose(curr_pos, curr_rot, scale);
+
+		Quat rotation = curr_rot.Lerp(des_rot, followRotateSpeed);
+		float3 position = curr_pos.Lerp(des_pos, followMoveSpeed);
+		currentTransform = float4x4::FromTRS(position, rotation, float3::one);
+	}
+	else
+	{
+		currentTransform = desiredTransform;
+	}
+	frustum.SetPos(currentTransform.TranslatePart());
+	frustum.SetFront(currentTransform.WorldZ());
+	frustum.SetUp(currentTransform.WorldY());
 }

@@ -14,6 +14,7 @@ public:
 	ComponentCamera(ComponentType type, GameObject* game_object);
 	~ComponentCamera();
 
+	void PreUpdate();
 	void Update();
 
 	void OnInspector(bool debug);
@@ -51,8 +52,12 @@ public:
 	void Load(Data& conf);
 
 	math::Ray CastCameraRay(math::float2 screen_pos);
+private:
+	void UpdateCameraFrustum();
 
 public:
+
+	bool smoothFollow = false;
 
 	bool properties_modified = false;
 	ResourceFileRenderTexture* render_texture = nullptr;
@@ -71,6 +76,11 @@ private:
 	///Assets path
 	string render_texture_path;
 	string render_texture_path_lib;
+
+	math::float4x4 desiredTransform = float4x4::identity;
+	math::float4x4 currentTransform = float4x4::identity;
+	float followMoveSpeed = 0.1f;
+	float followRotateSpeed = 0.1f;
 
 };
 #endif // !__COMPONENT_MATERIAL_H__
