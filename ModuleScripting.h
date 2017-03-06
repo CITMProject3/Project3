@@ -7,7 +7,7 @@
 #include <string>
 
 using namespace std;
-typedef list<const char*>(*f_GetScriptNames)();
+typedef void(*f_GetScriptNames)(list<const char*>* script_names);
 
 class ModuleScripting : public Module
 {
@@ -37,7 +37,7 @@ public:
 
 private:
 	DWORD last_error = 0;
-	list<const char*> scripts_names;
+	list<const char*> script_names;
 	bool finded_script_names;
 
 public:

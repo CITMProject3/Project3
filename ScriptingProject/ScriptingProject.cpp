@@ -11,14 +11,10 @@ extern "C"
 {
 	namespace ScriptNames
 	{
-		list<const char*> GetScriptNames()
+		void GetScriptNames(list<const char*>* script_names)
 		{
-			list<const char*> script_names;
-
-			script_names.push_back("Test");
-			script_names.push_back("Test2");
-
-			return script_names;
+			script_names->push_back("Test");
+			script_names->push_back("Test2");
 		}
 	}
 
