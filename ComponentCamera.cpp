@@ -104,9 +104,9 @@ void ComponentCamera::OnInspector(bool debug)
 		if (smoothFollow)
 		{
 			ImGui::Text("Position follow speed:");
-			ImGui::DragFloat("#smoothFollowPos", &followMoveSpeed, 0.01f, 0.01f, 0.99f);
+			ImGui::DragFloat("##smoothFollowPos", &followMoveSpeed, 0.01f, 0.01f, 0.99f);
 			ImGui::Text("Rotation follow speed:");
-			ImGui::DragFloat("#smoothFollowRot", &followRotateSpeed, 0.01f, 0.01f, 0.99f);
+			ImGui::DragFloat("##smoothFollowRot", &followRotateSpeed, 0.01f, 0.01f, 0.99f);
 		}
 
 		//Near plane
