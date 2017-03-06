@@ -1049,7 +1049,7 @@ void ModuleResourceManager::ImageDropped(const char* path, string base_dir, stri
 	else
 		final_image_path = base_library_dir;
 
-	final_image_path += std::to_string(uuid) + "/";
+	final_image_path += "/" + std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(final_image_path.data());
 	final_image_path += std::to_string(uuid);
 	final_image_path += ".dds";
