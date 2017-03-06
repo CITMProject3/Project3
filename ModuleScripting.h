@@ -3,6 +3,11 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include <list>
+#include <string>
+
+using namespace std;
+typedef list<const char*>(*f_GetScriptNames)();
 
 class ModuleScripting : public Module
 {
@@ -23,10 +28,17 @@ public:
 	//bool LoadScriptLibrary(const char* path, HINSTANCE* script);
 	//bool FreeScriptLibrary(HINSTANCE& script);
 
+	DWORD GetError();
+	void LoadScriptsLibrary();
+	void LoadScriptNames();
+	list<const char*> GetScriptNames()const;
+
 	bool scripts_loaded;
 
 private:
 	DWORD last_error = 0;
+	list<const char*> scripts_names;
+	bool finded_script_names;
 
 public:
 	HINSTANCE script;

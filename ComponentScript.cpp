@@ -6,6 +6,8 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, co
 {
 	this->path = path;
 	started = false;
+	finded_start = false;
+	finded_update = false;
 }
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -13,6 +15,8 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : 
 	path.clear();
 	path.resize(50);
 	started = false;
+	finded_start = false;
+	finded_update = false;
 }
 
 ComponentScript::~ComponentScript()
@@ -31,27 +35,37 @@ void ComponentScript::Update()
 		{
 			string start_path = path.c_str();
 			start_path.append("::Start");
-			if (f_start start = (f_start)GetProcAddress(App->scripting->script, start_path.c_str()))
+			if (f_Start start = (f_Start)GetProcAddress(App->scripting->script, start_path.c_str()))
 			{
-				start(App, GetGameObject());
-				started = true;
+				finded_start = true;
+				if (App->IsGameRunning())
+				{
+					start(App, GetGameObject());
+					started = true;
+				}
 			}
 			else
 			{
-				DWORD error = GetLastError();
+				finded_start = false;
+				error = GetLastError();
 			}
 		}
 		else
 		{
 			string update_path = path.c_str();
 			update_path.append("::Update");
-			if (f_update update = (f_update)GetProcAddress(App->scripting->script, update_path.c_str()))
+			if (f_Update update = (f_Update)GetProcAddress(App->scripting->script, update_path.c_str()))
 			{
-				update(App, GetGameObject());
+				finded_update = true;
+				if (App->IsGameRunning())
+				{
+					update(App, GetGameObject());
+				}
 			}
 			else
 			{
-				DWORD error = GetLastError();
+				finded_update = false;
+				error = GetLastError();
 			}
 		}
 	}
@@ -83,19 +97,57 @@ void ComponentScript::OnInspector(bool debug)
 			SetActive(is_active);
 		}
 
-		const char* last_path = path.c_str();
 		ImGui::InputText("Path##PathScript", path._Myptr(), path.capacity());
-		//if (last_path != path)
-		//	SetPath(path.c_str());
+		/*static int item = -1;
+		static int i = App->scripting->GetScriptNames().size();
+		const char* script_names[i];
+		ImGui::Combo("Path##PathScript", &item, App->scripting->GetScriptNames()., App->scripting->GetScriptNames().size());
+		*/
+		if (App->scripting->scripts_loaded)
+		{
+			if (App->IsGameRunning())
+			{
+				if (!finded_start)
+				{
+					if (App->scripting->GetError() == 126)
+						ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Can't find Start");
+					else
+						ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Unknown error loading Start");
+				}
+				else if (!finded_update)
+				{
+					if (App->scripting->GetError() == 126)
+						ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Can't find Update");
+					else
+						ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Unknown error loading Update");
+				}
+			}
+		}
+		else
+		{
+			if(App->scripting->GetError() == 127)
+				ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Can't find Game.dll");
+			else
+				ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Unknown error loading Game.dll");
+		}
 	}
 }
 
 void ComponentScript::Save(Data & file) const
 {
+	Data data;
+	data.AppendInt("type", type);
+	data.AppendUInt("UUID", uuid);
+	data.AppendBool("active", active);
+	data.AppendString("script_path", path.c_str());
+	file.AppendArrayValue(data);
 }
 
 void ComponentScript::Load(Data & conf)
 {
+	uuid = conf.GetUInt("UUID");
+	active = conf.GetBool("active");
+	path = conf.GetString("path");
 }
 
 void ComponentScript::SetPath(const char * path)

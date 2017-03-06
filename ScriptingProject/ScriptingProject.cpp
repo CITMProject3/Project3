@@ -3,9 +3,26 @@
 
 #include "stdafx.h"
 
+#include <list>
+#include <string>
+
 #include "../Application.h"
 extern "C"
 {
+	namespace ScriptNames
+	{
+		list<const char*> GetScriptNames()
+		{
+			list<const char*> script_names;
+
+			script_names.push_back("Test");
+			script_names.push_back("Test2");
+
+			return script_names;
+		}
+	}
+
+
 	namespace Test
 	{
 		void Test_Start(Application* engine_app, GameObject* game_object)

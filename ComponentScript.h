@@ -10,8 +10,8 @@ class GameObject;
 
 using namespace std;
 
-typedef void(*f_start)(Application* engine_app, GameObject* game_object);
-typedef void(*f_update)(Application* engine_app, GameObject* game_object);
+typedef void(*f_Start)(Application* engine_app, GameObject* game_object);
+typedef void(*f_Update)(Application* engine_app, GameObject* game_object);
 
 class ComponentScript : public Component
 {
@@ -33,5 +33,9 @@ private:
 	string path;
 
 	bool started = false;
+	bool finded_start;
+	bool finded_update;
+
+	DWORD error;
 };
 #endif // !__COMPONENT_SCRIPT_H__

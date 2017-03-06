@@ -3,13 +3,8 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	if ((script = LoadLibrary("Game")) == NULL)
-	{
-		last_error = GetLastError();
-		scripts_loaded = false;
-	}
-	else
-		scripts_loaded = true;
+	script == NULL;
+	finded_script_names = false;
 }
 
 ModuleScripting::~ModuleScripting()
@@ -25,6 +20,7 @@ bool ModuleScripting::Init(Data &config)
 
 bool ModuleScripting::Start()
 {
+	LoadScriptsLibrary();
 	return true;
 }
 /*
@@ -50,6 +46,59 @@ bool ModuleScripting::CleanUp()
 
 void ModuleScripting::SaveBeforeClosing(Data &data) const
 {
+}
+
+DWORD ModuleScripting::GetError()
+{
+	return last_error;
+}
+
+void ModuleScripting::LoadScriptsLibrary()
+{
+	if ((script = LoadLibrary("Game")) == NULL)
+	{
+		last_error = GetLastError();
+		scripts_loaded = false;
+
+		if (last_error == 127)
+			OutputDebugString("Can't find Game.dll");
+		else
+			OutputDebugString("Unknown error loading Game.dll");
+	}
+	else
+	{
+		scripts_loaded = true;
+		LoadScriptNames();
+	}
+}
+
+void ModuleScripting::LoadScriptNames()
+{
+	scripts_names.clear();
+
+	if (scripts_loaded)
+	{
+		if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(App->scripting->script, "GetScriptNames"))
+		{
+			finded_script_names = true;
+			scripts_names = get_script_names();
+		}
+		else
+		{
+			finded_script_names = false;
+			last_error = GetLastError();
+
+			if (last_error == 126)
+				OutputDebugString("Can't find script names function");
+			else
+				OutputDebugString("Unknown error loading script names");
+		}
+	}
+}
+
+list<const char*> ModuleScripting::GetScriptNames()const
+{
+	return scripts_names;
 }
 
 /*bool ModuleScripting::LoadScriptLibrary(const char* path, HINSTANCE* script)

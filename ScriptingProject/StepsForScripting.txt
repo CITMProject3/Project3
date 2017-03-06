@@ -4,3 +4,10 @@ Configuration Properties -> C/C++ -> Code Generation -> Preprocessor -> Preproce
 Configuration Properties -> Linker -> Input -> Module Definition File -> add .def file
 Build a library of Engine(Configuration Properties -> General -> Configuration Type) and add to: Configuration Properties -> Linker -> Input -> Additional Dependencies
 Configuration Properties -> Linker -> General -> Additional Library Directories -> add $(SolutiionDir) or <inherit from parent or project defaults>
+
+Remember to add the name of the script in teh list and .def file!
+
+FAQ:
+
+Q: A function that i make doesn't exist in the script project!
+A: You need to remake the engine.lib (check line 5 of this .txt)

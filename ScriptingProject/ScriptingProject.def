@@ -1,8 +1,10 @@
 LIBRARY SCRIPTINGPROJECT
 
 EXPORTS
-	Test::Start = Test_Start		@1
-	Test::Update = Test_Update		@2
+	GetScriptNames						@1
 
-	Test2::Start = Test2_Start			@3
-	Test2::Update = Test2_Update		@4
+	Test::Start = Test_Start			@2
+	Test::Update = Test_Update			@3
+
+	Test2::Start = Test2_Start			@4
+	Test2::Update = Test2_Update		@5
