@@ -782,7 +782,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
 	// Extensions must always contain 3 letters!
 	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
-	char* image_extensions[] = {"png", "PNG", "tga", "TGA"};
+	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
 	char* fragment_extension = "fra";
@@ -796,7 +796,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 		if (extension.compare(image_extensions[i]) == 0)
 			return FileType::IMAGE;
 
