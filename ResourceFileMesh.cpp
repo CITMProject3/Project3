@@ -23,15 +23,26 @@ void ResourceFileMesh::LoadInMemory()
 {
 	mesh = MeshImporter::Load(file_path.data());
 
-	bytes += sizeof(float) * 3 * mesh->num_vertices;
-	bytes += sizeof(uint) * mesh->num_indices;
-	bytes += sizeof(float) * 2 * mesh->num_uvs, mesh->uvs;
+	if (mesh)
+	{
+		bytes += sizeof(float) * 3 * mesh->num_vertices;
+		bytes += sizeof(uint) * mesh->num_indices;
+		bytes += sizeof(float) * 2 * mesh->num_uvs, mesh->uvs;
+	}
+	else
+	{
+		LOG("Couldn't load resource mesh: %s", file_path.data());
+	}
 }
 
 void ResourceFileMesh::UnloadInMemory()
 {
-	App->renderer3D->RemoveBuffer(mesh->id_vertices);
-	App->renderer3D->RemoveBuffer(mesh->id_indices);
-	App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	if (mesh)
+	{
+		App->renderer3D->RemoveBuffer(mesh->id_vertices);
+		App->renderer3D->RemoveBuffer(mesh->id_indices);
+		App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	}
+
 	App->resource_manager->RemoveResourceFromList(this);
 }

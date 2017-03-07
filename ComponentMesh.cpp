@@ -139,7 +139,10 @@ void ComponentMesh::Save(Data & file)const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendString("path", mesh->file_path.data());
+	if (mesh)
+		data.AppendString("path", mesh->file_path.data());
+	else
+		data.AppendString("path", "");
 
 	file.AppendArrayValue(data);
 }
@@ -152,12 +155,22 @@ void ComponentMesh::Load(Data & conf)
 	const char* path = conf.GetString("path");
 
 	rc_mesh = (ResourceFileMesh*)App->resource_manager->LoadResource(path, ResourceFileType::RES_MESH);
-	Mesh* mesh = rc_mesh->GetMesh(); 
-	if(mesh)
-		mesh->file_path = path;
-	SetMesh(mesh);
+	if (rc_mesh)
+	{
+		Mesh* mesh = rc_mesh->GetMesh();
+		if (mesh)
+		{
+			mesh->file_path = path;
+			SetMesh(mesh);
 
-	OnTransformModified();
+			OnTransformModified();
+		}
+	}
+	else
+	{
+		LOG("The go %s component mesh, can't find the path %s to load", game_object->name.data(), path);
+	}
+		
 }
 
 const Mesh * ComponentMesh::GetMesh() const
