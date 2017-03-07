@@ -112,7 +112,7 @@ unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 			LOG("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		LOG("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("File System error while opening file to load %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }
@@ -147,7 +147,7 @@ int close_sdl_rwops(SDL_RWops *rw)
 unsigned int ModuleFileSystem::Save(const char* file, const void* buffer, unsigned int size) const
 {
 	unsigned int ret = 0;
-
+	
 	PHYSFS_file* fs_file = PHYSFS_openWrite(file);
 
 	if (fs_file != NULL)
@@ -164,7 +164,7 @@ unsigned int ModuleFileSystem::Save(const char* file, const void* buffer, unsign
 			LOG("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		LOG("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("File System error while opening file to save %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }

@@ -125,9 +125,9 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 			{
 				//Check if the file is .meta
-				if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+				if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 				{
-					string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+					string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 					if (file_name.compare(meta_name) == 0)
 					{
 						meta_found = true;
@@ -168,13 +168,14 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 		for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 		{
 			//Check if the file is .meta
-			if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+			if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 			{
-				string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+				string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 				if ((*folder).compare(meta_name) == 0)
 				{
 					meta_found = true;
 					library_path = UpdateFolderWithMeta(assets_dir + (*meta));
+					library_path += '/';
 					break;
 				}
 			}
@@ -788,6 +789,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
 	char* soundbank_extension = "bnk";
+	char* prefab_extension = "pfb";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -814,6 +816,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(soundbank_extension) == 0)
 		return FileType::SOUNDBANK;
+
+	if (extension.compare(prefab_extension) == 0)
+		return FileType::PREFAB;
 	
 	return NONE;
 }
