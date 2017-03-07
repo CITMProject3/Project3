@@ -125,9 +125,9 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 			{
 				//Check if the file is .meta
-				if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+				if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 				{
-					string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+					string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 					if (file_name.compare(meta_name) == 0)
 					{
 						meta_found = true;
@@ -168,9 +168,9 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 		for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 		{
 			//Check if the file is .meta
-			if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+			if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 			{
-				string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+				string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 				if ((*folder).compare(meta_name) == 0)
 				{
 					meta_found = true;
