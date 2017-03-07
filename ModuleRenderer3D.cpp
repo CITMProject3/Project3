@@ -539,7 +539,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	if (colorLoc != -1)
 	{
 		glUniform4fv(colorLoc, 1, color.ptr());
-		material->rc_material->material.has_color = true;
+		if(material->rc_material != nullptr)
+			material->rc_material->material.has_color = true;
 	}
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor4fv(color.ptr());

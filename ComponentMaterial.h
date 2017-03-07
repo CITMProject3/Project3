@@ -45,6 +45,6 @@ private:
 	std::vector<ResourceFile*> tex_resources;
 	std::vector<std::string> list_textures_paths; //Default textures from fbx
 	bool change_material_enabled = false;
-	
+	bool texture_changed = false;
 };
 #endif // !__COMPONENT_MATERIAL_H__
