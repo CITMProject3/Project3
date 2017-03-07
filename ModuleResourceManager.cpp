@@ -789,6 +789,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
 	char* soundbank_extension = "bnk";
+	char* prefab_extension = "pfb";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -815,6 +816,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(soundbank_extension) == 0)
 		return FileType::SOUNDBANK;
+
+	if (extension.compare(prefab_extension) == 0)
+		return FileType::PREFAB;
 	
 	return NONE;
 }
