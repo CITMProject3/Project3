@@ -175,6 +175,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 				{
 					meta_found = true;
 					library_path = UpdateFolderWithMeta(assets_dir + (*meta));
+					library_path += '/';
 					break;
 				}
 			}
