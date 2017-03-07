@@ -5,7 +5,9 @@ Configuration Properties -> Linker -> Input -> Module Definition File -> add .de
 Build a library of Engine(Configuration Properties -> General -> Configuration Type) and add to: Configuration Properties -> Linker -> Input -> Additional Dependencies
 Configuration Properties -> Linker -> General -> Additional Library Directories -> add $(SolutiionDir) or <inherit from parent or project defaults>
 
-Remember to add the name of the script in teh list and .def file!
+To add a script follow the structure of Test or Test2.
+The scripts must have [name of script]_Start(Application* App, GameObject* go) and [name of script]_Update(Application* App, GameObject* go)
+Remember to add the name of the script in teh list and .def file! (following the structure of Test and Test2)
 
 FAQ:
 
