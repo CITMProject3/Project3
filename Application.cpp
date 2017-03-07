@@ -4,6 +4,19 @@
 #include "Profiler.h"
 #include "Data.h"
 
+#include "Module.h"
+#include "ModuleAudio.h"
+#include "ModuleCamera3D.h"
+#include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
+#include "ModuleInput.h"
+#include "ModuleLighting.h"
+#include "ModulePhysics3D.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
+#include "ModuleWindow.h"
+
+
 using namespace std;
 
 Application::Application()
@@ -25,7 +38,6 @@ Application::Application()
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
-	car = new ModuleCar("car");
 
 	//Globals
 	g_Debug = new DebugDraw("debug_draw");
@@ -37,14 +49,13 @@ Application::Application()
 	AddModule(file_system);
 	AddModule(resource_manager);
 	AddModule(window);
-	AddModule(camera);
 	AddModule(input);
 	AddModule(g_Debug);
-	AddModule(car);
+	AddModule(go_manager);
+	AddModule(camera);
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(lighting);
-	AddModule(go_manager);
 	
 	// Scenes
 	AddModule(scene_intro);
@@ -60,7 +71,7 @@ Application::~Application()
 {
 	delete rnd;
 
-	list<Module*>::reverse_iterator i = list_modules.rbegin();
+	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 	while (i != list_modules.rend())
 	{
@@ -86,7 +97,7 @@ bool Application::Init()
 
 		Data root_node;
 
-		list<Module*>::reverse_iterator i = list_modules.rbegin();
+		vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 		while (i != list_modules.rend())
 		{
@@ -101,7 +112,7 @@ bool Application::Init()
 	delete[] buffer;
 
 	// Call Init() in all modules
-	list<Module*>::iterator i = list_modules.begin();
+	vector<Module*>::iterator i = list_modules.begin();
 
 	while (i != list_modules.end() && ret == true)
 	{
@@ -146,17 +157,29 @@ void Application::FinishUpdate()
 void Application::RunGame() 
 {
 	//Save current scene only if the game was stopped
-	if(game_state == GAME_STOP)
+	if (game_state == GAME_STOP)
+	{
 		go_manager->SaveSceneBeforeRunning();
+	}
 
 	game_state = GAME_RUNNING;
 	time->Play();
+
+	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+	{
+		(*it)->OnPlay();
+	}
 }
 
 void Application::PauseGame()
 {
 	game_state = GAME_PAUSED;
 	time->Pause();
+
+	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+	{
+		(*it)->OnPause();
+	}
 }
 
 void Application::StopGame()
@@ -164,6 +187,11 @@ void Application::StopGame()
 	game_state = GAME_STOP;
 	go_manager->LoadSceneBeforeRunning();
 	time->Stop();
+
+	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+	{
+		(*it)->OnStop();
+	}
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules
@@ -172,7 +200,7 @@ update_status Application::Update()
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
-	list<Module*>::iterator i = list_modules.begin();
+	vector<Module*>::iterator i = list_modules.begin();
 
 	while (i != list_modules.end() && ret == UPDATE_CONTINUE)
 	{
@@ -204,7 +232,7 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	list<Module*>::reverse_iterator i = list_modules.rbegin();
+	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 	while (i != list_modules.rend() && ret == true)
 	{
@@ -220,7 +248,7 @@ void Application::SaveBeforeClosing()
 	Data root_node;
 	char* buf;
 
-	list<Module*>::reverse_iterator i = list_modules.rbegin();
+	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 	while (i != list_modules.rend())
 	{

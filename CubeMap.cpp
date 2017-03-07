@@ -6,6 +6,7 @@
 #include "ResourceFileTexture.h"
 #include "TextureImporter.h"
 #include "Globals.h"
+#include "ModuleFileSystem.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"

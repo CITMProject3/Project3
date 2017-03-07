@@ -41,6 +41,7 @@ class ComponentBone;
 class ComponentMesh : public Component
 {
 public:
+
 	ComponentMesh(ComponentType type, GameObject* game_object);
 	~ComponentMesh();
 
@@ -53,11 +54,11 @@ public:
 	void SetResourceMesh(ResourceFileMesh* resource);
 	void RecalculateBoundingBox();
 
-	void Save(Data& file)const;
+	void Save(Data& file) const;
 	void Load(Data& conf);
 
-	const Mesh* GetMesh()const;
-	ResourceFileMesh* GetResource() const;
+	const Mesh* GetMesh()const { return mesh; };
+	ResourceFileMesh* GetResource() const { return rc_mesh; };
 
 	void Remove();
 
@@ -67,7 +68,11 @@ public:
 
 	Mesh* deformable = nullptr;
 
+	AABB GetBoundingBox() { return bounding_box; }
+	AABB GetLocalAABB() { return aabb; }
+
 private:
+
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;
 

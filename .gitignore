@@ -22,9 +22,8 @@ bld/
 [Oo]bj/
 [Ll]og/
 [Li]brary/
-[As]sets/
 Game/Library/
-Game/Assets/
+Game/imgui.ini
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -52,7 +51,6 @@ artifacts/
 *_p.c
 *_i.h
 *.ilk
-*.meta
 *.obj
 *.pch
 *.pdb
@@ -305,3 +303,4 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+Game/Configuration.json

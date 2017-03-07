@@ -11,6 +11,8 @@ enum ResourceFileType
 	RES_RENDER_TEX,
 	RES_ANIMATION,
 	RES_BONE,
+	RES_SOUNDBANK,
+	RES_PREFAB
 };
 
 class ResourceFile

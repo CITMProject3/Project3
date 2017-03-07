@@ -26,11 +26,14 @@
 #include "GameObject.h"
 #include "ComponentLight.h"
 #include "RaycastHit.h"
-#include "ModuleCar.h"
 #include "ModuleGOManager.h"
 #include "ImGuizmo\ImGuizmo.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ModuleInput.h"
+#include "ModuleFileSystem.h"
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -596,10 +599,11 @@ void Editor::DebugMenu()
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
 	}
-	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	if (ImGui::MenuItem("Render AABBs"))
 	{
-		App->car->Load();
+		App->renderer3D->renderAABBs = !App->renderer3D->renderAABBs;
 	}
+	if (App->renderer3D->renderAABBs) { ImGui::SameLine(); ImGui::Text("X"); }
 }
 
 bool Editor::QuitWindow()

@@ -29,6 +29,8 @@ class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
 
+using namespace std;
+
 class Editor : public Module
 {
 public:

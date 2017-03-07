@@ -10,6 +10,10 @@
 #include "ComponentBone.h"
 #include "ResourceFileBone.h"
 
+#include "glut/glut.h"
+
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -37,6 +41,12 @@ void ComponentMesh::Update(float dt)
 		game_object->mesh_to_draw = mesh;
 
 		App->renderer3D->AddToDraw(GetGameObject());
+	}
+	if (App->renderer3D->renderAABBs)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 
@@ -138,7 +148,10 @@ void ComponentMesh::Save(Data & file)const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendString("path", mesh->file_path.data());
+	if (mesh)
+		data.AppendString("path", mesh->file_path.data());
+	else
+		data.AppendString("path", "");
 
 	file.AppendArrayValue(data);
 }
@@ -151,22 +164,22 @@ void ComponentMesh::Load(Data & conf)
 	const char* path = conf.GetString("path");
 
 	rc_mesh = (ResourceFileMesh*)App->resource_manager->LoadResource(path, ResourceFileType::RES_MESH);
-	Mesh* mesh = rc_mesh->GetMesh(); 
-	if(mesh)
-		mesh->file_path = path;
-	SetMesh(mesh);
+	if (rc_mesh)
+	{
+		Mesh* mesh = rc_mesh->GetMesh();
+		if (mesh)
+		{
+			mesh->file_path = path;
+			SetMesh(mesh);
 
-	OnTransformModified();
-}
-
-const Mesh * ComponentMesh::GetMesh() const
-{
-	return mesh;
-}
-
-ResourceFileMesh* ComponentMesh::GetResource() const
-{
-	return rc_mesh;
+			OnTransformModified();
+		}
+	}
+	else
+	{
+		LOG("The go %s component mesh, can't find the path %s to load", game_object->name.data(), path);
+	}
+		
 }
 
 void ComponentMesh::Remove()

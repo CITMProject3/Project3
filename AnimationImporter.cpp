@@ -9,6 +9,7 @@
 #include "ComponentMesh.h"
 #include "ResourceFileBone.h"
 #include "ComponentBone.h"
+#include "ModuleResourceManager.h"
 
 //External libraries
 #include "Assimp\include\scene.h"

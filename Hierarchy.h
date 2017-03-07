@@ -17,6 +17,9 @@ public:
 	void OnClickSelect(GameObject* gameObject);
 
 	bool setting_parent = false;
+	bool set_parent_now = false;
+	GameObject* parent_to_set = nullptr;
+	GameObject* child_to_set = nullptr;
 };
 
 #endif
