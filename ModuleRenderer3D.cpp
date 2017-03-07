@@ -307,16 +307,14 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		return;
 	float4 color = { 1.0f,1.0f,1.0f,1.0f };
 	uint shader_id = 0;
-
+	color = float4(material->color);
 	if (material->rc_material)
 	{
 		shader_id = material->rc_material->GetShaderId();
-		color = float4(material->rc_material->material.color);
 	}
 	else
 	{
 		shader_id = App->resource_manager->GetDefaultShaderId();
-		color = float4(material->color);
 	}
 
 	if (material->alpha == 2 && alpha_render == false)
@@ -541,6 +539,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	if (colorLoc != -1)
 	{
 		glUniform4fv(colorLoc, 1, color.ptr());
+		material->rc_material->material.has_color = true;
 	}
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor4fv(color.ptr());

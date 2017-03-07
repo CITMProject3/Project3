@@ -42,20 +42,8 @@ public:
 	std::string fragment_path;
 	std::vector<Uniform*> uniforms;
 	uint uuid = 0;
-	float color[4] = { 1.0f, 1.0f, 1.0f,1.0f };
-	void SetColor(float r, float g, float b, float a)
-	{
-		color[0] = r;
-		color[1] = g;
-		color[2] = b;
-		color[3] = a;
-	}
-
-	float* GetColor()
-	{
-		return color;
-	}
 	
+	bool has_color = false;
 };
 
 #endif // !__MATERIAL_H__

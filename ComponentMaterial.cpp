@@ -105,8 +105,12 @@ void ComponentMaterial::OnInspector(bool debug)
 		{
 			ImGui::Text("Material: %s", material_name.data());
 			PrintMaterialProperties();
-			ImGui::ColorEdit4("Color: ###materialColor", rc_material->material.color);
-			ChooseAlphaType();
+			if (rc_material->material.has_color)
+			{
+				ImGui::ColorEdit4("Color: ###materialColor", color);
+				ChooseAlphaType();
+			}
+				
 		}
 		
 		
@@ -126,9 +130,14 @@ void ComponentMaterial::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("path", material_path.data());
+	data.AppendUInt("alpha", alpha);
+	data.AppendUInt("blend_type", blend_type);
+	data.AppendFloat("alpha_test", alpha_test);
+	data.AppendFloat3("color", color);
 
 	if (material_path.size() == 0)
 	{
+		
 		data.AppendArray("textures");
 		for (vector<string>::const_iterator it = list_textures_paths.begin(); it != list_textures_paths.end(); it++)
 		{
@@ -137,6 +146,7 @@ void ComponentMaterial::Save(Data & file)const
 			data.AppendArrayValue(texture);
 		}
 	}
+	
 
 	file.AppendArrayValue(data);
 }
@@ -147,7 +157,11 @@ void ComponentMaterial::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	material_path = conf.GetString("path");
-
+	alpha = conf.GetUInt("alpha");
+	blend_type = conf.GetUInt("blend_type");
+	alpha_test = conf.GetFloat("alpha_test");
+	float3 color_tmp = conf.GetFloat3("color");
+	color[0] = color_tmp[0]; color[1] = color_tmp[1]; color[2] = color_tmp[2]; color[3] = color_tmp[3];
 	if (material_path.size() != 0)
 	{
 		rc_material = (ResourceFileMaterial*)App->resource_manager->LoadResource(material_path, ResourceFileType::RES_MATERIAL);
@@ -185,6 +199,7 @@ void ComponentMaterial::Load(Data & conf)
 	else //Default material
 	{
 		Data texture;
+
 		unsigned int tex_size = conf.GetArraySize("textures");
 		for (int i = 0; i < tex_size; i++)
 		{
@@ -244,7 +259,10 @@ void ComponentMaterial::PrintMaterialProperties()
 			string tex_name;
 			tex_name.resize(*reinterpret_cast<int*>((*it)->value));
 			memcpy(tex_name._Myptr(), (*it)->value + sizeof(int), *reinterpret_cast<int*>((*it)->value));
-			ChangeTexture(tex_name, (*it));
+
+			//Commented because its to hard to serialize each time you change it in runtime, better use create Material window for custom shaders.
+			//ChangeTexture(tex_name, (*it));
+
 			/*ResourceFileTexture* rc = texture_list.at(tex_name.data());
 			if (rc)
 			{
