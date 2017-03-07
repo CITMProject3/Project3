@@ -4,8 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "3D Physics.vcxproj", "{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}"
+<<<<<<< HEAD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ScriptingProject", "ScriptingProject\ScriptingProject.vcxproj", "{D7015F34-FC91-480B-BB3D-4B471D5E0EB9}"
+=======
+>>>>>>> refs/remotes/origin/master
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,6 +20,7 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|Win32.Build.0 = Debug|Win32
+<<<<<<< HEAD
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|x64.ActiveCfg = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.ActiveCfg = Release|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.Build.0 = Release|Win32
@@ -29,6 +33,10 @@ Global
 		{D7015F34-FC91-480B-BB3D-4B471D5E0EB9}.Release|Win32.Build.0 = Release|Win32
 		{D7015F34-FC91-480B-BB3D-4B471D5E0EB9}.Release|x64.ActiveCfg = Release|x64
 		{D7015F34-FC91-480B-BB3D-4B471D5E0EB9}.Release|x64.Build.0 = Release|x64
+=======
+		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.ActiveCfg = Debug|Win32
+		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.Build.0 = Debug|Win32
+>>>>>>> refs/remotes/origin/master
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -161,6 +161,19 @@ void ComponentTransform::SetScale(const math::float3& scale)
 	transform_modified = true;
 }
 
+void ComponentTransform::Set(math::float4x4 matrix)
+{
+	transform_modified = true;
+
+	float3 pos, scal;
+	Quat rot;
+	matrix.Decompose(pos, rot, scal);
+
+	SetPosition(pos);
+	SetRotation(rot);
+	SetScale(scal);
+}
+
 math::float3 ComponentTransform::GetPosition() const
 {
 	return position;
@@ -232,6 +245,16 @@ void ComponentTransform::Reset()
 void ComponentTransform::Remove()
 {
 	LOG("Component Transform from GO(%s) can't be removed.",GetGameObject()->name);
+}
+
+void ComponentTransform::SaveAsPrefab(Data & file) const
+{
+	Data data;
+
+	data.AppendFloat3("position", position.ptr());
+	data.AppendFloat3("rotation", rotation_euler.ptr()); //Euler rotation
+
+	file.AppendArrayValue(data);
 }
 
 void ComponentTransform::CalculateFinalTransform()

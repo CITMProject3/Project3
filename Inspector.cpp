@@ -61,6 +61,22 @@ void Inspector::Draw()
 		if (selected_GO->IsPrefab())
 		{
 			ImGui::TextColored(ImVec4(0, 0.5f, 1, 1), "Prefab: ");
+			ImGui::SameLine();
+			if (ImGui::Button("Apply"))
+			{
+				selected_GO->ApplyPrefabChanges();
+				App->editor->UnselectAll();
+				ImGui::End();
+				return; //TODO: Improve this patch
+			}
+			ImGui::SameLine();
+			if (ImGui::Button("Revert"))
+			{
+				selected_GO->RevertPrefabChanges();
+				App->editor->UnselectAll();
+				ImGui::End();
+				return; //TODO: Improve this patch
+			}
 		}
 
 		ImGui::Separator();
@@ -111,9 +127,24 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_CAMERA);
 			}
 
+			if (ImGui::Selectable("Add Collider"))
+			{
+				selected_GO->AddComponent(C_COLLIDER);
+			}
+
+			if (ImGui::Selectable("Add Car"))
+			{
+				selected_GO->AddComponent(C_CAR);
+			}
+
 			if (ImGui::Selectable("Add Light"))
 			{
 				selected_GO->AddComponent(C_LIGHT);
+			}
+
+			if (ImGui::Selectable("Add Audio"))
+			{
+				selected_GO->AddComponent(C_AUDIO);
 			}
 
 			if (ImGui::Selectable("Add Script"))

@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "ResourceFileRenderTexture.h"
 #include "OpenGLFunc.h"
+#include "ModuleFileSystem.h"
 
 ResourceFileRenderTexture::ResourceFileRenderTexture(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {

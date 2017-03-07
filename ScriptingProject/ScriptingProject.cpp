@@ -7,6 +7,9 @@
 #include <string>
 
 #include "../Application.h"
+#include "../ModuleScripting.h"
+#include "../ModuleWindow.h"
+
 extern "C"
 {
 	namespace ScriptNames

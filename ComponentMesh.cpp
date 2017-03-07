@@ -7,6 +7,10 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ResourceFileMesh.h"
+#include "glut/glut.h"
+
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -34,6 +38,12 @@ void ComponentMesh::Update()
 		game_object->mesh_to_draw = mesh;
 
 		App->renderer3D->AddToDraw(GetGameObject());
+	}
+	if (App->renderer3D->renderAABBs)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

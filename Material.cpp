@@ -1,6 +1,7 @@
 #include "Application.h"
 #include "Material.h"
 #include "Data.h"
+#include "ModuleFileSystem.h"
 
 Material::Material()
 {

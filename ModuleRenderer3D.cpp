@@ -14,6 +14,9 @@
 #include "Octree.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+#include "ModuleWindow.h"
+#include "ModuleCamera3D.h"
+#include "ModuleResourceManager.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -339,8 +342,15 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 			++count;
 		}
 	}
-
 	
+	if (material->texture_ids.empty() == true)
+	{
+		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+		glUniform1i(has_tex_location, 0);
+		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
+		glUniform1i(has_normal_location, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 	//Textures
 	/*if (material->GetDiffuseId() != 0)
@@ -505,6 +515,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const
@@ -565,4 +577,49 @@ void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
 	{
 		DrawLocator(float4x4::FromTRS(pos, rot, float3(1, 1, 1)), color);
 	}
+}
+
+void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
+{
+	glColor4fv(color.ptr());
+	glBegin(GL_QUADS);
+
+
+	glNormal3f(0.0f, 0.0f, 1.0f);
+	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+
+	glNormal3f(0.0f, 0.0f, -1.0f);
+	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+
+	glNormal3f(1.0f, 0.0f, 0.0f);
+	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+
+	glNormal3f(-1.0f, 0.0f, 0.0f);
+	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+
+	glNormal3f(0.0f, 1.0f, 0.0f);
+	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+
+	glNormal3f(0.0f, -1.0f, 0.0f);
+	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+
+	glEnd();
 }

@@ -13,6 +13,8 @@ class GameObject;
 class ComponentTransform;
 class ComponentCamera;
 
+using namespace std;
+
 class ModuleSceneIntro : public Module
 {
 public:

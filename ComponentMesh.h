@@ -40,6 +40,7 @@ class ResourceFileMesh;
 class ComponentMesh : public Component
 {
 public:
+
 	ComponentMesh(ComponentType type, GameObject* game_object);
 	~ComponentMesh();
 
@@ -51,14 +52,20 @@ public:
 	bool SetMesh(Mesh* mesh);
 	void RecalculateBoundingBox();
 
-	void Save(Data& file)const;
+	void Save(Data& file) const;
 	void Load(Data& conf);
 
-	const Mesh* GetMesh()const;
+	const Mesh* GetMesh() const;
 
 	void Remove();
 
+	AABB GetBoundingBox() { return bounding_box; }
+	AABB GetLocalAABB() { return aabb; }
+
+	const Mesh* GetMeshData() const { return mesh; }
+
 private:
+
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;
 	math::AABB aabb; //Local one

@@ -1,6 +1,7 @@
 #include "ComponentScript.h"
 #include "Application.h"
 #include "ModuleScripting.h"
+#include "Color.h"
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, const char* path) : Component(type, game_object)
 {
@@ -40,7 +41,7 @@ void ComponentScript::Update()
 			if (f_Start start = (f_Start)GetProcAddress(App->scripting->script, start_path.c_str()))
 			{
 				finded_start = true;
-				if (App->IsGameRunning())
+				if (App->IsGameRunning() && !App->IsGamePaused())
 				{
 					start(App, GetGameObject());
 					started = true;
@@ -59,7 +60,7 @@ void ComponentScript::Update()
 			if (f_Update update = (f_Update)GetProcAddress(App->scripting->script, update_path.c_str()))
 			{
 				finded_update = true;
-				if (App->IsGameRunning())
+				if (App->IsGameRunning() && !App->IsGamePaused())
 				{
 					update(App, GetGameObject());
 				}
@@ -109,7 +110,7 @@ void ComponentScript::OnInspector(bool debug)
 		
 		if (App->scripting->scripts_loaded)
 		{
-			if (App->IsGameRunning())
+			if (App->IsGameRunning() && !App->IsGamePaused())
 			{
 				if (!finded_start)
 				{

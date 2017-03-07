@@ -41,6 +41,7 @@ public:
 	void DrawLine(float3 pos1, float3 pos2, float4 color = float4(1,1,1,1));
 	void DrawLocator(float4x4 transform, float4 color = float4(1, 1, 1, 1));
 	void DrawLocator(float3 pos, Quat rot, float4 color = float4(1, 1, 1, 1));
+	void DrawAABB(float3 minPoint, float3 maxPoint, float4 color = float4(1, 1, 1, 1));
 
 private:
 
@@ -48,13 +49,12 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
 
 public:
-
+	bool renderAABBs = false;
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	ComponentCamera* camera;
-
 private:
 
 	vector<GameObject*> objects_to_draw;

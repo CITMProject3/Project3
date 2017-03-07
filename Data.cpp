@@ -118,7 +118,7 @@ Data Data::GetArray(const char * name, unsigned int index) const
 
 size_t Data::GetArraySize(const char* name) const
 {
-	size_t size = -1;
+	size_t size = 0;
 	JSON_Array* j_array = json_object_get_array(root, name);
 	if (j_array)
 		size = json_array_get_count(j_array);

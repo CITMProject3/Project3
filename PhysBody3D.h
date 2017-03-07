@@ -20,11 +20,13 @@ public:
 	~PhysBody3D();
 
 	void Push(float x, float y, float z);
-	void GetTransform(float* matrix) const;
+	float4x4 GetTransform() const;
 	void SetTransform(const float* matrix) const;
 	void SetPos(float x, float y, float z);
 	void Stop();
 	void SetRotation(float x, float y, float z);
+	void SetAngularSpeed(float x, float y, float z);
+	void SetLinearSpeed(float x, float y, float z);
 	math::vec GetPosition()const;
 
 	btTransform GetRealTransform()const;

@@ -55,6 +55,15 @@ public:
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 	{}
 
+	virtual void OnPlay()
+	{}
+
+	virtual void OnStop()
+	{}
+
+	virtual void OnPause()
+	{}
+
 	const char* GetName()const
 	{
 		return name.data();
