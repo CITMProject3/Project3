@@ -11,10 +11,10 @@ extern "C"
 {
 	namespace ScriptNames
 	{
-		void GetScriptNames(list<const char*>* script_names)
+		void GetScriptNames(Application* engine_app)
 		{
-			script_names->push_back("Test");
-			script_names->push_back("Test2");
+			engine_app->scripting->AddScriptName("Test");
+			engine_app->scripting->AddScriptName("Test2");
 		}
 	}
 

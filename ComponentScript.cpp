@@ -8,6 +8,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, co
 	started = false;
 	finded_start = false;
 	finded_update = false;
+	script_num = 0;
 }
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -17,6 +18,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : 
 	started = false;
 	finded_start = false;
 	finded_update = false;
+	script_num = 0;
 }
 
 ComponentScript::~ComponentScript()
@@ -98,11 +100,13 @@ void ComponentScript::OnInspector(bool debug)
 		}
 
 		ImGui::InputText("Path##PathScript", path._Myptr(), path.capacity());
-		/*static int item = -1;
-		static int i = App->scripting->GetScriptNames().size();
-		const char* script_names[i];
-		ImGui::Combo("Path##PathScript", &item, App->scripting->GetScriptNames()., App->scripting->GetScriptNames().size());
-		*/
+
+		
+		if (ImGui::Combo("Path##PathScript", &script_num, App->scripting->GetScriptNames().c_str(), 10))
+		{
+			path = App->scripting->GetScriptNamesList()[script_num];
+		}
+		
 		if (App->scripting->scripts_loaded)
 		{
 			if (App->IsGameRunning())

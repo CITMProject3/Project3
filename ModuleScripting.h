@@ -3,11 +3,12 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include <list>
+#include <vector>
 #include <string>
 
+class Application;
 using namespace std;
-typedef void(*f_GetScriptNames)(list<const char*>* script_names);
+typedef void(*f_GetScriptNames)(Application* engine_app);
 
 class ModuleScripting : public Module
 {
@@ -31,13 +32,17 @@ public:
 	DWORD GetError();
 	void LoadScriptsLibrary();
 	void LoadScriptNames();
-	list<const char*> GetScriptNames()const;
+	vector<const char*> GetScriptNamesList()const;
+	string GetScriptNames()const;
+	void AddScriptName(const char* name);
 
 	bool scripts_loaded;
 
 private:
 	DWORD last_error = 0;
-	list<const char*> script_names;
+	vector<const char*> script_names;
+	int scripts_quantity; 
+	string names;
 	bool finded_script_names;
 
 public:

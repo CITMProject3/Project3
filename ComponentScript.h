@@ -35,6 +35,7 @@ private:
 	bool started = false;
 	bool finded_start;
 	bool finded_update;
+	int script_num;
 
 	DWORD error;
 };

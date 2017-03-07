@@ -4,16 +4,13 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	script == NULL;
-	finded_script_names = false;
+	script = NULL;
+	finded_script_names = false; 
+	scripts_quantity = -1;
 }
 
 ModuleScripting::~ModuleScripting()
 {
-	if (script_names.size() > 0)
-		script_names.clear();
-	if(script != NULL)
-		FreeLibrary(script);
 }
 
 bool ModuleScripting::Init(Data &config)
@@ -44,6 +41,10 @@ update_status ModuleScripting::PostUpdate()
 
 bool ModuleScripting::CleanUp()
 {
+	if (script_names.size() > 0)
+		script_names.clear();
+	if (script != NULL)
+		FreeLibrary(script);
 	return true;
 }
 
@@ -80,13 +81,41 @@ void ModuleScripting::LoadScriptsLibrary()
 void ModuleScripting::LoadScriptNames()
 {
 	script_names.clear();
+	if (scripts_quantity != -1)
+		names = "";
 
 	if (scripts_loaded)
 	{
 		if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(App->scripting->script, "GetScriptNames"))
 		{
 			finded_script_names = true;
-			get_script_names(&script_names);
+			get_script_names(App);
+
+			int i = 0;
+			for (vector<const char*>::const_iterator it = script_names.begin(); it != script_names.end(); it++, i++)
+			{
+				if (i == 0)
+					names = (*it);
+				else
+				{
+					names += "\0";
+					names += (*it);
+				}
+			}
+
+			/*const char* str;
+			int i = 0;
+			for (vector<const char*>::const_iterator it = script_names.begin(); it != script_names.end(); it++, i++)
+			{
+				if (i == 0)
+					str = (*it);
+				else
+				{
+					str += "\0";
+					str += (*it);
+				}
+			}
+			names = str.c_str();*/
 		}
 		else
 		{
@@ -103,9 +132,19 @@ void ModuleScripting::LoadScriptNames()
 	}
 }
 
-list<const char*> ModuleScripting::GetScriptNames()const
+vector<const char*> ModuleScripting::GetScriptNamesList()const
 {
 	return script_names;
+}
+
+string ModuleScripting::GetScriptNames()const
+{
+	return names;
+}
+
+void ModuleScripting::AddScriptName(const char* name)
+{
+	script_names.push_back(name);
 }
 
 /*bool ModuleScripting::LoadScriptLibrary(const char* path, HINSTANCE* script)
