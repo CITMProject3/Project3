@@ -22,7 +22,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleRenderer3D.h"
 
-bool MeshImporter::Import(const char * file, const char * path, const char* base_path, vector<unsigned int>& uuids)
+bool MeshImporter::Import(const char * file, const char * path, const char* base_path, vector<unsigned int>& uuids, vector<unsigned int>& uuids_anim, vector<unsigned int>& uuids_bones)
 {
 	bool ret = false;
 	char* buff;
@@ -62,17 +62,19 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 			objects_created[0]->name = name;
 		}
 
-		//MERGE TODO: add new uuid's method for animations
 		//Importing animations ----------
 		std::string output_animation;
-		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
+		while (uuids_anim.size() < scene->mNumAnimations)
+			uuids_anim.push_back(0);
+
+		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation, uuids_anim))
 		{
 			ComponentAnimation* animation = (ComponentAnimation*)objects_created[0]->AddComponent(C_ANIMATION);
 			animation->SetResource((ResourceFileAnimation*)App->resource_manager->LoadResource(output_animation, RES_ANIMATION));
 		}
 		//-------------------------------
 		//Importing bones ---------------
-		AnimationImporter::ImportSceneBones(boned_meshes, boned_game_objects, objects_created[0], base_path);
+		AnimationImporter::ImportSceneBones(boned_meshes, boned_game_objects, objects_created[0], base_path, uuids_bones);
 		//-------------------------------
 
 		SaveInfoFile(objects_created, file);
@@ -599,7 +601,7 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 	data.AppendArrayValue(go_data);
 }
 
-bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids)
+bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids, std::vector<uint>& uuids_anim, std::vector<uint>& uuids_bones)
 {
 	bool ret = false;
 	char* buff;
@@ -639,20 +641,18 @@ bool MeshImporter::ImportUUID(const char * file, const char * path, const char *
 			objects_created[0]->name = name;
 		}
 
-		//MERGE TODO: add new uuid's method for animations
-		/*
 		//Importing animations ----------
 		std::string output_animation;
-		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation))
+		if (AnimationImporter::ImportSceneAnimations(scene, objects_created[0], base_path, output_animation, uuids_anim))
 		{
 			ComponentAnimation* animation = (ComponentAnimation*)objects_created[0]->AddComponent(C_ANIMATION);
 			animation->SetResource((ResourceFileAnimation*)App->resource_manager->LoadResource(output_animation, RES_ANIMATION));
 		}
 		//-------------------------------
 		//Importing bones ---------------
-		AnimationImporter::ImportSceneBones(boned_meshes, boned_game_objects, objects_created[0], base_path);
+		AnimationImporter::ImportSceneBones(boned_meshes, boned_game_objects, objects_created[0], base_path, uuids_bones);
 		//-------------------------------
-		*/
+		
 		SaveInfoFile(objects_created, file);
 
 		for (vector<GameObject*>::iterator go = objects_created.begin(); go != objects_created.end(); ++go)
@@ -764,6 +764,8 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 		string mesh_path;
 		unsigned int msh_uuid = uuids.top();
 		bool ret = MeshImporter::ImportMeshUUID(mesh_to_load, folder_path.data(), mesh_path, msh_uuid);
+		ComponentMesh* mesh = (ComponentMesh*)child->AddComponent(C_MESH);
+		mesh->SetResourceMesh((ResourceFileMesh*)App->resource_manager->LoadResource(mesh_path, RES_MESH));
 		uuids.pop();
 
 		//Load Textures --------------------------------------------------------------------------------------------------------------------

@@ -16,30 +16,35 @@
 #include "Assimp\include\anim.h"
 #pragma comment (lib, "Assimp/libx86/assimp.lib")
 
-bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* root, const char* base_path, std::string& output_name)
+bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* root, const char* base_path, std::string& output_name, std::vector<unsigned int>& uuids)
 {
+	//By now only the first animation is going to be imported, not taking into consideration any other animations in the file
 	uint ret = 0;
 	if (scene->HasAnimations() == true)
 	{
 		//In case there is more than one animation, all animations will be imported
 		//but only the first one will be assigned to the root
-		for (int i = scene->mNumAnimations - 1; i >= 0; i--)
+	//	for (int i = scene->mNumAnimations - 1; i >= 0; i--)
+	//	{
+		//	while (uuids.size() < i)
+		//		uuids.push_back(0);
+		if (uuids.empty())
+			uuids.push_back(0);
+		bool imported = ImportAnimation(scene->mAnimations[0], base_path, output_name, uuids[0]);
+		if (imported == false)
 		{
-			bool imported = ImportAnimation(scene->mAnimations[i], base_path, output_name);
-			if (imported == false)
-			{
-				LOG("Warning: could not import animation nº %i / %i", i, scene->mNumAnimations);
-			}
-			else
-			{
-				ret = true;
-			}
+			LOG("Warning: could not import animation");
 		}
+		else
+		{
+			ret = true;
+		}
+	//	}
 	}
 	return ret;
 }
 
-bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* base_path, std::string& output_name)
+bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* base_path, std::string& output_name, unsigned int& uuid)
 {
 	ResourceFileAnimation animation("", 0);
 
@@ -51,7 +56,7 @@ bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* bas
 	for (uint i = 0; i < anim->mNumChannels; i++)
 		ImportChannel(anim->mChannels[i], animation.channels[i]);
 
-	bool ret = Save(animation, base_path, output_name);
+	bool ret = Save(animation, base_path, output_name, uuid);
 
 	delete[] animation.channels;
 	animation.channels = nullptr;
@@ -80,7 +85,7 @@ void AnimationImporter::ImportChannel(const aiNodeAnim* node, Channel& channel)
 		channel.scaleKeys[node->mScalingKeys[i].mTime] = float3(node->mScalingKeys[i].mValue.x, node->mScalingKeys[i].mValue.y, node->mScalingKeys[i].mValue.z);
 }
 
-bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* folder_path, std::string& output_name)
+bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* folder_path, std::string& output_name, unsigned int& uuid)
 {
 	bool ret = false;
 
@@ -109,7 +114,10 @@ bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* fold
 		SaveChannelData(anim.channels[i], &cursor);
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "anim", output_name);
+	if (uuid == 0)
+		uuid = App->rnd->RandomInt();
+	
+	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "anim", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -280,7 +288,7 @@ void AnimationImporter::CollectGameObjectNames(GameObject* game_object, std::map
 		CollectGameObjectNames(*it, map);
 }
 
-void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned_meshes, const std::vector<const GameObject*>& boned_game_objects, GameObject* root, const char* base_path)
+void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned_meshes, const std::vector<const GameObject*>& boned_game_objects, GameObject* root, const char* base_path, std::vector<unsigned int>& uuids)
 {
 	std::map<std::string, GameObject*> map;
 	CollectGameObjectNames(root, map);
@@ -289,6 +297,9 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 	{
 		for (uint b = 0; b < boned_meshes[i]->mNumBones; b++)
 		{
+			while (uuids.size() < boned_meshes.size() + boned_meshes[i]->mNumBones)
+				uuids.push_back(0);
+
 			std::string mesh_path = "";
 			ComponentMesh* mesh = (ComponentMesh*)boned_game_objects[i]->GetComponent(C_MESH);
 			if (mesh != nullptr)
@@ -297,20 +308,18 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 			}
 
 			std::string bone_file = "";
-			ImportBone(boned_meshes[i]->mBones[b], base_path, mesh_path.c_str(), bone_file);
+			ImportBone(boned_meshes[i]->mBones[b], base_path, mesh_path.c_str(), bone_file, uuids[i + b]);
 			std::map<std::string, GameObject*>::iterator bone_it = map.find(boned_meshes[i]->mBones[b]->mName.C_Str());
 			if (bone_it != map.end())
 			{
 				ComponentBone* bone = (ComponentBone*)bone_it->second->AddComponent(C_BONE);
 				bone->SetResource((ResourceFileBone*)App->resource_manager->LoadResource(bone_file, RES_BONE));
-			//	bone->SetResource(App->resource_manager->FindFile(bone_file));
-			//	bone->set
 			}
 		}
 	}
 }
 
-bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, const char* mesh_path, std::string& output_name)
+bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, const char* mesh_path, std::string& output_name, unsigned int& uuid)
 {
 	ResourceFileBone rBone(base_path, 0);
 	rBone.numWeights = bone->mNumWeights;
@@ -329,7 +338,7 @@ bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, co
 	for (uint i = 0; i < rBone.numWeights; i++)
 		memcpy(rBone.weightsIndex + i, &((bone->mWeights + i)->mVertexId), sizeof(uint));
 
-	bool ret = SaveBone(rBone, base_path, output_name);
+	bool ret = SaveBone(rBone, base_path, output_name, uuid);
 
 	delete[] rBone.weights;
 	delete[] rBone.weightsIndex;
@@ -337,7 +346,7 @@ bool AnimationImporter::ImportBone(const aiBone* bone, const char* base_path, co
 	return ret;
 }
 
-bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folder_path, std::string& output_name)
+bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folder_path, std::string& output_name, unsigned int& uuid)
 {
 	uint size = sizeof(uint) + bone.mesh_path.size() + sizeof(uint) + bone.numWeights * sizeof(float) + bone.numWeights * sizeof(uint)
 		+ sizeof(float) * 16;
@@ -369,8 +378,9 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 	memcpy(cursor, &bone.offset, sizeof(float) * 16);
 	cursor += sizeof(float) * 16;
 
-	//Generate random UUID for the name
-	bool ret = App->file_system->SaveUnique(std::to_string((unsigned int)App->rnd->RandomInt()).data(), data, size, folder_path, "bone", output_name);
+	if (uuid = 0)
+		uuid = App->rnd->RandomInt();
+	bool ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
 
 	delete[] data;
 	data = nullptr;

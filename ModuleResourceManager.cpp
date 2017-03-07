@@ -283,23 +283,37 @@ void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const strin
 
 	//Read the meta uuids
 	stack<unsigned int> meshes_uuids;
+	std::vector<uint> anim_uuids;
+	std::vector<uint> bone_uuids;
 
 	char* buffer = nullptr;
 	if (App->file_system->Load(meta_path.data(), &buffer) > 0)
 	{
 		Data meta(buffer);
 		
-		int size = meta.GetArraySize("meshes");
-		for (int i = size - 1; i >= 0; i--)
+		int size_meshes = meta.GetArraySize("meshes");
+		for (int i = size_meshes - 1; i >= 0; i--)
 		{
 			meshes_uuids.push(meta.GetArray("meshes", i).GetUInt("uuid"));
+		}
+
+		int size_anim = meta.GetArraySize("animations");
+		for (int i = size_anim - 1; i >= 0; i--)
+		{
+			anim_uuids.push_back(meta.GetArray("animations", i).GetUInt("uuid"));
+		}
+
+		int size_bones = meta.GetArraySize("bones");
+		for (int i = size_bones - 1; i >= 0; i--)
+		{
+			bone_uuids.push_back(meta.GetArray("bones", i).GetUInt("uuid"));
 		}
 	}
 
 	if (buffer)
 		delete[] buffer;
 
-	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids);
+	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids, anim_uuids, bone_uuids);
 
 }
 
@@ -867,7 +881,7 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	delete[] buf;
 }
 
-void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<unsigned int>& meshes_uuids) const
+void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<uint>& meshes_uuids, const vector<uint>& animations_uuids, const vector<uint>& bones_uuids) const
 {
 	Data root;
 	root.AppendUInt("Type", static_cast<unsigned int>(FileType::MESH));
@@ -883,6 +897,22 @@ void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, s
 		Data msh_data;
 		msh_data.AppendUInt("uuid", *it);
 		root.AppendArrayValue(msh_data);
+	}
+
+	root.AppendArray("animations");
+	for (vector<unsigned int>::const_iterator it = animations_uuids.begin(); it != animations_uuids.end(); ++it)
+	{
+		Data anim_data;
+		anim_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(anim_data);
+	}
+
+	root.AppendArray("bones");
+	for (vector<unsigned int>::const_iterator it = bones_uuids.begin(); it != bones_uuids.end(); ++it)
+	{
+		Data bone_data;
+		bone_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(bone_data);
 	}
 
 	char* buf;
@@ -1097,8 +1127,10 @@ void ModuleResourceManager::MeshDropped(const char * path, string base_dir, stri
 	final_mesh_path += std::to_string(uuid) + ".inf";
 
 	vector<unsigned int> meshes_uuids;
-	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids);
-	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids);
+	vector<unsigned int> animations;
+	vector<unsigned int> bones;
+	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids, animations, bones);
+	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids, animations, bones);
 	
 }
 
