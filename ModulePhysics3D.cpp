@@ -11,6 +11,8 @@
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
 
+#include "ModuleRenderer3D.h"
+
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
 
@@ -36,6 +38,14 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
+
+	for (int y = 0; y < 256; y++)
+	{
+		for (int x = 0; x < 256; x++)
+		{
+			test[y * 256 + x] = (math::Sin(x / 3.0f) + math::Sin(y / 3.0f)) / 2.0f;
+		}
+	}
 }
 
 // Destructor
@@ -124,6 +134,16 @@ update_status ModulePhysics3D::Update()
 	{
 		world->debugDrawWorld();
 	}
+
+	for (int y = 0; y < 255; y++)
+	{
+		for (int x = 0; x < 255; x++)
+		{
+			App->renderer3D->DrawLine(float3(x - 128, test[y * 256 + x], y - 128), float3(x - 128, test[(y + 1) * 256 + x], y - 128 + 1));
+			App->renderer3D->DrawLine(float3(x - 128, test[y * 256 + x], y - 128), float3(x - 128 + 1, test[(y) * 256 + x + 1], y - 128));
+		}
+	}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -437,15 +457,6 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 	PhysBody3D* pbody = nullptr;
 	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
 
-	
-	for (int y = 0; y < 256; y++)
-	{
-		for (int x = 0; x < 256; x++)
-		{
-			test[y*256+x] = x / 25.0f + 1;
-			test[y * 256 + x] = 10;
-		}
-	}
 	if (Asset_file)
 	{
 		int GL_buffer_id = -1;
@@ -463,7 +474,7 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 				ilDeleteImages(1, &id);
 			}
 
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(256, 256, test, 1.0f, 0, 30, 1, PHY_ScalarType::PHY_FLOAT, false);
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(256, 256, test, 1.0f, -5, 5, 1, PHY_ScalarType::PHY_FLOAT, false);
 			shapes.push_back(terrain);
 
 			btDefaultMotionState* myMotionState = new btDefaultMotionState();
