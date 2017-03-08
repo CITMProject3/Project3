@@ -264,38 +264,6 @@ void ComponentMesh::DeformAnimMesh()
 
 		}
 	}
-
-	for (uint i = 0; i < bones_reference.size(); i++)
-	{
-		ResourceFileBone* rBone = bones_reference[i].bone->GetResource();
-		ComponentBone* rootBone = bones_reference[i].bone->GetRoot();
-
-		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
-		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
-
-		float4x4 matrix_normals = matrix;
-		matrix = matrix * rBone->offset;
-		
-		for (uint i = 0; i < rBone->numWeights; i++)
-		{
-			uint index = rBone->weightsIndex[i];
-			float3 originalV(&mesh->vertices[index * 3]);
-			float3 toAdd = matrix.TransformPos(originalV);
-
-			deformable->vertices[index * 3] += toAdd.x  * rBone->weights[i];
-			deformable->vertices[index * 3 + 1] += toAdd.y * rBone->weights[i];
-			deformable->vertices[index * 3 + 2] += toAdd.z * rBone->weights[i];
-
-			if (mesh->normals != nullptr)
-			{
-				float3 originalVN(&mesh->normals[index * 3]);
-				toAdd = matrix_normals.TransformPos(originalVN);
-				deformable->normals[index * 3] += toAdd.x * rBone->weights[i];
-				deformable->normals[index * 3 + 1] += toAdd.y * rBone->weights[i];
-				deformable->normals[index * 3 + 2] += toAdd.z * rBone->weights[i];
-			}
-		}
-	}
 }
 
 void ComponentMesh::UpdateBonesData()
@@ -306,20 +274,4 @@ void ComponentMesh::UpdateBonesData()
 		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
 		bones_reference[i].transform = matrix;
 	}
-	
-	/*
-	//TODO: optimization, for now we update the same bone more than once
-	ComponentTransform* transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	for (uint i = 0; i < bones_vertex.size(); i++)
-	{
-		for (uint j = 0; j = bones_vertex[i].bone_index.size(); i++)
-		{
-			uint index = bones_vertex[i].bone_index[j];
-			float4x4 matrix = bones[index]->GetSystemTransform();
-			matrix = transform->GetLocalTransformMatrix().Inverted() * matrix;
-
-			bones_vertex[i].transforms[j] = matrix;
-		}
-	}
-	*/
 }
