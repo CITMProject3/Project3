@@ -3,6 +3,7 @@
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
 #include "ComponentTransform.h"
+#include "ModuleAudio.h"
 #include "GameObject.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
@@ -20,9 +21,12 @@ bool ModuleCamera3D::Init(Data & config)
 	camera->frustum.SetPos(vec(0, 3, -10));
 
 	reference = float3(0, 0, 0);
-	camera->LookAt(reference);
+	camera->LookAt(reference);	
 
 	App->renderer3D->camera = camera;
+
+	// Camera acts as the audio listener
+	App->audio->SetListener(camera);
 
 	return true;
 }
@@ -42,6 +46,19 @@ bool ModuleCamera3D::CleanUp()
 	delete camera; //Note: components are destroyed inside the destructor of the GameObject
 
 	return true;
+}
+
+void ModuleCamera3D::OnPlay()
+{
+	if (playCamera != nullptr)
+	{
+		App->renderer3D->SetCamera(playCamera);
+	}
+}
+
+void ModuleCamera3D::OnStop()
+{
+	App->renderer3D->SetCamera(GetEditorCamera());
 }
 
 update_status ModuleCamera3D::Update()

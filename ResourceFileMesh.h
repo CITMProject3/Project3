@@ -12,7 +12,7 @@ public:
 	ResourceFileMesh(ResourceFileType type, const std::string& file_path, unsigned int uuid);
 	~ResourceFileMesh();
 
-	Mesh* GetMesh()const;
+	Mesh* GetMesh() const;
 
 private:
 	void LoadInMemory();

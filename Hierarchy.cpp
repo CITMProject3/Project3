@@ -45,7 +45,10 @@ void Hierarchy::Draw()
 			{
 				if (App->editor->selected.size() > 0)
 				{
-					App->editor->selected.back()->SetParent(App->go_manager->root);
+					parent_to_set = App->go_manager->root;
+					child_to_set = App->editor->selected.back();
+					set_parent_now = true;
+					App->editor->UnselectAll();
 				}
 			}
 		}
@@ -131,6 +134,14 @@ void Hierarchy::Draw()
 	{
 		App->editor->UnselectAll();
 	}
+	if (set_parent_now == true)
+	{
+		set_parent_now = false;
+		setting_parent = false;
+		child_to_set->SetParent(parent_to_set);
+		parent_to_set = child_to_set = nullptr;
+	}
+
 	
 	ImGui::End();
 }
@@ -161,7 +172,11 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			{
 				if (App->editor->selected.size() > 0)
 				{
-					App->editor->selected.back()->SetParent(*object);
+					parent_to_set = *object;
+					child_to_set = App->editor->selected.back();
+					set_parent_now = true;
+					App->editor->UnselectAll(); 
+					break;
 				}
 				setting_parent = false;
 			}

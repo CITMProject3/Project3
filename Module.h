@@ -1,6 +1,7 @@
 #ifndef __MODULE_H__
 #define __MODULE_H__
 
+#include "Globals.h"
 #include "Data.h"
 #include <string>
 
@@ -52,6 +53,15 @@ public:
 	}
 
 	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	{}
+
+	virtual void OnPlay()
+	{}
+
+	virtual void OnStop()
+	{}
+
+	virtual void OnPause()
 	{}
 
 	const char* GetName()const

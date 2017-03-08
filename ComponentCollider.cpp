@@ -21,6 +21,7 @@
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
+	SetShape(S_CUBE);
 }
 
 ComponentCollider::~ComponentCollider()
@@ -32,10 +33,8 @@ void ComponentCollider::Update()
 {
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 
-	if (App->IsGameRunning() == false)
+	if (App->IsGameRunning() == false || Static == true)
 	{
-		exists = false;
-		convexShape = nullptr;
 		if (primitive != nullptr)
 		{
 			//Setting the primitive pos
@@ -52,29 +51,7 @@ void ComponentCollider::Update()
 	}
 	else
 	{
-		if (exists == false)
-		{
-			LoadShape();
-			exists = true;
-		}
-		if (shape == S_CONVEX)
-		{
-			trs->Set(body->GetTransform().Transposed());
-			if (convexShape != nullptr)
-			{
-				int nEdges = convexShape->getNumEdges();
-				for (int n = 0; n < nEdges; n++)
-				{
-					glPushMatrix();
-					glMultMatrixf(body->GetTransform().ptr());
-					btVector3 a, b;
-					convexShape->getEdge(n, a, b);
-					App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
-					glPopMatrix();
-				}
-			}
-		}
-		else if (primitive != nullptr)
+		if (primitive != nullptr)
 		{
 			//Setting the primitive pos
 			float3 translate;
@@ -88,7 +65,35 @@ void ComponentCollider::Update()
 			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
 		}
 	}
+
+	//Rendering Convex shapes
+	if (shape == S_CONVEX && body != nullptr && App->IsGameRunning())
+	{
+		if (convexShape != nullptr)
+		{
+			int nEdges = convexShape->getNumEdges();
+			for (int n = 0; n < nEdges; n++)
+			{
+				glPushMatrix();
+				glMultMatrixf(body->GetTransform().ptr());
+				btVector3 a, b;
+				convexShape->getEdge(n, a, b);
+				App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
+				glPopMatrix();
+			}
+		}
+	}
 	return;
+}
+
+void ComponentCollider::OnPlay()
+{
+	LoadShape();
+}
+
+void ComponentCollider::OnStop()
+{
+	convexShape = nullptr;
 }
 
 void ComponentCollider::OnInspector(bool debug)
@@ -232,6 +237,10 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	{
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		offset_pos = msh->GetBoundingBox().CenterPoint() - trs->GetPosition();
+	}
+	else
+	{
+		offset_pos = float3::zero;
 	}
 	shape = new_shape;
 	switch (new_shape)

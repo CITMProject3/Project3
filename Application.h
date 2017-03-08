@@ -15,7 +15,6 @@
 
 class Module;
 class ModuleCamera3D;
-class ModuleCar;
 class ModuleFileSystem;
 class ModuleGOManager;
 class ModuleInput;
@@ -80,11 +79,10 @@ public:
 	ModuleLighting* lighting;
 	Editor* editor;
 	Random* rnd = nullptr;
-	ModuleCar* car = nullptr;
 private:
 
 
-	list<Module*> list_modules;
+	vector<Module*> list_modules;
 	int fps = 60;
 	int capped_ms = -1;
 

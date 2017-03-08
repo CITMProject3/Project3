@@ -1,14 +1,18 @@
 #include "Application.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
+#include "ComponentLight.h"
+#include "ComponentAudio.h"
 #include "ComponentCollider.h"
+#include "ComponentCar.h"
+
 #include "MeshImporter.h"
 #include "RaycastHit.h"
-#include "ComponentLight.h"
 #include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
 
@@ -88,11 +92,17 @@ void GameObject::PreUpdate()
 
 void GameObject::Update()
 {
-	std::vector<Component*>::iterator comp = components.begin();
-
-	for (comp; comp != components.end(); comp++)
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->PreUpdate();
+	}
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
 		(*comp)->Update();
+	}
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->PostUpdate();
 	}
 }
 
@@ -212,6 +222,30 @@ size_t GameObject::ChildCount()
 	return childs.size();
 }
 
+void GameObject::OnPlay()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnPlay();
+	}
+}
+
+void GameObject::OnStop()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnStop();
+	}
+}
+
+void GameObject::OnPause()
+{
+	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
+	{
+		(*comp)->OnPause();
+	}
+}
+
 bool GameObject::IsActive() const
 {
 	return active;
@@ -321,6 +355,14 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_LIGHT:	
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
+		break;
+	case C_CAR:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentCar(this);
+		break;
+	case C_AUDIO:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentAudio(type, this);
 		break;
 	default:
 		break;

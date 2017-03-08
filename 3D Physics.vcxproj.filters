@@ -73,6 +73,9 @@
     <Filter Include="3rd Party Tools\Gizmo">
       <UniqueIdentifier>{ad0c5c7e-2683-4664-ab1e-a8749f618363}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\Wwise">
+      <UniqueIdentifier>{c480c1f0-4dec-461b-a473-70029f23408f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -510,9 +513,6 @@
     <ClInclude Include="TestWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleCar.h">
-      <Filter>Sources\Modules</Filter>
-    </ClInclude>
     <ClInclude Include="glmath.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
@@ -521,6 +521,45 @@
     </ClInclude>
     <ClInclude Include="ComponentCollider.h">
       <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCar.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFileLocationBase.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackage.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceFileAudio.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceFilePrefab.h">
+      <Filter>Sources\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAudio.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Wwise_Library.h">
+      <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -857,9 +896,6 @@
     <ClCompile Include="TestWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleCar.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="glmath.cpp">
       <Filter>Sources\Tools</Filter>
     </ClCompile>
@@ -867,6 +903,33 @@
       <Filter>3rd Party Tools\Gizmo</Filter>
     </ClCompile>
     <ClCompile Include="ComponentCollider.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCar.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackage.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceFileAudio.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceFilePrefab.cpp">
+      <Filter>Sources\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
@@ -891,6 +954,12 @@
     </None>
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>3rd Party Tools\MathGeoLib\Include</Filter>
+    </None>
+    <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </None>
+    <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl">
+      <Filter>3rd Party Tools\Wwise</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

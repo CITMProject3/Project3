@@ -86,7 +86,7 @@ bool ModuleFileSystem::IsDirectoryOutside(const char * file) const
 // Read a whole file and put it in a new buffer
 unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 {
-	unsigned int ret = -1;
+	unsigned int ret = 0;
 
 	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
@@ -112,7 +112,7 @@ unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 			LOG("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		LOG("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("File System error while opening file to load %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }
@@ -147,7 +147,7 @@ int close_sdl_rwops(SDL_RWops *rw)
 unsigned int ModuleFileSystem::Save(const char* file, const void* buffer, unsigned int size) const
 {
 	unsigned int ret = 0;
-
+	
 	PHYSFS_file* fs_file = PHYSFS_openWrite(file);
 
 	if (fs_file != NULL)
@@ -164,7 +164,7 @@ unsigned int ModuleFileSystem::Save(const char* file, const void* buffer, unsign
 			LOG("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
-		LOG("File System error while opening file %s: %s\n", file, PHYSFS_getLastError());
+		LOG("File System error while opening file to save %s: %s\n", file, PHYSFS_getLastError());
 
 	return ret;
 }
@@ -376,7 +376,7 @@ bool ModuleFileSystem::DuplicateFile(const char * src, const char * dst) const
 
 void ModuleFileSystem::SearchResourceFolders()
 {
-	const char* folders[] = { ASSETS_FOLDER, LIBRARY_FOLDER}; //2 folders
+	const char* folders[] = { ASSETS_FOLDER, LIBRARY_FOLDER}; // 2 folders
 
 	for (int i = 0; i < 2; i++)
 		if (PHYSFS_exists(folders[i]) == 0)

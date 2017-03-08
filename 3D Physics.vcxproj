@@ -39,7 +39,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -48,11 +55,15 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories />
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -65,6 +76,7 @@
       <ExceptionHandling>false</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories />
+      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -72,9 +84,20 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>Windows</SubSystem>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <AdditionalLibraryDirectories>
+      </AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFileLocationBase.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackage.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h" />
+    <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h" />
     <ClInclude Include="Allocator.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
@@ -82,7 +105,9 @@
     <ClInclude Include="CameraWindow.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentAudio.h" />
     <ClInclude Include="ComponentCamera.h" />
+    <ClInclude Include="ComponentCar.h" />
     <ClInclude Include="ComponentCollider.h" />
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
@@ -117,10 +142,10 @@
     <ClInclude Include="LinearAllocator.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
-    <ClInclude Include="ModuleCar.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
+    <ClInclude Include="ResourceFileAudio.h" />
     <ClInclude Include="ResourceFileMaterial.h" />
     <ClInclude Include="ResourceFilePrefab.h" />
     <ClInclude Include="ResourceFileRenderTexture.h" />
@@ -225,15 +250,23 @@
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowOptions.h" />
+    <ClInclude Include="Wwise_Library.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackage.cpp" />
+    <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
     <ClCompile Include="CameraWindow.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentAudio.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
+    <ClCompile Include="ComponentCar.cpp" />
     <ClCompile Include="ComponentCollider.cpp" />
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
@@ -265,10 +298,10 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
-    <ClCompile Include="ModuleCar.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
+    <ClCompile Include="ResourceFileAudio.cpp" />
     <ClCompile Include="ResourceFileMaterial.cpp" />
     <ClCompile Include="ResourceFilePrefab.cpp" />
     <ClCompile Include="ResourceFileRenderTexture.cpp" />
@@ -345,6 +378,8 @@
     <ClCompile Include="WindowOptions.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl" />
+    <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl" />
     <None Include="ListIterator.snippet" />
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

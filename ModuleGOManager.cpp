@@ -1,22 +1,27 @@
 #include "Application.h"
 #include "ModuleGOManager.h"
-#include "Component.h"
-#include "GameObject.h"
-#include "Imgui\imgui.h"
-#include "ComponentCamera.h"
-#include "ComponentMesh.h"
-#include "RaycastHit.h"
-#include <algorithm>
-#include "ComponentLight.h"
-#include "LayerSystem.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+
+#include "GameObject.h"
+#include "Component.h"
+#include "ComponentCamera.h"
+#include "ComponentMesh.h"
+#include "ComponentLight.h"
+
+#include "Imgui\imgui.h"
+
+#include "RaycastHit.h"
+#include "LayerSystem.h"
+
+#include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"
 
-#include "MeshImporter.h"
+#include <algorithm>
+//#include <map>
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -113,7 +118,7 @@ update_status ModuleGOManager::Update()
 	{
 		if (selected_GO->bounding_box)
 		{
-			g_Debug->AddAABB(*selected_GO->bounding_box, g_Debug->green);
+		//	g_Debug->AddAABB(*selected_GO->bounding_box, g_Debug->green);
 		}
 	}
 
@@ -177,33 +182,45 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	
 	string prim_path = "Resources/Primitives/";
 
+	std::map<PrimitiveType, long unsigned> prim_codes;
+	prim_codes[P_CUBE] = 2147000001;
+	prim_codes[P_CYLINDER] = 2147000002;
+	prim_codes[P_PLANE] = 2147000003;
+	prim_codes[P_SPHERE] = 2147000004;
+
 	switch (type)
 	{
 		case(PrimitiveType::P_CUBE):
 		{
-			primitive->name.assign("Cube");
-			prim_path += "Cube.msh"; break;
-		}
-		case(PrimitiveType::P_SPHERE):
-		{
-			primitive->name.assign("Sphere");
-			prim_path += "Sphere.msh"; break;
-		}
-		case(PrimitiveType::P_PLANE):
-		{
-			primitive->name.assign("Plane");
-			prim_path += "Plane.msh"; break;
+			primitive->name.assign("Cube");			
+			prim_path += std::to_string(prim_codes[P_CUBE]); break;
 		}
 		case(PrimitiveType::P_CYLINDER):
 		{
 			primitive->name.assign("Cylinder");
-			prim_path += "Cylinder.msh"; break;
+			prim_path += std::to_string(prim_codes[P_CYLINDER]); break;
 		}
+		case(PrimitiveType::P_PLANE):
+		{
+			primitive->name.assign("Plane");
+			prim_path += std::to_string(prim_codes[P_PLANE]); break;
+		}
+		case(PrimitiveType::P_SPHERE):
+		{
+			primitive->name.assign("Sphere");
+			prim_path += std::to_string(prim_codes[P_SPHERE]); break;
+		}		
 	}
 
-	// Loading mesh for each primitive
-	mesh_comp->SetMesh(MeshImporter::Load(prim_path.c_str()));
+	prim_path += ".msh";
 
+	// Loading mesh for each primitive
+	Data load_info;
+	load_info.AppendUInt("UUID", prim_codes[type] );
+	load_info.AppendBool("Active", true);
+	load_info.AppendString("path", prim_path.c_str());
+
+	mesh_comp->Load(load_info);
 	return primitive;
 }
 
@@ -457,10 +474,18 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
-	string prefab_path = go_data.GetString("prefab_path");
+	
 	unsigned int prefab_root_uuid = 0;
+	string prefab_path;
+
 	if (is_prefab)
+	{
 		prefab_root_uuid = uuids.find(go_data.GetUInt("prefab_root_uuid"))->second;
+		string prefab_path = go_data.GetString("prefab_path");
+	}
+	else
+		prefab_path = "";
+
 	int layer = go_data.GetInt("layer");
 
 	//Find parent GameObject reference
@@ -756,6 +781,11 @@ void ModuleGOManager::InspectorWindow()
 				selected_GO->AddComponent(C_LIGHT);
 			}
 
+			if (ImGui::Selectable("Add Audio"))
+			{
+				selected_GO->AddComponent(C_AUDIO);
+			}
+
 			ImGui::EndPopup();
 		}
 	}
@@ -787,5 +817,62 @@ void ModuleGOManager::PreUpdateGameObjects(GameObject * obj)
 	for (child; child != obj->GetChilds()->end(); ++child)
 	{
 		PreUpdateGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPlay()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnPlayGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPlayGameObjects(GameObject * obj)
+{
+	obj->OnPlay();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnPlayGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPause()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnPauseGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnPauseGameObjects(GameObject * obj)
+{
+	obj->OnPause();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnPauseGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnStop()
+{
+	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+	for (; child != root->GetChilds()->end(); ++child)
+	{
+		OnStopGameObjects((*child));
+	}
+}
+
+void ModuleGOManager::OnStopGameObjects(GameObject * obj)
+{
+	obj->OnStop();
+	std::vector<GameObject*>::const_iterator child = obj->GetChilds()->begin();
+	for (; child != obj->GetChilds()->end(); ++child)
+	{
+		OnStopGameObjects((*child));
 	}
 }
