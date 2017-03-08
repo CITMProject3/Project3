@@ -378,7 +378,7 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 	memcpy(cursor, &bone.offset, sizeof(float) * 16);
 	cursor += sizeof(float) * 16;
 
-	if (uuid = 0)
+	if (uuid == 0)
 		uuid = App->rnd->RandomInt();
 	bool ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
 

@@ -183,8 +183,8 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 		//Mesh --------------------------------------------------------------------------------------------------------------------------------
 		string mesh_path;
-		//HEAD
-		unsigned int msh_uuid;
+
+		unsigned int msh_uuid = 0;
 		bool ret = MeshImporter::ImportMesh(mesh_to_load, folder_path.data(), mesh_path, msh_uuid); 
 		ComponentMesh* mesh = (ComponentMesh*)child->AddComponent(C_MESH);
 		mesh->SetResourceMesh((ResourceFileMesh*)App->resource_manager->LoadResource(mesh_path, RES_MESH));
