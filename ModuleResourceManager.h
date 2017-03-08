@@ -98,7 +98,7 @@ private:
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, std::string library_path, bool is_file = true)const;
-	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids, const vector<uint>& animations_uuids, const vector<uint>& bones_uuids)const;
+	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids, const std::vector<uint>& animations_uuids, const std::vector<uint>& bones_uuids)const;
 
 	void ImportFolder(const char* path, std::vector<tmp_mesh_file>& list_meshes, std::string base_dir = std::string(), std::string base_library_dir = std::string())const;
 	void ImportFile(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
