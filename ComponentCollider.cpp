@@ -131,10 +131,10 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
-				/*if (ImGui::MenuItem("Terrain collider", NULL))
+				if (ImGui::MenuItem("Terrain collider", NULL))
 				{
 					SetShape(S_TERRAIN);
-				}*/
+				}
 				ImGui::EndMenu();
 			}
 
@@ -142,7 +142,7 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
-			//if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
+			if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
 			if (shape != S_CONVEX)
@@ -309,11 +309,11 @@ void ComponentCollider::LoadShape()
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
 			break;
 		}
-		/*case S_TERRAIN:
+		case S_TERRAIN:
 		{
-			body = App->physics->AddTerrain("/Assets/hieghtmap_test.png", &terrain, &heightmap_buffer_id);
+			body = App->physics->AddTerrain("/Assets/Level_Enviroment/hmap.jpg", &terrain, &heightmap_buffer_id);
 			break;
-		}*/
+		}
 		}
 		
 	}

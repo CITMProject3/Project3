@@ -48,6 +48,7 @@ ModulePhysics3D::~ModulePhysics3D()
 	delete collision_conf;
 }
 
+
 // Render not available yet----------------------------------
 bool ModulePhysics3D::Init(Data& config)
 {
@@ -57,7 +58,6 @@ bool ModulePhysics3D::Init(Data& config)
 	return ret;
 }
 
-// ---------------------------------------------------------
 bool ModulePhysics3D::Start()
 {
 	LOG("Creating Physics environment");
@@ -71,7 +71,6 @@ bool ModulePhysics3D::Start()
 	return true;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::PreUpdate()
 {
 	float dt = time->DeltaTime();
@@ -116,7 +115,6 @@ update_status ModulePhysics3D::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::Update()
 {
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -130,7 +128,6 @@ update_status ModulePhysics3D::Update()
 	return UPDATE_CONTINUE;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::PostUpdate()
 {
 	if (App->IsGameRunning() == false && gameRunning == true)
@@ -146,7 +143,6 @@ update_status ModulePhysics3D::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModulePhysics3D::CleanUp()
 {
 	LOG("Destroying 3D Physics simulation");
@@ -204,6 +200,8 @@ void ModulePhysics3D::CleanWorld()
 	CreateGround();
 }
 
+
+// ---------------------------------------------------------
 void ModulePhysics3D::CreateGround()
 {
 	// Big plane as ground
@@ -215,6 +213,7 @@ void ModulePhysics3D::CreateGround()
 	btRigidBody* body = new btRigidBody(rbInfo);
 	world->addRigidBody(body);
 }
+
 
 // ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool isSensor)
@@ -246,8 +245,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool is
 	return pbody;
 }
 
-
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSensor)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
@@ -277,7 +274,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSens
 	return pbody;
 }
 
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, bool isSensor)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
@@ -307,7 +303,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	return pbody;
 }
 
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
@@ -360,6 +355,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 
 	return pbody;
 }
+
 
 // ---------------------------------------------------------
 PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
@@ -432,6 +428,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
+
+// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
 {
 	//https://www.bulletphysics.org/Bullet/phpBB3/viewtopic.php?f=9&t=7915
@@ -439,12 +437,12 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 	PhysBody3D* pbody = nullptr;
 	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
 
-	int test[256*256];
+	
 	for (int y = 0; y < 256; y++)
 	{
 		for (int x = 0; x < 256; x++)
 		{
-			test[y*256+x] = math::Abs( 256 - (x+y));
+			test[y*256+x] = App->rnd->RandomInt() % 5;
 		}
 	}
 	if (Asset_file)
@@ -464,7 +462,7 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 				ilDeleteImages(1, &id);
 			}
 
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(128, 128, test, 2.0f, 0, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(256, 256, test, 0.1f, -20, 20, 1, PHY_ScalarType::PHY_FLOAT, false);
 			shapes.push_back(terrain);
 
 			btDefaultMotionState* myMotionState = new btDefaultMotionState();
@@ -500,6 +498,7 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 	return pbody;
 }
 
+
 // ---------------------------------------------------------
 void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB)
 {
@@ -527,6 +526,7 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	constraints.push_back(hinge);
 	hinge->setDbgDrawSize(2.0f);
 }
+
 
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
