@@ -297,7 +297,7 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 	{
 		for (uint b = 0; b < boned_meshes[i]->mNumBones; b++)
 		{
-			while (uuids.size() < boned_meshes.size() + boned_meshes[i]->mNumBones)
+			while (uuids.size() < boned_meshes.size() + boned_meshes[i]->mNumBones -1)
 				uuids.push_back(0);
 
 			std::string mesh_path = "";

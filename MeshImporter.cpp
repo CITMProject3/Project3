@@ -295,8 +295,8 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 	//Colors --------------------------------------------------------------------------------------------------------
 	if (mesh_to_load->HasVertexColors(0))
 	{
-		mesh.colors = new float[mesh.num_vertices * 3];
-		memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
+	//	mesh.colors = new float[mesh.num_vertices * 3];
+//		memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
 	}
 
 	//Tangents  --------------------------------------------------------------------------------------------------------
@@ -873,8 +873,8 @@ bool MeshImporter::ImportMeshUUID(const aiMesh * mesh_to_load, const char * fold
 	//Colors --------------------------------------------------------------------------------------------------------
 	if (mesh_to_load->HasVertexColors(0))
 	{
-		mesh.colors = new float[mesh.num_vertices * 3];
-		memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
+		//mesh.colors = new float[mesh.num_vertices * 3];
+		//memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
 	}
 
 	//Tangents  --------------------------------------------------------------------------------------------------------
