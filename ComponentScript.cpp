@@ -103,7 +103,7 @@ void ComponentScript::OnInspector(bool debug)
 		ImGui::InputText("Path##PathScript", path._Myptr(), path.capacity());
 
 		
-		if (ImGui::Combo("Path##PathScript", &script_num, App->scripting->GetScriptNames().c_str(), 10))
+		if (ImGui::Combo("Path##PathScript", &script_num, App->scripting->GetScriptNames(), 10))
 		{
 			path = App->scripting->GetScriptNamesList()[script_num];
 		}
@@ -130,10 +130,7 @@ void ComponentScript::OnInspector(bool debug)
 		}
 		else
 		{
-			if(App->scripting->GetError() == 127)
-				ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Can't find Game.dll");
-			else
-				ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Unknown error loading Game.dll");
+			ImGui::TextColored(ImVec4(Yellow.r, Yellow.g, Yellow.b, Yellow.a), "Unknown error loading Game.dll");
 		}
 	}
 }

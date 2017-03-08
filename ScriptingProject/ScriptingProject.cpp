@@ -18,6 +18,8 @@ extern "C"
 		{
 			engine_app->scripting->AddScriptName("Test");
 			engine_app->scripting->AddScriptName("Test2");
+			
+			engine_app->scripting->SetScriptNames("Test\0Test2\0\0");
 		}
 	}
 

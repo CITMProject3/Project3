@@ -91,7 +91,7 @@ void ModuleScripting::LoadScriptNames()
 			finded_script_names = true;
 			get_script_names(App);
 
-			int i = 0;
+			/*int i = 0;
 			for (vector<const char*>::const_iterator it = script_names.begin(); it != script_names.end(); it++, i++)
 			{
 				if (i == 0)
@@ -101,7 +101,7 @@ void ModuleScripting::LoadScriptNames()
 					names += "\0";
 					names += (*it);
 				}
-			}
+			}*/
 
 			/*const char* str;
 			int i = 0;
@@ -137,9 +137,14 @@ vector<const char*> ModuleScripting::GetScriptNamesList()const
 	return script_names;
 }
 
-string ModuleScripting::GetScriptNames()const
+const char* ModuleScripting::GetScriptNames()const
 {
 	return names;
+}
+
+void ModuleScripting::SetScriptNames(const char* names)
+{
+	this->names = names;
 }
 
 void ModuleScripting::AddScriptName(const char* name)

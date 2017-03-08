@@ -33,7 +33,8 @@ public:
 	void LoadScriptsLibrary();
 	void LoadScriptNames();
 	vector<const char*> GetScriptNamesList()const;
-	string GetScriptNames()const;
+	const char* GetScriptNames()const;
+	void SetScriptNames(const char* names);
 	void AddScriptName(const char* name);
 
 	bool scripts_loaded;
@@ -42,7 +43,7 @@ private:
 	DWORD last_error = 0;
 	vector<const char*> script_names;
 	int scripts_quantity; 
-	string names;
+	const char* names;
 	bool finded_script_names;
 
 public:
