@@ -199,6 +199,20 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 			return;
 
 	bones.push_back(bone);
+	if (bones_vertex.empty())
+	{
+		bones_vertex = std::vector<Bone_Vertex>(mesh->num_vertices);
+	}
+
+	ResourceFileBone* rBone = bone->GetResource();
+	for (uint i = 0; i < rBone->numWeights; i++)
+	{
+		uint data_b_index = bones.size() - 1;
+		float data_b_float = rBone->weights[i];
+		float4x4 offset = rBone->offset;
+
+		bones_vertex[rBone->weightsIndex[i]].AddBone(data_b_index, data_b_float, offset);
+	}
 }
 
 void ComponentMesh::ResetDeformable()
@@ -250,6 +264,23 @@ void ComponentMesh::DeformAnimMesh()
 				deformable->normals[index * 3 + 1] += toAdd.y * rBone->weights[i];
 				deformable->normals[index * 3 + 2] += toAdd.z * rBone->weights[i];
 			}
+		}
+	}
+}
+
+void ComponentMesh::UpdateBonesData()
+{
+	//TODO: optimization, for now we update the same bone more than once
+	ComponentTransform* transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	for (uint i = 0; i < bones_vertex.size(); i++)
+	{
+		for (uint j = 0; j = bones_vertex[i].bone_index.size(); i++)
+		{
+			uint index = bones_vertex[i].bone_index[j];
+			float4x4 matrix = bones[index]->GetSystemTransform();
+			matrix = transform->GetLocalTransformMatrix().Inverted() * matrix;
+
+			bones_vertex[i].transforms[j] = matrix;
 		}
 	}
 }

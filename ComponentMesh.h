@@ -3,6 +3,20 @@
 
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include "Globals.h"
+
+struct Bone_Vertex
+{
+	//All bones that influence the vertex
+	//stored in "bones" vector
+	std::vector<uint> bone_index;
+	std::vector<float> weights;
+	std::vector<float4x4> transforms;
+	std::vector<float4x4> offsets;
+
+	void AddBone(uint index, float weight, const float4x4& offset)
+	{bone_index.push_back(index);	weights.push_back(weight); transforms.push_back(float4x4::identity); offsets.push_back(offset);}
+};
 
 struct Mesh
 {
@@ -66,6 +80,8 @@ public:
 	void ResetDeformable();
 	void DeformAnimMesh();
 
+	void UpdateBonesData();
+
 	Mesh* deformable = nullptr;
 
 	AABB GetBoundingBox() { return bounding_box; }
@@ -77,6 +93,7 @@ private:
 	Mesh* mesh = nullptr;
 
 	std::vector<ComponentBone*> bones;
+	std::vector<Bone_Vertex> bones_vertex;
 
 	math::AABB aabb; //Local one
 	math::AABB bounding_box; //In the world position

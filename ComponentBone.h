@@ -28,8 +28,6 @@ public:
 	ComponentBone* GetRoot();
 private:
 
-public:
-
 private:
 	ResourceFileBone* rBone = nullptr;
 };
