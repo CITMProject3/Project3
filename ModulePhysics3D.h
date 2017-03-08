@@ -66,7 +66,7 @@ private:
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
 
-	float test[256 * 256];
+	float test[256];
 };
 
 class DebugDrawer : public btIDebugDraw

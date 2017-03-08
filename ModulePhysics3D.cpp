@@ -442,7 +442,8 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 	{
 		for (int x = 0; x < 256; x++)
 		{
-			test[y*256+x] = App->rnd->RandomInt() % 5;
+			test[y*256+x] = x / 25.0f + 1;
+			test[y * 256 + x] = 10;
 		}
 	}
 	if (Asset_file)
@@ -462,7 +463,7 @@ PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainSh
 				ilDeleteImages(1, &id);
 			}
 
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(256, 256, test, 0.1f, -20, 20, 1, PHY_ScalarType::PHY_FLOAT, false);
+			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(256, 256, test, 1.0f, 0, 30, 1, PHY_ScalarType::PHY_FLOAT, false);
 			shapes.push_back(terrain);
 
 			btDefaultMotionState* myMotionState = new btDefaultMotionState();
