@@ -298,13 +298,13 @@ void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const strin
 		}
 
 		int size_anim = meta.GetArraySize("animations");
-		for (int i = size_anim - 1; i >= 0; i--)
+		for (int i = 0; i < size_anim; i++)
 		{
 			anim_uuids.push_back(meta.GetArray("animations", i).GetUInt("uuid"));
 		}
 
 		int size_bones = meta.GetArraySize("bones");
-		for (int i = size_bones - 1; i >= 0; i--)
+		for (int i = 0; i < size_bones; i++)
 		{
 			bone_uuids.push_back(meta.GetArray("bones", i).GetUInt("uuid"));
 		}

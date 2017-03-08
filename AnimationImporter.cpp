@@ -19,27 +19,17 @@
 bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* root, const char* base_path, std::string& output_name, std::vector<unsigned int>& uuids)
 {
 	//By now only the first animation is going to be imported, not taking into consideration any other animations in the file
-	uint ret = 0;
+	bool ret = false;
 	if (scene->HasAnimations() == true)
 	{
-		//In case there is more than one animation, all animations will be imported
-		//but only the first one will be assigned to the root
-	//	for (int i = scene->mNumAnimations - 1; i >= 0; i--)
-	//	{
-		//	while (uuids.size() < i)
-		//		uuids.push_back(0);
 		if (uuids.empty())
 			uuids.push_back(0);
-		bool imported = ImportAnimation(scene->mAnimations[0], base_path, output_name, uuids[0]);
-		if (imported == false)
+
+		ret = ImportAnimation(scene->mAnimations[0], base_path, output_name, uuids[0]);
+		if (ret == false)
 		{
 			LOG("Warning: could not import animation");
 		}
-		else
-		{
-			ret = true;
-		}
-	//	}
 	}
 	return ret;
 }
