@@ -8,14 +8,21 @@
 struct Bone_Vertex
 {
 	//All bones that influence the vertex
-	//stored in "bones" vector
+	//stored in "bones_reference" vector
 	std::vector<uint> bone_index;
 	std::vector<float> weights;
-	std::vector<float4x4> transforms;
-	std::vector<float4x4> offsets;
 
-	void AddBone(uint index, float weight, const float4x4& offset)
-	{bone_index.push_back(index);	weights.push_back(weight); transforms.push_back(float4x4::identity); offsets.push_back(offset);}
+	void AddBone(uint index, float weight){bone_index.push_back(index);	weights.push_back(weight);}
+};
+
+class ComponentBone;
+
+struct Bone_Reference
+{
+	Bone_Reference(ComponentBone* bone, float4x4 offset) { this->bone = bone; this->offset = offset; }
+	ComponentBone* bone;
+	float4x4 transform = float4x4::identity;
+	float4x4 offset = float4x4::identity;
 };
 
 struct Mesh
@@ -92,7 +99,7 @@ private:
 	ResourceFileMesh* rc_mesh = nullptr;
 	Mesh* mesh = nullptr;
 
-	std::vector<ComponentBone*> bones;
+	std::vector<Bone_Reference> bones_reference;
 	std::vector<Bone_Vertex> bones_vertex;
 
 	math::AABB aabb; //Local one

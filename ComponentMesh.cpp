@@ -194,11 +194,12 @@ void ComponentMesh::Remove()
 
 void ComponentMesh::AddBone(ComponentBone* bone)
 {
-	for (uint i = 0; i < bones.size(); i++)
-		if (bones[i] == bone)
+	for (uint i = 0; i < bones_reference.size(); i++)
+		if (bones_reference[i].bone == bone)
 			return;
 
-	bones.push_back(bone);
+	bones_reference.push_back(Bone_Reference(bone, bone->GetResource()->offset));
+
 	if (bones_vertex.empty())
 	{
 		bones_vertex = std::vector<Bone_Vertex>(mesh->num_vertices);
@@ -207,11 +208,9 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 	ResourceFileBone* rBone = bone->GetResource();
 	for (uint i = 0; i < rBone->numWeights; i++)
 	{
-		uint data_b_index = bones.size() - 1;
+		uint data_b_index = bones_reference.size() - 1;
 		float data_b_float = rBone->weights[i];
-		float4x4 offset = rBone->offset;
-
-		bones_vertex[rBone->weightsIndex[i]].AddBone(data_b_index, data_b_float, offset);
+		bones_vertex[rBone->weightsIndex[i]].AddBone(data_b_index, data_b_float);
 	}
 }
 
@@ -234,13 +233,44 @@ void ComponentMesh::ResetDeformable()
 void ComponentMesh::DeformAnimMesh()
 {
 	ResetDeformable();
+	UpdateBonesData();
 
-	for (uint i = 0; i < bones.size(); i++)
+	//Looping through vertices
+	for (uint i = 0; i < bones_vertex.size(); i++)
 	{
-		ResourceFileBone* rBone = bones[i]->GetResource();
-		ComponentBone* rootBone = bones[i]->GetRoot();
+		//Looping through bones afecting current vertex
+		for (uint j = 0; j < bones_vertex[i].bone_index.size(); j++)
+		{
+			uint index = bones_vertex[i].bone_index[j];
+			float4x4 matrix = bones_reference[index].transform;
 
-		float4x4 matrix = bones[i]->GetSystemTransform();
+			//Vertex position
+			float3 originalV(&mesh->vertices[i * 3]);
+			float4x4 m_offset = matrix * bones_reference[index].offset;
+			float3 toAdd = m_offset.TransformPos(originalV);
+
+			deformable->vertices[i * 3] += toAdd.x * bones_vertex[i].weights[j];
+			deformable->vertices[i * 3 + 1] += toAdd.y * bones_vertex[i].weights[j];
+			deformable->vertices[i * 3 + 2] += toAdd.z * bones_vertex[i].weights[j];
+
+			if (mesh->normals != nullptr)
+			{
+				float3 originalN(&mesh->normals[i * 3]);
+				float3 toAddN = matrix.TransformPos(originalN);
+				deformable->normals[i * 3] += toAdd.x * bones_vertex[i].weights[j];
+				deformable->normals[i * 3 + 1] += toAdd.y * bones_vertex[i].weights[j];
+				deformable->normals[i * 3 + 2] += toAdd.z * bones_vertex[i].weights[j];
+			}
+
+		}
+	}
+
+	for (uint i = 0; i < bones_reference.size(); i++)
+	{
+		ResourceFileBone* rBone = bones_reference[i].bone->GetResource();
+		ComponentBone* rootBone = bones_reference[i].bone->GetRoot();
+
+		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
 		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
 
 		float4x4 matrix_normals = matrix;
@@ -270,6 +300,14 @@ void ComponentMesh::DeformAnimMesh()
 
 void ComponentMesh::UpdateBonesData()
 {
+	for (uint i = 0; i < bones_reference.size(); i++)
+	{
+		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
+		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
+		bones_reference[i].transform = matrix;
+	}
+	
+	/*
 	//TODO: optimization, for now we update the same bone more than once
 	ComponentTransform* transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	for (uint i = 0; i < bones_vertex.size(); i++)
@@ -283,4 +321,5 @@ void ComponentMesh::UpdateBonesData()
 			bones_vertex[i].transforms[j] = matrix;
 		}
 	}
+	*/
 }
