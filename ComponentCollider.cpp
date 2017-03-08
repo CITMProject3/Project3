@@ -18,6 +18,8 @@
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
+#include "BtTriProcessor.h"
+
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
@@ -67,22 +69,33 @@ void ComponentCollider::Update()
 	}
 
 	//Rendering Convex shapes
-	if (shape == S_CONVEX && body != nullptr && App->IsGameRunning())
+	if (App->IsGameRunning() && body != nullptr)
 	{
-		if (convexShape != nullptr)
+		if (shape == S_CONVEX)
 		{
-			int nEdges = convexShape->getNumEdges();
-			for (int n = 0; n < nEdges; n++)
+			if (convexShape != nullptr)
 			{
-				glPushMatrix();
-				glMultMatrixf(body->GetTransform().ptr());
-				btVector3 a, b;
-				convexShape->getEdge(n, a, b);
-				App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
-				glPopMatrix();
+				int nEdges = convexShape->getNumEdges();
+				for (int n = 0; n < nEdges; n++)
+				{
+					glPushMatrix();
+					glMultMatrixf(body->GetTransform().ptr());
+					btVector3 a, b;
+					convexShape->getEdge(n, a, b);
+					App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
+					glPopMatrix();
+				}
 			}
 		}
+		else if (shape == S_TERRAIN)
+		{
+			BtTriPRocessor tmp;
+			terrain->processAllTriangles(&tmp, btVector3(0.1, 0.1, 0.1), btVector3(2.0f, 2.0f, 2.0f));
+		}
 	}
+
+
+
 	return;
 }
 
@@ -94,6 +107,7 @@ void ComponentCollider::OnPlay()
 void ComponentCollider::OnStop()
 {
 	convexShape = nullptr;
+	terrain = nullptr;
 }
 
 void ComponentCollider::OnInspector(bool debug)
