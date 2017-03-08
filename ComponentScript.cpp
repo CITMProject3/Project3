@@ -152,7 +152,7 @@ void ComponentScript::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-	path = conf.GetString("path");
+	path = conf.GetString("script_path");
 }
 
 void ComponentScript::SetPath(const char * path)

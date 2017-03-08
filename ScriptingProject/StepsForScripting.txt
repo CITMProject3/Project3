@@ -12,4 +12,4 @@ Remember to add the name of the script in teh list and .def file! (following the
 FAQ:
 
 Q: A function that i make doesn't exist in the script project!
-A: You need to remake the engine.lib (check line 5 of this .txt)
+A: You need to remake the Engine.lib (check line 5 of this .txt) and call it Engine_debug.lib or Engine.lib depending on the project configuration.
