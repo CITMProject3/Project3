@@ -14,16 +14,16 @@
 
 // Input libraries
 #ifdef _DEBUG  // Profile build configuration must be loaded instead of Debug
-	#pragma comment( lib, "AK/Debug(StaticCRT)/lib/AkSoundEngine.lib")
-	#pragma comment( lib, "AK/Debug(StaticCRT)/lib/AkMusicEngine.lib")
-	#pragma comment( lib, "AK/Debug(StaticCRT)/lib/AkMemoryMgr.lib")
-	#pragma comment( lib, "AK/Debug(StaticCRT)/lib/AkStreamMgr.lib")
+	#pragma comment( lib, "AK/Debug/lib/AkSoundEngine.lib")
+	#pragma comment( lib, "AK/Debug/lib/AkMusicEngine.lib")
+	#pragma comment( lib, "AK/Debug/lib/AkMemoryMgr.lib")
+	#pragma comment( lib, "AK/Debug/lib/AkStreamMgr.lib")
 #else
 	#define AK_OPTIMIZED
-	#pragma comment( lib, "AK/Release(StaticCRT)/lib/AkSoundEngine.lib")
-	#pragma comment( lib, "AK/Release(StaticCRT)/lib/AkMusicEngine.lib")
-	#pragma comment( lib, "AK/Release(StaticCRT)/lib/AkMemoryMgr.lib")
-	#pragma comment( lib, "AK/Release(StaticCRT)/lib/AkStreamMgr.lib")
+	#pragma comment( lib, "AK/Release/lib/AkSoundEngine.lib")
+	#pragma comment( lib, "AK/Release/lib/AkMusicEngine.lib")
+	#pragma comment( lib, "AK/Release/lib/AkMemoryMgr.lib")
+	#pragma comment( lib, "AK/Release/lib/AkStreamMgr.lib")
 #endif
 
 // External library dependencies
@@ -35,7 +35,7 @@
 // Include for communication between Wwise and the game -- Not needed in the release version
 #ifndef AK_OPTIMIZED
 	#include <AK/Comm/AkCommunication.h>
-	#pragma comment( lib, "AK/Debug(StaticCRT)/lib/CommunicationCentral.lib")
+	#pragma comment( lib, "AK/Debug/lib/CommunicationCentral.lib")
 	#pragma comment( lib, "AK/ws2_32.lib")  // Microsoft Winsock 2 library (used for Wwise profiling)
 #endif
 
