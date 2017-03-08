@@ -308,7 +308,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
 	{
 		//Default first texture diffuse (if no specified)
-		if ((*tex).first.size() == 0 && count == 0)
+		if ((*tex).first.compare("0") == 0 && count == 0)
 		{
 			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			glUniform1i(has_tex_location, 1);
@@ -321,12 +321,12 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		}
 
 		//Default second texture normal (if no specified)
-		if ((*tex).first.size() == 0 && count == 1)
+		if ((*tex).first.compare("1") == 0 && count == 1)
 		{
 			GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
 			glUniform1i(has_normal_location, 1);
-			GLint texture_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-			glActiveTexture(GL_TEXTURE0);
+			GLint texture_location = glGetUniformLocation(shader_id, "_NormalMap");
+			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, (*tex).second);
 			glUniform1i(texture_location, 1);
 			count++;
@@ -343,65 +343,21 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		}
 	}
 	
+	if (material->texture_ids.size() < 2)
+	{
+		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
+		glUniform1i(has_normal_location, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
 	if (material->texture_ids.empty() == true)
 	{
 		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 		glUniform1i(has_tex_location, 0);
-		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-		glUniform1i(has_normal_location, 0);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-
-	//Textures
-	/*if (material->GetDiffuseId() != 0)
-	{
-		GLint has_texture_location = glGetUniformLocation(shader_id, "_HasTexture");
-		if (has_texture_location != -1)
-		{
-			glUniform1i(has_texture_location, 1);
-		}
-		GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
-		if (texture_location != -1)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, material->GetDiffuseId());
-			glUniform1i(texture_location, 0);
-		}
-	}
-	else
-	{
-		GLint has_texture_location = glGetUniformLocation(shader_id, "_HasTexture");
-		if (has_texture_location != -1)
-		{
-			glUniform1i(has_texture_location, 0);
-		}
-	}
-
-	
-	//Normal
-	if (material->GetNormalId() != 0)
-	{
-		GLint has_normalmap_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-		if (has_normalmap_location != -1)
-		{
-			glUniform1i(has_normalmap_location, 1);
-		}
-		GLint normalmap_location = glGetUniformLocation(shader_id, "_NormalMap");
-		if (normalmap_location != -1)
-		{
-			glUniform1i(normalmap_location, 1);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, material->GetNormalId());
-		}
-	}
-	else
-	{
-		GLint has_normalmap_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-		if (has_normalmap_location != -1)
-		{
-			glUniform1i(has_normalmap_location, 0);
-		}
-	}*/
 
 	//Lighting
 
