@@ -33,6 +33,7 @@
 #include "ModuleFileSystem.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModulePhysics3D.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -575,6 +576,10 @@ void Editor::GameObjectMenu()
 			App->go_manager->CreateLight(nullptr, LightType::DIRECTIONAL_LIGHT);
 		}
 		ImGui::EndMenu();
+	}
+	if (ImGui::MenuItem("Generate Terrain"))
+	{
+		App->physics->GenerateTerrain();
 	}
 }
 

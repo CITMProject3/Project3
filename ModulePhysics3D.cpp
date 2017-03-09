@@ -10,6 +10,7 @@
 #include "Assets.h"
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
+#include "ComponentCamera.h"
 
 #include "ModuleRenderer3D.h"
 #include "ModuleGOManager.h"
@@ -137,7 +138,9 @@ update_status ModulePhysics3D::Update()
 	if (terrain)
 	{
 		BtTriPRocessor tmp;
-		terrain->processAllTriangles(&tmp, btVector3(-200.0f, -200.0f, -200.0f), btVector3(200.0f, 200.0f, 200.0f));
+		AABB cullCam;
+		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
+		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
 	}
 
 	return UPDATE_CONTINUE;
@@ -164,6 +167,12 @@ bool ModulePhysics3D::CleanUp()
 
 	CleanWorld();
 
+	if (terrainData != nullptr)
+	{
+		delete terrainData;
+		terrainData = nullptr;
+	}
+
 	delete vehicle_raycaster;
 	delete world;
 
@@ -172,21 +181,17 @@ bool ModulePhysics3D::CleanUp()
 
 void ModulePhysics3D::OnPlay()
 {
-	GenerateTerrain();
 }
 
 void ModulePhysics3D::OnStop()
 {
-	terrain = nullptr;
-	if (terrainData != nullptr)
-	{
-		//delete terrainData;
-		terrainData = nullptr;
-	}
+	
 }
 
 void ModulePhysics3D::CleanWorld()
 {
+	terrain = nullptr;
+
 	// Remove from the world all collision bodies
 	for (int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
 	{
@@ -246,6 +251,12 @@ void ModulePhysics3D::CreateGround()
 
 void ModulePhysics3D::GenerateTerrain()
 {
+	if (terrainData != nullptr)
+	{
+		delete terrainData;
+		terrainData = nullptr;
+	}
+
 	terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
 	int minX = terrainAABB.minPoint.x;
 	int minZ = terrainAABB.minPoint.z;
