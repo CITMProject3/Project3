@@ -10,6 +10,8 @@
 #include "../Application.h"
 #include "../ModuleScripting.h"
 #include "../ModuleWindow.h"
+#include "../GameObject.h"
+#include "../ComponentScript.h"
 
 extern "C"
 {
@@ -27,20 +29,25 @@ extern "C"
 
 	namespace Test
 	{
-		string test_title = "Hello World from Script";
-		int test_int = 3;
-		int test_int2 = 5;
+		string test_title;
+		int test_int;
+		int test_int2;
 
-		void Test_GetPublics(map<const char*, string*>* public_chars, map<const char*, int*>* public_ints, map<const char*, float*>* public_float, map<const char*, bool*>* public_bools)
+		void Test_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools)
 		{
 			test_title = "Hello World from Script";
 			test_int = 3;
 			test_int2 = 5;
 
-			public_chars->insert(pair<const char*, string*>("Title", &test_title));
 
-			public_ints->insert(pair<const char*, int*>("Int", &test_int));
-			public_ints->insert(pair<const char*, int*>("Int2", &test_int2));
+			public_chars->insert(pair<const char*, string>("Title", test_title));
+		}
+
+		void Test_UpdatePublics(GameObject* game_object)
+		{
+			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+			test_title = script->public_chars.at("Title");
 		}
 
 		void Test_Start(Application* engine_app, GameObject* game_object)
