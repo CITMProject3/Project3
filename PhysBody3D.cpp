@@ -82,6 +82,11 @@ void PhysBody3D::ApplyCentralForce(btVector3& force)
 }
 
 //---------------------------------------------------------
+void PhysBody3D::SetFriction(float friction)
+{
+	body->setFriction(friction);
+}
+
 void PhysBody3D::SetBounciness(float restitution, float friction)
 {
 	body->setFriction(friction);

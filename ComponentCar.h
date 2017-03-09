@@ -4,7 +4,8 @@
 #include "Component.h"
 #include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
-
+#include "Bullet\include\btBulletDynamicsCommon.h"
+#include "Bullet\include\btBulletCollisionCommon.h"
 struct VehicleInfo;
 struct PhysVehicle3D;
 
@@ -17,7 +18,7 @@ public:
 	~ComponentCar();
 
 	//Inherited Component Methods
-	void Update();
+	void Update(float dt);
 
 	void OnTransformModified();
 	void Save(Data& file) const;
@@ -69,6 +70,8 @@ public:
 	float lose_height = 0.0f;
 	float3 reset_pos;
 	float3 reset_rot;
+
+	btVector3 startDriftSpeed;
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;

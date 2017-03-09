@@ -35,7 +35,7 @@ ComponentCar::~ComponentCar()
 	delete car;
 }
 
-void ComponentCar::Update()
+void ComponentCar::Update(float dt)
 {
 	if (App->IsGameRunning())
 	{
@@ -210,6 +210,7 @@ void ComponentCar::HandlePlayerInput()
 	}
 
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
+	/*
 	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
 	if (kickTimer >= kickCooldown)
 	{
@@ -224,7 +225,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 		accel = force;
 	}
-
+	*/
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		turning = true;
@@ -253,11 +254,46 @@ void ComponentCar::HandlePlayerInput()
 	}
 
 	//fOR DEBUG FOR NOW
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		accel += extra_force;
 	}
 
+	vehicle->SetFriction(50);
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+
+		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		btTransform btTrans = vehicle->GetRealTransform();
+		float data[16];
+		btTrans.getOpenGLMatrix(data);
+
+		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+									data[4], data[5], data[6], data[7],
+									data[8], data[9], data[10], data[11],
+									data[12], data[13], data[14], data[15]);
+		matrix.Transpose();
+		float3 front = matrix.WorldZ();
+		float3 right = matrix.WorldX();
+		right = right.Lerp(front, 0.5);
+
+		btVector3 vector(right.x, right.y, right.z);
+		float l = startDriftSpeed.length();
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * 3);
+		vehicle->SetFriction(0);
+	//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
+	//	vehicle->SetFriction(1);
+		//vehicle->vehicle->updateFriction()
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		vehicle->SetFriction(car->frictionSlip);
+	}
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
 	if (App->input->GetNumberJoysticks() > 0)
