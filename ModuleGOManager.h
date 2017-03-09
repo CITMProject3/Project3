@@ -72,7 +72,10 @@ public:
 
 	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
 
+	std::vector<float3> GetTopology(std::vector<int> layersToCheck = std::vector<int>(), AABB* mapAABB = nullptr);
+	AABB GetWorldAABB(std::vector<int> layersToCheck = std::vector<int>());
 private:
+	float3* GetWorldAABB(std::vector<int> layersToCheck = std::vector<int>(), GameObject* = nullptr);
 
 	void HierarchyWindow();
 	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);

@@ -610,6 +610,28 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 	return hit;
 }
 
+std::vector<float3> ModuleGOManager::GetTopology(std::vector<int> layersToCheck, AABB * mapAABB)
+{
+	std::vector<float3> ret;
+
+	
+
+	return ret;
+}
+
+AABB ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck)
+{
+	AABB ret;
+	ret.SetFrom()
+
+	return ret;
+}
+
+float3 * ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck, GameObject *)
+{
+	return nullptr;
+}
+
 void ModuleGOManager::HierarchyWindow()
 {
 	ImGui::Begin("Hierarchy");
