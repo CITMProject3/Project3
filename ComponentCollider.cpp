@@ -90,7 +90,7 @@ void ComponentCollider::Update()
 		else if (shape == S_TERRAIN)
 		{
 			BtTriPRocessor tmp;
-			terrain->processAllTriangles(&tmp, btVector3(0.1, 0.1, 0.1), btVector3(2.0f, 2.0f, 2.0f));
+			terrain->processAllTriangles(&tmp, btVector3(-200.0f, -200.0f, -200.0f), btVector3(200.0f, 200.0f, 200.0f));
 		}
 	}
 
@@ -325,7 +325,8 @@ void ComponentCollider::LoadShape()
 		}
 		case S_TERRAIN:
 		{
-			body = App->physics->AddTerrain("/Assets/Level_Enviroment/hmap.jpg", &terrain, &heightmap_buffer_id);
+			//TODO
+			//body = App->physics->AddTerrain("/Assets/Level_Enviroment/hmap.jpg", &terrain);
 			break;
 		}
 		}

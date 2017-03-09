@@ -53,6 +53,5 @@ public:
 	btConvexHullShape* convexShape = nullptr;
 
 	btHeightfieldTerrainShape* terrain = nullptr;
-	int heightmap_buffer_id = -1;
 };
 #endif // !__COMPONENT_COLLIDER_H__

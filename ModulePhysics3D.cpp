@@ -39,11 +39,11 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
 
-	for (int y = 0; y < 24; y++)
+	for (int y = 0; y < 48; y++)
 	{
-		for (int x = 0; x < 24; x++)
+		for (int x = 0; x < 48; x++)
 		{
-			test[y * 24 + x] = ((math::Sin(x / 3.0f) + math::Sin(y / 3.0f)) + 2.0f) / 4.0f;
+			test[y * 48 + x] = ((math::Sin(x / 3.0f) + math::Sin(y / 3.0f))) * (x + y - 48) / 10.0f;
 		}
 	}
 }
@@ -449,61 +449,29 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
+PhysBody3D* ModulePhysics3D::AddTerrain(float* data, int width, int length, btHeightfieldTerrainShape** OUT_shape)
 {
-	//https://www.bulletphysics.org/Bullet/phpBB3/viewtopic.php?f=9&t=7915
-
 	PhysBody3D* pbody = nullptr;
-	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
 
-	if (Asset_file)
+	if (data != nullptr && width > 0 && length > 0)
 	{
-		int GL_buffer_id = -1;
-		char* buffer = nullptr;
-		unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
+		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(48, 48, test, 1.0f, -100.0f, 100.0f, 1, PHY_ScalarType::PHY_FLOAT, false);
+		shapes.push_back(terrain);
 
-		if (size > 0)
+		btDefaultMotionState* myMotionState = new btDefaultMotionState();
+		motions.push_back(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
+
+		btRigidBody* body = new btRigidBody(rbInfo);
+		pbody = new PhysBody3D(body);
+
+		body->setUserPointer(pbody);
+		world->addRigidBody(body);
+		bodies.push_back(pbody);
+
+		if (OUT_shape != nullptr)
 		{
-			ILuint id;
-			ilGenImages(1, &id);
-			ilBindImage(id);
-			if (ilLoadL(IL_DDS, (const void*)buffer, size))
-			{
-				GL_buffer_id = ilutGLBindTexImage();
-				ilDeleteImages(1, &id);
-			}
-
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(24, 24, test, 1.0f, 0.0f, 30.0f, 1, PHY_ScalarType::PHY_FLOAT, false);
-			shapes.push_back(terrain);
-
-			btDefaultMotionState* myMotionState = new btDefaultMotionState();
-			motions.push_back(myMotionState);
-			btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
-
-			btRigidBody* body = new btRigidBody(rbInfo);
-			pbody = new PhysBody3D(body);
-
-			body->setUserPointer(pbody);
-			world->addRigidBody(body);
-			bodies.push_back(pbody);
-
-			if (image_buffer_id != nullptr)
-			{
-				*image_buffer_id = GL_buffer_id;
-			}
-			if (OUT_shape != nullptr)
-			{
-				*OUT_shape = terrain;
-			}
-		}
-		else
-		{
-			LOG("Could not load texture: %s", Asset_file->name.data());
-		}
-
-		if (buffer != nullptr)
-		{
-			delete[] buffer;
+			*OUT_shape = terrain;
 		}
 	}
 	return pbody;

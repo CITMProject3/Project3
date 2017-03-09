@@ -41,7 +41,7 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
-	PhysBody3D* AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape = nullptr, int* image_buffer_id = nullptr);
+	PhysBody3D* AddTerrain(float* data, int width, int length, btHeightfieldTerrainShape** OUT_shape = nullptr);
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
@@ -66,7 +66,7 @@ private:
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
 
-	float test[24*24];
+	float test[48 * 48];
 };
 
 class DebugDrawer : public btIDebugDraw
