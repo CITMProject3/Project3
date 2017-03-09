@@ -12,12 +12,17 @@
 #include "ModuleInput.h"
 
 #include "ModuleRenderer3D.h"
+#include "ModuleGOManager.h"
+#include "LayerSystem.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
+
+#include "BtTriProcessor.h"
+#include "RaycastHit.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -38,14 +43,6 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
-
-	for (int y = 0; y < 48; y++)
-	{
-		for (int x = 0; x < 48; x++)
-		{
-			test[y * 48 + x] = ((math::Sin(x / 3.0f) + math::Sin(y / 3.0f))) * (x + y - 48) / 10.0f;
-		}
-	}
 }
 
 // Destructor
@@ -76,6 +73,8 @@ bool ModulePhysics3D::Start()
 	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
+
+	App->go_manager->layer_system->AddLayer(TERRAIN_LAYER, "Terrain");
 
 	//CreateGround();
 	return true;
@@ -135,14 +134,11 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	/*for (int y = 0; y < 23; y++)
+	if (terrain)
 	{
-		for (int x = 0; x < 23; x++)
-		{
-			App->renderer3D->DrawLine(float3(x - 12, test[y * 24 + x], y - 12), float3(x - 12, test[(y + 1) * 24 + x], y - 12 + 1));
-			App->renderer3D->DrawLine(float3(x - 12, test[y * 24 + x], y - 12), float3(x - 12 + 1, test[(y) * 24 + x + 1], y - 12));
-		}
-	}*/
+		BtTriPRocessor tmp;
+		terrain->processAllTriangles(&tmp, btVector3(-200.0f, -200.0f, -200.0f), btVector3(200.0f, 200.0f, 200.0f));
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -172,6 +168,21 @@ bool ModulePhysics3D::CleanUp()
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics3D::OnPlay()
+{
+	GenerateTerrain();
+}
+
+void ModulePhysics3D::OnStop()
+{
+	terrain = nullptr;
+	if (terrainData != nullptr)
+	{
+		//delete terrainData;
+		terrainData = nullptr;
+	}
 }
 
 void ModulePhysics3D::CleanWorld()
@@ -231,6 +242,44 @@ void ModulePhysics3D::CreateGround()
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	world->addRigidBody(body);
+}
+
+void ModulePhysics3D::GenerateTerrain()
+{
+	terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
+	int minX = terrainAABB.minPoint.x;
+	int minZ = terrainAABB.minPoint.z;
+	int maxX = terrainAABB.maxPoint.x;
+	int maxZ = terrainAABB.maxPoint.z;
+	int width = maxX - minX;
+	int length = maxZ - minZ;
+
+	if (width > 0 && length > 0)
+	{
+		terrainData = new float[width * length];
+		for (int z = 0; z < length; z++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				math::Ray ray;
+				ray.dir = vec(0, -1, 0);
+				ray.pos = vec(x + minX, terrainAABB.maxPoint.y, z + minZ);
+				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
+
+				if (hit.object != nullptr)
+				{
+					terrainData[z * length + x] = hit.point.y;
+				}
+				else
+				{
+					terrainData[z * length + x] = 0;
+				}
+			}
+		}
+
+	}
+
+	AddTerrain(terrainData, width, length, &terrain);
 }
 
 
@@ -453,9 +502,11 @@ PhysBody3D* ModulePhysics3D::AddTerrain(float* data, int width, int length, btHe
 {
 	PhysBody3D* pbody = nullptr;
 
+	float minMax = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y));
+
 	if (data != nullptr && width > 0 && length > 0)
 	{
-		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(48, 48, test, 1.0f, -100.0f, 100.0f, 1, PHY_ScalarType::PHY_FLOAT, false);
+		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(width, length, data, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
 		shapes.push_back(terrain);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();

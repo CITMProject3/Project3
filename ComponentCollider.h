@@ -14,8 +14,7 @@ enum Collider_Shapes
 	S_NONE = 0,
 	S_CUBE,
 	S_SPHERE,
-	S_CONVEX,
-	S_TERRAIN
+	S_CONVEX
 };
 
 
@@ -51,7 +50,5 @@ public:
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
-
-	btHeightfieldTerrainShape* terrain = nullptr;
 };
 #endif // !__COMPONENT_COLLIDER_H__

@@ -18,8 +18,6 @@
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
-#include "BtTriProcessor.h"
-
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
@@ -87,11 +85,6 @@ void ComponentCollider::Update()
 				}
 			}
 		}
-		else if (shape == S_TERRAIN)
-		{
-			BtTriPRocessor tmp;
-			terrain->processAllTriangles(&tmp, btVector3(-200.0f, -200.0f, -200.0f), btVector3(200.0f, 200.0f, 200.0f));
-		}
 	}
 
 
@@ -107,7 +100,6 @@ void ComponentCollider::OnPlay()
 void ComponentCollider::OnStop()
 {
 	convexShape = nullptr;
-	terrain = nullptr;
 }
 
 void ComponentCollider::OnInspector(bool debug)
@@ -145,10 +137,6 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
-				if (ImGui::MenuItem("Terrain collider", NULL))
-				{
-					SetShape(S_TERRAIN);
-				}
 				ImGui::EndMenu();
 			}
 
@@ -156,7 +144,6 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
-			if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
 			if (shape != S_CONVEX)
@@ -321,12 +308,6 @@ void ComponentCollider::LoadShape()
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
-			break;
-		}
-		case S_TERRAIN:
-		{
-			//TODO
-			//body = App->physics->AddTerrain("/Assets/Level_Enviroment/hmap.jpg", &terrain);
 			break;
 		}
 		}

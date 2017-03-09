@@ -12,6 +12,8 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
+#define TERRAIN_LAYER 4
+
 class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
@@ -32,8 +34,12 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OnPlay();
+	void OnStop();
+
 	void CleanWorld();
 	void CreateGround();
+	void GenerateTerrain();
 
 	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
 	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
@@ -66,7 +72,9 @@ private:
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
 
-	float test[48 * 48];
+	float* terrainData = nullptr;
+	btHeightfieldTerrainShape* terrain = nullptr;
+	AABB terrainAABB;
 };
 
 class DebugDrawer : public btIDebugDraw
