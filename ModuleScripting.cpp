@@ -81,6 +81,7 @@ void ModuleScripting::LoadScriptsLibrary()
 void ModuleScripting::LoadScriptNames()
 {
 	script_names.clear();
+	script_names.push_back(" ");
 	if (scripts_quantity != -1)
 		names = "";
 

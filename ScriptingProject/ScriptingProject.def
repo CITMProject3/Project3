@@ -2,9 +2,10 @@ LIBRARY SCRIPTINGPROJECT
 
 EXPORTS
 	GetScriptNames						@1
+	
+	Test::GetPublics = Test_GetPublics	@2
+	Test::Start = Test_Start			@3
+	Test::Update = Test_Update			@4
 
-	Test::Start = Test_Start			@2
-	Test::Update = Test_Update			@3
-
-	Test2::Start = Test2_Start			@4
-	Test2::Update = Test2_Update		@5
+	Test2::Start = Test2_Start			@5
+	Test2::Update = Test2_Update		@6
