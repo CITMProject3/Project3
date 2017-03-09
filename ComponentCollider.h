@@ -4,7 +4,6 @@
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
-class btHeightfieldTerrainShape;
 class btConvexHullShape;
 class PhysBody3D;
 class Primitive;

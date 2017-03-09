@@ -16,7 +16,6 @@
 #include "glut\glut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
-#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)

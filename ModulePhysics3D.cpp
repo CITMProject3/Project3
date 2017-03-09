@@ -44,6 +44,10 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
+
+	terrainSize.push_back(0);
+	terrainSize.push_back(0);
+	terrainSize.push_back(0);
 }
 
 // Destructor
@@ -140,6 +144,8 @@ update_status ModulePhysics3D::Update()
 		BtTriPRocessor tmp;
 		AABB cullCam;
 		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
+		cullCam.minPoint = float3(-600, -600, -600);
+		cullCam.maxPoint = float3(600, 600, 600);
 		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
 	}
 
@@ -262,35 +268,38 @@ void ModulePhysics3D::GenerateTerrain()
 	int minZ = terrainAABB.minPoint.z;
 	int maxX = terrainAABB.maxPoint.x;
 	int maxZ = terrainAABB.maxPoint.z;
-	int width = maxX - minX;
-	int length = maxZ - minZ;
+	terrainSize[0] = maxX - minX;
+	terrainSize[1] = terrainAABB.maxPoint.y - terrainAABB.minPoint.y;
+	terrainSize[2] = maxZ - minZ;
 
-	if (width > 0 && length > 0)
+	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
-		terrainData = new float[width * length];
-		for (int z = 0; z < length; z++)
+		terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
+		for (int z = 0; z < terrainSize[2]; z++)
 		{
-			for (int x = 0; x < width; x++)
+			for (int x = 0; x < terrainSize[0]; x++)
 			{
-				math::Ray ray;
+			/*	math::Ray ray;
 				ray.dir = vec(0, -1, 0);
 				ray.pos = vec(x + minX, terrainAABB.maxPoint.y, z + minZ);
 				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
 
 				if (hit.object != nullptr)
 				{
-					terrainData[z * length + x] = hit.point.y;
+					terrainData[z * terrainSize[2] + x] = hit.point.y;
 				}
 				else
 				{
-					terrainData[z * length + x] = 0;
+					terrainData[z * terrainSize[2] + x] = 0;
 				}
+*/
+				terrainData[z * terrainSize[2] + x] = sin(x/3 + z/3);
 			}
 		}
 
 	}
 
-	AddTerrain(terrainData, width, length, &terrain);
+	AddTerrain();
 }
 
 
@@ -509,15 +518,16 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddTerrain(float* data, int width, int length, btHeightfieldTerrainShape** OUT_shape)
+PhysBody3D* ModulePhysics3D::AddTerrain()
 {
 	PhysBody3D* pbody = nullptr;
 
 	float minMax = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y));
+	minMax += 3;
 
-	if (data != nullptr && width > 0 && length > 0)
+	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
-		btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(width, length, data, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
+		terrain = new btHeightfieldTerrainShape(terrainSize[0], terrainSize[2], terrainData, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
 		shapes.push_back(terrain);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();
@@ -530,11 +540,6 @@ PhysBody3D* ModulePhysics3D::AddTerrain(float* data, int width, int length, btHe
 		body->setUserPointer(pbody);
 		world->addRigidBody(body);
 		bodies.push_back(pbody);
-
-		if (OUT_shape != nullptr)
-		{
-			*OUT_shape = terrain;
-		}
 	}
 	return pbody;
 }
