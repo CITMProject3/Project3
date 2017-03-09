@@ -6,9 +6,10 @@
 #include <vector>
 #include <string>
 
+//#pragma comment ( lib, "Debug/Game.lib" )
+
 class Application;
 using namespace std;
-typedef void(*f_GetScriptNames)(Application* engine_app);
 
 class ModuleScripting : public Module
 {
@@ -45,9 +46,6 @@ private:
 	int scripts_quantity; 
 	const char* names;
 	bool finded_script_names;
-
-public:
-	HINSTANCE script;
 };
 
 #endif // !__MOUDLESCRIPTING_H__

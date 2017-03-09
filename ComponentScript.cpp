@@ -34,11 +34,12 @@ void ComponentScript::Update()
 
 	if (App->scripting->scripts_loaded)
 	{
-		if (!started)
+		/*if (!started)
 		{
+			
 			string start_path = path.c_str();
 			start_path.append("::Start");
-			if (f_Start start = (f_Start)GetProcAddress(App->scripting->script, start_path.c_str()))
+			if (f_Start start = path::Start())
 			{
 				finded_start = true;
 				if (App->IsGameRunning() && !App->IsGamePaused())
@@ -70,7 +71,7 @@ void ComponentScript::Update()
 				finded_update = false;
 				error = GetLastError();
 			}
-		}
+		}*/
 	}
 }
 
@@ -192,8 +193,8 @@ void ComponentScript::SetPath(const char * path)
 
 	string update_path = this->path.c_str();
 	update_path.append("::GetPublics");
-	if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->script, update_path.c_str()))
+	/*if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->script, update_path.c_str()))
 	{
 		getPublics(&public_chars, &public_ints, &public_floats, &public_bools);
-	}
+	}*/
 }
