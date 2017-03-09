@@ -33,6 +33,10 @@ extern "C"
 
 		void Test_GetPublics(map<const char*, string*>* public_chars, map<const char*, int*>* public_ints, map<const char*, float*>* public_float, map<const char*, bool*>* public_bools)
 		{
+			test_title = "Hello World from Script";
+			test_int = 3;
+			test_int2 = 5;
+
 			public_chars->insert(pair<const char*, string*>("Title", &test_title));
 
 			public_ints->insert(pair<const char*, int*>("Int", &test_int));

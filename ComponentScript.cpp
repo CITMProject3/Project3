@@ -176,7 +176,7 @@ void ComponentScript::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-	path = conf.GetString("script_path");
+	SetPath(conf.GetString("script_path"));
 	started = false;
 }
 
