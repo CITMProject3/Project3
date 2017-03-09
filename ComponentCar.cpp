@@ -189,6 +189,14 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::SameLine();
 				ImGui::DragFloat("##Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
 			}//Endof IsGameRunning() == false
+
+			ImGui::Separator();
+			ImGui::Text("Drifting settings");
+			ImGui::NewLine();
+			ImGui::InputFloat("Drift ratio", &drift_ratio);
+			ImGui::InputFloat("Drift multiplier", &drift_mult);
+			ImGui::InputFloat("Drift boost", &drift_boost);
+
 			ImGui::TreePop();
 		} //Endof Car settings
 	}//Endof Collapsing header
@@ -229,7 +237,7 @@ void ComponentCar::HandlePlayerInput()
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		turning = true;
-
+		turning_left = false;
 		turn_current -= turn_speed;
 		if (turn_current < -turn_max)
 			turn_current = -turn_max;
@@ -238,6 +246,7 @@ void ComponentCar::HandlePlayerInput()
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		turning = true;
+		turning_left = true;
 
 		turn_current += turn_speed;
 		if (turn_current > turn_max)
@@ -266,8 +275,10 @@ void ComponentCar::HandlePlayerInput()
 		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && turning == true)
 	{
+		vehicle->vehicle->getRigidBody()->clearForces();
+
 		btTransform btTrans = vehicle->GetRealTransform();
 		float data[16];
 		btTrans.getOpenGLMatrix(data);
@@ -279,12 +290,15 @@ void ComponentCar::HandlePlayerInput()
 		matrix.Transpose();
 		float3 front = matrix.WorldZ();
 		float3 right = matrix.WorldX();
-		right = right.Lerp(front, 0.5);
+		if (turning_left == true)
+			right = -right;
+		right = right.Lerp(front, drift_ratio);
 
 		btVector3 vector(right.x, right.y, right.z);
 		float l = startDriftSpeed.length();
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * 3);
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
 		vehicle->SetFriction(0);
+	//	for (uint i = 0; i < vehicle->in)
 		//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
 		//	vehicle->SetFriction(1);
 		//vehicle->vehicle->updateFriction()
@@ -292,7 +306,23 @@ void ComponentCar::HandlePlayerInput()
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
 	{
+		float data[16];
+		vehicle->GetRealTransform().getOpenGLMatrix(data);
+		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+			data[4], data[5], data[6], data[7],
+			data[8], data[9], data[10], data[11],
+			data[12], data[13], data[14], data[15]);
+		matrix.Transpose();
+
+		float3 speed(matrix.WorldZ());
+		speed *= startDriftSpeed.length();
+		speed *= drift_boost;
+		vehicle->SetLinearSpeed(speed.x, speed.y, speed.z);
+		vehicle->vehicle->getRigidBody()->clearForces();
+		vehicle->Turn(0);
+		turn_current = 0;
 		vehicle->SetFriction(car->frictionSlip);
+		//vehicle->SetLinearSpeed(0, 0, 0);
 	}
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
@@ -538,6 +568,10 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("frictionSlip", car->frictionSlip);
 	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
 
+	data.AppendFloat("driftRatio", drift_ratio);
+	data.AppendFloat("driftMult", drift_mult);
+	data.AppendFloat("driftBoost", drift_boost);
+
 	file.AppendArrayValue(data);
 }
 
@@ -571,6 +605,10 @@ void ComponentCar::Load(Data& conf)
 	car->maxSuspensionTravelCm = conf.GetFloat("maxSuspensionTravelCm");
 	car->frictionSlip = conf.GetFloat("frictionSlip");
 	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
+
+	drift_ratio = conf.GetFloat("driftRatio");
+	drift_mult = conf.GetFloat("driftMult");
+	drift_boost = conf.GetFloat("driftBoost");
 }
 
 
