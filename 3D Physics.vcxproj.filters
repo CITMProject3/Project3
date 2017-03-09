@@ -522,9 +522,6 @@
     <ClInclude Include="ComponentCollider.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentCar.h">
-      <Filter>Sources\GameObjects\Components</Filter>
-    </ClInclude>
     <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
@@ -578,6 +575,9 @@
     </ClInclude>
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCar.h">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -923,9 +923,6 @@
     <ClCompile Include="ComponentCollider.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentCar.cpp">
-      <Filter>Sources\GameObjects\Components</Filter>
-    </ClCompile>
     <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClCompile>
@@ -967,6 +964,9 @@
     </ClCompile>
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCar.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
