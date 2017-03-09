@@ -29,6 +29,9 @@ ComponentMesh::~ComponentMesh()
 		rc_mesh = nullptr;
 	}
 	mesh = nullptr;
+
+	App->renderer3D->RemoveBuffer(weight_id);
+	App->renderer3D->RemoveBuffer(bone_id);
 }
 
 void ComponentMesh::Update(float dt)
@@ -214,29 +217,20 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 	}
 }
 
-void ComponentMesh::ResetDeformable()
-{
-	if (deformable == nullptr)
-	{
-		deformable = new Mesh();
-		deformable->vertices = new float[mesh->num_vertices * 3];
-		deformable->normals = new float[mesh->num_vertices * 3];
-	}
-
-	memset(deformable->vertices, 0, mesh->num_vertices * sizeof(float) * 3);
-	if (mesh->normals != nullptr)
-	{
-		memset(deformable->normals, 0, mesh->num_vertices * sizeof(float) * 3);
-	}
-}
-
 void ComponentMesh::DeformAnimMesh()
 {
-	ResetDeformable();
-	UpdateBonesData();
+	bones_trans.clear();
+
+	for (uint i = 0; i < bones_reference.size(); i++)
+	{
+		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
+		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
+		float4x4 bone_trn_mat = matrix * bones_reference[i].offset;
+		bones_trans.push_back(bone_trn_mat);
+	}
 
 	//Looping through vertices
-	for (uint i = 0; i < bones_vertex.size(); i++)
+	/*for (uint i = 0; i < bones_vertex.size(); i++)
 	{
 		//Looping through bones afecting current vertex
 		for (uint j = 0; j < bones_vertex[i].bone_index.size(); j++)
@@ -263,15 +257,42 @@ void ComponentMesh::DeformAnimMesh()
 			}
 
 		}
-	}
+	}*/
 }
-
-void ComponentMesh::UpdateBonesData()
+void ComponentMesh::InitAnimBuffers()
 {
-	for (uint i = 0; i < bones_reference.size(); i++)
+	int size = mesh->num_vertices * 4;
+	float* weights = new float[size];
+	int* bones_ids = new int[size];
+
+	for (int i = 0; i < bones_vertex.size(); ++i)
 	{
-		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
-		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
-		bones_reference[i].transform = matrix;
+		int ver_id = i * 4;
+
+		if (bones_vertex[i].weights.size() != bones_vertex[i].bone_index.size())
+		{
+			LOG("Error: GameObject(%s) has different number of weights and index in the animation", game_object->name); //Just in case
+			return;
+		}
+
+		//Reset all to zero
+		for (int w = 0; w < 4; ++w)
+		{
+			weights[ver_id + w] = 0;
+			bones_ids[ver_id + w] = 0;
+		}
+
+		for (int w = 0; w < bones_vertex[i].weights.size(); ++w)
+		{
+			weights[ver_id + w] = bones_vertex[i].weights[w];
+			bones_ids[ver_id + w] = bones_vertex[i].bone_index[w];
+		}
 	}
+
+	MeshImporter::LoadAnimBuffers(weights, size, weight_id, bones_ids, size, bone_id);
+
+	delete[] weights;
+	delete[] bones_ids;
+
+	animated = true;
 }

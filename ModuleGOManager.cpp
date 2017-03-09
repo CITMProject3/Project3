@@ -11,6 +11,7 @@
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
+#include "ComponentAnimation.h"
 
 #include "Imgui\imgui.h"
 
@@ -582,6 +583,27 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
 
 	return hit;
+}
+
+void ModuleGOManager::LinkAnimation(GameObject* root) const
+{
+	if (root == nullptr)
+		return;
+	
+	ComponentAnimation* c_anim = (ComponentAnimation*)root->GetComponent(C_ANIMATION);
+
+	if (c_anim)
+	{
+		if (c_anim->linked == false)
+		{
+			c_anim->LinkAnimation();
+		}
+	}
+
+	const vector<GameObject*>* childs = root->GetChilds();
+	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
+		LinkAnimation(*child);
+
 }
 
 void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)

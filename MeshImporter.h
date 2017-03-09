@@ -34,6 +34,7 @@ namespace MeshImporter
 	void SaveInfoFile(std::vector<GameObject*> vector, const char* file);
 	void SaveGameObjectInfo(GameObject* gameObject, Data& data);
 
+	void LoadAnimBuffers(float* weights, int weights_size, unsigned int& weights_id, int* bones_ids, int bones_ids_size, unsigned int& bones_ids_id);
 
 }
 

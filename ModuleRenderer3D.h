@@ -47,6 +47,7 @@ private:
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam);
+	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam);
 
 public:
 	bool renderAABBs = false;

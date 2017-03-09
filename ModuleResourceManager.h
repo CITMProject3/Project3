@@ -72,6 +72,7 @@ public:
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;
+	unsigned int GetDefaultAnimShaderId()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -134,7 +135,8 @@ private:
 	unsigned int texture_bytes = 0;
 	unsigned int mesh_bytes = 0;
 
-	unsigned int default_shader = -1;
+	unsigned int default_shader = 0;
+	unsigned int default_anim_shader = 0;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

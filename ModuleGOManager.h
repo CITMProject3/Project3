@@ -70,6 +70,8 @@ public:
 
 	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
 
+	void LinkAnimation(GameObject* root)const; //Searches all go and links the meshes with the animation bones if is not done yet.
+
 private:
 
 	void UpdateGameObjects(float dt, GameObject* obj);

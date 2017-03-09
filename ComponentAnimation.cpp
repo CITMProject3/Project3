@@ -279,8 +279,6 @@ void ComponentAnimation::LinkChannels()
 			}
 		}
 	}
-	channelsLinked = true;
-	bonesLinked = false;
 }
 
 void ComponentAnimation::LinkBones()
@@ -298,7 +296,16 @@ void ComponentAnimation::LinkBones()
 			it->second->AddBone(bones[i]);
 		}
 	}
-	bonesLinked = true;
+
+	//Iterate all meshes and create bones-weight buffers
+	for (map<string, ComponentMesh*>::iterator mesh_it = meshes.begin(); mesh_it != meshes.end(); ++mesh_it)
+		mesh_it->second->InitAnimBuffers();
+}
+
+void ComponentAnimation::LinkAnimation()
+{
+		LinkChannels();
+		LinkBones();
 }
 
 const char* ComponentAnimation::GetResourcePath()
@@ -313,14 +320,11 @@ void ComponentAnimation::SetResource(ResourceFileAnimation* resource)
 
 bool ComponentAnimation::StartAnimation()
 {
-	if (channelsLinked == false)
+	if (linked == false)
 	{
-		LinkChannels();
+		LOG("ERROR: The animation of %s is not linked and is trying to be played.", game_object->name);
 	}
-	if (bonesLinked == false)
-	{
-		LinkBones();
-	}
+
 	if (current_animation != nullptr)
 		started = true;
 	return started;
@@ -359,9 +363,10 @@ void ComponentAnimation::Update(float dt)
 			}
 
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
-			UpdateMeshAnimation(game_object);
 		}
 	}
+
+	UpdateMeshAnimation(game_object); //Do it always
 }
 
 //-------------------------------------------

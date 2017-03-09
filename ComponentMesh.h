@@ -21,7 +21,6 @@ struct Bone_Reference
 {
 	Bone_Reference(ComponentBone* bone, float4x4 offset) { this->bone = bone; this->offset = offset; }
 	ComponentBone* bone;
-	float4x4 transform = float4x4::identity;
 	float4x4 offset = float4x4::identity;
 };
 
@@ -84,15 +83,12 @@ public:
 	void Remove();
 
 	void AddBone(ComponentBone* bone);
-	void ResetDeformable();
 	void DeformAnimMesh();
-
-	void UpdateBonesData();
-
-	Mesh* deformable = nullptr;
 
 	AABB GetBoundingBox() { return bounding_box; }
 	AABB GetLocalAABB() { return aabb; }
+
+	void InitAnimBuffers();
 
 private:
 
@@ -104,6 +100,12 @@ private:
 
 	math::AABB aabb; //Local one
 	math::AABB bounding_box; //In the world position
+
+public:
+	bool animated = false;
+	unsigned int weight_id = 0;
+	unsigned int bone_id = 0;
+	std::vector<math::float4x4> bones_trans;
 };
 
 

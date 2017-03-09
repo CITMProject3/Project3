@@ -279,10 +279,19 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)
 {
+	PROFILE("ModuleRenderer3D::Draw");
+
 	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
 
 	if (material == nullptr)
 		return;
+
+	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
+	if (c_mesh->animated)
+	{
+		DrawAnimated(obj, light, cam);
+		return;
+	}
 
 	uint shader_id = 0;
 	if (material->rc_material)
@@ -489,28 +498,10 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
 
-	ComponentMesh* mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-	const Mesh* base_mesh = mesh->GetMesh();
-
-	
-	//Generate buffers for animation mesh
-	if (mesh->deformable != nullptr)
-	{
-		glGenBuffers(1, (GLuint*)&(mesh->deformable->id_vertices));
-		glBindBuffer(GL_ARRAY_BUFFER,mesh->deformable->id_vertices);
-		glBufferData(GL_ARRAY_BUFFER, base_mesh->num_vertices * sizeof(float) * 3, mesh->deformable->vertices, GL_STATIC_DRAW);
-
-		if (base_mesh->normals != nullptr)
-		{
-			glGenBuffers(1, (GLuint*)&(mesh->deformable->id_normals));
-			glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable->id_normals);
-			glBufferData(GL_ARRAY_BUFFER, base_mesh->num_vertices * sizeof(float) * 3, mesh->deformable->normals, GL_STATIC_DRAW);
-		}
-	}
 
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable == nullptr ? base_mesh->id_vertices : mesh->deformable->id_vertices);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 	//Buffer uvs == 1
@@ -520,7 +511,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	//Buffer normals == 2
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->deformable == nullptr ? base_mesh->id_normals : mesh->deformable->id_normals);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 	//Buffer tangents == 3
@@ -534,6 +525,219 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, ComponentCamera * cam)
+{
+	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
+
+	if (material == nullptr)
+		return;
+
+	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
+
+
+	uint shader_id = 0;
+	if (material->rc_material)
+		shader_id = material->rc_material->GetShaderId();
+	else
+		shader_id = App->resource_manager->GetDefaultAnimShaderId();
+
+	//Use shader
+	glUseProgram(shader_id);
+
+	//Set uniforms
+
+	//Matrices
+	GLint model_location = glGetUniformLocation(shader_id, "model");
+	glUniformMatrix4fv(model_location, 1, GL_FALSE, *(obj->GetGlobalMatrix().Transposed()).v);
+	GLint projection_location = glGetUniformLocation(shader_id, "projection");
+	glUniformMatrix4fv(projection_location, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
+	GLint view_location = glGetUniformLocation(shader_id, "view");
+	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);
+
+	int count = 0;
+	//Good code for textures. The code above must be removed.
+	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
+	{
+		//Default first texture diffuse (if no specified)
+		if ((*tex).first.size() == 0 && count == 0)
+		{
+			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+			glUniform1i(has_tex_location, 1);
+			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, (*tex).second);
+			glUniform1i(texture_location, 0);
+			count++;
+			continue;
+		}
+
+		//Default second texture normal (if no specified)
+		if ((*tex).first.size() == 0 && count == 1)
+		{
+			GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
+			glUniform1i(has_normal_location, 1);
+			GLint texture_location = glGetUniformLocation(shader_id, "_HasNormalMap");
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, (*tex).second);
+			glUniform1i(texture_location, 1);
+			count++;
+			continue;
+		}
+
+		GLint tex_location = glGetUniformLocation(shader_id, (*tex).first.data());
+		if (tex_location != -1)
+		{
+			glActiveTexture(GL_TEXTURE0 + count);
+			glBindTexture(GL_TEXTURE_2D, (*tex).second);
+			glUniform1i(tex_location, count);
+			++count;
+		}
+	}
+
+	if (material->texture_ids.empty() == true)
+	{
+		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+		glUniform1i(has_tex_location, 0);
+		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
+		glUniform1i(has_normal_location, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+
+	//Lighting
+
+	//Ambient
+	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+	if (ambient_intensity_location != -1)
+		glUniform1f(ambient_intensity_location, light.ambient_intensity);
+	GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+	if (ambient_color_location != -1)
+		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
+
+	//Directional
+	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	glUniform1i(has_directional_location, light.has_directional);
+
+	if (light.has_directional)
+	{
+		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+		if (directional_intensity_location != -1)
+			glUniform1f(directional_intensity_location, light.directional_intensity);
+		GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+		if (directional_color_location != -1)
+			glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
+		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
+		if (directional_direction_location != -1)
+			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
+	}
+
+	//Other uniforms
+	if (material->rc_material)
+	{
+		for (vector<Uniform*>::const_iterator uni = material->rc_material->material.uniforms.begin(); uni != material->rc_material->material.uniforms.end(); ++uni)
+		{
+			GLint uni_location = glGetUniformLocation(shader_id, (*uni)->name.data());
+
+			if (uni_location != -1)
+				switch ((*uni)->type)
+				{
+				case UniformType::U_BOOL:
+				{
+					glUniform1i(uni_location, *reinterpret_cast<bool*>((*uni)->value));
+				}
+				break;
+				case U_INT:
+				{
+					glUniform1i(uni_location, *reinterpret_cast<int*>((*uni)->value));
+				}
+				break;
+				case U_FLOAT:
+				{
+					glUniform1f(uni_location, *reinterpret_cast<GLfloat*>((*uni)->value));
+				}
+				break;
+				case U_VEC2:
+				{
+					glUniform2fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
+				}
+				break;
+				case U_VEC3:
+				{
+					glUniform3fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
+				}
+				break;
+				case U_VEC4:
+				{
+					glUniform4fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
+				}
+				break;
+				case U_MAT4X4:
+				{
+					glUniformMatrix4fv(uni_location, 1, GL_FALSE, reinterpret_cast<GLfloat*>((*uni)->value));
+				}
+				break;
+				case U_SAMPLER2D:
+					//Already handled before.
+					break;
+				}
+		}
+	}
+
+	//Time(special)
+	GLint time_location = glGetUniformLocation(shader_id, "time");
+	if (time_location != -1)
+	{
+		glUniform1f(time_location, time->GetUnitaryTime());
+	}
+
+	//Array of bone transformations
+	GLint bone_location = glGetUniformLocation(shader_id, "bones");
+	glUniformMatrix4fv(bone_location, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
+
+	//Buffer vertices == 0
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer uvs == 1
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_uvs);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer normals == 2
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer tangents == 3
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer bones id == 4
+	glEnableVertexAttribArray(4);
+	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->bone_id);
+	glVertexAttribPointer(4, 4, GL_INT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer weights == 5
+	glEnableVertexAttribArray(5);
+	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->weight_id);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
+	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
+	glDisableVertexAttribArray(5);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 

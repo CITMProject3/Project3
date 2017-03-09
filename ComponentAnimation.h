@@ -63,8 +63,7 @@ public:
 	void PlayAnimation(const char* name, float blendTime = 0.0f);
 	//-------------------------------------------
 
-	void LinkChannels();
-	void LinkBones();
+	void LinkAnimation();
 
 	const char* GetResourcePath();
 	void SetResource(ResourceFileAnimation* resource);
@@ -81,6 +80,9 @@ private:
 	void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std::string, ComponentMesh*>& meshes, std::vector<ComponentBone*>& bones);
 	void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject);
 
+	void LinkChannels();
+	void LinkBones();
+
 public:
 	std::vector<Animation> animations;
 	Animation* current_animation = nullptr;
@@ -88,6 +90,8 @@ public:
 	Animation* blend_animation = nullptr;
 
 	bool playing = true;
+
+	bool linked = false;
 
 private:
 	ResourceFileAnimation* rAnimation;
@@ -98,9 +102,6 @@ private:
 	float blend_time_duration = 0.0f;
 
 	std::vector<Link> links;
-
-	bool channelsLinked = false;
-	bool bonesLinked = false;
 
 	int renaming_animation = -1;
 	int popup_animation = -1;

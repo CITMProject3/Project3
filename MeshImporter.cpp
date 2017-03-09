@@ -601,6 +601,17 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 	data.AppendArrayValue(go_data);
 }
 
+void MeshImporter::LoadAnimBuffers(float * weights, int weights_size, unsigned int & weights_id, int * bones_ids, int bones_ids_size, unsigned int & bones_ids_id)
+{
+	glGenBuffers(1, (GLuint*)&weights_id);
+	glBindBuffer(GL_ARRAY_BUFFER, weights_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * weights_size, weights, GL_STATIC_DRAW);
+
+	glGenBuffers(1, (GLuint*)&bones_ids_id);
+	glBindBuffer(GL_ARRAY_BUFFER, bones_ids_id);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(int) * bones_ids_size, bones_ids, GL_STATIC_DRAW);
+}
+
 bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids, std::vector<uint>& uuids_anim, std::vector<uint>& uuids_bones)
 {
 	bool ret = false;

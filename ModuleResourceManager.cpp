@@ -64,6 +64,7 @@ bool ModuleResourceManager::Init(Data & config)
 bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
+	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
 	UpdateAssetsAuto();
 	return true;
 }
@@ -364,6 +365,7 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 	{
 	case MESH:
 		LoadPrefabFile(library_path);
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	case PREFAB:
 		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
@@ -371,6 +373,7 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 		{
 			r_prefab->LoadPrefabAsCopy();
 		}
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	}
 }
@@ -590,6 +593,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 	delete[] buffer;
 
+	App->go_manager->LinkAnimation(App->go_manager->root);
+
 	return ret;
 }
 
@@ -675,6 +680,11 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 unsigned int ModuleResourceManager::GetDefaultShaderId() const
 {
 	return default_shader;
+}
+
+unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
+{
+	return default_anim_shader;
 }
 
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
