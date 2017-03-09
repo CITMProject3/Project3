@@ -617,8 +617,16 @@ AABB ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck)
 {
 	AABB ret;
 	std::vector<float3> points = GetWorldAABB(layersToCheck, root);
-	ret.minPoint = points[0];
-	ret.maxPoint = points[1];
+	if (points.empty() == false)
+	{
+		ret.minPoint = points[0];
+		ret.maxPoint = points[1];
+	}
+	else
+	{
+		ret.maxPoint = float3::zero;
+		ret.minPoint = float3::zero;
+	}
 	return ret;
 }
 

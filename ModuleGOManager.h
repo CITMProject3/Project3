@@ -74,7 +74,7 @@ public:
 
 	AABB GetWorldAABB(std::vector<int> layersToCheck = std::vector<int>());
 private:
-	std::vector<float3> GetWorldAABB(std::vector<int> layersToCheck = std::vector<int>(), GameObject* go = nullptr);
+	std::vector<float3> GetWorldAABB(std::vector<int> layersToCheck, GameObject* go);
 
 	void HierarchyWindow();
 	void DisplayGameObjectsChilds(const std::vector<GameObject*>* childs);
@@ -111,7 +111,6 @@ public:
 	GameObject* root = nullptr;
 
 	float3 lastRayData[3];
-
 };
 
 #endif // !__MODULE_GO_MANAGER_H__
