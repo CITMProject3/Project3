@@ -163,11 +163,7 @@ bool ModulePhysics3D::CleanUp()
 
 	CleanWorld();
 
-	if (terrainData != nullptr)
-	{
-		delete terrainData;
-		terrainData = nullptr;
-	}
+	DeleteTerrain();
 
 	delete vehicle_raycaster;
 	delete world;
@@ -285,6 +281,20 @@ void ModulePhysics3D::GenerateTerrain()
 		}
 
 	}
+}
+
+void ModulePhysics3D::DeleteTerrain()
+{
+	if (terrainData != nullptr)
+	{
+		delete terrainData;
+		terrainData = nullptr;
+	}
+}
+
+bool ModulePhysics3D::TerrainIsGenerated()
+{
+	return (terrainData != nullptr);
 }
 
 

@@ -40,6 +40,8 @@ public:
 	void CleanWorld();
 	void CreateGround();
 	void GenerateTerrain();
+	void DeleteTerrain();
+	bool TerrainIsGenerated();
 
 	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
 	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
@@ -47,8 +49,9 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
+private:
 	PhysBody3D* AddTerrain();
-
+public:
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
 
@@ -74,6 +77,8 @@ private:
 	btHeightfieldTerrainShape* terrain = nullptr;
 	AABB terrainAABB;
 	std::vector<int> terrainSize;
+public:
+	bool renderTerrain = false;
 };
 
 class DebugDrawer : public btIDebugDraw

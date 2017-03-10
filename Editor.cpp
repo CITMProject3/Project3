@@ -355,6 +355,11 @@ update_status Editor::EditorWindows()
 			GameObjectMenu();
 			ImGui::EndMenu();
 		}
+		if (ImGui::BeginMenu("Physics"))
+		{
+			PhysicsMenu();
+			ImGui::EndMenu();
+		}
 		if (ImGui::BeginMenu("Windows"))
 		{
 			WindowsMenu();
@@ -577,10 +582,26 @@ void Editor::GameObjectMenu()
 		}
 		ImGui::EndMenu();
 	}
+}
+
+void Editor::PhysicsMenu()
+{	
+	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger surfaces,\njust wait, the program did not crash.");
+	bool tmp = App->physics->TerrainIsGenerated();
+	ImGui::Checkbox("Terrain is generated", &tmp);
+	ImGui::NewLine();
 	if (ImGui::MenuItem("Generate Terrain"))
 	{
 		App->physics->GenerateTerrain();
 	}
+	if (ImGui::MenuItem("Delete Terrain"))
+	{
+		App->physics->DeleteTerrain();
+	}
+	ImGui::NewLine();
+	ImGui::Separator();
+	ImGui::Checkbox("Render Terrain", &App->physics->renderTerrain);
+	ImGui::Text("Terrain will only be rendered in play mode");	
 }
 
 void Editor::DebugMenu()
