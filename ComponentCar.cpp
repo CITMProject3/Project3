@@ -196,6 +196,16 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::InputFloat("Drift ratio", &drift_ratio);
 			ImGui::InputFloat("Drift multiplier", &drift_mult);
 			ImGui::InputFloat("Drift boost", &drift_boost);
+			ImGui::Text("Drift mode");
+			ImGui::Indent(1.0f);
+			if (ImGui::Checkbox("Non-physics drift", &drift_no_phys))
+			{
+				drift_phys = !drift_no_phys;
+			}
+			if (ImGui::Checkbox("Physics drift", &drift_phys))
+			{
+				drift_no_phys = !drift_phys;
+			}
 
 			ImGui::TreePop();
 		} //Endof Car settings
@@ -271,37 +281,50 @@ void ComponentCar::HandlePlayerInput()
 	vehicle->SetFriction(50);
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
+		if (drift_no_phys == true)
+		{
+			startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		}
+		else if (drift_phys == true)
+		{
 
-		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && turning == true)
 	{
-		vehicle->vehicle->getRigidBody()->clearForces();
+		if (drift_no_phys == true)
+		{
+			vehicle->vehicle->getRigidBody()->clearForces();
 
-		btTransform btTrans = vehicle->GetRealTransform();
-		float data[16];
-		btTrans.getOpenGLMatrix(data);
+			btTransform btTrans = vehicle->GetRealTransform();
+			float data[16];
+			btTrans.getOpenGLMatrix(data);
 
-		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
-			data[4], data[5], data[6], data[7],
-			data[8], data[9], data[10], data[11],
-			data[12], data[13], data[14], data[15]);
-		matrix.Transpose();
-		float3 front = matrix.WorldZ();
-		float3 right = matrix.WorldX();
-		if (turning_left == true)
-			right = -right;
-		right = right.Lerp(front, drift_ratio);
+			float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+				data[4], data[5], data[6], data[7],
+				data[8], data[9], data[10], data[11],
+				data[12], data[13], data[14], data[15]);
+			matrix.Transpose();
+			float3 front = matrix.WorldZ();
+			float3 right = matrix.WorldX();
+			if (turning_left == true)
+				right = -right;
+			right = right.Lerp(front, drift_ratio);
 
-		btVector3 vector(right.x, right.y, right.z);
-		float l = startDriftSpeed.length();
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
-		vehicle->SetFriction(0);
-	//	for (uint i = 0; i < vehicle->in)
-		//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
-		//	vehicle->SetFriction(1);
-		//vehicle->vehicle->updateFriction()
+			btVector3 vector(right.x, right.y, right.z);
+			float l = startDriftSpeed.length();
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+			vehicle->SetFriction(0);
+		//	for (uint i = 0; i < vehicle->in)
+			//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
+			//	vehicle->SetFriction(1);
+			//vehicle->vehicle->updateFriction()
+		}
+		else if (drift_phys == true)
+		{
+
+		}
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)

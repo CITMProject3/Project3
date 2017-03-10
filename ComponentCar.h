@@ -80,6 +80,9 @@ public:
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
+
+	bool drift_no_phys = true;
+	bool drift_phys = false;
 };
 
 
