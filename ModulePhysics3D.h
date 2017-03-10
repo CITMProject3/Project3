@@ -54,9 +54,7 @@ public:
 
 private:
 
-	bool gameRunning = false;
-
-	bool debug;
+	bool debug = false;
 
 	btDefaultCollisionConfiguration*	collision_conf;
 	btCollisionDispatcher*				dispatcher;

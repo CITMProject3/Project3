@@ -154,16 +154,6 @@ update_status ModulePhysics3D::Update()
 
 update_status ModulePhysics3D::PostUpdate()
 {
-	if (App->IsGameRunning() == false && gameRunning == true)
-	{
-		CleanWorld();
-		gameRunning = false;
-	}
-	else if (gameRunning == false)
-	{
-		gameRunning = true;
-	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -187,11 +177,12 @@ bool ModulePhysics3D::CleanUp()
 
 void ModulePhysics3D::OnPlay()
 {
+	AddTerrain();
 }
 
 void ModulePhysics3D::OnStop()
 {
-	
+	CleanWorld();
 }
 
 void ModulePhysics3D::CleanWorld()
@@ -264,13 +255,11 @@ void ModulePhysics3D::GenerateTerrain()
 	}
 
 	terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
-	int minX = terrainAABB.minPoint.x;
-	int minZ = terrainAABB.minPoint.z;
-	int maxX = terrainAABB.maxPoint.x;
-	int maxZ = terrainAABB.maxPoint.z;
-	terrainSize[0] = maxX - minX;
-	terrainSize[1] = terrainAABB.maxPoint.y - terrainAABB.minPoint.y;
-	terrainSize[2] = maxZ - minZ;
+	int X = max(Abs(terrainAABB.minPoint.x), Abs(terrainAABB.maxPoint.x));
+	int Z = max(Abs(terrainAABB.minPoint.z), Abs(terrainAABB.maxPoint.z));
+	terrainSize[0] = X*2;
+	terrainSize[1] = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y)) * 2;
+	terrainSize[2] = Z*2;
 
 	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
@@ -279,27 +268,23 @@ void ModulePhysics3D::GenerateTerrain()
 		{
 			for (int x = 0; x < terrainSize[0]; x++)
 			{
-			/*	math::Ray ray;
+				math::Ray ray;
 				ray.dir = vec(0, -1, 0);
-				ray.pos = vec(x + minX, terrainAABB.maxPoint.y, z + minZ);
+				ray.pos = vec(x - X, terrainAABB.maxPoint.y, z - Z);
 				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
 
 				if (hit.object != nullptr)
 				{
-					terrainData[z * terrainSize[2] + x] = hit.point.y;
+					terrainData[z * terrainSize[0] + x] = hit.point.y;
 				}
 				else
 				{
-					terrainData[z * terrainSize[2] + x] = 0;
+					terrainData[z * terrainSize[0] + x] = 0;
 				}
-*/
-				terrainData[z * terrainSize[2] + x] = sin(x/3 + z/3);
 			}
 		}
 
 	}
-
-	AddTerrain();
 }
 
 
@@ -522,8 +507,8 @@ PhysBody3D* ModulePhysics3D::AddTerrain()
 {
 	PhysBody3D* pbody = nullptr;
 
-	float minMax = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y));
-	minMax += 3;
+	float minMax = terrainSize[1]/2;
+	minMax += 1;
 
 	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
