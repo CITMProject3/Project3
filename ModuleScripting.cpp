@@ -2,7 +2,7 @@
 #include "Application.h"
 #include "Globals.h"
 #include "ModuleFileSystem.h"
-#include "ScriptingProject/ScriptingProject.h"
+#include "ScriptingProject/GameScripts.h"
 #include <iostream>
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -22,6 +22,8 @@ bool ModuleScripting::Init(Data &config)
 
 bool ModuleScripting::Start()
 {
+	Hello script;
+	script.Say();
 	LoadScriptsLibrary();
 	return true;
 }
@@ -45,6 +47,7 @@ bool ModuleScripting::CleanUp()
 {
 	if (script_names.size() > 0)
 		script_names.clear();
+
 	return true;
 }
 
@@ -68,7 +71,7 @@ void ModuleScripting::LoadScriptsLibrary()
 	else
 	{
 		scripts_loaded = true;
-		LoadScriptNames();
+		//LoadScriptNames();
 	}
 }
 
@@ -81,7 +84,7 @@ void ModuleScripting::LoadScriptNames()
 
 	if (scripts_loaded)
 	{
-		ScriptNames::GetScriptNames(App);
+		//ScriptNames::GetScriptNames(App);
 	}
 }
 
