@@ -144,8 +144,6 @@ update_status ModulePhysics3D::Update()
 		BtTriPRocessor tmp;
 		AABB cullCam;
 		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
-		cullCam.minPoint = float3(-600, -600, -600);
-		cullCam.maxPoint = float3(600, 600, 600);
 		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
 	}
 
