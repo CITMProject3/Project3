@@ -54,8 +54,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LibraryPath>$(LibraryPath)</LibraryPath>
-    <IncludePath>$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files (x86)\Mono\lib\;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Program Files (x86)\Mono\include\mono-2.0\;$(ProjectDir)AK\include\;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug Library|Win32'">
     <LibraryPath>$(LibraryPath)</LibraryPath>
@@ -442,11 +442,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug Library|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Xsd>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="ScriptingProject\ScriptingProject.vcxproj">
-      <Project>{d7015f34-fc91-480b-bb3d-4b471d5e0eb9}</Project>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

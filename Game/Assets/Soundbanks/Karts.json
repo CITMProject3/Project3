@@ -1,0 +1,41 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "11",
+  "SoundbankVersion": "120",
+  "RootPaths": {
+   "ProjectRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\",
+   "SourceFilesRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\.cache\\Windows\\",
+   "SoundBanksRoot": "C:\\Users\\Carlos\\Documents\\GitHub\\Project3\\Game\\Assets\\Soundbanks\\",
+   "ExternalSourcesInputFile": "",
+   "ExternalSourcesOutputRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\GeneratedSoundBanks\\Windows\\"
+  },
+  "SoundBanks": [
+   {
+    "Id": "2248052978",
+    "GUID": "{6751123E-E154-46B9-81C7-E9859874D9E5}",
+    "Language": "SFX",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\Karts",
+    "ShortName": "Karts",
+    "Path": "Karts.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "251412229",
+      "Name": "Shot",
+      "ObjectPath": "\\Events\\Default Work Unit\\Shot",
+      "GUID": "{91F9DF3C-5F53-480C-ACA9-30CFB7415724}"
+     }
+    ],
+    "IncludedMemoryFiles": [
+     {
+      "Id": "614738307",
+      "Language": "SFX",
+      "ShortName": "Go.wav",
+      "Path": "SFX\\Go_9E69E797.wem"
+     }
+    ]
+   }
+  ]
+ }
+}
