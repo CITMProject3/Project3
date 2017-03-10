@@ -306,6 +306,7 @@ void ComponentAnimation::LinkAnimation()
 {
 		LinkChannels();
 		LinkBones();
+		linked = true;
 }
 
 const char* ComponentAnimation::GetResourcePath()

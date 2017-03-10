@@ -345,7 +345,7 @@ int ShaderCompiler::LoadDefaultAnimShader()
 		"	bone_transform += bones[bone_ids[1]] * weights[1];\n"
 		"	bone_transform += bones[bone_ids[2]] * weights[2];\n"
 		"	bone_transform += bones[bone_ids[3]] * weights[3];\n"
-		"	vec4 pos_t =  bone_transform * vec4(position, 1.0f);\n"
+		"	vec4 pos_t = bone_transform * vec4(position, 1.0f);\n"
 		"	gl_Position = projection * view * model * pos_t;\n"
 		"	TexCoord = texCoord;\n"
 		"	normal0 = (model * vec4(normal, 0.0f)).xyz;\n"

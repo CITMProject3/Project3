@@ -721,7 +721,7 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	//Buffer bones id == 4
 	glEnableVertexAttribArray(4);
 	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->bone_id);
-	glVertexAttribPointer(4, 4, GL_INT, GL_FALSE, 0, (GLvoid*)0);
+	glVertexAttribIPointer(4, 4, GL_INT, 0, (GLvoid*)0);
 
 	//Buffer weights == 5
 	glEnableVertexAttribArray(5);
