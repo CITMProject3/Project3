@@ -49,7 +49,7 @@ void ComponentCar::Update()
 		else
 			CreateCar();
 	}
-	else 
+	else
 	{
 		vehicle = nullptr;
 		RenderWithoutCar();
@@ -92,7 +92,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::SameLine();
 				ImGui::DragFloat3("##Rrot", reset_rot.ptr());
 
-			
+
 				ImGui::TreePop();
 			}
 
@@ -100,29 +100,29 @@ void ComponentCar::OnInspector(bool debug)
 			{
 				ImGui::Text("Turn max");
 				ImGui::SameLine();
-				if(ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)){}
-				
+				if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
+
 
 				ImGui::Text("Wheel turn speed");
 				ImGui::SameLine();
-				if(ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)){}
+				if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
 
 
 				ImGui::Text("Brake force");
 				ImGui::SameLine();
-				if (ImGui::DragFloat("##Brake_force", &brakeForce, 1.0f, 0.0f, 1000.0f)){}
+				if (ImGui::DragFloat("##Brake_force", &brakeForce, 1.0f, 0.0f, 1000.0f)) {}
 
 				ImGui::Text("Kick force");
 				ImGui::SameLine();
-				if(ImGui::DragFloat("##Kick_force", &force, 1.0f, 0.0f, floatMax)){}
+				if (ImGui::DragFloat("##Kick_force", &force, 1.0f, 0.0f, floatMax)) {}
 
 				ImGui::Text("Kick cooldown");
 				ImGui::SameLine();
-				if(ImGui::DragFloat("##Kick_cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f)){}
+				if (ImGui::DragFloat("##Kick_cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f)) {}
 
 				ImGui::Text("Kick force time");
 				ImGui::SameLine();
-				if(ImGui::DragFloat("##Kick_force_time", &kick_force_time, 0.025f, 0.0f, 20.0f)){}
+				if (ImGui::DragFloat("##Kick_force_time", &kick_force_time, 0.025f, 0.0f, 20.0f)) {}
 
 				ImGui::TreePop();
 			}
@@ -141,7 +141,7 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Mass");
 					ImGui::SameLine();
-					ImGui::DragFloat("##Mass", &car->mass, 1.0f, 0.1f, floatMax);	
+					ImGui::DragFloat("##Mass", &car->mass, 1.0f, 0.1f, floatMax);
 
 					ImGui::TreePop();
 				}
@@ -161,7 +161,7 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Damping");
 					ImGui::SameLine();
-					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);	
+					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
 
 					ImGui::Text("Max force");
 					ImGui::SameLine();
@@ -181,7 +181,7 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Width");
 					ImGui::SameLine();
-					ImGui::DragFloat("##Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);					
+					ImGui::DragFloat("##Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);
 					ImGui::TreePop();
 				}
 
@@ -189,6 +189,24 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::SameLine();
 				ImGui::DragFloat("##Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
 			}//Endof IsGameRunning() == false
+
+			ImGui::Separator();
+			ImGui::Text("Drifting settings");
+			ImGui::NewLine();
+			ImGui::InputFloat("Drift ratio", &drift_ratio);
+			ImGui::InputFloat("Drift multiplier", &drift_mult);
+			ImGui::InputFloat("Drift boost", &drift_boost);
+			ImGui::Text("Drift mode");
+			ImGui::Indent(1.0f);
+			if (ImGui::Checkbox("Non-physics drift", &drift_no_phys))
+			{
+				drift_phys = !drift_no_phys;
+			}
+			if (ImGui::Checkbox("Physics drift", &drift_phys))
+			{
+				drift_no_phys = !drift_phys;
+			}
+
 			ImGui::TreePop();
 		} //Endof Car settings
 	}//Endof Collapsing header
@@ -197,7 +215,7 @@ void ComponentCar::OnInspector(bool debug)
 void ComponentCar::HandlePlayerInput()
 {
 
-	float accel,brake;
+	float accel, brake;
 	bool turning = false;
 	float extra_force = 1000.0f;
 
@@ -210,34 +228,36 @@ void ComponentCar::HandlePlayerInput()
 	}
 
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
+	/*
 	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
 	if (kickTimer >= kickCooldown)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		{
-			//accel = force;
-			on_kick = true;
-			kickTimer = 0.0f;
-		}
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	{
+	//accel = force;
+	on_kick = true;
+	kickTimer = 0.0f;
+	}
 	}
 	if (on_kick && kickTimer < kick_force_time)
 	{
-		accel = force;
+	accel = force;
 	}
-
+	*/
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
 		turning = true;
+		turning_left = false;
+		turn_current -= turn_speed;
+		if (turn_current < -turn_max)
+			turn_current = -turn_max;
 
-			turn_current -= turn_speed;
-			if (turn_current < -turn_max)
-				turn_current = -turn_max;
-			
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
 		turning = true;
-		
+		turning_left = true;
+
 		turn_current += turn_speed;
 		if (turn_current > turn_max)
 			turn_current = turn_max;
@@ -253,11 +273,80 @@ void ComponentCar::HandlePlayerInput()
 	}
 
 	//fOR DEBUG FOR NOW
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		accel += extra_force;
 	}
 
+	vehicle->SetFriction(50);
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		if (drift_no_phys == true)
+		{
+			startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		}
+		else if (drift_phys == true)
+		{
+
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && turning == true)
+	{
+		if (drift_no_phys == true)
+		{
+			vehicle->vehicle->getRigidBody()->clearForces();
+
+			btTransform btTrans = vehicle->GetRealTransform();
+			float data[16];
+			btTrans.getOpenGLMatrix(data);
+
+			float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+				data[4], data[5], data[6], data[7],
+				data[8], data[9], data[10], data[11],
+				data[12], data[13], data[14], data[15]);
+			matrix.Transpose();
+			float3 front = matrix.WorldZ();
+			float3 right = matrix.WorldX();
+			if (turning_left == true)
+				right = -right;
+			right = right.Lerp(front, drift_ratio);
+
+			btVector3 vector(right.x, right.y, right.z);
+			float l = startDriftSpeed.length();
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+			vehicle->SetFriction(0);
+		//	for (uint i = 0; i < vehicle->in)
+			//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
+			//	vehicle->SetFriction(1);
+			//vehicle->vehicle->updateFriction()
+		}
+		else if (drift_phys == true)
+		{
+
+		}
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		float data[16];
+		vehicle->GetRealTransform().getOpenGLMatrix(data);
+		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+			data[4], data[5], data[6], data[7],
+			data[8], data[9], data[10], data[11],
+			data[12], data[13], data[14], data[15]);
+		matrix.Transpose();
+
+		float3 speed(matrix.WorldZ());
+		speed *= startDriftSpeed.length();
+		speed *= drift_boost;
+		vehicle->SetLinearSpeed(speed.x, speed.y, speed.z);
+		vehicle->vehicle->getRigidBody()->clearForces();
+		vehicle->Turn(0);
+		turn_current = 0;
+		vehicle->SetFriction(car->frictionSlip);
+		//vehicle->SetLinearSpeed(0, 0, 0);
+	}
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
 	if (App->input->GetNumberJoysticks() > 0)
@@ -410,7 +499,7 @@ void ComponentCar::CreateCar()
 	car->wheels[3].brake = true;
 	car->wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(*car);	
+	vehicle = App->physics->AddVehicle(*car);
 }
 
 void ComponentCar::OnTransformModified()
@@ -456,7 +545,7 @@ void ComponentCar::RenderWithoutCar()
 		else { _x = 1; _z = -1; }
 
 		wheelOffset = chasis_offset;
-		wheelOffset += float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y/2.0f,( -chasis_size.z / 2.0f + wheel_radius) * _z);
+		wheelOffset += float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y / 2.0f, (-chasis_size.z / 2.0f + wheel_radius) * _z);
 
 		realOffset = rot * wheelOffset;
 		wheel.transform = wheel.transform.Transposed() * wheel.transform.Translate(wheelOffset);
@@ -502,6 +591,10 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("frictionSlip", car->frictionSlip);
 	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
 
+	data.AppendFloat("driftRatio", drift_ratio);
+	data.AppendFloat("driftMult", drift_mult);
+	data.AppendFloat("driftBoost", drift_boost);
+
 	file.AppendArrayValue(data);
 }
 
@@ -519,7 +612,7 @@ void ComponentCar::Load(Data& conf)
 	chasis_offset = conf.GetFloat3("chasis_offset");
 
 	kickCooldown = conf.GetFloat("kick_cooldown");
-	connection_height  = conf.GetFloat("connection_height");
+	connection_height = conf.GetFloat("connection_height");
 	wheel_radius = conf.GetFloat("wheel_radius");
 	wheel_width = conf.GetFloat("wheel_width");
 	suspensionRestLength = conf.GetFloat("suspensionRestLength");
@@ -535,6 +628,10 @@ void ComponentCar::Load(Data& conf)
 	car->maxSuspensionTravelCm = conf.GetFloat("maxSuspensionTravelCm");
 	car->frictionSlip = conf.GetFloat("frictionSlip");
 	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
+
+	drift_ratio = conf.GetFloat("driftRatio");
+	drift_mult = conf.GetFloat("driftMult");
+	drift_boost = conf.GetFloat("driftBoost");
 }
 
 

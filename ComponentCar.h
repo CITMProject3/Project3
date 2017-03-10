@@ -4,6 +4,8 @@
 #include "Component.h"
 #include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+#include "Bullet\include\btBulletDynamicsCommon.h"
+#include "Bullet\include\btBulletCollisionCommon.h"
 
 struct VehicleInfo;
 struct PhysVehicle3D;
@@ -37,7 +39,7 @@ private:
 
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
-	
+
 
 public:
 	float3 chasis_size;
@@ -45,10 +47,14 @@ public:
 	float kickCooldown = 3.0f;
 	float kick_force_time = 2.0f;
 	bool  on_kick = false;
+	bool turning_left = false;
 
 private:
 	float kickTimer = 0.0f;
 public:
+	float drift_ratio = 0.5f;
+	float drift_mult = 1.0f;
+	float drift_boost = 1.0f;
 
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
@@ -70,8 +76,13 @@ public:
 	float3 reset_pos;
 	float3 reset_rot;
 
+	btVector3 startDriftSpeed;
+
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
+
+	bool drift_no_phys = true;
+	bool drift_phys = false;
 };
 
 
