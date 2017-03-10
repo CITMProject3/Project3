@@ -139,7 +139,7 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	if (terrain)
+	if (terrain && renderTerrain)
 	{
 		BtTriPRocessor tmp;
 		AABB cullCam;
