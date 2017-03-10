@@ -24,13 +24,14 @@ public:
 	void OnTransformModified();
 	void Save(Data& file) const;
 	void Load(Data& config);
-
 	void OnInspector(bool debug);
+
 
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void Reset();
+	void LimitSpeed();
 
 
 private:
@@ -52,6 +53,7 @@ public:
 private:
 	float kickTimer = 0.0f;
 public:
+
 	float drift_ratio = 0.5f;
 	float drift_mult = 1.0f;
 	float drift_boost = 1.0f;
@@ -63,6 +65,8 @@ public:
 
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
+
+	float max_velocity = 80.0f;
 
 
 	float force = 1000.0f;

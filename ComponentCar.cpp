@@ -45,6 +45,9 @@ void ComponentCar::Update()
 			vehicle->Render();
 			UpdateGO();
 			GameLoopCheck();
+
+			//Test
+			vehicle->GetKmh();
 		}
 		else
 			CreateCar();
@@ -75,7 +78,14 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
+		if (vehicle)
+		{
+			if (ImGui::TreeNode("Read Stats"))
+			{
+				ImGui::Text("Velocity (Km/h): %f", vehicle->GetKmh());
+				ImGui::TreePop();
+			}
+		}
 		if (ImGui::TreeNode("Car settings"))
 		{
 			if (ImGui::TreeNode("Game loop settings"))
@@ -433,6 +443,15 @@ void ComponentCar::Reset()
 	vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
 	vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+}
+
+void ComponentCar::LimitSpeed()
+{
+	if(vehicle)
+		if (vehicle->GetKmh() > max_velocity)
+		{
+			//vehicle->vehicle->getRigidBody()-
+		}
 }
 
 void ComponentCar::CreateCar()
