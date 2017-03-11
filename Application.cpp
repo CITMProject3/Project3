@@ -17,7 +17,6 @@
 #include "ModuleResourceManager.h"
 #include "ModuleWindow.h"
 
-
 using namespace std;
 
 Application::Application()

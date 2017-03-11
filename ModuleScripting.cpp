@@ -1,15 +1,13 @@
 #include "ModuleScripting.h"
-#include "Application.h"
-#include "Globals.h"
-#include "ModuleFileSystem.h"
 
 // DOCUMENTATION
-
 // http://www.giorgosdimtsas.net/embedding-mono-in-your-c-application/
 // http://www.c-sharpcorner.com/UploadFile/66489a/creating-C-Sharp-class-library-dll-using-visual-studio-2015-pre/
+// http://docs.go-mono.com/?link=root:/embed
 
 // Mono libraries
 #include <mono/jit/jit.h>
+#include <mono/metadata/metadata.h>
 #include <mono/metadata/assembly.h>
 #include <mono/metadata/mono-config.h>
 
@@ -18,63 +16,69 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	// point to the relevant directories of the Mono installation
-	mono_set_dirs("C:\\Program Files (x86)\\Mono\\lib", "C:\\Program Files (x86)\\Mono\\etc");
+	//// point to the relevant directories of the Mono installation
+	//mono_set_dirs("C:\\Program Files (x86)\\Mono\\lib", "C:\\Program Files (x86)\\Mono\\etc");
 
-	// load the default Mono configuration file in 'etc/mono/config'
-	mono_config_parse(nullptr);
-	MonoDomain* monoDomain = mono_jit_init_version("embedding_mono_domain", "v4.0.30319");
+	//// load the default Mono configuration file in 'etc/mono/config'
+	//mono_config_parse(nullptr);
+	//MonoDomain* monoDomain = mono_jit_init_version("embedding_mono_domain", "v4.0.30319");
 
-	// open our Example.dll assembly
-	MonoAssembly* assembly = mono_domain_assembly_open(monoDomain, "GameScripts.dll");
-	MonoImage* monoImage = mono_assembly_get_image(assembly);
+	//// open our Example.dll assembly
+	//MonoAssembly* assembly = mono_domain_assembly_open(monoDomain, "GameScripts.dll");
+	//MonoImage* monoImage = mono_assembly_get_image(assembly);
 
-	// find the Entity class in the image
-	MonoClass* entityClass = mono_class_from_name(monoImage, "GameScripts", "Entity");
-	const char *dir = mono_get_config_dir();
+	//// find the Entity class in the image
+	//MonoClass* entityClass = mono_class_from_name(monoImage, "GameScripts", "Entity");
+	//void *iter = 0;
+	//MonoClassField *field = mono_class_get_fields(entityClass, &iter);
+	//while (field)
+	//{
+	//	field = mono_class_get_fields(entityClass, &iter);
+	//	
+	//}
+	//
+	//
+	//const char *dir = mono_get_config_dir();
 
-	// allocate memory for one Entity instance
-	MonoObject* entityInstance = mono_object_new(monoDomain, entityClass);
+	//// allocate memory for one Entity instance
+	//MonoObject* entityInstance = mono_object_new(monoDomain, entityClass);
 
-	// find the Entity class constructor method that takes one parameter
-	MonoMethod* constructorMethod = mono_class_get_method_from_name(entityClass, ".ctor", 1);
+	//// find the Entity class constructor method that takes one parameter
+	//MonoMethod* constructorMethod = mono_class_get_method_from_name(entityClass, ".ctor", 1);
 
-	// create a MonoString that will be passed to the constructor as an argument
-	MonoString* arg = mono_string_new(mono_domain_get(), "Giorgos");
-	void* args[1];
-	args[0] = arg;
+	//// create a MonoString that will be passed to the constructor as an argument
+	//MonoString* arg = mono_string_new(mono_domain_get(), "Giorgos");
+	//void* args[1];
+	//args[0] = arg;
 
-	// finally, invoke the constructor
-	MonoObject* exception = NULL;
-	mono_runtime_invoke(constructorMethod, entityInstance, args, &exception);
+	//// finally, invoke the constructor
+	//MonoObject* exception = NULL;
+	//mono_runtime_invoke(constructorMethod, entityInstance, args, &exception);
 
-	// find the Process method that takes zero parameters
-	MonoMethod* processMethod = mono_class_get_method_from_name(entityClass,"Process", 0);
-	exception = nullptr;
+	//// find the Process method that takes zero parameters
+	//MonoMethod* processMethod = mono_class_get_method_from_name(entityClass,"Process", 0);
+	//exception = nullptr;
 
-	// invoke the method
-	// if invoking static methods, then the second argument must be NULL
-	mono_runtime_invoke(processMethod, entityInstance, nullptr, &exception);
+	//// invoke the method
+	//// if invoking static methods, then the second argument must be NULL
+	//mono_runtime_invoke(processMethod, entityInstance, nullptr, &exception);
 
-	// check for any thrown exception
-	if (exception)
-	{
-		std::cout << mono_string_to_utf8(mono_object_to_string(exception, nullptr))
-			<< std::endl;
-	}
+	//// check for any thrown exception
+	//if (exception)
+	//{
+	//	std::cout << mono_string_to_utf8(mono_object_to_string(exception, nullptr))
+	//		<< std::endl;
+	//}
 
-	// find the GetName method
-	MonoMethod* getNameMethod = mono_class_get_method_from_name(entityClass, "GetName", 0);
-	exception = nullptr;
-	MonoString* ret = (MonoString*)mono_runtime_invoke(getNameMethod, entityInstance, nullptr, &exception);
-	char* c = mono_string_to_utf8(ret);
-	std::cout << "Value of 'name' is " << c << std::endl;
+	//// find the GetName method
+	//MonoMethod* getNameMethod = mono_class_get_method_from_name(entityClass, "GetName", 0);
+	//exception = nullptr;
+	//MonoString* ret = (MonoString*)mono_runtime_invoke(getNameMethod, entityInstance, nullptr, &exception);
+	//char* c = mono_string_to_utf8(ret);
+	//std::cout << "Value of 'name' is " << c << std::endl;
 
-	// free the memory allocated from mono_string_to_utf8 ()
-	mono_free(c);
-
-	finded_script_names = false; 
-	scripts_quantity = -1;
+	//// free the memory allocated from mono_string_to_utf8 ()
+	//mono_free(c);
 }
 
 ModuleScripting::~ModuleScripting()
@@ -83,92 +87,109 @@ ModuleScripting::~ModuleScripting()
 
 bool ModuleScripting::Init(Data &config)
 {
+	InitMonoLibrary();
 	return true;
 }
 
 bool ModuleScripting::Start()
 {
-	
-	LoadScriptsLibrary();
 	return true;
 }
-/*
-update_status ModuleScripting::PreUpdate()
-{
-	return UPDATE_CONTINUE;
-}
 
-update_status ModuleScripting::Update()
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleScripting::PostUpdate()
-{
-	return UPDATE_CONTINUE;
-}*/
 
 bool ModuleScripting::CleanUp()
 {
-	// shutdown mono
-	//mono_jit_cleanup(monoDomain);
-
+	TerminateMonoLibrary();
 	return true;
 }
 
 void ModuleScripting::SaveBeforeClosing(Data &data) const
+{ }
+
+void ModuleScripting::InitMonoLibrary()
 {
+	// point to the relevant directories of the Mono installation
+	mono_set_dirs("C:\\Program Files (x86)\\Mono\\lib", "C:\\Program Files (x86)\\Mono\\etc");
+
+	// load the default Mono configuration file in 'etc/mono/config'
+	mono_config_parse(nullptr);
+	mono_domain = mono_jit_init_version("embedding_mono_domain", "v4.0.30319");
+
+	// open our GameScripts.dll assembly
+	MonoAssembly* assembly = mono_domain_assembly_open(mono_domain, "GameScripts.dll");
+	MonoImage* mono_image = mono_assembly_get_image(assembly);
+
+	LoadClasses(mono_image);
 }
 
-DWORD ModuleScripting::GetError()
+void ModuleScripting::TerminateMonoLibrary()
 {
-	return last_error;
-}
-
-void ModuleScripting::LoadScriptsLibrary()
-{
-	if (App->file_system->Exists("Game.dll"))
+	// Freeing script collection
+	for (std::vector<ClassInfo*>::iterator it_class = script_collection.begin(); it_class != script_collection.end(); ++it_class)
 	{
-		scripts_loaded = false;
+		for (std::vector<MethodInfo*>::iterator it_method = (*it_class)->methods.begin(); it_method != (*it_class)->methods.end(); ++it_method)
+		{
+			delete (*it_method);
+		}
+
+		delete (*it_class);
+	}
+
+	//shutdown mono
+	if(mono_domain)	mono_jit_cleanup(mono_domain);
+}
+
+void ModuleScripting::LoadClasses(MonoImage *mono_image)
+{
+	// Get a pointer to the MonoTableTypeDef metadata table
+	const MonoTableInfo *t = mono_image_get_table_info(mono_image, MONO_TABLE_TYPEDEF);
+
+	// Fetch the number of rows available in the table
+	int rows = mono_table_info_get_rows(t);
+
+	// For each row, print some of its values
+	for (int i = 1; i < rows; i++)
+	{
+		/* Space where we extract one row from the metadata table */
+		uint32_t cols[MONO_TYPEDEF_SIZE];
+
+		/* Extract the row into the array cols */
+		mono_metadata_decode_row(t, i, cols, MONO_TYPEDEF_SIZE);
+
+		ClassInfo *class_info = new ClassInfo();
+		class_info->name = mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAME]);
+		MonoClass* mono_class = mono_class_from_name(mono_image, "GameScripts", class_info->name.c_str());		
 		
-		LOG("Can't find Game.dll", "Game.dll", last_error);
+		void *iter = nullptr;
+		MonoMethod *method;
+
+		while (method = mono_class_get_methods(mono_class, &iter))
+		{
+			MethodInfo *method_info = new MethodInfo();
+			class_info->methods.push_back(method_info);
+			method_info->name = mono_method_get_name(method);
+		}
+
+		script_collection.push_back(class_info);
+		
+
+		/*while (field)
+		{
+			field = mono_class_get_fields(entityClass, &iter);
+			
+		}*/
+
+		////LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_FLAGS]));
+		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAME]));
+		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAMESPACE]));
+		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_EXTENDS]));
+		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_FIELD_LIST]));
+		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_METHOD_LIST]));
+		//LOG("%d", cols[MONO_TYPEDEF_FLAGS]);
+		//LOG("%d", cols[MONO_TYPEDEF_NAME]);
+		//LOG("%d", cols[MONO_TYPEDEF_NAMESPACE]);
+		//LOG("%d", cols[MONO_TYPEDEF_EXTENDS]);
+		//LOG("%d", cols[MONO_TYPEDEF_FIELD_LIST]);
+		//LOG("%d", cols[MONO_TYPEDEF_METHOD_LIST]);
 	}
-	else
-	{
-		scripts_loaded = true;
-		//LoadScriptNames();
-	}
-}
-
-void ModuleScripting::LoadScriptNames()
-{
-	script_names.clear();
-	script_names.push_back(" ");
-	if (scripts_quantity != -1)
-		names = "";
-
-	if (scripts_loaded)
-	{
-		//ScriptNames::GetScriptNames(App);
-	}
-}
-
-vector<const char*> ModuleScripting::GetScriptNamesList()const
-{
-	return script_names;
-}
-
-const char* ModuleScripting::GetScriptNames()const
-{
-	return names;
-}
-
-void ModuleScripting::SetScriptNames(const char* names)
-{
-	this->names = names;
-}
-
-void ModuleScripting::AddScriptName(const char* name)
-{
-	script_names.push_back(name);
 }

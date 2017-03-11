@@ -6,20 +6,17 @@ using System.Threading.Tasks;
 
 namespace GameScripts
 {
-    public class Entity
+    public class Test
     {
+        public int age = 42;
+        private float height = 1.70f;
         private String name;
 
-        public Entity(String name)
-        {
-            this.name = name;
-            System.Console.WriteLine("Entity " + name + " constructed");
-        }
+        public Test(String name)
+        { }
 
-        ~Entity()
-        {
-            System.Console.WriteLine("Entity " + name + " destructed");
-        }
+        ~Test()
+        { }
 
         public void Process()
         {
@@ -30,5 +27,8 @@ namespace GameScripts
         {
             return name;
         }
+
+        public void DoNothing()
+        { }
     }
 }

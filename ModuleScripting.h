@@ -2,14 +2,23 @@
 #define __MODULESCRIPTING_H__
 
 #include "Module.h"
-#include "Globals.h"
-#include <vector>
-#include <string>
 
-//#pragma comment ( lib, "Debug/Game.lib" )
+struct MethodInfo;
 
-class Application;
-using namespace std;
+// Structures to save all related Class info: That includes its methods and attributes (fields)
+struct ClassInfo
+{
+	std::string name;
+	std::vector<MethodInfo*> methods;
+};
+
+struct MethodInfo
+{
+	std::string name;
+};
+
+typedef struct _MonoDomain MonoDomain;
+typedef struct _MonoImage MonoImage;
 
 class ModuleScripting : public Module
 {
@@ -20,32 +29,19 @@ public:
 	bool Init(Data& config);
 	bool Start();
 
-	//update_status PreUpdate();
-	//update_status Update();
-	//update_status PostUpdate();
-
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
 
-	//bool LoadScriptLibrary(const char* path, HINSTANCE* script);
-	//bool FreeScriptLibrary(HINSTANCE& script);
-
-	DWORD GetError();
-	void LoadScriptsLibrary();
-	void LoadScriptNames();
-	vector<const char*> GetScriptNamesList()const;
-	const char* GetScriptNames()const;
-	void SetScriptNames(const char* names);
-	void AddScriptName(const char* name);
-
-	bool scripts_loaded;
-
 private:
-	DWORD last_error = 0;
-	vector<const char*> script_names;
-	int scripts_quantity; 
-	const char* names;
-	bool finded_script_names;
+	
+	MonoDomain *mono_domain = nullptr;
+
+	std::vector<ClassInfo*> script_collection;
+
+	void InitMonoLibrary();
+	void TerminateMonoLibrary();
+
+	void LoadClasses(MonoImage *mono_image);
 };
 
 #endif // !__MOUDLESCRIPTING_H__
