@@ -50,7 +50,8 @@ public:
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
 private:
-	PhysBody3D* AddTerrain();
+	void AddTerrain();
+	void ContinuousTerrainGeneration();
 public:
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
@@ -73,10 +74,16 @@ private:
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
 
+#pragma region Terrain
 	float* terrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
 	AABB terrainAABB;
 	std::vector<int> terrainSize;
+
+	bool loadingTerrain = false;
+	int x = 0;
+	int z = 0;
+#pragma endregion
 public:
 	bool renderTerrain = false;
 };

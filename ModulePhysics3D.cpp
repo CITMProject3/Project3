@@ -139,6 +139,8 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
+	ContinuousTerrainGeneration();
+
 	if (terrain && renderTerrain)
 	{
 		BtTriPRocessor tmp;
@@ -258,26 +260,9 @@ void ModulePhysics3D::GenerateTerrain()
 	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
 		terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
-		for (int z = 0; z < terrainSize[2]; z++)
-		{
-			for (int x = 0; x < terrainSize[0]; x++)
-			{
-				math::Ray ray;
-				ray.dir = vec(0, -1, 0);
-				ray.pos = vec(x - X, terrainAABB.maxPoint.y, z - Z);
-				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
-
-				if (hit.object != nullptr)
-				{
-					terrainData[z * terrainSize[0] + x] = hit.point.y;
-				}
-				else
-				{
-					terrainData[z * terrainSize[0] + x] = 0;
-				}
-			}
-		}
-
+		x = 0;
+		z = 0;
+		loadingTerrain = true;
 	}
 }
 
@@ -511,10 +496,8 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddTerrain()
+void ModulePhysics3D::AddTerrain()
 {
-	PhysBody3D* pbody = nullptr;
-
 	float minMax = terrainSize[1]/2;
 	minMax += 1;
 
@@ -528,13 +511,53 @@ PhysBody3D* ModulePhysics3D::AddTerrain()
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
 
 		btRigidBody* body = new btRigidBody(rbInfo);
-		pbody = new PhysBody3D(body);
 
-		body->setUserPointer(pbody);
 		world->addRigidBody(body);
-		bodies.push_back(pbody);
 	}
-	return pbody;
+}
+
+void ModulePhysics3D::ContinuousTerrainGeneration()
+{
+	if (loadingTerrain == true)
+	{
+		ImGui::SetNextWindowSize(ImVec2(500, 100));
+		if (ImGui::Begin("Generating terrain data"))
+		{
+			float fraction = ((float)(z * terrainSize[0] + x) / (float)(terrainSize[0] * terrainSize[2]));
+			ImGui::ProgressBar(fraction);
+			char str[124];
+			sprintf(str, "Gathering height data.\n%i / %i\nDo not hit play while loading.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
+			ImGui::Text(str);
+			ImGui::End();
+		}
+		Timer time;
+		time.Start();
+		for (; z < terrainSize[2]; z++)
+		{
+			for (; x < terrainSize[0]; x++)
+			{
+				math::Ray ray;
+				ray.dir = vec(0, -1, 0);
+				ray.pos = vec(x - (terrainSize[0] / 2), terrainAABB.maxPoint.y + 2, z - (terrainSize[2] / 2));
+				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
+
+				if (hit.object != nullptr)
+				{
+					terrainData[z * terrainSize[0] + x] = hit.point.y;
+				}
+				else
+				{
+					terrainData[z * terrainSize[0] + x] = 0;
+				}
+				if (time.ReadSec() > 0.1f)
+				{
+					return;
+				}
+			}
+			x = 0;
+		}
+		loadingTerrain = false;
+	}
 }
 
 

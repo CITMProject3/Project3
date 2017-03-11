@@ -606,8 +606,15 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
 	}
-	App->renderer3D->DrawLine(ray.pos, hit.point);
-	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
+	if (hit.object != nullptr)
+	{
+		App->renderer3D->DrawLine(ray.pos, hit.point, float4(1.0f, 0.5f,0.0f,1.0f));
+		App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1, 1, 0, 1));
+	}
+	else
+	{
+		App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 1000.0f, float4(1.0f, 0.5f, 0.0f, 1.0f));
+	}
 
 	return hit;
 }
