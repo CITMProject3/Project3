@@ -601,6 +601,10 @@ void Editor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 	ImGui::Checkbox("Render Terrain", &App->physics->renderTerrain);
+	if (App->physics->renderTerrain)
+	{
+		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+	}
 	ImGui::Text("Terrain will only be rendered in play mode");	
 }
 

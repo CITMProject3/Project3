@@ -144,6 +144,7 @@ update_status ModulePhysics3D::Update()
 	if (terrain && renderTerrain)
 	{
 		BtTriPRocessor tmp;
+		tmp.useWire = renderWiredTerrain;
 		AABB cullCam;
 		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
 		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
@@ -250,7 +251,7 @@ void ModulePhysics3D::GenerateTerrain()
 		terrainData = nullptr;
 	}
 
-	terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
+	AABB terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
 	int X = max(Abs(terrainAABB.minPoint.x), Abs(terrainAABB.maxPoint.x));
 	int Z = max(Abs(terrainAABB.minPoint.z), Abs(terrainAABB.maxPoint.z));
 	terrainSize[0] = X*2;
@@ -272,6 +273,7 @@ void ModulePhysics3D::DeleteTerrain()
 	{
 		delete terrainData;
 		terrainData = nullptr;
+		terrainSize[0] = terrainSize[1] = terrainSize[2] = 0;
 	}
 }
 
@@ -501,7 +503,7 @@ void ModulePhysics3D::AddTerrain()
 	float minMax = terrainSize[1]/2;
 	minMax += 1;
 
-	if (terrainSize[0] > 0 && terrainSize[2] > 0)
+	if (terrainSize[0] > 0 && terrainSize[2] > 0 && terrainData != nullptr)
 	{
 		terrain = new btHeightfieldTerrainShape(terrainSize[0], terrainSize[2], terrainData, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
 		shapes.push_back(terrain);
@@ -526,7 +528,7 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 			float fraction = ((float)(z * terrainSize[0] + x) / (float)(terrainSize[0] * terrainSize[2]));
 			ImGui::ProgressBar(fraction);
 			char str[124];
-			sprintf(str, "Gathering height data.\n%i / %i\nDo not hit play while loading.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
+			sprintf(str, "Gathering height data.\n%i / %i\nModifying objects or entering Play mode may cause errors.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
 			ImGui::Text(str);
 			ImGui::End();
 		}
@@ -538,7 +540,7 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 			{
 				math::Ray ray;
 				ray.dir = vec(0, -1, 0);
-				ray.pos = vec(x - (terrainSize[0] / 2), terrainAABB.maxPoint.y + 2, z - (terrainSize[2] / 2));
+				ray.pos = vec(x - (terrainSize[0] / 2), terrainSize[1] + 3, z - (terrainSize[2] / 2));
 				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
 
 				if (hit.object != nullptr)

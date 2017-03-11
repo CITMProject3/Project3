@@ -262,6 +262,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
+    <ClCompile Include="BtTriProcessor.cpp" />
     <ClCompile Include="CameraWindow.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />

@@ -77,7 +77,6 @@ private:
 #pragma region Terrain
 	float* terrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	AABB terrainAABB;
 	std::vector<int> terrainSize;
 
 	bool loadingTerrain = false;
@@ -86,6 +85,7 @@ private:
 #pragma endregion
 public:
 	bool renderTerrain = false;
+	bool renderWiredTerrain = true;
 };
 
 class DebugDrawer : public btIDebugDraw
