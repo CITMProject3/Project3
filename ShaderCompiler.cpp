@@ -348,8 +348,8 @@ int ShaderCompiler::LoadDefaultAnimShader()
 		"	vec4 pos_t = bone_transform * vec4(position, 1.0f);\n"
 		"	gl_Position = projection * view * model * pos_t;\n"
 		"	TexCoord = texCoord;\n"
-		"	normal0 = (model * vec4(normal, 0.0f)).xyz;\n"
-		"	tangent0 = (model *  vec4(tangent, 0.0f)).xyz;\n"
+		"	normal0 = (model * bone_transform * vec4(normal, 0.0f)).xyz;\n"
+		"	tangent0 = (model *  bone_transform * vec4(tangent, 0.0f)).xyz;\n"
 		"}\n";
 
 	const GLchar* fragment_code =

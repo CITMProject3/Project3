@@ -226,38 +226,8 @@ void ComponentMesh::DeformAnimMesh()
 		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
 		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
 		float4x4 bone_trn_mat = matrix * bones_reference[i].offset;
-		bones_trans.push_back(bone_trn_mat);
+		bones_trans.push_back(bone_trn_mat.Transposed());
 	}
-
-	//Looping through vertices
-	/*for (uint i = 0; i < bones_vertex.size(); i++)
-	{
-		//Looping through bones afecting current vertex
-		for (uint j = 0; j < bones_vertex[i].bone_index.size(); j++)
-		{
-			uint index = bones_vertex[i].bone_index[j];
-			float4x4 matrix = bones_reference[index].transform;
-
-			//Vertex position
-			float3 originalV(&mesh->vertices[i * 3]);
-			float4x4 m_offset = matrix * bones_reference[index].offset;
-			float3 toAdd = m_offset.TransformPos(originalV);
-
-			deformable->vertices[i * 3] += toAdd.x * bones_vertex[i].weights[j];
-			deformable->vertices[i * 3 + 1] += toAdd.y * bones_vertex[i].weights[j];
-			deformable->vertices[i * 3 + 2] += toAdd.z * bones_vertex[i].weights[j];
-
-			if (mesh->normals != nullptr)
-			{
-				float3 originalN(&mesh->normals[i * 3]);
-				float3 toAddN = matrix.TransformPos(originalN);
-				deformable->normals[i * 3] += toAdd.x * bones_vertex[i].weights[j];
-				deformable->normals[i * 3 + 1] += toAdd.y * bones_vertex[i].weights[j];
-				deformable->normals[i * 3 + 2] += toAdd.z * bones_vertex[i].weights[j];
-			}
-
-		}
-	}*/
 }
 void ComponentMesh::InitAnimBuffers()
 {
