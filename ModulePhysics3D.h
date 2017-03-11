@@ -52,6 +52,7 @@ public:
 private:
 	void AddTerrain();
 	void ContinuousTerrainGeneration();
+	void RenderTerrain();
 public:
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);

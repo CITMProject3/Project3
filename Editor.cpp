@@ -586,7 +586,8 @@ void Editor::GameObjectMenu()
 
 void Editor::PhysicsMenu()
 {	
-	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger surfaces,\njust wait, the program did not crash.");
+	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger\nsurfaces, it will go faster on multiple little\nmeshes than on a single big one.\n ");
+	ImGui::Separator();
 	bool tmp = App->physics->TerrainIsGenerated();
 	ImGui::Checkbox("Terrain is generated", &tmp);
 	ImGui::NewLine();
@@ -605,7 +606,7 @@ void Editor::PhysicsMenu()
 	{
 		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 	}
-	ImGui::Text("Terrain will only be rendered in play mode");	
+	ImGui::Text("Terrain render may be slow!");	
 }
 
 void Editor::DebugMenu()

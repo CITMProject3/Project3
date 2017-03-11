@@ -141,13 +141,9 @@ update_status ModulePhysics3D::Update()
 
 	ContinuousTerrainGeneration();
 
-	if (terrain && renderTerrain)
+	if (renderTerrain)
 	{
-		BtTriPRocessor tmp;
-		tmp.useWire = renderWiredTerrain;
-		AABB cullCam;
-		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
-		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
+		RenderTerrain();
 	}
 
 	return UPDATE_CONTINUE;
@@ -559,6 +555,62 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 			x = 0;
 		}
 		loadingTerrain = false;
+	}
+}
+
+void ModulePhysics3D::RenderTerrain()
+{
+	if (terrain)
+	{
+		BtTriPRocessor tmp;
+		tmp.useWire = renderWiredTerrain;
+		AABB cullCam;
+		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
+		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
+	}
+	else if (terrainData)
+	{
+		if (renderWiredTerrain)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		glBegin(GL_TRIANGLES);
+		glColor3f(0.0f, 0.6f, 0.6f);
+		Triangle tri1;
+		Triangle tri2;
+
+		for (int z = 0; z < terrainSize[2] - 1; z++)
+		{
+			for (int x = 0; x < terrainSize[0] - 1; x++)
+			{
+				tri1.a = vec(x - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x], z - terrainSize[2] / 2);
+				tri1.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
+				tri1.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+
+				glVertex3fv(tri1.c.ptr());
+				glVertex3fv(tri1.b.ptr());
+				glVertex3fv(tri1.a.ptr());
+				glNormal3fv(tri1.NormalCW().ptr());
+
+				//If we're using wireframe, we only need to render half of the triangles for the mesh to look complete
+				if (renderWiredTerrain == false)
+				{
+					tri2.a = vec(x + 1 - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x + 1], z + 1 - terrainSize[2] / 2);
+					tri2.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
+					tri2.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+
+					glVertex3fv(tri2.a.ptr());
+					glVertex3fv(tri2.b.ptr());
+					glVertex3fv(tri2.c.ptr());
+					glNormal3fv(tri2.NormalCCW().ptr());
+				}
+			}
+		}
+		glEnd();
+		if (renderWiredTerrain)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
 	}
 }
 
