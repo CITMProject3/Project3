@@ -41,13 +41,13 @@ void ComponentCar::Update()
 	{
 		if (vehicle)
 		{
+			
 			HandlePlayerInput();
 			vehicle->Render();
 			UpdateGO();
+			//LimitSpeed();
 			GameLoopCheck();
 
-			//Test
-			vehicle->GetKmh();
 		}
 		else
 			CreateCar();
@@ -108,6 +108,10 @@ void ComponentCar::OnInspector(bool debug)
 
 			if (ImGui::TreeNode("Control settings"))
 			{
+				ImGui::Text("Max speed");
+				ImGui::SameLine();
+				if (ImGui::DragFloat("##MxSpeed", &max_velocity, 1.0f, 0.0f, 1000.0f)) {}
+
 				ImGui::Text("Turn max");
 				ImGui::SameLine();
 				if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
@@ -422,12 +426,23 @@ void ComponentCar::HandlePlayerInput()
 		}
 	}
 
+	
+
 	if (vehicle)
 	{
 		vehicle->ApplyEngineForce(accel);
+
+		//Doing this so it doesn't stop from braking
+		if(accel != 0)
+			LimitSpeed();
+
 		vehicle->Turn(turn_current);
 		vehicle->Brake(brake);
 	}
+
+	
+
+
 }
 
 void ComponentCar::GameLoopCheck()
@@ -447,11 +462,13 @@ void ComponentCar::Reset()
 
 void ComponentCar::LimitSpeed()
 {
-	if(vehicle)
+	if (vehicle)
+	{
 		if (vehicle->GetKmh() > max_velocity)
 		{
-			//vehicle->vehicle->getRigidBody()-
+			vehicle->SetModularSpeed(max_velocity * 0.3);
 		}
+	}
 }
 
 void ComponentCar::CreateCar()
