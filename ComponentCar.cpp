@@ -28,6 +28,11 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 0.0f, 0.0f, 0.0f };
+
+	//Player config
+	front_player = PLAYER_1;
+	back_player = PLAYER_2;
+
 }
 
 ComponentCar::~ComponentCar()
@@ -443,6 +448,20 @@ void ComponentCar::HandlePlayerInput()
 	
 
 
+}
+
+void ComponentCar::JoystickControls()
+{
+	if (App->input->GetNumberJoysticks() > 0)
+	{
+		//Insert here all the new mechanics
+		//Front player------------------
+
+		//Back player-------------------
+
+
+
+	}
 }
 
 void ComponentCar::GameLoopCheck()

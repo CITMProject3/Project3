@@ -10,6 +10,11 @@
 struct VehicleInfo;
 struct PhysVehicle3D;
 
+enum PLAYER
+{
+	PLAYER_1,
+	PLAYER_2,
+};
 class ComponentCar : public Component
 {
 public:
@@ -37,6 +42,7 @@ public:
 private:
 	void CreateCar();
 	void UpdateGO();
+	void JoystickControls();
 
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
@@ -87,6 +93,10 @@ public:
 
 	bool drift_no_phys = true;
 	bool drift_phys = false;
+
+	//2 Player configuration
+	PLAYER front_player;
+	PLAYER back_player;
 };
 
 
