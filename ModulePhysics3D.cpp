@@ -260,6 +260,7 @@ void ModulePhysics3D::GenerateTerrain()
 		x = 0;
 		z = 0;
 		loadingTerrain = true;
+		loadInSecondPlane = false;
 	}
 }
 
@@ -518,7 +519,7 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 {
 	if (loadingTerrain == true)
 	{
-		ImGui::SetNextWindowSize(ImVec2(500, 100));
+		ImGui::SetNextWindowSize(ImVec2(500, 180));
 		if (ImGui::Begin("Generating terrain data"))
 		{
 			float fraction = ((float)(z * terrainSize[0] + x) / (float)(terrainSize[0] * terrainSize[2]));
@@ -526,18 +527,25 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 			char str[124];
 			sprintf(str, "Gathering height data.\n%i / %i\nModifying objects or entering Play mode may cause errors.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
 			ImGui::Text(str);
+			ImGui::NewLine();
+			ImGui::Checkbox("Second Plane Terrain Generation", &loadInSecondPlane);
+			ImGui::Text("Marking this checkbox will make the terrain generation go slower,\n increasing the FPS");
 			ImGui::End();
 		}
 		Timer time;
 		time.Start();
+		int n = 0;
+
+		math::Ray ray;
+		RaycastHit hit;
+		float timerTime;
 		for (; z < terrainSize[2]; z++)
 		{
 			for (; x < terrainSize[0]; x++)
-			{
-				math::Ray ray;
+			{				
 				ray.dir = vec(0, -1, 0);
 				ray.pos = vec(x - (terrainSize[0] / 2), terrainSize[1] + 3, z - (terrainSize[2] / 2));
-				RaycastHit hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
+				hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
 
 				if (hit.object != nullptr)
 				{
@@ -547,9 +555,15 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 				{
 					terrainData[z * terrainSize[0] + x] = 0;
 				}
-				if (time.ReadSec() > 0.1f)
+				n++;
+				if (n % 5 == 0 || loadInSecondPlane)
 				{
-					return;
+					timerTime = time.ReadSec();
+					if ((timerTime > 0.15f) || (loadInSecondPlane && timerTime > 0.016f))
+					{
+						return;
+					}
+					n = 0;
 				}
 			}
 			x = 0;

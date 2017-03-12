@@ -81,6 +81,7 @@ private:
 	std::vector<int> terrainSize;
 
 	bool loadingTerrain = false;
+	bool loadInSecondPlane = false;
 	int x = 0;
 	int z = 0;
 #pragma endregion
