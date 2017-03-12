@@ -42,7 +42,8 @@ public:
 private:
 	void CreateCar();
 	void UpdateGO();
-	void JoystickControls();
+	void JoystickControls(float* accel, float* brake, bool* turning);
+	void KeyboardControls(float* accel, float* brake, bool* turning);
 
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
@@ -50,6 +51,7 @@ private:
 	//Controls methods (to use in different parts)
 	void Brake(float* accel, float* brake);
 	bool Turn(bool* left_turn, bool left);
+	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
 
 
@@ -84,6 +86,8 @@ public:
 	float accel_force = 1000.0f;
 	float brake_force = 20.0f;
 	float back_force = 500.0f;
+
+	bool acrobatics = false;
 
 	//update variables
 	float turn_current = 0.0f;
