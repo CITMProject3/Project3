@@ -100,7 +100,9 @@ public:
 	float accel_force = 1000.0f;
 
 	//Push
-	float push_force = 1000.0f;
+	float push_force = 10000.0f;
+	float push_speed_per = 60.0f;
+
 
 	//Brake
 	float brake_force = 20.0f;

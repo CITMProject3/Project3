@@ -130,6 +130,14 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::SameLine();
 				if (ImGui::DragFloat("##Brake_force", &brake_force, 1.0f, 0.0f, 1000.0f)) {}
 
+				ImGui::Text("Push force");
+				ImGui::SameLine();
+				if (ImGui::DragFloat("##push_force", &push_force, 10.0f, 0.0f)) {}
+
+				ImGui::Text("Push speed limit");
+				ImGui::SameLine();
+				if (ImGui::DragFloat("##push_sp", &push_speed_per, 1.0f, 0.0f, 100.0f)) {}
+
 				ImGui::Text("Kick force");
 				ImGui::SameLine();
 				if (ImGui::DragFloat("##Kick_force", &force, 1.0f, 0.0f, floatMax)) {}
@@ -259,10 +267,10 @@ void ComponentCar::HandlePlayerInput()
 	
 
 	
-
+	KeyboardControls(&accel, &brake, &turning);
 
 	//Drifting
-	vehicle->SetFriction(50);
+	/*vehicle->SetFriction(50);
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 	{
 		if (drift_no_phys == true)
@@ -330,9 +338,9 @@ void ComponentCar::HandlePlayerInput()
 		turn_current = 0;
 		vehicle->SetFriction(car->frictionSlip);
 		//vehicle->SetLinearSpeed(0, 0, 0);
-	}
+	}*/
 	//---------------------------------------------------------------
-	KeyboardControls(&accel, &brake, &turning);
+	
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
 	if (App->input->GetNumberJoysticks() > 0)
@@ -389,10 +397,8 @@ void ComponentCar::HandlePlayerInput()
 
 	if (vehicle)
 	{
-		
-
+	
 		//Doing this so it doesn't stop from braking
-
 		vehicle->Turn(turn_current);
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
@@ -548,8 +554,10 @@ void ComponentCar::Accelerate(float* accel)
 bool ComponentCar::Push(float* accel)
 {
 	bool ret = false;
-
-	*accel += push_force;
+	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
+	{
+		*accel += push_force;
+	}
 
 	return ret;
 }
