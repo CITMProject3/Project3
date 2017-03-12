@@ -16,11 +16,11 @@ public:
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
 
-	void ObtainScriptNames(std::vector<std::string> &script_names);
+	void ObtainScripts(std::vector<ClassInfo*> &scripts);
 
 private:
 	
-	MonoScripts mono_scripts; // Create CLEANUP!!!
+	MonoScripts mono_scripts;
 };
 
 #endif // !__MOUDLESCRIPTING_H__

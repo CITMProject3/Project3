@@ -92,9 +92,9 @@ bool ModuleScripting::CleanUp()
 void ModuleScripting::SaveBeforeClosing(Data &data) const
 { }
 
-void ModuleScripting::ObtainScriptNames(std::vector<std::string> &script_names)
+void ModuleScripting::ObtainScripts(std::vector<ClassInfo*> &scripts)
 {
-	mono_scripts.GetClassNames(script_names);
+	mono_scripts.GetScripts(scripts);
 }
 
 
