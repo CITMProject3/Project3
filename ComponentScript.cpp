@@ -52,14 +52,14 @@ void ComponentScript::OnInspector(bool debug)
 		ImGui::Text("Script: ");
 		ImGui::SameLine();
 
-		std::vector<ClassInfo*> scripts;
-		App->scripting->ObtainScripts(scripts);
+		std::vector<std::string> script_names;
+		App->scripting->ObtainScriptNames(script_names);
 
 		if (ImGui::BeginMenu(script_selected.c_str()))
 		{
-			for (std::vector<ClassInfo*>::iterator it = scripts.begin(); it != scripts.end(); ++it)
+			for (std::vector<std::string>::iterator it = script_names.begin(); it != script_names.end(); ++it)
 			{
-				if (ImGui::MenuItem((*it)->name.c_str()))
+				if (ImGui::MenuItem((*it).c_str()))
 				{
 					//// TODO: Maybe, the new event shares the same Soundbank...
 					//// Unloading unused Soundbank.

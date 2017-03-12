@@ -184,6 +184,7 @@
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleScripting.h" />
+    <ClInclude Include="MonoScripts.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAudio.h" />
@@ -342,6 +343,7 @@
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleScripting.cpp" />
+    <ClCompile Include="MonoScripts.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAudio.cpp" />
