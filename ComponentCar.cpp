@@ -238,6 +238,8 @@ void ComponentCar::HandlePlayerInput()
 	bool turning = false;
 	float extra_force = 1000.0f;
 
+	float backwards_force = 1000.0f;
+
 	accel = brake = 0.0f;
 
 	// DEBUG CONTROLS  ///////////////////////////////////////////////////////////////////////////////
@@ -283,7 +285,11 @@ void ComponentCar::HandlePlayerInput()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		brake = brakeForce;
+		if (vehicle->GetKmh()<= 0)
+			accel = -backwards_force;
+
+		else
+			brake = brakeForce;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
