@@ -129,7 +129,7 @@ void ComponentCar::OnInspector(bool debug)
 
 				ImGui::Text("Brake force");
 				ImGui::SameLine();
-				if (ImGui::DragFloat("##Brake_force", &brakeForce, 1.0f, 0.0f, 1000.0f)) {}
+				if (ImGui::DragFloat("##Brake_force", &brake_force, 1.0f, 0.0f, 1000.0f)) {}
 
 				ImGui::Text("Kick force");
 				ImGui::SameLine();
@@ -236,9 +236,8 @@ void ComponentCar::HandlePlayerInput()
 
 	float accel, brake;
 	bool turning = false;
-	float extra_force = 1000.0f;
+	
 
-	float backwards_force = 1000.0f;
 
 	accel = brake = 0.0f;
 
@@ -265,43 +264,27 @@ void ComponentCar::HandlePlayerInput()
 	accel = force;
 	}
 	*/
+	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	{
+		Accelerate(&accel);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
 	{
-		turning = true;
-		turning_left = false;
-		turn_current -= turn_speed;
-		if (turn_current < -turn_max)
-			turn_current = -turn_max;
-
+		turning = Turn(&turning_left, false);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
 	{
-		turning = true;
-		turning_left = true;
-
-		turn_current += turn_speed;
-		if (turn_current > turn_max)
-			turn_current = turn_max;
+		turning = Turn(&turning_left, true);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
 	{
-		if (vehicle->GetKmh()<= 0)
-			accel = -backwards_force;
-
-		else
-			brake = brakeForce;
+		Brake(&accel, &brake);
 	}
-
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		Reset();
 	}
 
-	//fOR DEBUG FOR NOW
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		accel += extra_force;
-	}
 
 	vehicle->SetFriction(50);
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
@@ -388,7 +371,7 @@ void ComponentCar::HandlePlayerInput()
 		//Brake
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::B))
 		{
-			brake = brakeForce;
+			brake = brake_force;
 		}
 		//Turn
 		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
@@ -470,6 +453,48 @@ void ComponentCar::JoystickControls()
 	}
 }
 
+// CONTROLS-----------------------------
+bool ComponentCar::Turn(bool* left_turn, bool left)
+{
+	bool ret = true;
+	float t_speed = turn_speed;
+
+	if (left)
+	{
+		*left_turn = true;
+	}
+	else
+	{
+		*left_turn = false;
+		t_speed = -t_speed;
+	}
+
+	turn_current += t_speed;
+
+	if (turn_current > turn_max)
+		turn_current = turn_max;
+
+	else if(turn_current < -turn_max)
+		turn_current = -turn_max;
+
+	return true;
+}
+
+void ComponentCar::Brake(float* accel, float* brake)
+{
+	if (vehicle->GetKmh() <= 0)
+		*accel = -back_force;
+
+	else
+		*brake = brake_force;
+}
+
+void ComponentCar::Accelerate(float* accel)
+{
+	*accel += accel_force;
+}
+
+//--------------------------------------
 void ComponentCar::GameLoopCheck()
 {
 	if (((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetPosition().y <= lose_height)
@@ -642,7 +667,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("turn_max", turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
 	data.AppendFloat("force", force);
-	data.AppendFloat("brakeForce", brakeForce);
+	data.AppendFloat("brakeForce", brake_force);
 
 	data.AppendFloat("mass", car->mass);
 	data.AppendFloat("suspensionStiffness", car->suspensionStiffness);
@@ -680,7 +705,7 @@ void ComponentCar::Load(Data& conf)
 	turn_max = conf.GetFloat("turn_max");
 	turn_speed = conf.GetFloat("turn_speed");
 	force = conf.GetFloat("force");
-	brakeForce = conf.GetFloat("brakeForce");
+	brake_force = conf.GetFloat("brakeForce");
 
 	car->mass = conf.GetFloat("mass");
 	car->suspensionStiffness = conf.GetFloat("suspensionStiffness");

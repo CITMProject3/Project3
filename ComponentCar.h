@@ -47,6 +47,11 @@ private:
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
 
+	//Controls methods (to use in different parts)
+	void Brake(float* accel, float* brake);
+	bool Turn(bool* left_turn, bool left);
+	void Accelerate(float* accel);
+
 
 public:
 	float3 chasis_size;
@@ -76,7 +81,9 @@ public:
 
 
 	float force = 1000.0f;
-	float brakeForce = 20.0f;
+	float accel_force = 1000.0f;
+	float brake_force = 20.0f;
+	float back_force = 500.0f;
 
 	//update variables
 	float turn_current = 0.0f;
