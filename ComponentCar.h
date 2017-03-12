@@ -17,6 +17,9 @@ enum PLAYER
 };
 class ComponentCar : public Component
 {
+	//
+	//METHODS---------------------------------------------------------------------------------------------------------------------------
+	//
 public:
 
 	//
@@ -53,8 +56,12 @@ private:
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
+	void IdleTurn();
 
-
+	//----------------------------------------------------------------------------------------------------------------------------------------
+	//
+	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
+	//
 public:
 	float3 chasis_size;
 	float3 chasis_offset;
@@ -67,35 +74,58 @@ private:
 	float kickTimer = 0.0f;
 public:
 
-	float drift_ratio = 0.5f;
-	float drift_mult = 1.0f;
-	float drift_boost = 1.0f;
-
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
 	float wheel_width = 0.2f;
 	float suspensionRestLength = 0.3f;
 
+	//Game Setting (Previous configuration) ----------------------------------------------------------------
+
+	//Game Car settings ---------
+	float max_velocity = 80.0f;
+
+	//Car mechanics settings --------
+
+	//Drifting
+	float drift_ratio = 0.5f;
+	float drift_mult = 1.0f;
+	float drift_boost = 1.0f;
+
+	//Turn direction
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
 
-	float max_velocity = 80.0f;
-
-
-	float force = 1000.0f;
+	//Acceleration
 	float accel_force = 1000.0f;
+
+	//Brake
 	float brake_force = 20.0f;
 	float back_force = 500.0f;
 
-	bool acrobatics = false;
+	//Kick turbo
+	float force = 1000.0f;
 
-	//update variables
-	float turn_current = 0.0f;
-
-	//Game Loop variables
+	//Reset
 	float lose_height = 0.0f;
 	float3 reset_pos;
 	float3 reset_rot;
+
+	
+	//Update variables (change during game)----------------------------------------------------------------
+
+	//Car  general variables------
+
+	float velocity_current = 0.0f;
+
+	//Car mechanics variables --------
+
+	//Turn
+	float turn_current = 0.0f;
+
+	//Acrobatics
+	bool acrobatics = false;
+
+	
 
 	btVector3 startDriftSpeed;
 
@@ -108,6 +138,8 @@ public:
 	//2 Player configuration
 	PLAYER front_player;
 	PLAYER back_player;
+
+	//----------------------------------------------------------------------------------------------------------------------------------------
 };
 
 

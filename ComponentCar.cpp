@@ -257,30 +257,8 @@ void ComponentCar::HandlePlayerInput()
 	}
 	*/
 
-	//Front player
-	/*if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
-	{
-		Accelerate(&accel);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
-	{
-		turning = Turn(&turning_left, false);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
-	{
-		turning = Turn(&turning_left, true);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
-	{
-		Brake(&accel, &brake);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		Reset();
-	}*/
 	KeyboardControls(&accel, &brake, &turning);
 
-	//Back player
 
 	//Drifting
 	vehicle->SetFriction(50);
@@ -352,10 +330,10 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->SetFriction(car->frictionSlip);
 		//vehicle->SetLinearSpeed(0, 0, 0);
 	}
-	//
+	//---------------------------------------------------------------
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
-	if (App->input->GetNumberJoysticks() > 0)
+	/*if (App->input->GetNumberJoysticks() > 0)
 	{
 		//Kick to accelerate
 		if (kickTimer >= kickCooldown)
@@ -398,27 +376,14 @@ void ComponentCar::HandlePlayerInput()
 		{
 			Reset();
 		}
-	}
+	}*/
+
+	JoystickControls(&accel, &brake, &turning);
 
 
 	//---------------------
 	if (!turning)
-	{
-		if (turn_current > 0)
-		{
-			turn_current -= turn_speed;
-			if (turn_current < 0)
-				turn_current = 0;
-		}
-		else if (turn_current < 0)
-		{
-			turn_current += turn_speed;
-			if (turn_current > 0)
-				turn_current = 0;
-		}
-	}
-
-	
+		IdleTurn();
 
 	if (vehicle)
 	{
@@ -439,24 +404,37 @@ void ComponentCar::HandlePlayerInput()
 
 void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 {
-	bool acro_front, acro_left;
-	acro_front = acro_left = false;
+	bool acro_front, acro_back;
+	acro_front = acro_back = false;
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
 		//Insert here all the new mechanics
 		//Front player------------------
+		//Acceleration
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
 		{
 			Accelerate(accel);
 		}
+
+		//Brake/Backwards
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
 			Brake(accel, brake);
 		}
 		
+		//Direction
 		float x_joy_input = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
 		JoystickTurn(&turning_left, x_joy_input);
+
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
+		{
+			Turn(&turning_left, false);
+		}
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
+		{
+			Turn(&turning_left, true);
+		}
 
 		//Drifting
 	
@@ -481,6 +459,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 {
+	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
 		Accelerate(accel);
@@ -501,6 +480,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Reset();
 	}
+
+	//Back player
 }
 
 // CONTROLS-----------------------------
@@ -556,6 +537,21 @@ void ComponentCar::Accelerate(float* accel)
 	*accel += accel_force;
 }
 
+void ComponentCar::IdleTurn()
+{
+	if (turn_current > 0)
+	{
+		turn_current -= turn_speed;
+		if (turn_current < 0)
+			turn_current = 0;
+	}
+	else if (turn_current < 0)
+	{
+		turn_current += turn_speed;
+		if (turn_current > 0)
+			turn_current = 0;
+	}
+}
 //--------------------------------------
 
 void ComponentCar::GameLoopCheck()
