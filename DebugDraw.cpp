@@ -11,16 +11,7 @@
 //#pragma comment (lib, "Glew/libx86/glew32.lib") 
 
 DebugDraw::DebugDraw(const char* name, bool start_enabled) : Module(name, start_enabled)
-{
-	red = float3(1, 0, 0);
-	blue;
-	green;
-	white;
-	black;
-	yellow;
-	orange;
-	pink;
-}
+{}
 
 DebugDraw::~DebugDraw()
 {
@@ -362,8 +353,9 @@ void DebugDraw::AddFrustum(const math::Frustum & frustum, float fake_far_dst, ma
 
 void DebugDraw::Draw()
 {
+	
 	std::list<DebugPrimitive*>::iterator item = draw_list.begin();
-
+	glDisable(GL_LIGHTING);
 	for (item; item != draw_list.end(); item++)
 	{
 		glColor3f((*item)->color.x, (*item)->color.y, (*item)->color.z);
