@@ -240,11 +240,12 @@ void ComponentCar::HandlePlayerInput()
 	accel = brake = 0.0f;
 
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
-	/*
+	
+	//Previous kick turbo (now usedd to test how tiles would work)
 	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
 	if (kickTimer >= kickCooldown)
 	{
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
 	//accel = force;
 	on_kick = true;
@@ -255,7 +256,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 	accel = force;
 	}
-	*/
+	
 
 	KeyboardControls(&accel, &brake, &turning);
 
