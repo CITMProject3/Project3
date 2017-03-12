@@ -50,7 +50,6 @@ void ComponentCar::Update()
 			HandlePlayerInput();
 			vehicle->Render();
 			UpdateGO();
-			//LimitSpeed();
 			GameLoopCheck();
 
 		}
@@ -252,13 +251,14 @@ void ComponentCar::HandlePlayerInput()
 	kickTimer = 0.0f;
 	}
 	}
+
 	if (on_kick && kickTimer < kick_force_time)
 	{
 	accel = force;
 	}
 	
 
-	KeyboardControls(&accel, &brake, &turning);
+	
 
 
 	//Drifting
@@ -332,9 +332,10 @@ void ComponentCar::HandlePlayerInput()
 		//vehicle->SetLinearSpeed(0, 0, 0);
 	}
 	//---------------------------------------------------------------
+	KeyboardControls(&accel, &brake, &turning);
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
-	/*if (App->input->GetNumberJoysticks() > 0)
+	if (App->input->GetNumberJoysticks() > 0)
 	{
 		//Kick to accelerate
 		if (kickTimer >= kickCooldown)
@@ -377,7 +378,7 @@ void ComponentCar::HandlePlayerInput()
 		{
 			Reset();
 		}
-	}*/
+	}
 
 	JoystickControls(&accel, &brake, &turning);
 
@@ -388,14 +389,16 @@ void ComponentCar::HandlePlayerInput()
 
 	if (vehicle)
 	{
-		vehicle->ApplyEngineForce(accel);
+		
 
 		//Doing this so it doesn't stop from braking
-		if(accel != 0)
-			LimitSpeed();
 
 		vehicle->Turn(turn_current);
+		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
+
+		if (accel != 0)
+			LimitSpeed();
 	}
 
 	
@@ -483,6 +486,10 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	}
 
 	//Back player
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	{
+		Push(accel);
+	}
 }
 
 // CONTROLS-----------------------------
@@ -536,6 +543,15 @@ void ComponentCar::Brake(float* accel, float* brake)
 void ComponentCar::Accelerate(float* accel)
 {
 	*accel += accel_force;
+}
+
+bool ComponentCar::Push(float* accel)
+{
+	bool ret = false;
+
+	*accel += push_force;
+
+	return ret;
 }
 
 void ComponentCar::IdleTurn()

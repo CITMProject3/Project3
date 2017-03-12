@@ -56,6 +56,7 @@ private:
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
+	bool Push(float* accel);
 	void IdleTurn();
 
 	//----------------------------------------------------------------------------------------------------------------------------------------
@@ -97,6 +98,9 @@ public:
 
 	//Acceleration
 	float accel_force = 1000.0f;
+
+	//Push
+	float push_force = 1000.0f;
 
 	//Brake
 	float brake_force = 20.0f;
