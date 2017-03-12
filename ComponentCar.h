@@ -57,6 +57,7 @@ private:
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
 	bool Push(float* accel);
+	void Leaning();
 	void IdleTurn();
 
 	//----------------------------------------------------------------------------------------------------------------------------------------
@@ -103,6 +104,11 @@ public:
 	float push_force = 10000.0f;
 	float push_speed_per = 60.0f;
 
+	//Leaning
+	float lean_top_sp = 25.0f;
+	float lean_top_acc = 25.0f;
+	float lean_red_turn = 25.0f;
+
 
 	//Brake
 	float brake_force = 20.0f;
@@ -124,9 +130,21 @@ public:
 	float velocity_current = 0.0f;
 
 	//Car mechanics variables --------
+	
+
+	//Boosts
+	float accel_boost = 0.0f;
+	float speed_boost = 0.0f;
+	float turn_boost = 0.0f;
+
+	//Acceleration
+	float accel = 0.0f;
 
 	//Turn
 	float turn_current = 0.0f;
+
+	//Leaning
+	
 
 	//Acrobatics
 	bool acrobatics = false;

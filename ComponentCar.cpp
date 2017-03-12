@@ -86,7 +86,19 @@ void ComponentCar::OnInspector(bool debug)
 		{
 			if (ImGui::TreeNode("Read Stats"))
 			{
-				ImGui::Text("Velocity (Km/h): %f", vehicle->GetKmh());
+				ImGui::Text("Current velocity (Km/h): %f", vehicle->GetKmh());
+				ImGui::Text("Velocity boost (%): %f", speed_boost);
+				ImGui::Text("");
+
+				ImGui::Text("Current engine force : %f", accel);
+				ImGui::Text("Engine force boost (%): %f", accel_boost);
+				ImGui::Text("");
+
+				ImGui::Text("Current turn: %f", turn_current);
+				ImGui::Text("Turn boost (%): %f", turn_boost);
+				ImGui::Text("");
+
+				
 				ImGui::TreePop();
 			}
 		}
@@ -241,15 +253,17 @@ void ComponentCar::OnInspector(bool debug)
 void ComponentCar::HandlePlayerInput()
 {
 
-	float accel, brake;
+	float brake;
 	bool turning = false;
+
+	accel_boost = speed_boost = turn_boost = 0.0f;
 	
 	accel = brake = 0.0f;
 
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	
 	//Previous kick turbo (now usedd to test how tiles would work)
-	if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
+	/*if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
 	if (kickTimer >= kickCooldown)
 	{
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
@@ -263,7 +277,7 @@ void ComponentCar::HandlePlayerInput()
 	if (on_kick && kickTimer < kick_force_time)
 	{
 	accel = force;
-	}
+	}*/
 	
 
 	
@@ -389,15 +403,13 @@ void ComponentCar::HandlePlayerInput()
 	}
 
 	JoystickControls(&accel, &brake, &turning);
-
-
 	//---------------------
 	if (!turning)
 		IdleTurn();
 
 	if (vehicle)
-	{
-	
+	{ 
+		accel += accel_boost;
 		//Doing this so it doesn't stop from braking
 		vehicle->Turn(turn_current);
 		vehicle->ApplyEngineForce(accel);
@@ -406,10 +418,6 @@ void ComponentCar::HandlePlayerInput()
 		if (accel != 0)
 			LimitSpeed();
 	}
-
-	
-
-
 }
 
 void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
@@ -469,6 +477,16 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 {
+	//Back player
+	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
+	{
+		Push(accel);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
+	{
+		Leaning();
+	}
+
 	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
@@ -491,11 +509,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		Reset();
 	}
 
-	//Back player
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
-	{
-		Push(accel);
-	}
+	
 }
 
 // CONTROLS-----------------------------
@@ -503,6 +517,8 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 {
 	bool ret = true;
 	float t_speed = turn_speed;
+
+	float top_turn = turn_max + turn_boost;
 
 	if (left)
 	{
@@ -516,11 +532,11 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 	turn_current += t_speed;
 
-	if (turn_current > turn_max)
-		turn_current = turn_max;
+	if (turn_current > top_turn)
+		turn_current = top_turn;
 
-	else if(turn_current < -turn_max)
-		turn_current = -turn_max;
+	else if(turn_current < -top_turn)
+		turn_current = -top_turn;
 
 	return true;
 }
@@ -562,6 +578,13 @@ bool ComponentCar::Push(float* accel)
 	return ret;
 }
 
+void ComponentCar::Leaning()
+{
+	accel_boost += ((accel_force/100)*lean_top_acc);
+	speed_boost += ((max_velocity/100)*lean_top_sp);
+	turn_boost -= ((turn_max / 100)*lean_red_turn);
+}
+
 void ComponentCar::IdleTurn()
 {
 	if (turn_current > 0)
@@ -598,9 +621,10 @@ void ComponentCar::LimitSpeed()
 {
 	if (vehicle)
 	{
-		if (vehicle->GetKmh() > max_velocity)
+		float top_velocity = (max_velocity + speed_boost);
+		if (vehicle->GetKmh() > top_velocity)
 		{
-			vehicle->SetModularSpeed(max_velocity * 0.3);
+			vehicle->SetModularSpeed(top_velocity * 0.3);
 		}
 	}
 }
