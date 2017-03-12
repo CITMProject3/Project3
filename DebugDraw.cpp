@@ -25,6 +25,7 @@ bool DebugDraw::Start()
 	CreateBaseCube();
 	CreateBaseCross();
 	CreateBaseRect();
+	CreateBaseArrow();
 
 	return true;
 }
@@ -227,6 +228,40 @@ void DebugDraw::CreateBaseRect()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * num_indices_rect, indices, GL_STATIC_DRAW);
 }
 
+void DebugDraw::CreateBaseArrow()
+{
+	//  1
+	//2 | 3
+	//  |
+	//  0 
+
+	GLfloat vertices[]
+	{
+		0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		-0.2f, 0.8f, 0.0f,
+		0.2f, 0.8f, 0.0f
+
+	};
+
+	GLuint indices[]
+	{
+		0, 1,
+		1, 2,
+		1, 3,
+	};
+
+	num_indices_arrow = 6;
+
+	glGenBuffers(1, (GLuint*)&id_vertices_arrow);
+	glBindBuffer(GL_ARRAY_BUFFER, id_vertices_arrow);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 3 * 4, vertices, GL_STATIC_DRAW);
+
+	glGenBuffers(1, (GLuint*)&id_indices_arrow);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, id_indices_arrow);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * num_indices_arrow, indices, GL_STATIC_DRAW);
+}
+
 void DebugDraw::AddCross(const float3 & point, math::float3 color, float size, float line_width, float duration, bool depth_enabled)
 {
 	DebugPrimitive* d_prim = new DebugPrimitive();
@@ -349,6 +384,52 @@ void DebugDraw::AddFrustum(const math::Frustum & frustum, float fake_far_dst, ma
 	AddLine(corners[3], far_vec7, color, line_width, duration, depth_enabled);
 	AddLine(corners[2], far_vec6, color, line_width, duration, depth_enabled);
 	
+}
+
+void DebugDraw::AddArrow2(const math::float3 & from_position, const math::float3& to_position, math::float3 color, float line_width, float duration, bool depth_enabled)
+{
+	DebugPrimitive* d_prim = new DebugPrimitive();
+
+	FillCommonPrimitiveValues(d_prim, color, line_width, duration, depth_enabled, id_vertices_arrow, id_indices_arrow, num_indices_arrow);
+
+	math::vec vec1 = math::float3(0, 1, 0);
+	math::vec vec2 = to_position - from_position;
+
+	float length = vec2.Length();
+
+	math::Quat rot = rot.RotateFromTo(vec1.Normalized(), vec2.Normalized());
+
+	if (rot.Equals(math::Quat(1, 0, 0, 0))) //Same direction
+		if (vec2.y > 0)
+			rot = math::Quat::identity; //Facing Up
+		else
+			rot = math::Quat::RotateX(math::pi); //Facing Down
+
+	d_prim->global_matrix = d_prim->global_matrix.FromTRS(from_position, rot, math::float3(1, length, 1));
+
+	draw_list.push_back(d_prim);
+}
+
+void DebugDraw::AddArrow(const math::float3 & origin, const math::float3& direction, math::float3 color, float line_width, float duration, bool depth_enabled)
+{
+	DebugPrimitive* d_prim = new DebugPrimitive();
+
+	FillCommonPrimitiveValues(d_prim, color, line_width, duration, depth_enabled, id_vertices_arrow, id_indices_arrow, num_indices_arrow);
+
+	math::vec vec1 = math::float3(0, 1, 0);
+	math::vec vec2 = direction.Normalized();
+
+	math::Quat rot = rot.RotateFromTo(vec1.Normalized(), vec2.Normalized());
+
+	if (rot.Equals(math::Quat(1, 0, 0, 0))) //Same direction
+		if (vec2.y > 0)
+			rot = math::Quat::identity; //Facing Up
+		else
+			rot = math::Quat::RotateX(math::pi); //Facing Down
+
+	d_prim->global_matrix = d_prim->global_matrix.FromTRS(origin, rot, math::float3(1, 1, 1));
+
+	draw_list.push_back(d_prim);
 }
 
 void DebugDraw::Draw()

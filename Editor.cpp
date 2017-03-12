@@ -243,7 +243,7 @@ update_status Editor::Update()
 		grid.axis = true;
 		grid.Render();
 	}
-
+	
 	HandleInput();
 
 	//Handle Quit event
