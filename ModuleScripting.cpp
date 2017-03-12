@@ -99,12 +99,30 @@ bool ModuleScripting::Start()
 
 bool ModuleScripting::CleanUp()
 {
+	// Freeing script collection
+	for (std::vector<ClassInfo*>::iterator it_class = script_collection.begin(); it_class != script_collection.end(); ++it_class)
+	{
+		for (std::vector<MethodInfo*>::iterator it_method = (*it_class)->methods.begin(); it_method != (*it_class)->methods.end(); ++it_method)
+			delete (*it_method);
+
+		for (std::vector<FieldInfo*>::iterator it_field = (*it_class)->fields.begin(); it_field != (*it_class)->fields.end(); ++it_field)
+			delete (*it_field);
+
+		delete (*it_class);
+	}
+
 	TerminateMonoLibrary();
 	return true;
 }
 
 void ModuleScripting::SaveBeforeClosing(Data &data) const
 { }
+
+void ModuleScripting::ObtainScripts(std::vector<ClassInfo*> &scripts) const
+{
+	for (std::vector<ClassInfo*>::const_iterator it_cl = script_collection.begin(); it_cl != script_collection.end(); ++it_cl)
+		scripts.push_back(*it_cl);
+}
 
 void ModuleScripting::InitMonoLibrary()
 {
@@ -124,17 +142,6 @@ void ModuleScripting::InitMonoLibrary()
 
 void ModuleScripting::TerminateMonoLibrary()
 {
-	// Freeing script collection
-	for (std::vector<ClassInfo*>::iterator it_class = script_collection.begin(); it_class != script_collection.end(); ++it_class)
-	{
-		for (std::vector<MethodInfo*>::iterator it_method = (*it_class)->methods.begin(); it_method != (*it_class)->methods.end(); ++it_method)
-		{
-			delete (*it_method);
-		}
-
-		delete (*it_class);
-	}
-
 	//shutdown mono
 	if(mono_domain)	mono_jit_cleanup(mono_domain);
 }
@@ -160,36 +167,39 @@ void ModuleScripting::LoadClasses(MonoImage *mono_image)
 		class_info->name = mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAME]);
 		MonoClass* mono_class = mono_class_from_name(mono_image, "GameScripts", class_info->name.c_str());		
 		
+		// Getting methods information
 		void *iter = nullptr;
 		MonoMethod *method;
 
 		while (method = mono_class_get_methods(mono_class, &iter))
 		{
 			MethodInfo *method_info = new MethodInfo();
+			MonoMethodSignature* sig = mono_method_signature(method);
+
+			MonoType* type; 
+			void *iter2 = nullptr;
+			while (type = mono_signature_get_params(sig, &iter2))
+			{
+				method_info->types.push_back(type);
+			}
+
 			class_info->methods.push_back(method_info);
-			method_info->name = mono_method_get_name(method);
+			method_info->name = mono_method_get_name(method);			
+		}
+
+		// Getting fields information
+		iter = nullptr;
+		MonoClassField *field;
+
+		while (field = mono_class_get_fields(mono_class, &iter))
+		{
+			FieldInfo *field_info = new FieldInfo();
+			class_info->fields.push_back(field_info);
+			field_info->name = mono_field_get_name(field);
+			const char *type = mono_type_get_name(mono_field_get_type(field));
+			int j = 0;
 		}
 
 		script_collection.push_back(class_info);
-		
-
-		/*while (field)
-		{
-			field = mono_class_get_fields(entityClass, &iter);
-			
-		}*/
-
-		////LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_FLAGS]));
-		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAME]));
-		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_NAMESPACE]));
-		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_EXTENDS]));
-		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_FIELD_LIST]));
-		//LOG("%s", mono_metadata_string_heap(mono_image, cols[MONO_TYPEDEF_METHOD_LIST]));
-		//LOG("%d", cols[MONO_TYPEDEF_FLAGS]);
-		//LOG("%d", cols[MONO_TYPEDEF_NAME]);
-		//LOG("%d", cols[MONO_TYPEDEF_NAMESPACE]);
-		//LOG("%d", cols[MONO_TYPEDEF_EXTENDS]);
-		//LOG("%d", cols[MONO_TYPEDEF_FIELD_LIST]);
-		//LOG("%d", cols[MONO_TYPEDEF_METHOD_LIST]);
 	}
 }

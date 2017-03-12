@@ -168,7 +168,6 @@ long unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 
 void ModuleAudio::ObtainEvents(std::vector<AudioEvent*> &events)
 {
-	// Deleting soundbank information
 	for (std::vector<SoundBank*>::iterator it_sb = soundbank_list.begin(); it_sb != soundbank_list.end(); ++it_sb)
 	{
 		for (std::vector<AudioEvent*>::iterator it_ev = (*it_sb)->events.begin(); it_ev != (*it_sb)->events.end(); ++it_ev)

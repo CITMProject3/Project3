@@ -3,6 +3,10 @@
 
 #include "Component.h"
 
+#include <string>
+
+struct ClassInfo;
+
 class ComponentScript : public Component
 {
 public:
@@ -19,6 +23,9 @@ public:
 	void Load(Data& conf);
 
 private:
+
+	ClassInfo *current_script = nullptr;
+	std::string script_selected;
 	
 };
 #endif // !__COMPONENT_SCRIPT_H__

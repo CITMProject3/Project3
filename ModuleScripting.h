@@ -4,15 +4,24 @@
 #include "Module.h"
 
 struct MethodInfo;
+struct FieldInfo;
+typedef struct _MonoType MonoType;
 
 // Structures to save all related Class info: That includes its methods and attributes (fields)
 struct ClassInfo
 {
 	std::string name;
 	std::vector<MethodInfo*> methods;
+	std::vector<FieldInfo*> fields;
 };
 
 struct MethodInfo
+{
+	std::string name;
+	std::vector<MonoType*> types;
+};
+
+struct FieldInfo
 {
 	std::string name;
 };
@@ -31,6 +40,8 @@ public:
 
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
+
+	void ObtainScripts(std::vector<ClassInfo*> &scripts) const;
 
 private:
 	

@@ -1,5 +1,8 @@
 #include "ComponentScript.h"
 
+#include "Application.h"
+#include "ModuleScripting.h"
+
 #include <string>
 #include "imgui\imgui.h"
 
@@ -42,6 +45,36 @@ void ComponentScript::OnInspector(bool debug)
 		if (ImGui::Checkbox("###activeScript", &is_active))
 		{
 			SetActive(is_active);
+		}
+
+
+		// Event selection
+		ImGui::Text("Script: ");
+		ImGui::SameLine();
+
+		std::vector<ClassInfo*> scripts;
+		App->scripting->ObtainScripts(scripts);
+
+		if (ImGui::BeginMenu(script_selected.c_str()))
+		{
+			for (std::vector<ClassInfo*>::iterator it = scripts.begin(); it != scripts.end(); ++it)
+			{
+				if (ImGui::MenuItem((*it)->name.c_str()))
+				{
+					//// TODO: Maybe, the new event shares the same Soundbank...
+					//// Unloading unused Soundbank.
+					//if (current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
+					//// Loading new bank: first Init bank if it has been not loaded and then, the other one
+					//if (!App->audio->IsInitSoundbankLoaded())
+					//	if (App->resource_manager->LoadResource(App->audio->GetInitLibrarySoundbankPath(), ResourceFileType::RES_SOUNDBANK) != nullptr)  // Init SB
+					//		App->audio->InitSoundbankLoaded();
+					//rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
+
+					//event_selected = (*it)->name; // Name to show on Inspector
+					//current_event = *it;		  // Variable that handles the new event
+				}
+			}
+			ImGui::EndMenu();
 		}
 	}
 }
