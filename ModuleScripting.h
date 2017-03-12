@@ -17,6 +17,7 @@ public:
 	void SaveBeforeClosing(Data& data)const;
 
 	void ObtainScripts(std::vector<ClassInfo*> &scripts);
+	bool LoadScript(const ClassInfo* script_to_load);
 
 private:
 	

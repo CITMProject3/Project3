@@ -70,8 +70,11 @@ void ComponentScript::OnInspector(bool debug)
 					//		App->audio->InitSoundbankLoaded();
 					//rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
 
-					//event_selected = (*it)->name; // Name to show on Inspector
-					//current_event = *it;		  // Variable that handles the new event
+					// Loading Script...
+					App->scripting->LoadScript((*it));
+
+					script_selected = (*it)->GetName(); // Name to show on Inspector
+					current_script = *it;		  // Variable that handles the new event
 				}
 			}
 			ImGui::EndMenu();

@@ -8,12 +8,16 @@ namespace GameScripts
 {
     public class Test
     {
-        public int age = 42;
-        private float height = 1.70f;
+        public int age;
+        private float height;
         private String name;
 
-        public Test(String name)
-        { }
+        public Test()
+        {
+            age = 29;
+            height = 1.71f;
+            name = "Carlos";
+        }
 
         ~Test()
         { }
