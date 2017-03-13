@@ -103,10 +103,8 @@ void ComponentScript::ShowVariable(const FieldInfo *var) const
 		case(MonoDataType::MONO_DATA_TYPE_INT32):
 		case(MonoDataType::MONO_DATA_TYPE_INT64):
 		{
-			/*var->GetValue();
-			ImGui::LabelText(var->GetName(), "%s");
-			ImGui::SameLine();
-			ImGui::DragInt("", &value);*/
+			int value = 0; var->GetValue(&value);
+			ImGui::DragInt(var->GetName(), &value);
 			break;
 		}
 	}
