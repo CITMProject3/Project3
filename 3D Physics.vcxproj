@@ -443,11 +443,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
     </Xsd>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="ScriptingProject\ScriptingProject.vcxproj">
-      <Project>{d7015f34-fc91-480b-bb3d-4b471d5e0eb9}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
