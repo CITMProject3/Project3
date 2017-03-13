@@ -561,6 +561,9 @@
     <ClInclude Include="Wwise_Library.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
+    <ClInclude Include="BtTriProcessor.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -931,6 +934,9 @@
     </ClCompile>
     <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BtTriProcessor.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

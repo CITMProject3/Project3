@@ -82,6 +82,7 @@ private:
 	void EditMenu();
 	void DebugMenu();
 	void GameObjectMenu();
+	void PhysicsMenu();
 
 	bool QuitWindow();
 	void OnSaveCall();

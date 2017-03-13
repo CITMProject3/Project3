@@ -185,7 +185,7 @@ void ComponentMaterial::Load(Data & conf)
 			if (rc_tmp)
 			{
 				tex_resources.push_back(rc_tmp);
-				texture_ids.insert(pair<string, uint>("", rc_tmp->GetTexture()));
+				texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
 				list_textures_paths.push_back(tex_path);
 			}
 			else
