@@ -480,6 +480,7 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
+	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -559,12 +560,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
 
-		/*string path = file_name;
-		int pos = path.find(".ezx");
-		path[pos + 1] = 't';
-		path[pos + 2] = 'r';
-		path[pos + 3] = 'r';
-		App->physics->LoadTerrain(path.data());*/
+		uint terrainUUID = scene.GetUInt("terrain_uuid");
+		App->physics->LoadTerrain(terrainUUID);
 		ret = true;
 	}
 	else

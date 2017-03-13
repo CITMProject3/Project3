@@ -54,8 +54,10 @@ private:
 	void ContinuousTerrainGeneration();
 	void RenderTerrain();
 public:
-	bool SaveTerrain(uint uuid = 0);
-	bool LoadTerrain(const char* path);
+	bool SaveTerrain();
+	bool LoadTerrain(uint uuid);
+
+	uint GetCurrentTerrainUUID();
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
@@ -87,6 +89,8 @@ private:
 	bool loadInSecondPlane = false;
 	int x = 0;
 	int z = 0;
+
+	uint currentTerrainUUID = 0;
 #pragma endregion
 public:
 	bool renderTerrain = false;

@@ -5,6 +5,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -333,6 +334,7 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
+	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);

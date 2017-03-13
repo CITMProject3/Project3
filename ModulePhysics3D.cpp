@@ -81,6 +81,8 @@ bool ModulePhysics3D::Start()
 
 	App->go_manager->layer_system->AddLayer(TERRAIN_LAYER, "Terrain");
 
+	App->file_system->GenerateDirectory("Library/Terrains");
+
 	//CreateGround();
 	return true;
 }
@@ -270,6 +272,7 @@ void ModulePhysics3D::DeleteTerrain()
 	{
 		delete terrainData;
 		terrainData = nullptr;
+		currentTerrainUUID = 0;
 		terrainSize[0] = terrainSize[1] = terrainSize[2] = 0;
 	}
 }
@@ -629,9 +632,14 @@ void ModulePhysics3D::RenderTerrain()
 	}
 }
 
-bool ModulePhysics3D::SaveTerrain(uint uuid)
+bool ModulePhysics3D::SaveTerrain()
 {
 	bool ret = true;
+
+	if (currentTerrainUUID == 0)
+	{
+		currentTerrainUUID = (uint)App->rnd->RandomInt();
+	}
 
 	float* buf = new float[terrainSize[0] * terrainSize[2] + 3];
 	float* it = buf;
@@ -645,19 +653,13 @@ bool ModulePhysics3D::SaveTerrain(uint uuid)
 	bytes = sizeof(float);
 	memcpy(it, terrainData, bytes * terrainSize[0] * terrainSize[2]);
 
-	string path = App->go_manager->GetCurrentScenePath();
-	if (path.length() <= 4)
-	{
-		path = "/Assets/Untitled.trr";
-	}
-	else
-	{
-		int pos = path.find(".ezx");
-		path[pos + 1] = 't';
-		path[pos + 2] = 'r';
-		path[pos + 3] = 'r';
-	}
+	string path = "Library/Terrains/";
+	char tmp[24];
+	sprintf(tmp, "%u", currentTerrainUUID);
+	path += tmp;
+	path += ".trr";
 
+	
 	if (App->file_system->Save(path.data(), buf, terrainSize[0] * terrainSize[2] + 3) <= 0)
 	{
 		ret = false;
@@ -668,15 +670,22 @@ bool ModulePhysics3D::SaveTerrain(uint uuid)
 	return ret;
 }
 
-bool ModulePhysics3D::LoadTerrain(const char* path)
+bool ModulePhysics3D::LoadTerrain(uint uuid)
 {
 	bool ret = false;
-	string tmp = path;
-	if (tmp.find(".trr") != tmp.npos)
+	if (uuid != 0)
 	{
+		currentTerrainUUID = uuid;
+
+		string path = "Library/Terrains/";
+		char tmp[24];
+		sprintf(tmp, "%u", uuid);
+		path += tmp;
+		path += ".trr";
+
 		char* buf = nullptr;
 		char* it = buf;
-		App->file_system->Load(path, &buf);
+		App->file_system->Load(path.data(), &buf);
 
 		if (buf != nullptr)
 		{
@@ -697,6 +706,11 @@ bool ModulePhysics3D::LoadTerrain(const char* path)
 		}
 	}
 	return ret;
+}
+
+uint ModulePhysics3D::GetCurrentTerrainUUID()
+{
+	return currentTerrainUUID;
 }
 
 

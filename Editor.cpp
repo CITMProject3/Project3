@@ -595,6 +595,10 @@ void Editor::PhysicsMenu()
 	{
 		App->physics->GenerateTerrain();
 	}
+	if (ImGui::MenuItem("Save Terrain"))
+	{
+		App->physics->SaveTerrain();
+	}
 	if (ImGui::MenuItem("Delete Terrain"))
 	{
 		App->physics->DeleteTerrain();
