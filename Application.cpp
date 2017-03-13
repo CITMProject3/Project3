@@ -36,10 +36,10 @@ Application::Application()
 	camera = new ModuleCamera3D("camera");
 	physics = new ModulePhysics3D("physics");
 	editor = new Editor("editor");
+	scripting = new ModuleScripting("scripting");
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
-	scripting = new ModuleScripting("scripting");
 
 	//Globals
 	g_Debug = new DebugDraw("debug_draw");

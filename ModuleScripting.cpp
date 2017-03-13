@@ -15,12 +15,12 @@ ModuleScripting::~ModuleScripting()
 
 bool ModuleScripting::Init(Data &config)
 {
+	LoadScriptsLibrary();
 	return true;
 }
 
 bool ModuleScripting::Start()
 {
-	LoadScriptsLibrary();
 	return true;
 }
 /*
@@ -59,6 +59,11 @@ DWORD ModuleScripting::GetError()
 
 void ModuleScripting::LoadScriptsLibrary()
 {
+	if (script)
+	{
+		FreeLibrary(script);
+	}
+
 	if ((script = LoadLibrary("Game")) == NULL)
 	{
 		last_error = GetLastError();

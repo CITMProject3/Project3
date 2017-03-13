@@ -5,7 +5,7 @@
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, const char* path) : Component(type, game_object)
 {
-	this->path = path;
+	SetPath(path);
 	started = false;
 	finded_start = false;
 	finded_update = false;
@@ -14,8 +14,6 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, co
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
-	path.clear();
-	path.resize(50);
 	started = false;
 	finded_start = false;
 	finded_update = false;
@@ -213,36 +211,40 @@ void ComponentScript::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	SetPath(conf.GetString("script_path"));
-	started = false;
 
-	if (!public_chars.empty())
+	if (started)
 	{
-		for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
+		if (!public_chars.empty())
 		{
-			(*it).second = conf.GetString((*it).first);
+			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
+			{
+				(*it).second = conf.GetString((*it).first);
+			}
+		}
+		if (!public_ints.empty())
+		{
+			for (map<const char*, int>::iterator it = public_ints.begin(); it != public_ints.end(); it++)
+			{
+				(*it).second = conf.GetInt((*it).first);
+			}
+		}
+		if (!public_floats.empty())
+		{
+			for (map<const char*, float>::iterator it = public_floats.begin(); it != public_floats.end(); it++)
+			{
+				(*it).second = conf.GetFloat((*it).first);
+			}
+		}
+		if (!public_bools.empty())
+		{
+			for (map<const char*, bool>::iterator it = public_bools.begin(); it != public_bools.end(); it++)
+			{
+				(*it).second = conf.GetBool((*it).first);
+			}
 		}
 	}
-	if (!public_ints.empty())
-	{
-		for (map<const char*, int>::iterator it = public_ints.begin(); it != public_ints.end(); it++)
-		{
-			(*it).second = conf.GetInt((*it).first);
-		}
-	}
-	if (!public_floats.empty())
-	{
-		for (map<const char*, float>::iterator it = public_floats.begin(); it != public_floats.end(); it++)
-		{
-			(*it).second = conf.GetFloat((*it).first);
-		}
-	}
-	if (!public_bools.empty())
-	{
-		for (map<const char*, bool>::iterator it = public_bools.begin(); it != public_bools.end(); it++)
-		{
-			(*it).second = conf.GetBool((*it).first);
-		}
-	}
+
+	started = false;
 }
 
 void ComponentScript::SetPath(const char * path)
