@@ -4,7 +4,6 @@
 #include "Component.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
-class btHeightfieldTerrainShape;
 class btConvexHullShape;
 class PhysBody3D;
 class Primitive;
@@ -14,8 +13,7 @@ enum Collider_Shapes
 	S_NONE = 0,
 	S_CUBE,
 	S_SPHERE,
-	S_CONVEX,
-	S_TERRAIN
+	S_CONVEX
 };
 
 
@@ -51,8 +49,5 @@ public:
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
-
-	btHeightfieldTerrainShape* terrain = nullptr;
-	int heightmap_buffer_id = -1;
 };
 #endif // !__COMPONENT_COLLIDER_H__
