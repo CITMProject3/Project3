@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace GameScripts
 {
-    public class Test
+    public class Entity
     {
         public int age;
-        private float height;
-        private String name;
+        //private float height;
+        //private String name;
 
-        public Test()
+        public Entity()
         {
             age = 29;
-            height = 1.71f;
-            name = "Carlos";
+            //height = 1.71f;
+            //name = "Carlos";
         }
 
-        ~Test()
+        ~Entity()
         { }
 
         public void Process()
@@ -27,10 +27,10 @@ namespace GameScripts
             throw new NotImplementedException("Not implemented yet");
         }
 
-        public String GetName()
-        {
-            return name;
-        }
+        //public String GetName()
+        //{
+        //    return name;
+        //}
 
         public void DoNothing()
         { }

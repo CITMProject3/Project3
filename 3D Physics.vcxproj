@@ -142,6 +142,7 @@
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AutoProfile.h" />
     <ClInclude Include="CameraWindow.h" />
+    <ClInclude Include="ClassInfo.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentAudio.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="FieldInfo.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="glmath.h" />
@@ -182,8 +184,10 @@
     <ClInclude Include="LinearAllocator.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
+    <ClInclude Include="MethodInfo.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleScripting.h" />
+    <ClInclude Include="MonoLibraries.h" />
     <ClInclude Include="MonoScripts.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
@@ -304,6 +308,7 @@
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
     <ClCompile Include="CameraWindow.cpp" />
+    <ClCompile Include="ClassInfo.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentAudio.cpp" />
@@ -320,6 +325,7 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="FieldInfo.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />
@@ -341,6 +347,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
+    <ClCompile Include="MethodInfo.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleScripting.cpp" />
     <ClCompile Include="MonoScripts.cpp" />

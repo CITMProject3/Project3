@@ -76,6 +76,9 @@
     <Filter Include="3rd Party Tools\Wwise">
       <UniqueIdentifier>{c480c1f0-4dec-461b-a473-70029f23408f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Scripting">
+      <UniqueIdentifier>{b438bb5b-1ab7-48d8-8116-312a83fedf5d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -570,6 +573,18 @@
     <ClInclude Include="MonoScripts.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="ClassInfo.h">
+      <Filter>Sources\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoLibraries.h">
+      <Filter>Sources\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="MethodInfo.h">
+      <Filter>Sources\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="FieldInfo.h">
+      <Filter>Sources\Scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -949,6 +964,15 @@
     </ClCompile>
     <ClCompile Include="MonoScripts.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ClassInfo.cpp">
+      <Filter>Sources\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="MethodInfo.cpp">
+      <Filter>Sources\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="FieldInfo.cpp">
+      <Filter>Sources\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,9 @@
 #define __MODULESCRIPTING_H__
 
 #include "Module.h"
-#include "MonoScripts.h"
+
+class MonoScripts;
+class ClassInfo;
 
 class ModuleScripting : public Module
 {
@@ -17,11 +19,11 @@ public:
 	void SaveBeforeClosing(Data& data)const;
 
 	void ObtainScripts(std::vector<ClassInfo*> &scripts);
-	bool LoadScript(const ClassInfo* script_to_load);
+	bool LoadScript(ClassInfo* script_to_load);
 
 private:
 	
-	MonoScripts mono_scripts;
+	MonoScripts *mono_scripts;
 };
 
 #endif // !__MOUDLESCRIPTING_H__

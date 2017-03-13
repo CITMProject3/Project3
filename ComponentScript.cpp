@@ -6,6 +6,10 @@
 #include <string>
 #include "imgui\imgui.h"
 
+#include "MonoScripts.h"
+#include "ClassInfo.h"
+#include "FieldInfo.h"
+
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
 { }
 
@@ -61,15 +65,6 @@ void ComponentScript::OnInspector(bool debug)
 			{
 				if (ImGui::MenuItem((*it)->GetName()))
 				{
-					//// TODO: Maybe, the new event shares the same Soundbank...
-					//// Unloading unused Soundbank.
-					//if (current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
-					//// Loading new bank: first Init bank if it has been not loaded and then, the other one
-					//if (!App->audio->IsInitSoundbankLoaded())
-					//	if (App->resource_manager->LoadResource(App->audio->GetInitLibrarySoundbankPath(), ResourceFileType::RES_SOUNDBANK) != nullptr)  // Init SB
-					//		App->audio->InitSoundbankLoaded();
-					//rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
-
 					// Loading Script...
 					App->scripting->LoadScript((*it));
 
@@ -78,6 +73,16 @@ void ComponentScript::OnInspector(bool debug)
 				}
 			}
 			ImGui::EndMenu();
+		}
+
+		ImGui::Text("Variables: ");
+
+		if (current_script != nullptr)
+		{
+			for (std::vector<FieldInfo*>::const_iterator it = current_script->fields.begin(); it != current_script->fields.end(); ++it)
+			{
+				ShowVariable((*it));
+			}
 		}
 	}
 }
@@ -88,6 +93,21 @@ void ComponentScript::Save(Data & file) const
 }
 
 void ComponentScript::Load(Data & conf)
+{ }
+
+void ComponentScript::ShowVariable(const FieldInfo *var) const
 {
-	
+	switch (var->GetType())
+	{
+		case(MonoDataType::MONO_DATA_TYPE_INT16):
+		case(MonoDataType::MONO_DATA_TYPE_INT32):
+		case(MonoDataType::MONO_DATA_TYPE_INT64):
+		{
+			/*var->GetValue();
+			ImGui::LabelText(var->GetName(), "%s");
+			ImGui::SameLine();
+			ImGui::DragInt("", &value);*/
+			break;
+		}
+	}
 }

@@ -5,7 +5,8 @@
 
 #include <string>
 
-struct ClassInfo;
+class ClassInfo;
+class FieldInfo;
 
 class ComponentScript : public Component
 {
@@ -26,6 +27,8 @@ private:
 
 	ClassInfo *current_script = nullptr;
 	std::string script_selected;
+
+	void ShowVariable(const FieldInfo *var) const;
 	
 };
 #endif // !__COMPONENT_SCRIPT_H__
