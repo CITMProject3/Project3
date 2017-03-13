@@ -20,8 +20,10 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"
 
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
+
 #include <algorithm>
-//#include <map>
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -604,10 +606,96 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
 	}
-	App->renderer3D->DrawLine(ray.pos, hit.point);
-	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
+	if (hit.object != nullptr)
+	{
+		App->renderer3D->DrawLine(ray.pos, hit.point, float4(1.0f, 0.5f,0.0f,1.0f));
+		App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1, 1, 0, 1));
+	}
+	else
+	{
+		App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 1000.0f, float4(1.0f, 0.5f, 0.0f, 1.0f));
+	}
 
 	return hit;
+}
+
+
+AABB ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck)
+{
+	AABB ret;
+	std::vector<float3> points = GetWorldAABB(layersToCheck, root);
+	if (points.empty() == false)
+	{
+		ret.minPoint = points[0];
+		ret.maxPoint = points[1];
+	}
+	else
+	{
+		ret.maxPoint = float3::zero;
+		ret.minPoint = float3::zero;
+	}
+	return ret;
+}
+
+std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck, GameObject * go)
+{
+	//return, [0] is min Point and [1] is MaxPoint
+	std::vector<float3> ret;
+
+	//Checking if we must check this object according to the layers. If no layers are passed, all of them are checked
+	bool inLayer = false;
+	if (layersToCheck.empty() == false)
+	{
+		for (std::vector<int>::iterator l = layersToCheck.begin(); l != layersToCheck.end(); l++)
+		{
+			if (go->layer == *l)
+			{
+				inLayer = true;
+				break;
+			}
+		}
+	}
+	else
+	{
+		inLayer = true;
+	}
+
+	if (inLayer)
+	{
+		//If we need to consider the GO, we add Max and Min points.
+		ComponentMesh* msh = (ComponentMesh*) go->GetComponent(C_MESH);
+		ComponentTransform* trs = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+		if (msh)
+		{
+			ret.push_back(msh->GetBoundingBox().minPoint);
+			ret.push_back(msh->GetBoundingBox().maxPoint);
+		}
+		else
+		{
+			ret.push_back(trs->GetPosition());
+			ret.push_back(trs->GetPosition());
+		}
+	}
+
+	//We check all childs and keep the min and max points
+	std::vector<GameObject*>::const_iterator it = go->GetChilds()->begin();
+	for(; it != go->GetChilds()->end(); it++)
+	{
+		std::vector<float3> p = GetWorldAABB(layersToCheck, *it);
+		if (p.empty() == false)
+		{
+			if (ret.empty() == true)
+			{
+				ret = p;
+			}
+			else
+			{
+				ret[0].x = min(ret[0].x, p[0].x); ret[0].y = min(ret[0].y, p[0].y); ret[0].z = min(ret[0].z, p[0].z);
+				ret[1].x = max(ret[1].x, p[1].x); ret[1].y = max(ret[1].y, p[1].y);	ret[1].z = max(ret[1].z, p[1].z);
+			}
+		}
+	}
+	return ret;
 }
 
 void ModuleGOManager::HierarchyWindow()

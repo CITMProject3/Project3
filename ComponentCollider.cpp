@@ -16,7 +16,6 @@
 #include "glut\glut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
-#include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
@@ -67,22 +66,28 @@ void ComponentCollider::Update()
 	}
 
 	//Rendering Convex shapes
-	if (shape == S_CONVEX && body != nullptr && App->IsGameRunning())
+	if (App->IsGameRunning() && body != nullptr)
 	{
-		if (convexShape != nullptr)
+		if (shape == S_CONVEX)
 		{
-			int nEdges = convexShape->getNumEdges();
-			for (int n = 0; n < nEdges; n++)
+			if (convexShape != nullptr)
 			{
-				glPushMatrix();
-				glMultMatrixf(body->GetTransform().ptr());
-				btVector3 a, b;
-				convexShape->getEdge(n, a, b);
-				App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
-				glPopMatrix();
+				int nEdges = convexShape->getNumEdges();
+				for (int n = 0; n < nEdges; n++)
+				{
+					glPushMatrix();
+					glMultMatrixf(body->GetTransform().ptr());
+					btVector3 a, b;
+					convexShape->getEdge(n, a, b);
+					App->renderer3D->DrawLine(float3(a.x(), a.y(), a.z()), float3(b.x(), b.y(), b.z()));
+					glPopMatrix();
+				}
 			}
 		}
 	}
+
+
+
 	return;
 }
 
@@ -131,10 +136,6 @@ void ComponentCollider::OnInspector(bool debug)
 				{
 					SetShape(S_CONVEX);
 				}
-				/*if (ImGui::MenuItem("Terrain collider", NULL))
-				{
-					SetShape(S_TERRAIN);
-				}*/
 				ImGui::EndMenu();
 			}
 
@@ -142,7 +143,6 @@ void ComponentCollider::OnInspector(bool debug)
 			if (shape == S_CUBE) { ImGui::Text("Cube"); }
 			if (shape == S_SPHERE) { ImGui::Text("Sphere"); }
 			if (shape == S_CONVEX) { ImGui::Text("Convex mesh"); }
-			//if (shape == S_TERRAIN) { ImGui::Text("Terrain"); }
 
 			ImGui::NewLine();
 			if (shape != S_CONVEX)
@@ -309,11 +309,6 @@ void ComponentCollider::LoadShape()
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
 			break;
 		}
-		/*case S_TERRAIN:
-		{
-			body = App->physics->AddTerrain("/Assets/hieghtmap_test.png", &terrain, &heightmap_buffer_id);
-			break;
-		}*/
 		}
 		
 	}

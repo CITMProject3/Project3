@@ -1,0 +1,635 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 3751083259,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1871248320,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cube",
+            "UUID": 978233468,
+            "local_UUID": 0,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2509697889,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        1.477323,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 512205958,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2014524870,
+                    "active": true,
+                    "shape": 4,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 3406151900,
+            "local_UUID": 0,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1167665714,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        52.095150,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 802848865,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 3618424745,
+                    "active": true,
+                    "shape": 2,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 1
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 2464124961,
+            "local_UUID": 0,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2212267565,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        33.294441,
+                        0,
+                        1,
+                        0,
+                        32.560295,
+                        0,
+                        0,
+                        1,
+                        1.570282,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1266752490,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1463701658,
+                    "active": true,
+                    "shape": 2,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 1.732051
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 3545060857,
+            "local_UUID": 0,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 40715366,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -40.835331,
+                        0,
+                        1,
+                        0,
+                        34.309811,
+                        0,
+                        0,
+                        1,
+                        18.875576,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2713513420,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 2508342765,
+                    "active": true,
+                    "shape": 2,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 1.732051
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 526169286,
+            "local_UUID": 0,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3350142871,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        22.391848,
+                        0,
+                        1,
+                        0,
+                        27.199661,
+                        0,
+                        0,
+                        1,
+                        -20.858929,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1395723454,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                },
+                {
+                    "type": 6,
+                    "UUID": 1096121976,
+                    "active": true,
+                    "shape": 2,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "radius": 1.732051
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 1901972858,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1901972858,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -38.855328,
+                        50.179565,
+                        -5.799950
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 1174130813,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1174130813,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        38.559151,
+                        50.179581,
+                        34.663437
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 2713343215,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2713343215,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.231895,
+                        50.179565,
+                        67.054199
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 3459352960,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3459352960,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        1.390726,
+                        50.179550,
+                        74.979645
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 3221015920,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3221015920,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -28.965588,
+                        50.179581,
+                        -43.412170
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 235099468,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 235099468,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.795166,
+                        50.179565,
+                        8.362059
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 668268480,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 668268480,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -1.852217,
+                        50.179581,
+                        -50.666405
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 2125415675,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2125415675,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -27.479416,
+                        50.179581,
+                        50.972111
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 183604070,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 183604070,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        74.896606,
+                        50.179565,
+                        18.099300
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 2332766924,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2332766924,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.597290,
+                        50.179550,
+                        -19.999203
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sphere",
+            "UUID": 3928916399,
+            "local_UUID": 1901972858,
+            "parent": 3751083259,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3928916399,
+            "prefab_path": "\/Library\/\/652269699\/652269699.pfb",
+            "components": [
+                {
+                    "position": [
+                        71.141632,
+                        50.179581,
+                        -32.967163
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        }
+    ]
+} 
