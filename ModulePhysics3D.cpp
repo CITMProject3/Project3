@@ -569,6 +569,7 @@ void ModulePhysics3D::ContinuousTerrainGeneration()
 			x = 0;
 		}
 		loadingTerrain = false;
+		SaveTerrain();
 	}
 }
 
@@ -626,6 +627,76 @@ void ModulePhysics3D::RenderTerrain()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 	}
+}
+
+bool ModulePhysics3D::SaveTerrain(uint uuid)
+{
+	bool ret = true;
+
+	float* buf = new float[terrainSize[0] * terrainSize[2] + 3];
+	float* it = buf;
+	uint bytes = sizeof(int);
+	memcpy(it, &terrainSize[0], bytes);
+	it ++;
+	memcpy(it, &terrainSize[1], bytes);
+	it++;
+	memcpy(it, &terrainSize[2], bytes);
+	it ++;
+	bytes = sizeof(float);
+	memcpy(it, terrainData, bytes * terrainSize[0] * terrainSize[2]);
+
+	string path = App->go_manager->GetCurrentScenePath();
+	if (path.length() <= 4)
+	{
+		path = "/Assets/Untitled.trr";
+	}
+	else
+	{
+		int pos = path.find(".ezx");
+		path[pos + 1] = 't';
+		path[pos + 2] = 'r';
+		path[pos + 3] = 'r';
+	}
+
+	if (App->file_system->Save(path.data(), buf, terrainSize[0] * terrainSize[2] + 3) <= 0)
+	{
+		ret = false;
+		LOG("Error saving terrain.");
+	}
+
+	delete[] buf;
+	return ret;
+}
+
+bool ModulePhysics3D::LoadTerrain(const char* path)
+{
+	bool ret = false;
+	string tmp = path;
+	if (tmp.find(".trr") != tmp.npos)
+	{
+		char* buf = nullptr;
+		char* it = buf;
+		App->file_system->Load(path, &buf);
+
+		if (buf != nullptr)
+		{
+			uint bytes = sizeof(float);
+			memcpy(&terrainSize[0], it, bytes);
+			it++;
+			memcpy(&terrainSize[1], it, bytes);
+			it++;
+			memcpy(&terrainSize[2], it, bytes);
+			it++;
+
+			terrainData = new float[terrainSize[0] * terrainSize[2]];
+
+			memcpy(terrainData, it, bytes * terrainSize[0] * terrainSize[2]);
+
+			ret = true;
+			delete[] buf;
+		}
+	}
+	return ret;
 }
 
 

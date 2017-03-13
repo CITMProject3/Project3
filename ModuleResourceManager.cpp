@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 #include "GameObject.h"
 #include "Assets.h"
 #include "ShaderComplier.h"
@@ -557,6 +558,13 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
+
+		string path = file_name;
+		int pos = path.find(".ezx");
+		path[pos + 1] = 't';
+		path[pos + 2] = 'r';
+		path[pos + 3] = 'r';
+		App->physics->LoadTerrain(path.data());
 		ret = true;
 	}
 	else
