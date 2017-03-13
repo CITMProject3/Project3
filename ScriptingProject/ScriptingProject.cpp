@@ -43,7 +43,7 @@ extern "C"
 			public_chars->insert(pair<const char*, string>("Title", test_title));
 		}
 
-		void Test_UpdatePublics(GameObject* game_object)
+		void Test_UpdatePublics(Application* engine_app, GameObject* game_object)
 		{
 			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
