@@ -19,7 +19,7 @@ namespace MeshImporter
 	bool Save(Mesh& mesh, const char* folder_path, std::string& output_name, unsigned int& uuid);
 	
 	Mesh* Load(const char* path);
-
+	void Load(Mesh* _mesh);
 	//Same as above but specifying the uuid
 	bool ImportUUID(const char* file, const char* path, const char* base_path, std::stack<unsigned int>& uuids);
 	void ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject* parent, std::string mesh_file_directory, std::vector<GameObject*>& objects_created, std::string folder_path, Data& root_data_node, std::stack<unsigned int>& uuids);

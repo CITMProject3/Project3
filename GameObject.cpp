@@ -10,6 +10,7 @@
 #include "ComponentAudio.h"
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
+#include "ComponentRectTransform.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -329,7 +330,6 @@ bool GameObject::IsPrefab() const
 Component* GameObject::AddComponent(ComponentType type)
 {
 	Component* item = nullptr;
-
 	switch (type)
 	{
 	case C_TRANSFORM:
@@ -363,6 +363,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_AUDIO:
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentAudio(type, this);
+		break;
+	case C_RECT_TRANSFORM:
+		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
+			item = new ComponentRectTransform(type, this);
 		break;
 	default:
 		break;

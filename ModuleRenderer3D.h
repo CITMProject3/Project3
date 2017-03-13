@@ -42,12 +42,12 @@ public:
 	void DrawLocator(float4x4 transform, float4 color = float4(1, 1, 1, 1));
 	void DrawLocator(float3 pos, Quat rot, float4 color = float4(1, 1, 1, 1));
 	void DrawAABB(float3 minPoint, float3 maxPoint, float4 color = float4(1, 1, 1, 1));
-
+	void DrawUI(GameObject* obj)const;
 private:
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false)const;
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
-
+	
 public:
 	bool renderAABBs = false;
 	Light lights[MAX_LIGHTS];

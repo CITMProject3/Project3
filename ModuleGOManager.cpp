@@ -786,6 +786,11 @@ void ModuleGOManager::InspectorWindow()
 				selected_GO->AddComponent(C_AUDIO);
 			}
 
+			if (ImGui::Selectable("Add Rect Transform"))
+			{
+				selected_GO->AddComponent(C_RECT_TRANSFORM);
+			}
+
 			ImGui::EndPopup();
 		}
 	}

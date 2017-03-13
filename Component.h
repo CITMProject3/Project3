@@ -10,7 +10,11 @@ enum ComponentType
 	C_LIGHT = 4,
 	C_AUDIO = 5,
 	C_COLLIDER,
-	C_CAR
+	C_CAR,
+	C_RECT_TRANSFORM,
+	C_CANVAS,
+	C_UI_IMAGE,
+	C_UI_TEXT
 };
 
 class GameObject;

@@ -19,6 +19,22 @@ Mesh * ResourceFileMesh::GetMesh() const
 	return mesh;
 }
 
+void ResourceFileMesh::ReLoadInMemory()
+{
+	App->renderer3D->RemoveBuffer(mesh->id_vertices);
+	App->renderer3D->RemoveBuffer(mesh->id_indices);
+	App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	MeshImporter::Load(mesh);
+
+	if (mesh)
+	{
+		bytes += sizeof(float) * 3 * mesh->num_vertices;
+		bytes += sizeof(uint) * mesh->num_indices;
+		bytes += sizeof(float) * 2 * mesh->num_uvs, mesh->uvs;
+	}
+
+}
+
 void ResourceFileMesh::LoadInMemory()
 {
 	mesh = MeshImporter::Load(file_path.data());

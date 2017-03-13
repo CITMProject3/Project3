@@ -17,6 +17,7 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ComponentRectTransform.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -517,6 +518,45 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	glDisableVertexAttribArray(1);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
+}
+
+void ModuleRenderer3D::DrawUI(GameObject * obj) const
+{
+	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+	Mesh* mesh = c->GetMesh();
+	
+	glPushMatrix();
+	glMultMatrixf(*c->GetFinalTransform().Transposed().v);
+
+	//Buffer vertices == 0
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer uvs == 1
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer normals == 2
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer tangents == 3
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, (void*)0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+	
+	glPopMatrix();
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const

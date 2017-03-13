@@ -512,6 +512,50 @@ Mesh * MeshImporter::Load(const char * path)
 	return mesh;
 }
 
+void MeshImporter::Load(Mesh* mesh)
+{
+
+	if (mesh != 0)
+	{
+		
+		//Vertices ------------------------------------------------------------------------------------------------------
+
+		//Load buffer to VRAM
+		glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->vertices, GL_STATIC_DRAW);
+
+		//Indices --------------------------------------------------------------------------------------------------------
+
+		//Load indices buffer to VRAM
+		glGenBuffers(1, (GLuint*) &(mesh->id_indices));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * mesh->num_indices, mesh->indices, GL_STATIC_DRAW);
+
+		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+
+		glGenBuffers(1, (GLuint*)&(mesh->id_uvs));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 2 * mesh->num_uvs, mesh->uvs, GL_STATIC_DRAW);
+
+		//Load Normals -----------------------------------------------------------------------------------------------------------------------
+
+		if (mesh->normals)
+		{
+			glGenBuffers(1, (GLuint*)&(mesh->id_normals));
+			glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->normals, GL_STATIC_DRAW);
+		}
+
+		//Load Tangents-----------------------------------------------------------------------------------------------------------------------
+		glGenBuffers(1, (GLuint*)&(mesh->id_tangents));
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->tangents, GL_STATIC_DRAW);
+	}
+
+
+}
+
 bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids)
 {
 	bool ret = false;
