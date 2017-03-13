@@ -10,12 +10,20 @@
 #include "Assets.h"
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
+#include "ComponentCamera.h"
+
+#include "ModuleRenderer3D.h"
+#include "ModuleGOManager.h"
+#include "LayerSystem.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
+
+#include "BtTriProcessor.h"
+#include "RaycastHit.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -36,6 +44,10 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
+
+	terrainSize.push_back(0);
+	terrainSize.push_back(0);
+	terrainSize.push_back(0);
 }
 
 // Destructor
@@ -48,6 +60,7 @@ ModulePhysics3D::~ModulePhysics3D()
 	delete collision_conf;
 }
 
+
 // Render not available yet----------------------------------
 bool ModulePhysics3D::Init(Data& config)
 {
@@ -57,7 +70,6 @@ bool ModulePhysics3D::Init(Data& config)
 	return ret;
 }
 
-// ---------------------------------------------------------
 bool ModulePhysics3D::Start()
 {
 	LOG("Creating Physics environment");
@@ -67,11 +79,12 @@ bool ModulePhysics3D::Start()
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
-	CreateGround();
+	App->go_manager->layer_system->AddLayer(TERRAIN_LAYER, "Terrain");
+
+	//CreateGround();
 	return true;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::PreUpdate()
 {
 	float dt = time->DeltaTime();
@@ -116,7 +129,6 @@ update_status ModulePhysics3D::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::Update()
 {
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
@@ -127,31 +139,28 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
+	ContinuousTerrainGeneration();
+
+	if (renderTerrain)
+	{
+		RenderTerrain();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
-// ---------------------------------------------------------
 update_status ModulePhysics3D::PostUpdate()
 {
-	if (App->IsGameRunning() == false && gameRunning == true)
-	{
-		CleanWorld();
-		gameRunning = false;
-	}
-	else if (gameRunning == false)
-	{
-		gameRunning = true;
-	}
-
 	return UPDATE_CONTINUE;
 }
 
-// Called before quitting
 bool ModulePhysics3D::CleanUp()
 {
 	LOG("Destroying 3D Physics simulation");
 
 	CleanWorld();
+
+	DeleteTerrain();
 
 	delete vehicle_raycaster;
 	delete world;
@@ -159,8 +168,20 @@ bool ModulePhysics3D::CleanUp()
 	return true;
 }
 
+void ModulePhysics3D::OnPlay()
+{
+	AddTerrain();
+}
+
+void ModulePhysics3D::OnStop()
+{
+	CleanWorld();
+}
+
 void ModulePhysics3D::CleanWorld()
 {
+	terrain = nullptr;
+
 	// Remove from the world all collision bodies
 	for (int i = world->getNumCollisionObjects() - 1; i >= 0; i--)
 	{
@@ -201,9 +222,11 @@ void ModulePhysics3D::CleanWorld()
 
 	world->clearForces();
 
-	CreateGround();
+	//CreateGround();
 }
 
+
+// ---------------------------------------------------------
 void ModulePhysics3D::CreateGround()
 {
 	// Big plane as ground
@@ -215,6 +238,47 @@ void ModulePhysics3D::CreateGround()
 	btRigidBody* body = new btRigidBody(rbInfo);
 	world->addRigidBody(body);
 }
+
+void ModulePhysics3D::GenerateTerrain()
+{
+	if (terrainData != nullptr)
+	{
+		delete terrainData;
+		terrainData = nullptr;
+	}
+
+	AABB terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
+	int X = max(Abs(terrainAABB.minPoint.x), Abs(terrainAABB.maxPoint.x));
+	int Z = max(Abs(terrainAABB.minPoint.z), Abs(terrainAABB.maxPoint.z));
+	terrainSize[0] = X*2;
+	terrainSize[1] = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y)) * 2;
+	terrainSize[2] = Z*2;
+
+	if (terrainSize[0] > 0 && terrainSize[2] > 0)
+	{
+		terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
+		x = 0;
+		z = 0;
+		loadingTerrain = true;
+		loadInSecondPlane = false;
+	}
+}
+
+void ModulePhysics3D::DeleteTerrain()
+{
+	if (terrainData != nullptr)
+	{
+		delete terrainData;
+		terrainData = nullptr;
+		terrainSize[0] = terrainSize[1] = terrainSize[2] = 0;
+	}
+}
+
+bool ModulePhysics3D::TerrainIsGenerated()
+{
+	return (terrainData != nullptr);
+}
+
 
 // ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool isSensor)
@@ -246,8 +310,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool is
 	return pbody;
 }
 
-
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSensor)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
@@ -277,7 +339,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSens
 	return pbody;
 }
 
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, bool isSensor)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
@@ -307,7 +368,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	return pbody;
 }
 
-// ---------------------------------------------------------
 PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
@@ -360,6 +420,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 
 	return pbody;
 }
+
 
 // ---------------------------------------------------------
 PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
@@ -432,73 +493,141 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	return pvehicle;
 }
 
-PhysBody3D* ModulePhysics3D::AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape, int* image_buffer_id)
+
+// ---------------------------------------------------------
+void ModulePhysics3D::AddTerrain()
 {
-	//https://www.bulletphysics.org/Bullet/phpBB3/viewtopic.php?f=9&t=7915
+	float minMax = terrainSize[1]/2;
+	minMax += 1;
 
-	PhysBody3D* pbody = nullptr;
-	AssetFile* Asset_file = App->editor->assets->FindAssetFile(file);
-
-	int test[256*256];
-	for (int y = 0; y < 256; y++)
+	if (terrainSize[0] > 0 && terrainSize[2] > 0 && terrainData != nullptr)
 	{
-		for (int x = 0; x < 256; x++)
-		{
-			test[y*256+x] = math::Abs( 256 - (x+y));
-		}
+		terrain = new btHeightfieldTerrainShape(terrainSize[0], terrainSize[2], terrainData, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
+		shapes.push_back(terrain);
+
+		btDefaultMotionState* myMotionState = new btDefaultMotionState();
+		motions.push_back(myMotionState);
+		btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
+
+		btRigidBody* body = new btRigidBody(rbInfo);
+
+		world->addRigidBody(body);
 	}
-	if (Asset_file)
-	{
-		int GL_buffer_id = -1;
-		char* buffer = nullptr;
-		unsigned int size = App->file_system->Load(Asset_file->content_path.data(), &buffer);
-
-		if (size > 0)
-		{
-			ILuint id;
-			ilGenImages(1, &id);
-			ilBindImage(id);
-			if (ilLoadL(IL_DDS, (const void*)buffer, size))
-			{
-				GL_buffer_id = ilutGLBindTexImage();
-				ilDeleteImages(1, &id);
-			}
-
-			btHeightfieldTerrainShape* terrain = new btHeightfieldTerrainShape(128, 128, test, 2.0f, 0, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
-			shapes.push_back(terrain);
-
-			btDefaultMotionState* myMotionState = new btDefaultMotionState();
-			motions.push_back(myMotionState);
-			btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, terrain);
-
-			btRigidBody* body = new btRigidBody(rbInfo);
-			pbody = new PhysBody3D(body);
-
-			body->setUserPointer(pbody);
-			world->addRigidBody(body);
-			bodies.push_back(pbody);
-
-			if (image_buffer_id != nullptr)
-			{
-				*image_buffer_id = GL_buffer_id;
-			}
-			if (OUT_shape != nullptr)
-			{
-				*OUT_shape = terrain;
-			}
-		}
-		else
-		{
-			LOG("Could not load texture: %s", Asset_file->name.data());
-		}
-
-		if (buffer != nullptr)
-		{
-			delete[] buffer;
-		}
-	}
-	return pbody;
 }
+
+void ModulePhysics3D::ContinuousTerrainGeneration()
+{
+	if (loadingTerrain == true)
+	{
+		ImGui::SetNextWindowSize(ImVec2(500, 180));
+		if (ImGui::Begin("Generating terrain data"))
+		{
+			float fraction = ((float)(z * terrainSize[0] + x) / (float)(terrainSize[0] * terrainSize[2]));
+			ImGui::ProgressBar(fraction);
+			char str[124];
+			sprintf(str, "Gathering height data.\n%i / %i\nModifying objects or entering Play mode may cause errors.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
+			ImGui::Text(str);
+			ImGui::NewLine();
+			ImGui::Checkbox("Second Plane Terrain Generation", &loadInSecondPlane);
+			ImGui::Text("Marking this checkbox will make the terrain generation go slower,\n increasing the FPS");
+			ImGui::End();
+		}
+		Timer time;
+		time.Start();
+		int n = 0;
+
+		math::Ray ray;
+		RaycastHit hit;
+		float timerTime;
+		for (; z < terrainSize[2]; z++)
+		{
+			for (; x < terrainSize[0]; x++)
+			{				
+				ray.dir = vec(0, -1, 0);
+				ray.pos = vec(x - (terrainSize[0] / 2), terrainSize[1] + 3, z - (terrainSize[2] / 2));
+				hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
+
+				if (hit.object != nullptr)
+				{
+					terrainData[z * terrainSize[0] + x] = hit.point.y;
+				}
+				else
+				{
+					terrainData[z * terrainSize[0] + x] = 0;
+				}
+				n++;
+				if (n % 5 == 0 || loadInSecondPlane)
+				{
+					timerTime = time.ReadSec();
+					if ((timerTime > 0.15f) || (loadInSecondPlane && timerTime > 0.016f))
+					{
+						return;
+					}
+					n = 0;
+				}
+			}
+			x = 0;
+		}
+		loadingTerrain = false;
+	}
+}
+
+void ModulePhysics3D::RenderTerrain()
+{
+	if (terrain)
+	{
+		BtTriPRocessor tmp;
+		tmp.useWire = renderWiredTerrain;
+		AABB cullCam;
+		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
+		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
+	}
+	else if (terrainData)
+	{
+		if (renderWiredTerrain)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		glBegin(GL_TRIANGLES);
+		glColor3f(0.0f, 0.6f, 0.6f);
+		Triangle tri1;
+		Triangle tri2;
+
+		for (int z = 0; z < terrainSize[2] - 1; z++)
+		{
+			for (int x = 0; x < terrainSize[0] - 1; x++)
+			{
+				tri1.a = vec(x - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x], z - terrainSize[2] / 2);
+				tri1.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
+				tri1.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+
+				glVertex3fv(tri1.c.ptr());
+				glVertex3fv(tri1.b.ptr());
+				glVertex3fv(tri1.a.ptr());
+				glNormal3fv(tri1.NormalCW().ptr());
+
+				//If we're using wireframe, we only need to render half of the triangles for the mesh to look complete
+				if (renderWiredTerrain == false)
+				{
+					tri2.a = vec(x + 1 - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x + 1], z + 1 - terrainSize[2] / 2);
+					tri2.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
+					tri2.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+
+					glVertex3fv(tri2.a.ptr());
+					glVertex3fv(tri2.b.ptr());
+					glVertex3fv(tri2.c.ptr());
+					glNormal3fv(tri2.NormalCCW().ptr());
+				}
+			}
+		}
+		glEnd();
+		if (renderWiredTerrain)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+	}
+}
+
 
 // ---------------------------------------------------------
 void ModulePhysics3D::AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB)
@@ -527,6 +656,7 @@ void ModulePhysics3D::AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, c
 	constraints.push_back(hinge);
 	hinge->setDbgDrawSize(2.0f);
 }
+
 
 // =============================================
 void DebugDrawer::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)

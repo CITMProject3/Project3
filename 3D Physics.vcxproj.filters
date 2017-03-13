@@ -561,6 +561,7 @@
     <ClInclude Include="Wwise_Library.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
+	
     <ClInclude Include="ResourceFileAnimation.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
@@ -578,7 +579,11 @@
     </ClInclude>
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
+	</ClInclude>
+    <ClInclude Include="BtTriProcessor.h">
+      <Filter>Sources\Helpers</Filter>
     </ClInclude>
+	
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -950,6 +955,7 @@
     <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
+
     <ClCompile Include="ResourceFileAnimation.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
@@ -967,7 +973,11 @@
     </ClCompile>
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
+	</ClCompile>
+    <ClCompile Include="BtTriProcessor.cpp">
+      <Filter>Sources\Helpers</Filter>
     </ClCompile>
+	
   </ItemGroup>
   <ItemGroup>
     <None Include="ListIterator.snippet">

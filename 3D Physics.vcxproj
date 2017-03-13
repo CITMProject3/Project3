@@ -103,6 +103,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AutoProfile.h" />
+    <ClInclude Include="BtTriProcessor.h" />
     <ClInclude Include="CameraWindow.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
@@ -268,6 +269,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Assets.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
+    <ClCompile Include="BtTriProcessor.cpp" />
     <ClCompile Include="CameraWindow.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
