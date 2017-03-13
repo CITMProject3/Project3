@@ -57,7 +57,7 @@ private:
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
 	bool Push(float* accel);
-	void Leaning();
+	void Leaning(float accel);
 	void IdleTurn();
 
 	//----------------------------------------------------------------------------------------------------------------------------------------

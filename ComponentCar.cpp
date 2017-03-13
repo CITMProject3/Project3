@@ -357,7 +357,7 @@ void ComponentCar::HandlePlayerInput()
 	
 
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
-	if (App->input->GetNumberJoysticks() > 0)
+	/*if (App->input->GetNumberJoysticks() > 0)
 	{
 		//Kick to accelerate
 		if (kickTimer >= kickCooldown)
@@ -400,7 +400,7 @@ void ComponentCar::HandlePlayerInput()
 		{
 			Reset();
 		}
-	}
+	}*/
 
 	JoystickControls(&accel, &brake, &turning);
 	//---------------------
@@ -443,30 +443,39 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		
 		//Direction
 		float x_joy_input = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
-		JoystickTurn(&turning_left, x_joy_input);
+		*turning = JoystickTurn(&turning_left, x_joy_input);
 
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
 		{
-			Turn(&turning_left, false);
+			*turning = Turn(&turning_left, false);
 		}
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
 		{
-			Turn(&turning_left, true);
+			*turning = Turn(&turning_left, true);
 		}
 
 		//Drifting
+		
 	
 		//Acrobatics
 
 		//Back player-------------------
 
 		//Leaning
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
+		{
+			Leaning(*accel);
+		}
 
 		//Acrobatics
 
 		//Power Up
 
-		//Kick
+		//Push
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
+		{
+			Push(accel);
+		}
 
 		//Slide attack
 
@@ -484,7 +493,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
-		Leaning();
+		Leaning(*accel);
 	}
 
 	//Front player
@@ -578,11 +587,14 @@ bool ComponentCar::Push(float* accel)
 	return ret;
 }
 
-void ComponentCar::Leaning()
+void ComponentCar::Leaning(float accel)
 {
-	accel_boost += ((accel_force/100)*lean_top_acc);
-	speed_boost += ((max_velocity/100)*lean_top_sp);
-	turn_boost -= ((turn_max / 100)*lean_red_turn);
+	if (vehicle->GetKmh() > 0.0f)
+	{
+		accel_boost += ((accel / 100)*lean_top_acc);
+		speed_boost += ((max_velocity / 100)*lean_top_sp);
+		turn_boost -= ((turn_max / 100)*lean_red_turn);
+	}
 }
 
 void ComponentCar::IdleTurn()
