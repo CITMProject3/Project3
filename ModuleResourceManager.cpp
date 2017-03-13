@@ -559,12 +559,12 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
 
-		string path = file_name;
+		/*string path = file_name;
 		int pos = path.find(".ezx");
 		path[pos + 1] = 't';
 		path[pos + 2] = 'r';
 		path[pos + 3] = 'r';
-		App->physics->LoadTerrain(path.data());
+		App->physics->LoadTerrain(path.data());*/
 		ret = true;
 	}
 	else
