@@ -104,7 +104,7 @@ void ComponentScript::OnInspector(bool debug)
 			SetActive(is_active);
 		}		
 		
-		if (App->scripting->scripts_loaded)
+		if (App->scripting->finded_script_names)
 		{
 			//ImGui::InputText("Path##PathScript", path._Myptr(), path.capacity());
 			if (ImGui::Combo("Path##PathScript", &script_num, App->scripting->GetScriptNames(), 10))
@@ -173,6 +173,7 @@ void ComponentScript::Save(Data & file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("script_path", path.c_str());
+	data.AppendInt("script_num", script_num);
 
 	if (!public_chars.empty())
 	{
@@ -211,9 +212,8 @@ void ComponentScript::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	SetPath(conf.GetString("script_path"));
-
-	if (started)
-	{
+	script_num = conf.GetInt("script_num");
+	
 		if (!public_chars.empty())
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
@@ -242,7 +242,6 @@ void ComponentScript::Load(Data & conf)
 				(*it).second = conf.GetBool((*it).first);
 			}
 		}
-	}
 
 	started = false;
 }

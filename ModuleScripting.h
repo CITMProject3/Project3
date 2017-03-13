@@ -38,13 +38,13 @@ public:
 	void AddScriptName(const char* name);
 
 	bool scripts_loaded;
+	bool finded_script_names;
 
 private:
 	DWORD last_error = 0;
 	vector<const char*> script_names;
 	int scripts_quantity; 
 	const char* names;
-	bool finded_script_names;
 
 public:
 	HINSTANCE script;

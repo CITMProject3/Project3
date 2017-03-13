@@ -71,10 +71,10 @@ void ModuleScripting::LoadScriptsLibrary()
 		
 		if (last_error == 127)
 		{
-			LOG("Can't find Game.dll", "Game.dll", last_error);
+			LOG("Can't find Game.dll");
 		}
 		else
-			LOG("Unknown error loading Game.dll", "Game.dll", last_error);
+			LOG("Unknown error loading Game.dll");
 	}
 	else
 	{
@@ -130,10 +130,10 @@ void ModuleScripting::LoadScriptNames()
 
 			if (last_error == 126)
 			{
-				LOG("Can't find script names function", "Game.dll", last_error);
+				LOG("Can't find script names function");
 			}
 			else
-				LOG("Unknown error loading script names", "Game.dll", last_error);
+				LOG("Unknown error loading script names");
 		}
 	}
 }
