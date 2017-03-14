@@ -54,6 +54,8 @@ public:
 	bool ChangeGameState(game_states new_state);
 	bool IsGameRunning()const;
 	bool IsGamePaused()const;
+
+	bool StartInGame()const;
 private:
 
 	void AddModule(Module* mod);
@@ -87,6 +89,7 @@ private:
 	int capped_ms = -1;
 
 	game_states game_state = GAME_STOP;
+	bool start_in_game = false;
 };
 
 extern Application* App;
