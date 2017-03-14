@@ -453,6 +453,20 @@ void ComponentCar::HandlePlayerInput()
 	}*/
 
 	JoystickControls(&accel, &brake, &turning);
+
+	//Acrobactics control
+	if (acro_on)
+	{
+		acro_timer += time->DeltaTime();
+
+		if (acro_timer >= acro_time)
+		{
+			acro_on = false;
+			acro_timer = 0.0f;
+			acro_back = false;
+			acro_front = false;
+		}
+	}
 	//---------------------
 	if (!turning)
 		IdleTurn();
@@ -508,6 +522,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		
 	
 		//Acrobatics
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(front_player);
+		}
 
 		//Back player-------------------
 
@@ -518,7 +536,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Acrobatics
-
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(back_player);
+		}
 		//Power Up
 
 		//Push
@@ -545,6 +566,10 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Leaning(*accel);
 	}
+	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
+	{
+		Acrobatics(back_player);
+	}
 
 	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -567,7 +592,10 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Reset();
 	}
-
+	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+	{
+		Acrobatics(front_player);
+	}
 	
 }
 
@@ -646,6 +674,35 @@ void ComponentCar::Leaning(float accel)
 		turn_boost -= ((turn_max / 100)*lean_red_turn);
 	}
 }
+
+void ComponentCar::Acrobatics(PLAYER p)
+{
+	bool tmp_front = acro_front;
+	bool tmp_back = acro_back;
+
+	if(p == front_player)
+	{ 
+		acro_front = true;
+	}
+	else if (p == back_player)
+	{
+		acro_back = true;
+	}
+
+	if (acro_back && acro_front)
+	{
+		//Apply turbo
+
+		acro_front = false;
+		acro_back = false;
+	}
+	else if(tmp_back != acro_back || tmp_front != acro_front)
+	{
+		//Start timer
+		acro_on = true;
+	}
+}
+
 
 void ComponentCar::IdleTurn()
 {

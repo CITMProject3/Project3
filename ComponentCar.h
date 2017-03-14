@@ -58,6 +58,7 @@ private:
 	void Accelerate(float* accel);
 	bool Push(float* accel);
 	void Leaning(float accel);
+	void Acrobatics(PLAYER p);
 	void IdleTurn();
 
 	//----------------------------------------------------------------------------------------------------------------------------------------
@@ -110,6 +111,8 @@ public:
 	float lean_top_acc = 25.0f;
 	float lean_red_turn = 25.0f;
 
+	//Acrobatics
+	float acro_time = 0.5f;
 
 	//Brake
 	float brake_force = 20.0f;
@@ -148,8 +151,10 @@ public:
 	
 
 	//Acrobatics
-	bool acrobatics = false;
-
+	bool acro_front = false;
+	bool acro_back = false;
+	bool acro_on = false;
+	float acro_timer = 0.0f;
 	
 
 	btVector3 startDriftSpeed;
