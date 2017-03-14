@@ -84,7 +84,7 @@ public:
 	//Game Setting (Previous configuration) ----------------------------------------------------------------
 
 	//Game Car settings ---------
-	float max_velocity = 80.0f;
+	
 
 	//Car mechanics settings --------
 
@@ -99,6 +99,7 @@ public:
 
 	//Acceleration
 	float accel_force = 1000.0f;
+	float max_velocity = 80.0f;
 
 	//Push
 	float push_force = 10000.0f;

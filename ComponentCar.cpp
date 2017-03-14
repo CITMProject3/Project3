@@ -825,31 +825,54 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat3("reset_pos", reset_pos.ptr());
 	data.AppendFloat3("reset_rot", reset_rot.ptr());
 
-
+	//Chassis settings
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
-	data.AppendFloat("kick_cooldown", kickCooldown);
+	//Controls settings --------------
+	//Acceleration
+	data.AppendFloat("acceleration", accel_force);
+	data.AppendFloat("max_speed", max_velocity);
+
+	//Turn 
+	data.AppendFloat("turn_max", turn_max);
+	data.AppendFloat("turn_speed", turn_speed);
+
+	//Push
+	data.AppendFloat("push_force", push_force);
+	data.AppendFloat("push_speed_per", push_speed_per);
+
+	//Brake
+	data.AppendFloat("brakeForce", brake_force);
+	data.AppendFloat("backForce", back_force);
+
+	//Leaning
+	data.AppendFloat("lean_accel_boost", lean_top_acc);
+	data.AppendFloat("lean_speed_boost", lean_top_sp);
+	data.AppendFloat("lean_turn_strict", lean_red_turn);
+
+	//Drift 
+	data.AppendFloat("driftRatio", drift_ratio);
+	data.AppendFloat("driftMult", drift_mult);
+	data.AppendFloat("driftBoost", drift_boost);
+
+	//data.AppendFloat("kick_cooldown", kickCooldown);
+	//--------------------------------------------------
+	//Wheel settings
 	data.AppendFloat("connection_height", connection_height);
 	data.AppendFloat("wheel_radius", wheel_radius);
 	data.AppendFloat("wheel_width", wheel_width);
-	data.AppendFloat("suspensionRestLength", suspensionRestLength);
-	data.AppendFloat("turn_max", turn_max);
-	data.AppendFloat("turn_speed", turn_speed);
-	data.AppendFloat("force", force);
-	data.AppendFloat("brakeForce", brake_force);
-
+	
+	
+	//Car physics settings
 	data.AppendFloat("mass", car->mass);
 	data.AppendFloat("suspensionStiffness", car->suspensionStiffness);
 	data.AppendFloat("suspensionCompression", car->suspensionCompression);
 	data.AppendFloat("suspensionDamping", car->suspensionDamping);
+	data.AppendFloat("suspensionRestLength", suspensionRestLength);
 	data.AppendFloat("maxSuspensionTravelCm", car->maxSuspensionTravelCm);
 	data.AppendFloat("frictionSlip", car->frictionSlip);
 	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
-
-	data.AppendFloat("driftRatio", drift_ratio);
-	data.AppendFloat("driftMult", drift_mult);
-	data.AppendFloat("driftBoost", drift_boost);
 
 	file.AppendArrayValue(data);
 }
@@ -864,27 +887,49 @@ void ComponentCar::Load(Data& conf)
 	reset_pos = conf.GetFloat3("reset_pos");
 	reset_rot = conf.GetFloat3("reset_rot");
 
+	//Chassis settings
 	chasis_size = conf.GetFloat3("chasis_size");
 	chasis_offset = conf.GetFloat3("chasis_offset");
 
-	kickCooldown = conf.GetFloat("kick_cooldown");
+	//Gameplay settings-----------------
+	//Acceleration
+	accel_force = conf.GetFloat("acceleration"); 
+	max_velocity = conf.GetFloat("max_speed"); 
+
+	//Turn 
+	turn_max = conf.GetFloat("turn_max"); 
+	turn_speed = conf.GetFloat("turn_speed");
+
+	//Push
+	push_force = conf.GetFloat("push_force"); 
+	push_speed_per = conf.GetFloat("push_speed_per");
+
+	//Brake
+	brake_force = conf.GetFloat("brakeForce"); 
+	back_force = conf.GetFloat("backForce"); 
+
+	//Leaning
+	lean_top_acc = conf.GetFloat("lean_accel_boost");  
+	lean_top_sp = conf.GetFloat("lean_speed_boost"); 
+	lean_red_turn = conf.GetFloat("lean_turn_strict");
+
+	//kickCooldown = conf.GetFloat("kick_cooldown");
+	//Wheel settings
 	connection_height = conf.GetFloat("connection_height");
 	wheel_radius = conf.GetFloat("wheel_radius");
 	wheel_width = conf.GetFloat("wheel_width");
-	suspensionRestLength = conf.GetFloat("suspensionRestLength");
-	turn_max = conf.GetFloat("turn_max");
-	turn_speed = conf.GetFloat("turn_speed");
-	force = conf.GetFloat("force");
-	brake_force = conf.GetFloat("brakeForce");
 
+	//Car settings
 	car->mass = conf.GetFloat("mass");
 	car->suspensionStiffness = conf.GetFloat("suspensionStiffness");
 	car->suspensionCompression = conf.GetFloat("suspensionCompression");
 	car->suspensionDamping = conf.GetFloat("suspensionDamping");
+	suspensionRestLength = conf.GetFloat("suspensionRestLength");
 	car->maxSuspensionTravelCm = conf.GetFloat("maxSuspensionTravelCm");
 	car->frictionSlip = conf.GetFloat("frictionSlip");
 	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
 
+	//Drifting settings
 	drift_ratio = conf.GetFloat("driftRatio");
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
