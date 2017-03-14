@@ -522,6 +522,15 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 void ModuleRenderer3D::DrawUI(GameObject * obj) const
 {
+	glLoadMatrixf((GLfloat*)float4x4::identity.v);
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+
+	// args: left, right, bottom, top, near, far
+
+	glOrtho(0.0f,App->window->GetScreenWidth(), App->window->GetScreenHeight(),  0.0f, 1.0f, -1.0f); //
+	glMatrixMode(GL_MODELVIEW);
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 	Mesh* mesh = c->GetMesh();
 	
@@ -557,6 +566,19 @@ void ModuleRenderer3D::DrawUI(GameObject * obj) const
 	glBindTexture(GL_TEXTURE_2D, 0);
 	
 	glPopMatrix();
+	
+	glMatrixMode(GL_PROJECTION);              // Select Projection
+	glPopMatrix();							  // Pop The Matrix
+	glMatrixMode(GL_MODELVIEW);               // Select Modelview
+	glPopMatrix();							  // Pop The Matrix
+
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+
+	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix().v);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const

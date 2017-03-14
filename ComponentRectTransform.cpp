@@ -28,7 +28,18 @@ void ComponentRectTransform::GeneratePlane()
 	plane->mesh->vertices = new float[plane->mesh->num_vertices * 3];
 	
 	ResizePlane();
-	
+	plane->mesh->num_uvs = 4;
+	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
+
+	plane->mesh->uvs[0] = 0.0f;
+	plane->mesh->uvs[1] = 1.0f;
+	plane->mesh->uvs[2] = 1.0f;
+	plane->mesh->uvs[3] = 1.0f;
+	plane->mesh->uvs[4] = 0.0f;
+	plane->mesh->uvs[5] = 0.0f;
+	plane->mesh->uvs[6] = 1.0f;
+	plane->mesh->uvs[7] = 0.0f;
+
 	plane->ReLoadInMemory();
 
 }
@@ -55,17 +66,17 @@ void ComponentRectTransform::OnInspector(bool debug)
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 
-		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),0.01f))
+		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),0.500f))
 		{
 			apply_transformation = true;
 		}
 
-		if (ImGui::DragFloat2("Rect ##pos", rect_size.ptr(), 0.01f))
+		if (ImGui::DragFloat2("Rect ##pos", rect_size.ptr(), 0.500f))
 		{
 			apply_transformation = true;
 		}
 
-		if (ImGui::DragFloat2("Size ##pos", size.ptr(), 0.01f))
+		if (ImGui::DragFloat2("Size ##pos", size.ptr(), 0.500f))
 		{
 			apply_transformation = true;
 		}
