@@ -86,6 +86,8 @@ void ComponentCar::OnInspector(bool debug)
 		{
 			if (ImGui::TreeNode("Read Stats"))
 			{
+				ImGui::Text("");
+
 				ImGui::Text("Current velocity (Km/h): %f", vehicle->GetKmh());
 				ImGui::Text("Velocity boost (%): %f", speed_boost);
 				ImGui::Text("");
@@ -98,7 +100,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
 
-				
+				ImGui::Text("");
 				ImGui::TreePop();
 			}
 		}
@@ -106,61 +108,109 @@ void ComponentCar::OnInspector(bool debug)
 		{
 			if (ImGui::TreeNode("Game loop settings"))
 			{
+				ImGui::Text("");
+
 				ImGui::Text("Lose height");
 				ImGui::SameLine();
 				ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
 
-				ImGui::Text("Reset position");
+				ImGui::Text("Pos");
 				ImGui::SameLine();
 				ImGui::DragFloat3("##Rpoint", reset_pos.ptr());
 
-				ImGui::Text("Reset rotation");
+				ImGui::Text("Rot");
 				ImGui::SameLine();
 				ImGui::DragFloat3("##Rrot", reset_rot.ptr());
 
-
+				ImGui::Text("");
 				ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Control settings"))
 			{
-				ImGui::Text("Max speed");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##MxSpeed", &max_velocity, 1.0f, 0.0f, 1000.0f)) {}
+				if (ImGui::TreeNode("Acceleration settings"))
+				{
+					ImGui::Text("");
+					ImGui::Text("Max speed");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##MxSpeed", &max_velocity, 1.0f, 0.0f, 1000.0f)) {}
 
-				ImGui::Text("Turn max");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
+					ImGui::Text("Accel");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)){}
+
+					ImGui::Text("");
+					ImGui::TreePop();
+				}
+
+				if (ImGui::TreeNode("Handling settings"))
+				{
+					ImGui::Text("");
+
+					ImGui::Text("Turn max");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
 
 
-				ImGui::Text("Wheel turn speed");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
+					ImGui::Text("Turn speed");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
 
+					ImGui::Text("");
+					ImGui::TreePop();
+				}
 
-				ImGui::Text("Brake force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Brake_force", &brake_force, 1.0f, 0.0f, 1000.0f)) {}
+				if (ImGui::TreeNode("Brake settings"))
+				{
+					ImGui::Text("");
 
-				ImGui::Text("Push force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##push_force", &push_force, 10.0f, 0.0f)) {}
+					ImGui::Text("Brake force");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##Brake_force", &brake_force, 1.0f, 0.0f, 1000.0f)) {}
 
-				ImGui::Text("Push speed limit");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##push_sp", &push_speed_per, 1.0f, 0.0f, 100.0f)) {}
+					ImGui::Text("Back force");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##Back_force", &back_force, 1.0f, 0.0f)) {}
 
-				ImGui::Text("Kick force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Kick_force", &force, 1.0f, 0.0f, floatMax)) {}
+					ImGui::Text("");
+					ImGui::TreePop();
+				}
 
-				ImGui::Text("Kick cooldown");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Kick_cooldown", &kickCooldown, 0.1f, 0.0f, 60.0f)) {}
+				if (ImGui::TreeNode("Push settings"))
+				{
+					ImGui::Text("");
 
-				ImGui::Text("Kick force time");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Kick_force_time", &kick_force_time, 0.025f, 0.0f, 20.0f)) {}
+					ImGui::Text("Push force");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##push_force", &push_force, 10.0f, 0.0f)) {}
+
+					ImGui::Text("Push speed limit");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##push_sp", &push_speed_per, 1.0f, 0.0f, 100.0f)) {}
+
+					ImGui::Text("");
+					ImGui::TreePop();
+				}
+
+				if (ImGui::TreeNode("Leaning settings"))
+				{
+					ImGui::Text("");
+
+					ImGui::Text("Speed boost");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##lean_sp_boost", &lean_top_sp, 0.5f, 0.0f, 200.0f)){}
+
+					ImGui::Text("Accel boost");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##lean_accel_boost", &lean_top_acc, 0.5f, 0.0f, 200.0f)) {}
+
+					ImGui::Text("Turn decrease");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##lean_res_turn", &lean_red_turn, 0.5f, 0.0f, 100.0f)) {}
+
+					ImGui::Text("");
+					ImGui::TreePop();
+				}
 
 				ImGui::TreePop();
 			}
