@@ -15,6 +15,13 @@ enum PLAYER
 	PLAYER_1,
 	PLAYER_2,
 };
+
+enum TURBO
+{
+	T_IDLE,
+	T_MINI,
+	T_DRIFT,
+};
 class ComponentCar : public Component
 {
 	//
@@ -101,6 +108,7 @@ public:
 	//Acceleration
 	float accel_force = 1000.0f;
 	float max_velocity = 80.0f;
+	float min_velocity = -20.0f;
 
 	//Push
 	float push_force = 10000.0f;

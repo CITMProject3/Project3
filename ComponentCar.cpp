@@ -135,6 +135,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##MxSpeed", &max_velocity, 1.0f, 0.0f, 1000.0f)) {}
 
+					ImGui::Text("Min speed");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##MnSpeed", &min_velocity, 1.0f, -100.0f, 0.0f)){}
+
 					ImGui::Text("Accel");
 					ImGui::SameLine();
 					if(ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)){}
@@ -738,12 +742,19 @@ void ComponentCar::Reset()
 
 void ComponentCar::LimitSpeed()
 {
+	//Tmp convertor
+	float KmhToMs = 0.2777777;
+
 	if (vehicle)
 	{
 		float top_velocity = (max_velocity + speed_boost);
 		if (vehicle->GetKmh() > top_velocity)
 		{
-			vehicle->SetModularSpeed(top_velocity * 0.3);
+			vehicle->SetModularSpeed(top_velocity * KmhToMs);
+		}
+		else if (vehicle->GetKmh() < min_velocity)
+		{
+			vehicle->SetModularSpeed(-(min_velocity * KmhToMs));
 		}
 	}
 }
@@ -890,6 +901,7 @@ void ComponentCar::Save(Data& file) const
 	//Acceleration
 	data.AppendFloat("acceleration", accel_force);
 	data.AppendFloat("max_speed", max_velocity);
+	data.AppendFloat("min_speed", min_velocity);
 
 	//Turn 
 	data.AppendFloat("turn_max", turn_max);
@@ -952,6 +964,7 @@ void ComponentCar::Load(Data& conf)
 	//Acceleration
 	accel_force = conf.GetFloat("acceleration"); 
 	max_velocity = conf.GetFloat("max_speed"); 
+	min_velocity = conf.GetFloat("min_speed");
 
 	//Turn 
 	turn_max = conf.GetFloat("turn_max"); 
