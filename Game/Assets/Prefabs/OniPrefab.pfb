@@ -1,0 +1,821 @@
+{
+    "GameObjects": [
+        {
+            "name": "OniPrefab",
+            "UUID": 1194800584,
+            "local_UUID": 1194800584,
+            "parent": 0,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1073765069,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Top_Body2:Mesh",
+            "UUID": 3615372727,
+            "local_UUID": 3615372727,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3613822485,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3701401709,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3591557839.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2670095186,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_ForeArms1:Mesh",
+            "UUID": 4211279328,
+            "local_UUID": 4211279328,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4235563296,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2178895050,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3284984925.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 921832252,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "LOW_Hand:Mesh",
+            "UUID": 4290119448,
+            "local_UUID": 4290119448,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3209562334,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3317588199,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/4125392614.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3993635476,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Leg:Mesh",
+            "UUID": 840466343,
+            "local_UUID": 840466343,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3957857225,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4257395150,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/756726066.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 541036074,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "LOW_Shoes1:Mesh",
+            "UUID": 1732450539,
+            "local_UUID": 1732450539,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3828407860,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3557962520,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3895096044.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3287174202,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "LOW_Ornate_Belt1:Mesh",
+            "UUID": 860447516,
+            "local_UUID": 860447516,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 404938908,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 917285700,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/66726443.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 747133066,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Pants1:Mesh",
+            "UUID": 2244859301,
+            "local_UUID": 2244859301,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1638979405,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3694121424,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3179834556.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 740195007,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "LOW_Tie1:Mesh",
+            "UUID": 1701839119,
+            "local_UUID": 1701839119,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1713012835,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1522574934,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/4138087319.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3083532149,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Teeth:Low_Teeth:Low_Teeth:Low_Teeth:pSphere3",
+            "UUID": 2238654189,
+            "local_UUID": 2238654189,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2496934655,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3943510069,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/2597715084.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 561483980,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Teeth:Low_Teeth:Low_Teeth:pCube1",
+            "UUID": 1486106583,
+            "local_UUID": 1486106583,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 380960720,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4009274720,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3412862600.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1255083016,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Teeth:Low_Teeth:Low_Teeth:pCylinder4",
+            "UUID": 1393861173,
+            "local_UUID": 1393861173,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1557201829,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3635088252,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/2066178830.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3201212783,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Teeth:Low_Teeth:Eyes",
+            "UUID": 2448915122,
+            "local_UUID": 2448915122,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 335473290,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2708775579,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/1679191831.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1992765948,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Low_Teeth:Low_Teeth:Bear_1",
+            "UUID": 1185438938,
+            "local_UUID": 1185438938,
+            "parent": 1194800584,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1194800584,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 393776055,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 658219636,
+                    "active": true,
+                    "path": "\/Library\/279783155\/1199433692\/3823220760.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3526511691,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        }
+    ]
+} 

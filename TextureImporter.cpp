@@ -105,3 +105,8 @@ int TextureImporter::LoadSimpleFile(const char * name)
 
 	return ret;
 }
+
+void TextureImporter::Unload(unsigned int id)
+{
+	ilDeleteImages(1, &id);
+}
