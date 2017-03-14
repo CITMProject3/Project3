@@ -14,6 +14,9 @@
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
+#include "ComponentLight.h"
+#include "ComponentAnimation.h"
+#include "ComponentBone.h"
 #include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
 
@@ -91,7 +94,7 @@ void GameObject::PreUpdate()
 	components_to_remove.clear();
 }
 
-void GameObject::Update()
+void GameObject::Update(float dt)
 {
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
@@ -99,7 +102,7 @@ void GameObject::Update()
 	}
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
-		(*comp)->Update();
+		(*comp)->Update(dt);
 	}
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
@@ -210,7 +213,6 @@ void GameObject::SetParent(GameObject * parent)
 			}	
 		}
 	}
-
 }
 
 const std::vector<GameObject*>* GameObject::GetChilds()
@@ -221,6 +223,13 @@ const std::vector<GameObject*>* GameObject::GetChilds()
 size_t GameObject::ChildCount()
 {
 	return childs.size();
+}
+
+void GameObject::CollectAllChilds(std::vector<GameObject*>& vector)
+{
+	vector.push_back(this);
+	for (uint i = 0; i < childs.size(); i++)
+		childs[i]->CollectAllChilds(vector);
 }
 
 void GameObject::OnPlay()
@@ -355,6 +364,14 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_LIGHT:	
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentLight(type, this);
+		break;
+	case C_ANIMATION:
+		if (GetComponent(C_TRANSFORM) && GetComponent(C_ANIMATION) == nullptr)
+			item = new ComponentAnimation(this);
+		break;
+	case C_BONE:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentBone(this);
 		break;
 	case C_CAR:
 		if (GetComponent(C_TRANSFORM))

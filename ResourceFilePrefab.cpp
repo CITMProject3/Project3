@@ -117,7 +117,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(); //To update the matrix manually
+			c_transform->Update(0); //To update the matrix manually
 		}
 	}
 
@@ -405,7 +405,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(); //To update the matrix manually
+			c_transform->Update(0); //To update the matrix manually
 		}
 	}
 

@@ -8,13 +8,15 @@ enum ComponentType
 	C_MATERIAL = 2,
 	C_CAMERA = 3,
 	C_LIGHT = 4,
-	C_AUDIO = 5,
-	C_COLLIDER,
-	C_CAR,
-	C_RECT_TRANSFORM,
-	C_CANVAS,
-	C_UI_IMAGE,
-	C_UI_TEXT
+	C_ANIMATION = 5,
+	C_BONE = 6,
+	C_AUDIO = 7,
+	C_COLLIDER = 8,
+	C_CAR = 9,
+	C_RECT_TRANSFORM = 10,
+	C_CANVAS = 11,
+	C_UI_IMAGE = 12,
+	C_UI_TEXT = 13
 };
 
 class GameObject;
@@ -23,12 +25,13 @@ class Data;
 class Component
 {
 public:
-	
+
 	Component(ComponentType type, GameObject* game_object);
 	virtual ~Component();
 
+
+	virtual void Update(float dt) {};
 	virtual void PreUpdate() {}
-	virtual void Update() {}
 	virtual void PostUpdate() {}
 
 	bool IsActive();

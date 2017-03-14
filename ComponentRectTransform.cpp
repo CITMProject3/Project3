@@ -46,7 +46,7 @@ void ComponentRectTransform::GeneratePlane()
 
 
 
-void ComponentRectTransform::Update()
+void ComponentRectTransform::Update(float dt)
 {
 	if (apply_transformation)
 	{
@@ -57,7 +57,7 @@ void ComponentRectTransform::Update()
 	}
 
 	App->renderer3D->DrawUI(game_object);
-
+	LOG("IMHERE");
 }
 
 void ComponentRectTransform::OnInspector(bool debug)

@@ -15,7 +15,7 @@ public:
 	~ComponentCamera();
 
 	void PreUpdate();
-	void Update();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
 	void OnTransformModified();
@@ -32,6 +32,7 @@ public:
 	math::float4x4 GetProjectionMatrix()const;
 	math::float4x4 GetViewMatrix()const;
 	math::float4x4 GetWorldMatrix()const;
+	math::Frustum GetFrustum()const { return frustum; }
 
 	math::float3 GetBackgroundColor()const;
 

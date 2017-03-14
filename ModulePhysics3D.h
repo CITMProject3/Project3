@@ -12,6 +12,8 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
+#define TERRAIN_LAYER 4
+
 class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
@@ -32,8 +34,14 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OnPlay();
+	void OnStop();
+
 	void CleanWorld();
 	void CreateGround();
+	void GenerateTerrain();
+	void DeleteTerrain();
+	bool TerrainIsGenerated();
 
 	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
 	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
@@ -41,16 +49,17 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
-	PhysBody3D* AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape = nullptr, int* image_buffer_id = nullptr);
-
+private:
+	void AddTerrain();
+	void ContinuousTerrainGeneration();
+	void RenderTerrain();
+public:
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
 
 private:
 
-	bool gameRunning = false;
-
-	bool debug;
+	bool debug = false;
 
 	btDefaultCollisionConfiguration*	collision_conf;
 	btCollisionDispatcher*				dispatcher;
@@ -65,6 +74,20 @@ private:
 	list<btDefaultMotionState*> motions;
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
+
+#pragma region Terrain
+	float* terrainData = nullptr;
+	btHeightfieldTerrainShape* terrain = nullptr;
+	std::vector<int> terrainSize;
+
+	bool loadingTerrain = false;
+	bool loadInSecondPlane = false;
+	int x = 0;
+	int z = 0;
+#pragma endregion
+public:
+	bool renderTerrain = false;
+	bool renderWiredTerrain = true;
 };
 
 class DebugDrawer : public btIDebugDraw

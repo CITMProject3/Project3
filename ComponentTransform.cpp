@@ -23,9 +23,10 @@ ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_obje
 
 ComponentTransform::~ComponentTransform()
 {
+
 }
 
-void ComponentTransform::Update()
+void ComponentTransform::Update(float dt)
 {
 	if (transform_modified)
 	{
