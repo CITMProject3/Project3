@@ -14,7 +14,8 @@ public:
 	ComponentCamera(ComponentType type, GameObject* game_object);
 	~ComponentCamera();
 
-	void Update();
+	void PreUpdate();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
 	void OnTransformModified();
@@ -26,10 +27,12 @@ public:
 	math::float3 GetFront()const;
 	math::float3 GetUp()const;
 	math::float3 GetWorldRight()const;
+	math::float3 GetPos()const;
 
 	math::float4x4 GetProjectionMatrix()const;
 	math::float4x4 GetViewMatrix()const;
 	math::float4x4 GetWorldMatrix()const;
+	math::Frustum GetFrustum()const { return frustum; }
 
 	math::float3 GetBackgroundColor()const;
 
@@ -46,13 +49,16 @@ public:
 	void SetBackgroundColor(const math::float3 color);
 	bool Intersects(const math::AABB& box)const;
 
-
 	void Save(Data& file)const;
 	void Load(Data& conf);
 
 	math::Ray CastCameraRay(math::float2 screen_pos);
+private:
+	void UpdateCameraFrustum();
 
 public:
+
+	bool smoothFollow = false;
 
 	bool properties_modified = false;
 	ResourceFileRenderTexture* render_texture = nullptr;
@@ -71,6 +77,11 @@ private:
 	///Assets path
 	string render_texture_path;
 	string render_texture_path_lib;
+
+	math::float4x4 desiredTransform = float4x4::identity;
+	math::float4x4 currentTransform = float4x4::identity;
+	float followMoveSpeed = 0.1f;
+	float followRotateSpeed = 0.1f;
 
 };
 #endif // !__COMPONENT_MATERIAL_H__

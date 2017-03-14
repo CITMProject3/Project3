@@ -15,6 +15,7 @@
 #include <stdarg.h>         // va_list
 #include <stddef.h>         // ptrdiff_t, NULL
 #include <string.h>         // memset, memmove, memcpy, strlen, strchr, strcpy, strcmp
+#include <vector>
 
 #define IMGUI_VERSION       "1.50 WIP"
 
@@ -80,6 +81,9 @@ typedef int ImGuiSelectableFlags;   // flags for Selectable()               // e
 typedef int ImGuiTreeNodeFlags;     // flags for TreeNode*(), Collapsing*() // enum ImGuiTreeNodeFlags_
 typedef int (*ImGuiTextEditCallback)(ImGuiTextEditCallbackData *data);
 typedef void (*ImGuiSizeConstraintCallback)(ImGuiSizeConstraintCallbackData* data);
+
+//Thorgory
+typedef int ImGuiCurveEditorMode;
 
 // Others helpers at bottom of the file:
 // class ImVector<>                 // Lightweight std::vector like class.
@@ -278,6 +282,10 @@ namespace ImGui
     IMGUI_API void          PlotHistogram(const char* label, const float* values, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0,0), int stride = sizeof(float));
     IMGUI_API void          PlotHistogram(const char* label, float (*values_getter)(void* data, int idx), void* data, int values_count, int values_offset = 0, const char* overlay_text = NULL, float scale_min = FLT_MAX, float scale_max = FLT_MAX, ImVec2 graph_size = ImVec2(0,0));
     IMGUI_API void          ProgressBar(float fraction, const ImVec2& size_arg = ImVec2(-1,0), const char* overlay = NULL);
+
+	//Thorgory
+	IMGUI_API int			Curve(const char *label, const ImVec2& size, std::vector<std::vector<ImVec2>>& points, ImGuiCurveEditorMode mode, bool* axis);
+	IMGUI_API float			CurveValue(float p, int maxpoints, const ImVec2 *points);
 
     // Widgets: Drags (tip: ctrl+click on a drag box to input with keyboard. manually input values aren't clamped, can go off-bounds)
     // For all the Float2/Float3/Float4/Int2/Int3/Int4 versions of every functions, remember than a 'float v[3]' function argument is the same as 'float* v'. You can pass address of your first element out of a contiguous set, e.g. &myvector.x
@@ -634,6 +642,14 @@ enum ImGuiCol_
     ImGuiCol_PlotHistogramHovered,
     ImGuiCol_TextSelectedBg,
     ImGuiCol_ModalWindowDarkening,  // darken entire screen when a modal window is active
+	//Thorgory
+	ImGuiCol_CurveEditorRed,
+	ImGuiCol_CurveEditorBlue,
+	ImGuiCol_CurveEditorGreen,
+	ImGuiCol_CurveEditorPoint,
+	ImGuiCol_CurveEditorPointSelected,
+	ImGuiCol_CurveEditorPointCreating,
+	//Endof Thorgory
     ImGuiCol_COUNT
 };
 
@@ -696,6 +712,13 @@ enum ImGuiSetCond_
     ImGuiSetCond_Once          = 1 << 1, // Set the variable once per runtime session (only the first call with succeed)
     ImGuiSetCond_FirstUseEver  = 1 << 2, // Set the variable if the window has no saved data (if doesn't exist in the .ini file)
     ImGuiSetCond_Appearing     = 1 << 3  // Set the variable if the window is appearing after being hidden/inactive (or the first time)
+};
+
+enum ImGuiCurveEditorMode_
+{
+	ImGuiCurveEditorMode_CreatePoints,
+	ImGuiCurveEditorMode_EditPoints,
+	ImGuiCurveEditorMode_EditTangents,
 };
 
 struct ImGuiStyle

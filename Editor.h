@@ -27,6 +27,9 @@ class LightingWindow;
 class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
+class CurveWindow;
+
+using namespace std;
 
 class Editor : public Module
 {
@@ -80,6 +83,7 @@ private:
 	void EditMenu();
 	void DebugMenu();
 	void GameObjectMenu();
+	void PhysicsMenu();
 
 	bool QuitWindow();
 	void OnSaveCall();
@@ -122,7 +126,8 @@ private:
 	LightingWindow* lighting_win = nullptr;
 	LayersWindow* layers_win = nullptr;
 	TestWindow* test_win = nullptr;
-	
+	CurveWindow* curve_win = nullptr;
+
 	bool save_scene_win = false;
 	string scene_name_to_save;
 

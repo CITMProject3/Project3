@@ -12,9 +12,6 @@ Component::Component(ComponentType type, GameObject* game_object) : type (type),
 Component::~Component()
 {}
 
-void Component::OnInspector(bool debug)
-{}
-
 ComponentType Component::GetType() const
 {
 	return type;
@@ -39,23 +36,7 @@ void Component::SetActive(bool value)
 {
 	active = value;
 }
-
-void Component::Update()
-{
-}
-
-void Component::OnTransformModified()
-{}
-
-void Component::Save(Data & file) const
-{
-}
-
 void Component::Remove()
 {
 	game_object->RemoveComponent(this);
 }
-
-void Component::Load(Data & config)
-{}
-

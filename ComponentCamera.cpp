@@ -8,6 +8,11 @@
 #include "ResourceFileRenderTexture.h"
 #include "Assets.h"
 
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleGOManager.h"
+#include "ModuleCamera3D.h"
+
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	//Init frustrum
@@ -46,9 +51,19 @@ ComponentCamera::~ComponentCamera()
 	App->renderer3D->RemoveObserver(this);
 	if(render_texture)
 		render_texture->Unload();
+
+	if (App->camera->playCamera == this)
+	{
+		App->camera->playCamera = nullptr;
+	}
 }
 
-void ComponentCamera::Update()
+void ComponentCamera::PreUpdate()
+{
+	UpdateCameraFrustum();
+}
+
+void ComponentCamera::Update(float dt)
 {
 	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
@@ -70,6 +85,28 @@ void ComponentCamera::OnInspector(bool debug)
 				Remove();
 			}
 			ImGui::EndPopup();
+		}
+
+		bool isPlayCam = (App->camera->playCamera == this);
+		if (ImGui::Checkbox("Set as Game camera", &isPlayCam))
+		{
+			if (isPlayCam == false)
+			{
+				App->camera->playCamera = nullptr;
+			}
+			else
+			{
+				App->camera->playCamera = this;
+			}
+		}
+
+		ImGui::Checkbox("Smooth follow", &smoothFollow);
+		if (smoothFollow)
+		{
+			ImGui::Text("Position follow speed:");
+			ImGui::DragFloat("##smoothFollowPos", &followMoveSpeed, 0.01f, 0.01f, 0.99f);
+			ImGui::Text("Rotation follow speed:");
+			ImGui::DragFloat("##smoothFollowRot", &followRotateSpeed, 0.01f, 0.01f, 0.99f);
 		}
 
 		//Near plane
@@ -137,13 +174,8 @@ void ComponentCamera::OnTransformModified()
 
 	if (game_object)
 	{
-		ComponentTransform* trans = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		
-		float4x4 matrix = trans->GetGlobalMatrix();
-
-		frustum.SetPos(matrix.TranslatePart());
-		frustum.SetFront(matrix.WorldZ());
-		frustum.SetUp(matrix.WorldY());
+		ComponentTransform* trans = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);		
+		desiredTransform = trans->GetGlobalMatrix();
 	}
 	else
 		LOG("Error: Component Camera is trying to update it's matrix but it is not attached to any game object.");
@@ -182,6 +214,11 @@ math::float3 ComponentCamera::GetFront() const
 math::float3 ComponentCamera::GetUp() const
 {
 	return frustum.Up();
+}
+
+math::float3 ComponentCamera::GetPos()const
+{
+	return frustum.Pos();
 }
 
 math::float4x4 ComponentCamera::GetProjectionMatrix() const
@@ -320,6 +357,12 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendString("render_texture_path", render_texture_path.data());
 	data.AppendString("render_texture_path_lib", render_texture_path_lib.data());
 
+	data.AppendBool("is_game_camera", (App->camera->playCamera == this));
+
+	data.AppendBool("followSmooth", smoothFollow);
+	data.AppendFloat("followMovSpeed", followMoveSpeed);
+	data.AppendFloat("followRotSpeed", followRotateSpeed);
+
 	file.AppendArrayValue(data);
 }
 
@@ -336,6 +379,15 @@ void ComponentCamera::Load(Data & conf)
 	layer_mask = conf.GetInt("layer_mask");
 	render_texture_path = conf.GetString("render_texture_path");
 	render_texture_path_lib = conf.GetString("render_texture_path_lib");
+
+	if (conf.GetBool("is_game_camera"))
+	{
+		App->camera->playCamera = this;
+	}
+
+	smoothFollow = conf.GetBool("followSmooth");
+	followMoveSpeed = conf.GetFloat("followMovSpeed");
+	followRotateSpeed = conf.GetFloat("followRotSpeed");
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);
@@ -366,4 +418,26 @@ math::Ray ComponentCamera::CastCameraRay(math::float2 screen_pos)
 	Ray ray = frustum.UnProjectFromNearPlane(pos.x, pos.y);
  
 	return ray;
+}
+
+void ComponentCamera::UpdateCameraFrustum()
+{
+	if (smoothFollow == true)
+	{		
+		float3 curr_pos, des_pos, scale;
+		Quat curr_rot, des_rot;
+		desiredTransform.Decompose(des_pos, des_rot, scale);
+		currentTransform.Decompose(curr_pos, curr_rot, scale);
+
+		Quat rotation = curr_rot.Lerp(des_rot, followRotateSpeed);
+		float3 position = curr_pos.Lerp(des_pos, followMoveSpeed);
+		currentTransform = float4x4::FromTRS(position, rotation, float3::one);
+	}
+	else
+	{
+		currentTransform = desiredTransform;
+	}
+	frustum.SetPos(currentTransform.TranslatePart());
+	frustum.SetFront(currentTransform.WorldZ());
+	frustum.SetUp(currentTransform.WorldY());
 }

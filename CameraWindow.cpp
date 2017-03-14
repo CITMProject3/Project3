@@ -5,6 +5,8 @@
 #include "GameObject.h"
 #include "ModuleGOManager.h"
 
+#include "ModuleRenderer3D.h"
+
 CameraWindow::CameraWindow()
 {
 

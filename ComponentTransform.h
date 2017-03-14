@@ -17,7 +17,7 @@ public:
 	ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix);
 	~ComponentTransform();
 
-	void Update();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
 
@@ -25,6 +25,7 @@ public:
 	void SetRotation(const math::float3 &rot_euler);
 	void SetRotation(const math::Quat& rot);
 	void SetScale(const math::float3& scale);
+	void Set(math::float4x4 matrix);
 	
 
 	math::float3 GetPosition()const;
@@ -43,6 +44,7 @@ public:
 	void Load(Data& conf);
 	void Reset();
 	void Remove();
+	void SaveAsPrefab(Data& file)const;
 
 private:
 	void CalculateFinalTransform();

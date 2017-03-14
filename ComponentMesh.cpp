@@ -7,6 +7,13 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ResourceFileMesh.h"
+#include "ComponentBone.h"
+#include "ResourceFileBone.h"
+
+#include "glut/glut.h"
+
+#include "ModuleRenderer3D.h"
+#include "ModuleResourceManager.h"
 
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -22,9 +29,12 @@ ComponentMesh::~ComponentMesh()
 		rc_mesh = nullptr;
 	}
 	mesh = nullptr;
+
+	App->renderer3D->RemoveBuffer(weight_id);
+	App->renderer3D->RemoveBuffer(bone_id);
 }
 
-void ComponentMesh::Update()
+void ComponentMesh::Update(float dt)
 {
 	//Component must be active to update
 	if (!IsActive())
@@ -34,6 +44,12 @@ void ComponentMesh::Update()
 		game_object->mesh_to_draw = mesh;
 
 		App->renderer3D->AddToDraw(GetGameObject());
+	}
+	if (App->renderer3D->renderAABBs)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 
@@ -116,6 +132,12 @@ bool ComponentMesh::SetMesh(Mesh *mesh)
 	return ret;
 }
 
+void ComponentMesh::SetResourceMesh(ResourceFileMesh* resource)
+{
+	rc_mesh = resource;
+	mesh = rc_mesh->GetMesh();
+}
+
 void ComponentMesh::RecalculateBoundingBox()
 {
 	math::OBB ob = aabb.Transform(game_object->GetGlobalMatrix());
@@ -129,7 +151,10 @@ void ComponentMesh::Save(Data & file)const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendString("path", mesh->file_path.data());
+	if (mesh)
+		data.AppendString("path", mesh->file_path.data());
+	else
+		data.AppendString("path", "");
 
 	file.AppendArrayValue(data);
 }
@@ -142,17 +167,22 @@ void ComponentMesh::Load(Data & conf)
 	const char* path = conf.GetString("path");
 
 	rc_mesh = (ResourceFileMesh*)App->resource_manager->LoadResource(path, ResourceFileType::RES_MESH);
-	Mesh* mesh = rc_mesh->GetMesh(); 
-	if(mesh)
-		mesh->file_path = path;
-	SetMesh(mesh);
+	if (rc_mesh)
+	{
+		Mesh* mesh = rc_mesh->GetMesh();
+		if (mesh)
+		{
+			mesh->file_path = path;
+			SetMesh(mesh);
 
-	OnTransformModified();
-}
-
-const Mesh * ComponentMesh::GetMesh() const
-{
-	return mesh;
+			OnTransformModified();
+		}
+	}
+	else
+	{
+		LOG("The go %s component mesh, can't find the path %s to load", game_object->name.data(), path);
+	}
+		
 }
 
 void ComponentMesh::Remove()
@@ -163,4 +193,76 @@ void ComponentMesh::Remove()
 
 	if (material != nullptr)
 		material->Remove();
+}
+
+void ComponentMesh::AddBone(ComponentBone* bone)
+{
+	for (uint i = 0; i < bones_reference.size(); i++)
+		if (bones_reference[i].bone == bone)
+			return;
+
+	bones_reference.push_back(Bone_Reference(bone, bone->GetResource()->offset));
+
+	if (bones_vertex.empty())
+	{
+		bones_vertex = std::vector<Bone_Vertex>(mesh->num_vertices);
+	}
+
+	ResourceFileBone* rBone = bone->GetResource();
+	for (uint i = 0; i < rBone->numWeights; i++)
+	{
+		uint data_b_index = bones_reference.size() - 1;
+		float data_b_float = rBone->weights[i];
+		bones_vertex[rBone->weightsIndex[i]].AddBone(data_b_index, data_b_float);
+	}
+}
+
+void ComponentMesh::DeformAnimMesh()
+{
+	bones_trans.clear();
+
+	for (uint i = 0; i < bones_reference.size(); i++)
+	{
+		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
+		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
+		float4x4 bone_trn_mat = matrix * bones_reference[i].offset;
+		bones_trans.push_back(bone_trn_mat.Transposed());
+	}
+}
+void ComponentMesh::InitAnimBuffers()
+{
+	int size = mesh->num_vertices * 4;
+	float* weights = new float[size];
+	int* bones_ids = new int[size];
+
+	for (int i = 0; i < bones_vertex.size(); ++i)
+	{
+		int ver_id = i * 4;
+
+		if (bones_vertex[i].weights.size() != bones_vertex[i].bone_index.size())
+		{
+			LOG("Error: GameObject(%s) has different number of weights and index in the animation", game_object->name); //Just in case
+			return;
+		}
+
+		//Reset all to zero
+		for (int w = 0; w < 4; ++w)
+		{
+			weights[ver_id + w] = 0;
+			bones_ids[ver_id + w] = 0;
+		}
+
+		for (int w = 0; w < bones_vertex[i].weights.size(); ++w)
+		{
+			weights[ver_id + w] = bones_vertex[i].weights[w];
+			bones_ids[ver_id + w] = bones_vertex[i].bone_index[w];
+		}
+	}
+
+	MeshImporter::LoadAnimBuffers(weights, size, weight_id, bones_ids, size, bone_id);
+
+	delete[] weights;
+	delete[] bones_ids;
+
+	animated = true;
 }

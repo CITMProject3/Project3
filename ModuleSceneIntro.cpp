@@ -9,6 +9,9 @@
 #include "ComponentMesh.h"
 #include "ComponentCamera.h"
 #include "Random.h"
+#include "GameObject.h"
+#include "ModuleGOManager.h"
+#include "ModuleInput.h"
 
 
 

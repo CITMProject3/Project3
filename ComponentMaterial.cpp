@@ -118,7 +118,7 @@ void ComponentMaterial::OnInspector(bool debug)
 	}
 }
 
-void ComponentMaterial::Update()
+void ComponentMaterial::Update(float dt)
 {
 
 	
@@ -131,6 +131,7 @@ void ComponentMaterial::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("path", material_path.data());
+	data.AppendBool("properties_set", true);
 	data.AppendUInt("alpha", alpha);
 	data.AppendUInt("blend_type", blend_type);
 	data.AppendFloat("alpha_test", alpha_test);
@@ -154,16 +155,19 @@ void ComponentMaterial::Save(Data & file)const
 
 void ComponentMaterial::Load(Data & conf)
 {
-
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	material_path = conf.GetString("path");
-	alpha = conf.GetUInt("alpha");
-	blend_type = conf.GetUInt("blend_type");
-	alpha_test = conf.GetFloat("alpha_test");
-	float3 color_tmp = conf.GetFloat3("color");
-	color[0] = color_tmp[0]; color[1] = color_tmp[1]; color[2] = color_tmp[2]; color[3] = color_tmp[3];
-	texture_changed = conf.GetBool("texture_changed");
+	bool properties_set = conf.GetBool("properties_set");
+	if (properties_set)
+	{
+		alpha = conf.GetUInt("alpha");
+		blend_type = conf.GetUInt("blend_type");
+		alpha_test = conf.GetFloat("alpha_test");
+		float3 color_tmp = conf.GetFloat3("color");
+		color[0] = color_tmp[0]; color[1] = color_tmp[1]; color[2] = color_tmp[2]; color[3] = color_tmp[3];
+		texture_changed = conf.GetBool("texture_changed");
+	}
 
 	if (material_path.size() != 0)
 	{
@@ -275,7 +279,7 @@ void ComponentMaterial::Load(Data & conf)
 			if (rc_tmp)
 			{
 				tex_resources.push_back(rc_tmp);
-				texture_ids.insert(pair<string, uint>("", rc_tmp->GetTexture()));
+				texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
 				list_textures_paths.push_back(tex_path);
 			}
 			else

@@ -2,6 +2,7 @@
 #include "Assets.h"
 #include "ShaderEditorWindow.h"
 #include <vector>
+#include "ModuleFileSystem.h"
 
 using namespace std;
 

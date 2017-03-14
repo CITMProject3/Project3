@@ -4,15 +4,21 @@
 #include "MeshImporter.h"
 #include "Random.h"
 #include "Data.h"
-#include "ResourceFileMesh.h"
-#include "ResourceFileTexture.h"
 #include "ModuleGOManager.h"
+#include "ModuleFileSystem.h"
 #include "GameObject.h"
 #include "Assets.h"
 #include "ShaderComplier.h"
+
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 #include "RenderTexEditorWindow.h"
+#include "ResourceFileAnimation.h"
+#include "ResourceFileBone.h"
+#include "ResourceFileAudio.h"
+#include "ResourceFileMesh.h"
+#include "ResourceFileTexture.h"
+#include "ResourceFilePrefab.h"
 
 #include "Glew\include\glew.h"
 #include <gl\GL.h>
@@ -28,7 +34,6 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
-#include "MemLeaks.h"
 #include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -59,6 +64,7 @@ bool ModuleResourceManager::Init(Data & config)
 bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
+	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
 	UpdateAssetsAuto();
 	return true;
 }
@@ -84,7 +90,7 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
-void ModuleResourceManager::UpdateAssetsAuto() const
+void ModuleResourceManager::UpdateAssetsAuto() 
 {
 	vector<tmp_mesh_file> mesh_files;
 	UpdateAssetsAutoRecursive(ASSETS_FOLDER, LIBRARY_FOLDER, mesh_files);
@@ -93,10 +99,17 @@ void ModuleResourceManager::UpdateAssetsAuto() const
 	{
 		ImportFile(tmp->mesh_path.data(), tmp->assets_folder, tmp->library_folder);
 	}
+
+	for (vector<tmp_mesh_file_uuid>::iterator tmp = tmp_mesh_uuid_files.begin(); tmp != tmp_mesh_uuid_files.end(); tmp++)
+	{
+		ImportMeshFileWithMeta(tmp->mesh_path.data(), tmp->assets_folder, tmp->library_folder, tmp->uuid, tmp->meta_path);
+	}
+
+	tmp_mesh_uuid_files.clear();
 	mesh_files.clear();
 }
 
-void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) const
+void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) 
 {
 	//Get All files and folders
 	vector<string> files, folders;
@@ -115,12 +128,14 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 			{
 				//Check if the file is .meta
-				if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+				if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 				{
-					string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+					string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 					if (file_name.compare(meta_name) == 0)
 					{
 						meta_found = true;
+						string meta_complete_path = assets_dir + *meta;
+						UpdateFileWithMeta(meta_complete_path, assets_dir, library_dir);
 						break;
 					}
 				}	
@@ -156,14 +171,14 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 		for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
 		{
 			//Check if the file is .meta
-			if (strcmp((*meta).substr((*meta).find_first_of(".") + 1, 4).c_str(), meta_ext) == 0)
+			if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 			{
-				string meta_name = (*meta).substr(0, (*meta).find_first_of("."));
+				string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
 				if ((*folder).compare(meta_name) == 0)
 				{
 					meta_found = true;
-					//Read the meta and find the library equivalent
-					library_path = FindFile(*folder);
+					library_path = UpdateFolderWithMeta(assets_dir + (*meta));
+					library_path += '/';
 					break;
 				}
 			}
@@ -182,16 +197,152 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 
 }
 
+void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir) 
+{
+	unsigned int type, uuid;
+	double time_mod;
+	string library_path, assets_path;
+
+	ReadMetaFile(meta_file.data(), type, uuid, time_mod, library_path, assets_path);
+
+	if (App->file_system->Exists(library_path.data()))
+	{
+		//Check file modification
+		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
+		if (time_mod > lib_mod_time)
+		{
+			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
+		}
+	}
+	else
+	{
+		//Create the file in library
+		ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file);
+	}
+}
+
+void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int uuid, string library_path, string assets_path, const string& base_assets_dir, const string& base_lib_dir, const string& meta_path)
+{
+	//Create the folder in library
+	string lib_folder_path = library_path.data();
+	lib_folder_path = lib_folder_path.substr(0, lib_folder_path.find_last_of("/\\") + 1);
+	App->file_system->GenerateDirectory(lib_folder_path.data());
+
+	switch (type)
+	{
+		case IMAGE:
+			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
+			break;
+		case MESH:
+		{
+			tmp_mesh_file_uuid tmp;
+			tmp.mesh_path = assets_path.data();
+			tmp.assets_folder = base_assets_dir.data();
+			tmp.library_folder = base_lib_dir.data();
+			tmp.uuid = uuid;
+			tmp.meta_path = meta_path.data();
+
+			tmp_mesh_uuid_files.push_back(tmp);
+		}
+			break;
+
+		case PREFAB:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case SCENE:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case VERTEX:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case FRAGMENT:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case MATERIAL:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case RENDER_TEXTURE:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+	}
+}
+
+void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const string& base_dir, const string& base_library_dir, unsigned int id, const string& meta_path) 
+{
+	uint uuid = id;
+
+	//Create the link to Library
+	string final_mesh_path;
+	if (base_library_dir.size() == 0)
+		final_mesh_path = LIBRARY_FOLDER;
+	else
+		final_mesh_path = base_library_dir;
+
+	final_mesh_path += std::to_string(uuid) + "/";
+	string library_dir = final_mesh_path;
+	final_mesh_path += std::to_string(uuid) + ".inf";
+
+	//Read the meta uuids
+	stack<unsigned int> meshes_uuids;
+	std::vector<uint> anim_uuids;
+	std::vector<uint> bone_uuids;
+
+	char* buffer = nullptr;
+	if (App->file_system->Load(meta_path.data(), &buffer) > 0)
+	{
+		Data meta(buffer);
+		
+		int size_meshes = meta.GetArraySize("meshes");
+		for (int i = size_meshes - 1; i >= 0; i--)
+		{
+			meshes_uuids.push(meta.GetArray("meshes", i).GetUInt("uuid"));
+		}
+
+		int size_anim = meta.GetArraySize("animations");
+		for (int i = 0; i < size_anim; i++)
+		{
+			anim_uuids.push_back(meta.GetArray("animations", i).GetUInt("uuid"));
+		}
+
+		int size_bones = meta.GetArraySize("bones");
+		for (int i = 0; i < size_bones; i++)
+		{
+			bone_uuids.push_back(meta.GetArray("bones", i).GetUInt("uuid"));
+		}
+	}
+
+	if (buffer)
+		delete[] buffer;
+
+	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids, anim_uuids, bone_uuids);
+
+}
+
+string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
+{
+	unsigned int type, uuid;
+	double time_mod;
+	string assets_path, library_path;
+	ReadMetaFile(meta_path.data(), type, uuid, time_mod, library_path, assets_path);
+
+	if (App->file_system->Exists(library_path.data()) == false)
+	{
+		App->file_system->GenerateDirectory(library_path.data());
+	}
+
+	return library_path;
+}
+
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
 	//Files extensions accepted
 	//Images: PNG TGA
 	//Meshes: FBX / OBJ
-	//Audio: PENDING
+	//Audio: BNK
 
 	if (App->file_system->IsDirectoryOutside(file_path))
 	{
-		vector<tmp_mesh_file> mesh_files; //Mesh files are imported the last to find all the textures linked.
+		vector<tmp_mesh_file> mesh_files; // Mesh files are imported the last to find all the textures linked.
 		ImportFolder(file_path, mesh_files);
 
 		for (vector<tmp_mesh_file>::iterator tmp = mesh_files.begin(); tmp != mesh_files.end(); tmp++)
@@ -204,6 +355,7 @@ void ModuleResourceManager::FileDropped(const char * file_path)
 	{
 		ImportFile(file_path, App->editor->assets->CurrentDirectory(), App->editor->assets->CurrentLibraryDirectory());
 	}
+
 	App->editor->RefreshAssets();
 }
 
@@ -213,14 +365,20 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 	{
 	case MESH:
 		LoadPrefabFile(library_path);
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	case PREFAB:
-		LoadPrefabFile(library_path);
+		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+		if (r_prefab)
+		{
+			r_prefab->LoadPrefabAsCopy();
+		}
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	}
 }
 
-ResourceFile * ModuleResourceManager::LoadResource(const string & path, ResourceFileType type)
+ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceFileType type)
 {
 	ResourceFile* rc_file = nullptr;
 
@@ -257,6 +415,22 @@ ResourceFile * ModuleResourceManager::LoadResource(const string & path, Resource
 			rc_file = new ResourceFileRenderTexture(type, path, uuid);
 			rc_file->Load();
 			break;
+		case RES_ANIMATION:
+			rc_file = new ResourceFileAnimation(path, uuid);
+			rc_file->Load();
+			break;
+		case RES_BONE:
+			rc_file = new ResourceFileBone(path, uuid);
+			rc_file->Load();
+			break;
+		case RES_SOUNDBANK:
+			rc_file = new ResourceFileAudio(type, path, uuid);
+			rc_file->Load();
+			break;
+		case RES_PREFAB:
+			rc_file = new ResourceFilePrefab(type, path, uuid); 
+			rc_file->Load(); //This load doesn't actually do his job. Needs to call another load method after this.
+			break;
 		}
 
 		resource_files.push_back(rc_file);
@@ -285,7 +459,7 @@ void ModuleResourceManager::UnloadResource(const string & path)
 	}
 }
 
-void ModuleResourceManager::RemoveResourceFromList(ResourceFile * file)
+void ModuleResourceManager::RemoveResourceFromList(ResourceFile *file)
 {
 	if (file)
 	{
@@ -419,6 +593,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 	delete[] buffer;
 
+	App->go_manager->LinkAnimation(App->go_manager->root);
+
 	return ret;
 }
 
@@ -432,8 +608,8 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	root_node.AppendArray("GameObjects");
 	GameObject* parent = gameobject->GetParent();
 	gameobject->SetParent(nullptr);
-	gameobject->SetAsPrefab();
-	gameobject->Save(root_node);
+	gameobject->SetAsPrefab(gameobject->GetUUID());
+	gameobject->Save(root_node, true);
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 
@@ -442,6 +618,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	App->file_system->Save(name.data(), buf, size);
 
 	string meta_file = name.substr(0, name.length() - 4) + ".meta";
+	string library_path;
 	if (App->file_system->Exists(meta_file.data()))
 	{
 		char* meta_buf;
@@ -450,7 +627,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		if (meta_size > 0)
 		{
 			Data meta_data(meta_buf);
-			string library_path = meta_data.GetString("library_path");
+			library_path = meta_data.GetString("library_path");
 			App->file_system->Save(library_path.data(), buf, size);
 		}
 		else
@@ -465,13 +642,25 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		unsigned int uuid = App->rnd->RandomInt();
 		string library_dir = App->editor->assets->CurrentLibraryDirectory() + "/" + std::to_string(uuid) + "/";
 		App->file_system->GenerateDirectory(library_dir.data());
-		string library_filename = library_dir + std::to_string(uuid) + ".pfb";
-		GenerateMetaFile(name.data(), FileType::PREFAB, uuid, library_filename.data());
-		App->file_system->Save(library_filename.data(), buf, size); 
+		library_path = library_dir + std::to_string(uuid) + ".pfb";
+		GenerateMetaFile(name.data(), FileType::PREFAB, uuid, library_path.data());
+		App->file_system->Save(library_path.data(), buf, size); 
 	}
 
 	delete[] buf;
+
+	ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+	if (rc_prefab)
+	{
+		gameobject->rc_prefab = rc_prefab;
+		rc_prefab->InsertOriginalInstance(gameobject);
+	}
+
 	gameobject->SetParent(parent);
+	gameobject->prefab_path = library_path.data();
+	
+	
+	
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
@@ -491,6 +680,11 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 unsigned int ModuleResourceManager::GetDefaultShaderId() const
 {
 	return default_shader;
+}
+
+unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
+{
+	return default_anim_shader;
 }
 
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
@@ -621,12 +815,15 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 ///Given a path returns if the file is one of the valid extensions to import.
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
+	// Extensions must always contain 3 letters!
 	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
-	char* image_extensions[] = {"png", "PNG", "tga", "TGA"};
+	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
+	char* soundbank_extension = "bnk";
+	char* prefab_extension = "pfb";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -635,7 +832,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 6; i++)
 		if (extension.compare(image_extensions[i]) == 0)
 			return FileType::IMAGE;
 
@@ -650,6 +847,12 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(render_texture_extension) == 0)
 		return FileType::RENDER_TEXTURE;
+
+	if (extension.compare(soundbank_extension) == 0)
+		return FileType::SOUNDBANK;
+
+	if (extension.compare(prefab_extension) == 0)
+		return FileType::PREFAB;
 	
 	return NONE;
 }
@@ -681,6 +884,52 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	string final_path = path;
 	if(is_file)
 		final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+	final_path += ".meta";
+
+	App->file_system->Save(final_path.data(), buf, size);
+
+	delete[] buf;
+}
+
+void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<uint>& meshes_uuids, const vector<uint>& animations_uuids, const vector<uint>& bones_uuids) const
+{
+	Data root;
+	root.AppendUInt("Type", static_cast<unsigned int>(FileType::MESH));
+	root.AppendUInt("UUID", uuid);
+	root.AppendDouble("time_mod", App->file_system->GetLastModificationTime(path));
+	root.AppendString("library_path", library_path.data());
+	root.AppendString("original_file", path);
+
+	root.AppendArray("meshes");
+
+	for (vector<unsigned int>::const_iterator it = meshes_uuids.begin(); it != meshes_uuids.end(); ++it)
+	{
+		Data msh_data;
+		msh_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(msh_data);
+	}
+
+	root.AppendArray("animations");
+	for (vector<unsigned int>::const_iterator it = animations_uuids.begin(); it != animations_uuids.end(); ++it)
+	{
+		Data anim_data;
+		anim_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(anim_data);
+	}
+
+	root.AppendArray("bones");
+	for (vector<unsigned int>::const_iterator it = bones_uuids.begin(); it != bones_uuids.end(); ++it)
+	{
+		Data bone_data;
+		bone_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(bone_data);
+	}
+
+	char* buf;
+	size_t size = root.Serialize(&buf);
+
+	string final_path = path;
+	final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
 	final_path += ".meta";
 
 	App->file_system->Save(final_path.data(), buf, size);
@@ -791,6 +1040,29 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 	}
 }
 
+bool ModuleResourceManager::ReadMetaFile(const char * path, unsigned int & type, unsigned int & uuid, double & time_mod, string & library_path, string & assets_path) const
+{
+	bool ret = false;
+
+	char* buffer = nullptr;
+	if (App->file_system->Load(path, &buffer) > 0)
+	{
+		ret = true;
+
+		Data meta(buffer);
+		type = meta.GetUInt("Type");
+		uuid = meta.GetUInt("UUID");
+		time_mod = meta.GetDouble("time_mod");
+		library_path = meta.GetString("library_path");
+		assets_path = meta.GetString("original_file");
+	}
+
+	if (buffer)
+		delete[] buffer;
+
+	return ret;
+}
+
 void ModuleResourceManager::ImportFile(const char * path, string base_dir, string base_library_dir, unsigned int uuid) const
 {
 	//1-Make a copy of the file
@@ -809,6 +1081,9 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 		break;
 	case FRAGMENT:
 		FragmentDropped(path, base_dir, base_library_dir, uuid);
+		break;
+	case SOUNDBANK:
+		SoundbankDropped(path, base_dir, base_library_dir, uuid);
 		break;
 	}
 }
@@ -829,7 +1104,7 @@ void ModuleResourceManager::ImageDropped(const char* path, string base_dir, stri
 	else
 		final_image_path = base_library_dir;
 
-	final_image_path += std::to_string(uuid) + "/";
+	final_image_path += "/" + std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(final_image_path.data());
 	final_image_path += std::to_string(uuid);
 	final_image_path += ".dds";
@@ -861,8 +1136,12 @@ void ModuleResourceManager::MeshDropped(const char * path, string base_dir, stri
 	string library_dir = final_mesh_path;
 	final_mesh_path += std::to_string(uuid) + ".inf";
 
-	GenerateMetaFile(file_assets_path.data(), FileType::MESH, uuid, final_mesh_path);
-	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data());
+	vector<unsigned int> meshes_uuids;
+	vector<unsigned int> animations;
+	vector<unsigned int> bones;
+	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids, animations, bones);
+	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids, animations, bones);
+	
 }
 
 void ModuleResourceManager::VertexDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
@@ -909,6 +1188,32 @@ void ModuleResourceManager::FragmentDropped(const char * path, string base_dir, 
 	bool success = ShaderCompiler::TryCompileVertex(final_fragment_path.data());
 	if (success)
 		LOG("Fragment shader %s compiled correctly.", path);
+}
+
+void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+
+	string lib_soundbank_path = base_library_dir;
+	lib_soundbank_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(lib_soundbank_path.data());
+
+	string lib_json_path = lib_soundbank_path;
+	// Soundbank metainfo	
+	lib_soundbank_path += std::to_string(uuid) + ".bnk";
+	GenerateMetaFile(file_assets_path.data(), FileType::SOUNDBANK, uuid, lib_soundbank_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), lib_soundbank_path.data());
+
+	// JSON metainfo
+	string json_file_path = file_assets_path.substr(0, file_assets_path.find_last_of('.')) + ".json";
+	lib_json_path += std::to_string(uuid) + ".json";
+	App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data());
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)

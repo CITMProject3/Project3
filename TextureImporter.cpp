@@ -70,7 +70,7 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 	}
 	else
 	{
-		LOG("Could load texture: %s", res->GetFile());
+		LOG("Could not load texture: %s", res->GetFile());
 	}
 
 	delete[] buffer;

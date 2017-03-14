@@ -118,7 +118,7 @@ Data Data::GetArray(const char * name, unsigned int index) const
 
 size_t Data::GetArraySize(const char* name) const
 {
-	size_t size = -1;
+	size_t size = 0;
 	JSON_Array* j_array = json_object_get_array(root, name);
 	if (j_array)
 		size = json_array_get_count(j_array);
@@ -128,7 +128,8 @@ size_t Data::GetArraySize(const char* name) const
 
 bool Data::GetBool(const char * name) const
 {
-	return json_object_get_boolean(root, name);
+	int ret = json_object_get_boolean(root, name);
+	return (ret > 0) ? true : false;
 }
 
 unsigned int Data::GetUInt(const char * name) const
@@ -186,6 +187,13 @@ float3 Data::GetFloat3(const char * name) const
 double Data::GetDouble(const char * name) const
 {
 	return json_object_get_number(root, name);
+}
+
+void Data::LoadArray(const char* name)
+{
+	JSON_Array* j_array = json_object_get_array(root, name);
+	if (j_array)
+		array = j_array;
 }
 
 size_t Data::Serialize(char ** buffer)

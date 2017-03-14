@@ -11,6 +11,8 @@ class ComponentCamera;
 #define SKYBOX_VERTEX_PROGRAM "Resources/Skybox/skybox_vertex.ver"
 #define SKYBOX_FRAGMENT_PROGRAM "Resources/Skybox/skybox_fragment.fra"
 
+using namespace std;
+
 class Skybox
 {
 public:

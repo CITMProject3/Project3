@@ -18,6 +18,7 @@
 #include "ShaderEditorWindow.h"
 #include "LightingWindow.h"
 #include "LayersWindow.h"
+#include "CurveWindow.h"
 #include "RenderTexEditorWindow.h"
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
@@ -25,11 +26,15 @@
 #include "GameObject.h"
 #include "ComponentLight.h"
 #include "RaycastHit.h"
-#include "ModuleCar.h"
 #include "ModuleGOManager.h"
 #include "ImGuizmo\ImGuizmo.h"
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ModuleInput.h"
+#include "ModuleFileSystem.h"
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
+#include "ModulePhysics3D.h"
 
 Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -74,7 +79,7 @@ bool Editor::Start()
 	windows.push_back(layers_win = new LayersWindow());
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
 	windows.push_back(test_win = new TestWindow());
-
+	windows.push_back(curve_win = new CurveWindow());
 	InitSizes();
 
 	//Testing
@@ -98,6 +103,8 @@ bool Editor::CleanUp()
 	delete lighting_win;
 	delete layers_win;
 	delete rendertex_win;
+	delete test_win;
+	delete curve_win;
 
 	windows.clear();
 
@@ -241,6 +248,12 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
+	for (std::list<GameObject*>::iterator it = selected.begin(); it != selected.end(); it++)
+	{
+		if ((*it)->bounding_box != nullptr)
+			g_Debug->AddAABB(*(*it)->bounding_box, g_Debug->green);
+	}
+
 	HandleInput();
 
 	//Handle Quit event
@@ -249,6 +262,7 @@ update_status Editor::Update()
 		save_quit = true;
 		OpenSaveSceneWindow();
 	}
+
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -349,6 +363,11 @@ update_status Editor::EditorWindows()
 		if (ImGui::BeginMenu("GameObject"))
 		{
 			GameObjectMenu();
+			ImGui::EndMenu();
+		}
+		if (ImGui::BeginMenu("Physics"))
+		{
+			PhysicsMenu();
 			ImGui::EndMenu();
 		}
 		if (ImGui::BeginMenu("Windows"))
@@ -506,6 +525,11 @@ void Editor::WindowsMenu()
 	{
 		test_win->SetActive(true);
 	}
+
+	if (ImGui::MenuItem("Curve Window"))
+	{
+		curve_win->SetActive(true);
+	}
 }
 
 void Editor::EditMenu()
@@ -575,16 +599,42 @@ void Editor::GameObjectMenu()
 	}
 }
 
+void Editor::PhysicsMenu()
+{	
+	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger\nsurfaces, it will go faster on multiple little\nmeshes than on a single big one.\n ");
+	ImGui::Separator();
+	bool tmp = App->physics->TerrainIsGenerated();
+	ImGui::Checkbox("Terrain is generated", &tmp);
+	ImGui::NewLine();
+	if (ImGui::MenuItem("Generate Terrain"))
+	{
+		App->physics->GenerateTerrain();
+	}
+	if (ImGui::MenuItem("Delete Terrain"))
+	{
+		App->physics->DeleteTerrain();
+	}
+	ImGui::NewLine();
+	ImGui::Separator();
+	ImGui::Checkbox("Render Terrain", &App->physics->renderTerrain);
+	if (App->physics->renderTerrain)
+	{
+		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+	}
+	ImGui::Text("Terrain render may be slow!");	
+}
+
 void Editor::DebugMenu()
 {
 	if (ImGui::MenuItem("Show/Hide Octree"))
 	{
 		App->go_manager->draw_octree = !App->go_manager->draw_octree;
 	}
-	if (ImGui::MenuItem("Load test_car noPhysics scene"))
+	if (ImGui::MenuItem("Render AABBs"))
 	{
-		App->car->Load();
+		App->renderer3D->renderAABBs = !App->renderer3D->renderAABBs;
 	}
+	if (App->renderer3D->renderAABBs) { ImGui::SameLine(); ImGui::Text("X"); }
 }
 
 bool Editor::QuitWindow()

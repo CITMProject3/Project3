@@ -2,9 +2,31 @@
 #define __ModuleAudio_H__
 
 #include "Module.h"
-#include "SDL_mixer\include\SDL_mixer.h"
+#include "AK/include/Win32/AkFilePackageLowLevelIOBlocking.h" // Sample low-level I/O implementation
 
-#define DEFAULT_MUSIC_FADE_TIME 2.0f
+#include <string>
+
+class SoundBank;
+
+struct AudioEvent
+{
+	std::string name;
+	long unsigned int id = 0;
+	SoundBank *parent_soundbank = nullptr;
+};
+
+struct SoundBank
+{
+	std::string name;
+	std::string path;
+	long unsigned int id = 0;
+	std::vector<AudioEvent*> events;
+};
+
+class ComponentCamera;
+
+// Wwise docuemntation:
+// https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
 class ModuleAudio : public Module
 {
@@ -13,22 +35,66 @@ public:
 	ModuleAudio(const char* name, bool start_enabled = true);
 	~ModuleAudio();
 
+	update_status Update();
+	update_status PostUpdate();
+
 	bool Init(Data& config);
+	bool Start();
 	bool CleanUp();
 
-	// Play a music file
-	bool PlayMusic(const char* path, float fade_time = DEFAULT_MUSIC_FADE_TIME);
+	void SetListener(const ComponentCamera *listener);
+	void SetLibrarySoundbankPath(const char *lib_path);
+	const char *GetInitLibrarySoundbankPath() const;
+	long unsigned int ExtractSoundBankInfo(std::string soundbank_path);
+	void ObtainEvents(std::vector<AudioEvent*> &events);
 
-	// Load a WAV in memory
-	unsigned int LoadFx(const char* path);
+	void InitSoundbankLoaded();
+	bool IsInitSoundbankLoaded() const;
 
-	// Play a previously loaded WAV
-	bool PlayFx(unsigned int fx, int repeat = 0);
+	void LoadSoundBank(const char *soundbank_path);
+	void UnloadSoundBank(const char *soundbank_path);
+	void PostEvent(const AudioEvent *ev, long unsigned int id);
+	void StopEvent(const AudioEvent *ev, long unsigned int id);
+
+	void RegisterGameObject(long unsigned int id);
+	void UnregisterGameObject(long unsigned int id);
+
+	AudioEvent *FindEventById(long unsigned event_id);
+
 
 private:
 
-	Mix_Music*			music;
-	list<Mix_Chunk*>	fx;
+	// We're using the default Low-Level I/O implementation that's part
+	// of the SDK's sample code, with the file package extension
+	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;	
+	
+	const ComponentCamera *listener = nullptr;	// Component camera that incorporates the audio listener
+
+	// Soundbank related variables
+	std::string lib_base_path;
+	SoundBank *init_sb = nullptr;
+	bool init_sb_loaded = false;
+	std::vector<SoundBank*> soundbank_list; // List of soundbanks
+
+	// Init methods
+	bool InitMemoryManager();
+	bool InitStreamingManager();
+	bool InitSoundEngine();
+	bool InitMusicEngine();
+	bool InitCommunicationModule();
+
+	// Termination methods
+	bool StopMemoryManager();
+	bool StopStreamingManager();
+	bool StopSoundEngine();
+	bool StopMusicEngine();
+	bool StopCommunicationModule();
+
+	// Update position and orientation of listener
+	void UpdateListenerPos();
+
+	bool IsSoundBank(const std::string &file_to_check) const;
+
 };
 
 #endif // __ModuleAudio_H__

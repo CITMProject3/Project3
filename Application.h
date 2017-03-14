@@ -4,24 +4,26 @@
 #include <list>
 #include "Globals.h"
 #include "Timer.h"
-#include "Module.h"
-#include "ModuleWindow.h"
-#include "ModuleInput.h"
-#include "ModuleAudio.h"
 #include "ModuleSceneIntro.h"
-#include "ModuleRenderer3D.h"
-#include "ModuleCamera3D.h"
-#include "ModulePhysics3D.h"
 #include "Editor.h"
-#include "ModuleFileSystem.h"
-#include "ModuleGOManager.h"
-#include "ModuleResourceManager.h"
 #include "DebugDraw.h"
 #include "AutoProfile.h"
 #include "Random.h"
 #include "Time.h"
-#include "ModuleLighting.h"
-#include "ModuleCar.h"
+#include <string>
+#include <stdlib.h>
+
+class Module;
+class ModuleCamera3D;
+class ModuleFileSystem;
+class ModuleGOManager;
+class ModuleInput;
+class ModuleLighting;
+class ModulePhysics3D;
+class ModuleRenderer3D;
+class ModuleResourceManager;
+class ModuleWindow;
+class ModuleAudio;
 
 using namespace std; 
 
@@ -77,11 +79,10 @@ public:
 	ModuleLighting* lighting;
 	Editor* editor;
 	Random* rnd = nullptr;
-	ModuleCar* car = nullptr;
 private:
 
 
-	list<Module*> list_modules;
+	vector<Module*> list_modules;
 	int fps = 60;
 	int capped_ms = -1;
 
