@@ -10,6 +10,8 @@
 #include "ClassInfo.h"
 #include "FieldInfo.h"
 
+typedef struct _MonoString MonoString;
+
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
 { }
 
@@ -95,7 +97,7 @@ void ComponentScript::Save(Data & file) const
 void ComponentScript::Load(Data & conf)
 { }
 
-void ComponentScript::ShowVariable(const FieldInfo *var) const
+void ComponentScript::ShowVariable(FieldInfo *var)
 {
 	switch (var->GetType())
 	{
@@ -104,7 +106,15 @@ void ComponentScript::ShowVariable(const FieldInfo *var) const
 		case(MonoDataType::MONO_DATA_TYPE_INT64):
 		{
 			int value = 0; var->GetValue(&value);
-			ImGui::DragInt(var->GetName(), &value);
+			if (ImGui::DragInt(var->GetName(), &value))
+				var->SetValue(&value);
+			break;
+		}
+		case(MonoDataType::MONO_DATA_TYPE_FLOAT):
+		case(MonoDataType::MONO_DATA_TYPE_DOUBLE):
+		{
+			float value = 0.0f; var->GetValue(&value);
+			ImGui::DragFloat(var->GetName(), &value);
 			break;
 		}
 	}

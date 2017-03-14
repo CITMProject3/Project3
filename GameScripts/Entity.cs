@@ -1,22 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace GameScripts
 {
     public class Entity
     {
+        [DllImport("EngineFunctions.dll")]
+        public static extern void DisplayHelloFromDLL();
+
         public int age;
-        //private float height;
-        //private String name;
+        private float height;
+        private String name;
 
         public Entity()
         {
+            DisplayHelloFromDLL();
+
             age = 29;
-            //height = 1.71f;
-            //name = "Carlos";
+            height = 1.71f;
+            name = "Carlos";
         }
 
         ~Entity()

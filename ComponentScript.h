@@ -28,7 +28,7 @@ private:
 	ClassInfo *current_script = nullptr;
 	std::string script_selected;
 
-	void ShowVariable(const FieldInfo *var) const;
+	void ShowVariable(FieldInfo *var);
 	
 };
 #endif // !__COMPONENT_SCRIPT_H__

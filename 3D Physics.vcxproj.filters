@@ -570,9 +570,6 @@
     <ClInclude Include="ComponentScript.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="MonoScripts.h">
-      <Filter>Sources\Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="ClassInfo.h">
       <Filter>Sources\Scripting</Filter>
     </ClInclude>
@@ -583,6 +580,9 @@
       <Filter>Sources\Scripting</Filter>
     </ClInclude>
     <ClInclude Include="FieldInfo.h">
+      <Filter>Sources\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="MonoScripts.h">
       <Filter>Sources\Scripting</Filter>
     </ClInclude>
   </ItemGroup>
@@ -962,9 +962,6 @@
     <ClCompile Include="ComponentScript.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
-    <ClCompile Include="MonoScripts.cpp">
-      <Filter>Sources\Helpers</Filter>
-    </ClCompile>
     <ClCompile Include="ClassInfo.cpp">
       <Filter>Sources\Scripting</Filter>
     </ClCompile>
@@ -972,6 +969,9 @@
       <Filter>Sources\Scripting</Filter>
     </ClCompile>
     <ClCompile Include="FieldInfo.cpp">
+      <Filter>Sources\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="MonoScripts.cpp">
       <Filter>Sources\Scripting</Filter>
     </ClCompile>
   </ItemGroup>
