@@ -138,7 +138,7 @@ void ComponentTransform::SetRotation(const math::float3& rot_euler)
 {
 	rotation_euler = rot_euler;
 	
-	float3 rot_deg = DegToRad(rot_euler);
+	float3 rot_deg = rot_euler;//DegToRad(rot_euler);
 
 	rotation = rotation.FromEulerXYZ(rot_deg.x, rot_deg.y, rot_deg.z);
 
