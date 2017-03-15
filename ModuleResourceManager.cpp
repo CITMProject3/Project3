@@ -34,6 +34,8 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
+
+#include <cctype>
 #include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -331,6 +333,29 @@ string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
 	}
 
 	return library_path;
+}
+
+void ModuleResourceManager::InputFileDropped(list<string>& files)
+{
+	//Classify not mesh files and mesh files
+	vector<string> non_mesh_files, mesh_files;
+	for (list<string>::iterator it = files.begin(); it != files.end(); ++it)
+	{
+		bool is_mesh = false;
+		if (App->file_system->IsDirectoryOutside((*it).data()) == false)
+			if (GetFileExtension((*it).data()) == FileType::MESH)
+				is_mesh = true;
+		if (is_mesh)
+			mesh_files.push_back(*it);
+		else
+			non_mesh_files.push_back(*it);
+	}
+
+	for (vector<string>::iterator it = non_mesh_files.begin(); it != non_mesh_files.end(); ++it)
+		FileDropped((*it).data());
+
+	for (vector<string>::iterator it = mesh_files.begin(); it != mesh_files.end(); ++it)
+		FileDropped((*it).data());
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)

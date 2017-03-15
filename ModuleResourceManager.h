@@ -56,6 +56,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void InputFileDropped(list<string>& files);
 	void FileDropped(const char* file_path);
 	void LoadFile(const std::string& library_path, const FileType& type);
 
@@ -93,9 +94,10 @@ public:
 
 	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, double& time_mod, std::string& library_path, std::string& assets_path)const;
 
+	FileType GetFileExtension(const char* path)const;
+
 private:
 
-	FileType GetFileExtension(const char* path)const;
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, std::string library_path, bool is_file = true)const;
