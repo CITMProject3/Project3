@@ -25,6 +25,8 @@
 #include "BtTriProcessor.h"
 #include "RaycastHit.h"
 
+#include "ResourceFileTexture.h"
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -266,15 +268,32 @@ void ModulePhysics3D::GenerateTerrain()
 	}
 }
 
+bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
+{	
+	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+	{
+		heightMapImg = (ResourceFileTexture*)res;
+		heightMapImg->Load();
+		unsigned char* buf = heightMapImg->GetData();
+		float* f = (float*)buf;
+		uint* u = (uint*)buf;
+		int h = heightMapImg->GetHeight();
+		int w = heightMapImg->GetWidth();
+		int size = h * w;
+	}
+	return false;
+}
+
 void ModulePhysics3D::DeleteTerrain()
 {
-	if (terrainData != nullptr)
+	/*if (terrainData != nullptr)
 	{
 		delete terrainData;
 		terrainData = nullptr;
 		currentTerrainUUID = 0;
 		terrainSize[0] = terrainSize[1] = terrainSize[2] = 0;
-	}
+	}*/
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -636,12 +655,7 @@ bool ModulePhysics3D::SaveTerrain()
 {
 	bool ret = true;
 
-	if (currentTerrainUUID == 0)
-	{
-		currentTerrainUUID = (uint)App->rnd->RandomInt();
-	}
-
-	float* buf = new float[terrainSize[0] * terrainSize[2] + 3];
+	/*float* buf = new float[terrainSize[0] * terrainSize[2] + 3];
 	float* it = buf;
 	uint bytes = sizeof(int);
 	memcpy(it, &terrainSize[0], bytes);
@@ -655,7 +669,7 @@ bool ModulePhysics3D::SaveTerrain()
 
 	string path = "Library/Terrains/";
 	char tmp[24];
-	sprintf(tmp, "%u", currentTerrainUUID);
+	sprintf(tmp, "%u", heightMapImg->GetUUID());
 	path += tmp;
 	path += ".trr";
 
@@ -666,14 +680,14 @@ bool ModulePhysics3D::SaveTerrain()
 		LOG("Error saving terrain.");
 	}
 
-	delete[] buf;
+	delete[] buf;*/
 	return ret;
 }
 
 bool ModulePhysics3D::LoadTerrain(uint uuid)
 {
 	bool ret = false;
-	if (uuid != 0)
+	/*if (uuid != 0)
 	{
 		currentTerrainUUID = uuid;
 
@@ -704,13 +718,27 @@ bool ModulePhysics3D::LoadTerrain(uint uuid)
 			ret = true;
 			delete[] buf;
 		}
-	}
+	}*/
 	return ret;
 }
 
 uint ModulePhysics3D::GetCurrentTerrainUUID()
 {
-	return currentTerrainUUID;
+	return heightMapImg->GetUUID();
+}
+
+int ModulePhysics3D::GetHeightmapTexture()
+{
+	if (heightMapImg != nullptr)
+	{
+		return heightMapImg->GetTexture();
+	}
+	return 0;
+}
+
+float2 ModulePhysics3D::GetHeightmapSize()
+{
+	return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
 }
 
 

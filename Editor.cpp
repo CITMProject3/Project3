@@ -375,11 +375,6 @@ update_status Editor::EditorWindows()
 			DebugMenu();
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Quit"))
-		{
-			ret = UPDATE_STOP;
-			ImGui::EndMenu();
-		}
 		ImGui::EndMainMenuBar();
 	}
 
@@ -586,6 +581,39 @@ void Editor::GameObjectMenu()
 
 void Editor::PhysicsMenu()
 {	
+	if (ImGui::BeginMenu("Select a texture:"))
+	{
+		vector<string> textures_list;
+		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+		for (int i = 0; i < textures_list.size(); ++i)
+		{
+			if (ImGui::MenuItem(textures_list[i].data()))
+			{
+				string lib_file = App->resource_manager->FindFile(textures_list[i]);
+				App->physics->GenerateHeightmap(lib_file);
+			}
+		}
+		ImGui::EndMenu();
+	}
+	int tex = App->physics->GetHeightmapTexture();
+	if (tex != 0)
+	{
+		float2 size = App->physics->GetHeightmapSize();
+		float maxSize = max(size.x, size.y);
+		if (maxSize > 200)
+		{
+			float scale = 200.0f / maxSize;
+			size.x *= scale;
+			size.y *= scale;
+		}
+		ImGui::Image((void*)tex, ImVec2(size.x, size.y));
+	}
+
+	ImGui::NewLine();
+	ImGui::NewLine();
+	ImGui::Separator();
 	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger\nsurfaces, it will go faster on multiple little\nmeshes than on a single big one.\n ");
 	ImGui::Separator();
 	bool tmp = App->physics->TerrainIsGenerated();

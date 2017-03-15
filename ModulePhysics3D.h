@@ -6,6 +6,8 @@
 #include <list>
 #include "Primitive.h"
 
+class ResourceFileTexture;
+
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
@@ -39,7 +41,9 @@ public:
 
 	void CleanWorld();
 	void CreateGround();
+
 	void GenerateTerrain();
+	bool GenerateHeightmap(string resLibPath);
 	void DeleteTerrain();
 	bool TerrainIsGenerated();
 
@@ -58,6 +62,8 @@ public:
 	bool LoadTerrain(uint uuid);
 
 	uint GetCurrentTerrainUUID();
+	int GetHeightmapTexture();
+	float2 GetHeightmapSize();
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
@@ -90,7 +96,7 @@ private:
 	int x = 0;
 	int z = 0;
 
-	uint currentTerrainUUID = 0;
+	ResourceFileTexture* heightMapImg = nullptr;
 #pragma endregion
 public:
 	bool renderTerrain = false;
