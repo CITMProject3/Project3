@@ -87,7 +87,7 @@ private:
 	list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
-	float* terrainData = nullptr;
+	int* terrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
 	std::vector<int> terrainSize;
 

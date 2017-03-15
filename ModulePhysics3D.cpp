@@ -260,7 +260,7 @@ void ModulePhysics3D::GenerateTerrain()
 
 	if (terrainSize[0] > 0 && terrainSize[2] > 0)
 	{
-		terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
+		//terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
 		x = 0;
 		z = 0;
 		loadingTerrain = true;
@@ -275,12 +275,10 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 	{
 		heightMapImg = (ResourceFileTexture*)res;
 		heightMapImg->Load();
-		unsigned char* buf = heightMapImg->GetData();
-		float* f = (float*)buf;
-		uint* u = (uint*)buf;
-		int h = heightMapImg->GetHeight();
-		int w = heightMapImg->GetWidth();
-		int size = h * w;
+
+		terrainData = new int[heightMapImg->GetBytes() / 4 + 1];
+
+		App->renderer3D->ReadImageBufferData(heightMapImg->GetTexture(), &terrainData, heightMapImg->GetBytes() / 4 + 1);
 	}
 	return false;
 }
@@ -519,12 +517,9 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 // ---------------------------------------------------------
 void ModulePhysics3D::AddTerrain()
 {
-	float minMax = terrainSize[1]/2;
-	minMax += 1;
-
-	if (terrainSize[0] > 0 && terrainSize[2] > 0 && terrainData != nullptr)
+	if (heightMapImg != nullptr)
 	{
-		terrain = new btHeightfieldTerrainShape(terrainSize[0], terrainSize[2], terrainData, 1.0f, -minMax, minMax, 1, PHY_ScalarType::PHY_FLOAT, false);
+		terrain = new btHeightfieldTerrainShape(heightMapImg->GetWidth(), heightMapImg->GetHeight(), terrainData, 1.0f, -300, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
 		shapes.push_back(terrain);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();

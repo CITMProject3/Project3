@@ -623,3 +623,10 @@ void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
 
 	glEnd();
 }
+
+void ModuleRenderer3D::ReadImageBufferData(int buffer, int ** out)
+{
+	glBindBuffer(GL_TEXTURE_BUFFER, buffer);
+	glGetTexImage(GL_TEXTURE_1D_ARRAY, 0, GL_RGB, GL_INT, *out);
+	glBindBuffer(GL_TEXTURE_BUFFER, 0);
+}
