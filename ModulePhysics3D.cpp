@@ -1,3 +1,5 @@
+#include "Glew\include\glew.h"
+
 #include "Globals.h"
 #include "Application.h"
 #include "ModulePhysics3D.h"
@@ -25,6 +27,8 @@
 #include "BtTriProcessor.h"
 #include "RaycastHit.h"
 
+
+
 #include "ResourceFileTexture.h"
 
 #ifdef _DEBUG
@@ -46,10 +50,6 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
 	debug_draw = new DebugDrawer(); //DEBUG DISABLED
-
-	terrainSize.push_back(0);
-	terrainSize.push_back(0);
-	terrainSize.push_back(0);
 }
 
 // Destructor
@@ -143,12 +143,7 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	ContinuousTerrainGeneration();
-
-	if (renderTerrain)
-	{
-		RenderTerrain();
-	}
+	RenderTerrain();
 
 	return UPDATE_CONTINUE;
 }
@@ -243,55 +238,114 @@ void ModulePhysics3D::CreateGround()
 	world->addRigidBody(body);
 }
 
-void ModulePhysics3D::GenerateTerrain()
-{
-	if (terrainData != nullptr)
-	{
-		delete terrainData;
-		terrainData = nullptr;
-	}
-
-	AABB terrainAABB = App->go_manager->GetWorldAABB(std::vector<int>(1, TERRAIN_LAYER));
-	int X = max(Abs(terrainAABB.minPoint.x), Abs(terrainAABB.maxPoint.x));
-	int Z = max(Abs(terrainAABB.minPoint.z), Abs(terrainAABB.maxPoint.z));
-	terrainSize[0] = X*2;
-	terrainSize[1] = max(math::Abs(terrainAABB.minPoint.y), math::Abs(terrainAABB.maxPoint.y)) * 2;
-	terrainSize[2] = Z*2;
-
-	if (terrainSize[0] > 0 && terrainSize[2] > 0)
-	{
-		//terrainData = new float[(terrainSize[0]) * (terrainSize[2])];
-		x = 0;
-		z = 0;
-		loadingTerrain = true;
-		loadInSecondPlane = false;
-	}
-}
-
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
+
+	bool ret = false;
+	//Loading Heightmap Image
 	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 	{
+		if (heightMapImg != nullptr)
+		{
+			heightMapImg->Unload();
+		}
+		DeleteTerrain();
 		heightMapImg = (ResourceFileTexture*)res;
-		heightMapImg->Load();
 
-		terrainData = new int[heightMapImg->GetBytes() / 4 + 1];
+		//If the file exists and is loaded succesfully, we need to reload it manually.
+		//The Resource won't hold the pixel data
+		//Don't worry, we'll be deleting soon
+		char* buffer = nullptr;
+		unsigned int size = App->file_system->Load(res->GetFile(), &buffer);
+		if (size > 0)
+		{
+			ILuint id;
+			ilGenImages(1, &id);
+			ilBindImage(id);
+			if (ilLoadL(IL_DDS, (const void*)buffer, size))
+			{
+				int width = ilGetInteger(IL_IMAGE_WIDTH);
+				int height = ilGetInteger(IL_IMAGE_HEIGHT);
+				BYTE* tmp = new BYTE[width * height * 3];
+				//Copying all RGB data of each pixel into a uchar (BYTE) array. We need to transform it into float numbers
+				terrainData = new float[width * height];
+				ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
 
-		App->renderer3D->ReadImageBufferData(heightMapImg->GetTexture(), &terrainData, heightMapImg->GetBytes() / 4 + 1);
+				for (int n = 0; n < width * height; n++)
+				{
+					float a, b, c;
+					a = tmp[n * 3];
+					b = tmp[n * 3 + 1];
+					c = tmp[n * 3 + 2];
+					terrainData[n] = ((a + b + c) / 3) * terrainHeightScaling;
+				}
+				//Deleting the second loaded image
+				ilBindImage(0);
+				ilDeleteImages(1, &id);
+				ret = true;
+
+				delete[] tmp;
+				GenerateTerrainMesh();
+			}
+		}
+		if (buffer != nullptr)
+		{
+			delete[] buffer;
+		}
 	}
-	return false;
+	return ret;
 }
 
 void ModulePhysics3D::DeleteTerrain()
 {
-	/*if (terrainData != nullptr)
+	if (terrainData != nullptr)
 	{
-		delete terrainData;
+		delete[] terrainData;
 		terrainData = nullptr;
-		currentTerrainUUID = 0;
-		terrainSize[0] = terrainSize[1] = terrainSize[2] = 0;
-	}*/
+
+		terrain = nullptr;
+		if (heightMapImg != nullptr)
+		{
+			heightMapImg->Unload();
+			heightMapImg = nullptr;
+		}
+		if (texture != nullptr)
+		{
+			texture->Unload();
+			texture = nullptr;
+		}
+		if (terrainVerticesBuffer != 9)
+		{
+			glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
+		}
+		terrainVerticesBuffer = 0;
+
+		if (terrainIndicesBuffer != 9)
+		{
+			glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
+		}
+		terrainIndicesBuffer = 0;
+
+		if (terrainUvBuffer != 9)
+		{
+			glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
+		}
+		terrainUvBuffer = 0;
+
+		if (terrainNormalBuffer != 9)
+		{
+			glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		}
+		terrainNormalBuffer = 0;
+
+
+		if (numIndices != 9)
+		{
+			glDeleteBuffers(1, (GLuint*)&numIndices);
+		}
+		numIndices = 0;
+	}
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -519,7 +573,7 @@ void ModulePhysics3D::AddTerrain()
 {
 	if (heightMapImg != nullptr)
 	{
-		terrain = new btHeightfieldTerrainShape(heightMapImg->GetWidth(), heightMapImg->GetHeight(), terrainData, 1.0f, -300, 300, 1, PHY_ScalarType::PHY_INTEGER, false);
+		terrain = new btHeightfieldTerrainShape(heightMapImg->GetWidth(), heightMapImg->GetHeight(), terrainData, 1.0f, -300, 300, 1, PHY_ScalarType::PHY_FLOAT, false);
 		shapes.push_back(terrain);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();
@@ -532,67 +586,9 @@ void ModulePhysics3D::AddTerrain()
 	}
 }
 
-void ModulePhysics3D::ContinuousTerrainGeneration()
-{
-	if (loadingTerrain == true)
-	{
-		ImGui::SetNextWindowSize(ImVec2(500, 180));
-		if (ImGui::Begin("Generating terrain data"))
-		{
-			float fraction = ((float)(z * terrainSize[0] + x) / (float)(terrainSize[0] * terrainSize[2]));
-			ImGui::ProgressBar(fraction);
-			char str[124];
-			sprintf(str, "Gathering height data.\n%i / %i\nModifying objects or entering Play mode may cause errors.", z * terrainSize[0] + x, terrainSize[0] * terrainSize[2]);
-			ImGui::Text(str);
-			ImGui::NewLine();
-			ImGui::Checkbox("Second Plane Terrain Generation", &loadInSecondPlane);
-			ImGui::Text("Marking this checkbox will make the terrain generation go slower,\n increasing the FPS");
-			ImGui::End();
-		}
-		Timer time;
-		time.Start();
-		int n = 0;
-
-		math::Ray ray;
-		RaycastHit hit;
-		float timerTime;
-		for (; z < terrainSize[2]; z++)
-		{
-			for (; x < terrainSize[0]; x++)
-			{				
-				ray.dir = vec(0, -1, 0);
-				ray.pos = vec(x - (terrainSize[0] / 2), terrainSize[1] + 3, z - (terrainSize[2] / 2));
-				hit = App->go_manager->Raycast(ray, std::vector<int>(1, TERRAIN_LAYER));
-
-				if (hit.object != nullptr)
-				{
-					terrainData[z * terrainSize[0] + x] = hit.point.y;
-				}
-				else
-				{
-					terrainData[z * terrainSize[0] + x] = 0;
-				}
-				n++;
-				if (n % 5 == 0 || loadInSecondPlane)
-				{
-					timerTime = time.ReadSec();
-					if ((timerTime > 0.15f) || (loadInSecondPlane && timerTime > 0.016f))
-					{
-						return;
-					}
-					n = 0;
-				}
-			}
-			x = 0;
-		}
-		loadingTerrain = false;
-		SaveTerrain();
-	}
-}
-
 void ModulePhysics3D::RenderTerrain()
 {
-	if (terrain)
+	/*if (terrain)
 	{
 		BtTriPRocessor tmp;
 		tmp.useWire = renderWiredTerrain;
@@ -611,13 +607,13 @@ void ModulePhysics3D::RenderTerrain()
 		Triangle tri1;
 		Triangle tri2;
 
-		for (int z = 0; z < terrainSize[2] - 1; z++)
+		for (int z = 0; z < heightMapImg->GetHeight() - 1; z++)
 		{
-			for (int x = 0; x < terrainSize[0] - 1; x++)
+			for (int x = 0; x < heightMapImg->GetWidth() - 1; x++)
 			{
-				tri1.a = vec(x - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x], z - terrainSize[2] / 2);
-				tri1.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
-				tri1.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+				tri1.a = vec(x - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x] * terrainHeightScaling, z - heightMapImg->GetHeight() / 2);
+				tri1.b = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x + 1] * terrainHeightScaling, z - heightMapImg->GetHeight() / 2);
+				tri1.c = vec(x - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x] * terrainHeightScaling, z + 1 - heightMapImg->GetHeight() / 2);
 
 				glVertex3fv(tri1.c.ptr());
 				glVertex3fv(tri1.b.ptr());
@@ -627,9 +623,9 @@ void ModulePhysics3D::RenderTerrain()
 				//If we're using wireframe, we only need to render half of the triangles for the mesh to look complete
 				if (renderWiredTerrain == false)
 				{
-					tri2.a = vec(x + 1 - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x + 1], z + 1 - terrainSize[2] / 2);
-					tri2.b = vec(x + 1 - terrainSize[0] / 2, terrainData[z * terrainSize[0] + x + 1], z - terrainSize[2] / 2);
-					tri2.c = vec(x - terrainSize[0] / 2, terrainData[(z + 1) * terrainSize[0] + x], z + 1 - terrainSize[2] / 2);
+					tri2.a = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x + 1], z + 1 - heightMapImg->GetHeight() / 2);
+					tri2.b = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x + 1], z - heightMapImg->GetHeight() / 2);
+					tri2.c = vec(x - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x], z + 1 - heightMapImg->GetHeight() / 2);
 
 					glVertex3fv(tri2.a.ptr());
 					glVertex3fv(tri2.b.ptr());
@@ -643,7 +639,186 @@ void ModulePhysics3D::RenderTerrain()
 		{
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
+	}*/
+
+
+
+	if (numIndices != 0 && terrainData != nullptr)
+	{
+		if (renderWiredTerrain)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+
+		uint shader_id = App->resource_manager->GetDefaultShaderId();
+		//Use shader
+		glUseProgram(shader_id);
+
+		//Set uniforms
+
+		//Matrices
+		GLint model_location = glGetUniformLocation(shader_id, "model");
+		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
+		GLint projection_location = glGetUniformLocation(shader_id, "projection");
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *App->renderer3D->camera->GetProjectionMatrix().v);
+		GLint view_location = glGetUniformLocation(shader_id, "view");
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
+
+		int count = 0;
+		if (texture != nullptr)
+		{
+			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+			glUniform1i(has_tex_location, 1);
+			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture->GetTexture());
+			glUniform1i(texture_location, 0);
+		}
+		else
+		{
+			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+			glUniform1i(has_tex_location, 0);
+		}
+
+
+		//Lighting
+		LightInfo light = App->lighting->GetLightInfo();
+		//Ambient
+		GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+		if (ambient_intensity_location != -1)
+			glUniform1f(ambient_intensity_location, light.ambient_intensity);
+		GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+		if (ambient_color_location != -1)
+			glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
+
+		//Directional
+		GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+		glUniform1i(has_directional_location, light.has_directional);
+
+		if (light.has_directional)
+		{
+			GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+			if (directional_intensity_location != -1)
+				glUniform1f(directional_intensity_location, light.directional_intensity);
+			GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+			if (directional_color_location != -1)
+				glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
+			GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
+			if (directional_direction_location != -1)
+				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
+		}
+
+
+
+		//Buffer vertices == 0
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Buffer uvs == 1
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		/*//Buffer normals == 2
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Buffer tangents == 3
+		glEnableVertexAttribArray(3);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);*/
+
+		//Index buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
+		glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, (void*)0);
+
+		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
+}
+
+void ModulePhysics3D::GenerateTerrainMesh()
+{
+	int w = heightMapImg->GetWidth();
+	int h = heightMapImg->GetHeight();
+	uint numVertices =  w * h;
+	numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 * 3) + (h * 2 * 3) - 2 - 1 - 2 - 1;
+
+	uint* indices = new uint[numIndices];
+
+	float3* vertices = new float3[numVertices];
+	float3* normals = new float3[numVertices];
+	float2* uvs = new float2[numVertices];
+
+	for (int z = 0; z < h; z++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			vertices[z * w + x] = float3(x, terrainData[z * w + x], z);
+			float uv_x = (float)x / (float)w;
+			float uv_y = 1- ((float)z / (float)h);
+			uvs[z * w + x] = float2(uv_x, uv_y);
+		}
+	}
+
+	for (int z = 0; z < h; z++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+
+		}
+	}
+
+	int n = 0;
+	for (int z = 0; z < h - 1; z++)
+	{
+		for (int x = 0; x < w - 1; x++)
+		{
+			indices[n] = (z + 1) * w + x;
+			n++;
+			indices[n] = z * w + x + 1;
+			n++;			
+			indices[n] = z * w + x;
+			n++;
+
+			indices[n] = z * w + x + 1;
+			n++;
+			indices[n] = (z + 1) * w + x;
+			n++;
+			indices[n] = (z + 1) * w + x + 1;
+			n++;
+		}
+	}
+
+	//Load vertices buffer to VRAM
+	glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
+	glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
+
+	//Load UVs -----------------------------------------------------------------------------------------------------------------------
+	glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
+	glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
+
+	//Load indices buffer to VRAM
+	glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+
+
+	delete[] indices;
+	delete[] vertices;
+	delete[] normals;
+	delete[] uvs;
+}
+
+void ModulePhysics3D::DeleteTerrainMesh()
+{
 }
 
 bool ModulePhysics3D::SaveTerrain()
@@ -717,16 +892,53 @@ bool ModulePhysics3D::LoadTerrain(uint uuid)
 	return ret;
 }
 
+void ModulePhysics3D::SetTerrainHeightScale(float scale)
+{
+	if (scale != 0)
+	{
+		for (int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+		{
+			terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
+		}
+	}
+	terrainHeightScaling = scale;
+	GenerateTerrainMesh();
+}
+
+void ModulePhysics3D::LoadTexture(string resLibPath)
+{
+	bool ret = false;
+	//Loading Heightmap Image
+	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+	{
+		if (texture != nullptr)
+		{
+			texture->Unload();
+		}
+		texture = (ResourceFileTexture*)res;
+	}
+}
+
 uint ModulePhysics3D::GetCurrentTerrainUUID()
 {
 	return heightMapImg->GetUUID();
 }
 
-int ModulePhysics3D::GetHeightmapTexture()
+int ModulePhysics3D::GetHeightmap()
 {
 	if (heightMapImg != nullptr)
 	{
 		return heightMapImg->GetTexture();
+	}
+	return 0;
+}
+
+int ModulePhysics3D::GetTexture()
+{
+	if (texture != nullptr)
+	{
+		return texture->GetTexture();
 	}
 	return 0;
 }

@@ -43,7 +43,6 @@ public:
 	void DrawLocator(float3 pos, Quat rot, float4 color = float4(1, 1, 1, 1));
 	void DrawAABB(float3 minPoint, float3 maxPoint, float4 color = float4(1, 1, 1, 1));
 
-	void ReadImageBufferData(int buffer, int** out);
 private:
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false)const;

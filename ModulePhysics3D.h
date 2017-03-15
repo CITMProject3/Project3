@@ -42,7 +42,6 @@ public:
 	void CleanWorld();
 	void CreateGround();
 
-	void GenerateTerrain();
 	bool GenerateHeightmap(string resLibPath);
 	void DeleteTerrain();
 	bool TerrainIsGenerated();
@@ -55,14 +54,20 @@ public:
 
 private:
 	void AddTerrain();
-	void ContinuousTerrainGeneration();
 	void RenderTerrain();
+	void GenerateTerrainMesh();
+	void DeleteTerrainMesh();
 public:
 	bool SaveTerrain();
 	bool LoadTerrain(uint uuid);
+	void SetTerrainHeightScale(float scale);
+	float GetTerrainHeightScale() { return terrainHeightScaling; }
+
+	void LoadTexture(string resLibPath);
 
 	uint GetCurrentTerrainUUID();
-	int GetHeightmapTexture();
+	int GetHeightmap();
+	int GetTexture();
 	float2 GetHeightmapSize();
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
@@ -87,20 +92,21 @@ private:
 	list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
-	int* terrainData = nullptr;
+	float* terrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	std::vector<int> terrainSize;
-
-	bool loadingTerrain = false;
-	bool loadInSecondPlane = false;
-	int x = 0;
-	int z = 0;
-
 	ResourceFileTexture* heightMapImg = nullptr;
+	ResourceFileTexture* texture = nullptr;
+	float terrainHeightScaling = 0.25f;
+
+	int terrainVerticesBuffer = 0;
+	int terrainIndicesBuffer = 0;
+	int terrainUvBuffer = 0;
+	int terrainNormalBuffer = 0;
+
+	uint numIndices = 0;
 #pragma endregion
 public:
-	bool renderTerrain = false;
-	bool renderWiredTerrain = true;
+	bool renderWiredTerrain = false;
 };
 
 class DebugDrawer : public btIDebugDraw
