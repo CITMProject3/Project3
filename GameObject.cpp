@@ -11,6 +11,7 @@
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
 #include "ComponentRectTransform.h"
+#include "ComponentUiImage.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -384,6 +385,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_RECT_TRANSFORM:
 		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
 			item = new ComponentRectTransform(type, this);
+		break;
+	case C_UI_IMAGE:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiImage(type, this);
 		break;
 	default:
 		break;

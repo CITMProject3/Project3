@@ -19,6 +19,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ComponentRectTransform.h"
+#include "ComponentUiImage.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -779,63 +780,71 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 
 void ModuleRenderer3D::DrawUI(GameObject * obj) const
 {
-	glLoadMatrixf((GLfloat*)float4x4::identity.v);
+	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+	Mesh* mesh = c->GetMesh();
+
+	ComponentUiImage* u = (ComponentUiImage*)obj->GetComponent(C_UI_IMAGE);
+	if (u == nullptr)
+		return;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glDisable(GL_LIGHTING); // Panel mesh is not afected by lights!
+
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
-
-	// args: left, right, bottom, top, near, far
-
-	glOrtho(0.0f,App->window->GetScreenWidth(), App->window->GetScreenHeight(),  0.0f, 1.0f, -1.0f); //
-	glMatrixMode(GL_MODELVIEW);
-	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
-	Mesh* mesh = c->GetMesh();
-	
-	glPushMatrix();
+	glOrtho(0, App->window->GetScreenWidth(), App->window->GetScreenHeight(), 0, -1, 1);	//
+	glMatrixMode(GL_MODELVIEW);             // Select Modelview Matrix
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();
 	glMultMatrixf(*c->GetFinalTransform().Transposed().v);
-
-	//Buffer vertices == 0
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer uvs == 1
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer normals == 2
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_normals);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer tangents == 3
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-	glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, (void*)0);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glBindTexture(GL_TEXTURE_2D, 0);
 	
-	glPopMatrix();
-	
+	switch (u->UImaterial->alpha)
+	{
+	case (2):
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, u->UImaterial->blend_type);
+	}
+	case (1):
+	{
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, u->UImaterial->alpha_test);
+		break;
+	}
+	}
+
+		// Vertices
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		// Texture coordinates
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+		if (u->UImaterial->texture_ids.size()>0 )
+		{
+			// Texture
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, (*u->UImaterial->texture_ids.begin()).second);
+		}
+
+		// Indices
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
 	glMatrixMode(GL_PROJECTION);              // Select Projection
 	glPopMatrix();							  // Pop The Matrix
 	glMatrixMode(GL_MODELVIEW);               // Select Modelview
 	glPopMatrix();							  // Pop The Matrix
-
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-
-	glLoadMatrixf((GLfloat*)camera->GetProjectionMatrix().v);
-
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+	
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const

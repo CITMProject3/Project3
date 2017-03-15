@@ -25,8 +25,8 @@ public:
 private:
 	void PrintMaterialProperties();
 	void ChooseAlphaType();
-	void ChangeTextureNoMaterial(string tex_num);
-	void ChangeTexture(string tex_num, Uniform* &value);
+	void ChangeTextureNoMaterial(std::string tex_num);
+	void ChangeTexture(std::string tex_num, Uniform* &value);
 	void RefreshTextures();
 	void AddTexture();
 	void CleanUp();
@@ -34,7 +34,7 @@ private:
 public:
 	std::string material_path; //To Library. If is "" means that this component uses the default material.
 	ResourceFileMaterial* rc_material = nullptr;
-	std::map<string, uint> texture_ids; //name of the variable texture in the shader and id
+	std::map<std::string, uint> texture_ids; //name of the variable texture in the shader and id
 
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	int alpha = 0;

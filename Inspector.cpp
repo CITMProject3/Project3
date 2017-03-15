@@ -152,6 +152,10 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_RECT_TRANSFORM);
 			}
 
+			if (ImGui::Selectable("Add UI Image"))
+			{
+				selected_GO->AddComponent(C_UI_IMAGE);
+			}
 			ImGui::EndPopup();
 		}
 	}

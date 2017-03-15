@@ -11,9 +11,9 @@
 
 ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
-	local_position.Set(0.0f, 0.0f, 0.0f);
+	local_position.Set(100.0f, 100.0f, 0.0f);
 	global_position.Set(0.0f, 0.0f, 0.0f);
-	rect_size.Set(10.0f, 10.0f);
+	rect_size.Set(100.0f, 100.0f);
 	size.Set(1.0f, 1.0f,1.0f);
 	final_transform_matrix = float4x4::identity;
 	GeneratePlane();
@@ -29,16 +29,7 @@ void ComponentRectTransform::GeneratePlane()
 	
 	ResizePlane();
 	plane->mesh->num_uvs = 4;
-	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
 
-	plane->mesh->uvs[0] = 0.0f;
-	plane->mesh->uvs[1] = 1.0f;
-	plane->mesh->uvs[2] = 1.0f;
-	plane->mesh->uvs[3] = 1.0f;
-	plane->mesh->uvs[4] = 0.0f;
-	plane->mesh->uvs[5] = 0.0f;
-	plane->mesh->uvs[6] = 1.0f;
-	plane->mesh->uvs[7] = 0.0f;
 
 	plane->ReLoadInMemory();
 
@@ -173,6 +164,17 @@ void ComponentRectTransform::ResizePlane()
 	plane->mesh->indices[3] = 1;
 	plane->mesh->indices[4] = 2;
 	plane->mesh->indices[5] = 3;
+
+	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
+
+	plane->mesh->uvs[0] = 0.0f;
+	plane->mesh->uvs[1] = 1.0f;
+	plane->mesh->uvs[2] = 1.0f;
+	plane->mesh->uvs[3] = 1.0f;
+	plane->mesh->uvs[4] = 0.0f;
+	plane->mesh->uvs[5] = 0.0f;
+	plane->mesh->uvs[6] = 1.0f;
+	plane->mesh->uvs[7] = 0.0f;
 
 	plane->ReLoadInMemory();
 }
