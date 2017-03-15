@@ -180,6 +180,10 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 				}
 				setting_parent = false;
 			}
+			else if (App->editor->assign_wheel != -1)
+			{
+				App->editor->wheel_assign = *object;
+			}
 			else
 			{
 				OnClickSelect(*object);

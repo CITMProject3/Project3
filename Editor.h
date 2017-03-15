@@ -102,6 +102,9 @@ public:
 	ImGuizmo::OPERATION gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	bool gizmo_enabled = true;
 
+	int assign_wheel = -1;
+	GameObject* wheel_assign = nullptr;
+
 private:
 
 	bool using_keyboard;

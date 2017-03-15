@@ -3,6 +3,7 @@
 
 #include "Component.h"
 #include "Globals.h"
+#include <vector>
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
@@ -48,6 +49,7 @@ public:
 	float kick_force_time = 2.0f;
 	bool  on_kick = false;
 	bool turning_left = false;
+	bool drift_dir_left = false;
 
 private:
 	float kickTimer = 0.0f;
@@ -55,6 +57,7 @@ public:
 	float drift_ratio = 0.5f;
 	float drift_mult = 1.0f;
 	float drift_boost = 1.0f;
+	float drift_turn_ratio = 2;
 
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
@@ -80,9 +83,7 @@ public:
 
 	VehicleInfo* car = nullptr;
 	PhysVehicle3D* vehicle = nullptr;
-
-	bool drift_no_phys = true;
-	bool drift_phys = false;
+	std::vector<GameObject*> wheels_go;
 };
 
 

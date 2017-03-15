@@ -1,5 +1,6 @@
 #include "ComponentCar.h"
 #include "Application.h"
+#include "Editor.h"
 #include "GameObject.h"
 #include "imgui/imgui.h"
 #include "Globals.h"
@@ -8,6 +9,8 @@
 #include "ComponentTransform.h"
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
+#include "GameObject.h"
+
 #include <string>
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
@@ -28,6 +31,9 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 0.0f, 0.0f, 0.0f };
+
+	for (uint i = 0; i < 4; i++)
+		wheels_go.push_back(nullptr);
 }
 
 ComponentCar::~ComponentCar()
@@ -42,7 +48,7 @@ void ComponentCar::Update()
 		if (vehicle)
 		{
 			HandlePlayerInput();
-			vehicle->Render();
+		//	vehicle->Render();
 			UpdateGO();
 			GameLoopCheck();
 		}
@@ -75,7 +81,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
+		
 		if (ImGui::TreeNode("Car settings"))
 		{
 			if (ImGui::TreeNode("Game loop settings"))
@@ -193,22 +199,67 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::Separator();
 			ImGui::Text("Drifting settings");
 			ImGui::NewLine();
-			ImGui::InputFloat("Drift ratio", &drift_ratio);
-			ImGui::InputFloat("Drift multiplier", &drift_mult);
-			ImGui::InputFloat("Drift boost", &drift_boost);
-			ImGui::Text("Drift mode");
-			ImGui::Indent(1.0f);
-			if (ImGui::Checkbox("Non-physics drift", &drift_no_phys))
-			{
-				drift_phys = !drift_no_phys;
-			}
-			if (ImGui::Checkbox("Physics drift", &drift_phys))
-			{
-				drift_no_phys = !drift_phys;
-			}
-
+			ImGui::InputFloat("Drift exit boost", &drift_boost);
+			ImGui::InputFloat("Drift turn multiplier", &drift_turn_ratio);
 			ImGui::TreePop();
 		} //Endof Car settings
+		
+		if (ImGui::TreeNode("Wheels"))
+		{
+			if (App->editor->assign_wheel != -1 && App->editor->wheel_assign != nullptr)
+			{
+				wheels_go[App->editor->assign_wheel] = App->editor->wheel_assign;
+				App->editor->assign_wheel = -1;
+				App->editor->wheel_assign = nullptr;
+			}
+
+			ImGui::Text("Front Left");
+			if (wheels_go[0] != nullptr)
+			{
+				ImGui::Text(wheels_go[0]->name.c_str());
+				ImGui::SameLine();
+			}
+			if (ImGui::Button("Assign Wheel##1"))
+			{
+				App->editor->assign_wheel = 0;
+				App->editor->wheel_assign = nullptr;
+			}
+			ImGui::Text("Front Right");
+			if (wheels_go[1] != nullptr)
+			{
+				ImGui::Text(wheels_go[1]->name.c_str());
+				ImGui::SameLine();
+			}
+			if (ImGui::Button("Assign Wheel##2"))
+			{
+				App->editor->assign_wheel = 1;
+				App->editor->wheel_assign = nullptr;
+
+			}
+			ImGui::Text("Back Left");
+			if (wheels_go[2] != nullptr)
+			{
+				ImGui::Text(wheels_go[2]->name.c_str());
+				ImGui::SameLine();
+			}
+			if (ImGui::Button("Assign Wheel##3"))
+			{
+				App->editor->assign_wheel = 2;
+				App->editor->wheel_assign = nullptr;
+			}
+			ImGui::Text("Back Right");
+			if (wheels_go[3] != nullptr)
+			{
+				ImGui::Text(wheels_go[3]->name.c_str());
+				ImGui::SameLine();
+			}
+			if (ImGui::Button("Assign Wheel##4"))
+			{
+				App->editor->assign_wheel = 3;
+				App->editor->wheel_assign = nullptr;
+			}
+			ImGui::TreePop();
+		}
 	}//Endof Collapsing header
 }
 
@@ -278,76 +329,6 @@ void ComponentCar::HandlePlayerInput()
 		accel += extra_force;
 	}
 
-	vehicle->SetFriction(50);
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-	{
-		if (drift_no_phys == true)
-		{
-			startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
-		}
-		else if (drift_phys == true)
-		{
-
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT && turning == true)
-	{
-		if (drift_no_phys == true)
-		{
-			vehicle->vehicle->getRigidBody()->clearForces();
-
-			btTransform btTrans = vehicle->GetRealTransform();
-			float data[16];
-			btTrans.getOpenGLMatrix(data);
-
-			float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
-				data[4], data[5], data[6], data[7],
-				data[8], data[9], data[10], data[11],
-				data[12], data[13], data[14], data[15]);
-			matrix.Transpose();
-			float3 front = matrix.WorldZ();
-			float3 right = matrix.WorldX();
-			if (turning_left == true)
-				right = -right;
-			right = right.Lerp(front, drift_ratio);
-
-			btVector3 vector(right.x, right.y, right.z);
-			float l = startDriftSpeed.length();
-			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
-			vehicle->SetFriction(0);
-		//	for (uint i = 0; i < vehicle->in)
-			//	vehicle->ApplyCentralForce(btVector3(vec.x, vec.y, vec.z));
-			//	vehicle->SetFriction(1);
-			//vehicle->vehicle->updateFriction()
-		}
-		else if (drift_phys == true)
-		{
-
-		}
-	}
-
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
-	{
-		float data[16];
-		vehicle->GetRealTransform().getOpenGLMatrix(data);
-		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
-			data[4], data[5], data[6], data[7],
-			data[8], data[9], data[10], data[11],
-			data[12], data[13], data[14], data[15]);
-		matrix.Transpose();
-
-		float3 speed(matrix.WorldZ());
-		speed *= startDriftSpeed.length();
-		speed *= drift_boost;
-		vehicle->SetLinearSpeed(speed.x, speed.y, speed.z);
-		vehicle->vehicle->getRigidBody()->clearForces();
-		vehicle->Turn(0);
-		turn_current = 0;
-		vehicle->SetFriction(car->frictionSlip);
-		//vehicle->SetLinearSpeed(0, 0, 0);
-	}
-
 	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
 	if (App->input->GetNumberJoysticks() > 0)
 	{
@@ -388,6 +369,7 @@ void ComponentCar::HandlePlayerInput()
 				turn_current = turn_max;
 		}
 
+
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::SELECT))
 		{
 			Reset();
@@ -412,10 +394,78 @@ void ComponentCar::HandlePlayerInput()
 		}
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		drift_dir_left = turning_left;
+	}
+
+	bool drifting = false;
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		drifting = true;
+
+		vehicle->vehicle->getRigidBody()->clearForces();
+
+		btTransform btTrans = vehicle->GetRealTransform();
+		float data[16];
+		btTrans.getOpenGLMatrix(data);
+
+		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+			data[4], data[5], data[6], data[7],
+			data[8], data[9], data[10], data[11],
+			data[12], data[13], data[14], data[15]);
+		matrix.Transpose();
+		float3 front = matrix.WorldZ();
+		float3 right = matrix.WorldX();
+		if (drift_dir_left == true)
+			right = -right;
+		right = right.Lerp(front, drift_ratio);
+
+		btVector3 vector(right.x, right.y, right.z);
+		float l = startDriftSpeed.length();
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+		vehicle->SetFriction(0);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	{
+		float data[16];
+		vehicle->GetRealTransform().getOpenGLMatrix(data);
+		float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
+			data[4], data[5], data[6], data[7],
+			data[8], data[9], data[10], data[11],
+			data[12], data[13], data[14], data[15]);
+		matrix.Transpose();
+
+		float3 speed(matrix.WorldZ());
+		speed *= startDriftSpeed.length();
+		speed *= drift_boost;
+		vehicle->SetLinearSpeed(speed.x, speed.y, speed.z);
+		vehicle->vehicle->getRigidBody()->clearForces();
+		vehicle->Turn(0);
+		turn_current = 0;
+		vehicle->SetFriction(car->frictionSlip);
+	}
+
 	if (vehicle)
 	{
+		if (drifting)
+		{
+   			float turn_final = turn_current * drift_turn_ratio;
+			if (drift_dir_left == true && turn_current < 0)
+				turn_final += turn_max * drift_turn_ratio;
+
+			else if (drift_dir_left == false && turn_current > 0)
+				turn_final -= turn_max * drift_turn_ratio;
+			vehicle->Turn(turn_final);
+		}
+
+		else
+			vehicle->Turn(turn_current);
+	///	LOG("%f", turn_current);
 		vehicle->ApplyEngineForce(accel);
-		vehicle->Turn(turn_current);
+
 		vehicle->Brake(brake);
 	}
 }
@@ -509,6 +559,21 @@ void ComponentCar::UpdateGO()
 {
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	trs->Set(vehicle->GetTransform().Transposed());
+
+	for (uint i = 0; i < wheels_go.size(); i++)
+	{
+		if (wheels_go[i] != nullptr)
+		{
+			ComponentTransform* w_trs = (ComponentTransform*)wheels_go[i]->GetComponent(C_TRANSFORM);
+			float4x4 trans;
+			vehicle->vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(*trans.v);
+			trans.Transpose();
+			float3 translate, scale;
+			Quat rotation;
+			trans.Decompose(translate, rotation, scale);
+			w_trs->SetRotation(rotation);
+		}
+	}
 }
 
 void ComponentCar::RenderWithoutCar()

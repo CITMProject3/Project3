@@ -174,6 +174,21 @@ void ComponentTransform::Set(math::float4x4 matrix)
 	SetScale(scal);
 }
 
+void ComponentTransform::SetGlobal(float4x4 global)
+{
+	GameObject* parent = game_object->GetParent();
+	if (parent != nullptr)
+	{
+		float4x4 new_local = ((ComponentTransform*)parent->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * global;
+		float3 translate, scale;
+		Quat rotation;
+		new_local.Decompose(translate, rotation, scale);
+		SetPosition(translate);
+		SetRotation(rotation);
+		SetScale(scale);
+	}
+}
+
 math::float3 ComponentTransform::GetPosition() const
 {
 	return position;
