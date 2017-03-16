@@ -875,13 +875,91 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	int w = heightMapImg->GetWidth();
 	int h = heightMapImg->GetHeight();
 
+	float* Rbuf = new float[w*h];
+	float* Gbuf = new float[w*h];
+	float* Bbuf = new float[w*h];
+
+	//Iterating all image pixels
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			terrainData[y*w+x] = ((R[y*w + x] + G[y*w + x] + B[y*w + x]) / 3) * terrainHeightScaling;
+			float value = 0.0f;
+			int n = 0;
+			int displacement = 0;
+			//Iterating all nearby pixels and checking they actually exist in the image
+			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			{
+				if (_y > 0 && _y < h)
+				{
+					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					{
+						if (_x > 0 && _x < w)
+						{
+							n++;
+							value += R[_y * w + _x];
+						}
+					}
+				}
+			}
+			value /= n;
+			Rbuf[y*w + x] = value;
+
+			value = 0.0f;
+			n = 0;
+			displacement = 2;
+			//Iterating all nearby pixels and checking they actually exist in the image
+			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			{
+				if (_y > 0 && _y < h)
+				{
+					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					{
+						if (_x > 0 && _x < w)
+						{
+							n++;
+							value += G[_y * w + _x];
+						}
+					}
+				}
+			}
+			value /= n;
+			Gbuf[y*w + x] = value;
+
+			value = 0.0f;
+			n = 0;
+			displacement = 1;
+			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			{
+				if (_y > 0 && _y < h)
+				{
+					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					{
+						if (_x > 0 && _x < w)
+						{
+							n++;
+							value += B[_y * w + _x];
+						}
+					}
+				}
+			}
+			value /= n;
+			Bbuf[y*w + x] = value;
+
 		}
 	}
+
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			terrainData[y*w + x] = (max(max(Rbuf[y*w + x], Gbuf[y*w + x]), Bbuf[y*w + x]) / 3.0) * terrainHeightScaling;
+		}
+	}
+
+	delete[] Rbuf;
+	delete[] Gbuf;
+	delete[] Bbuf;
 }
 
 bool ModulePhysics3D::SaveTerrain()
