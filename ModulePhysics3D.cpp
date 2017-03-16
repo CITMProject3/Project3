@@ -759,7 +759,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 	{
 		for (int x = 0; x < w; x++)
 		{
-			vertices[z * w + x] = float3(x, terrainData[z * w + x], z);
+			vertices[z * w + x] = float3(x - w/2, terrainData[z * w + x], z - h/2);
 			float uv_x = (float)x / (float)w;
 			float uv_y = 1- ((float)z / (float)h);
 			uvs[z * w + x] = float2(uv_x, uv_y);
@@ -782,7 +782,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 				norm += t.NormalCCW();
 			}
 			//Top right
-			if (x + 1 > 0 && z - 1 > 0)
+			if (x + 1 < w && z - 1 > 0)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x + 1];
@@ -790,7 +790,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 				norm += t.NormalCCW();
 			}
 			//Bottom left
-			if (x - 1 > 0 && z + 1 > 0)
+			if (x - 1 > 0 && z + 1 < h)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x-1];
@@ -798,7 +798,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 				norm += t.NormalCCW();
 			}
 			//Bottom right
-			if (x + 1 > 0 && z + 1 > 0)
+			if (x + 1 < w && z + 1 < h)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z+1)* w + x];
