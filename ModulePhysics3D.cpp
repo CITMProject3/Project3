@@ -81,11 +81,6 @@ bool ModulePhysics3D::Start()
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 
-	App->go_manager->layer_system->AddLayer(TERRAIN_LAYER, "Terrain");
-
-	App->file_system->GenerateDirectory("Library/Terrains");
-
-	//CreateGround();
 	return true;
 }
 
@@ -159,7 +154,13 @@ bool ModulePhysics3D::CleanUp()
 
 	CleanWorld();
 
-	DeleteTerrain();
+	DeleteHeightmap();
+
+	if (heightMapImg)
+	{
+		heightMapImg->Unload();
+	}
+	DeleteTexture();
 
 	delete vehicle_raycaster;
 	delete world;
@@ -220,8 +221,6 @@ void ModulePhysics3D::CleanWorld()
 	vehicles.clear();
 
 	world->clearForces();
-
-	//CreateGround();
 }
 
 
@@ -250,7 +249,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 		{
 			heightMapImg->Unload();
 		}
-		DeleteTerrain();
+		DeleteHeightmap();
 		heightMapImg = (ResourceFileTexture*)res;
 
 		//If the file exists and is loaded succesfully, we need to reload it manually.
@@ -305,7 +304,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 	return ret;
 }
 
-void ModulePhysics3D::DeleteTerrain()
+void ModulePhysics3D::DeleteHeightmap()
 {
 	if (terrainData != nullptr)
 	{
@@ -318,41 +317,8 @@ void ModulePhysics3D::DeleteTerrain()
 			heightMapImg->Unload();
 			heightMapImg = nullptr;
 		}
-		if (texture != nullptr)
-		{
-			texture->Unload();
-			texture = nullptr;
-		}
-		if (terrainVerticesBuffer != 9)
-		{
-			glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
-		}
-		terrainVerticesBuffer = 0;
-
-		if (terrainIndicesBuffer != 9)
-		{
-			glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-		}
-		terrainIndicesBuffer = 0;
-
-		if (terrainUvBuffer != 9)
-		{
-			glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
-		}
-		terrainUvBuffer = 0;
-
-		if (terrainNormalBuffer != 9)
-		{
-			glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
-		}
-		terrainNormalBuffer = 0;
-
-
-		if (numIndices != 9)
-		{
-			glDeleteBuffers(1, (GLuint*)&numIndices);
-		}
-		numIndices = 0;
+		DeleteTexture();
+		DeleteTerrainMesh();
 	}
 }
 
@@ -596,61 +562,6 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::RenderTerrain()
 {
-	/*if (terrain)
-	{
-		BtTriPRocessor tmp;
-		tmp.useWire = renderWiredTerrain;
-		AABB cullCam;
-		cullCam.Enclose(App->renderer3D->GetCamera()->GetFrustum());
-		terrain->processAllTriangles(&tmp, btVector3(cullCam.minPoint.x, cullCam.minPoint.y, cullCam.minPoint.z), btVector3(cullCam.maxPoint.x, cullCam.maxPoint.y, cullCam.maxPoint.z));
-	}
-	else if (terrainData)
-	{
-		if (renderWiredTerrain)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-		glBegin(GL_TRIANGLES);
-		glColor3f(0.0f, 0.6f, 0.6f);
-		Triangle tri1;
-		Triangle tri2;
-
-		for (int z = 0; z < heightMapImg->GetHeight() - 1; z++)
-		{
-			for (int x = 0; x < heightMapImg->GetWidth() - 1; x++)
-			{
-				tri1.a = vec(x - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x] * terrainHeightScaling, z - heightMapImg->GetHeight() / 2);
-				tri1.b = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x + 1] * terrainHeightScaling, z - heightMapImg->GetHeight() / 2);
-				tri1.c = vec(x - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x] * terrainHeightScaling, z + 1 - heightMapImg->GetHeight() / 2);
-
-				glVertex3fv(tri1.c.ptr());
-				glVertex3fv(tri1.b.ptr());
-				glVertex3fv(tri1.a.ptr());
-				glNormal3fv(tri1.NormalCW().ptr());
-
-				//If we're using wireframe, we only need to render half of the triangles for the mesh to look complete
-				if (renderWiredTerrain == false)
-				{
-					tri2.a = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x + 1], z + 1 - heightMapImg->GetHeight() / 2);
-					tri2.b = vec(x + 1 - heightMapImg->GetWidth()  / 2, terrainData[z * heightMapImg->GetWidth()  + x + 1], z - heightMapImg->GetHeight() / 2);
-					tri2.c = vec(x - heightMapImg->GetWidth()  / 2, terrainData[(z + 1) * heightMapImg->GetWidth()  + x], z + 1 - heightMapImg->GetHeight() / 2);
-
-					glVertex3fv(tri2.a.ptr());
-					glVertex3fv(tri2.b.ptr());
-					glVertex3fv(tri2.c.ptr());
-					glNormal3fv(tri2.NormalCCW().ptr());
-				}
-			}
-		}
-		glEnd();
-		if (renderWiredTerrain)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-	}*/
-
-
-
 	if (numIndices != 0 && terrainData != nullptr)
 	{
 		if (renderWiredTerrain)
@@ -760,6 +671,10 @@ void ModulePhysics3D::RenderTerrain()
 
 void ModulePhysics3D::GenerateTerrainMesh()
 {
+	if (terrainIndicesBuffer != 0)
+	{
+		DeleteTerrainMesh();
+	}
 	if (heightMapImg)
 	{
 		int w = heightMapImg->GetWidth();
@@ -879,6 +794,17 @@ void ModulePhysics3D::GenerateTerrainMesh()
 
 void ModulePhysics3D::DeleteTerrainMesh()
 {
+	glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
+	terrainVerticesBuffer = 0;
+
+	glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
+	terrainIndicesBuffer = 0;
+
+	glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
+	terrainUvBuffer = 0;
+
+	glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+	terrainNormalBuffer = 0;
 }
 
 void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
@@ -965,77 +891,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	delete[] Bbuf;
 }
 
-bool ModulePhysics3D::SaveTerrain()
-{
-	bool ret = true;
-
-	/*float* buf = new float[terrainSize[0] * terrainSize[2] + 3];
-	float* it = buf;
-	uint bytes = sizeof(int);
-	memcpy(it, &terrainSize[0], bytes);
-	it ++;
-	memcpy(it, &terrainSize[1], bytes);
-	it++;
-	memcpy(it, &terrainSize[2], bytes);
-	it ++;
-	bytes = sizeof(float);
-	memcpy(it, terrainData, bytes * terrainSize[0] * terrainSize[2]);
-
-	string path = "Library/Terrains/";
-	char tmp[24];
-	sprintf(tmp, "%u", heightMapImg->GetUUID());
-	path += tmp;
-	path += ".trr";
-
-	
-	if (App->file_system->Save(path.data(), buf, terrainSize[0] * terrainSize[2] + 3) <= 0)
-	{
-		ret = false;
-		LOG("Error saving terrain.");
-	}
-
-	delete[] buf;*/
-	return ret;
-}
-
-bool ModulePhysics3D::LoadTerrain(uint uuid)
-{
-	bool ret = false;
-	/*if (uuid != 0)
-	{
-		currentTerrainUUID = uuid;
-
-		string path = "Library/Terrains/";
-		char tmp[24];
-		sprintf(tmp, "%u", uuid);
-		path += tmp;
-		path += ".trr";
-
-		char* buf = nullptr;
-		char* it = buf;
-		App->file_system->Load(path.data(), &buf);
-
-		if (buf != nullptr)
-		{
-			uint bytes = sizeof(float);
-			memcpy(&terrainSize[0], it, bytes);
-			it++;
-			memcpy(&terrainSize[1], it, bytes);
-			it++;
-			memcpy(&terrainSize[2], it, bytes);
-			it++;
-
-			terrainData = new float[terrainSize[0] * terrainSize[2]];
-
-			memcpy(terrainData, it, bytes * terrainSize[0] * terrainSize[2]);
-
-			ret = true;
-			delete[] buf;
-		}
-	}*/
-	return ret;
-}
-
 void ModulePhysics3D::SetTerrainHeightScale(float scale)
 {
 	if (scale != 0)
@@ -1059,17 +914,36 @@ void ModulePhysics3D::LoadTexture(string resLibPath)
 	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 	{
-		if (texture != nullptr)
-		{
-			texture->Unload();
-		}
+		DeleteTexture();
 		texture = (ResourceFileTexture*)res;
+	}
+}
+
+void ModulePhysics3D::DeleteTexture()
+{
+	if (texture != nullptr)
+	{
+		texture->Unload();
+		texture = nullptr;
 	}
 }
 
 uint ModulePhysics3D::GetCurrentTerrainUUID()
 {
-	return heightMapImg->GetUUID();
+	if (heightMapImg)
+	{
+		return heightMapImg->GetUUID();
+	}
+	return 0;
+}
+
+const char * ModulePhysics3D::GetHeightmapPath()
+{
+	if (heightMapImg)
+	{
+		return heightMapImg->GetFile();
+	}
+	return nullptr;
 }
 
 int ModulePhysics3D::GetHeightmap()
@@ -1088,6 +962,24 @@ int ModulePhysics3D::GetTexture()
 		return texture->GetTexture();
 	}
 	return 0;
+}
+
+uint ModulePhysics3D::GetTextureUUID()
+{
+	if (texture)
+	{
+		return texture->GetUUID();
+	}
+	return 0;
+}
+
+const char * ModulePhysics3D::GetTexturePath()
+{
+	if (texture)
+	{
+		return texture->GetFile();
+	}
+	return nullptr;
 }
 
 float2 ModulePhysics3D::GetHeightmapSize()

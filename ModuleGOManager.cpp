@@ -282,7 +282,7 @@ ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
 void ModuleGOManager::LoadEmptyScene()
 {
 	ClearScene();
-
+	App->physics->DeleteHeightmap();
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
