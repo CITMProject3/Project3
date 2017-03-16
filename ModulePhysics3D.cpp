@@ -889,13 +889,12 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		{
 			float value = 0.0f;
 			int n = 0;
-			int displacement = 0;
 			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
 			{
 				if (_y > 0 && _y < h)
 				{
-					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
 					{
 						if (_x > 0 && _x < w)
 						{
@@ -909,18 +908,15 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 			Rbuf[y*w + x] = value;
 
 			value = 0.0f;
-			n = 0;
-			displacement = 2;
 			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
 			{
 				if (_y > 0 && _y < h)
 				{
-					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
 					{
 						if (_x > 0 && _x < w)
 						{
-							n++;
 							value += G[_y * w + _x];
 						}
 					}
@@ -930,17 +926,14 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 			Gbuf[y*w + x] = value;
 
 			value = 0.0f;
-			n = 0;
-			displacement = 1;
-			for (int _y = y - displacement; _y <= y + displacement; _y++)
+			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
 			{
 				if (_y > 0 && _y < h)
 				{
-					for (int _x = x - displacement; _x <= x + displacement; _x++)
+					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
 					{
 						if (_x > 0 && _x < w)
 						{
-							n++;
 							value += B[_y * w + _x];
 						}
 					}
@@ -948,7 +941,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 			}
 			value /= n;
 			Bbuf[y*w + x] = value;
-
 		}
 	}
 
