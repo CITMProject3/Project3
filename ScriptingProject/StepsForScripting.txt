@@ -5,9 +5,11 @@ Configuration Properties -> Linker -> Input -> Module Definition File -> add .de
 Build a library of Engine (Solution Configuration to Library) and add to: (ScriptingProject) Configuration Properties -> Linker -> Input -> Additional Dependencies
 Configuration Properties -> Linker -> General -> Additional Library Directories -> add $(SolutiionDir) or <inherit from parent or project defaults>
 
-To add a script follow the structure of Test or Test2.
+To add a script follow the structure of Test or Test2:
 The scripts must have [name of script]_Start(Application* App, GameObject* go) and [name of script]_Update(Application* App, GameObject* go)
-Remember to add the name of the script in teh list and .def file! (following the structure of Test and Test2)
+If you want to have variables in the inspector you need [name of script]_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools)
+	and [name_of_script]_UpdatePublics(Application* engine_app, GameObject* game_object) where you need to insert the variables and update the variables from the component
+Remember to add the name of the script in the list (inside the function GetScriptNames(Application* engine_app)) and the functions mentioned before in the .def file! (following the structure of Test and Test2)
 
 FAQ:
 
