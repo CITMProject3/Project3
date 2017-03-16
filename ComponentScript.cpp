@@ -10,6 +10,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, co
 	finded_start = false;
 	finded_update = false;
 	script_num = 0;
+	filter = "";
 }
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -18,6 +19,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : 
 	finded_start = false;
 	finded_update = false;
 	script_num = 0;
+	filter = "";
 }
 
 ComponentScript::~ComponentScript()
@@ -111,6 +113,33 @@ void ComponentScript::OnInspector(bool debug)
 			{
 				SetPath(App->scripting->GetScriptNamesList()[script_num]);
 			}
+
+			if (ImGui::Button("Set Script", ImVec2(50, 15)))
+			{
+				ImGui::OpenPopup("Select Script");
+			}
+
+			if (ImGui::BeginPopup("Select Script"))
+			{
+
+				ImGui::InputText("Filter", filter._Myptr(), 50);
+				string f = filter.data();
+
+				for (int x = 0; x < App->scripting->GetScriptNamesList().size(); x++)
+				{
+					if (f.empty() || f.compare(App->scripting->GetScriptNamesList()[x]) == 0)
+					{
+						float d = f.compare(App->scripting->GetScriptNamesList()[x]);
+						if (ImGui::Selectable(App->scripting->GetScriptNamesList()[x]))
+						{
+							SetPath(App->scripting->GetScriptNamesList()[x]);
+						}
+					}
+				}
+
+				ImGui::EndPopup();
+			}
+
 
 			if (App->IsGameRunning() && !App->IsGamePaused())
 			{
@@ -251,10 +280,14 @@ void ComponentScript::SetPath(const char * path)
 	this->path = path;
 	started = false;
 
-	public_chars.clear();
-	public_ints.clear();
-	public_floats.clear();
-	public_bools.clear();
+	if(!public_chars.empty())
+		public_chars.clear();
+	if (!public_ints.empty())
+		public_ints.clear();
+	if (!public_floats.empty())
+		public_floats.clear();
+	if (!public_bools.empty())
+		public_bools.clear();
 
 	string update_path = this->path.c_str();
 	update_path.append("_GetPublics");

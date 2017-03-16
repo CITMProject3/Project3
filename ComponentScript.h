@@ -38,6 +38,7 @@ private:
 	bool finded_start;
 	bool finded_update;
 	int script_num;
+	string filter = "";
 
 	DWORD error;
 
