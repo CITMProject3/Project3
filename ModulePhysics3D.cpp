@@ -720,11 +720,11 @@ void ModulePhysics3D::RenderTerrain()
 		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
-		/*//Buffer normals == 2
+		//Buffer normals == 2
 		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
+/*
 		//Buffer tangents == 3
 		glEnableVertexAttribArray(3);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -770,7 +770,43 @@ void ModulePhysics3D::GenerateTerrainMesh()
 	{
 		for (int x = 0; x < w; x++)
 		{
+			Triangle t;
+			float3 norm = float3::zero;
 
+			//Top left
+			if (x - 1 > 0 && z - 1 > 0)
+			{
+				t.a = vertices[(z) * w + x];
+				t.b = vertices[(z-1)* w + x];
+				t.c = vertices[(z)* w + x-1];
+				norm += t.NormalCCW();
+			}
+			//Top right
+			if (x + 1 > 0 && z - 1 > 0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x + 1];
+				t.c = vertices[(z - 1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom left
+			if (x - 1 > 0 && z + 1 > 0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x-1];
+				t.c = vertices[(z+1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom right
+			if (x + 1 > 0 && z + 1 > 0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z+1)* w + x];
+				t.c = vertices[(z)* w + x+1];
+				norm += t.NormalCCW();
+			}
+			norm.Normalize();
+			normals[z * w + x] = norm;
 		}
 	}
 
@@ -804,6 +840,11 @@ void ModulePhysics3D::GenerateTerrainMesh()
 	glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
 	glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
+
+	//Load UVs -----------------------------------------------------------------------------------------------------------------------
+	glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
+	glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
 
 	//Load indices buffer to VRAM
 	glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
