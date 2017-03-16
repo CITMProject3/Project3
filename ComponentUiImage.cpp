@@ -1,7 +1,12 @@
+#include "Application.h"
+#include "Editor.h"
+#include "Assets.h"
 #include "ComponentUiImage.h"
 #include "ModuleResourceManager.h"
+#include "ResourceFileTexture.h"
 #include "GameObject.h"
 #include "ComponentMaterial.h"
+#include "imgui\imgui.h"
 
 ComponentUiImage::ComponentUiImage(ComponentType type, GameObject * game_object) : Component(type,game_object)
 {
@@ -18,7 +23,11 @@ void ComponentUiImage::CleanUp()
 
 void ComponentUiImage::OnInspector(bool debug)
 {
-	UImaterial->OnInspector(debug);
+	std::string str = (std::string("UI Image") + std::string("##") + std::to_string(uuid));
+	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+	{
+		UImaterial->DefaultMaterialInspector();
+	}
 }
 
 void ComponentUiImage::Save(Data & file) const

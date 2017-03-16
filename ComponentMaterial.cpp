@@ -89,7 +89,8 @@ void ComponentMaterial::OnInspector(bool debug)
 				}
 				ImGui::EndMenu();
 			}
-			if(texture_ids.size() == 0)
+
+			if (texture_ids.size() == 0)
 				AddTexture();
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
@@ -97,7 +98,7 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
 				ChangeTextureNoMaterial((*it).first);
 			}
-			
+
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 			ChooseAlphaType();
 
@@ -293,6 +294,21 @@ void ComponentMaterial::Load(Data & conf)
 	
 }
 
+void ComponentMaterial::DefaultMaterialInspector()
+{
+	if (texture_ids.size() == 0)
+		AddTexture();
+	for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
+	{
+		ImGui::Text("%s", (*it).first.data());
+		ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
+		ChangeTextureNoMaterial((*it).first);
+	}
+
+	ImGui::ColorEdit4("Color: ###materialColorDefault", color);
+	ChooseAlphaType();
+}
+
 void ComponentMaterial::PrintMaterialProperties()
 {
 	for (vector<Uniform*>::iterator it = rc_material->material.uniforms.begin(); it != rc_material->material.uniforms.end(); ++it)
@@ -411,7 +427,7 @@ void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 				if (rc_tmp)
 				{
 					tex_resources.pop_back();
-					texture_ids.at("") = rc_tmp->GetTexture();
+					(*texture_ids.begin()).second = rc_tmp->GetTexture();
 					list_textures_paths.pop_back();
 					tex_resources.push_back(rc_tmp);
 					list_textures_paths.push_back(u_sampler2d);
@@ -522,7 +538,7 @@ void ComponentMaterial::AddTexture()
 				if (rc_tmp)
 				{
 					tex_resources.push_back(rc_tmp);
-					texture_ids.insert(pair<string, uint>("", rc_tmp->GetTexture()));
+					texture_ids.insert(pair<string, uint>("0", rc_tmp->GetTexture()));
 					list_textures_paths.push_back(path);
 				}
 				else

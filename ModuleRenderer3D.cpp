@@ -830,7 +830,8 @@ void ModuleRenderer3D::DrawUI(GameObject * obj) const
 			glBindTexture(GL_TEXTURE_2D, 0);
 			glBindTexture(GL_TEXTURE_2D, (*u->UImaterial->texture_ids.begin()).second);
 		}
-
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor4fv(u->UImaterial->color);
 		// Indices
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);

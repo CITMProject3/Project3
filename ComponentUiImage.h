@@ -25,6 +25,7 @@ public:
 public:
 	ComponentMaterial* UImaterial = nullptr;
 private:
+	void ChangeTextureNoMaterial();
 
 };
 

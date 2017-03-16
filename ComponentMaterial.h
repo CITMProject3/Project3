@@ -22,6 +22,7 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 
+	void DefaultMaterialInspector();
 private:
 	void PrintMaterialProperties();
 	void ChooseAlphaType();
