@@ -15,7 +15,8 @@ ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* g
 	global_position.Set(0.0f, 0.0f, 0.0f);
 	rect_size.Set(100.0f, 100.0f);
 	size.Set(1.0f, 1.0f,1.0f);
-	final_transform_matrix = float4x4::identity;
+	transform_matrix = transform_matrix.FromTRS(local_position, Quat::identity, size);
+	CalculateFinalTransform();
 	GeneratePlane();
 }
 
@@ -26,9 +27,9 @@ void ComponentRectTransform::GeneratePlane()
 
 	plane->mesh->num_vertices = 4;
 	plane->mesh->vertices = new float[plane->mesh->num_vertices * 3];
-	
-	ResizePlane();
 	plane->mesh->num_uvs = 4;
+	ResizePlane();
+	
 
 
 	plane->ReLoadInMemory();
@@ -181,10 +182,27 @@ void ComponentRectTransform::ResizePlane()
 
 void ComponentRectTransform::Save(Data & file) const
 {
+	Data data;
+	data.AppendInt("type", type);
+	data.AppendUInt("UUID", uuid);
+	data.AppendBool("active", active);
+	data.AppendFloat2("rect_size", rect_size.ptr());
+	data.AppendMatrix("matrix", transform_matrix);
+
+	file.AppendArrayValue(data);
 }
 
 void ComponentRectTransform::Load(Data & conf)
 {
+	uuid = conf.GetUInt("UUID");
+	active = conf.GetBool("active");
+
+	transform_matrix = conf.GetMatrix("matrix");
+	rect_size = conf.GetFloat2("rect_size");
+	local_position = transform_matrix.TranslatePart();
+	size = transform_matrix.GetScale();
+	ResizePlane();
+	CalculateFinalTransform();
 }
 
 

@@ -845,6 +845,8 @@ void ModuleRenderer3D::DrawUI(GameObject * obj) const
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const
