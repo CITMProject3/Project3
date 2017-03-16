@@ -57,6 +57,7 @@ private:
 	void RenderTerrain();
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();
+	void InterpretHeightmapRGB(float* R, float* G, float* B);
 public:
 	bool SaveTerrain();
 	bool LoadTerrain(uint uuid);

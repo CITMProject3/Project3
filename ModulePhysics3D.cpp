@@ -272,14 +272,22 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 				terrainData = new float[width * height];
 				ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
 
+				float* R = new float[width * height];
+				float* G = new float[width * height];
+				float* B = new float[width * height];
+
 				for (int n = 0; n < width * height; n++)
 				{
-					float a, b, c;
-					a = tmp[n * 3];
-					b = tmp[n * 3 + 1];
-					c = tmp[n * 3 + 2];
-					terrainData[n] = ((a + b + c) / 3) * terrainHeightScaling;
+					R[n] = tmp[n * 3];
+					G[n] = tmp[n * 3 + 1];
+					B[n] = tmp[n * 3 + 2];					
 				}
+				InterpretHeightmapRGB(R, G, B);
+
+				delete[] R;
+				delete[] G;
+				delete[] B;
+
 				//Deleting the second loaded image
 				ilBindImage(0);
 				ilDeleteImages(1, &id);
@@ -860,6 +868,20 @@ void ModulePhysics3D::GenerateTerrainMesh()
 
 void ModulePhysics3D::DeleteTerrainMesh()
 {
+}
+
+void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
+{
+	int w = heightMapImg->GetWidth();
+	int h = heightMapImg->GetHeight();
+
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			terrainData[y*w+x] = ((R[y*w + x] + G[y*w + x] + B[y*w + x]) / 3) * terrainHeightScaling;
+		}
+	}
 }
 
 bool ModulePhysics3D::SaveTerrain()
