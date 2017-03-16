@@ -568,20 +568,13 @@ void ComponentCar::UpdateGO()
 			float4x4 trans;
 			vehicle->vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(*trans.v);
 			trans.Transpose();
-			float3 euler_rot = trans.ToEulerXYZ();
-			float3 current_euler = w_trs->GetRotationEuler();
-			current_euler.x = euler_rot.x;
-			//euler_rot = RadToDeg(euler_rot);
 
-			w_trs->SetRotation(current_euler);
-			//float3 scale = trans.GetScale();
-			//w_trs->SetGlobal(trans);
-			//w_trs->SetScale(scale);
-			/*float3 translate, scale;
-			Quat rotation;
-			trans.Decompose(translate, rotation, scale);
-			rotation.x = -rotation.x;
-			w_trs->SetRotation(rotation);*/
+			float3 scale = trans.GetScale();
+			w_trs->SetGlobal(trans);
+			w_trs->SetScale(scale);
+			//float3 euler = w_trs->GetRotationEuler();
+			//euler.y = -euler.y;
+			//w_trs->SetRotation(euler);
 		}
 	}
 }
