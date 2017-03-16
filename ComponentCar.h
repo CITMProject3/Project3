@@ -22,6 +22,29 @@ enum TURBO
 	T_MINI,
 	T_DRIFT,
 };
+
+struct Turbo
+{
+	float accel_boost;
+	float speed_boost;
+	float turbo_speed;
+	float deceleration = 1.0f;
+
+	bool per_ac = false;
+	bool per_sp = false;
+	bool speed_direct = false;
+	bool speed_decrease = false;
+
+	float time;
+	float timer = 0.0;
+
+	void SetTurbo(float a, float v, float t)
+	{
+		accel_boost = a;
+		speed_boost = v;
+		time = t;
+	}
+};
 class ComponentCar : public Component
 {
 	//
@@ -67,6 +90,7 @@ private:
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
 	void IdleTurn();
+	void ApplyTurbo();
 
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
@@ -95,7 +119,7 @@ public:
 	
 
 	//Car mechanics settings --------
-
+private:
 	//Drifting
 	float drift_ratio = 0.5f;
 	float drift_mult = 1.0f;
@@ -126,13 +150,14 @@ public:
 	float brake_force = 20.0f;
 	float back_force = 500.0f;
 
-	//Kick turbo
-	float force = 1000.0f;
-
 	//Reset
 	float lose_height = 0.0f;
 	float3 reset_pos;
 	float3 reset_rot;
+
+	//Turbos
+	Turbo mini_turbo;
+	Turbo drift_turbo;
 
 	
 	//Update variables (change during game)----------------------------------------------------------------
@@ -142,7 +167,7 @@ public:
 	float velocity_current = 0.0f;
 
 	//Car mechanics variables --------
-	
+	float top_velocity = 0.0f;
 
 	//Boosts
 	float accel_boost = 0.0f;
@@ -164,7 +189,19 @@ public:
 	bool acro_on = false;
 	float acro_timer = 0.0f;
 	
+	//Turbo
+	TURBO current_turbo = T_IDLE;
+	TURBO last_turbo = T_IDLE;
+	Turbo* applied_turbo = nullptr;
+	float turbo_accel_boost = 0.0f;
+	float turbo_speed_boost = 0.0f;
+	float turbo_deceleration = 0.0f;
+	bool to_turbo_speed = false;
+	bool to_turbo_decelerate = false;
 
+	
+
+	//
 	btVector3 startDriftSpeed;
 
 	VehicleInfo* car = nullptr;

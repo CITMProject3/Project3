@@ -429,8 +429,7 @@ void ComponentCamera::UpdateCameraFrustum()
 		desiredTransform.Decompose(des_pos, des_rot, scale);
 		currentTransform.Decompose(curr_pos, curr_rot, scale);
 
-		des_rot.z = curr_rot.z;
-
+	
 		Quat rotation = curr_rot.Lerp(des_rot, followRotateSpeed);
 		float3 position = curr_pos.Lerp(des_pos, followMoveSpeed);
 		currentTransform = float4x4::FromTRS(position, rotation, float3::one);

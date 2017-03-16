@@ -33,6 +33,9 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	front_player = PLAYER_1;
 	back_player = PLAYER_2;
 
+	//Turbo
+	mini_turbo.SetTurbo(500.0f, 50.0f, 3.0f);
+
 }
 
 ComponentCar::~ComponentCar()
@@ -88,6 +91,7 @@ void ComponentCar::OnInspector(bool debug)
 			{
 				ImGui::Text("");
 
+				ImGui::Text("Top velocity (Km/h) : %f", top_velocity);
 				ImGui::Text("Current velocity (Km/h): %f", vehicle->GetKmh());
 				ImGui::Text("Velocity boost (%): %f", speed_boost);
 				ImGui::Text("");
@@ -99,6 +103,9 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Current turn: %f", turn_current);
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
+
+				bool on_t = current_turbo != T_IDLE;
+				ImGui::Checkbox("On turbo", &on_t);
 
 				ImGui::Text("");
 				ImGui::TreePop();
@@ -213,6 +220,31 @@ void ComponentCar::OnInspector(bool debug)
 					if (ImGui::DragFloat("##lean_res_turn", &lean_red_turn, 0.5f, 0.0f, 100.0f)) {}
 
 					ImGui::Text("");
+					ImGui::TreePop();
+				}
+				if (ImGui::TreeNode("Turbos"))
+				{
+					if (ImGui::TreeNode("Mini Turbo"))
+					{
+						ImGui::Checkbox("Accel %", &mini_turbo.per_ac);
+						ImGui::SameLine();
+						ImGui::Checkbox("Speed %", &mini_turbo.per_sp);
+
+						ImGui::DragFloat("Accel boost", &mini_turbo.accel_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Speed boost", &mini_turbo.speed_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Duration", &mini_turbo.time);
+
+						ImGui::Checkbox("Speed decrease", &mini_turbo.speed_decrease);
+						if (mini_turbo.speed_decrease)
+						{
+							ImGui::DragFloat("Deceleration", &mini_turbo.deceleration, 1.0f, 0.0f);
+						}
+						ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
+						
+
+						ImGui::TreePop();
+					}
+
 					ImGui::TreePop();
 				}
 
@@ -455,8 +487,8 @@ void ComponentCar::HandlePlayerInput()
 			Reset();
 		}
 	}*/
-
 	JoystickControls(&accel, &brake, &turning);
+	ApplyTurbo();
 
 	//Acrobactics control
 	if (acro_on)
@@ -483,7 +515,7 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
 
-		if (accel != 0)
+		//if (accel != 0)
 			LimitSpeed();
 	}
 }
@@ -573,6 +605,10 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		Acrobatics(back_player);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	{
+		current_turbo = T_MINI;
 	}
 
 	//Front player
@@ -723,6 +759,86 @@ void ComponentCar::IdleTurn()
 			turn_current = 0;
 	}
 }
+
+void ComponentCar::ApplyTurbo()
+{
+	bool start = false;
+
+	if (start = (last_turbo != current_turbo))
+	{
+		switch (current_turbo)
+		{
+		case T_IDLE:
+			applied_turbo = nullptr;
+			break;
+		case T_MINI:
+			applied_turbo = &mini_turbo;
+			break;
+
+		}
+	}
+
+	last_turbo = current_turbo;
+
+	//If there's a turbo on, apply it
+	if (applied_turbo)
+	{
+		//Speed boost after first frame
+		if (to_turbo_speed)
+		{
+			vehicle->SetModularVelocity(max_velocity + turbo_speed_boost);
+			to_turbo_speed = false;
+		}
+
+		//Changes applied when turbo started
+		if (start)
+		{
+			applied_turbo->timer = 0.0f;
+
+			if (applied_turbo->per_ac)
+				turbo_accel_boost = ((accel_force / 100) * applied_turbo->accel_boost);
+			else
+				turbo_accel_boost = applied_turbo->accel_boost;
+
+			if (applied_turbo->per_sp)
+				turbo_speed_boost = ((max_velocity / 100) * applied_turbo->speed_boost);
+			else
+				turbo_speed_boost = applied_turbo->speed_boost;
+
+
+			if (applied_turbo->speed_direct)
+			{
+				to_turbo_speed = true;
+			}
+
+			turbo_deceleration = applied_turbo->deceleration;
+			to_turbo_decelerate = applied_turbo->speed_decrease;
+		}
+
+		//Turbo applied every frame till it's time finish and then go to idle turbo
+		if (applied_turbo->timer < applied_turbo->time)
+		{
+			accel_boost += turbo_accel_boost;
+			speed_boost += turbo_speed_boost;
+
+			applied_turbo->timer += time->DeltaTime();
+		}
+		else
+		{
+			current_turbo = T_IDLE;
+		}
+	}
+
+	//Deceleration (without brake)
+	if (current_turbo == T_IDLE && to_turbo_decelerate)
+	{
+		if (turbo_speed_boost > 0.0f)
+		{
+			turbo_speed_boost -= turbo_deceleration * time->DeltaTime();
+			speed_boost += turbo_speed_boost;
+		}
+	}
+}
 //--------------------------------------
 
 void ComponentCar::GameLoopCheck()
@@ -747,7 +863,7 @@ void ComponentCar::LimitSpeed()
 
 	if (vehicle)
 	{
-		float top_velocity = (max_velocity + speed_boost);
+		top_velocity = (max_velocity + speed_boost);
 		if (vehicle->GetKmh() > top_velocity)
 		{
 			vehicle->SetModularSpeed(top_velocity * KmhToMs);
