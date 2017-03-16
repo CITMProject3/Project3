@@ -984,7 +984,11 @@ const char * ModulePhysics3D::GetTexturePath()
 
 float2 ModulePhysics3D::GetHeightmapSize()
 {
-	return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
+	if (heightMapImg)
+	{
+		return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
+	}
+	return float2::zero;
 }
 
 

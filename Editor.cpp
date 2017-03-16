@@ -621,6 +621,10 @@ void Editor::PhysicsMenu()
 		{
 			App->physics->DeleteHeightmap();
 		}
+	}
+	tex = App->physics->GetHeightmap();
+	if (tex != 0)
+	{
 		float2 size = App->physics->GetHeightmapSize();
 		float maxSize = max(size.x, size.y);
 		if (maxSize > 200)
@@ -655,7 +659,10 @@ void Editor::PhysicsMenu()
 			{
 				App->physics->DeleteTexture();
 			}
-
+		}
+		tex2 = App->physics->GetTexture();
+		if (tex2 != 0)
+		{
 			float2 size = App->physics->GetHeightmapSize();
 			float maxSize = max(size.x, size.y);
 			if (maxSize > 200)

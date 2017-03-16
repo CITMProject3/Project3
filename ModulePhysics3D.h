@@ -98,7 +98,7 @@ private:
 	btHeightfieldTerrainShape* terrain = nullptr;
 	ResourceFileTexture* heightMapImg = nullptr;
 	ResourceFileTexture* texture = nullptr;
-	float terrainHeightScaling = 0.25f;
+	float terrainHeightScaling = 0.5f;
 
 	int terrainVerticesBuffer = 0;
 	int terrainIndicesBuffer = 0;
