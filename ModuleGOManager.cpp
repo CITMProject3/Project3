@@ -112,9 +112,6 @@ update_status ModuleGOManager::Update()
 	if(draw_octree)
 		octree.Draw();
 
-	App->renderer3D->DrawLine(lastRayData[0], lastRayData[1]);
-	App->renderer3D->DrawLine(lastRayData[1], lastRayData[1] + lastRayData[2], float4(1, 1, 0, 1));
-
 	return UPDATE_CONTINUE;
 }
 
@@ -580,15 +577,6 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 		lastRayData[0] = ray.pos;
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
-	}
-	if (hit.object != nullptr)
-	{
-		App->renderer3D->DrawLine(ray.pos, hit.point, float4(1.0f, 0.5f,0.0f,1.0f));
-		App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1, 1, 0, 1));
-	}
-	else
-	{
-		App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 1000.0f, float4(1.0f, 0.5f, 0.0f, 1.0f));
 	}
 
 	return hit;
