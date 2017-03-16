@@ -314,13 +314,10 @@ void ModulePhysics3D::DeleteHeightmap()
 		delete[] terrainData;
 		terrainData = nullptr;
 	}
-	if (heightMapImg)
+	if (heightMapImg != nullptr)
 	{
-		if (heightMapImg != nullptr)
-		{
-			heightMapImg->Unload();
-			heightMapImg = nullptr;
-		}
+		heightMapImg->Unload();
+		heightMapImg = nullptr;
 	}
 	DeleteTexture();
 	DeleteTerrainMesh();
