@@ -131,6 +131,8 @@ private:
 
 	bool disable_grid = false;
 
+	float heightMapScaling = 1.0f;
+
 	bool save_quit = false;
 	bool quit = false;
 };

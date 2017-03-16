@@ -752,118 +752,121 @@ void ModulePhysics3D::RenderTerrain()
 
 void ModulePhysics3D::GenerateTerrainMesh()
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-	uint numVertices =  w * h;
-	numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 * 3) + (h * 2 * 3) - 2 - 1 - 2 - 1;
-
-	uint* indices = new uint[numIndices];
-
-	float3* vertices = new float3[numVertices];
-	float3* normals = new float3[numVertices];
-	float2* uvs = new float2[numVertices];
-
-	for (int z = 0; z < h; z++)
+	if (heightMapImg)
 	{
-		for (int x = 0; x < w; x++)
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		uint numVertices = w * h;
+		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 * 3) + (h * 2 * 3) - 2 - 1 - 2 - 1;
+
+		uint* indices = new uint[numIndices];
+
+		float3* vertices = new float3[numVertices];
+		float3* normals = new float3[numVertices];
+		float2* uvs = new float2[numVertices];
+
+		for (int z = 0; z < h; z++)
 		{
-			vertices[z * w + x] = float3(x - w/2, terrainData[z * w + x], z - h/2);
-			float uv_x = (float)x / (float)w;
-			float uv_y = 1- ((float)z / (float)h);
-			uvs[z * w + x] = float2(uv_x, uv_y);
+			for (int x = 0; x < w; x++)
+			{
+				vertices[z * w + x] = float3(x - w / 2, terrainData[z * w + x], z - h / 2);
+				float uv_x = (float)x / (float)w;
+				float uv_y = 1 - ((float)z / (float)h);
+				uvs[z * w + x] = float2(uv_x, uv_y);
+			}
 		}
-	}
 
-	for (int z = 0; z < h; z++)
-	{
-		for (int x = 0; x < w; x++)
+		for (int z = 0; z < h; z++)
 		{
-			Triangle t;
-			float3 norm = float3::zero;
+			for (int x = 0; x < w; x++)
+			{
+				Triangle t;
+				float3 norm = float3::zero;
 
-			//Top left
-			if (x - 1 > 0 && z - 1 > 0)
-			{
-				t.a = vertices[(z) * w + x];
-				t.b = vertices[(z-1)* w + x];
-				t.c = vertices[(z)* w + x-1];
-				norm += t.NormalCCW();
+				//Top left
+				if (x - 1 > 0 && z - 1 > 0)
+				{
+					t.a = vertices[(z)* w + x];
+					t.b = vertices[(z - 1)* w + x];
+					t.c = vertices[(z)* w + x - 1];
+					norm += t.NormalCCW();
+				}
+				//Top right
+				if (x + 1 < w && z - 1 > 0)
+				{
+					t.a = vertices[(z)* w + x];
+					t.b = vertices[(z)* w + x + 1];
+					t.c = vertices[(z - 1)* w + x];
+					norm += t.NormalCCW();
+				}
+				//Bottom left
+				if (x - 1 > 0 && z + 1 < h)
+				{
+					t.a = vertices[(z)* w + x];
+					t.b = vertices[(z)* w + x - 1];
+					t.c = vertices[(z + 1)* w + x];
+					norm += t.NormalCCW();
+				}
+				//Bottom right
+				if (x + 1 < w && z + 1 < h)
+				{
+					t.a = vertices[(z)* w + x];
+					t.b = vertices[(z + 1)* w + x];
+					t.c = vertices[(z)* w + x + 1];
+					norm += t.NormalCCW();
+				}
+				norm.Normalize();
+				normals[z * w + x] = norm;
 			}
-			//Top right
-			if (x + 1 < w && z - 1 > 0)
-			{
-				t.a = vertices[(z)* w + x];
-				t.b = vertices[(z)* w + x + 1];
-				t.c = vertices[(z - 1)* w + x];
-				norm += t.NormalCCW();
-			}
-			//Bottom left
-			if (x - 1 > 0 && z + 1 < h)
-			{
-				t.a = vertices[(z)* w + x];
-				t.b = vertices[(z)* w + x-1];
-				t.c = vertices[(z+1)* w + x];
-				norm += t.NormalCCW();
-			}
-			//Bottom right
-			if (x + 1 < w && z + 1 < h)
-			{
-				t.a = vertices[(z)* w + x];
-				t.b = vertices[(z+1)* w + x];
-				t.c = vertices[(z)* w + x+1];
-				norm += t.NormalCCW();
-			}
-			norm.Normalize();
-			normals[z * w + x] = norm;
 		}
-	}
 
-	int n = 0;
-	for (int z = 0; z < h - 1; z++)
-	{
-		for (int x = 0; x < w - 1; x++)
+		int n = 0;
+		for (int z = 0; z < h - 1; z++)
 		{
-			indices[n] = (z + 1) * w + x;
-			n++;
-			indices[n] = z * w + x + 1;
-			n++;			
-			indices[n] = z * w + x;
-			n++;
+			for (int x = 0; x < w - 1; x++)
+			{
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = z * w + x;
+				n++;
 
-			indices[n] = z * w + x + 1;
-			n++;
-			indices[n] = (z + 1) * w + x;
-			n++;
-			indices[n] = (z + 1) * w + x + 1;
-			n++;
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = (z + 1) * w + x + 1;
+				n++;
+			}
 		}
+
+		//Load vertices buffer to VRAM
+		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
+
+		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
+
+		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
+
+		//Load indices buffer to VRAM
+		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+
+
+		delete[] indices;
+		delete[] vertices;
+		delete[] normals;
+		delete[] uvs;
 	}
-
-	//Load vertices buffer to VRAM
-	glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
-	glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
-
-	//Load UVs -----------------------------------------------------------------------------------------------------------------------
-	glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
-	glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
-
-	//Load UVs -----------------------------------------------------------------------------------------------------------------------
-	glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
-	glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
-
-	//Load indices buffer to VRAM
-	glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
-
-
-	delete[] indices;
-	delete[] vertices;
-	delete[] normals;
-	delete[] uvs;
 }
 
 void ModulePhysics3D::DeleteTerrainMesh()
@@ -1037,9 +1040,12 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 {
 	if (scale != 0)
 	{
-		for (int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+		if (heightMapImg)
 		{
-			terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
+			for (int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+			{
+				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
+			}
 		}
 	}
 	terrainHeightScaling = scale;

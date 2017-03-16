@@ -84,6 +84,8 @@ bool Editor::Start()
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
 
+	heightMapScaling = App->physics->GetTerrainHeightScale();
+
 	return ret;
 }
 
@@ -658,10 +660,11 @@ void Editor::PhysicsMenu()
 	ImGui::NewLine();*/
 	ImGui::Separator();
 
-	float scaling = App->physics->GetTerrainHeightScale();
-	if (ImGui::DragFloat("Terrain height scaling: ", &scaling, 0.01f, 0.001f, 2.0f))
+	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
+	ImGui::SameLine();
+	if(ImGui::Button("Set terrain height scaling"))
 	{
-		App->physics->SetTerrainHeightScale(scaling);
+		App->physics->SetTerrainHeightScale(heightMapScaling);
 	}
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
