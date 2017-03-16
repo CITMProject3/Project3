@@ -572,9 +572,6 @@ void ComponentCar::UpdateGO()
 			float3 scale = trans.GetScale();
 			w_trs->SetGlobal(trans);
 			w_trs->SetScale(scale);
-			//float3 euler = w_trs->GetRotationEuler();
-			//euler.y = -euler.y;
-			//w_trs->SetRotation(euler);
 		}
 	}
 }
