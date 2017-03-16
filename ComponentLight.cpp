@@ -16,7 +16,7 @@ ComponentLight::~ComponentLight()
 {
 }
 
-void ComponentLight::Update()
+void ComponentLight::Update(float dt)
 {
 	ComponentTransform* c_transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	float4x4 matrix = c_transform->GetGlobalMatrix();
