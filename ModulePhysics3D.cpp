@@ -242,63 +242,66 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 
 	bool ret = false;
 	//Loading Heightmap Image
-	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
-	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+	if (resLibPath != GetHeightmapPath())
 	{
-		if (heightMapImg != nullptr)
+		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 		{
-			heightMapImg->Unload();
-		}
-		DeleteHeightmap();
-		heightMapImg = (ResourceFileTexture*)res;
-
-		//If the file exists and is loaded succesfully, we need to reload it manually.
-		//The Resource won't hold the pixel data
-		//Don't worry, we'll be deleting soon
-		char* buffer = nullptr;
-		unsigned int size = App->file_system->Load(res->GetFile(), &buffer);
-		if (size > 0)
-		{
-			ILuint id;
-			ilGenImages(1, &id);
-			ilBindImage(id);
-			if (ilLoadL(IL_DDS, (const void*)buffer, size))
+			if (heightMapImg != nullptr)
 			{
-				int width = ilGetInteger(IL_IMAGE_WIDTH);
-				int height = ilGetInteger(IL_IMAGE_HEIGHT);
-				BYTE* tmp = new BYTE[width * height * 3];
-				//Copying all RGB data of each pixel into a uchar (BYTE) array. We need to transform it into float numbers
-				terrainData = new float[width * height];
-				ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
-
-				float* R = new float[width * height];
-				float* G = new float[width * height];
-				float* B = new float[width * height];
-
-				for (int n = 0; n < width * height; n++)
-				{
-					R[n] = tmp[n * 3];
-					G[n] = tmp[n * 3 + 1];
-					B[n] = tmp[n * 3 + 2];					
-				}
-				InterpretHeightmapRGB(R, G, B);
-
-				delete[] R;
-				delete[] G;
-				delete[] B;
-
-				//Deleting the second loaded image
-				ilBindImage(0);
-				ilDeleteImages(1, &id);
-				ret = true;
-
-				delete[] tmp;
-				GenerateTerrainMesh();
+				heightMapImg->Unload();
 			}
-		}
-		if (buffer != nullptr)
-		{
-			delete[] buffer;
+			DeleteHeightmap();
+			heightMapImg = (ResourceFileTexture*)res;
+
+			//If the file exists and is loaded succesfully, we need to reload it manually.
+			//The Resource won't hold the pixel data
+			//Don't worry, we'll be deleting soon
+			char* buffer = nullptr;
+			unsigned int size = App->file_system->Load(res->GetFile(), &buffer);
+			if (size > 0)
+			{
+				ILuint id;
+				ilGenImages(1, &id);
+				ilBindImage(id);
+				if (ilLoadL(IL_DDS, (const void*)buffer, size))
+				{
+					int width = ilGetInteger(IL_IMAGE_WIDTH);
+					int height = ilGetInteger(IL_IMAGE_HEIGHT);
+					BYTE* tmp = new BYTE[width * height * 3];
+					//Copying all RGB data of each pixel into a uchar (BYTE) array. We need to transform it into float numbers
+					terrainData = new float[width * height];
+					ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
+
+					float* R = new float[width * height];
+					float* G = new float[width * height];
+					float* B = new float[width * height];
+
+					for (int n = 0; n < width * height; n++)
+					{
+						R[n] = tmp[n * 3];
+						G[n] = tmp[n * 3 + 1];
+						B[n] = tmp[n * 3 + 2];
+					}
+					InterpretHeightmapRGB(R, G, B);
+
+					delete[] R;
+					delete[] G;
+					delete[] B;
+
+					//Deleting the second loaded image
+					ilBindImage(0);
+					ilDeleteImages(1, &id);
+					ret = true;
+
+					delete[] tmp;
+					GenerateTerrainMesh();
+				}
+			}
+			if (buffer != nullptr)
+			{
+				delete[] buffer;
+			}
 		}
 	}
 	return ret;
@@ -310,16 +313,17 @@ void ModulePhysics3D::DeleteHeightmap()
 	{
 		delete[] terrainData;
 		terrainData = nullptr;
-
-		terrain = nullptr;
+	}
+	if (heightMapImg)
+	{
 		if (heightMapImg != nullptr)
 		{
 			heightMapImg->Unload();
 			heightMapImg = nullptr;
 		}
-		DeleteTexture();
-		DeleteTerrainMesh();
 	}
+	DeleteTexture();
+	DeleteTerrainMesh();
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -794,17 +798,26 @@ void ModulePhysics3D::GenerateTerrainMesh()
 
 void ModulePhysics3D::DeleteTerrainMesh()
 {
-	glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
-	terrainVerticesBuffer = 0;
-
-	glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-	terrainIndicesBuffer = 0;
-
-	glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
-	terrainUvBuffer = 0;
-
-	glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
-	terrainNormalBuffer = 0;
+	if (terrainVerticesBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
+		terrainVerticesBuffer = 0;
+	}
+	if (terrainIndicesBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
+		terrainIndicesBuffer = 0;
+	}
+	if (terrainUvBuffer)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
+		terrainUvBuffer = 0;
+	}
+	if (terrainNormalBuffer)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		terrainNormalBuffer = 0;
+	}
 }
 
 void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
@@ -909,13 +922,15 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 
 void ModulePhysics3D::LoadTexture(string resLibPath)
 {
-	bool ret = false;
 	//Loading Heightmap Image
-	ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
-	if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+	if (resLibPath != GetTexturePath())
 	{
-		DeleteTexture();
-		texture = (ResourceFileTexture*)res;
+		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+		{
+			DeleteTexture();
+			texture = (ResourceFileTexture*)res;
+		}
 	}
 }
 
@@ -943,7 +958,8 @@ const char * ModulePhysics3D::GetHeightmapPath()
 	{
 		return heightMapImg->GetFile();
 	}
-	return nullptr;
+	char ret[5] = " ";
+	return ret;
 }
 
 int ModulePhysics3D::GetHeightmap()
@@ -979,7 +995,8 @@ const char * ModulePhysics3D::GetTexturePath()
 	{
 		return texture->GetFile();
 	}
-	return nullptr;
+	char ret[5] = " ";
+	return ret;
 }
 
 float2 ModulePhysics3D::GetHeightmapSize()
