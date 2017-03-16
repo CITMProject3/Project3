@@ -689,6 +689,14 @@ void ModulePhysics3D::RenderTerrain()
 		}
 
 
+		GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
+		if (colorLoc != -1)
+		{
+			float4 color(1.0f, 1.0f, 1.0f, 1.0f);
+			glUniform4fv(colorLoc, 1, color.ptr());
+		}
+
+
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
 		//Ambient

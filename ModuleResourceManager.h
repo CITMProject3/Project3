@@ -56,7 +56,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void InputFileDropped(list<string>& files);
+	void InputFileDropped(std::list<std::string>& files);
 	void FileDropped(const char* file_path);
 	void LoadFile(const std::string& library_path, const FileType& type);
 
