@@ -14,6 +14,8 @@
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 #include "RenderTexEditorWindow.h"
+#include "ResourceFileAnimation.h"
+#include "ResourceFileBone.h"
 #include "ResourceFileAudio.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
@@ -33,6 +35,8 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
+
+#include <cctype>
 #include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -63,6 +67,7 @@ bool ModuleResourceManager::Init(Data & config)
 bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
+	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
 	UpdateAssetsAuto();
 	return true;
 }
@@ -282,23 +287,37 @@ void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const strin
 
 	//Read the meta uuids
 	stack<unsigned int> meshes_uuids;
+	std::vector<uint> anim_uuids;
+	std::vector<uint> bone_uuids;
 
 	char* buffer = nullptr;
 	if (App->file_system->Load(meta_path.data(), &buffer) > 0)
 	{
 		Data meta(buffer);
 		
-		int size = meta.GetArraySize("meshes");
-		for (int i = size - 1; i >= 0; i--)
+		int size_meshes = meta.GetArraySize("meshes");
+		for (int i = size_meshes - 1; i >= 0; i--)
 		{
 			meshes_uuids.push(meta.GetArray("meshes", i).GetUInt("uuid"));
+		}
+
+		int size_anim = meta.GetArraySize("animations");
+		for (int i = 0; i < size_anim; i++)
+		{
+			anim_uuids.push_back(meta.GetArray("animations", i).GetUInt("uuid"));
+		}
+
+		int size_bones = meta.GetArraySize("bones");
+		for (int i = 0; i < size_bones; i++)
+		{
+			bone_uuids.push_back(meta.GetArray("bones", i).GetUInt("uuid"));
 		}
 	}
 
 	if (buffer)
 		delete[] buffer;
 
-	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids);
+	MeshImporter::ImportUUID(final_mesh_path.data(), path, library_dir.data(), meshes_uuids, anim_uuids, bone_uuids);
 
 }
 
@@ -315,6 +334,29 @@ string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
 	}
 
 	return library_path;
+}
+
+void ModuleResourceManager::InputFileDropped(list<string>& files)
+{
+	//Classify not mesh files and mesh files
+	vector<string> non_mesh_files, mesh_files;
+	for (list<string>::iterator it = files.begin(); it != files.end(); ++it)
+	{
+		bool is_mesh = false;
+		if (App->file_system->IsDirectoryOutside((*it).data()) == false)
+			if (GetFileExtension((*it).data()) == FileType::MESH)
+				is_mesh = true;
+		if (is_mesh)
+			mesh_files.push_back(*it);
+		else
+			non_mesh_files.push_back(*it);
+	}
+
+	for (vector<string>::iterator it = non_mesh_files.begin(); it != non_mesh_files.end(); ++it)
+		FileDropped((*it).data());
+
+	for (vector<string>::iterator it = mesh_files.begin(); it != mesh_files.end(); ++it)
+		FileDropped((*it).data());
 }
 
 void ModuleResourceManager::FileDropped(const char * file_path)
@@ -349,6 +391,7 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 	{
 	case MESH:
 		LoadPrefabFile(library_path);
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	case PREFAB:
 		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
@@ -356,6 +399,7 @@ void ModuleResourceManager::LoadFile(const string & library_path, const FileType
 		{
 			r_prefab->LoadPrefabAsCopy();
 		}
+		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	}
 }
@@ -395,6 +439,14 @@ ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceF
 			break;
 		case RES_RENDER_TEX:
 			rc_file = new ResourceFileRenderTexture(type, path, uuid);
+			rc_file->Load();
+			break;
+		case RES_ANIMATION:
+			rc_file = new ResourceFileAnimation(path, uuid);
+			rc_file->Load();
+			break;
+		case RES_BONE:
+			rc_file = new ResourceFileBone(path, uuid);
 			rc_file->Load();
 			break;
 		case RES_SOUNDBANK:
@@ -571,6 +623,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 	delete[] buffer;
 
+	App->go_manager->LinkAnimation(App->go_manager->root);
+
 	return ret;
 }
 
@@ -656,6 +710,11 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 unsigned int ModuleResourceManager::GetDefaultShaderId() const
 {
 	return default_shader;
+}
+
+unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
+{
+	return default_anim_shader;
 }
 
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
@@ -862,7 +921,7 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	delete[] buf;
 }
 
-void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<unsigned int>& meshes_uuids) const
+void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, string library_path, const vector<uint>& meshes_uuids, const vector<uint>& animations_uuids, const vector<uint>& bones_uuids) const
 {
 	Data root;
 	root.AppendUInt("Type", static_cast<unsigned int>(FileType::MESH));
@@ -878,6 +937,22 @@ void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, s
 		Data msh_data;
 		msh_data.AppendUInt("uuid", *it);
 		root.AppendArrayValue(msh_data);
+	}
+
+	root.AppendArray("animations");
+	for (vector<unsigned int>::const_iterator it = animations_uuids.begin(); it != animations_uuids.end(); ++it)
+	{
+		Data anim_data;
+		anim_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(anim_data);
+	}
+
+	root.AppendArray("bones");
+	for (vector<unsigned int>::const_iterator it = bones_uuids.begin(); it != bones_uuids.end(); ++it)
+	{
+		Data bone_data;
+		bone_data.AppendUInt("uuid", *it);
+		root.AppendArrayValue(bone_data);
 	}
 
 	char* buf;
@@ -1092,8 +1167,10 @@ void ModuleResourceManager::MeshDropped(const char * path, string base_dir, stri
 	final_mesh_path += std::to_string(uuid) + ".inf";
 
 	vector<unsigned int> meshes_uuids;
-	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids);
-	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids);
+	vector<unsigned int> animations;
+	vector<unsigned int> bones;
+	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids, animations, bones);
+	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids, animations, bones);
 	
 }
 

@@ -454,8 +454,8 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
 
-	float3* vertices = (float3*)mesh.GetMeshData()->vertices;
-	uint nVertices = mesh.GetMeshData()->num_vertices;
+	float3* vertices = (float3*)mesh.GetMesh()->vertices;
+	uint nVertices = mesh.GetMesh()->num_vertices;
 
 	for (uint n = 0; n < nVertices; n++)
 	{

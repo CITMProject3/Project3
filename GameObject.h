@@ -21,7 +21,7 @@ public:
 	~GameObject();
 
 	void PreUpdate();
-	void Update();
+	void Update(float dt);
 
 	bool AddChild(GameObject* child);
 	bool RemoveChild(GameObject* child); //Breaks the link with the parent but does not delete the child.
@@ -30,6 +30,7 @@ public:
 	void SetParent(GameObject* parent);
 	const std::vector<GameObject*>* GetChilds();
 	size_t ChildCount();
+	void CollectAllChilds(std::vector<GameObject*>& vector);
 
 	void OnPlay();
 	void OnStop();
@@ -87,10 +88,6 @@ private:
 	float4x4* global_matrix = nullptr;
 	bool is_prefab = false;
 	unsigned int uuid = 0;
-
-	
-	
-	
 };
 
 #endif // !__GAMEOBJECT_H__
