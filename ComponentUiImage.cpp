@@ -3,6 +3,7 @@
 #include "Assets.h"
 #include "ComponentUiImage.h"
 #include "ModuleResourceManager.h"
+#include "ComponentRectTransform.h"
 #include "ResourceFileTexture.h"
 #include "GameObject.h"
 #include "ComponentMaterial.h"
@@ -27,6 +28,14 @@ void ComponentUiImage::OnInspector(bool debug)
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		UImaterial->DefaultMaterialInspector();
+		if (ImGui::Button("Set Size"))
+		{
+			string tex_path = (*UImaterial->list_textures_paths.begin());
+			ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
+			ComponentRectTransform* c = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
+			c->SetSize(float2(rc_tmp->GetWidth(), rc_tmp->GetHeight()));
+			c->OnTransformModified();
+		}
 	}
 }
 

@@ -23,16 +23,16 @@ ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* g
 void ComponentRectTransform::GeneratePlane()
 {
 	std::string prim_path = "Resources/Primitives/2147000003.msh";
-	plane = (ResourceFileMesh*)App->resource_manager->LoadResource(prim_path, ResourceFileType::RES_MESH);
-
+	ResourceFileMesh* tmp_rc = (ResourceFileMesh*)App->resource_manager->LoadResource(prim_path, ResourceFileType::RES_MESH);
+	plane = new ResourceFileMesh(*tmp_rc);
+	plane->mesh = new Mesh();
 	plane->mesh->num_vertices = 4;
 	plane->mesh->vertices = new float[plane->mesh->num_vertices * 3];
+	plane->mesh->num_indices = 6;
+	plane->mesh->indices = new uint[plane->mesh->num_indices];
 	plane->mesh->num_uvs = 4;
+	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
 	ResizePlane();
-	
-
-
-	plane->ReLoadInMemory();
 
 }
 
@@ -49,7 +49,6 @@ void ComponentRectTransform::Update(float dt)
 	}
 
 	App->renderer3D->DrawUI(game_object);
-	LOG("IMHERE");
 }
 
 void ComponentRectTransform::OnInspector(bool debug)
@@ -58,17 +57,16 @@ void ComponentRectTransform::OnInspector(bool debug)
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 
-		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),0.500f))
+		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),1.000f))
+		{
+			apply_transformation = true;
+		}
+		if (ImGui::DragFloat2("Rect ##rect", rect_size.ptr(), 1.000f))
 		{
 			apply_transformation = true;
 		}
 
-		if (ImGui::DragFloat2("Rect ##pos", rect_size.ptr(), 0.500f))
-		{
-			apply_transformation = true;
-		}
-
-		if (ImGui::DragFloat2("Size ##pos", size.ptr(), 0.500f))
+		if (ImGui::DragFloat2("Size ##size", size.ptr(), 1.000f))
 		{
 			apply_transformation = true;
 		}
@@ -114,6 +112,11 @@ void ComponentRectTransform::CalculateFinalTransform()
 	}
 }
 
+void ComponentRectTransform::OnTransformModified()
+{
+	apply_transformation = true;
+}
+
 math::float4x4 ComponentRectTransform::GetFinalTransform()
 {
 	return final_transform_matrix;
@@ -143,6 +146,11 @@ const math::vec &ComponentRectTransform::GetLocalPos() const
 	return local_position;
 }
 
+void ComponentRectTransform::SetSize(const float2 & size)
+{
+	rect_size = size;
+}
+
 void ComponentRectTransform::ResizePlane()
 {
 	plane->mesh->vertices[0] = 0.0f;
@@ -158,7 +166,7 @@ void ComponentRectTransform::ResizePlane()
 	plane->mesh->vertices[10] = rect_size.y;
 	plane->mesh->vertices[11] = 0.0f;
 
-	plane->mesh->num_indices = 6;
+	
 	plane->mesh->indices[0] = 0;
 	plane->mesh->indices[1] = 2;
 	plane->mesh->indices[2] = 1;
@@ -166,7 +174,7 @@ void ComponentRectTransform::ResizePlane()
 	plane->mesh->indices[4] = 2;
 	plane->mesh->indices[5] = 3;
 
-	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
+	
 
 	plane->mesh->uvs[0] = 0.0f;
 	plane->mesh->uvs[1] = 1.0f;

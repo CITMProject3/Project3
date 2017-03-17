@@ -29,6 +29,7 @@ public:
 	void OnInspector(bool debug);
 
 	void CalculateFinalTransform();
+	void OnTransformModified();
 	math::float4x4 GetFinalTransform();
 	// Utilities
 	void Move(const vec &movement);
@@ -44,7 +45,7 @@ public:
 	void SetLocalPos(const vec &local_pos);
 	void SetSize(const float2 &size);
 	void ResizePlane();
-
+	
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
