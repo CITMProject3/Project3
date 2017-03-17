@@ -16,6 +16,8 @@ private:
 	int mem_info_current_available = 0; //current available dedicated video memory (in kb), currently unused GPU memory
 	int mem_info_eviction_count = 0; //count of total evictions seen by system
 	int mem_info_evicted = 0; //size of total video memory evicted (in kb)
+
+	int mem_current_variation = 0;
 };
 
 #endif

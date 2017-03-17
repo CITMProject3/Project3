@@ -29,13 +29,29 @@ void ResourcesWindow::Draw()
 
 	glGetIntegerv(GPU_MEMORY_INFO_DEDICATED_VIDMEM_NVX, &mem_info_dedicated);
 	glGetIntegerv(GPU_MEMORY_INFO_TOTAL_AVAILABLE_MEMORY_NVX, &mem_info_total_available);
-	glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &mem_info_current_available);
+
+	int current_mem = 0;
+	glGetIntegerv(GPU_MEMORY_INFO_CURRENT_AVAILABLE_VIDMEM_NVX, &current_mem);
+	if (current_mem != mem_info_current_available)
+	{
+		mem_current_variation = current_mem - mem_info_current_available;
+		mem_info_current_available = current_mem;
+	}
+
 	glGetIntegerv(GPU_MEMORY_INFO_EVICTION_COUNT_NVX, &mem_info_eviction_count);
 	glGetIntegerv(GPU_MEMORY_INFO_EVICTED_MEMORY_NVX, &mem_info_evicted);
 
 	ImGui::Text("Memory dedicated: %i kbs", mem_info_dedicated);
 	ImGui::Text("Total memory available: %i kbs", mem_info_total_available);
 	ImGui::Text("Current memory available: %i kbs", mem_info_current_available);
+	if (mem_current_variation != 0)
+	{
+		ImGui::SameLine();
+		if (mem_current_variation > 0)
+			ImGui::TextColored(ImVec4(0, 200, 0, 255), "   +%i", mem_current_variation);
+		else
+			ImGui::TextColored(ImVec4(200, 0, 0, 255), "   -%i", mem_current_variation);
+	}
 	ImGui::Text("Total evictions: %i ", mem_info_eviction_count);
 	ImGui::Text("Evicted memory: %i kbs", mem_info_evicted);
 	
