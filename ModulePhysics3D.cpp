@@ -649,7 +649,7 @@ void ModulePhysics3D::RenderTerrain()
 		//Buffer normals == 2
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
 /*
 		//Buffer tangents == 3
 		glEnableVertexAttribArray(3);
@@ -810,7 +810,7 @@ void ModulePhysics3D::DeleteTerrainMesh()
 	}
 	if (terrainNormalBuffer != 0)
 	{
-		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		//glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
 		terrainNormalBuffer = 0;
 	}
 }
