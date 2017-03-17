@@ -114,7 +114,7 @@ void ComponentScript::OnInspector(bool debug)
 				SetPath(App->scripting->GetScriptNamesList()[script_num]);
 			}
 
-			if (ImGui::Button("Set Script", ImVec2(50, 15)))
+			if (ImGui::Button("Set Script", ImVec2(80, 20)))
 			{
 				ImGui::OpenPopup("Select Script");
 			}
@@ -127,9 +127,9 @@ void ComponentScript::OnInspector(bool debug)
 
 				for (int x = 0; x < App->scripting->GetScriptNamesList().size(); x++)
 				{
-					if (f.empty() || f.compare(App->scripting->GetScriptNamesList()[x]) == 0)
+					string name = App->scripting->GetScriptNamesList()[x];
+					if (f.empty() || (name.find(f.data()) != std::string::npos))
 					{
-						float d = f.compare(App->scripting->GetScriptNamesList()[x]);
 						if (ImGui::Selectable(App->scripting->GetScriptNamesList()[x]))
 						{
 							SetPath(App->scripting->GetScriptNamesList()[x]);

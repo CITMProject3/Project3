@@ -19,10 +19,11 @@ extern "C"
 	{
 		void GetScriptNames(Application* engine_app)
 		{
-			engine_app->scripting->AddScriptName("Test");
-			engine_app->scripting->AddScriptName("Test2");
+			engine_app->scripting->AddScriptName("test");
+			engine_app->scripting->AddScriptName("test2");
+			engine_app->scripting->AddScriptName("prova");
 			
-			engine_app->scripting->SetScriptNames(" \0Test\0Test2\0\0");
+			engine_app->scripting->SetScriptNames(" \0Test\0Test2\0prova\0\0");
 		}
 	}
 
