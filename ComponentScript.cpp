@@ -38,7 +38,7 @@ void ComponentScript::Update()
 		{
 			string start_path = path.c_str();
 			start_path.append("_Start");
-			if (f_Start start = (f_Start)GetProcAddress(App->scripting->script, start_path.c_str()))
+			if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
 			{
 				finded_start = true;
 				if (App->IsGameRunning() && !App->IsGamePaused())
@@ -57,11 +57,11 @@ void ComponentScript::Update()
 		{
 			string update_path = path.c_str();
 			update_path.append("_Update");
-			if (f_Update update = (f_Update)GetProcAddress(App->scripting->script, update_path.c_str()))
+			if (f_Update update = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
 			{
 				string update_publics_path = path.c_str();
 				update_publics_path.append("_UpdatePublics");
-				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->script, update_publics_path.c_str()))
+				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
 				{
 					update_publics(App, GetGameObject());
 				}
@@ -291,7 +291,7 @@ void ComponentScript::SetPath(const char * path)
 
 	string update_path = this->path.c_str();
 	update_path.append("_GetPublics");
-	if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->script, update_path.c_str()))
+	if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
 	{
 		getPublics(&public_chars, &public_ints, &public_floats, &public_bools);
 	}

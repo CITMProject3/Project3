@@ -1,10 +1,11 @@
 #include "ModuleScripting.h"
 #include "Application.h"
+#include "ModuleResourceManager.h"
 #include "Globals.h"
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	script = NULL;
+	scripts_lib = NULL;
 	finded_script_names = false; 
 	scripts_quantity = -1;
 }
@@ -43,8 +44,8 @@ bool ModuleScripting::CleanUp()
 {
 	if (script_names.size() > 0)
 		script_names.clear();
-	if (script != NULL)
-		FreeLibrary(script);
+	//if (scripts_lib->lib != NULL)
+	//	FreeLibrary(script);
 	return true;
 }
 
@@ -59,27 +60,35 @@ DWORD ModuleScripting::GetError()
 
 void ModuleScripting::LoadScriptsLibrary()
 {
-	if (script)
+	/*if (script)
 	{
 		FreeLibrary(script);
-	}
+	}*/
 
-	if ((script = LoadLibrary("Game")) == NULL)
+	if(_DEBUG)
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+	else
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+
+	if (scripts_lib != nullptr)
 	{
-		last_error = GetLastError();
-		scripts_loaded = false;
-		
-		if (last_error == 127)
+		if (scripts_lib->lib == NULL)
 		{
-			LOG("Can't find Game.dll");
+			last_error = GetLastError();
+			scripts_loaded = false;
+
+			if (last_error == 127)
+			{
+				LOG("Can't find Game.dll");
+			}
+			else
+				LOG("Unknown error loading Game.dll");
 		}
 		else
-			LOG("Unknown error loading Game.dll");
-	}
-	else
-	{
-		scripts_loaded = true;
-		LoadScriptNames();
+		{
+			scripts_loaded = true;
+			LoadScriptNames();
+		}
 	}
 }
 
@@ -92,36 +101,10 @@ void ModuleScripting::LoadScriptNames()
 
 	if (scripts_loaded)
 	{
-		if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(App->scripting->script, "GetScriptNames"))
+		if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(scripts_lib->lib, "GetScriptNames"))
 		{
 			finded_script_names = true;
 			get_script_names(App);
-
-			/*int i = 0;
-			for (vector<const char*>::const_iterator it = script_names.begin(); it != script_names.end(); it++, i++)
-			{
-				if (i == 0)
-					names = (*it);
-				else
-				{
-					names += "\0";
-					names += (*it);
-				}
-			}*/
-
-			/*const char* str;
-			int i = 0;
-			for (vector<const char*>::const_iterator it = script_names.begin(); it != script_names.end(); it++, i++)
-			{
-				if (i == 0)
-					str = (*it);
-				else
-				{
-					str += "\0";
-					str += (*it);
-				}
-			}
-			names = str.c_str();*/
 		}
 		else
 		{

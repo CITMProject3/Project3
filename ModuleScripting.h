@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "ResourceScriptsLibrary.h"
 #include <vector>
 #include <string>
 
@@ -47,7 +48,7 @@ private:
 	const char* names;
 
 public:
-	HINSTANCE script;
+	ResourceScriptsLibrary* scripts_lib;
 };
 
 #endif // !__MOUDLESCRIPTING_H__

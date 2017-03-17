@@ -17,6 +17,7 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
 #include "ResourceFilePrefab.h"
+#include "ResourceScriptsLibrary.h"
 
 #include "Glew\include\glew.h"
 #include <gl\GL.h>
@@ -402,6 +403,10 @@ ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceF
 		case RES_PREFAB:
 			rc_file = new ResourceFilePrefab(type, path, uuid); 
 			rc_file->Load(); //This load doesn't actually do his job. Needs to call another load method after this.
+			break;
+		case RES_SCRIPTS_LIBRARY:
+			rc_file = new ResourceScriptsLibrary(type, path, uuid);
+			rc_file->Load();
 			break;
 		}
 
