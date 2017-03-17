@@ -15,7 +15,6 @@ typedef struct _MonoString MonoString;
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
 { }
 
-
 ComponentScript::~ComponentScript()
 {
 }

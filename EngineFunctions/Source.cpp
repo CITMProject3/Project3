@@ -1,9 +1,13 @@
 #include <stdio.h>
 
+#include "../GameObject.h"
+
 extern "C"
 {
-	__declspec(dllexport) void DisplayHelloFromDLL()
+	extern __declspec(dllexport) void DisplayHelloFromDLL()
 	{
-		printf("Hello from DLL !");
+		GameObject *go = new GameObject();
+		unsigned uuid = go->GetUUID();
+		//LOG("%s","Hello from DLL !");
 	}
 }

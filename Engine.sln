@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Engine", "3D Physics.vcxpro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameScripts", "GameScripts\GameScripts.csproj", "{A9DF94F1-8640-47A8-A013-64980AB22C5E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineFunctions", "EngineFunctions\EngineFunctions.vcxproj", "{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug Library|Any CPU = Debug Library|Any CPU
@@ -52,22 +50,6 @@ Global
 		{A9DF94F1-8640-47A8-A013-64980AB22C5E}.Release|Win32.Build.0 = Release|Any CPU
 		{A9DF94F1-8640-47A8-A013-64980AB22C5E}.Release|x64.ActiveCfg = Release|Any CPU
 		{A9DF94F1-8640-47A8-A013-64980AB22C5E}.Release|x64.Build.0 = Release|Any CPU
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|Any CPU.ActiveCfg = Release|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|Any CPU.Build.0 = Release|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|Win32.ActiveCfg = Debug|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|Win32.Build.0 = Debug|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|x64.ActiveCfg = Debug|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug Library|x64.Build.0 = Debug|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug|Win32.ActiveCfg = Debug|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug|Win32.Build.0 = Debug|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug|x64.ActiveCfg = Debug|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Debug|x64.Build.0 = Debug|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Release|Any CPU.ActiveCfg = Release|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Release|Win32.ActiveCfg = Release|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Release|Win32.Build.0 = Release|Win32
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Release|x64.ActiveCfg = Release|x64
-		{1B3249D2-9849-4B27-A4E2-8AB2F938ABD7}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

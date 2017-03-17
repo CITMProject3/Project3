@@ -195,6 +195,7 @@
     <ClInclude Include="ResourceFileMaterial.h" />
     <ClInclude Include="ResourceFilePrefab.h" />
     <ClInclude Include="ResourceFileRenderTexture.h" />
+    <ClInclude Include="Scripts.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="TestWindow.h" />
@@ -432,6 +433,9 @@
   <ItemGroup>
     <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl" />
     <None Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.inl" />
+    <CustomBuild Include="Example.i">
+      <FileType>Document</FileType>
+    </CustomBuild>
     <None Include="ListIterator.snippet" />
     <None Include="MathGeoLib\include\Geometry\KDTree.inl" />
     <None Include="MathGeoLib\include\Geometry\TriangleMesh_IntersectRay_AVX.inl" />

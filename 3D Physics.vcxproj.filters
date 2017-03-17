@@ -79,6 +79,9 @@
     <Filter Include="Sources\Scripting">
       <UniqueIdentifier>{b438bb5b-1ab7-48d8-8116-312a83fedf5d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="C# Inteface">
+      <UniqueIdentifier>{2ee0973e-fdd8-450b-8c24-061cee71348d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -585,6 +588,7 @@
     <ClInclude Include="MonoScripts.h">
       <Filter>Sources\Scripting</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1011,5 +1015,10 @@
     <Xsd Include="WindowCPP.snippet">
       <Filter>Sources\Snippets</Filter>
     </Xsd>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Example.i">
+      <Filter>C# Inteface</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
