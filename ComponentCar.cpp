@@ -1041,6 +1041,20 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
 
+	//Turbos-------
+	//Mini turbo
+	data.AppendFloat("miniturbo_accel_boost", mini_turbo.accel_boost);
+	data.AppendFloat("miniturbo_speed_boost", mini_turbo.speed_boost);
+	data.AppendFloat("miniturbo_turbo_speed", mini_turbo.turbo_speed);
+	data.AppendFloat("miniturbo_deceleration", mini_turbo.deceleration);
+	data.AppendFloat("miniturbo_time", mini_turbo.time);
+
+	data.AppendBool("miniturbo_accel_per", mini_turbo.per_ac);
+	data.AppendBool("miniturbo_speed_per", mini_turbo.per_sp);
+	data.AppendBool("miniturbo_speed_direct", mini_turbo.speed_direct);
+	data.AppendBool("miniturbo_speed_decrease", mini_turbo.speed_decrease);
+
+
 	//data.AppendFloat("kick_cooldown", kickCooldown);
 	//--------------------------------------------------
 	//Wheel settings
@@ -1098,6 +1112,21 @@ void ComponentCar::Load(Data& conf)
 	lean_top_acc = conf.GetFloat("lean_accel_boost");  
 	lean_top_sp = conf.GetFloat("lean_speed_boost"); 
 	lean_red_turn = conf.GetFloat("lean_turn_strict");
+
+	//Turbo
+	//Mini turbo
+	mini_turbo.accel_boost = conf.GetFloat("miniturbo_accel_boost");
+	mini_turbo.speed_boost = conf.GetFloat("miniturbo_speed_boost");
+	mini_turbo.turbo_speed = conf.GetFloat("miniturbo_turbo_speed");
+	mini_turbo.deceleration = conf.GetFloat("miniturbo_deceleration");
+	mini_turbo.time = conf.GetFloat("miniturbo_time");
+
+	mini_turbo.per_ac = conf.GetBool("miniturbo_accel_per");
+	mini_turbo.per_sp = conf.GetBool("miniturbo_speed_per");
+	mini_turbo.speed_direct = conf.GetBool("miniturbo_speed_direct");
+	mini_turbo.speed_decrease = conf.GetBool("miniturbo_speed_decrease");
+
+
 
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings

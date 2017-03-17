@@ -45,6 +45,7 @@ struct Turbo
 		time = t;
 	}
 };
+
 class ComponentCar : public Component
 {
 	//
