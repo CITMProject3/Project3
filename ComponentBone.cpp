@@ -70,7 +70,7 @@ const char* ComponentBone::GetResourcePath() const
 	return rBone == nullptr ? nullptr : rBone->GetFile();
 }
 
-void ComponentBone::Update(float dt)
+void ComponentBone::Update()
 {
 	for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
 	{

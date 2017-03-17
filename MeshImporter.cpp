@@ -149,7 +149,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 	c_transform->SetRotation(rot);
 	c_transform->SetScale(scale);
 
-	c_transform->Update(0); //Force it to update the matrix
+	c_transform->Update(); //Force it to update the matrix
 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();
@@ -737,7 +737,7 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 	c_transform->SetRotation(rot);
 	c_transform->SetScale(scale);
 
-	c_transform->Update(0); //Force it to update the matrix
+	c_transform->Update(); //Force it to update the matrix
 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();

@@ -15,7 +15,7 @@ public:
 	~ComponentCamera();
 
 	void PreUpdate();
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 	void OnTransformModified();

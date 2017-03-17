@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 #include "GameObject.h"
 #include "Assets.h"
 #include "ShaderComplier.h"
@@ -34,6 +35,8 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
+
+#include <cctype>
 #include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -333,6 +336,29 @@ string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
 	return library_path;
 }
 
+void ModuleResourceManager::InputFileDropped(list<string>& files)
+{
+	//Classify not mesh files and mesh files
+	vector<string> non_mesh_files, mesh_files;
+	for (list<string>::iterator it = files.begin(); it != files.end(); ++it)
+	{
+		bool is_mesh = false;
+		if (App->file_system->IsDirectoryOutside((*it).data()) == false)
+			if (GetFileExtension((*it).data()) == FileType::MESH)
+				is_mesh = true;
+		if (is_mesh)
+			mesh_files.push_back(*it);
+		else
+			non_mesh_files.push_back(*it);
+	}
+
+	for (vector<string>::iterator it = non_mesh_files.begin(); it != non_mesh_files.end(); ++it)
+		FileDropped((*it).data());
+
+	for (vector<string>::iterator it = mesh_files.begin(); it != mesh_files.end(); ++it)
+		FileDropped((*it).data());
+}
+
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
 	//Files extensions accepted
@@ -506,6 +532,9 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -584,6 +613,21 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
+
+		const char* terrain = scene.GetString("terrain");
+		const char*  terrain_texture = scene.GetString("terrain_texture");
+
+		if (terrain)
+		{
+			App->physics->GenerateHeightmap(terrain);
+		}
+
+		if (terrain_texture)
+		{
+			App->physics->LoadTexture(terrain_texture);
+		}
+
+
 		ret = true;
 	}
 	else

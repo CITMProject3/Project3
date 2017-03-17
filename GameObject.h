@@ -15,13 +15,14 @@ class ResourceFilePrefab;
 class GameObject
 {
 public:
+
 	GameObject();
 	GameObject(GameObject* parent);
 	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid,const std::string& prefab_path);
 	~GameObject();
 
 	void PreUpdate();
-	void Update(float dt);
+	void Update();
 
 	bool AddChild(GameObject* child);
 	bool RemoveChild(GameObject* child); //Breaks the link with the parent but does not delete the child.

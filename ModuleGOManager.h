@@ -79,7 +79,7 @@ private:
 
 private:
 
-	void UpdateGameObjects(float dt, GameObject* obj);
+	void UpdateGameObjects(GameObject* obj);
 	void PreUpdateGameObjects(GameObject* obj);
 
 	void OnPlay();

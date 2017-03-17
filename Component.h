@@ -26,7 +26,7 @@ public:
 	virtual ~Component();
 
 
-	virtual void Update(float dt) {};
+	virtual void Update() {};
 	virtual void PreUpdate() {}
 	virtual void PostUpdate() {}
 
