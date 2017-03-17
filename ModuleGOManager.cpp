@@ -401,7 +401,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 			if (type != (int)ComponentType::C_TRANSFORM)
 				go_component = go->AddComponent(static_cast<ComponentType>(type));
 			else
-				go_component = (Component*)go->GetComponent(C_TRANSFORM);
+				go_component = (Component*)go->transform;
 			go_component->Load(component);
 		}
 	}
@@ -492,7 +492,7 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 
@@ -628,7 +628,7 @@ std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck
 	{
 		//If we need to consider the GO, we add Max and Min points.
 		ComponentMesh* msh = (ComponentMesh*) go->GetComponent(C_MESH);
-		ComponentTransform* trs = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+		
 		if (msh)
 		{
 			ret.push_back(msh->GetBoundingBox().minPoint);
@@ -636,8 +636,8 @@ std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck
 		}
 		else
 		{
-			ret.push_back(trs->GetPosition());
-			ret.push_back(trs->GetPosition());
+			ret.push_back(go->transform->GetPosition());
+			ret.push_back(go->transform->GetPosition());
 		}
 	}
 

@@ -443,7 +443,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 	}
 
 	btTransform startTransform;
-	float4x4 go_trs = ((ComponentTransform*)(mesh.GetGameObject()->GetComponent(C_TRANSFORM)))->GetGlobalMatrix().Transposed();
+	float4x4 go_trs = mesh.GetGameObject()->transform->GetGlobalMatrix().Transposed();
 	startTransform.setFromOpenGLMatrix(go_trs.ptr());
 
 	btVector3 localInertia(0, 0, 0);

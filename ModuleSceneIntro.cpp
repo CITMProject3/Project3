@@ -72,8 +72,8 @@ update_status ModuleSceneIntro::Update()
 			GameObject* cammain = FindGameObject(App->go_manager->root, "MainCamera");
 			if (camref && cammain)
 			{
-				reflection_tra = (ComponentTransform*)camref->GetComponent(C_TRANSFORM);
-				maincam = (ComponentTransform*)cammain->GetComponent(C_TRANSFORM);
+				reflection_tra = camref->transform;
+				maincam = cammain->transform;
 			}
 		}
 		else

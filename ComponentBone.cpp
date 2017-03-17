@@ -74,16 +74,16 @@ void ComponentBone::Update()
 {
 	for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
 	{
-		float3 pos1 = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetGlobalMatrix().TranslatePart();
-		float3 pos2 = ((ComponentTransform*)(*it)->GetComponent(C_TRANSFORM))->GetGlobalMatrix().TranslatePart();
+		float3 pos1 = game_object->transform->GetGlobalMatrix().TranslatePart();
+		float3 pos2 = (*it)->transform->GetGlobalMatrix().TranslatePart();
 		App->renderer3D->DrawLine(pos1, pos2, float4(1, 0, 1, 1));
 	}
 }
 
 float4x4 ComponentBone::GetSystemTransform()
 {
-	float4x4 transform = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetGlobalMatrix();
-	return ((ComponentTransform*)GetRoot()->game_object->GetParent()->GetParent()->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * transform;
+	float4x4 transform = game_object->transform->GetGlobalMatrix();
+	return GetRoot()->game_object->GetParent()->GetParent()->transform->GetGlobalMatrix().Inverted() * transform;
 
 }
 

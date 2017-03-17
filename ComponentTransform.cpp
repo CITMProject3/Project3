@@ -265,20 +265,11 @@ void ComponentTransform::CalculateFinalTransform()
 	{
 		if (game_object->GetParent())
 		{
-			ComponentTransform* parent_transform = (ComponentTransform*)game_object->GetParent()->GetComponent(C_TRANSFORM);
-			assert(parent_transform);
-
-			final_transform_matrix = parent_transform->final_transform_matrix * transform_matrix;
+			final_transform_matrix = game_object->GetParent()->transform->final_transform_matrix * transform_matrix;
 
 			std::vector<GameObject*>::const_iterator go_childs = game_object->GetChilds()->begin();
 			for (go_childs; go_childs != game_object->GetChilds()->end(); ++go_childs)
-			{
-				ComponentTransform* transform = (ComponentTransform*)(*go_childs)->GetComponent(C_TRANSFORM);
-				if (transform)
-				{
-					transform->CalculateFinalTransform();
-				}
-			}
+				(*go_childs)->transform->CalculateFinalTransform();
 		}
 		else
 		{

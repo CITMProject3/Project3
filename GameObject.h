@@ -6,11 +6,14 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 class Component;
-enum ComponentType;
-struct Mesh;
+class ComponentTransform;
+
 class RaycastHit;
 class Data;
 class ResourceFilePrefab;
+
+enum ComponentType;
+struct Mesh;
 
 class GameObject
 {
@@ -47,7 +50,7 @@ public:
 
 	Component* AddComponent(ComponentType type);
 	const std::vector<Component*>* GetComponents();
-	void* GetComponent(ComponentType type)const;
+	Component *GetComponent(ComponentType type) const;
 	void RemoveComponent(Component* component);
 
 	float4x4 GetGlobalMatrix()const;
@@ -65,9 +68,11 @@ public:
 	void RevertPrefabChanges();
 
 public:
+
 	std::string name;
 	//Filled the moment to draw. Do not use it elsewhere.
 	Mesh* mesh_to_draw = nullptr; //Pointer to the mesh to draw in one frame
+	ComponentTransform *transform = nullptr; // Direct access to Transform Component
 
 	AABB* bounding_box = nullptr; //Only mesh component can Set this.
 	//UUID of the equal GameObject inside the prefab. It's 0 if the GameObject is not a prefab
