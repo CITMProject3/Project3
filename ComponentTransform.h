@@ -17,7 +17,7 @@ public:
 	ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix);
 	~ComponentTransform();
 
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 

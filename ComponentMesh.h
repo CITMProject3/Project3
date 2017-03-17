@@ -65,7 +65,7 @@ public:
 	ComponentMesh(ComponentType type, GameObject* game_object);
 	~ComponentMesh();
 
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 	void OnTransformModified();

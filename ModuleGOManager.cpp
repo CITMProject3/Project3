@@ -5,6 +5,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -107,7 +108,7 @@ update_status ModuleGOManager::Update()
 {
 	//Update GameObjects
 	if(root)
-		UpdateGameObjects(time->DeltaTime(), root);
+		UpdateGameObjects(root);
 
 	if(draw_octree)
 		octree.Draw();
@@ -278,7 +279,7 @@ ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
 void ModuleGOManager::LoadEmptyScene()
 {
 	ClearScene();
-
+	App->physics->DeleteHeightmap();
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
@@ -305,6 +306,7 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
+	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -681,17 +683,17 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 
 }
 
-void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)
+void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
 	PROFILE("ModuleGOManager::UpdateGameObjects");
 
 	if(root != object && object->IsActive() == true)
-		object->Update(dt);
+		object->Update();
 
 	std::vector<GameObject*>::const_iterator child = object->GetChilds()->begin();
 	for (child; child != object->GetChilds()->end(); ++child)
 	{
-		UpdateGameObjects(dt, (*child));
+		UpdateGameObjects((*child));
 	}
 }
 

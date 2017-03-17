@@ -21,7 +21,7 @@ public:
 	~GameObject();
 
 	void PreUpdate();
-	void Update(float dt);
+	void Update();
 
 	bool AddChild(GameObject* child);
 	bool RemoveChild(GameObject* child); //Breaks the link with the parent but does not delete the child.

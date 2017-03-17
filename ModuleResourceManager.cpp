@@ -6,6 +6,7 @@
 #include "Data.h"
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 #include "GameObject.h"
 #include "Assets.h"
 #include "ShaderComplier.h"
@@ -531,6 +532,9 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -609,6 +613,21 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
+
+		const char* terrain = scene.GetString("terrain");
+		const char*  terrain_texture = scene.GetString("terrain_texture");
+
+		if (terrain)
+		{
+			App->physics->GenerateHeightmap(terrain);
+		}
+
+		if (terrain_texture)
+		{
+			App->physics->LoadTexture(terrain_texture);
+		}
+
+
 		ret = true;
 	}
 	else
