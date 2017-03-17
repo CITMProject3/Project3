@@ -24,10 +24,7 @@
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
-#include "BtTriProcessor.h"
 #include "RaycastHit.h"
-
-
 
 #include "ResourceFileTexture.h"
 
