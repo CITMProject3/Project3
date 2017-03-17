@@ -120,6 +120,7 @@
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="ComponentUiImage.h" />
+    <ClInclude Include="ComponentUiText.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="CurveWindow.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Events.h" />
+    <ClInclude Include="font\ysglfontdata.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="glmath.h" />
@@ -289,12 +291,16 @@
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="ComponentUiImage.cpp" />
+    <ClCompile Include="ComponentUiText.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="CurveWindow.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="font\ysglfontdata.c" />
+    <ClCompile Include="font\ysglmaketextbitmap.c" />
+    <ClCompile Include="font\ysglusefontbitmap.c" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />

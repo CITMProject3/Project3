@@ -79,6 +79,9 @@
     <Filter Include="Sources\GameObjects\Components\UI Components">
       <UniqueIdentifier>{8578464e-380c-4076-8483-ea2a939cdc33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\YS Font">
+      <UniqueIdentifier>{c0d43993-b6e7-4b4d-9011-92751102d6ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -573,7 +576,6 @@
     <ClInclude Include="ComponentUiImage.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
     </ClInclude>
-	
     <ClInclude Include="ResourceFileAnimation.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
@@ -591,11 +593,16 @@
     </ClInclude>
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="BtTriProcessor.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-	
+    <ClInclude Include="ComponentUiText.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="font\ysglfontdata.h">
+      <Filter>3rd Party Tools\YS Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -993,9 +1000,21 @@
     </ClCompile>
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="BtTriProcessor.cpp">
       <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentUiText.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="font\ysglfontdata.c">
+      <Filter>3rd Party Tools\YS Font</Filter>
+    </ClCompile>
+    <ClCompile Include="font\ysglmaketextbitmap.c">
+      <Filter>3rd Party Tools\YS Font</Filter>
+    </ClCompile>
+    <ClCompile Include="font\ysglusefontbitmap.c">
+      <Filter>3rd Party Tools\YS Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

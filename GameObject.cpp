@@ -12,6 +12,7 @@
 #include "ComponentCar.h"
 #include "ComponentRectTransform.h"
 #include "ComponentUiImage.h"
+#include "ComponentUiText.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -389,6 +390,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_UI_IMAGE:
 		if (GetComponent(C_RECT_TRANSFORM))
 			item = new ComponentUiImage(type, this);
+		break;
+	case C_UI_TEXT:
+		if (GetComponent(C_TRANSFORM))
+			item = new ComponentUiText(this);
 		break;
 	default:
 		break;

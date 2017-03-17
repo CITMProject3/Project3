@@ -156,6 +156,11 @@ void Inspector::Draw()
 			{
 				selected_GO->AddComponent(C_UI_IMAGE);
 			}
+
+			if (ImGui::Selectable("Add UI Text"))
+			{
+				selected_GO->AddComponent(C_UI_TEXT);
+			}
 			ImGui::EndPopup();
 		}
 	}
