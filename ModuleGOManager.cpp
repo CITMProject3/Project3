@@ -201,7 +201,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	// Loading mesh for each primitive
 	Data load_info;
 	load_info.AppendUInt("UUID", prim_codes[type] );
-	load_info.AppendBool("Active", true);
+	load_info.AppendBool("active", true);
 	load_info.AppendString("path", prim_path.c_str());
 
 	mesh_comp->Load(load_info);

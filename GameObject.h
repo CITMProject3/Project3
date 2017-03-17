@@ -15,6 +15,7 @@ class ResourceFilePrefab;
 class GameObject
 {
 public:
+
 	GameObject();
 	GameObject(GameObject* parent);
 	GameObject(const char* name, unsigned int uuid, GameObject* parent, bool active, bool is_static, bool is_prefab, int layer, unsigned int prefab_root_uuid,const std::string& prefab_path);
