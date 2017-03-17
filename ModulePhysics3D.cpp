@@ -803,12 +803,12 @@ void ModulePhysics3D::DeleteTerrainMesh()
 		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
 		terrainIndicesBuffer = 0;
 	}
-	if (terrainUvBuffer)
+	if (terrainUvBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
 		terrainUvBuffer = 0;
 	}
-	if (terrainNormalBuffer)
+	if (terrainNormalBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
 		terrainNormalBuffer = 0;

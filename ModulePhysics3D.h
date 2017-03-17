@@ -105,7 +105,7 @@ private:
 	int terrainUvBuffer = 0;
 	int terrainNormalBuffer = 0;
 
-	int terrainSmoothLevels = 2;
+	int terrainSmoothLevels = 1;
 	uint numIndices = 0;
 #pragma endregion
 public:
