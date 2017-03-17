@@ -22,7 +22,7 @@ public:
 
 	const char* GetResourcePath() const;
 
-	void Update(float dt);
+	void Update();
 
 	float4x4 GetSystemTransform();
 	ComponentBone* GetRoot();

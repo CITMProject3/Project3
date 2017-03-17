@@ -121,11 +121,6 @@ void ComponentMaterial::OnInspector(bool debug)
 	}
 }
 
-void ComponentMaterial::Update(float dt)
-{
-
-	
-}
 
 void ComponentMaterial::Save(Data & file)const
 {

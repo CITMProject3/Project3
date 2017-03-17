@@ -34,7 +34,7 @@ ComponentMesh::~ComponentMesh()
 	App->renderer3D->RemoveBuffer(bone_id);
 }
 
-void ComponentMesh::Update(float dt)
+void ComponentMesh::Update()
 {
 	//Component must be active to update
 	if (!IsActive())

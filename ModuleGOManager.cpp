@@ -108,7 +108,7 @@ update_status ModuleGOManager::Update()
 {
 	//Update GameObjects
 	if(root)
-		UpdateGameObjects(time->DeltaTime(), root);
+		UpdateGameObjects(root);
 
 	if(draw_octree)
 		octree.Draw();
@@ -683,17 +683,17 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 
 }
 
-void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)
+void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
 	PROFILE("ModuleGOManager::UpdateGameObjects");
 
 	if(root != object && object->IsActive() == true)
-		object->Update(dt);
+		object->Update();
 
 	std::vector<GameObject*>::const_iterator child = object->GetChilds()->begin();
 	for (child; child != object->GetChilds()->end(); ++child)
 	{
-		UpdateGameObjects(dt, (*child));
+		UpdateGameObjects((*child));
 	}
 }
 

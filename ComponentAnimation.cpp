@@ -331,9 +331,9 @@ bool ComponentAnimation::StartAnimation()
 	return started;
 }
 
-void ComponentAnimation::Update(float dt)
+void ComponentAnimation::Update()
 {
-	if (dt > 0.0f)
+	if (App->IsGameRunning())
 	{
 		if (playing == true)
 		{
@@ -345,8 +345,8 @@ void ComponentAnimation::Update(float dt)
 
 			if (blend_animation != nullptr)
 			{
-				blend_time += dt;
-				if (blend_animation->Advance(dt) == false)
+				blend_time += time->DeltaTime();
+				if (blend_animation->Advance(time->DeltaTime()) == false)
 				{
 					blend_animation = nullptr;
 				}
@@ -358,7 +358,7 @@ void ComponentAnimation::Update(float dt)
 				}
 			}
 			
-			if (current_animation->Advance(dt) == false)
+			if (current_animation->Advance(time->DeltaTime()) == false)
 			{
 				playing = false;
 			}
