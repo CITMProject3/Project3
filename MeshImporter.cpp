@@ -34,7 +34,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 		return ret;
 	}
 
-	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, NULL);
+	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, "dae");
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -499,9 +499,17 @@ void MeshImporter::LoadBuffers(Mesh* mesh)
 
 void MeshImporter::DeleteBuffers(Mesh* mesh)
 {
-	App->renderer3D->RemoveBuffer(mesh->id_vertices);
-	App->renderer3D->RemoveBuffer(mesh->id_indices);
-	App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	if (mesh != nullptr)
+	{
+		App->renderer3D->RemoveBuffer(mesh->id_vertices);
+		App->renderer3D->RemoveBuffer(mesh->id_indices);
+		App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	}
+	else
+	{
+		LOG("Warning: Delete Buffers call on a null mesh");
+	}
+
 }
 
 void MeshImporter::CollectGameObjects(GameObject* root, std::vector<GameObject*> vector)

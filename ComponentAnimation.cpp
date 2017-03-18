@@ -202,7 +202,7 @@ void ComponentAnimation::AddAnimation()
 	if (defCount > 0)
 		new_name.append(std::to_string(defCount));
 
-	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, 24);
+	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, rAnimation->ticks_per_second);
 }
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
