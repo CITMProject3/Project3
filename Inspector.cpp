@@ -147,6 +147,11 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_AUDIO);
 			}
 
+			if (ImGui::Selectable("Add Canvas"))
+			{
+				selected_GO->AddComponent(C_CANVAS);
+			}
+
 			if (ImGui::Selectable("Add Rect Transform"))
 			{
 				selected_GO->AddComponent(C_RECT_TRANSFORM);

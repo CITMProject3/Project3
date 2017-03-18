@@ -13,6 +13,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentUiImage.h"
 #include "ComponentUiText.h"
+#include "ComponentCanvas.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -394,6 +395,16 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_UI_TEXT:
 		if (GetComponent(C_TRANSFORM))
 			item = new ComponentUiText(this);
+		break;
+	case C_CANVAS:
+		if (GetComponent(C_RECT_TRANSFORM))
+		{
+			if (App->go_manager->current_scene_canvas == nullptr)
+			{
+				item = new ComponentCanvas(type, this);
+				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
+			}
+		}	
 		break;
 	default:
 		break;

@@ -14,6 +14,11 @@ ComponentUiImage::ComponentUiImage(ComponentType type, GameObject * game_object)
 	UImaterial = new ComponentMaterial(C_MATERIAL,nullptr);
 }
 
+ComponentUiImage::~ComponentUiImage()
+{
+	delete UImaterial;
+}
+
 void ComponentUiImage::Update(float dt)
 {
 }
@@ -27,6 +32,21 @@ void ComponentUiImage::OnInspector(bool debug)
 	std::string str = (std::string("UI Image") + std::string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##uiImage");
+		}
+
+		if (ImGui::BeginPopup("delete##uiImage"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
+
+
 		UImaterial->DefaultMaterialInspector();
 		if (ImGui::Button("Set Size"))
 		{

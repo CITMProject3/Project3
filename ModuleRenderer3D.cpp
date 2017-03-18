@@ -20,6 +20,7 @@
 #include "ModuleResourceManager.h"
 #include "ComponentRectTransform.h"
 #include "ComponentUiImage.h"
+#include "ComponentCanvas.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -245,6 +246,17 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+
+	//Draw UI
+	if (App->go_manager->current_scene_canvas != nullptr)
+	{
+		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
+		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
+		{
+			DrawUI(*obj);
+		}
+	}
+
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
@@ -297,6 +309,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		Draw(it->second, App->lighting->GetLightInfo(),cam, alpha_object,true);
 	}
 	alpha_objects.clear();
+	
 
 	App->editor->skybox.Render(cam);
 
@@ -781,12 +794,12 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 void ModuleRenderer3D::DrawUI(GameObject * obj) const
 {
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
-	Mesh* mesh = c->GetMesh();
+	
 
 	ComponentUiImage* u = (ComponentUiImage*)obj->GetComponent(C_UI_IMAGE);
 	if (u == nullptr)
 		return;
-
+	Mesh* mesh = c->GetMesh();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 

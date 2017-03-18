@@ -48,7 +48,7 @@ void ComponentRectTransform::Update(float dt)
 		apply_transformation = false;
 	}
 
-	App->renderer3D->DrawUI(game_object);
+	//App->renderer3D->DrawUI(game_object);
 }
 
 void ComponentRectTransform::OnInspector(bool debug)
@@ -56,6 +56,19 @@ void ComponentRectTransform::OnInspector(bool debug)
 	string str = (string("Rect Transform") + string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
+		if (ImGui::IsItemClicked(1))
+		{
+			ImGui::OpenPopup("delete##rectTransform");
+		}
+
+		if (ImGui::BeginPopup("delete##rectTransform"))
+		{
+			if (ImGui::MenuItem("Delete"))
+			{
+				Remove();
+			}
+			ImGui::EndPopup();
+		}
 
 		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),1.000f))
 		{
@@ -211,6 +224,19 @@ void ComponentRectTransform::Load(Data & conf)
 	size = transform_matrix.GetScale();
 	ResizePlane();
 	CalculateFinalTransform();
+}
+
+void ComponentRectTransform::Remove()
+{
+	Component* u = (Component*)game_object->GetComponent(C_UI_IMAGE);
+	if(u != nullptr)
+		game_object->RemoveComponent(u);
+	
+	Component* c = (Component*)game_object->GetComponent(C_CANVAS);
+	if (c != nullptr)
+		game_object->RemoveComponent(c);
+
+	game_object->RemoveComponent(this);
 }
 
 

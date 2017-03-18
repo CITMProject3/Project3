@@ -12,6 +12,7 @@ class ComponentUiImage : public Component
 public:
 
 	ComponentUiImage(ComponentType type, GameObject* game_object);
+	~ComponentUiImage();
 
 	void Update(float dt);
 	void CleanUp();
@@ -24,8 +25,6 @@ public:
 
 public:
 	ComponentMaterial* UImaterial = nullptr;
-private:
-	void ChangeTextureNoMaterial();
 
 };
 

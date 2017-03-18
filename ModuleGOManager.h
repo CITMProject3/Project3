@@ -15,6 +15,7 @@ class ComponentLight;
 class LayerSystem;
 enum LightType;
 class RaycastHit;
+class ComponentCanvas;
 
 #define OCTREE_SIZE 800
 
@@ -106,7 +107,7 @@ public:
 	list<GameObject*> dynamic_gameobjects;
 	bool draw_octree = false;
 	GameObject* root = nullptr;
-
+	ComponentCanvas* current_scene_canvas = nullptr;
 	float3 lastRayData[3];
 };
 

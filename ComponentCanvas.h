@@ -2,6 +2,7 @@
 #define __COMPONENTCANVAS_H__
 
 #include "Component.h"
+class GameObject;
 
 class ComponentCanvas : public Component
 {
@@ -9,17 +10,19 @@ class ComponentCanvas : public Component
 public:
 
 	ComponentCanvas(ComponentType type, GameObject* game_object);
-
-	void Update();
+	~ComponentCanvas();
+	void Update(float dt);
 
 	void OnInspector(bool debug);
-
+	
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
+	void Remove();
 
+	vector<GameObject*> GetUI();
 private:
-	
+	vector<GameObject*> GetGameObjectChilds(GameObject* go);
 	GameObject* go_focus = nullptr;
 
 };

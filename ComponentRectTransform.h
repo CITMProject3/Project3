@@ -49,6 +49,7 @@ public:
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
+	void Remove();
 private:
 	ResourceFileMesh* plane = nullptr;
 
