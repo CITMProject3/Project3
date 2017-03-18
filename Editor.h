@@ -101,6 +101,7 @@ public:
 	GameObject* copy_go = nullptr;
 
 	ImGuizmo::OPERATION gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	ImGuizmo::MODE gizmo_mode = ImGuizmo::MODE::WORLD;
 	bool gizmo_enabled = true;
 
 private:
