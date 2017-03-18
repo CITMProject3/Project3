@@ -105,6 +105,15 @@ void PhysBody3D::SetLinearSpeed(float x, float y, float z)
 	body->setLinearVelocity(btVector3(x, y, z));
 }
 
+void PhysBody3D::SetModularSpeed(float s)
+{
+	btVector3 sp = body->getLinearVelocity();
+
+	sp.normalize();
+	sp *= s;
+
+	body->setLinearVelocity(sp);
+}
 //----------------------------------------------------------
 math::vec PhysBody3D::GetPosition()const
 {
@@ -115,3 +124,4 @@ math::vec PhysBody3D::GetPosition()const
 
 	return ret;
 }
+

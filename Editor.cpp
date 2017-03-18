@@ -739,11 +739,11 @@ void Editor::SaveSceneWindow()
 void Editor::DisplayGizmo()
 {
 	//Selection keys
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		gizmo_operation = ImGuizmo::OPERATION::SCALE;
 
 	ImGuizmo::BeginFrame();

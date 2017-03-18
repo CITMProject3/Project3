@@ -55,6 +55,7 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
+	void SetModularVelocity(double v);
 	float GetKmh() const;
 	vec GetPos()const;
 public:
