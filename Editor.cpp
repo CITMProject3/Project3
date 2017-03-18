@@ -765,57 +765,7 @@ void Editor::SaveSceneWindow()
 			App->input->ResetQuit();
 	}
 }
-/*
-ComponentTransform::SetGizmo()
-{
-	//Sets if the gizmo is enabled
-	ImGuizmo::Enable(guizmo_enable);
 
-	ComponentCamera* cam = App->camera->GetEditorCamera();
-	float4x4 used_matrix;
-
-	// Gets Input Gizmo matrix
-	ComponentTransform* parent_transform;
-
-	if (game_object->GetParent())
-	{
-		parent_transform = (ComponentTransform*)game_object->GetParent()->GetComponent(C_TRANSFORM);
-		assert(parent_transform);
-
-		used_matrix = parent_transform->final_transform_matrix * transform_matrix;
-		used_matrix = used_matrix.Transposed();
-	}
-
-	else
-		used_matrix = transform_matrix.Transposed();
-	//
-
-	//Set the Gizmo (if operation is Scale, always works on local)
-	if (guizmo_op == SCALE)
-		ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)guizmo_op, ImGuizmo::LOCAL, used_matrix.ptr());
-
-	else
-		ImGuizmo::Manipulate(cam->GetViewMatrix().ptr(), cam->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)guizmo_op, (ImGuizmo::MODE)trans_mode, used_matrix.ptr());
-	//
-
-	//Sets the final transform from the Output manipulated gizmo matrix
-	if (ImGuizmo::IsUsing())
-	{
-		used_matrix.Transpose();
-
-		if (game_object->GetParent())
-		{
-			used_matrix = parent_transform->final_transform_matrix.Inverted() * used_matrix;
-		}
-
-		used_matrix.Decompose(position, rotation, scale);
-		SetPosition(position);
-		SetRotation(rotation);
-		SetScale(scale);
-	}
-	//
-}
-*/
 
 void Editor::DisplayGizmo()
 {
@@ -847,7 +797,6 @@ void Editor::DisplayGizmo()
 			parent_transform = (ComponentTransform*)go->GetParent()->GetComponent(C_TRANSFORM);
 			assert(parent_transform);
 
-			//If doesn't work may be an error here
 			matrix = parent_transform->GetGlobalMatrix() * transform->GetLocalTransformMatrix();
 			matrix = matrix.Transposed();
 		}
@@ -860,7 +809,6 @@ void Editor::DisplayGizmo()
 		else
 			ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, (ImGuizmo::MODE)gizmo_mode, matrix.ptr());
 
-		//ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
 
 		if (ImGuizmo::IsUsing())
 		{
