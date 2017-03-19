@@ -24,10 +24,7 @@
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
-#include "BtTriProcessor.h"
 #include "RaycastHit.h"
-
-
 
 #include "ResourceFileTexture.h"
 
@@ -652,7 +649,7 @@ void ModulePhysics3D::RenderTerrain()
 		//Buffer normals == 2
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
-		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
 /*
 		//Buffer tangents == 3
 		glEnableVertexAttribArray(3);
@@ -806,14 +803,14 @@ void ModulePhysics3D::DeleteTerrainMesh()
 		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
 		terrainIndicesBuffer = 0;
 	}
-	if (terrainUvBuffer)
+	if (terrainUvBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
 		terrainUvBuffer = 0;
 	}
-	if (terrainNormalBuffer)
+	if (terrainNormalBuffer != 0)
 	{
-		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		//glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
 		terrainNormalBuffer = 0;
 	}
 }
