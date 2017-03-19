@@ -249,7 +249,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 				heightMapImg->Unload();
 			}
 			DeleteHeightmap();
-			heightMapImg = (ResourceFileTexture*)res;
+			
 
 			//If the file exists and is loaded succesfully, we need to reload it manually.
 			//The Resource won't hold the pixel data
@@ -258,6 +258,8 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 			unsigned int size = App->file_system->Load(res->GetFile(), &buffer);
 			if (size > 0)
 			{
+				heightMapImg = (ResourceFileTexture*)res;
+
 				ILuint id;
 				ilGenImages(1, &id);
 				ilBindImage(id);

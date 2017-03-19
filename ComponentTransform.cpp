@@ -74,11 +74,13 @@ void ComponentTransform::OnInspector(bool debug)
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::ROTATE;
 		}
 		ImGui::SameLine();
-
 		if (ImGui::RadioButton("Scale", App->editor->gizmo_operation == SCALE))
 		{
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::SCALE;
 		}
+		
+
+		
 
 		ImGui::Checkbox("Enable Gizmo", &App->editor->gizmo_enabled);
 
@@ -105,7 +107,7 @@ void ComponentTransform::OnInspector(bool debug)
 		}
 
 		//Scale
-		ImGui::TextColored(white, "Scale:    ");
+		ImGui::TextColored(white, "Scale:  ");
 		ImGui::SameLine();
 
 		float3 scale = this->scale;
@@ -113,6 +115,18 @@ void ComponentTransform::OnInspector(bool debug)
 		{
 			App->input->InfiniteHorizontal();
 			SetScale(scale);
+		}
+
+
+		if (ImGui::RadioButton("World", App->editor->gizmo_mode == ImGuizmo::MODE::WORLD))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::WORLD;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Local", App->editor->gizmo_mode == ImGuizmo::MODE::LOCAL))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::LOCAL;
 		}
 
 		//Local Matrix
