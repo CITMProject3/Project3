@@ -861,11 +861,11 @@ void Editor::SaveSceneWindow()
 void Editor::DisplayGizmo()
 {
 	//Selection keys
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		gizmo_operation = ImGuizmo::OPERATION::SCALE;
 
 	ImGuizmo::BeginFrame();
@@ -877,13 +877,40 @@ void Editor::DisplayGizmo()
 		ImGuizmo::Enable(gizmo_enabled);
 
 		ComponentCamera* camera = App->camera->GetEditorCamera();
+
 		float4x4 matrix = go->transform->GetLocalTransformMatrix().Transposed();
 
-		ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+		ComponentTransform* transform = go->transform;
+
+		ComponentTransform* parent_transform = nullptr;
+
+		if (go->GetParent())
+		{
+			parent_transform = (ComponentTransform*)go->GetParent()->GetComponent(C_TRANSFORM);
+			assert(parent_transform);
+
+			matrix = parent_transform->GetGlobalMatrix() * transform->GetLocalTransformMatrix();
+			matrix = matrix.Transposed();
+		}
+
+
+
+		if (gizmo_operation == ImGuizmo::OPERATION::SCALE)
+			ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+
+		else
+			ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, (ImGuizmo::MODE)gizmo_mode, matrix.ptr());
+
 
 		if (ImGuizmo::IsUsing())
 		{
 			matrix.Transpose();
+
+			if (go->GetParent())
+			{
+				matrix = parent_transform->GetGlobalMatrix().Inverted() * matrix;
+			}
+
 			float3 position, scale;
 			Quat rotation;
 			matrix.Decompose(position, rotation, scale);
