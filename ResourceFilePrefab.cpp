@@ -275,7 +275,7 @@ void ResourceFilePrefab::CreateChildsByUUID(const Data & go_data, map<unsigned i
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 

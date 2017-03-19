@@ -877,8 +877,7 @@ void Editor::DisplayGizmo()
 		ImGuizmo::Enable(gizmo_enabled);
 
 		ComponentCamera* camera = App->camera->GetEditorCamera();
-		ComponentTransform* transform = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
-		float4x4 matrix = transform->GetLocalTransformMatrix().Transposed();
+		float4x4 matrix = go->transform->GetLocalTransformMatrix().Transposed();
 
 		ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
 
@@ -889,9 +888,9 @@ void Editor::DisplayGizmo()
 			Quat rotation;
 			matrix.Decompose(position, rotation, scale);
 
-			transform->SetPosition(position);
-			transform->SetRotation(rotation);
-			transform->SetScale(scale);
+			go->transform->SetPosition(position);
+			go->transform->SetRotation(rotation);
+			go->transform->SetScale(scale);
 		}
 	}
 }

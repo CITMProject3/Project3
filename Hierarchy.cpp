@@ -162,8 +162,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 		ImGui::PopID();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
-			ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
-			App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
+			App->camera->Center((*object)->transform->GetGlobalMatrix().TranslatePart());
 		}
 
 		if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))

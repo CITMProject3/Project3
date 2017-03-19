@@ -334,9 +334,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	if (material->alpha == 2 && alpha_render == false)
 	{
-		
-		ComponentTransform* obj_tran = (ComponentTransform*)obj->GetComponent(C_TRANSFORM);
-		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj_tran->GetPosition());
+		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj->transform->GetPosition());
 		alpha_object = pair<float, GameObject*>(distance, obj);
 		return;
 	}
