@@ -39,7 +39,7 @@ public:
 	bool ContainsPoint(const float2 &point) const;
 
 	// Setters / Getters
-	const vec &GetGlobalPos() const;
+	const float2 GetGlobalPos() const;
 	const vec &GetLocalPos() const;
 
 	void SetLocalPos(const vec &local_pos);

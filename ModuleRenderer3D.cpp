@@ -21,6 +21,7 @@
 #include "ComponentRectTransform.h"
 #include "ComponentUiImage.h"
 #include "ComponentCanvas.h"
+#include "ComponentUiText.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -253,7 +254,10 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
-			DrawUI(*obj);
+			if ((*obj)->GetComponent(C_UI_IMAGE))
+				DrawUIImage(*obj);
+			else if ((*obj)->GetComponent(C_UI_TEXT))
+				DrawUIText(*obj);
 		}
 	}
 
@@ -791,7 +795,7 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void ModuleRenderer3D::DrawUI(GameObject * obj) const
+void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 {
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 	
@@ -856,6 +860,122 @@ void ModuleRenderer3D::DrawUI(GameObject * obj) const
 	glPopMatrix();
 	glEnable(GL_LIGHTING);
 	
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
+}
+
+void ModuleRenderer3D::DrawUIText(GameObject * obj) const
+{
+	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+
+
+	ComponentUiText* t = (ComponentUiText*)obj->GetComponent(C_UI_TEXT);
+	if (t == nullptr)
+		return;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glDisable(GL_LIGHTING); // Panel mesh is not afected by lights!
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, App->window->GetScreenWidth(), App->window->GetScreenHeight(), 0, -1, 1);	//
+	glMatrixMode(GL_MODELVIEW);             // Select Modelview Matrix
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();
+
+
+
+
+	switch (t->UImaterial->alpha)
+	{
+	case (2):
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, t->UImaterial->blend_type);
+	}
+	case (1):
+	{
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, t->UImaterial->alpha_test);
+		break;
+	}
+	}
+
+	string text = t->GetText();
+	string data_values = t->GetArrayValues();
+	int row_chars = t->GetCharRows();
+	float letter_w = t->GetCharwidth();
+	float letter_h = t->GetCharHeight();
+	float2 pos = float2(c->GetLocalPos().ptr());
+	float x = pos.x;
+	float y = pos.y;
+	for (int i = 0; i < strlen(text.data()); i++)
+	{
+		Mesh* mesh = c->GetMesh();
+		float4x4 m = c->GetFinalTransform();
+		m.Translate(float3(letter_w, 0, 0));
+		glMultMatrixf(*m.Transposed().v);
+		glTranslatef(pos.x, pos.y, 0.0f);
+		for (uint j = 0; j < t->GetLenght(); ++j)
+		{
+			if (data_values[j] == text[i])
+			{
+				float r_x = letter_w * (j % row_chars);
+				float r_y = letter_h * (j / row_chars);
+
+				const float verts[] = {
+					0, 0,
+					0 + row_chars*letter_w, 0,
+					0 + row_chars*letter_w, 0 + letter_h * 2,
+					0, 0 + letter_h * 2
+				};
+
+				const float texVerts[] = {
+					r_x, r_y,
+					r_x + letter_w, r_y,
+					r_x + letter_w, r_y + letter_h,
+					r_x, r_y + letter_h
+				};
+
+				if (t->UImaterial->texture_ids.size()>0)
+				{
+					// Texture
+					glEnable(GL_TEXTURE_2D);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBindTexture(GL_TEXTURE_2D, (*t->UImaterial->texture_ids.begin()).second);
+				}
+
+				// Vertices
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+				glVertexPointer(3, GL_FLOAT, 0, NULL);
+				// Texture coordinates
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+				glTexCoordPointer(2, GL_FLOAT, sizeof(float) * 6, texVerts);
+
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glColor4fv(t->UImaterial->color);
+				// Indices
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+				x += letter_w;
+			}
+		}
+	}
+
+
+	glMatrixMode(GL_PROJECTION);              // Select Projection
+	glPopMatrix();							  // Pop The Matrix
+	glMatrixMode(GL_MODELVIEW);               // Select Modelview
+	glPopMatrix();							  // Pop The Matrix
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

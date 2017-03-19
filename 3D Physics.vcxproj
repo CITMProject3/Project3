@@ -128,7 +128,6 @@
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Events.h" />
-    <ClInclude Include="font\ysglfontdata.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="glmath.h" />
@@ -298,9 +297,6 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Editor.cpp" />
-    <ClCompile Include="font\ysglfontdata.c" />
-    <ClCompile Include="font\ysglmaketextbitmap.c" />
-    <ClCompile Include="font\ysglusefontbitmap.c" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />

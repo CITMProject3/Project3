@@ -154,6 +154,7 @@ bool ComponentRectTransform::ContainsPoint(const math::float2 &point) const
 	return true;
 }
 
+
 const math::vec &ComponentRectTransform::GetLocalPos() const
 {
 	return local_position;

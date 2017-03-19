@@ -22,11 +22,11 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 
-	void DefaultMaterialInspector();
+	bool DefaultMaterialInspector();
 private:
 	void PrintMaterialProperties();
 	void ChooseAlphaType();
-	void ChangeTextureNoMaterial(std::string tex_num);
+	bool ChangeTextureNoMaterial(std::string tex_num);
 	void ChangeTexture(std::string tex_num, Uniform* &value);
 	void RefreshTextures();
 	void AddTexture();

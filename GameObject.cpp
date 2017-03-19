@@ -393,8 +393,8 @@ Component* GameObject::AddComponent(ComponentType type)
 			item = new ComponentUiImage(type, this);
 		break;
 	case C_UI_TEXT:
-		if (GetComponent(C_TRANSFORM))
-			item = new ComponentUiText(this);
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiText(type,this);
 		break;
 	case C_CANVAS:
 		if (GetComponent(C_RECT_TRANSFORM))

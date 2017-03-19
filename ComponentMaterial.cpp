@@ -294,19 +294,21 @@ void ComponentMaterial::Load(Data & conf)
 	
 }
 
-void ComponentMaterial::DefaultMaterialInspector()
+bool ComponentMaterial::DefaultMaterialInspector()
 {
+	bool ret = false;
 	if (texture_ids.size() == 0)
 		AddTexture();
 	for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 	{
 		ImGui::Text("%s", (*it).first.data());
 		ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
-		ChangeTextureNoMaterial((*it).first);
+		ret = ChangeTextureNoMaterial((*it).first);
 	}
 
 	ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 	ChooseAlphaType();
+	return ret;
 }
 
 void ComponentMaterial::PrintMaterialProperties()
@@ -407,8 +409,9 @@ void ComponentMaterial::ChooseAlphaType()
 
 }
 
-void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
+bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 {
+	bool ret = false;
 	ImGui::Text("Change Texture: ");
 	ImGui::SameLine();
 	std::string str = ("Textures: ##ChangeTexture" + tex_name);
@@ -431,6 +434,7 @@ void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 					list_textures_paths.pop_back();
 					tex_resources.push_back(rc_tmp);
 					list_textures_paths.push_back(u_sampler2d);
+					ret = true;
 				}
 				else
 				{
@@ -440,6 +444,7 @@ void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 		}
 		ImGui::EndMenu();
 	}
+	return ret;
 }
 
 void ComponentMaterial::ChangeTexture(string tex_name, Uniform* &value)
