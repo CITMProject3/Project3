@@ -793,6 +793,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
 	char* soundbank_extension = "bnk";
+	char* script_library_extension = "dll";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -819,6 +820,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(soundbank_extension) == 0)
 		return FileType::SOUNDBANK;
+
+	if (extension.compare(script_library_extension) == 0)
+		return FileType::SCRIPTS_LIBRARY;
 	
 	return NONE;
 }
@@ -1035,6 +1039,9 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 	case SOUNDBANK:
 		SoundbankDropped(path, base_dir, base_library_dir, uuid);
 		break;
+	case SCRIPTS_LIBRARY:
+		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
+		break;
 	}
 }
 
@@ -1162,6 +1169,26 @@ void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir,
 	string json_file_path = file_assets_path.substr(0, file_assets_path.find_last_of('.')) + ".json";
 	lib_json_path += std::to_string(uuid) + ".json";
 	App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data());
+}
+
+void ModuleResourceManager::ScriptLibraryDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+
+	string script_library_path = base_library_dir;
+	script_library_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(script_library_path.data());
+
+	// ScriptLibrary metainfo	
+	script_library_path += std::to_string(uuid) + ".dll";
+	GenerateMetaFile(file_assets_path.data(), FileType::SCRIPTS_LIBRARY, uuid, script_library_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), script_library_path.data());
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)

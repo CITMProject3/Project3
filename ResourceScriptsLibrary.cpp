@@ -11,7 +11,9 @@ ResourceScriptsLibrary::~ResourceScriptsLibrary()
 
 void ResourceScriptsLibrary::LoadInMemory()
 {
-	lib = LoadLibrary(file_path.c_str());
+	string path = file_path.data();
+	path.erase(0, 1);// erase the first '/'
+	lib = LoadLibrary(path.c_str());
 }
 
 void ResourceScriptsLibrary::UnloadInMemory()

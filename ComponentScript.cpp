@@ -289,10 +289,13 @@ void ComponentScript::SetPath(const char * path)
 	if (!public_bools.empty())
 		public_bools.clear();
 
-	string update_path = this->path.c_str();
-	update_path.append("_GetPublics");
-	if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
+	if (App->scripting->scripts_loaded)
 	{
-		getPublics(&public_chars, &public_ints, &public_floats, &public_bools);
+		string update_path = this->path.c_str();
+		update_path.append("_GetPublics");
+		if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
+		{
+			getPublics(&public_chars, &public_ints, &public_floats, &public_bools);
+		}
 	}
 }

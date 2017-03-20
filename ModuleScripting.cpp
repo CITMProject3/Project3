@@ -8,6 +8,8 @@ ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(
 	scripts_lib = NULL;
 	finded_script_names = false; 
 	scripts_quantity = -1;
+	resource_created = false;
+	scripts_loaded = false;
 }
 
 ModuleScripting::~ModuleScripting()
@@ -16,12 +18,12 @@ ModuleScripting::~ModuleScripting()
 
 bool ModuleScripting::Init(Data &config)
 {
-	LoadScriptsLibrary();
 	return true;
 }
 
 bool ModuleScripting::Start()
 {
+	LoadScriptsLibrary();
 	return true;
 }
 /*
@@ -44,6 +46,11 @@ bool ModuleScripting::CleanUp()
 {
 	if (script_names.size() > 0)
 		script_names.clear();
+
+	scripts_lib->Unload();
+	resource_created = false;
+	scripts_loaded = false;
+	finded_script_names = false;
 	//if (scripts_lib->lib != NULL)
 	//	FreeLibrary(script);
 	return true;
@@ -66,12 +73,13 @@ void ModuleScripting::LoadScriptsLibrary()
 	}*/
 
 	if(_DEBUG)
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
 	else
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
 
 	if (scripts_lib != nullptr)
 	{
+		resource_created = true;
 		if (scripts_lib->lib == NULL)
 		{
 			last_error = GetLastError();

@@ -38,6 +38,7 @@ public:
 	void SetScriptNames(const char* names);
 	void AddScriptName(const char* name);
 
+	bool resource_created;
 	bool scripts_loaded;
 	bool finded_script_names;
 

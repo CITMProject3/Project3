@@ -23,7 +23,8 @@ enum FileType
 	FRAGMENT,
 	MATERIAL,
 	RENDER_TEXTURE,
-	SOUNDBANK
+	SOUNDBANK,
+	SCRIPTS_LIBRARY
 };
 
 struct tmp_mesh_file
@@ -108,6 +109,7 @@ private:
 	void VertexDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void FragmentDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void SoundbankDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void ScriptLibraryDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
 	void LoadPrefabFile(const std::string& library_path);
 
