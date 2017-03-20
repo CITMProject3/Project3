@@ -11,6 +11,8 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
 
+#include "Time.h"
+
 bool Animation::Advance(float dt)
 {
 	time += dt;

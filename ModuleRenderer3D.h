@@ -17,6 +17,7 @@ using namespace math;
 class Mesh;
 class GameObject;
 class ComponentCamera;
+typedef void *SDL_GLContext;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -51,14 +52,15 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
 
-
 public:
+
 	bool renderAABBs = false;
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	ComponentCamera* camera;
+
 private:
 
 	vector<GameObject*> objects_to_draw;

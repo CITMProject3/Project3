@@ -10,6 +10,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "Assets.h"
+#include "Time.h"
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
 #include "ComponentCamera.h"
@@ -27,6 +28,8 @@
 #include "RaycastHit.h"
 
 #include "ResourceFileTexture.h"
+
+#include "SDL\include\SDL_scancode.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")

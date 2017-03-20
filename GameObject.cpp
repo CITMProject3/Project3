@@ -19,6 +19,8 @@
 #include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
 
+#include "Random.h"
+
 GameObject::GameObject()
 {
 	name.resize(30);

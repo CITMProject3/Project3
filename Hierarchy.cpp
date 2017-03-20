@@ -1,6 +1,6 @@
 #include "Hierarchy.h"
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -13,6 +13,8 @@
 #include "ModuleInput.h"
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
+
+#include "SDL/include/SDL_scancode.h"
 
 Hierarchy::Hierarchy()
 {

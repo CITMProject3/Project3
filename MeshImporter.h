@@ -8,7 +8,9 @@ struct aiMesh;
 struct aiNode;
 struct aiScene;
 struct Mesh;
+
 class Data;
+class GameObject;
 
 namespace MeshImporter
 {

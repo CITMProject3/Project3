@@ -1,8 +1,12 @@
 #include "Application.h"
+
+#include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
+
 #include "Assets.h"
 #include "ShaderEditorWindow.h"
+
 #include <vector>
-#include "ModuleFileSystem.h"
 
 using namespace std;
 

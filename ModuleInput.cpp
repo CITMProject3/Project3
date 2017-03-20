@@ -1,13 +1,17 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
+#include "ModuleResourceManager.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleEditor.h"
+
+#include "SDL/include/SDL.h"
 
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 #include "imgui\imgui_internal.h"
-#include "ModuleWindow.h"
-#include "ModuleResourceManager.h"
-#include "ModuleRenderer3D.h"
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(const char* name, bool start_enabled) : Module(name, start_enabled)

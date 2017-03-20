@@ -121,7 +121,7 @@
     <ClInclude Include="CurveWindow.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DebugDraw.h" />
-    <ClInclude Include="Editor.h" />
+    <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
     <ClInclude Include="GameObject.h" />
@@ -286,7 +286,7 @@
     <ClCompile Include="CurveWindow.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
-    <ClCompile Include="Editor.cpp" />
+    <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="glmath.cpp" />

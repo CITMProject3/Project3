@@ -2,6 +2,9 @@
 #define __OCTREE_H__
 
 #include "MathGeoLib\include\MathGeoLib.h"
+
+#include "DebugDraw.h"
+
 #include <vector>
 #include <stack>
 #include <queue>

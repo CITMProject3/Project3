@@ -4,6 +4,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
+#include "ModuleEditor.h"
 #include "ModuleFileSystem.h"
 #include "ModulePhysics3D.h"
 
@@ -18,6 +19,8 @@
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
+#include "AutoProfile.h"
+#include "Random.h"
 
 #include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"

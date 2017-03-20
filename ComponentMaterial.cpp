@@ -1,12 +1,18 @@
 #include "Application.h"
-#include "ComponentMaterial.h"
+
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "ComponentMaterial.h"
+
 #include "imgui\imgui.h"
 #include "Data.h"
+
 #include "ResourceFileTexture.h"
-#include "Assets.h"
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
+
+#include "Assets.h"
 #include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)

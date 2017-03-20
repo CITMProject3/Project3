@@ -1,8 +1,11 @@
 #include "Application.h"
+#include "ModuleEditor.h"
+
 #include "Assets.h"
 #include "MaterialCreatorWindow.h"
-#include <vector>
 #include "ShaderComplier.h"
+
+#include <vector>
 
 MaterialCreatorWindow::MaterialCreatorWindow()
 {

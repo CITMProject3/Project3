@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Globals.h"
 #include "Data.h"
+#include "Random.h"
 
 Component::Component(ComponentType type, GameObject* game_object) : type (type), game_object(game_object)
 {

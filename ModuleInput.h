@@ -8,6 +8,9 @@
 #define MAX_MOUSE_BUTTONS 5
 #define TOLERANCE 0.001
 
+typedef struct _SDL_Joystick SDL_Joystick;
+typedef int16_t Sint16;
+
 using namespace std;
 
 enum JOY_BUTTON		//For XBOX controller!!

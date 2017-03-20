@@ -8,7 +8,12 @@
 #include "ComponentTransform.h"
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
+
+#include "Time.h"
+
 #include <string>
+
+#include "SDL\include\SDL_scancode.h"
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {

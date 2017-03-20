@@ -1,6 +1,6 @@
 #include "Inspector.h"
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include "Component.h"

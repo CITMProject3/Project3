@@ -1,8 +1,4 @@
 #include "Application.h"
-#include "PerfTimer.h"
-#include "LinearAllocator.h"
-#include "Profiler.h"
-#include "Data.h"
 
 #include "Module.h"
 #include "ModuleAudio.h"
@@ -10,22 +6,30 @@
 #include "ModuleFileSystem.h"
 #include "ModuleGOManager.h"
 #include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
 #include "ModuleLighting.h"
 #include "ModulePhysics3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
+#include "ModuleEditor.h"
 #include "ModuleWindow.h"
 
+#include "Time.h"
+#include "Random.h"
+#include "Profiler.h"
+#include "Data.h"
 
 using namespace std;
 
 Application::Application()
 {
+	// Time controller
 	time = new Time();
-	//Random
+	
+	// Random
 	rnd = new Random();
 
-	//Modules
+	// Modules
 	window = new ModuleWindow("window");
 	resource_manager = new ModuleResourceManager("resource_manager");
 	input = new ModuleInput("input");
@@ -34,7 +38,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D("renderer");
 	camera = new ModuleCamera3D("camera");
 	physics = new ModulePhysics3D("physics");
-	editor = new Editor("editor");
+	editor = new ModuleEditor("editor");
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
@@ -287,7 +291,7 @@ int Application::GetFPS()
 	return 60; //TODO: Update time with fps limit.
 }
 
-bool Application::ChangeGameState(game_states new_state)
+bool Application::ChangeGameState(GameStates new_state)
 {
 	bool success = false;
 	switch (new_state)

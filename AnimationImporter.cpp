@@ -11,6 +11,8 @@
 #include "ComponentBone.h"
 #include "ModuleResourceManager.h"
 
+#include "Random.h"
+
 //External libraries
 #include "Assimp\include\scene.h"
 #include "Assimp\include\anim.h"

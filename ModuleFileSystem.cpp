@@ -1,8 +1,9 @@
-#include "Application.h"
-#include "Globals.h"
 #include "ModuleFileSystem.h"
+
 #include "PhysFS/include/physfs.h"
-#include "SDL/include/SDL.h"
+#include "SDL/include/SDL_filesystem.h"
+#include "SDL/include/SDL_stdinc.h"
+#include "SDL/include/SDL_rwops.h"
 
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 
@@ -175,7 +176,7 @@ bool ModuleFileSystem::SaveUnique(const char * file, const void* buffer, unsigne
 	char name_to_save[50];
 	sprintf_s(name_to_save, 50, "%s.%s", file, extension);
 
-	vector<string> files_in_path;
+	std::vector<std::string> files_in_path;
 	GetEnumerateFiles(path, files_in_path);
 
 	int copies = 0;
@@ -186,7 +187,7 @@ bool ModuleFileSystem::SaveUnique(const char * file, const void* buffer, unsigne
 	{
 		name_unique = true;
 
-		vector<string>::iterator name_file = files_in_path.begin();
+		std::vector<std::string>::iterator name_file = files_in_path.begin();
 		for (name_file; name_file != files_in_path.end(); name_file++)
 		{
 			
@@ -227,12 +228,12 @@ bool ModuleFileSystem::GetEnumerateFiles(const char * dir, std::vector<std::stri
 	return (ef != NULL) ? true : false;
 }
 
-void ModuleFileSystem::GetFilesAndDirectories(const char * dir, std::vector<string>& folders, std::vector<string>& files, bool only_meta_files) const
+void ModuleFileSystem::GetFilesAndDirectories(const char * dir, std::vector<std::string>& folders, std::vector<std::string>& files, bool only_meta_files) const
 {
 	char** ef = PHYSFS_enumerateFiles(dir);
 
-	string directory(dir);
-	string file_name;
+	std::string directory(dir);
+	std::string file_name;
 	for (char**i = ef; *i != NULL; i++)
 	{
 		if (PHYSFS_isDirectory((directory+(*i)).c_str()))
@@ -259,11 +260,11 @@ void ModuleFileSystem::GetFilesAndDirectories(const char * dir, std::vector<stri
 	PHYSFS_freeList(ef);
 }
 
-void ModuleFileSystem::GetFilesAndDirectoriesOutside(const char * dir, std::vector<string>& folders, std::vector<string>& files)
+void ModuleFileSystem::GetFilesAndDirectoriesOutside(const char * dir, std::vector<std::string>& folders, std::vector<std::string>& files)
 {
 	//Only for Windows
-	string directory = dir;
-	string search_path = directory + "/*.*";
+	std::string directory = dir;
+	std::string search_path = directory + "/*.*";
 	WIN32_FIND_DATA find_data;
 	HANDLE handle_find = ::FindFirstFile(search_path.data(), &find_data);
 	if (handle_find != INVALID_HANDLE_VALUE)
@@ -312,7 +313,7 @@ bool ModuleFileSystem::CopyFromOutsideFile(const char * from_path, const char * 
 	return ret;
 }
 
-string ModuleFileSystem::GetNameFromPath(const string & path) const
+std::string ModuleFileSystem::GetNameFromPath(const std::string & path) const
 {
 	//Note: we supose the given path is a file and not a directory. 
 	size_t name = path.find_last_of("/\\");
@@ -324,7 +325,7 @@ double ModuleFileSystem::GetLastModificationTime(const char * file_path) const
 	return PHYSFS_getLastModTime(file_path);
 }
 
-const char *ModuleFileSystem::GetRealPath(const string &virtual_path) const
+const char *ModuleFileSystem::GetRealPath(const std::string &virtual_path) const
 {
 	return PHYSFS_getRealDir(virtual_path.c_str());
 }
@@ -334,20 +335,20 @@ bool ModuleFileSystem::GenerateDirectory(const char * path) const
 	return PHYSFS_mkdir(path);
 }
 
-bool ModuleFileSystem::Delete(string filename) const
+bool ModuleFileSystem::Delete(std::string filename) const
 {
 	int ret; 
-	vector<string> directories, files;
+	std::vector<std::string> directories, files;
 	if (IsDirectory(filename.data()))
 	{
 		GetFilesAndDirectories(filename.data(), directories, files);
-		for (vector<string>::const_iterator directory = directories.begin(); directory != directories.end(); ++directory)
+		for (std::vector<std::string>::const_iterator directory = directories.begin(); directory != directories.end(); ++directory)
 		{
-			string directory_name = filename + *directory + "/";
+			std::string directory_name = filename + *directory + "/";
 			Delete(directory_name.data());
 		}
 			
-		for (vector<string>::const_iterator file = files.begin(); file != files.end(); ++file)
+		for (std::vector<std::string>::const_iterator file = files.begin(); file != files.end(); ++file)
 			PHYSFS_delete((filename + '/' + (*file)).data());
 	}
 	ret = PHYSFS_delete(filename.data());

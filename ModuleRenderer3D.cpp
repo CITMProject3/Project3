@@ -18,6 +18,10 @@
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ModuleEditor.h"
+#include "Time.h"
+
+#include "SDL/include/SDL_video.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */

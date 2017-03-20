@@ -1,10 +1,15 @@
 #include "Application.h"
-#include "ResourceFilePrefab.h"
+
+#include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
-#include "ModuleFileSystem.h"
-#include "ModuleGOManager.h"
+
+#include "ResourceFilePrefab.h"
+
+#include "Random.h"
 
 ResourceFilePrefab::ResourceFilePrefab(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {}

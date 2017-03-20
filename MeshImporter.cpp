@@ -21,6 +21,7 @@
 #include "ComponentBone.h"
 #include "ModuleResourceManager.h"
 #include "ModuleRenderer3D.h"
+#include "Random.h"
 
 bool MeshImporter::Import(const char * file, const char * path, const char* base_path, vector<unsigned int>& uuids, vector<unsigned int>& uuids_anim, vector<unsigned int>& uuids_bones)
 {

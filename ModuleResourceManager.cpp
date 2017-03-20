@@ -7,9 +7,11 @@
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
 #include "ModulePhysics3D.h"
+#include "ModuleEditor.h"
 #include "GameObject.h"
 #include "Assets.h"
 #include "ShaderComplier.h"
+#include "Time.h"
 
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"

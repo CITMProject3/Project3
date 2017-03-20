@@ -13,7 +13,7 @@
 #include "ModuleGOManager.h"
 #include "ModuleInput.h"
 
-
+#include "SDL/include/SDL_scancode.h"
 
 ModuleSceneIntro::ModuleSceneIntro(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
