@@ -3,6 +3,8 @@
 #include "Data.h"
 #include <string>
 #include "GameObject.h"
+#include "DebugDraw.h"
+#include "ComponentTransform.h"
 
 using namespace std;
 
@@ -12,6 +14,13 @@ ComponentLight::ComponentLight(ComponentType type, GameObject* game_object) : Co
 
 ComponentLight::~ComponentLight()
 {
+}
+
+void ComponentLight::Update()
+{
+	float4x4 matrix = game_object->transform->GetGlobalMatrix();
+	float3 forward = matrix.Col3(2);
+	g_Debug->AddArrow(matrix.TranslatePart(), forward, g_Debug->yellow, 3.0f);
 }
 
 void ComponentLight::OnInspector(bool debug)
