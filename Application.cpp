@@ -53,12 +53,12 @@ Application::Application()
 	AddModule(window);
 	AddModule(input);
 	AddModule(g_Debug);
+	AddModule(scripting);
 	AddModule(go_manager);
 	AddModule(camera);
 	AddModule(audio);
 	AddModule(physics);
 	AddModule(lighting);
-	AddModule(scripting);
 	
 	// Scenes
 	AddModule(scene_intro);

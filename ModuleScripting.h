@@ -21,9 +21,7 @@ public:
 
 	DWORD GetError();
 	void LoadScriptsLibrary();
-	void LoadScriptNames();
 	vector<const char*> GetScriptNamesList()const;
-	void AddScriptName(const char* name);
 	void GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools);
 
 	bool resource_created;

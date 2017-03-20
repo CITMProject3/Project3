@@ -24,21 +24,6 @@ bool ModuleScripting::Start()
 	LoadScriptsLibrary();
 	return true;
 }
-/*
-update_status ModuleScripting::PreUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleScripting::Update()
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleScripting::PostUpdate()
-{
-	return UPDATE_CONTINUE;
-}*/
 
 bool ModuleScripting::CleanUp()
 {
@@ -60,11 +45,6 @@ DWORD ModuleScripting::GetError()
 
 void ModuleScripting::LoadScriptsLibrary()
 {
-	/*if (script)
-	{
-		FreeLibrary(script);
-	}*/
-
 	if(_DEBUG)
 		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
 	else
@@ -88,24 +68,13 @@ void ModuleScripting::LoadScriptsLibrary()
 		else
 		{
 			scripts_loaded = true;
-			LoadScriptNames();
 		}
 	}
-}
-
-void ModuleScripting::LoadScriptNames()
-{
-	
 }
 
 vector<const char*> ModuleScripting::GetScriptNamesList()const
 {
 	return scripts_lib->script_names;
-}
-
-void ModuleScripting::AddScriptName(const char* name)
-{
-	scripts_lib->script_names.push_back(name);
 }
 
 void ModuleScripting::GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools)

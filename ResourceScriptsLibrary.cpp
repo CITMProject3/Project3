@@ -34,7 +34,7 @@ void ResourceScriptsLibrary::LoadScriptNames()
 	if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(lib, "GetScriptNames"))
 	{
 		finded_script_names = true;
-		get_script_names(App);
+		get_script_names(&script_names);
 		LoadScriptPublicVars();
 	}
 	else
@@ -87,9 +87,10 @@ void ResourceScriptsLibrary::LoadScriptPublicVars()
 
 void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools)
 {
+	string str = script_name;
 	for (map<const char*, map<const char*, string>>::iterator it = this->public_chars.begin(); it != this->public_chars.end(); it++)
 	{
-		if ((*it).first == script_name)
+		if (str.compare((*it).first) == 0)
 		{
 			for(map<const char*, string>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 				public_chars->insert(pair<const char*, string>((*it2).first, (*it2).second));
@@ -97,7 +98,7 @@ void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const ch
 	}
 	for (map<const char*, map<const char*, int>>::iterator it = this->public_ints.begin(); it != this->public_ints.end(); it++)
 	{
-		if ((*it).first == script_name)
+		if (str.compare((*it).first) == 0)
 		{
 			for (map<const char*, int>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 				public_ints->insert(pair<const char*, int>((*it2).first, (*it2).second));
@@ -105,7 +106,7 @@ void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const ch
 	}
 	for (map<const char*, map<const char*, float>>::iterator it = this->public_floats.begin(); it != this->public_floats.end(); it++)
 	{
-		if ((*it).first == script_name)
+		if (str.compare((*it).first) == 0)
 		{
 			for (map<const char*, float>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 				public_floats->insert(pair<const char*, float>((*it2).first, (*it2).second));
@@ -113,10 +114,33 @@ void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const ch
 	}
 	for (map<const char*, map<const char*, bool>>::iterator it = this->public_bools.begin(); it != this->public_bools.end(); it++)
 	{
-		if ((*it).first == script_name)
+		if (str.compare((*it).first) == 0)
 		{
 			for (map<const char*, bool>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
 				public_bools->insert(pair<const char*, bool>((*it2).first, (*it2).second));
 		}
 	}
 }
+/*if (!this->public_chars.empty())
+	{
+		for (map<const char*, string>::iterator it = this->public_chars.at(script_name).begin(); it != this->public_chars.at(script_name).end(); it++)
+			public_chars->insert(pair<const char*, string>((*it).first, (*it).second));
+	}
+
+	if (!this->public_ints.empty())
+	{
+		for (map<const char*, int>::iterator it = this->public_ints.at(script_name).begin(); it != this->public_ints.at(script_name).end(); it++)
+			public_ints->insert(pair<const char*, int>((*it).first, (*it).second));
+	}
+
+	if (!this->public_floats.empty())
+	{
+		for (map<const char*, float>::iterator it = this->public_floats.at(script_name).begin(); it != this->public_floats.at(script_name).end(); it++)
+			public_floats->insert(pair<const char*, float>((*it).first, (*it).second));
+	}
+
+	if (!this->public_bools.empty())
+	{
+		for (map<const char*, bool>::iterator it = this->public_bools.at(script_name).begin(); it != this->public_bools.at(script_name).end(); it++)
+			public_bools->insert(pair<const char*, bool>((*it).first, (*it).second));
+	}*/

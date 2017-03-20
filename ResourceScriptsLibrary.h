@@ -9,7 +9,7 @@
 
 using namespace std;
 class Application;
-typedef void(*f_GetScriptNames)(Application* engine_app); 
+typedef void(*f_GetScriptNames)(vector<const char*>* script_names);
 typedef void(*f_GetPublics)(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools);
 
 class ResourceScriptsLibrary : public ResourceFile

@@ -5,6 +5,7 @@
 
 #include <string>
 #include <map>
+#include <vector>
 
 #include "../Application.h"
 #include "../ModuleScripting.h"
@@ -16,10 +17,10 @@ extern "C"
 {
 	namespace ScriptNames
 	{
-		void GetScriptNames(Application* engine_app)
+		void GetScriptNames(vector<const char*>* script_names)
 		{
-			engine_app->scripting->AddScriptName("Test");
-			engine_app->scripting->AddScriptName("Test2");
+			script_names->push_back("Test");
+			script_names->push_back("Test2");
 		}
 	}
 
