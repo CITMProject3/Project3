@@ -406,7 +406,8 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		}
 	}
 	else
-	{	//Prefab
+	{	
+		//Prefab
 		ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)App->resource_manager->LoadResource(prefab_path, ResourceFileType::RES_PREFAB);
 		if (rc_prefab)
 		{

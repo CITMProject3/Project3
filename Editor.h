@@ -105,6 +105,9 @@ public:
 	ImGuizmo::MODE gizmo_mode = ImGuizmo::MODE::WORLD;
 	bool gizmo_enabled = true;
 
+	int assign_wheel = -1;
+	GameObject* wheel_assign = nullptr;
+
 private:
 
 	bool using_keyboard;

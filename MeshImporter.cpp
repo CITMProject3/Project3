@@ -215,7 +215,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 				//Normal map
 				aiString normal_path;
-				material->GetTexture(aiTextureType_HEIGHT, 0, &normal_path);
+				material->GetTexture(aiTextureType_NORMALS, 0, &normal_path);
 				string normal_complete_path;
 				if (normal_path.length > 0)
 				{

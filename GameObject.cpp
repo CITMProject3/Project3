@@ -411,6 +411,9 @@ Component* GameObject::GetComponent(ComponentType type)const
 {
 	if (components.empty() == false)
 	{
+		if (type == C_TRANSFORM)
+			return transform;
+
 		std::vector<Component*>::const_iterator comp = components.begin();
 		while (comp != components.end())
 		{
