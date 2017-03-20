@@ -921,7 +921,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 		float4x4 m = c->GetFinalTransform();
 		m.Translate(float3(letter_w, 0, 0));
 		glMultMatrixf(*m.Transposed().v);
-		glTranslatef(pos.x, pos.y, 0.0f);
 		for (uint j = 0; j < t->GetLenght(); ++j)
 		{
 			if (data_values[j] == text[i])
@@ -956,13 +955,14 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 				glVertexPointer(3, GL_FLOAT, 0, NULL);
 				// Texture coordinates
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-				glTexCoordPointer(2, GL_FLOAT, sizeof(float) * 6, texVerts);
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 				glColor4fv(t->UImaterial->color);
 				// Indices
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+				glPopMatrix();
 				x += letter_w;
 			}
 		}
@@ -973,7 +973,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	glPopMatrix();							  // Pop The Matrix
 	glMatrixMode(GL_MODELVIEW);               // Select Modelview
 	glPopMatrix();							  // Pop The Matrix
-	glPopMatrix();
+	
 	glEnable(GL_LIGHTING);
 
 	glDisable(GL_TEXTURE_2D);

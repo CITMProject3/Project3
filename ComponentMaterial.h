@@ -26,7 +26,7 @@ public:
 private:
 	void PrintMaterialProperties();
 	void ChooseAlphaType();
-	bool ChangeTextureNoMaterial(std::string tex_num);
+	bool ChangeTextureNoMaterial(std::string tex_num,int num);
 	void ChangeTexture(std::string tex_num, Uniform* &value);
 	void RefreshTextures();
 	void AddTexture();

@@ -170,7 +170,7 @@ void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
 	char_row = len / rows;
-	OnChangeTexture();
+	//OnChangeTexture();
 }
 
 bool ComponentUiText::OnChangeTexture()
