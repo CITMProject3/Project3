@@ -466,8 +466,8 @@ void ComponentCar::HandlePlayerInput()
 			Reset();
 		}
 	}*/
-	//JoystickControls(&accel, &brake, &turning);
-	//ApplyTurbo();
+	JoystickControls(&accel, &brake, &turning);
+	ApplyTurbo();
 
 	//Acrobactics control
 	if (acro_on)
@@ -722,6 +722,7 @@ void ComponentCar::Acrobatics(PLAYER p)
 	if (acro_back && acro_front)
 	{
 		//Apply turbo
+		current_turbo = T_MINI;
 
 		acro_front = false;
 		acro_back = false;
@@ -729,6 +730,8 @@ void ComponentCar::Acrobatics(PLAYER p)
 	else if(tmp_back != acro_back || tmp_front != acro_front)
 	{
 		//Start timer
+		acro_timer = 0.0f;
+
 		acro_on = true;
 	}
 }
