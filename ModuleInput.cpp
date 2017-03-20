@@ -157,6 +157,7 @@ update_status ModuleInput::PreUpdate()
 
 	bool quit = false;
 	SDL_Event e;
+	list<string> files_dropped;
 	while(SDL_PollEvent(&e))
 	{
 		ImGui_ImplSdlGL3_ProcessEvent(&e);
@@ -213,12 +214,15 @@ update_status ModuleInput::PreUpdate()
 
 			case SDL_DROPFILE:
 				char* file_dropped = e.drop.file;
-				App->resource_manager->FileDropped(file_dropped);
+				files_dropped.push_back(file_dropped);
 				SDL_free(file_dropped);
 				break;
 			
 		}
 	}
+
+	if (files_dropped.size() > 0)
+		App->resource_manager->InputFileDropped(files_dropped);
 
 	if ((quit == true || keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP) && !wants_to_quit)
 		wants_to_quit = true;

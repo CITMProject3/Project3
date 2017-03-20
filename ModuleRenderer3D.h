@@ -6,6 +6,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "Light.h"
 #include <vector>
+#include <map>
 #include "Subject.h"
 #include "ModuleLighting.h"
 
@@ -45,8 +46,11 @@ public:
 
 private:
 
-	void DrawScene(ComponentCamera* cam, bool has_render_tex = false)const;
-	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
+
+	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
+	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
+	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
+
 
 public:
 	bool renderAABBs = false;
@@ -58,7 +62,6 @@ public:
 private:
 
 	vector<GameObject*> objects_to_draw;
-
 };
 
 #endif // !__MODULERENDERER3D_H__

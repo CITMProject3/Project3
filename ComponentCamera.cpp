@@ -173,10 +173,7 @@ void ComponentCamera::OnTransformModified()
 	GameObject* game_object = GetGameObject();
 
 	if (game_object)
-	{
-		ComponentTransform* trans = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);		
-		desiredTransform = trans->GetGlobalMatrix();
-	}
+		desiredTransform = game_object->transform->GetGlobalMatrix();
 	else
 		LOG("Error: Component Camera is trying to update it's matrix but it is not attached to any game object.");
 
@@ -429,6 +426,7 @@ void ComponentCamera::UpdateCameraFrustum()
 		desiredTransform.Decompose(des_pos, des_rot, scale);
 		currentTransform.Decompose(curr_pos, curr_rot, scale);
 
+	
 		Quat rotation = curr_rot.Lerp(des_rot, followRotateSpeed);
 		float3 position = curr_pos.Lerp(des_pos, followMoveSpeed);
 		currentTransform = float4x4::FromTRS(position, rotation, float3::one);

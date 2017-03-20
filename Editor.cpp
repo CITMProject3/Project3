@@ -18,6 +18,7 @@
 #include "ShaderEditorWindow.h"
 #include "LightingWindow.h"
 #include "LayersWindow.h"
+#include "CurveWindow.h"
 #include "RenderTexEditorWindow.h"
 #include "ModuleCamera3D.h"
 #include "ComponentCamera.h"
@@ -78,11 +79,13 @@ bool Editor::Start()
 	windows.push_back(layers_win = new LayersWindow());
 	windows.push_back(rendertex_win = new RenderTexEditorWindow());
 	windows.push_back(test_win = new TestWindow());
-
+	windows.push_back(curve_win = new CurveWindow());
 	InitSizes();
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
+
+	heightMapScaling = App->physics->GetTerrainHeightScale();
 
 	return ret;
 }
@@ -102,6 +105,8 @@ bool Editor::CleanUp()
 	delete lighting_win;
 	delete layers_win;
 	delete rendertex_win;
+	delete test_win;
+	delete curve_win;
 
 	windows.clear();
 
@@ -245,6 +250,12 @@ update_status Editor::Update()
 		grid.Render();
 	}
 	
+	for (std::list<GameObject*>::iterator it = selected.begin(); it != selected.end(); it++)
+	{
+		if ((*it)->bounding_box != nullptr)
+			g_Debug->AddAABB(*(*it)->bounding_box, g_Debug->green);
+	}
+
 	HandleInput();
 
 	//Handle Quit event
@@ -253,6 +264,7 @@ update_status Editor::Update()
 		save_quit = true;
 		OpenSaveSceneWindow();
 	}
+
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -373,11 +385,6 @@ update_status Editor::EditorWindows()
 		if (ImGui::BeginMenu("Debug"))
 		{
 			DebugMenu();
-			ImGui::EndMenu();
-		}
-		if (ImGui::BeginMenu("Quit"))
-		{
-			ret = UPDATE_STOP;
 			ImGui::EndMenu();
 		}
 		ImGui::EndMainMenuBar();
@@ -515,6 +522,11 @@ void Editor::WindowsMenu()
 	{
 		test_win->SetActive(true);
 	}
+
+	if (ImGui::MenuItem("Curve Window"))
+	{
+		curve_win->SetActive(true);
+	}
 }
 
 void Editor::EditMenu()
@@ -586,27 +598,106 @@ void Editor::GameObjectMenu()
 
 void Editor::PhysicsMenu()
 {	
-	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger\nsurfaces, it will go faster on multiple little\nmeshes than on a single big one.\n ");
-	ImGui::Separator();
+	if (ImGui::BeginMenu("Select a heightmap:"))
+	{
+		vector<string> textures_list;
+		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+		for (int i = 0; i < textures_list.size(); ++i)
+		{
+			if (ImGui::MenuItem(textures_list[i].data()))
+			{
+				string lib_file = App->resource_manager->FindFile(textures_list[i]);
+				App->physics->GenerateHeightmap(lib_file);
+			}
+		}
+		ImGui::EndMenu();
+	}
+	int tex = App->physics->GetHeightmap();
+	if (tex != 0)
+	{
+		if (ImGui::Button("Delete heightmap"))
+		{
+			App->physics->DeleteHeightmap();
+		}
+	}
+	tex = App->physics->GetHeightmap();
+	if (tex != 0)
+	{
+		float2 size = App->physics->GetHeightmapSize();
+		float maxSize = max(size.x, size.y);
+		if (maxSize > 200)
+		{
+			float scale = 200.0f / maxSize;
+			size.x *= scale;
+			size.y *= scale;
+		}
+		ImGui::Image((void*)tex, ImVec2(size.x, size.y));
+
+
+		if (ImGui::BeginMenu("Select a texture:"))
+		{
+			vector<string> textures_list;
+			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+			for (int i = 0; i < textures_list.size(); ++i)
+			{
+				if (ImGui::MenuItem(textures_list[i].data()))
+				{
+					string lib_file = App->resource_manager->FindFile(textures_list[i]);
+					App->physics->LoadTexture(lib_file);
+				}
+			}
+			ImGui::EndMenu();
+		}
+		int tex2 = App->physics->GetTexture();
+		if (tex2 != 0)
+		{
+			if (ImGui::Button("Delete texture"))
+			{
+				App->physics->DeleteTexture();
+			}
+		}
+		tex2 = App->physics->GetTexture();
+		if (tex2 != 0)
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 200)
+			{
+				float scale = 200.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)tex2, ImVec2(size.x, size.y));
+		}
+
+	}
+
+
 	bool tmp = App->physics->TerrainIsGenerated();
 	ImGui::Checkbox("Terrain is generated", &tmp);
 	ImGui::NewLine();
-	if (ImGui::MenuItem("Generate Terrain"))
+	/*if (ImGui::MenuItem("Save Terrain"))
 	{
-		App->physics->GenerateTerrain();
+		App->physics->SaveTerrain();
 	}
 	if (ImGui::MenuItem("Delete Terrain"))
 	{
 		App->physics->DeleteTerrain();
 	}
-	ImGui::NewLine();
+	ImGui::NewLine();*/
 	ImGui::Separator();
-	ImGui::Checkbox("Render Terrain", &App->physics->renderTerrain);
-	if (App->physics->renderTerrain)
+
+	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
+	ImGui::SameLine();
+	if(ImGui::Button("Set terrain height scaling"))
 	{
-		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+		App->physics->SetTerrainHeightScale(heightMapScaling);
 	}
-	ImGui::Text("Terrain render may be slow!");	
+	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 
 void Editor::DebugMenu()
@@ -786,9 +877,10 @@ void Editor::DisplayGizmo()
 		ImGuizmo::Enable(gizmo_enabled);
 
 		ComponentCamera* camera = App->camera->GetEditorCamera();
-		ComponentTransform* transform = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
 
-		float4x4 matrix = transform->GetLocalTransformMatrix().Transposed();
+		float4x4 matrix = go->transform->GetLocalTransformMatrix().Transposed();
+
+		ComponentTransform* transform = go->transform;
 
 		ComponentTransform* parent_transform = nullptr;
 
@@ -823,9 +915,9 @@ void Editor::DisplayGizmo()
 			Quat rotation;
 			matrix.Decompose(position, rotation, scale);
 
-			transform->SetPosition(position);
-			transform->SetRotation(rotation);
-			transform->SetScale(scale);
+			go->transform->SetPosition(position);
+			go->transform->SetRotation(rotation);
+			go->transform->SetScale(scale);
 		}
 	}
 }
