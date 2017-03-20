@@ -11,6 +11,7 @@ namespace ShaderCompiler
 	int CompileFragment(const char* file_path);
 	int CompileShader(unsigned int vertex_id, unsigned int fragment_id);
 	int LoadDefaultShader();
+	int LoadDefaultAnimShader();
 
 	void DeleteShader(unsigned int shader_id);
 }

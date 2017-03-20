@@ -27,6 +27,7 @@ class LightingWindow;
 class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
+class CurveWindow;
 
 using namespace std;
 
@@ -82,6 +83,7 @@ private:
 	void EditMenu();
 	void DebugMenu();
 	void GameObjectMenu();
+	void PhysicsMenu();
 
 	bool QuitWindow();
 	void OnSaveCall();
@@ -100,6 +102,7 @@ public:
 	GameObject* copy_go = nullptr;
 
 	ImGuizmo::OPERATION gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	ImGuizmo::MODE gizmo_mode = ImGuizmo::MODE::WORLD;
 	bool gizmo_enabled = true;
 
 	int assign_wheel = -1;
@@ -127,11 +130,14 @@ private:
 	LightingWindow* lighting_win = nullptr;
 	LayersWindow* layers_win = nullptr;
 	TestWindow* test_win = nullptr;
-	
+	CurveWindow* curve_win = nullptr;
+
 	bool save_scene_win = false;
 	string scene_name_to_save;
 
 	bool disable_grid = false;
+
+	float heightMapScaling = 1.0f;
 
 	bool save_quit = false;
 	bool quit = false;

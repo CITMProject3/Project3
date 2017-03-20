@@ -7182,6 +7182,221 @@ void ImGui::ProgressBar(float fraction, const ImVec2& size_arg, const char* over
         RenderTextClipped(ImVec2(ImClamp(fill_br.x + style.ItemSpacing.x, bb.Min.x, bb.Max.x - overlay_size.x - style.ItemInnerSpacing.x), bb.Min.y), bb.Max, overlay, NULL, &overlay_size, ImGuiAlign_Left|ImGuiAlign_VCenter, &bb.Min, &bb.Max);
 }
 
+//Thorgory
+float ImGui::CurveValue(float p, int maxpoints, const ImVec2 *points)
+{
+	if (maxpoints < 2 || points == 0)
+		return 0;
+	if (p < 0) return points[0].y;
+
+	int left = 0;
+	while (left < maxpoints && points[left].x < p && points[left].x != -1) left++;
+	if (left) left--;
+
+	if (left == maxpoints - 1)
+		return points[maxpoints - 1].y;
+
+	float d = (p - points[left].x) / (points[left + 1].x - points[left].x);
+
+	return points[left].y + (points[left + 1].y - points[left].y) * d;
+}
+
+//Thorgory
+int ImGui::Curve(const char *label, const ImVec2& size, std::vector<std::vector<ImVec2>>& points, ImGuiCurveEditorMode mode, bool* axis)
+{
+	int modified = 0;
+
+	/*
+	if (points.size() < 2) // || points == 0)
+		return 0;
+
+	if (points[0].x < 0)
+	{
+		points[0].x = 0;
+		points[0].y = 0;
+		points[1].x = 1;
+		points[1].y = 1;
+		points[2].x = -1;
+	}
+	*/
+	ImGuiWindow* window = GetCurrentWindow();
+	ImGuiContext& g = *GImGui;
+	const ImGuiStyle& style = g.Style;
+	const ImGuiID id = window->GetID(label);
+	if (window->SkipItems)
+		return 0;
+
+	ImRect bb(window->DC.CursorPos, window->DC.CursorPos + size);
+	ItemSize(bb);
+	if (!ItemAdd(bb, NULL))
+		return 0;
+
+	const bool hovered = IsHovered(bb, id);
+
+	RenderFrame(bb.Min, bb.Max, window->Color(ImGuiCol_FrameBg), true, style.FrameRounding);
+
+	float ht = bb.Max.y - bb.Min.y;
+	float wd = bb.Max.x - bb.Min.x;
+
+
+
+	if (hovered)
+	{
+		SetHoveredID(id);
+
+		modified = 1;
+
+		for (int aX = 0; aX < 3; aX++)
+		{
+			std::vector<ImVec2>::iterator selected = points[aX].end();
+
+			ImVec2 pos = (g.IO.MousePos - bb.Min) / (bb.Max - bb.Min);
+			pos.y = 1 - pos.y;
+
+			std::vector<ImVec2>::iterator it = points[aX].begin();
+			while (it != points[aX].end() && it->x < pos.x)
+				it++;
+			if (it != points[aX].end() && it != points[aX].begin())
+				it--;
+			
+			//Calculating distance to previous point and next point
+			ImVec2 p = ((*it) - pos);
+			float p1d = sqrt(p.x*p.x + p.y*p.y);
+			p = *(std::next(it)) - pos;
+			float p2d = sqrt(p.x*p.x + p.y*p.y);
+
+			if (mode == ImGuiCurveEditorMode_CreatePoints) //Is item clicked tmp fix to avoid break
+			{
+				ImVec4 col_vec = ImVec4(255, 0, 255, 255);
+				ImU32 color = ColorConvertFloat4ToU32(col_vec);
+
+				ImVec2 a = *(std::next(it));
+				ImVec2 b = pos;
+				a.y = 1 - a.y;
+				b.y = 1 - b.y;
+				a = a * (bb.Max - bb.Min) + bb.Min;
+				b = b * (bb.Max - bb.Min) + bb.Min;
+				window->DrawList->AddLine(a, b, color);
+
+				ImVec2 a1 = *it;
+				ImVec2 b1 = pos;
+				a1.y = 1 - a1.y;
+				b1.y = 1 - b1.y;
+				a1 = a1 * (bb.Max - bb.Min) + bb.Min;
+				b1 = b1 * (bb.Max - bb.Min) + bb.Min;
+				window->DrawList->AddLine(a1, b1, color);
+
+				ImVec2 p = pos;
+				p.y = 1 - p.y;
+				p = p * (bb.Max - bb.Min) + bb.Min;
+				ImVec2 a2 = p - ImVec2(2, 2);
+				ImVec2 b2 = p + ImVec2(2, 2);
+				window->DrawList->AddRect(a2, b2, color);
+			}
+
+			if (p1d < (1 / 16.0)) selected = it;
+			if (p2d < (1 / 16.0)) selected = std::next(it);
+
+			if (g.IO.MouseDown[0] || g.IO.MouseDown[1])
+			{			
+				if (selected != points[aX].end())
+				{
+					if (IsItemClicked(1))
+						points[aX].erase(selected);
+					else if (mode == ImGuiCurveEditorMode_EditPoints)
+						*selected = pos;
+				}
+
+				else if (IsItemClicked(0) && mode == ImGuiCurveEditorMode_CreatePoints)
+				{
+					points[aX].insert(std::next(it), ImVec2(pos));
+				}
+			}
+			// snap first/last to min/max
+			points[aX][0].x = 0;
+			points[aX][points[aX].size() - 1].x = 1;
+		}
+
+	}
+
+	// bg grid
+	window->DrawList->AddLine(
+		ImVec2(bb.Min.x, bb.Min.y + ht / 2),
+		ImVec2(bb.Max.x, bb.Min.y + ht / 2),
+		window->Color(ImGuiCol_TextDisabled), 3);
+
+	window->DrawList->AddLine(
+		ImVec2(bb.Min.x, bb.Min.y + ht / 4),
+		ImVec2(bb.Max.x, bb.Min.y + ht / 4),
+		window->Color(ImGuiCol_TextDisabled));
+
+	window->DrawList->AddLine(
+		ImVec2(bb.Min.x, bb.Min.y + ht / 4 * 3),
+		ImVec2(bb.Max.x, bb.Min.y + ht / 4 * 3),
+		window->Color(ImGuiCol_TextDisabled));
+
+	for (int i = 0; i < 9; i++)
+	{
+		window->DrawList->AddLine(
+			ImVec2(bb.Min.x + (wd / 10) * (i + 1), bb.Min.y),
+			ImVec2(bb.Min.x + (wd / 10) * (i + 1), bb.Max.y),
+			window->Color(ImGuiCol_TextDisabled));
+	}
+
+	//Drawing time
+	for (int aX = 0; aX < 3; aX++)
+	{
+		if (axis[aX] == true)
+		{
+			// lines
+			for (int i = 1; i < points[aX].size(); i++)
+			{
+				ImVec4 col_vec;
+				switch (aX)
+				{
+					case(0):
+						col_vec = ImVec4(255, 0, 0, 255);
+						break;
+					case(1):
+						col_vec = ImVec4(0, 255, 0, 255);
+						break;
+					case(2):
+						col_vec = ImVec4(0, 0, 255, 255);
+						break;
+				}
+				ImU32 color = ColorConvertFloat4ToU32(col_vec);
+				ImVec2 a = points[aX][i - 1];
+				ImVec2 b = points[aX][i];
+				a.y = 1 - a.y;
+				b.y = 1 - b.y;
+				a = a * (bb.Max - bb.Min) + bb.Min;
+				b = b * (bb.Max - bb.Min) + bb.Min;
+				window->DrawList->AddLine(a, b, color);
+			}
+
+			if (hovered && !IsItemClicked(0) && !IsItemClicked(1)) //Avoiding crashes when items created / destroyed
+			{
+				ImVec4 col_vec = ImVec4(255, 0, 0, 255);
+				ImU32 color = ColorConvertFloat4ToU32(col_vec);
+
+				// control points
+				for (std::vector<ImVec2>::iterator it = points[aX].begin(); it < points[aX].end(); it++)
+				{
+					ImVec2 p = *it;
+					p.y = 1 - p.y;
+					p = p * (bb.Max - bb.Min) + bb.Min;
+					ImVec2 a = p - ImVec2(2, 2);
+					ImVec2 b = p + ImVec2(2, 2);
+					window->DrawList->AddRect(a, b, /*it == selected ? color :*/ window->Color(ImGuiCol_PlotLines));
+				}
+			}
+		}
+	}
+
+	RenderTextClipped(ImVec2(bb.Min.x, bb.Min.y + style.FramePadding.y), bb.Max, label, NULL, NULL, ImGuiAlign_Center);
+	return modified;
+}
+
 bool ImGui::Checkbox(const char* label, bool* v)
 {
     ImGuiWindow* window = GetCurrentWindow();

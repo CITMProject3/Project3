@@ -78,4 +78,6 @@ void Skybox::Render(ComponentCamera* camera)
 	glCullFace(old_cull_face_mode);
 	glDepthFunc(old_depth_func_mode);
 	glUseProgram(0);
+	glDisableVertexAttribArray(0);
+	
 }

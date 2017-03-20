@@ -900,10 +900,8 @@ void ComponentCar::EndDrift()
 
 void ComponentCar::GameLoopCheck()
 {
-	if (((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetPosition().y <= lose_height)
-	{
+	if (game_object->transform->GetPosition().y <= lose_height)
 		Reset();
-	}
 }
 
 void ComponentCar::Reset()
@@ -934,8 +932,7 @@ void ComponentCar::LimitSpeed()
 
 void ComponentCar::CreateCar()
 {
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	car->transform.Set(trs->GetGlobalMatrix());
+	car->transform.Set(game_object->transform->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
 	car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
@@ -1004,8 +1001,7 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	trs->Set(vehicle->GetTransform().Transposed());
+	game_object->transform->Set(vehicle->GetTransform().Transposed());
 
 	for (uint i = 0; i < wheels_go.size(); i++)
 	{
@@ -1025,13 +1021,11 @@ void ComponentCar::UpdateGO()
 
 void ComponentCar::RenderWithoutCar()
 {
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-
 	//RENDERING CHASIS
 
 	Cube_P chasis;
 	chasis.size = chasis_size;
-	chasis.transform = trs->GetGlobalMatrix().Transposed();
+	chasis.transform = game_object->transform->GetGlobalMatrix().Transposed();
 	float3 pos, scal;
 	float3x3 rot;
 	chasis.transform.Decompose(pos, rot, scal);
@@ -1050,7 +1044,7 @@ void ComponentCar::RenderWithoutCar()
 		wheel.radius = wheel_radius;
 		wheel.height = wheel_width;
 
-		wheel.transform = trs->GetGlobalMatrix().Transposed();
+		wheel.transform = game_object->transform->GetGlobalMatrix().Transposed();
 		if (i == 0) { _x = 1; _z = 1; }
 		else if (i == 1) { _x = -1; _z = -1; }
 		else if (i == 2) { _x = -1; _z = 1; }

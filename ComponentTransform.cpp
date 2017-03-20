@@ -23,6 +23,7 @@ ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_obje
 
 ComponentTransform::~ComponentTransform()
 {
+
 }
 
 void ComponentTransform::Update()
@@ -73,11 +74,13 @@ void ComponentTransform::OnInspector(bool debug)
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::ROTATE;
 		}
 		ImGui::SameLine();
-
 		if (ImGui::RadioButton("Scale", App->editor->gizmo_operation == SCALE))
 		{
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::SCALE;
 		}
+		
+
+		
 
 		ImGui::Checkbox("Enable Gizmo", &App->editor->gizmo_enabled);
 
@@ -104,7 +107,7 @@ void ComponentTransform::OnInspector(bool debug)
 		}
 
 		//Scale
-		ImGui::TextColored(white, "Scale:    ");
+		ImGui::TextColored(white, "Scale:  ");
 		ImGui::SameLine();
 
 		float3 scale = this->scale;
@@ -112,6 +115,18 @@ void ComponentTransform::OnInspector(bool debug)
 		{
 			App->input->InfiniteHorizontal();
 			SetScale(scale);
+		}
+
+
+		if (ImGui::RadioButton("World", App->editor->gizmo_mode == ImGuizmo::MODE::WORLD))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::WORLD;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Local", App->editor->gizmo_mode == ImGuizmo::MODE::LOCAL))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::LOCAL;
 		}
 
 		//Local Matrix
@@ -279,20 +294,11 @@ void ComponentTransform::CalculateFinalTransform()
 	{
 		if (game_object->GetParent())
 		{
-			ComponentTransform* parent_transform = (ComponentTransform*)game_object->GetParent()->GetComponent(C_TRANSFORM);
-			assert(parent_transform);
-
-			final_transform_matrix = parent_transform->final_transform_matrix * transform_matrix;
+			final_transform_matrix = game_object->GetParent()->transform->final_transform_matrix * transform_matrix;
 
 			std::vector<GameObject*>::const_iterator go_childs = game_object->GetChilds()->begin();
 			for (go_childs; go_childs != game_object->GetChilds()->end(); ++go_childs)
-			{
-				ComponentTransform* transform = (ComponentTransform*)(*go_childs)->GetComponent(C_TRANSFORM);
-				if (transform)
-				{
-					transform->CalculateFinalTransform();
-				}
-			}
+				(*go_childs)->transform->CalculateFinalTransform();
 		}
 		else
 		{

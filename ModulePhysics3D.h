@@ -6,11 +6,14 @@
 #include <list>
 #include "Primitive.h"
 
+class ResourceFileTexture;
+
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
+
 
 class DebugDrawer;
 struct PhysBody3D;
@@ -32,6 +35,9 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OnPlay();
+	void OnStop();
+
 	void CleanWorld();
 	void CreateGround();
 
@@ -41,16 +47,37 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
-	PhysBody3D* AddTerrain(const char* file, btHeightfieldTerrainShape** OUT_shape = nullptr, int* image_buffer_id = nullptr);
+	bool GenerateHeightmap(string resLibPath);
+	void DeleteHeightmap();
+	void SetTerrainHeightScale(float scale);
+
+	void LoadTexture(string resLibPath);
+	void DeleteTexture();
+
+	bool TerrainIsGenerated();
+	float GetTerrainHeightScale() { return terrainHeightScaling; }
+	uint GetCurrentTerrainUUID();
+	const char* GetHeightmapPath();
+	int GetHeightmap();
+	float2 GetHeightmapSize();
+
+	int GetTexture();
+	uint GetTextureUUID();
+	const char* GetTexturePath();
+private:
+	void AddTerrain();
+	void RenderTerrain();
+	void GenerateTerrainMesh();
+	void DeleteTerrainMesh();
+	void InterpretHeightmapRGB(float* R, float* G, float* B);
+public:
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
 
 private:
 
-	bool gameRunning = false;
-
-	bool debug;
+	bool debug = false;
 
 	btDefaultCollisionConfiguration*	collision_conf;
 	btCollisionDispatcher*				dispatcher;
@@ -65,6 +92,24 @@ private:
 	list<btDefaultMotionState*> motions;
 	list<btTypedConstraint*> constraints;
 	list<PhysVehicle3D*> vehicles;
+
+#pragma region Terrain
+	float* terrainData = nullptr;
+	btHeightfieldTerrainShape* terrain = nullptr;
+	ResourceFileTexture* heightMapImg = nullptr;
+	ResourceFileTexture* texture = nullptr;
+	float terrainHeightScaling = 0.5f;
+
+	int terrainVerticesBuffer = 0;
+	int terrainIndicesBuffer = 0;
+	int terrainUvBuffer = 0;
+	int terrainNormalBuffer = 0;
+
+	int terrainSmoothLevels = 1;
+	uint numIndices = 0;
+#pragma endregion
+public:
+	bool renderWiredTerrain = false;
 };
 
 class DebugDrawer : public btIDebugDraw

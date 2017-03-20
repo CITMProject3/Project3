@@ -99,12 +99,15 @@
     <ClInclude Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\AkMultipleFileLocation.h" />
     <ClInclude Include="Allocator.h" />
+    <ClInclude Include="AnimationImporter.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
     <ClInclude Include="AutoProfile.h" />
     <ClInclude Include="CameraWindow.h" />
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentAnimation.h" />
+    <ClInclude Include="ComponentBone.h" />
     <ClInclude Include="ComponentAudio.h" />
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentCar.h" />
@@ -115,6 +118,7 @@
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="CubeMap.h" />
+    <ClInclude Include="CurveWindow.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="Editor.h" />
@@ -145,6 +149,8 @@
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
+    <ClInclude Include="ResourceFileAnimation.h" />
+    <ClInclude Include="ResourceFileBone.h" />
     <ClInclude Include="ResourceFileAudio.h" />
     <ClInclude Include="ResourceFileMaterial.h" />
     <ClInclude Include="ResourceFilePrefab.h" />
@@ -253,6 +259,7 @@
     <ClInclude Include="Wwise_Library.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationImporter.cpp" />
     <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.cpp" />
     <ClCompile Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.cpp" />
     <ClCompile Include="AK\include\IO_DefaultInterface\AkFileLocationBase.cpp" />
@@ -264,6 +271,8 @@
     <ClCompile Include="CameraWindow.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentAnimation.cpp" />
+    <ClCompile Include="ComponentBone.cpp" />
     <ClCompile Include="ComponentAudio.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentCar.cpp" />
@@ -274,6 +283,7 @@
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CubeMap.cpp" />
+    <ClCompile Include="CurveWindow.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="Editor.cpp" />
@@ -301,6 +311,8 @@
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
+    <ClCompile Include="ResourceFileAnimation.cpp" />
+    <ClCompile Include="ResourceFileBone.cpp" />
     <ClCompile Include="ResourceFileAudio.cpp" />
     <ClCompile Include="ResourceFileMaterial.cpp" />
     <ClCompile Include="ResourceFilePrefab.cpp" />
