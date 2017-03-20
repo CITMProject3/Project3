@@ -561,7 +561,6 @@
     <ClInclude Include="Wwise_Library.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
-	
     <ClInclude Include="ResourceFileAnimation.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
@@ -579,11 +578,13 @@
     </ClInclude>
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="BtTriProcessor.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
-	
+    <ClInclude Include="OpenGLDebug.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -955,7 +956,6 @@
     <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
-
     <ClCompile Include="ResourceFileAnimation.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
@@ -973,11 +973,13 @@
     </ClCompile>
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="BtTriProcessor.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
-	
+    <ClCompile Include="OpenGLDebug.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ListIterator.snippet">

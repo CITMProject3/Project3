@@ -26,6 +26,8 @@
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 
+#include "OpenGLDebug.h"
+
 
 ModuleRenderer3D::ModuleRenderer3D(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -48,7 +50,7 @@ bool ModuleRenderer3D::Init(Data& config)
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-
+	glEnable(GL_DEBUG_OUTPUT);
 	GLenum gl_enum = glewInit();
 
 	if (GLEW_OK != gl_enum)
@@ -58,6 +60,10 @@ bool ModuleRenderer3D::Init(Data& config)
 	
 	if(ret == true)
 	{
+		//Debug
+		glDebugMessageCallback(OpenGLDebug::OpenGLDebugCallback, NULL);
+		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_MEDIUM, 0, NULL, GL_TRUE);
+		
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
