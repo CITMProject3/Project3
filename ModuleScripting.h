@@ -7,10 +7,6 @@
 #include <vector>
 #include <string>
 
-class Application;
-using namespace std;
-typedef void(*f_GetScriptNames)(Application* engine_app);
-
 class ModuleScripting : public Module
 {
 public:
@@ -20,33 +16,21 @@ public:
 	bool Init(Data& config);
 	bool Start();
 
-	//update_status PreUpdate();
-	//update_status Update();
-	//update_status PostUpdate();
-
 	bool CleanUp();
 	void SaveBeforeClosing(Data& data)const;
-
-	//bool LoadScriptLibrary(const char* path, HINSTANCE* script);
-	//bool FreeScriptLibrary(HINSTANCE& script);
 
 	DWORD GetError();
 	void LoadScriptsLibrary();
 	void LoadScriptNames();
 	vector<const char*> GetScriptNamesList()const;
-	const char* GetScriptNames()const;
-	void SetScriptNames(const char* names);
 	void AddScriptName(const char* name);
+	void GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools);
 
 	bool resource_created;
 	bool scripts_loaded;
-	bool finded_script_names;
 
 private:
 	DWORD last_error = 0;
-	vector<const char*> script_names;
-	int scripts_quantity; 
-	const char* names;
 
 public:
 	ResourceScriptsLibrary* scripts_lib;

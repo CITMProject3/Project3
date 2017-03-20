@@ -11,7 +11,6 @@ The scripts must have [name of script]_Start(Application* App, GameObject* go) a
 If you want to have variables in the inspector you need [name of script]_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools)
 	and [name_of_script]_UpdatePublics(Application* engine_app, GameObject* game_object) where you need to insert the variables and update the variables from the component
 Remember to add the name of the script in the list (inside the function GetScriptNames(Application* engine_app)) and the functions mentioned before in the .def file! (following the structure of Test and Test2)
-Add the name in SetScriptNames separated with \0.
 
 FAQ:
 

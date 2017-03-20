@@ -106,14 +106,9 @@ void ComponentScript::OnInspector(bool debug)
 			SetActive(is_active);
 		}		
 		
-		if (App->scripting->finded_script_names)
+		if (App->scripting->scripts_lib->finded_script_names)
 		{
-			//ImGui::InputText("Path##PathScript", path._Myptr(), path.capacity());
-			if (ImGui::Combo("Path##PathScript", &script_num, App->scripting->GetScriptNames(), 10))
-			{
-				SetPath(App->scripting->GetScriptNamesList()[script_num]);
-			}
-
+			ImGui::Text("Script name: %s", path.c_str());
 			if (ImGui::Button("Set Script", ImVec2(80, 20)))
 			{
 				ImGui::OpenPopup("Select Script");
@@ -291,11 +286,6 @@ void ComponentScript::SetPath(const char * path)
 
 	if (App->scripting->scripts_loaded)
 	{
-		string update_path = this->path.c_str();
-		update_path.append("_GetPublics");
-		if (f_GetPublics getPublics = (f_GetPublics)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
-		{
-			getPublics(&public_chars, &public_ints, &public_floats, &public_bools);
-		}
+		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools);
 	}
 }

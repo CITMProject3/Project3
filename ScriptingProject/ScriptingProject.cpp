@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 
-#include <list>
 #include <string>
 #include <map>
 
@@ -21,8 +20,6 @@ extern "C"
 		{
 			engine_app->scripting->AddScriptName("Test");
 			engine_app->scripting->AddScriptName("Test2");
-			
-			engine_app->scripting->SetScriptNames(" \0Test\0Test2\0\0");
 		}
 	}
 

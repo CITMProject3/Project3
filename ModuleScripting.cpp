@@ -6,8 +6,6 @@
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
 	scripts_lib = NULL;
-	finded_script_names = false; 
-	scripts_quantity = -1;
 	resource_created = false;
 	scripts_loaded = false;
 }
@@ -44,15 +42,10 @@ update_status ModuleScripting::PostUpdate()
 
 bool ModuleScripting::CleanUp()
 {
-	if (script_names.size() > 0)
-		script_names.clear();
-
 	scripts_lib->Unload();
 	resource_created = false;
 	scripts_loaded = false;
-	finded_script_names = false;
-	//if (scripts_lib->lib != NULL)
-	//	FreeLibrary(script);
+
 	return true;
 }
 
@@ -102,78 +95,20 @@ void ModuleScripting::LoadScriptsLibrary()
 
 void ModuleScripting::LoadScriptNames()
 {
-	script_names.clear();
-	script_names.push_back(" ");
-	if (scripts_quantity != -1)
-		names = "";
-
-	if (scripts_loaded)
-	{
-		if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(scripts_lib->lib, "GetScriptNames"))
-		{
-			finded_script_names = true;
-			get_script_names(App);
-		}
-		else
-		{
-			finded_script_names = false;
-			last_error = GetLastError();
-
-			if (last_error == 126)
-			{
-				LOG("Can't find script names function");
-			}
-			else
-				LOG("Unknown error loading script names");
-		}
-	}
+	
 }
 
 vector<const char*> ModuleScripting::GetScriptNamesList()const
 {
-	return script_names;
-}
-
-const char* ModuleScripting::GetScriptNames()const
-{
-	return names;
-}
-
-void ModuleScripting::SetScriptNames(const char* names)
-{
-	this->names = names;
+	return scripts_lib->script_names;
 }
 
 void ModuleScripting::AddScriptName(const char* name)
 {
-	script_names.push_back(name);
+	scripts_lib->script_names.push_back(name);
 }
 
-/*bool ModuleScripting::LoadScriptLibrary(const char* path, HINSTANCE* script)
+void ModuleScripting::GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools)
 {
-	bool ret = false;
-	if (*script = LoadLibrary(path))
-	{
-		ret = true;
-	}
-	else
-	{
-		last_error = GetLastError();
-	}
-
-	if (!ret)
-		FreeLibrary(*script);
-
-	return ret;
+	scripts_lib->GetPublicVars(script_name, public_chars, public_ints, public_floats, public_bools);
 }
-
-bool ModuleScripting::FreeScriptLibrary(HINSTANCE& script)
-{
-	bool ret = false;
-	if (script)
-	{
-		FreeLibrary(script);
-		ret = true;
-	}
-	return ret;
-}*/
