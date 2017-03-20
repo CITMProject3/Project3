@@ -59,6 +59,7 @@ private:
 public:
 
 	bool smoothFollow = false;
+	bool block_z_rotation = true;
 
 	bool properties_modified = false;
 	ResourceFileRenderTexture* render_texture = nullptr;
