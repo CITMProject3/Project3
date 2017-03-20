@@ -3,7 +3,7 @@ branches:
   only:
   - master
 configuration: Release
-platform: Any CPU
+platform: x86
 build:
   project: Engine.sln
   verbosity: normal
