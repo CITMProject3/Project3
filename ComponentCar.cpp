@@ -510,7 +510,32 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
-		//Insert here all the new mechanics
+		//Insert here all the new mechanicsç
+
+		//Back player-------------------
+
+		//Leaning
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
+		{
+			Leaning(*accel);
+		}
+
+		//Acrobatics
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(back_player);
+		}
+		//Power Up
+
+		//Push
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
+		{
+			Push(accel);
+		}
+
+		//Slide attack
+
+
 		//Front player------------------
 		//Acceleration
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
@@ -546,29 +571,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(front_player);
 		}
 
-		//Back player-------------------
-
-		//Leaning
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
-		{
-			Leaning(*accel);
-		}
-
-		//Acrobatics
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
-		{
-			Acrobatics(back_player);
-		}
-		//Power Up
-
-		//Push
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
-		{
-			Push(accel);
-		}
-
-		//Slide attack
-
+		
 
 	}
 }
