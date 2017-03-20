@@ -5,12 +5,14 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
+#include "ComponentAnimation.h"
 
 #include "Imgui\imgui.h"
 
@@ -20,8 +22,10 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"
 
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
+
 #include <algorithm>
-//#include <map>
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -31,7 +35,6 @@ ModuleGOManager::~ModuleGOManager()
 	if (root)
 		delete root;
 
-	selected_GO = nullptr;
 	dynamic_gameobjects.clear();
 	delete layer_system;
 }
@@ -105,29 +108,10 @@ update_status ModuleGOManager::Update()
 {
 	//Update GameObjects
 	if(root)
-		UpdateGameObjects(time->DeltaTime(), root);
-
-	//Display windows
-	//HierarchyWindow();
-	//InspectorWindow();
-
-	PickObjects();
-
-	//Selected Object shows it's boudning box
-	if (selected_GO)
-	{
-		if (selected_GO->bounding_box)
-		{
-		//	g_Debug->AddAABB(*selected_GO->bounding_box, g_Debug->green);
-		}
-	}
+		UpdateGameObjects(root);
 
 	if(draw_octree)
 		octree.Draw();
-
-
-	App->renderer3D->DrawLine(lastRayData[0], lastRayData[1]);
-	App->renderer3D->DrawLine(lastRayData[1], lastRayData[1] + lastRayData[2], float4(1, 1, 0, 1));
 
 	return UPDATE_CONTINUE;
 }
@@ -217,7 +201,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	// Loading mesh for each primitive
 	Data load_info;
 	load_info.AppendUInt("UUID", prim_codes[type] );
-	load_info.AppendBool("Active", true);
+	load_info.AppendBool("active", true);
 	load_info.AppendString("path", prim_path.c_str());
 
 	mesh_comp->Load(load_info);
@@ -295,7 +279,7 @@ ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
 void ModuleGOManager::LoadEmptyScene()
 {
 	ClearScene();
-
+	App->physics->DeleteHeightmap();
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
@@ -316,21 +300,13 @@ bool ModuleGOManager::IsRoot(const GameObject * go) const
 	return ret;
 }
 
-void ModuleGOManager::PickObjects()
-{
-	if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP && App->input->GetKey(SDL_SCANCODE_LALT) == KEY_REPEAT)
-	{
-		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-		selected_GO = Raycast(ray).object;
-	}
-}
-
 void ModuleGOManager::SaveSceneBeforeRunning()
 {
 	Data root_node;
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
+	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -425,7 +401,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 			if (type != (int)ComponentType::C_TRANSFORM)
 				go_component = go->AddComponent(static_cast<ComponentType>(type));
 			else
-				go_component = (Component*)go->GetComponent(C_TRANSFORM);
+				go_component = (Component*)go->transform;
 			go_component->Load(component);
 		}
 	}
@@ -474,10 +450,18 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 	bool active = go_data.GetBool("active");
 	bool is_static = go_data.GetBool("static");
 	bool is_prefab = go_data.GetBool("is_prefab");
-	string prefab_path = go_data.GetString("prefab_path");
+	
 	unsigned int prefab_root_uuid = 0;
+	string prefab_path;
+
 	if (is_prefab)
+	{
 		prefab_root_uuid = uuids.find(go_data.GetUInt("prefab_root_uuid"))->second;
+		string prefab_path = go_data.GetString("prefab_path");
+	}
+	else
+		prefab_path = "";
+
 	int layer = go_data.GetInt("layer");
 
 	//Find parent GameObject reference
@@ -508,7 +492,7 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 
@@ -596,202 +580,110 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
 	}
-	App->renderer3D->DrawLine(ray.pos, hit.point);
-	App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1,1,0,1));
 
 	return hit;
 }
 
-void ModuleGOManager::HierarchyWindow()
+AABB ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck)
 {
-	ImGui::Begin("Hierarchy");
-
-	DisplayGameObjectsChilds(root->GetChilds());
-
-	if (ImGui::IsMouseHoveringWindow())
-		if (ImGui::IsMouseClicked(1))
-			ImGui::OpenPopup("HierarchyOptions");
-
-	if (ImGui::BeginPopup("HierarchyOptions"))
+	AABB ret;
+	std::vector<float3> points = GetWorldAABB(layersToCheck, root);
+	if (points.empty() == false)
 	{
-		if (ImGui::Selectable("Create Empty GameObject"))
-		{
-			selected_GO = CreateGameObject(NULL);
-		}
-
-		if (ImGui::Selectable("Create Empty Child"))
-		{
-			selected_GO = CreateGameObject(selected_GO);
-		}
-
-		if (ImGui::Selectable("Remove selected GameObject"))
-		{
-			if (selected_GO != nullptr)
-			{
-				RemoveGameObject(selected_GO);
-				selected_GO = nullptr;
-			}
-		}
-		if (ImGui::Selectable("Create Prefab"))
-		{
-			if (selected_GO != nullptr)
-			{
-				App->resource_manager->SavePrefab(selected_GO);
-			}
-		}
-
-		ImGui::EndPopup();
+		ret.minPoint = points[0];
+		ret.maxPoint = points[1];
 	}
-
-	ImGui::End();
+	else
+	{
+		ret.maxPoint = float3::zero;
+		ret.minPoint = float3::zero;
+	}
+	return ret;
 }
 
-void ModuleGOManager::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
+std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck, GameObject * go)
 {
-	for (vector<GameObject*>::const_iterator object = (*childs).begin(); object != (*childs).end(); ++object)
-	{
-		uint flags = 0;
-		if ((*object) == selected_GO)
-			flags = ImGuiTreeNodeFlags_Selected;
-		
-		if ((*object)->ChildCount() > 0)
-		{
-			if (ImGui::TreeNodeEx((*object)->name.data(), flags))
-			{
-				if (ImGui::IsItemClicked(0))
-				{
-					selected_GO = (*object);
-				}
+	//return, [0] is min Point and [1] is MaxPoint
+	std::vector<float3> ret;
 
-				DisplayGameObjectsChilds((*object)->GetChilds());
-				ImGui::TreePop();
+	//Checking if we must check this object according to the layers. If no layers are passed, all of them are checked
+	bool inLayer = false;
+	if (layersToCheck.empty() == false)
+	{
+		for (std::vector<int>::iterator l = layersToCheck.begin(); l != layersToCheck.end(); l++)
+		{
+			if (go->layer == *l)
+			{
+				inLayer = true;
+				break;
 			}
+		}
+	}
+	else
+	{
+		inLayer = true;
+	}
+
+	if (inLayer)
+	{
+		//If we need to consider the GO, we add Max and Min points.
+		ComponentMesh* msh = (ComponentMesh*) go->GetComponent(C_MESH);
+		
+		if (msh)
+		{
+			ret.push_back(msh->GetBoundingBox().minPoint);
+			ret.push_back(msh->GetBoundingBox().maxPoint);
 		}
 		else
 		{
-			if (ImGui::TreeNodeEx((*object)->name.data(), flags | ImGuiTreeNodeFlags_Leaf))
-			{
-				if (ImGui::IsItemClicked(0))
-				{
-					selected_GO = (*object);
-				}
-				ImGui::TreePop();
-			}
+			ret.push_back(go->transform->GetPosition());
+			ret.push_back(go->transform->GetPosition());
 		}
 	}
-}
 
-void ModuleGOManager::InspectorWindow()
-{
-	//ImGuiWindowFlags flags = ImGuiWindowFlags_NoResize;
-	//bool open = true;
-	ImGui::Begin("Inspector");//, &open, flags);
-
-	ImGui::Text("Debug: "); ImGui::SameLine(); ImGui::Checkbox("##debug_inspector", &debug_inspector);
-	ImGui::Separator();
-
-	if (selected_GO)
+	//We check all childs and keep the min and max points
+	std::vector<GameObject*>::const_iterator it = go->GetChilds()->begin();
+	for(; it != go->GetChilds()->end(); it++)
 	{
-
-		//Active
-		bool is_active = selected_GO->IsActive();
-		if (ImGui::Checkbox("", &is_active))
+		std::vector<float3> p = GetWorldAABB(layersToCheck, *it);
+		if (p.empty() == false)
 		{
-			selected_GO->SetActive(is_active);
+			if (ret.empty() == true)
+			{
+				ret = p;
+			}
+			else
+			{
+				ret[0].x = min(ret[0].x, p[0].x); ret[0].y = min(ret[0].y, p[0].y); ret[0].z = min(ret[0].z, p[0].z);
+				ret[1].x = max(ret[1].x, p[1].x); ret[1].y = max(ret[1].y, p[1].y);	ret[1].z = max(ret[1].z, p[1].z);
+			}
 		}
+	}
+	return ret;
+}
 
-		//Name
-		ImGui::SameLine();
-		ImGui::InputText("###goname", selected_GO->name._Myptr(), selected_GO->name.capacity());
+void ModuleGOManager::LinkAnimation(GameObject* root) const
+{
+	if (root == nullptr)
+		return;
+	
+	ComponentAnimation* c_anim = (ComponentAnimation*)root->GetComponent(C_ANIMATION);
 
-		//Static
-		ImGui::SameLine();
-		ImGui::Text("Static:");
-		ImGui::SameLine();
-		bool is_static = selected_GO->IsStatic();
-		if (ImGui::Checkbox("###static_option", &is_static))
+	if (c_anim)
+	{
+		if (c_anim->linked == false)
 		{
-			selected_GO->SetStatic(is_static);
-		}
-
-		if (selected_GO->IsPrefab())
-		{
-			ImGui::TextColored(ImVec4(0, 0.5f, 1, 1), "Prefab: ");
-		}
-
-		ImGui::Separator();
-		layer_system->DisplayLayerSelector(selected_GO->layer);
-
-		if (debug_inspector)
-		{
-			ImGui::Text("UUID: %u", (int)selected_GO->GetUUID());
-			ImGui::Text("Local UUID: %u", (int)selected_GO->local_uuid);
-			ImGui::Text("Layer id: %i", selected_GO->layer);
-		}
-
-		//Components
-		const std::vector<Component*>* components = selected_GO->GetComponents();
-		for (std::vector<Component*>::const_iterator component = (*components).begin(); component != (*components).end(); ++component)
-		{
-			(*component)->OnInspector(debug_inspector);
-		}
-
-		//Options
-		if (ImGui::IsMouseHoveringWindow())
-			if (ImGui::IsMouseClicked(1))
-				ImGui::OpenPopup("InspectorOptions");
-
-		if (ImGui::BeginPopup("InspectorOptions"))
-		{
-			if (ImGui::Selectable("Add Transform"))
-			{
-				selected_GO->AddComponent(C_TRANSFORM);
-			}
-
-			if (ImGui::Selectable("Add Mesh"))
-			{
-				selected_GO->AddComponent(C_MESH);
-			}
-
-			if (ImGui::Selectable("Add Material"))
-			{
-				selected_GO->AddComponent(C_MATERIAL);
-			}
-
-			if (ImGui::Selectable("Add Camera"))
-			{
-				selected_GO->AddComponent(C_CAMERA);
-			}
-
-			if (ImGui::Selectable("Add Collider"))
-			{
-				selected_GO->AddComponent(C_COLLIDER);
-			}
-
-			if (ImGui::Selectable("Add Light"))
-			{
-				selected_GO->AddComponent(C_LIGHT);
-			}
-
-			if (ImGui::Selectable("Add Audio"))
-			{
-				selected_GO->AddComponent(C_AUDIO);
-			}
-
-			if (ImGui::Selectable("Add Script"))
-			{
-				selected_GO->AddComponent(C_SCRIPT);
-			}
-
-			ImGui::EndPopup();
+			c_anim->LinkAnimation();
 		}
 	}
 
-	ImGui::End();
+	const vector<GameObject*>* childs = root->GetChilds();
+	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
+		LinkAnimation(*child);
+
 }
 
-
-void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)
+void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
 	PROFILE("ModuleGOManager::UpdateGameObjects");
 
@@ -801,7 +693,7 @@ void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)
 	std::vector<GameObject*>::const_iterator child = object->GetChilds()->begin();
 	for (child; child != object->GetChilds()->end(); ++child)
 	{
-		UpdateGameObjects(dt, (*child));
+		UpdateGameObjects((*child));
 	}
 }
 

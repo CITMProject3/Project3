@@ -8,10 +8,18 @@ enum ComponentType
 	C_MATERIAL = 2,
 	C_CAMERA = 3,
 	C_LIGHT = 4,
+<<<<<<< HEAD
 	C_AUDIO = 5,
 	C_COLLIDER = 6,
 	C_CAR = 7,
 	C_SCRIPT = 8
+=======
+	C_ANIMATION = 5,
+	C_BONE = 6,
+	C_AUDIO = 7,
+	C_COLLIDER = 8,
+	C_CAR = 9,
+>>>>>>> refs/remotes/origin/Engine
 };
 
 class GameObject;
@@ -20,12 +28,13 @@ class Data;
 class Component
 {
 public:
-	
+
 	Component(ComponentType type, GameObject* game_object);
 	virtual ~Component();
 
+
+	virtual void Update() {};
 	virtual void PreUpdate() {}
-	virtual void Update() {}
 	virtual void PostUpdate() {}
 
 	bool IsActive();

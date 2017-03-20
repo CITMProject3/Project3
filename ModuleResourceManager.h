@@ -57,6 +57,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+	void InputFileDropped(std::list<std::string>& files);
 	void FileDropped(const char* file_path);
 	void LoadFile(const std::string& library_path, const FileType& type);
 
@@ -73,6 +74,7 @@ public:
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;
+	unsigned int GetDefaultAnimShaderId()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -93,13 +95,14 @@ public:
 
 	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, double& time_mod, std::string& library_path, std::string& assets_path)const;
 
+	FileType GetFileExtension(const char* path)const;
+
 private:
 
-	FileType GetFileExtension(const char* path)const;
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, std::string library_path, bool is_file = true)const;
-	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids)const;
+	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids, const std::vector<uint>& animations_uuids, const std::vector<uint>& bones_uuids)const;
 
 	void ImportFolder(const char* path, std::vector<tmp_mesh_file>& list_meshes, std::string base_dir = std::string(), std::string base_library_dir = std::string())const;
 	void ImportFile(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
@@ -136,7 +139,8 @@ private:
 	unsigned int texture_bytes = 0;
 	unsigned int mesh_bytes = 0;
 
-	unsigned int default_shader = -1;
+	unsigned int default_shader = 0;
+	unsigned int default_anim_shader = 0;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

@@ -36,12 +36,14 @@ public:
 
 private:
 	void CleanUp();
-
+	
 public:
 	std::string vertex_path;
 	std::string fragment_path;
 	std::vector<Uniform*> uniforms;
 	uint uuid = 0;
+	
+	bool has_color = false;
 };
 
 #endif // !__MATERIAL_H__
