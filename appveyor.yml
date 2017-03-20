@@ -3,15 +3,15 @@ branches:
   only:
   - master
 configuration: Release
-platform: x86
+platform: Any CPU
 build:
   project: Engine.sln
   verbosity: normal
+before_package:
+- ps: Copy-Item C:\projects\Project3\$env:CONFIGURATION\Engine.exe C:\projects\Project3\Game\
 artifacts:
 - path: Game
   name: Project3
-before_deploy:
-- ps: Copy-Item C:\projects\Project3\$env:CONFIGURATION\Engine.exe C:\projects\Project3\Game\
 deploy:
 - provider: GitHub
   auth_token:
