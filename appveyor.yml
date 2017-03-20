@@ -1,1 +1,23 @@
-
+version: 1.0.{build}
+branches:
+  only:
+  - master
+configuration: Release
+platform: x86
+clone_folder: C:\projects\Project3\Game\
+build:
+  project: Engine.sln
+  verbosity: normal
+artifacts:
+- path: Game
+  name: Project3
+before_deploy:
+- ps: Copy-Item C:\projects\Project3\$env:CONFIGURATION\Engine.exe C:\projects\Project3\Game\.
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: QhydgyQMxm8l8l9gAV7ByY9TCaj7XY0plvUrout15RVMfURdWPupt/Ra560eLxeO
+  draft: false
+  force_update: true
+  on:
+    CONFIGURATION: Release
