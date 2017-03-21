@@ -572,7 +572,14 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Drifting
-		
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		{
+			StartDrift();
+		}
+		else if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
+		{
+			EndDrift();
+		}
 	
 		//Acrobatics
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
