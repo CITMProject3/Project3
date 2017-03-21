@@ -521,7 +521,7 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 {
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
-	if (mesh != nullptr)
+	if (mesh != nullptr && mesh->HasBones() == true)
 	{
 		mesh->DeformAnimMesh();
 	}

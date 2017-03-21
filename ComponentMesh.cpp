@@ -195,6 +195,11 @@ void ComponentMesh::Remove()
 		material->Remove();
 }
 
+bool ComponentMesh::HasBones()
+{
+	return bones_reference.size() > 0;
+}
+
 void ComponentMesh::AddBone(ComponentBone* bone)
 {
 	for (uint i = 0; i < bones_reference.size(); i++)

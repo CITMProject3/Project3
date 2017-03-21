@@ -322,7 +322,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 
 	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-	if (c_mesh->animated)
+	if (c_mesh->HasBones())
 	{
 		DrawAnimated(obj, light, cam);
 		return;
