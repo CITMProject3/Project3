@@ -73,7 +73,6 @@ void ComponentUiImage::Save(Data & file) const
 
 void ComponentUiImage::Load(Data & conf)
 {
-
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	Data mat_file;

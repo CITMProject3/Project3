@@ -11,7 +11,6 @@ ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) :
 {
 	text = "124124"; 
 	array_values = "0123456789:";
-	//rows = 1;
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
 	img_width = 100;
 	img_height = 100;
@@ -87,7 +86,9 @@ void ComponentUiText::Save(Data & file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("text", text.c_str());
-
+	data.AppendString("array_values", array_values.c_str());
+	data.AppendArray("Material");
+	UImaterial->Save(data);
 	file.AppendArrayValue(data);
 }
 
@@ -95,6 +96,11 @@ void ComponentUiText::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+	text = conf.GetString("text");
+	array_values = conf.GetString("array_values");
+	Data mat_file;
+	mat_file = conf.GetArray("Material", 0);
+	UImaterial->Load(mat_file);
 }
 
 int ComponentUiText::GetLenght() const
