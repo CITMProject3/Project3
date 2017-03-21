@@ -23,6 +23,7 @@ public:
 	bool AppendInt(const char* name, int value);
 	bool AppendMatrix(const char* name, const math::float4x4& matrix);
 	bool AppendFloat(const char* name, float value);
+	bool AppendFloat2(const char * name, const float * value);
 	bool AppendFloat3(const char* name,const float* value);
 	bool AppendDouble(const char* name, double value);
 	Data AppendJObject(const char* name);
@@ -37,6 +38,7 @@ public:
 	unsigned int GetUInt(const char* name)const;
 	float4x4 GetMatrix(const char* name)const;
 	float GetFloat(const char* name)const;
+	float2 GetFloat2(const char* name) const;
 	float3 GetFloat3(const char* name)const;
 	double GetDouble(const char* name)const;
 
