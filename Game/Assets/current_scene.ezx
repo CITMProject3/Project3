@@ -1,0 +1,426 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 1703462062,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4046163692,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Canvas",
+            "UUID": 3277889086,
+            "local_UUID": 0,
+            "parent": 1703462062,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1929296740,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1728517162,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 2139766726,
+                    "active": true
+                }
+            ]
+        },
+        {
+            "name": "Start_button",
+            "UUID": 3057047120,
+            "local_UUID": 0,
+            "parent": 3277889086,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1258903344,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2728061805,
+                    "active": true,
+                    "rect_size": [
+                        427,
+                        51
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        739.000061,
+                        0,
+                        1,
+                        0,
+                        277,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 1609849253,
+                    "active": true,
+                    "player_num": 0,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 4293122430,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/\/3887772089\/3887772089.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/938039471\/938039471.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Text",
+            "UUID": 2651389689,
+            "local_UUID": 0,
+            "parent": 3277889086,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2590212448,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1397908157,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        360.000031,
+                        0,
+                        1,
+                        0,
+                        85.000008,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 13,
+                    "UUID": 1871687793,
+                    "active": true,
+                    "text": "15:64:93",
+                    "array_values": "0123456789:",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 19802780,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/\/1133472960\/1133472960.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/2864353815\/2864353815.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/3424107780\/3424107780.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/4135111556\/4135111556.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/1635545673\/1635545673.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/4074992376\/4074992376.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/211697105\/211697105.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/1208103549\/1208103549.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/1506394238\/1506394238.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/1547748400\/1547748400.dds"
+                                },
+                                {
+                                    "path": "\/Library\/\/2250298353\/2250298353.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Background",
+            "UUID": 1357316577,
+            "local_UUID": 0,
+            "parent": 3277889086,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1297228792,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 591951562,
+                    "active": true,
+                    "rect_size": [
+                        1366,
+                        768
+                    ],
+                    "matrix": [
+                        1.500000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1.500000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 12,
+                    "UUID": 3682308735,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3071478161,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 0,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/\/3476084152\/3476084152.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "terrain_scaling": 0
+} 

@@ -105,7 +105,7 @@ void ComponentUiText::Load(Data & conf)
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
-	text.resize(text.length() + 20);
+	text.resize(text.length() + 10);
 	LOG("%d",text.size());
 }
 
