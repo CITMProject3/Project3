@@ -65,21 +65,25 @@ bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
 	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
-	UpdateAssetsAuto();
+	if(App->StartInGame() == false)
+		UpdateAssetsAuto();
 	return true;
 }
 
 update_status ModuleResourceManager::Update()
 {
-	//TODO:Only do this in editor mode. NOT in game
-	modification_timer += time->RealDeltaTime();
-
-	if (modification_timer >= CHECK_MOD_TIME)
+	if (App->StartInGame() == false)
 	{
-		CheckDirectoryModification(App->editor->assets->root);
-		modification_timer = 0.0f;
-		App->editor->assets->Refresh();
+		modification_timer += time->RealDeltaTime();
+
+		if (modification_timer >= CHECK_MOD_TIME)
+		{
+			CheckDirectoryModification(App->editor->assets->root);
+			modification_timer = 0.0f;
+			App->editor->assets->Refresh();
+		}
 	}
+	
 	return UPDATE_CONTINUE;
 }
 

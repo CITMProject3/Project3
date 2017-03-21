@@ -68,24 +68,32 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
-	//Create Windows
-	windows.push_back(&g_Profiler);
-	windows.push_back(fps_graph_win = new FPSGraph());
-	windows.push_back(winoptions_win = new WindowOptions());
-	windows.push_back(hardware_win = new HardwareInfo());
-	windows.push_back(assets = new Assets());
-	windows.push_back(hierarchy = new Hierarchy());
-	windows.push_back(inspector = new Inspector());
-	windows.push_back(camera_win = new CameraWindow());
-	windows.push_back(resource_win = new ResourcesWindow());
-	windows.push_back(material_creator_win = new MaterialCreatorWindow());
-	windows.push_back(shader_editor_win = new ShaderEditorWindow());
-	windows.push_back(lighting_win = new LightingWindow());
-	windows.push_back(layers_win = new LayersWindow());
-	windows.push_back(rendertex_win = new RenderTexEditorWindow());
-	windows.push_back(test_win = new TestWindow());
-	windows.push_back(curve_win = new CurveWindow());
-	InitSizes();
+	if (App->StartInGame() == false)
+	{
+		//Create Windows
+		windows.push_back(&g_Profiler);
+		windows.push_back(fps_graph_win = new FPSGraph());
+		windows.push_back(winoptions_win = new WindowOptions());
+		windows.push_back(hardware_win = new HardwareInfo());
+		windows.push_back(assets = new Assets());
+		windows.push_back(hierarchy = new Hierarchy());
+		windows.push_back(inspector = new Inspector());
+		windows.push_back(camera_win = new CameraWindow());
+		windows.push_back(resource_win = new ResourcesWindow());
+		windows.push_back(material_creator_win = new MaterialCreatorWindow());
+		windows.push_back(shader_editor_win = new ShaderEditorWindow());
+		windows.push_back(lighting_win = new LightingWindow());
+		windows.push_back(layers_win = new LayersWindow());
+		windows.push_back(rendertex_win = new RenderTexEditorWindow());
+		windows.push_back(test_win = new TestWindow());
+		windows.push_back(curve_win = new CurveWindow());
+		InitSizes();
+	}	
+	else
+	{
+		//Start in game
+		disable_grid = true;
+	}
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
@@ -243,9 +251,14 @@ update_status ModuleEditor::Update()
 
 	update_status ret = UPDATE_CONTINUE;
 
-	GameOptions(); //Play/Stop/Next Frame buttons
+	
 	DisplayGizmo();
-	ret = EditorWindows(); //Update the windows of the editor
+
+	if (App->StartInGame() == false)
+	{
+		GameOptions(); //Play/Stop/Next Frame buttons
+		ret = EditorWindows(); //Update the windows of the editor
+	}
 	
 	//Draw Grid
 	if (!disable_grid)
@@ -266,10 +279,16 @@ update_status ModuleEditor::Update()
 	//Handle Quit event
 	if (App->input->Quit())
 	{
-		save_quit = true;
-		OpenSaveSceneWindow();
+		if (App->StartInGame() == false)
+		{
+			save_quit = true;
+			OpenSaveSceneWindow();
+		}
+		else
+		{
+			quit = true;
+		}
 	}
-
 
 	if (quit)
 		ret = UPDATE_STOP;

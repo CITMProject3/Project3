@@ -105,7 +105,7 @@ bool Application::Init()
 			delete[] buffer;
 
 		Data root_node;
-
+		root_node.AppendBool("start_in_game", false);
 		vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 		while (i != list_modules.rend())
@@ -119,6 +119,8 @@ bool Application::Init()
 	}
 	Data config(buffer);
 	delete[] buffer;
+
+	start_in_game = config.GetBool("start_in_game");
 
 	// Call Init() in all modules
 	vector<Module*>::iterator i = list_modules.begin();
@@ -140,6 +142,17 @@ bool Application::Init()
 	}
 
 	capped_ms = 1000 / fps;
+
+	if (start_in_game)
+	{
+		game_state = GAME_RUNNING;
+		time->Play();
+
+		for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+		{
+			(*it)->OnPlay();
+		}
+	}	
 	
 	return ret;
 }
@@ -259,6 +272,8 @@ void Application::SaveBeforeClosing()
 	Data root_node;
 	char* buf;
 
+	root_node.AppendBool("start_in_game", start_in_game);
+
 	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 	while (i != list_modules.rend())
@@ -343,4 +358,9 @@ bool Application::IsGameRunning() const
 bool Application::IsGamePaused() const
 {
 	return (game_state == GAME_PAUSED || game_state == GAME_NEXT_FRAME) ? true : false;
+}
+
+bool Application::StartInGame() const
+{
+	return start_in_game;
 }
