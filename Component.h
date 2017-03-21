@@ -16,7 +16,8 @@ enum ComponentType
 	C_RECT_TRANSFORM = 10,
 	C_CANVAS = 11,
 	C_UI_IMAGE = 12,
-	C_UI_TEXT = 13
+	C_UI_TEXT = 13,
+	C_UI_BUTTON = 14
 };
 
 class GameObject;

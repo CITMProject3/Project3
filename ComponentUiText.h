@@ -13,7 +13,7 @@ public:
 
 	ComponentUiText(ComponentType type, GameObject* game_object);
 	~ComponentUiText();
-	void Update(float dt);
+	void Update();
 	void CleanUp();
 
 	void OnInspector(bool debug);

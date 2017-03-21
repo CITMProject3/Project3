@@ -15,7 +15,7 @@ ComponentCanvas::~ComponentCanvas()
 		App->go_manager->current_scene_canvas = nullptr;
 }
 
-void ComponentCanvas::Update(float dt)
+void ComponentCanvas::Update()
 {
 	
 }

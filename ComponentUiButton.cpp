@@ -1,33 +1,43 @@
-#include "ComponentUiImage.h"
+#include "ComponentUiButton.h"
 #include "Application.h"
 #include "Editor.h"
 #include "Assets.h"
 #include "ModuleResourceManager.h"
+#include "ModuleInput.h"
 #include "ComponentRectTransform.h"
 #include "ResourceFileTexture.h"
 #include "GameObject.h"
 #include "ComponentMaterial.h"
 #include "imgui\imgui.h"
 
-ComponentUiImage::ComponentUiImage(ComponentType type, GameObject * game_object) : Component(type,game_object)
+ComponentUiButton::ComponentUiButton(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
-	UImaterial = new ComponentMaterial(C_MATERIAL,nullptr);
+	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
 }
 
-ComponentUiImage::~ComponentUiImage()
+ComponentUiButton::~ComponentUiButton()
 {
 	delete UImaterial;
 }
 
-void ComponentUiImage::Update()
+void ComponentUiButton::Update()
+{
+	if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	{
+		if (UImaterial->texture_ids.size() >= 2)
+		{
+			uint tmp = UImaterial->texture_ids.at("0");
+			UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+			UImaterial->texture_ids.at("1") = tmp;
+		}
+	}
+}
+
+void ComponentUiButton::CleanUp()
 {
 }
 
-void ComponentUiImage::CleanUp()
-{
-}
-
-void ComponentUiImage::OnInspector(bool debug)
+void ComponentUiButton::OnInspector(bool debug)
 {
 	std::string str = (std::string("UI Image") + std::string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
@@ -45,8 +55,14 @@ void ComponentUiImage::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
-
+		int tmp_num = player_num + 1;
+		if(ImGui::InputInt("Player Number", &tmp_num, 1, 1))
+		{
+			if (tmp_num >= 2)
+				player_num = 1;
+			else
+				player_num = 0;
+		}
 		UImaterial->DefaultMaterialInspector();
 		if (ImGui::Button("Set Size"))
 		{
@@ -59,22 +75,24 @@ void ComponentUiImage::OnInspector(bool debug)
 	}
 }
 
-void ComponentUiImage::Save(Data & file) const
+void ComponentUiButton::Save(Data & file) const
 {
 	Data data;
 
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
+	data.AppendUInt("player_num", player_num);
 	data.AppendArray("Material");
 	UImaterial->Save(data);
 	file.AppendArrayValue(data);
 }
 
-void ComponentUiImage::Load(Data & conf)
+void ComponentUiButton::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+	player_num = conf.GetUInt("player_num");
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);

@@ -11,7 +11,7 @@ public:
 
 	ComponentCanvas(ComponentType type, GameObject* game_object);
 	~ComponentCanvas();
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 	

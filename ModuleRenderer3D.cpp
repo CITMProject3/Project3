@@ -22,6 +22,7 @@
 #include "ComponentUiImage.h"
 #include "ComponentCanvas.h"
 #include "ComponentUiText.h"
+#include "ComponentUiButton.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -254,7 +255,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
-				if ((*obj)->GetComponent(C_UI_IMAGE))
+				if ((*obj)->GetComponent(C_UI_IMAGE) || (*obj)->GetComponent(C_UI_BUTTON))
 					DrawUIImage(*obj);
 				else if ((*obj)->GetComponent(C_UI_TEXT))
 					DrawUIText(*obj);	
@@ -829,8 +830,20 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 	
 
 	ComponentUiImage* u = (ComponentUiImage*)obj->GetComponent(C_UI_IMAGE);
+	ComponentUiButton* b;
+	ComponentMaterial* m;
 	if (u == nullptr)
-		return;
+	{
+		b = (ComponentUiButton*)obj->GetComponent(C_UI_BUTTON);
+
+		if (b == nullptr)
+			return;
+		else
+			m = b->UImaterial;
+	}
+	else
+		m = u->UImaterial;
+	
 	Mesh* mesh = c->GetMesh();
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -846,17 +859,17 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 	glLoadIdentity();
 	glMultMatrixf(*c->GetFinalTransform().Transposed().v);
 	
-	switch (u->UImaterial->alpha)
+	switch (m->alpha)
 	{
 	case (2):
 	{
 		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, u->UImaterial->blend_type);
+		glBlendFunc(GL_SRC_ALPHA, m->blend_type);
 	}
 	case (1):
 	{
 		glEnable(GL_ALPHA_TEST);
-		glAlphaFunc(GL_GREATER, u->UImaterial->alpha_test);
+		glAlphaFunc(GL_GREATER, m->alpha_test);
 		break;
 	}
 	}
@@ -868,15 +881,15 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-		if (u->UImaterial->texture_ids.size()>0 )
+		if (m->texture_ids.size()>0 )
 		{
 			// Texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindTexture(GL_TEXTURE_2D, (*u->UImaterial->texture_ids.begin()).second);
+			glBindTexture(GL_TEXTURE_2D, (*m->texture_ids.begin()).second);
 		}
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		glColor4fv(u->UImaterial->color);
+		glColor4fv(m->color);
 		// Indices
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
@@ -982,13 +995,16 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 			}
 		}
 	}
-
-
+	
 	glMatrixMode(GL_PROJECTION);              // Select Projection
 	glPopMatrix();							  // Pop The Matrix
 	glMatrixMode(GL_MODELVIEW);               // Select Modelview
-	glPopMatrix();							  // Pop The Matrix
+	glPopMatrix();						  // Pop The Matrix
 	glPopMatrix();
+	for (int i = 0; i < text.length(); i++)
+	{
+		glPopMatrix();
+	}
 	glEnable(GL_LIGHTING);
 
 	glDisable(GL_TEXTURE_2D);

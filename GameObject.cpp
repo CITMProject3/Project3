@@ -14,6 +14,7 @@
 #include "ComponentUiImage.h"
 #include "ComponentUiText.h"
 #include "ComponentCanvas.h"
+#include "ComponentUiButton.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -407,6 +408,10 @@ Component* GameObject::AddComponent(ComponentType type)
 				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
 			}
 		}	
+		break;
+	case C_UI_BUTTON:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiButton(type, this);
 		break;
 	default:
 		LOG("Unknown type specified for GameObject %s", name);

@@ -23,7 +23,7 @@ ComponentUiText::~ComponentUiText()
 {
 	delete UImaterial;
 }
-void ComponentUiText::Update(float dt)
+void ComponentUiText::Update()
 {
 }
 

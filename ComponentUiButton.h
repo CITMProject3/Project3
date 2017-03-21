@@ -1,18 +1,18 @@
-#ifndef __COMPONENTUIIMAGE_H__
-#define __COMPONENTUIIMAGE_H__
+#ifndef __COMPONENTUIBUTTON_H__
+#define __COMPONENTUIBUTTON_H__
 
 #include "Globals.h"
 #include "Component.h"
 
 class ComponentMaterial;
 
-class ComponentUiImage : public Component
+class ComponentUiButton : public Component
 {
 
 public:
 
-	ComponentUiImage(ComponentType type, GameObject* game_object);
-	~ComponentUiImage();
+	ComponentUiButton(ComponentType type, GameObject* game_object);
+	~ComponentUiButton();
 
 	void Update();
 	void CleanUp();
@@ -25,7 +25,8 @@ public:
 
 public:
 	ComponentMaterial* UImaterial = nullptr;
-
+private:
+	uint player_num = 1;
 };
 
-#endif __COMPONENTUIIMAGE_H__
+#endif __COMPONENTUIBUTTON_H__

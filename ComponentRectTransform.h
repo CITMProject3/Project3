@@ -24,7 +24,7 @@ public:
 	
 	void GeneratePlane();
 
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 

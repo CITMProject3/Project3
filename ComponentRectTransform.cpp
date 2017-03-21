@@ -38,7 +38,7 @@ void ComponentRectTransform::GeneratePlane()
 
 
 
-void ComponentRectTransform::Update(float dt)
+void ComponentRectTransform::Update()
 {
 	if (apply_transformation)
 	{
