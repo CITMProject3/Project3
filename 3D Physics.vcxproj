@@ -121,6 +121,9 @@
     <ClInclude Include="CurveWindow.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DebugDraw.h" />
+    <ClInclude Include="EventData.h" />
+    <ClInclude Include="EventLinkGos.h" />
+    <ClInclude Include="EventQueue.h" />
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
@@ -286,6 +289,8 @@
     <ClCompile Include="CurveWindow.cpp" />
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
+    <ClCompile Include="EventLinkGos.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />

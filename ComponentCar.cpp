@@ -13,6 +13,8 @@
 
 #include "Primitive.h"
 #include "PhysVehicle3D.h"
+#include "EventQueue.h"
+#include "EventLinkGos.h"
 
 #include "Time.h"
 
@@ -1133,7 +1135,12 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("connection_height", connection_height);
 	data.AppendFloat("wheel_radius", wheel_radius);
 	data.AppendFloat("wheel_width", wheel_width);
-	
+
+	// Saving UUID's GameObjects linked as wheels on Component Car
+	if (wheels_go[0]) data.AppendUInt("Wheel Front Left", wheels_go[0]->GetUUID());
+	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
+	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
+	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
 	
 	//Car physics settings
 	data.AppendFloat("mass", car->mass);
@@ -1198,13 +1205,36 @@ void ComponentCar::Load(Data& conf)
 	mini_turbo.speed_direct = conf.GetBool("miniturbo_speed_direct");
 	mini_turbo.speed_decrease = conf.GetBool("miniturbo_speed_decrease");
 
-
-
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings
 	connection_height = conf.GetFloat("connection_height");
 	wheel_radius = conf.GetFloat("wheel_radius");
 	wheel_width = conf.GetFloat("wheel_width");
+
+	// Posting events to further loading of GameObject wheels when all have been loaded)
+	if (conf.GetUInt("Wheel Front Left") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[0], conf.GetUInt("Wheel Front Left"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Front Right") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[1], conf.GetUInt("Wheel Front Right"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Back Left") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[2], conf.GetUInt("Wheel Back Left"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Back Right") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[3], conf.GetUInt("Wheel Back Right"));
+		App->event_queue->PostEvent(ev);
+	}
 
 	//Car settings
 	car->mass = conf.GetFloat("mass");

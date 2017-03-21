@@ -523,6 +523,11 @@ GameObject * ModuleGOManager::FindGameObjectByUUID(GameObject* start, unsigned i
 	return ret;
 }
 
+void ModuleGOManager::LinkGameObjectPointer(GameObject **pointer_to_pointer_go, unsigned int uuid_to_assign)
+{
+	*pointer_to_pointer_go = FindGameObjectByUUID(root, uuid_to_assign);
+}
+
 //Sort the AABBs for the distance from the current camera
 int  CompareAABB(const void * a, const void * b)
 {

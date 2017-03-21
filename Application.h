@@ -21,6 +21,7 @@ class ModuleWindow;
 class ModuleAudio;
 
 class Random;
+class EventQueue;
 
 using namespace std; 
 
@@ -78,6 +79,7 @@ public:
 	ModuleEditor* editor;
 
 	Random* rnd = nullptr;
+	EventQueue *event_queue = nullptr;
 
 private:
 

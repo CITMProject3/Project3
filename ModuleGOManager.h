@@ -65,6 +65,7 @@ public:
 	bool RemoveGameObjectOfOctree(GameObject* go);
 
 	GameObject* FindGameObjectByUUID(GameObject* start, unsigned int uuid)const;
+	void LinkGameObjectPointer(GameObject **pointer_to_pointer_go, unsigned int uuid_to_assign);
 
 	RaycastHit Raycast(const Ray& ray, std::vector<int> layersToCheck = std::vector<int>(), bool keepDrawing = false);
 

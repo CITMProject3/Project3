@@ -16,6 +16,7 @@
 
 #include "Time.h"
 #include "Random.h"
+#include "EventQueue.h"
 #include "Profiler.h"
 #include "Data.h"
 
@@ -28,6 +29,9 @@ Application::Application()
 	
 	// Random
 	rnd = new Random();
+
+	// EventQueue
+	event_queue = new EventQueue();
 
 	// Modules
 	window = new ModuleWindow("window");
@@ -74,6 +78,7 @@ Application::Application()
 Application::~Application()
 {
 	delete rnd;
+	delete event_queue;
 
 	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
@@ -148,6 +153,8 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	event_queue->ProcessEvents();
+
 	//Update Profiler
 	g_Profiler.Update();
 

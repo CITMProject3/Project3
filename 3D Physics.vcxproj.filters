@@ -76,6 +76,12 @@
     <Filter Include="3rd Party Tools\Wwise">
       <UniqueIdentifier>{c480c1f0-4dec-461b-a473-70029f23408f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\EventQueue">
+      <UniqueIdentifier>{693afdac-28e1-4523-9788-66dfc827b73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\EventQueue\EventTypes">
+      <UniqueIdentifier>{ef345d6b-9779-4a82-bbd5-e359157b2407}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -579,6 +585,15 @@
     <ClInclude Include="ModuleEditor.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Sources\Modules\EventQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="EventLinkGos.h">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -967,6 +982,12 @@
     </ClCompile>
     <ClCompile Include="ModuleEditor.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Sources\Modules\EventQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="EventLinkGos.cpp">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
