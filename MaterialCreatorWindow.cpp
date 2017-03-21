@@ -1,8 +1,11 @@
 #include "Application.h"
+#include "ModuleEditor.h"
+
 #include "Assets.h"
 #include "MaterialCreatorWindow.h"
-#include <vector>
 #include "ShaderComplier.h"
+
+#include <vector>
 
 MaterialCreatorWindow::MaterialCreatorWindow()
 {
@@ -225,7 +228,7 @@ void MaterialCreatorWindow::SetUniformValue()
 			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
 			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
 
-			for (int i = 0; i < textures_list.size(); ++i)
+			for (size_t i = 0; i < textures_list.size(); ++i)
 			{
 				if (ImGui::MenuItem(textures_list[i].data()))
 				{

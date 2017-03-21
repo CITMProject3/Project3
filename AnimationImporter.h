@@ -16,7 +16,7 @@ struct aiMesh;
 class GameObject;
 class ResourceFileAnimation;
 class ResourceFileBone;
-class Channel;
+struct Channel;
 
 namespace AnimationImporter
 {

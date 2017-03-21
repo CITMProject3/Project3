@@ -1,23 +1,32 @@
-#include "Globals.h"
-#include "Application.h"
 #include "ModuleRenderer3D.h"
-#include "ComponentCamera.h"
-#include "Glew\include\glew.h"
-#include "SDL\include\SDL_opengl.h"
-#include "GameObject.h"
+
+#include "Application.h"
 #include "ModuleGOManager.h"
-#include "ComponentMesh.h"
-#include "ComponentMaterial.h"
-#include "ComponentTransform.h"
-#include "ResourceFileMaterial.h"
-#include "ComponentLight.h"
-#include "ResourceFileRenderTexture.h"
-#include "Octree.h"
-#include <gl/GL.h>
-#include <gl/GLU.h>
+#include "ModuleLighting.h"
 #include "ModuleWindow.h"
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
+#include "ModuleEditor.h"
+
+#include "GameObject.h"
+#include "ComponentCamera.h"
+#include "ComponentMesh.h"
+#include "ComponentMaterial.h"
+#include "ComponentTransform.h"
+#include "ComponentLight.h"
+
+#include "Glew\include\glew.h"
+#include <gl/GL.h>
+#include <gl/GLU.h>
+#include "SDL\include\SDL_opengl.h"
+
+#include "ResourceFileMaterial.h"
+#include "ResourceFileRenderTexture.h"
+
+#include "Octree.h"
+#include "Time.h"
+
+#include "SDL/include/SDL_video.h"
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -26,10 +35,8 @@
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 
-
 ModuleRenderer3D::ModuleRenderer3D(const char* name, bool start_enabled) : Module(name, start_enabled)
-{
-}
+{ }
 
 // Destructor
 ModuleRenderer3D::~ModuleRenderer3D()
@@ -315,7 +322,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 
 	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-	if (c_mesh->animated)
+	if (c_mesh->HasBones())
 	{
 		DrawAnimated(obj, light, cam);
 		return;

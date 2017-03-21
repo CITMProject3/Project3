@@ -7349,7 +7349,7 @@ int ImGui::Curve(const char *label, const ImVec2& size, std::vector<std::vector<
 		if (axis[aX] == true)
 		{
 			// lines
-			for (int i = 1; i < points[aX].size(); i++)
+			for (size_t i = 1; i < points[aX].size(); i++)
 			{
 				ImVec4 col_vec;
 				switch (aX)

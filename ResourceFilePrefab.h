@@ -2,8 +2,10 @@
 #define __RESOURCEFILEPREFAB_H__
 
 #include "ResourceFile.h"
+#include "Data.h"
 #include <list>
 #include <map>
+
 class GameObject;
 
 class ResourceFilePrefab : public ResourceFile

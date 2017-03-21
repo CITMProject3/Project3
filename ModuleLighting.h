@@ -4,18 +4,9 @@
 #include "Module.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
+#include "Light.h"
+
 class ComponentLight;
-
-struct LightInfo
-{
-	float3 ambient_color;
-	float ambient_intensity;
-
-	bool has_directional;
-	float3 directional_color;
-	float directional_intensity;
-	float3 directional_direction;
-};
 
 class ModuleLighting : public Module
 {

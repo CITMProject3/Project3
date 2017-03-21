@@ -1,7 +1,7 @@
 #include "CurveWindow.h"
 
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
 #include "Hierarchy.h"
 
 CurveWindow::CurveWindow()

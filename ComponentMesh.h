@@ -82,6 +82,7 @@ public:
 
 	void Remove();
 
+	bool HasBones();
 	void AddBone(ComponentBone* bone);
 	void DeformAnimMesh();
 
