@@ -102,7 +102,11 @@ public:
 	GameObject* copy_go = nullptr;
 
 	ImGuizmo::OPERATION gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
+	ImGuizmo::MODE gizmo_mode = ImGuizmo::MODE::WORLD;
 	bool gizmo_enabled = true;
+
+	int assign_wheel = -1;
+	GameObject* wheel_assign = nullptr;
 
 private:
 
@@ -132,6 +136,8 @@ private:
 	string scene_name_to_save;
 
 	bool disable_grid = false;
+
+	float heightMapScaling = 1.0f;
 
 	bool save_quit = false;
 	bool quit = false;

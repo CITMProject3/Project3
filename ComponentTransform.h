@@ -17,7 +17,7 @@ public:
 	ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix);
 	~ComponentTransform();
 
-	void Update(float dt);
+	void Update();
 
 	void OnInspector(bool debug);
 
@@ -26,7 +26,7 @@ public:
 	void SetRotation(const math::Quat& rot);
 	void SetScale(const math::float3& scale);
 	void Set(math::float4x4 matrix);
-	
+	void SetGlobal(float4x4 global);
 
 	math::float3 GetPosition()const;
 	math::float3 GetRotationEuler()const;

@@ -85,6 +85,8 @@ bool Editor::Start()
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
 
+	heightMapScaling = App->physics->GetTerrainHeightScale();
+
 	return ret;
 }
 
@@ -385,11 +387,6 @@ update_status Editor::EditorWindows()
 			DebugMenu();
 			ImGui::EndMenu();
 		}
-		if (ImGui::BeginMenu("Quit"))
-		{
-			ret = UPDATE_STOP;
-			ImGui::EndMenu();
-		}
 		ImGui::EndMainMenuBar();
 	}
 
@@ -601,27 +598,106 @@ void Editor::GameObjectMenu()
 
 void Editor::PhysicsMenu()
 {	
-	ImGui::Text("Terrain will always be centered around (0,0,0).\nGenerating a terrain may take a while on bigger\nsurfaces, it will go faster on multiple little\nmeshes than on a single big one.\n ");
-	ImGui::Separator();
+	if (ImGui::BeginMenu("Select a heightmap:"))
+	{
+		vector<string> textures_list;
+		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+		for (int i = 0; i < textures_list.size(); ++i)
+		{
+			if (ImGui::MenuItem(textures_list[i].data()))
+			{
+				string lib_file = App->resource_manager->FindFile(textures_list[i]);
+				App->physics->GenerateHeightmap(lib_file);
+			}
+		}
+		ImGui::EndMenu();
+	}
+	int tex = App->physics->GetHeightmap();
+	if (tex != 0)
+	{
+		if (ImGui::Button("Delete heightmap"))
+		{
+			App->physics->DeleteHeightmap();
+		}
+	}
+	tex = App->physics->GetHeightmap();
+	if (tex != 0)
+	{
+		float2 size = App->physics->GetHeightmapSize();
+		float maxSize = max(size.x, size.y);
+		if (maxSize > 200)
+		{
+			float scale = 200.0f / maxSize;
+			size.x *= scale;
+			size.y *= scale;
+		}
+		ImGui::Image((void*)tex, ImVec2(size.x, size.y));
+
+
+		if (ImGui::BeginMenu("Select a texture:"))
+		{
+			vector<string> textures_list;
+			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+			for (int i = 0; i < textures_list.size(); ++i)
+			{
+				if (ImGui::MenuItem(textures_list[i].data()))
+				{
+					string lib_file = App->resource_manager->FindFile(textures_list[i]);
+					App->physics->LoadTexture(lib_file);
+				}
+			}
+			ImGui::EndMenu();
+		}
+		int tex2 = App->physics->GetTexture();
+		if (tex2 != 0)
+		{
+			if (ImGui::Button("Delete texture"))
+			{
+				App->physics->DeleteTexture();
+			}
+		}
+		tex2 = App->physics->GetTexture();
+		if (tex2 != 0)
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 200)
+			{
+				float scale = 200.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)tex2, ImVec2(size.x, size.y));
+		}
+
+	}
+
+
 	bool tmp = App->physics->TerrainIsGenerated();
 	ImGui::Checkbox("Terrain is generated", &tmp);
 	ImGui::NewLine();
-	if (ImGui::MenuItem("Generate Terrain"))
+	/*if (ImGui::MenuItem("Save Terrain"))
 	{
-		App->physics->GenerateTerrain();
+		App->physics->SaveTerrain();
 	}
 	if (ImGui::MenuItem("Delete Terrain"))
 	{
 		App->physics->DeleteTerrain();
 	}
-	ImGui::NewLine();
+	ImGui::NewLine();*/
 	ImGui::Separator();
-	ImGui::Checkbox("Render Terrain", &App->physics->renderTerrain);
-	if (App->physics->renderTerrain)
+
+	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
+	ImGui::SameLine();
+	if(ImGui::Button("Set terrain height scaling"))
 	{
-		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+		App->physics->SetTerrainHeightScale(heightMapScaling);
 	}
-	ImGui::Text("Terrain render may be slow!");	
+	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 
 void Editor::DebugMenu()
@@ -785,11 +861,11 @@ void Editor::SaveSceneWindow()
 void Editor::DisplayGizmo()
 {
 	//Selection keys
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)
-		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+		gizmo_operation = ImGuizmo::OPERATION::TRANSLATE;
 	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		gizmo_operation = ImGuizmo::OPERATION::ROTATE;
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 		gizmo_operation = ImGuizmo::OPERATION::SCALE;
 
 	ImGuizmo::BeginFrame();
@@ -801,21 +877,47 @@ void Editor::DisplayGizmo()
 		ImGuizmo::Enable(gizmo_enabled);
 
 		ComponentCamera* camera = App->camera->GetEditorCamera();
-		ComponentTransform* transform = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
-		float4x4 matrix = transform->GetLocalTransformMatrix().Transposed();
 
-		ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+		float4x4 matrix = go->transform->GetLocalTransformMatrix().Transposed();
+
+		ComponentTransform* transform = go->transform;
+
+		ComponentTransform* parent_transform = nullptr;
+
+		if (go->GetParent())
+		{
+			parent_transform = (ComponentTransform*)go->GetParent()->GetComponent(C_TRANSFORM);
+			assert(parent_transform);
+
+			matrix = parent_transform->GetGlobalMatrix() * transform->GetLocalTransformMatrix();
+			matrix = matrix.Transposed();
+		}
+
+
+
+		if (gizmo_operation == ImGuizmo::OPERATION::SCALE)
+			ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, ImGuizmo::LOCAL, matrix.ptr());
+
+		else
+			ImGuizmo::Manipulate(camera->GetViewMatrix().ptr(), camera->GetProjectionMatrix().ptr(), (ImGuizmo::OPERATION)gizmo_operation, (ImGuizmo::MODE)gizmo_mode, matrix.ptr());
+
 
 		if (ImGuizmo::IsUsing())
 		{
 			matrix.Transpose();
+
+			if (go->GetParent())
+			{
+				matrix = parent_transform->GetGlobalMatrix().Inverted() * matrix;
+			}
+
 			float3 position, scale;
 			Quat rotation;
 			matrix.Decompose(position, rotation, scale);
 
-			transform->SetPosition(position);
-			transform->SetRotation(rotation);
-			transform->SetScale(scale);
+			go->transform->SetPosition(position);
+			go->transform->SetRotation(rotation);
+			go->transform->SetScale(scale);
 		}
 	}
 }

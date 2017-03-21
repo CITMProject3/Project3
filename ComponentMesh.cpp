@@ -34,7 +34,7 @@ ComponentMesh::~ComponentMesh()
 	App->renderer3D->RemoveBuffer(bone_id);
 }
 
-void ComponentMesh::Update(float dt)
+void ComponentMesh::Update()
 {
 	//Component must be active to update
 	if (!IsActive())
@@ -224,7 +224,7 @@ void ComponentMesh::DeformAnimMesh()
 	for (uint i = 0; i < bones_reference.size(); i++)
 	{
 		float4x4 matrix = bones_reference[i].bone->GetSystemTransform();
-		matrix = ((ComponentTransform*)game_object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix().Inverted() * matrix;
+		matrix = game_object->transform->GetLocalTransformMatrix().Inverted() * matrix;
 		float4x4 bone_trn_mat = matrix * bones_reference[i].offset;
 		bones_trans.push_back(bone_trn_mat.Transposed());
 	}

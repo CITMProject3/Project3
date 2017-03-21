@@ -26,7 +26,7 @@ ComponentTransform::~ComponentTransform()
 
 }
 
-void ComponentTransform::Update(float dt)
+void ComponentTransform::Update()
 {
 	if (transform_modified)
 	{
@@ -74,11 +74,13 @@ void ComponentTransform::OnInspector(bool debug)
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::ROTATE;
 		}
 		ImGui::SameLine();
-
 		if (ImGui::RadioButton("Scale", App->editor->gizmo_operation == SCALE))
 		{
 			App->editor->gizmo_operation = ImGuizmo::OPERATION::SCALE;
 		}
+		
+
+		
 
 		ImGui::Checkbox("Enable Gizmo", &App->editor->gizmo_enabled);
 
@@ -105,7 +107,7 @@ void ComponentTransform::OnInspector(bool debug)
 		}
 
 		//Scale
-		ImGui::TextColored(white, "Scale:    ");
+		ImGui::TextColored(white, "Scale:  ");
 		ImGui::SameLine();
 
 		float3 scale = this->scale;
@@ -113,6 +115,18 @@ void ComponentTransform::OnInspector(bool debug)
 		{
 			App->input->InfiniteHorizontal();
 			SetScale(scale);
+		}
+
+
+		if (ImGui::RadioButton("World", App->editor->gizmo_mode == ImGuizmo::MODE::WORLD))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::WORLD;
+		}
+		ImGui::SameLine();
+
+		if (ImGui::RadioButton("Local", App->editor->gizmo_mode == ImGuizmo::MODE::LOCAL))
+		{
+			App->editor->gizmo_mode = ImGuizmo::MODE::LOCAL;
 		}
 
 		//Local Matrix
@@ -139,7 +153,7 @@ void ComponentTransform::SetRotation(const math::float3& rot_euler)
 {
 	rotation_euler = rot_euler;
 	
-	float3 rot_deg = DegToRad(rot_euler);
+	float3 rot_deg = rot_euler;//DegToRad(rot_euler);
 
 	rotation = rotation.FromEulerXYZ(rot_deg.x, rot_deg.y, rot_deg.z);
 
@@ -173,6 +187,21 @@ void ComponentTransform::Set(math::float4x4 matrix)
 	SetPosition(pos);
 	SetRotation(rot);
 	SetScale(scal);
+}
+
+void ComponentTransform::SetGlobal(float4x4 global)
+{
+	GameObject* parent = game_object->GetParent();
+	if (parent != nullptr)
+	{
+		float4x4 new_local = ((ComponentTransform*)parent->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * global;
+		float3 translate, scale;
+		Quat rotation;
+		new_local.Decompose(translate, rotation, scale);
+		SetPosition(translate);
+		SetRotation(rotation);
+		SetScale(scale);
+	}
 }
 
 math::float3 ComponentTransform::GetPosition() const
@@ -265,20 +294,11 @@ void ComponentTransform::CalculateFinalTransform()
 	{
 		if (game_object->GetParent())
 		{
-			ComponentTransform* parent_transform = (ComponentTransform*)game_object->GetParent()->GetComponent(C_TRANSFORM);
-			assert(parent_transform);
-
-			final_transform_matrix = parent_transform->final_transform_matrix * transform_matrix;
+			final_transform_matrix = game_object->GetParent()->transform->final_transform_matrix * transform_matrix;
 
 			std::vector<GameObject*>::const_iterator go_childs = game_object->GetChilds()->begin();
 			for (go_childs; go_childs != game_object->GetChilds()->end(); ++go_childs)
-			{
-				ComponentTransform* transform = (ComponentTransform*)(*go_childs)->GetComponent(C_TRANSFORM);
-				if (transform)
-				{
-					transform->CalculateFinalTransform();
-				}
-			}
+				(*go_childs)->transform->CalculateFinalTransform();
 		}
 		else
 		{

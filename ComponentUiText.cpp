@@ -10,7 +10,10 @@
 ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	text = "124124"; 
+	text.resize(20);
 	array_values = "0123456789:";
+	array_values.resize(20);
+	current_text_changing.resize(20);
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
 	img_width = 100;
 	img_height = 100;
@@ -101,6 +104,8 @@ void ComponentUiText::Load(Data & conf)
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
+	text.resize(text.length() + 20);
+	LOG("%d",text.size());
 }
 
 int ComponentUiText::GetLenght() const
@@ -148,7 +153,7 @@ void ComponentUiText::SetText(string &text)
 	//ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth() / 2 - 150, App->window->GetScreenHeight() / 2 - 50));
 	ImGui::SetNextWindowSize(ImVec2(300, 100));
 
-	string str = string("Change Text:") + text;
+	string str = string("Change Text: ") + text;
 	if (ImGui::Begin(str.c_str(),&change_text))
 	{
 		ImGui::InputText("", current_text_changing._Myptr(), current_text_changing.capacity());
@@ -167,7 +172,7 @@ void ComponentUiText::SetText(string &text)
 void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
-	OnChangeTexture();
+	//OnChangeTexture();
 }
 
 bool ComponentUiText::OnChangeTexture()

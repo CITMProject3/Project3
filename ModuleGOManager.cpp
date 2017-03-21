@@ -5,6 +5,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -107,13 +108,10 @@ update_status ModuleGOManager::Update()
 {
 	//Update GameObjects
 	if(root)
-		UpdateGameObjects(time->DeltaTime(), root);
+		UpdateGameObjects(root);
 
 	if(draw_octree)
 		octree.Draw();
-
-	App->renderer3D->DrawLine(lastRayData[0], lastRayData[1]);
-	App->renderer3D->DrawLine(lastRayData[1], lastRayData[1] + lastRayData[2], float4(1, 1, 0, 1));
 
 	return UPDATE_CONTINUE;
 }
@@ -203,7 +201,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	// Loading mesh for each primitive
 	Data load_info;
 	load_info.AppendUInt("UUID", prim_codes[type] );
-	load_info.AppendBool("Active", true);
+	load_info.AppendBool("active", true);
 	load_info.AppendString("path", prim_path.c_str());
 
 	mesh_comp->Load(load_info);
@@ -281,7 +279,7 @@ ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
 void ModuleGOManager::LoadEmptyScene()
 {
 	ClearScene();
-
+	App->physics->DeleteHeightmap();
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
@@ -308,6 +306,7 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
+	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -402,12 +401,13 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 			if (type != (int)ComponentType::C_TRANSFORM)
 				go_component = go->AddComponent(static_cast<ComponentType>(type));
 			else
-				go_component = (Component*)go->GetComponent(C_TRANSFORM);
+				go_component = (Component*)go->transform;
 			go_component->Load(component);
 		}
 	}
 	else
-	{	//Prefab
+	{	
+		//Prefab
 		ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)App->resource_manager->LoadResource(prefab_path, ResourceFileType::RES_PREFAB);
 		if (rc_prefab)
 		{
@@ -493,7 +493,7 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 
@@ -581,15 +581,6 @@ RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCh
 		lastRayData[1] = hit.point;
 		lastRayData[2] = hit.normal;
 	}
-	if (hit.object != nullptr)
-	{
-		App->renderer3D->DrawLine(ray.pos, hit.point, float4(1.0f, 0.5f,0.0f,1.0f));
-		App->renderer3D->DrawLine(hit.point, hit.point + hit.normal, float4(1, 1, 0, 1));
-	}
-	else
-	{
-		App->renderer3D->DrawLine(ray.pos, ray.pos + ray.dir * 1000.0f, float4(1.0f, 0.5f, 0.0f, 1.0f));
-	}
 
 	return hit;
 }
@@ -638,7 +629,7 @@ std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck
 	{
 		//If we need to consider the GO, we add Max and Min points.
 		ComponentMesh* msh = (ComponentMesh*) go->GetComponent(C_MESH);
-		ComponentTransform* trs = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+		
 		if (msh)
 		{
 			ret.push_back(msh->GetBoundingBox().minPoint);
@@ -646,8 +637,8 @@ std::vector<float3> ModuleGOManager::GetWorldAABB(std::vector<int> layersToCheck
 		}
 		else
 		{
-			ret.push_back(trs->GetPosition());
-			ret.push_back(trs->GetPosition());
+			ret.push_back(go->transform->GetPosition());
+			ret.push_back(go->transform->GetPosition());
 		}
 	}
 
@@ -692,17 +683,17 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 		LinkAnimation(*child);
 }
 
-void ModuleGOManager::UpdateGameObjects(float dt, GameObject* object)
+void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
 	PROFILE("ModuleGOManager::UpdateGameObjects");
 
 	if(root != object && object->IsActive() == true)
-		object->Update(dt);
+		object->Update();
 
 	std::vector<GameObject*>::const_iterator child = object->GetChilds()->begin();
 	for (child; child != object->GetChilds()->end(); ++child)
 	{
-		UpdateGameObjects(dt, (*child));
+		UpdateGameObjects((*child));
 	}
 }
 

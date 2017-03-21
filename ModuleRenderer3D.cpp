@@ -353,9 +353,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	if (material->alpha == 2 && alpha_render == false)
 	{
-		
-		ComponentTransform* obj_tran = (ComponentTransform*)obj->GetComponent(C_TRANSFORM);
-		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj_tran->GetPosition());
+		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj->transform->GetPosition());
 		alpha_object = pair<float, GameObject*>(distance, obj);
 		return;
 	}
@@ -391,7 +389,6 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
 
 	int count = 0;
-	//Good code for textures. The code above must be removed.
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
 	{
 		//Default first texture diffuse (if no specified)
@@ -531,13 +528,23 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	{
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
-
+	//Color
 	if (colorLoc != -1)
 	{
 		glUniform4fv(colorLoc, 1, color.ptr());
 		if(material->rc_material != nullptr)
 			material->rc_material->material.has_color = true;
 	}
+	//Specular
+	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
+	if (specular_location != -1)
+		glUniform1f(specular_location, material->specular);
+	//EyeWorld
+	GLint eye_world_pos = glGetUniformLocation(shader_id, "_EyeWorldPos");
+	if (eye_world_pos != -1)
+		glUniform3fv(eye_world_pos, 1, cam->GetPos().ptr());
+
+
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor4fv(color.ptr());
 
@@ -746,6 +753,27 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	{
 		glUniform1f(time_location, time->GetUnitaryTime());
 	}
+	//Color
+	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
+	float4 color = float4(material->color);
+	if (colorLoc != -1)
+	{
+		glUniform4fv(colorLoc, 1, color.ptr());
+		if (material->rc_material != nullptr)
+			material->rc_material->material.has_color = true;
+	}	
+
+	//Specular
+	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
+	if (specular_location != -1)
+		glUniform1f(specular_location, material->specular);
+	//EyeWorld
+	GLint eye_world_pos = glGetUniformLocation(shader_id, "_EyeWorldPos");
+	if (eye_world_pos != -1)
+		glUniform3fv(eye_world_pos, 1, cam->GetPos().ptr());
+
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glColor4fv(color.ptr());
 
 	//Array of bone transformations
 	GLint bone_location = glGetUniformLocation(shader_id, "bones");

@@ -18,8 +18,7 @@ ComponentLight::~ComponentLight()
 
 void ComponentLight::Update()
 {
-	ComponentTransform* c_transform = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	float4x4 matrix = c_transform->GetGlobalMatrix();
+	float4x4 matrix = game_object->transform->GetGlobalMatrix();
 	float3 forward = matrix.Col3(2);
 	g_Debug->AddArrow(matrix.TranslatePart(), forward, g_Debug->yellow, 3.0f);
 }

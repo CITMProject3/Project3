@@ -97,7 +97,7 @@ void GameObject::PreUpdate()
 	components_to_remove.clear();
 }
 
-void GameObject::Update(float dt)
+void GameObject::Update()
 {
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
@@ -105,7 +105,7 @@ void GameObject::Update(float dt)
 	}
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
-		(*comp)->Update(dt);
+		(*comp)->Update();
 	}
 	for (std::vector<Component*>::iterator comp = components.begin(); comp != components.end(); comp++)
 	{
@@ -173,12 +173,11 @@ void GameObject::SetParent(GameObject * parent)
 			this->parent->RemoveChild(this);
 		}
 
-		ComponentTransform* transform = (ComponentTransform*)GetComponent(C_TRANSFORM);
 		float4x4 global = transform->GetGlobalMatrix();
 		this->parent = parent;
 		if (parent)
 		{
-			float4x4 new_local = ((ComponentTransform*)parent->GetComponent(C_TRANSFORM))->GetGlobalMatrix().Inverted() * global;
+			float4x4 new_local = parent->transform->GetGlobalMatrix().Inverted() * global;
 			float3 translate, scale;
 			Quat rotation;
 			new_local.Decompose(translate, rotation, scale);
@@ -345,43 +344,46 @@ Component* GameObject::AddComponent(ComponentType type)
 	switch (type)
 	{
 	case C_TRANSFORM:
-		if(GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
+		if (!transform) //Only one transform component for gameobject
+		{
 			item = new ComponentTransform(type, this, &global_matrix);
+			transform = (ComponentTransform*)item;
+		}		
 		break;
 	case C_MESH:
-		if(GetComponent(C_TRANSFORM))
+		if(transform)
 			item = new ComponentMesh(type, this);
 		break;
 	case C_MATERIAL:
-		if (GetComponent(C_TRANSFORM) && GetComponent(C_MESH))
+		if (transform && GetComponent(C_MESH))
 			item = new ComponentMaterial(type, this);
 		break;
 	case C_CAMERA:
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentCamera(type, this);
 		break;
 	case C_COLLIDER:
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentCollider(this);
 		break;
 	case C_LIGHT:	
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentLight(type, this);
 		break;
 	case C_ANIMATION:
-		if (GetComponent(C_TRANSFORM) && GetComponent(C_ANIMATION) == nullptr)
+		if (transform && GetComponent(C_ANIMATION) == nullptr)
 			item = new ComponentAnimation(this);
 		break;
 	case C_BONE:
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentBone(this);
 		break;
 	case C_CAR:
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentCar(this);
 		break;
 	case C_AUDIO:
-		if (GetComponent(C_TRANSFORM))
+		if (transform)
 			item = new ComponentAudio(type, this);
 		break;
 	case C_RECT_TRANSFORM:
@@ -407,6 +409,7 @@ Component* GameObject::AddComponent(ComponentType type)
 		}	
 		break;
 	default:
+		LOG("Unknown type specified for GameObject %s", name);
 		break;
 	}
 
@@ -428,10 +431,13 @@ const std::vector<Component*>* GameObject::GetComponents()
 	return &components;
 }
 
-void* GameObject::GetComponent(ComponentType type)const
+Component* GameObject::GetComponent(ComponentType type)const
 {
 	if (components.empty() == false)
 	{
+		if (type == C_TRANSFORM)
+			return transform;
+
 		std::vector<Component*>::const_iterator comp = components.begin();
 		while (comp != components.end())
 		{
@@ -442,7 +448,7 @@ void* GameObject::GetComponent(ComponentType type)const
 			++comp;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void GameObject::RemoveComponent(Component * component)

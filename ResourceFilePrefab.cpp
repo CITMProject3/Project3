@@ -117,7 +117,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(0); //To update the matrix manually
+			c_transform->Update(); //To update the matrix manually
 		}
 	}
 
@@ -275,7 +275,7 @@ void ResourceFilePrefab::CreateChildsByUUID(const Data & go_data, map<unsigned i
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 
@@ -405,7 +405,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(0); //To update the matrix manually
+			c_transform->Update(); //To update the matrix manually
 		}
 	}
 
