@@ -4,9 +4,12 @@
 #include "Component.h"
 #include "Globals.h"
 #include <vector>
+#include <string>
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
+
+using namespace std;
 
 struct VehicleInfo;
 struct PhysVehicle3D;
@@ -22,11 +25,14 @@ enum TURBO
 {
 	T_IDLE,
 	T_MINI,
-	T_DRIFT,
+	T_DRIFT_MACH_2,
+	T_DRIFT_MACH_3,
 };
 
 struct Turbo
 {
+	string name;
+
 	float accel_boost;
 	float speed_boost;
 	float turbo_speed;
@@ -40,8 +46,9 @@ struct Turbo
 	float time;
 	float timer = 0.0;
 
-	void SetTurbo(float a, float v, float t)
+	void SetTurbo(string n, float a, float v, float t)
 	{
+		name = n;
 		accel_boost = a;
 		speed_boost = v;
 		time = t;
@@ -198,6 +205,7 @@ private:
 	bool drifting = false;
 	btVector3 startDriftSpeed;
 	bool to_drift_turbo = false;
+	int turbo_drift_lvl = 0;
 
 	//Leaning
 	
@@ -226,6 +234,10 @@ private:
 	//2 Player configuration
 	PLAYER front_player;
 	PLAYER back_player;
+
+	//Turbos vector
+	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
+	vector<Turbo> turbos;
 
 	//----------------------------------------------------------------------------------------------------------------------------------------
 };
