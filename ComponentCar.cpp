@@ -1041,9 +1041,22 @@ void ComponentCar::UpdateGO()
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
-		p1_animation->PlayAnimation((uint)0, 0.0f);
-		float ratio = (turn_current + turn_max) / (turn_max + turn_max);
-		p1_animation->LockAnimationRatio(ratio);
+		if (turn_current == turn_max)
+		{
+			if (p1_animation->current_animation->index != 1)
+				p1_animation->PlayAnimation(1, 0.5f);
+		}
+		else if (turn_current == -turn_max)
+		{
+			if (p1_animation->current_animation->index != 2)
+				p1_animation->PlayAnimation(2, 0.5f);
+		}
+		else
+		{
+			p1_animation->PlayAnimation((uint)0, 0.5f);
+			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
+			p1_animation->LockAnimationRatio(ratio);
+		}
 	}
 }
 
