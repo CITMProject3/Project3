@@ -967,7 +967,7 @@ void ComponentCar::CreateCar()
 {
 	if (p1_animation == nullptr)
 	{
-		p1_animation = (ComponentAnimation*)game_object->GetComponent(C_ANIMATION);
+		p1_animation = (ComponentAnimation*)game_object->GetComponentInChilds(C_ANIMATION);
 	}
 
 	car->transform.Set(game_object->transform->GetGlobalMatrix());

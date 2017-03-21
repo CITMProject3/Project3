@@ -243,7 +243,7 @@ void ComponentAnimation::RemoveAnimation(uint index)
 	animations.erase(animations.begin() + index);
 }
 
-void ComponentAnimation::PlayAnimation(uint index, float blend_time)
+void ComponentAnimation::PlayAnimation(uint index, float blend_time, bool keepBlend)
 {
 	if (index < animations.size())
 	{
@@ -251,9 +251,14 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 		{
 			if (blend_time > 0 && playing == true)
 			{
-				blend_animation = current_animation;
+				if (keepBlend == false)
+				{
+					blend_animation = current_animation;
+					this->blend_time = 0.0f;
+				}
+
 				blend_time_duration = blend_time;
-				this->blend_time = 0.0f;
+
 			}
 		}
 		current_animation = &animations[index];
@@ -262,7 +267,7 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 	}
 }
 
-void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
+void ComponentAnimation::PlayAnimation(const char* name, float blendTime, bool keepBlend)
 {
 	if (current_animation->name != name)
 	{
