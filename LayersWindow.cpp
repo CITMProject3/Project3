@@ -18,7 +18,7 @@ void LayersWindow::Draw()
 
 	vector<string>* layers = App->go_manager->layer_system->GetEditableLayerList();
 
-	for (int i = 0; i < layers->size(); ++i)
+	for (size_t i = 0; i < layers->size(); ++i)
 	{
 		ImGui::Text("Layer %i :", i);
 		ImGui::SameLine();

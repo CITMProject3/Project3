@@ -8,7 +8,7 @@
 #include <map>
 
 class GameObject;
-class Channel;
+struct Channel;
 class ComponentMesh;
 class ComponentBone;
 

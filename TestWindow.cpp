@@ -1,7 +1,8 @@
 #include "TestWindow.h"
 
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
+
 #include "Hierarchy.h"
 
 TestWindow::TestWindow()

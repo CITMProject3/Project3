@@ -1,9 +1,13 @@
 #include "Application.h"
-#include "Assets.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
+
+#include "Assets.h"
 #include "TextureImporter.h"
 #include "MaterialCreatorWindow.h"
 #include "RenderTexEditorWindow.h"
+
+#include "SDL/include/SDL_filesystem.h"
 
 #include <stack>
 #include <algorithm>

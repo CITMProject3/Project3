@@ -1,10 +1,9 @@
-#ifndef __ModuleFileSystem_H__
-#define __ModuleFileSystem_H__
+#ifndef __MODULEFILESYSTEM_H__
+#define __MODULEFILESYSTEM_H__
 
 #include "Module.h"
 
 struct SDL_RWops;
-
 int close_sdl_rwops(SDL_RWops *rw);
 
 class ModuleFileSystem : public Module
@@ -17,7 +16,6 @@ public:
 	virtual ~ModuleFileSystem();
 
 	bool Init(Data& config);
-
 
 	// Called before quitting
 	bool CleanUp();
@@ -41,15 +39,15 @@ public:
 	bool SaveUnique(const char* file, const void* buffer, unsigned int size, const char* path, const char* extension,std::string& output_name);
 
 	bool GetEnumerateFiles(const char* dir, std::vector<std::string>& buffer);
-	void GetFilesAndDirectories(const char* dir, std::vector<string>& folders, std::vector<string>& files, bool only_meta_files = false)const;
-	void GetFilesAndDirectoriesOutside(const char* dir, std::vector<string>& folders, std::vector<string>& files);
+	void GetFilesAndDirectories(const char* dir, std::vector<std::string>& folders, std::vector<std::string>& files, bool only_meta_files = false)const;
+	void GetFilesAndDirectoriesOutside(const char* dir, std::vector<std::string>& folders, std::vector<std::string>& files);
 	bool CopyFromOutsideFile(const char* from_path, const char* to_path)const;
 
-	string GetNameFromPath(const string& path)const;
+	std::string GetNameFromPath(const std::string& path)const;
 	double GetLastModificationTime(const char* file_path)const;
-	const char *GetRealPath(const string &virtual_path) const;
+	const char *GetRealPath(const std::string &virtual_path) const;
 	bool GenerateDirectory(const char* path)const;
-	bool Delete(string filename)const;
+	bool Delete(std::string filename)const;
 	bool DuplicateFile(const char* src, const char* dst)const;
 
 private:
@@ -58,4 +56,4 @@ private:
 
 };
 
-#endif // __ModuleFileSystem_H__
+#endif //__MODULEFILESYSTEM_H__

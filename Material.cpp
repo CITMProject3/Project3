@@ -175,7 +175,7 @@ bool Material::Save(const char * path) const
 		cursor += bytes;
 	}
 
-	bool ret = App->file_system->Save(path, data, size);
+	bool ret = App->file_system->Save(path, data, size) != 0 ? true : false;
 	delete[] data;
 
 	return ret;
