@@ -197,6 +197,7 @@ private:
 	//Drift
 	bool drifting = false;
 	btVector3 startDriftSpeed;
+	bool to_drift_turbo = false;
 
 	//Leaning
 	
