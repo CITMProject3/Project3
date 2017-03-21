@@ -2,19 +2,19 @@
 #define __MODULE_GO_MANAGER_H__
 
 #include "Module.h"
-#include <vector>
-#include <list>
-#include <string>
-#include <map>
 #include "Octree.h"
 #include "Primitive.h"
+
+#include <vector>
+#include <map>
 
 class GameObject;
 class ComponentCamera;
 class ComponentLight;
 class LayerSystem;
-enum LightType;
 class RaycastHit;
+
+enum LightType;
 
 #define OCTREE_SIZE 800
 
@@ -43,10 +43,8 @@ public:
 	GameObject* CreateLight(GameObject* parent, LightType type);
 	GameObject* CreatePrimitive(PrimitiveType type);
 
-	PrimitiveTypes d;
-
 	bool RemoveGameObject(GameObject* object);
-	bool FastRemoveGameObject(GameObject* object); //Doesn't remove the GameObject from the parent list.
+	bool FastRemoveGameObject(GameObject* object); // Doesn't remove the GameObject from the parent list.
 
 	void GetAllCameras(std::vector<ComponentCamera*>& list, GameObject* from = nullptr) const;
 	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;

@@ -36,7 +36,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	if (root_objects.IsNull() == false)
 	{
 		GameObject* root = nullptr;
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			root = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
 
@@ -107,7 +107,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 
 	Data component;
 	unsigned int comp_size = root_prefab.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (size_t i = 0; i < comp_size; i++)
 	{
 		component = root_prefab.GetArray("components", i);
 
@@ -146,7 +146,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	uuids.insert(pair<unsigned int, unsigned int>(local_uuid, uuid));
 	list<GameObject*> parents;
 	parents.push_back(game_object);
-	for (int i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
+	for (size_t i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
 	{
 		//Read the uuid of the prefab
 		//find the local uuid of the child
@@ -271,7 +271,7 @@ void ResourceFilePrefab::CreateChildsByUUID(const Data & go_data, map<unsigned i
 	//Components
 	Data component;
 	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = go_data.GetArray("components", i);
 
@@ -395,7 +395,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 
 	Data component;
 	unsigned int comp_size = root_prefab.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = root_prefab.GetArray("components", i);
 
@@ -424,7 +424,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	origin->CollectChildrenUUID(c_childs_uuid, c_childs_local_uuid);
 	Data child_uuid_info;
 	map<unsigned int, unsigned int> childs_uuid;
-	for (int i = 0; i < c_childs_uuid.size(); i++)
+	for (size_t i = 0; i < c_childs_uuid.size(); i++)
 	{
 		
 		int child_uuid = c_childs_uuid[i];
@@ -437,7 +437,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	uuids.insert(pair<unsigned int, unsigned int>(local_uuid, uuid));
 	list<GameObject*> parents;
 	parents.push_back(game_object);
-	for (int i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
+	for (size_t i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
 	{
 		//Read the uuid of the prefab
 		//find the local uuid of the child

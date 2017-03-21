@@ -332,7 +332,7 @@ const char *ModuleFileSystem::GetRealPath(const std::string &virtual_path) const
 
 bool ModuleFileSystem::GenerateDirectory(const char * path) const
 {
-	return PHYSFS_mkdir(path);
+	return PHYSFS_mkdir(path) != 0 ? true : false;
 }
 
 bool ModuleFileSystem::Delete(std::string filename) const

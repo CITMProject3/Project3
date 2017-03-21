@@ -235,7 +235,7 @@ void ComponentMesh::InitAnimBuffers()
 	float* weights = new float[size];
 	int* bones_ids = new int[size];
 
-	for (int i = 0; i < bones_vertex.size(); ++i)
+	for (size_t i = 0; i < bones_vertex.size(); ++i)
 	{
 		int ver_id = i * 4;
 
@@ -252,7 +252,7 @@ void ComponentMesh::InitAnimBuffers()
 			bones_ids[ver_id + w] = 0;
 		}
 
-		for (int w = 0; w < bones_vertex[i].weights.size(); ++w)
+		for (size_t w = 0; w < bones_vertex[i].weights.size(); ++w)
 		{
 			weights[ver_id + w] = bones_vertex[i].weights[w];
 			bones_ids[ver_id + w] = bones_vertex[i].bone_index[w];

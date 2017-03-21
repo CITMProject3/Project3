@@ -2,19 +2,19 @@
 #define __MODULERENDERER3D_H__
 
 #include "Module.h"
-#include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+
 #include "Light.h"
-#include <vector>
-#include <map>
 #include "Subject.h"
-#include "ModuleLighting.h"
+
+#include <vector>
+#include <utility> // for pair struct
 
 #define MAX_LIGHTS 8
 
 using namespace math;
 
-class Mesh;
+struct Mesh;
 class GameObject;
 class ComponentCamera;
 typedef void *SDL_GLContext;
@@ -49,7 +49,7 @@ private:
 
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
-	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
+	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
 
 public:
@@ -63,7 +63,7 @@ public:
 
 private:
 
-	vector<GameObject*> objects_to_draw;
+	std::vector<GameObject*> objects_to_draw;
 };
 
 #endif // !__MODULERENDERER3D_H__

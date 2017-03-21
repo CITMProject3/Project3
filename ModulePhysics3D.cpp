@@ -1,31 +1,31 @@
+#include "ModulePhysics3D.h"
+
 #include "Glew\include\glew.h"
 
-#include "Globals.h"
 #include "Application.h"
-#include "ModulePhysics3D.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleFileSystem.h"
+#include "ModuleInput.h"
+#include "ModuleLighting.h"
+
+#include "GameObject.h"
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
+
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
-#include "ComponentMesh.h"
-#include "GameObject.h"
-#include "ComponentTransform.h"
-#include "Assets.h"
-#include "Time.h"
-#include "ModuleFileSystem.h"
-#include "ModuleInput.h"
-#include "ComponentCamera.h"
 
-#include "ModuleRenderer3D.h"
-#include "ModuleGOManager.h"
-#include "LayerSystem.h"
+#include "Assets.h"
+#include "RaycastHit.h"
+#include "Time.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
-
-#include "RaycastHit.h"
 
 #include "ResourceFileTexture.h"
 
@@ -910,7 +910,7 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 	{
 		if (heightMapImg)
 		{
-			for (int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+			for (unsigned int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
 			{
 				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
 			}

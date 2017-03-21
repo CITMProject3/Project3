@@ -9,26 +9,17 @@
 #include "ModulePhysics3D.h"
 
 #include "GameObject.h"
-#include "Component.h"
-#include "ComponentCamera.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
-
-#include "Imgui\imgui.h"
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
 #include "AutoProfile.h"
 #include "Random.h"
 
-#include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"
-
-#include "ComponentMesh.h"
-#include "ComponentTransform.h"
-
-#include <algorithm>
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -395,7 +386,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		//Components
 		Data component;
 		unsigned int comp_size = go_data.GetArraySize("components");
-		for (int i = 0; i < comp_size; i++)
+		for (unsigned int i = 0; i < comp_size; i++)
 		{
 			component = go_data.GetArray("components", i);
 
@@ -486,7 +477,7 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 	//Components
 	Data component;
 	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = go_data.GetArray("components", i);
 
@@ -540,6 +531,7 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst < b_dst) return -1;
 	if (a_dst = b_dst) return 0;
 	if (a_dst > b_dst) return 1;
+	return 99999;
 }
 
 RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCheck, bool keepDrawing)

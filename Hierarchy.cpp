@@ -187,7 +187,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			}
 		}
 
-		if (hasChilds > 0 && open)
+		if (hasChilds && open)
 		{
 			DisplayGameObjectsChilds((*object)->GetChilds());
 			ImGui::TreePop();

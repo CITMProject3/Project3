@@ -148,7 +148,7 @@ bool GameObject::RemoveChild(GameObject* child)
 
 void GameObject::RemoveAllChilds()
 {
-	for (int i = 0; i < childs.size(); i++)
+	for (size_t i = 0; i < childs.size(); i++)
 	{
 		App->go_manager->FastRemoveGameObject(childs[i]);
 	}
@@ -549,7 +549,7 @@ bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 			float distance;
 			vec hit_point;
 			Triangle triangle;
-			for (int i = 0; i < mesh->num_indices; i+=3)
+			for (unsigned int i = 0; i < mesh->num_indices; i+=3)
 			{
 				u1 = mesh->indices[i];
 				u2 = mesh->indices[i+1];

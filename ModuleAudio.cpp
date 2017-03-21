@@ -48,7 +48,7 @@ bool ModuleAudio::Start()
 		std::string audio_folder = lib_base_path;
 		App->file_system->GetFilesAndDirectories(audio_folder.c_str(), folders, files);
 
-		for (int i = 0; i < folders.size(); ++i)
+		for (size_t i = 0; i < folders.size(); ++i)
 		{
 			files.clear();
 			string sub_folder = audio_folder + folders[i];
@@ -195,7 +195,7 @@ void ModuleAudio::LoadSoundBank(const char *soundbank_path)
 void ModuleAudio::UnloadSoundBank(const char *soundbank_path)
 {
 	// Unload the corresponding soundbank
-	AkBankID returned_bankID;
+	AkBankID returned_bankID = 0;
 	AKRESULT eResult = AK::SoundEngine::UnloadBank(soundbank_path, NULL);
 	assert(eResult == AK_Success);
 }
