@@ -34,7 +34,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 		return ret;
 	}
 
-	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, "dae");
+	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, nullptr);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
