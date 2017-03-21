@@ -429,6 +429,22 @@ Component* GameObject::GetComponent(ComponentType type)const
 	return nullptr;
 }
 
+Component* GameObject::GetComponentInChilds(ComponentType type) const
+{
+	Component* ret = nullptr;
+	if ((ret = GetComponent(type)) != nullptr)
+		return ret;
+	vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		if ((ret = (*it)->GetComponentInChilds(type)) != nullptr)
+		{
+			return ret;
+		}
+	}
+	return ret;
+}
+
 void GameObject::RemoveComponent(Component * component)
 {
 	//Search if the component exists inside the GameObject
