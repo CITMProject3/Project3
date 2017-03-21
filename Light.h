@@ -21,3 +21,14 @@ struct Light
 	int ref;
 	bool on;
 };
+
+struct LightInfo
+{
+	math::float3 ambient_color;
+	float ambient_intensity;
+
+	bool has_directional;
+	math::float3 directional_color;
+	float directional_intensity;
+	math::float3 directional_direction;
+};

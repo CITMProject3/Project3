@@ -13,7 +13,7 @@
 #include "ModuleGOManager.h"
 #include "ModuleInput.h"
 
-
+#include "SDL/include/SDL_scancode.h"
 
 ModuleSceneIntro::ModuleSceneIntro(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -51,7 +51,7 @@ GameObject * ModuleSceneIntro::FindGameObject(GameObject * start, const string &
 		return start;
 
 	const vector<GameObject*>* childs = start->GetChilds();
-	for (int i = 0; i < childs->size(); i++)
+	for (size_t i = 0; i < childs->size(); i++)
 	{
 		GameObject* ret = FindGameObject(childs->at(i), name);
 		if (ret != nullptr)

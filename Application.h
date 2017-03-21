@@ -1,33 +1,31 @@
 #ifndef __APPLICATION_H__
 #define __APPLICATION_H__
 
-#include <list>
 #include "Globals.h"
-#include "Timer.h"
-#include "ModuleSceneIntro.h"
-#include "Editor.h"
-#include "DebugDraw.h"
-#include "AutoProfile.h"
-#include "Random.h"
-#include "Time.h"
-#include <string>
-#include <stdlib.h>
+
+#include <vector>
 
 class Module;
+
 class ModuleCamera3D;
 class ModuleFileSystem;
 class ModuleGOManager;
 class ModuleInput;
 class ModuleLighting;
+class ModuleSceneIntro;
 class ModulePhysics3D;
 class ModuleRenderer3D;
 class ModuleResourceManager;
+class ModuleEditor;
 class ModuleWindow;
 class ModuleAudio;
 
+class Random;
+class EventQueue;
+
 using namespace std; 
 
-enum game_states
+enum GameStates
 {
 	GAME_STOP,
 	GAME_RUNNING,
@@ -51,7 +49,7 @@ public:
 	void SetMaxFPS(int max_fps);
 	int GetFPS();
 
-	bool ChangeGameState(game_states new_state);
+	bool ChangeGameState(GameStates new_state);
 	bool IsGameRunning()const;
 	bool IsGamePaused()const;
 private:
@@ -66,6 +64,7 @@ private:
 	void PauseGame();
 
 public:
+
 	ModuleWindow* window;
 	ModuleInput* input;
 	ModuleAudio* audio;
@@ -77,16 +76,18 @@ public:
 	ModuleGOManager* go_manager;
 	ModuleResourceManager* resource_manager;
 	ModuleLighting* lighting;
-	Editor* editor;
-	Random* rnd = nullptr;
-private:
+	ModuleEditor* editor;
 
+	Random* rnd = nullptr;
+	EventQueue *event_queue = nullptr;
+
+private:
 
 	vector<Module*> list_modules;
 	int fps = 60;
 	int capped_ms = -1;
 
-	game_states game_state = GAME_STOP;
+	GameStates game_state = GAME_STOP;
 };
 
 extern Application* App;

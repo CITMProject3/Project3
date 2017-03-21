@@ -1,24 +1,23 @@
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ComponentTransform.h"
+#include "ModuleCamera3D.h"
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
-#include "Globals.h"
-#include "imgui\imgui.h"
-#include "ImGuizmo\ImGuizmo.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
 #include "ComponentMesh.h"
+
+#include "Globals.h"
 #include "Data.h"
 
-//CHANGE - PEP
-//Not sure to include this here, maybe better to create a new file
-#include "Application.h"
-#include "ModuleCamera3D.h"
-#include "ComponentCamera.h"
+#include "imgui\imgui.h"
+#include "ImGuizmo\ImGuizmo.h"
 
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
 	CalculateFinalTransform();
 	*global_matrix = &final_transform_matrix;
-
 }
 
 ComponentTransform::~ComponentTransform()

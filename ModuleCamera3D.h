@@ -2,16 +2,14 @@
 #define __MODULECAMERA3D_H__
 
 #include "Module.h"
-#include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 
-class GameObject;
 class ComponentCamera;
-class ComponentTransform;
 
 class ModuleCamera3D : public Module
 {
 public:
+
 	ModuleCamera3D(const char* name, bool start_enabled = true);
 	~ModuleCamera3D();
 
@@ -48,13 +46,13 @@ public:
 
 private:
 
-	void EditorCameraMovement(float dt);
-
-private:
 	float3 reference;
-
 	ComponentCamera* camera = nullptr;
+
+	void EditorCameraMovement(float dt);	
+
 public:
+
 	ComponentCamera* playCamera = nullptr;
 };
 
