@@ -790,8 +790,11 @@ void ComponentCar::ApplyTurbo()
 	{
 		//Speed boost after first frame
 		if (to_turbo_speed)
-		{
-			vehicle->SetModularVelocity(max_velocity + turbo_speed_boost);
+		{	
+			float3 fv = game_object->transform->GetForward();
+			
+
+			vehicle->SetVelocity(fv.x, fv.y, fv.z ,max_velocity + turbo_speed_boost);
 			to_turbo_speed = false;
 		}
 

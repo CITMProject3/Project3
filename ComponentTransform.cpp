@@ -238,6 +238,11 @@ math::float4x4 ComponentTransform::GetGlobalMatrix()const
 	return final_transform_matrix;
 }
 
+math::float3 ComponentTransform::GetForward() const
+{
+	return final_transform_matrix.WorldZ();
+}
+
 void ComponentTransform::Save(Data & file) const
 {
 	Data data;
