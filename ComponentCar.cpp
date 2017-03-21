@@ -1,18 +1,27 @@
 #include "ComponentCar.h"
+
 #include "Application.h"
-#include "Editor.h"
-#include "GameObject.h"
-#include "imgui/imgui.h"
-#include "Globals.h"
 #include "ModulePhysics3D.h"
 #include "ModuleInput.h"
-#include "ComponentTransform.h"
-#include "Primitive.h"
-#include "PhysVehicle3D.h"
-#include "GameObject.h"
+#include "ModuleEditor.h"
 #include "ModuleRenderer3D.h"
 
+#include "GameObject.h"
+#include "ComponentTransform.h"
+#include "ComponentAnimation.h"
+
+#include "imgui/imgui.h"
+
+#include "Primitive.h"
+#include "PhysVehicle3D.h"
+#include "EventQueue.h"
+#include "EventLinkGos.h"
+
+#include "Time.h"
+
 #include <string>
+
+#include "SDL\include\SDL_scancode.h"
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
@@ -466,8 +475,8 @@ void ComponentCar::HandlePlayerInput()
 			Reset();
 		}
 	}*/
-	//JoystickControls(&accel, &brake, &turning);
-	//ApplyTurbo();
+	JoystickControls(&accel, &brake, &turning);
+	ApplyTurbo();
 
 	//Acrobactics control
 	if (acro_on)
@@ -510,7 +519,32 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
-		//Insert here all the new mechanics
+		//Insert here all the new mechanicsç
+
+		//Back player-------------------
+
+		//Leaning
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
+		{
+			Leaning(*accel);
+		}
+
+		//Acrobatics
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(back_player);
+		}
+		//Power Up
+
+		//Push
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
+		{
+			Push(accel);
+		}
+
+		//Slide attack
+
+
 		//Front player------------------
 		//Acceleration
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
@@ -546,29 +580,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(front_player);
 		}
 
-		//Back player-------------------
-
-		//Leaning
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
-		{
-			Leaning(*accel);
-		}
-
-		//Acrobatics
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
-		{
-			Acrobatics(back_player);
-		}
-		//Power Up
-
-		//Push
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
-		{
-			Push(accel);
-		}
-
-		//Slide attack
-
+		
 
 	}
 }
@@ -722,6 +734,7 @@ void ComponentCar::Acrobatics(PLAYER p)
 	if (acro_back && acro_front)
 	{
 		//Apply turbo
+		current_turbo = T_MINI;
 
 		acro_front = false;
 		acro_back = false;
@@ -729,6 +742,8 @@ void ComponentCar::Acrobatics(PLAYER p)
 	else if(tmp_back != acro_back || tmp_front != acro_front)
 	{
 		//Start timer
+		acro_timer = 0.0f;
+
 		acro_on = true;
 	}
 }
@@ -775,8 +790,11 @@ void ComponentCar::ApplyTurbo()
 	{
 		//Speed boost after first frame
 		if (to_turbo_speed)
-		{
-			vehicle->SetModularVelocity(max_velocity + turbo_speed_boost);
+		{	
+			float3 fv = game_object->transform->GetForward();
+			
+
+			vehicle->SetVelocity(fv.x, fv.y, fv.z ,max_velocity + turbo_speed_boost);
 			to_turbo_speed = false;
 		}
 
@@ -932,6 +950,11 @@ void ComponentCar::LimitSpeed()
 
 void ComponentCar::CreateCar()
 {
+	if (p1_animation == nullptr)
+	{
+		p1_animation = (ComponentAnimation*)game_object->GetComponent(C_ANIMATION);
+	}
+
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
@@ -1015,6 +1038,27 @@ void ComponentCar::UpdateGO()
 			float3 scale = trans.GetScale();
 			w_trs->SetGlobal(trans);
 			w_trs->SetScale(scale);
+		}
+	}
+
+	//Updating turn animation
+	if (p1_animation != nullptr)
+	{
+		if (turn_current == turn_max)
+		{
+			if (p1_animation->current_animation->index != 1)
+				p1_animation->PlayAnimation(1, 0.5f);
+		}
+		else if (turn_current == -turn_max)
+		{
+			if (p1_animation->current_animation->index != 2)
+				p1_animation->PlayAnimation(2, 0.5f);
+		}
+		else
+		{
+			p1_animation->PlayAnimation((uint)0, 0.5f);
+			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
+			p1_animation->LockAnimationRatio(ratio);
 		}
 	}
 }
@@ -1127,7 +1171,12 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("connection_height", connection_height);
 	data.AppendFloat("wheel_radius", wheel_radius);
 	data.AppendFloat("wheel_width", wheel_width);
-	
+
+	// Saving UUID's GameObjects linked as wheels on Component Car
+	if (wheels_go[0]) data.AppendUInt("Wheel Front Left", wheels_go[0]->GetUUID());
+	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
+	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
+	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
 	
 	//Car physics settings
 	data.AppendFloat("mass", car->mass);
@@ -1192,13 +1241,36 @@ void ComponentCar::Load(Data& conf)
 	mini_turbo.speed_direct = conf.GetBool("miniturbo_speed_direct");
 	mini_turbo.speed_decrease = conf.GetBool("miniturbo_speed_decrease");
 
-
-
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings
 	connection_height = conf.GetFloat("connection_height");
 	wheel_radius = conf.GetFloat("wheel_radius");
 	wheel_width = conf.GetFloat("wheel_width");
+
+	// Posting events to further loading of GameObject wheels when all have been loaded)
+	if (conf.GetUInt("Wheel Front Left") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[0], conf.GetUInt("Wheel Front Left"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Front Right") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[1], conf.GetUInt("Wheel Front Right"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Back Left") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[2], conf.GetUInt("Wheel Back Left"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Wheel Back Right") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[3], conf.GetUInt("Wheel Back Right"));
+		App->event_queue->PostEvent(ev);
+	}
 
 	//Car settings
 	car->mass = conf.GetFloat("mass");

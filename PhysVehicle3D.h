@@ -5,6 +5,7 @@
 #include "Primitive.h"
 
 class btRaycastVehicle;
+class btVector;
 struct PhysBody3D;
 
 using namespace math;
@@ -55,7 +56,8 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
-	void SetModularVelocity(double v);
+	void SetModularVelocity(float v);
+	void SetVelocity(float x, float y, float z, float v);
 	float GetKmh() const;
 	vec GetPos()const;
 public:

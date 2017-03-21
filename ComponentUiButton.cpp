@@ -1,6 +1,5 @@
 #include "ComponentUiButton.h"
 #include "Application.h"
-#include "Editor.h"
 #include "Assets.h"
 #include "ModuleResourceManager.h"
 #include "ModuleInput.h"
@@ -22,7 +21,7 @@ ComponentUiButton::~ComponentUiButton()
 
 void ComponentUiButton::Update()
 {
-	if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+	if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN)
 	{
 		if (UImaterial->texture_ids.size() >= 2)
 		{

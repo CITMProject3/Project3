@@ -11,6 +11,8 @@
 
 #define CHECK_MOD_TIME 3
 
+class GameObject;
+
 enum FileType
 {
 	NONE,

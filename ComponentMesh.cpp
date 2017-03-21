@@ -195,6 +195,11 @@ void ComponentMesh::Remove()
 		material->Remove();
 }
 
+bool ComponentMesh::HasBones()
+{
+	return bones_reference.size() > 0;
+}
+
 void ComponentMesh::AddBone(ComponentBone* bone)
 {
 	for (uint i = 0; i < bones_reference.size(); i++)
@@ -231,38 +236,46 @@ void ComponentMesh::DeformAnimMesh()
 }
 void ComponentMesh::InitAnimBuffers()
 {
-	int size = mesh->num_vertices * 4;
-	float* weights = new float[size];
-	int* bones_ids = new int[size];
-
-	for (int i = 0; i < bones_vertex.size(); ++i)
+	if (mesh != nullptr)
 	{
-		int ver_id = i * 4;
+		int size = mesh->num_vertices * 4;
+		float* weights = new float[size];
+		int* bones_ids = new int[size];
 
-		if (bones_vertex[i].weights.size() != bones_vertex[i].bone_index.size())
+		for (int i = 0; i < bones_vertex.size(); ++i)
 		{
-			LOG("Error: GameObject(%s) has different number of weights and index in the animation", game_object->name); //Just in case
-			return;
+			int ver_id = i * 4;
+
+			if (bones_vertex[i].weights.size() != bones_vertex[i].bone_index.size())
+			{
+				LOG("Error: GameObject(%s) has different number of weights and index in the animation", game_object->name); //Just in case
+				return;
+			}
+
+			//Reset all to zero
+			for (int w = 0; w < 4; ++w)
+			{
+				weights[ver_id + w] = 0;
+				bones_ids[ver_id + w] = 0;
+			}
+
+			for (int w = 0; w < bones_vertex[i].weights.size(); ++w)
+			{
+				weights[ver_id + w] = bones_vertex[i].weights[w];
+				bones_ids[ver_id + w] = bones_vertex[i].bone_index[w];
+			}
 		}
 
-		//Reset all to zero
-		for (int w = 0; w < 4; ++w)
-		{
-			weights[ver_id + w] = 0;
-			bones_ids[ver_id + w] = 0;
-		}
+		MeshImporter::LoadAnimBuffers(weights, size, weight_id, bones_ids, size, bone_id);
 
-		for (int w = 0; w < bones_vertex[i].weights.size(); ++w)
-		{
-			weights[ver_id + w] = bones_vertex[i].weights[w];
-			bones_ids[ver_id + w] = bones_vertex[i].bone_index[w];
-		}
+		delete[] weights;
+		delete[] bones_ids;
+
+		animated = true;
+	}
+	else
+	{
+		LOG("Warning: trying to init animation buffers from GameObject '%s' without a mesh", game_object->name);
 	}
 
-	MeshImporter::LoadAnimBuffers(weights, size, weight_id, bones_ids, size, bone_id);
-
-	delete[] weights;
-	delete[] bones_ids;
-
-	animated = true;
 }

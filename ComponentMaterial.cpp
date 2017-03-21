@@ -1,12 +1,18 @@
 #include "Application.h"
-#include "ComponentMaterial.h"
+
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "ComponentMaterial.h"
+
 #include "imgui\imgui.h"
 #include "Data.h"
+
 #include "ResourceFileTexture.h"
-#include "Assets.h"
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
+
+#include "Assets.h"
 #include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -272,7 +278,7 @@ void ComponentMaterial::Load(Data & conf)
 		Data texture;
 
 		unsigned int tex_size = conf.GetArraySize("textures");
-		for (int i = 0; i < tex_size; i++)
+		for (unsigned int i = 0; i < tex_size; i++)
 		{
 			texture = conf.GetArray("textures", i);
 
@@ -390,7 +396,7 @@ void ComponentMaterial::ChooseAlphaType()
 
 	if (alpha > 0)
 	{
-		if (ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f));
+		ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f);
 	}
 
 	if (alpha == 2)

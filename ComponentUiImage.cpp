@@ -1,6 +1,5 @@
 #include "ComponentUiImage.h"
 #include "Application.h"
-#include "Editor.h"
 #include "Assets.h"
 #include "ModuleResourceManager.h"
 #include "ComponentRectTransform.h"

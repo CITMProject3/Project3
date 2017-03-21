@@ -79,6 +79,12 @@
     <Filter Include="Sources\GameObjects\Components\UI Components">
       <UniqueIdentifier>{8578464e-380c-4076-8483-ea2a939cdc33}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Modules\EventQueue">
+      <UniqueIdentifier>{693afdac-28e1-4523-9788-66dfc827b73a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\Modules\EventQueue\EventTypes">
+      <UniqueIdentifier>{ef345d6b-9779-4a82-bbd5-e359157b2407}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -342,9 +348,6 @@
     <ClInclude Include="Random.h">
       <Filter>Sources\Tools</Filter>
     </ClInclude>
-    <ClInclude Include="Editor.h">
-      <Filter>Sources\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="Window.h">
       <Filter>Sources\Editor</Filter>
     </ClInclude>
@@ -591,11 +594,24 @@
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+
     <ClInclude Include="ComponentUiText.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
     </ClInclude>
     <ClInclude Include="ComponentUiButton.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleEditor.h">
+      <Filter>Sources\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="EventQueue.h">
+      <Filter>Sources\Modules\EventQueue</Filter>
+    </ClInclude>
+    <ClInclude Include="EventData.h">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="EventLinkGos.h">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -769,9 +785,6 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Sources\Tools</Filter>
-    </ClCompile>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Sources\Editor</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
       <Filter>Sources\Editor</Filter>
@@ -1000,6 +1013,15 @@
     </ClCompile>
     <ClCompile Include="ComponentUiButton.cpp">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="EventQueue.cpp">
+      <Filter>Sources\Modules\EventQueue</Filter>
+    </ClCompile>
+    <ClCompile Include="EventLinkGos.cpp">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

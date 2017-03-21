@@ -3,7 +3,7 @@
 #include "ModuleResourceManager.h"
 #include "ModuleGOManager.h"
 #include "GameObject.h"
-
+#include "imgui\imgui.h"
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type,game_object)
 {
 

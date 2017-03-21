@@ -233,5 +233,5 @@ size_t Data::Serialize(char ** buffer)
 
 bool Data::IsNull() const
 {
-	return (root_value == nullptr && root == nullptr & array == nullptr) ? true : false;
+	return (root_value == nullptr && root == nullptr && array == nullptr) ? true : false;
 }

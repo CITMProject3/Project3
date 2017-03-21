@@ -265,7 +265,7 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	case S_CONVEX:
 		if (msh == false)
 		{
-			shape == S_NONE;
+			shape = S_NONE;
 		}
 		else
 		{

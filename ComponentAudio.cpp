@@ -5,6 +5,7 @@
 #include "Application.h"
 
 #include "GameObject.h"
+#include "Random.h"
 
 #include "imgui\imgui.h"
 

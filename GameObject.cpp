@@ -24,6 +24,8 @@
 #include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
 
+#include "Random.h"
+
 GameObject::GameObject()
 {
 	name.resize(30);
@@ -151,7 +153,7 @@ bool GameObject::RemoveChild(GameObject* child)
 
 void GameObject::RemoveAllChilds()
 {
-	for (int i = 0; i < childs.size(); i++)
+	for (size_t i = 0; i < childs.size(); i++)
 	{
 		App->go_manager->FastRemoveGameObject(childs[i]);
 	}
@@ -456,6 +458,22 @@ Component* GameObject::GetComponent(ComponentType type)const
 	return nullptr;
 }
 
+Component* GameObject::GetComponentInChilds(ComponentType type) const
+{
+	Component* ret = nullptr;
+	if ((ret = GetComponent(type)) != nullptr)
+		return ret;
+	vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		if ((ret = (*it)->GetComponentInChilds(type)) != nullptr)
+		{
+			return ret;
+		}
+	}
+	return ret;
+}
+
 void GameObject::RemoveComponent(Component * component)
 {
 	//Search if the component exists inside the GameObject
@@ -576,7 +594,7 @@ bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 			float distance;
 			vec hit_point;
 			Triangle triangle;
-			for (int i = 0; i < mesh->num_indices; i+=3)
+			for (unsigned int i = 0; i < mesh->num_indices; i+=3)
 			{
 				u1 = mesh->indices[i];
 				u2 = mesh->indices[i+1];

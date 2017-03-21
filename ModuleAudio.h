@@ -6,7 +6,7 @@
 
 #include <string>
 
-class SoundBank;
+struct SoundBank;
 
 struct AudioEvent
 {
