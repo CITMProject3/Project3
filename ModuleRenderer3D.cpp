@@ -254,13 +254,10 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
-			if ((*obj)->IsActive())
-			{
 				if ((*obj)->GetComponent(C_UI_IMAGE))
 					DrawUIImage(*obj);
 				else if ((*obj)->GetComponent(C_UI_TEXT))
-					DrawUIText(*obj);
-			}	
+					DrawUIText(*obj);	
 		}
 	}
 

@@ -67,11 +67,17 @@ void ComponentCanvas::Remove()
 
 vector<GameObject*> ComponentCanvas::GetUI()
 {
-	vector<GameObject*> tmp_childs = (*GetGameObject()->GetChilds());
+	vector<GameObject*> tmp_childs;
 	for (vector<GameObject*>::const_iterator obj = (*GetGameObject()->GetChilds()).begin(); obj != (*GetGameObject()->GetChilds()).end(); ++obj)
 	{
-		vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
-		tmp_childs.insert(tmp_childs.end(), obj_childs.begin(), obj_childs.end());
+		
+		if ((*obj)->IsActive())
+		{
+			tmp_childs.push_back(*obj);
+			vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
+			tmp_childs.insert(tmp_childs.end(), obj_childs.begin(), obj_childs.end());
+		}
+		
 	}
 
 	return tmp_childs;
@@ -83,8 +89,11 @@ vector<GameObject*> ComponentCanvas::GetGameObjectChilds(GameObject * go)
 
 	for (vector<GameObject*>::const_iterator obj = (*go->GetChilds()).begin(); obj != (*go->GetChilds()).end(); ++obj)
 	{
-		vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
-		tmp_childs.insert(tmp_childs.end(), obj_childs.begin(), obj_childs.end());
+		if ((*obj)->IsActive())
+		{
+			vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
+			tmp_childs.insert(tmp_childs.end(), obj_childs.begin(), obj_childs.end());
+		}
 	}
 
 	return tmp_childs;
