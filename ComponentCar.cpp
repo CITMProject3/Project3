@@ -572,7 +572,14 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Drifting
-		
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		{
+			StartDrift();
+		}
+		else if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
+		{
+			EndDrift();
+		}
 	
 		//Acrobatics
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
@@ -734,7 +741,9 @@ void ComponentCar::Acrobatics(PLAYER p)
 	if (acro_back && acro_front)
 	{
 		//Apply turbo
-		current_turbo = T_MINI;
+		//current_turbo = T_MINI;
+
+		to_drift_turbo = true;
 
 		acro_front = false;
 		acro_back = false;
@@ -894,6 +903,12 @@ void ComponentCar::EndDrift()
 	turn_current = 0;
 	vehicle->SetFriction(car->frictionSlip);
 	drifting = false;
+
+	//New turbo
+	if (to_drift_turbo)
+	{
+		current_turbo = T_MINI;
+	}
 	//Old turbo
 	/*
 	float data[16];
