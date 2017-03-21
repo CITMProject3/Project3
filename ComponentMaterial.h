@@ -29,7 +29,7 @@ private:
 	bool ChangeTextureNoMaterial(std::string tex_num,int num);
 	void ChangeTexture(std::string tex_num, Uniform* &value);
 	void RefreshTextures();
-	void AddTexture();
+	bool AddTexture();
 	void CleanUp();
 
 public:

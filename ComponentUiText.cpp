@@ -50,7 +50,7 @@ void ComponentUiText::OnInspector(bool debug)
 
 		if (UImaterial->DefaultMaterialInspector())
 		{
-			OnChangeTexture();
+			GenerateFont(); 
 		}
 		if (ImGui::Button("Change Text"))
 		{
@@ -161,7 +161,7 @@ void ComponentUiText::SetText(string &text)
 void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
-	//OnChangeTexture();
+	OnChangeTexture();
 }
 
 bool ComponentUiText::OnChangeTexture()

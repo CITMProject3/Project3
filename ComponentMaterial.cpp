@@ -299,13 +299,17 @@ void ComponentMaterial::Load(Data & conf)
 bool ComponentMaterial::DefaultMaterialInspector()
 {
 	bool ret = false;
-	AddTexture();
+	ret = AddTexture();
 	int i = 0;
+	bool ret_tmp = false;
 	for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 	{
+		
 		ImGui::Text("%s", (*it).first.data());
 		ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
-		ret = ChangeTextureNoMaterial((*it).first,i);
+		ret_tmp = ChangeTextureNoMaterial((*it).first,i);
+		if (ret_tmp)
+			ret = true;
 		i++;
 	}
 
@@ -526,8 +530,9 @@ void ComponentMaterial::RefreshTextures()
 	}
 }
 
-void ComponentMaterial::AddTexture()
+bool ComponentMaterial::AddTexture()
 {
+	bool ret = false;
 	ImGui::Text("Add Texture: ");
 	ImGui::SameLine();
 	std::string str = ("##AddTexture");
@@ -548,6 +553,7 @@ void ComponentMaterial::AddTexture()
 					tex_resources.push_back(rc_tmp);
 					texture_ids.insert(pair<string, uint>(to_string(texture_ids.size()), rc_tmp->GetTexture()));
 					list_textures_paths.push_back(path);
+					ret = true;
 				}
 				else
 				{
@@ -557,6 +563,7 @@ void ComponentMaterial::AddTexture()
 		}
 		ImGui::EndMenu();
 	}
+	return ret;
 }
 
 void ComponentMaterial::CleanUp()

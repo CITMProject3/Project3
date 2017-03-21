@@ -165,6 +165,11 @@ void ComponentRectTransform::SetSize(const float2 & size)
 	rect_size = size;
 }
 
+float2 ComponentRectTransform::GetRectSize() const
+{
+	return rect_size;
+}
+
 void ComponentRectTransform::ResizePlane()
 {
 	plane->mesh->vertices[0] = 0.0f;

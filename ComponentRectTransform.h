@@ -44,6 +44,7 @@ public:
 
 	void SetLocalPos(const vec &local_pos);
 	void SetSize(const float2 &size);
+	float2 GetRectSize()const;
 	void ResizePlane();
 	
 	// Save

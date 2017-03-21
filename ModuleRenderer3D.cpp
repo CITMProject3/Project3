@@ -874,9 +874,11 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 {
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 
-
 	ComponentUiText* t = (ComponentUiText*)obj->GetComponent(C_UI_TEXT);
 	if (t == nullptr)
+		return;
+	
+	if (t->UImaterial->texture_ids.size() <= 0)
 		return;
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -891,9 +893,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	glMatrixMode(GL_MODELVIEW);             // Select Modelview Matrix
 	glPushMatrix();							// Push The Matrix
 	glLoadIdentity();
-
-
-
 
 	switch (t->UImaterial->alpha)
 	{
@@ -913,21 +912,24 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	string text = t->GetText();
 	string data_values = t->GetArrayValues();
 	int row_chars = t->GetCharRows();
-	float letter_w = t->GetCharwidth();
+	float letter_w = c->GetRectSize().x;
 	float letter_h = t->GetCharHeight();
 	float2 pos = float2(c->GetLocalPos().ptr());
-	float x = pos.x;
-	float y = pos.y;
+	float x = 0;
+	float y = 0;
 	Mesh* mesh = c->GetMesh();
 	float4x4 m = c->GetFinalTransform();
 	glMultMatrixf(*m.Transposed().v);
+	float4x4 tmp = float4x4::identity;
 	for (int i = 0; i < text.length(); i++)
 	{
 		for (uint j = 0; j < data_values.length(); ++j)
 		{
 			if (data_values[j] == text[i])
 			{
-				glTranslatex(letter_w,0,0);
+				
+				
+				glMultMatrixf(*tmp.Transposed().v);
 				if (t->UImaterial->texture_ids.size()>j)
 				{
 					// Texture
@@ -950,7 +952,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 				
-				
+				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
 				x += letter_w;
 			}
 		}
