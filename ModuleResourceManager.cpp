@@ -532,6 +532,7 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 
 	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -613,6 +614,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 		const char* terrain = scene.GetString("terrain");
 		const char*  terrain_texture = scene.GetString("terrain_texture");
+		float scaling = scene.GetFloat("terrain_scaling");
 
 		if (terrain)
 		{
@@ -623,6 +625,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		{
 			App->physics->LoadTexture(terrain_texture);
 		}
+
+		App->physics->SetTerrainHeightScale(scaling);
 
 
 		ret = true;

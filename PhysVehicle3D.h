@@ -20,7 +20,7 @@ struct Wheel
 	bool front; // is front wheel ?
 	bool drive; // does this wheel received engine power ?
 	bool brake; // does breakes affect this wheel ?
-	bool steering; // does this wheel turns ?
+	bool steering; // does this wheel turn ?
 };
 
 struct VehicleInfo
@@ -55,6 +55,7 @@ public:
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
+	void SetModularVelocity(double v);
 	float GetKmh() const;
 	vec GetPos()const;
 public:
