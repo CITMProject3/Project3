@@ -466,8 +466,8 @@ void ComponentCar::HandlePlayerInput()
 			Reset();
 		}
 	}*/
-	//JoystickControls(&accel, &brake, &turning);
-	//ApplyTurbo();
+	JoystickControls(&accel, &brake, &turning);
+	ApplyTurbo();
 
 	//Acrobactics control
 	if (acro_on)
@@ -510,7 +510,32 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
-		//Insert here all the new mechanics
+		//Insert here all the new mechanicsç
+
+		//Back player-------------------
+
+		//Leaning
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
+		{
+			Leaning(*accel);
+		}
+
+		//Acrobatics
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(back_player);
+		}
+		//Power Up
+
+		//Push
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
+		{
+			Push(accel);
+		}
+
+		//Slide attack
+
+
 		//Front player------------------
 		//Acceleration
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
@@ -546,29 +571,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(front_player);
 		}
 
-		//Back player-------------------
-
-		//Leaning
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
-		{
-			Leaning(*accel);
-		}
-
-		//Acrobatics
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
-		{
-			Acrobatics(back_player);
-		}
-		//Power Up
-
-		//Push
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
-		{
-			Push(accel);
-		}
-
-		//Slide attack
-
+		
 
 	}
 }
@@ -722,6 +725,7 @@ void ComponentCar::Acrobatics(PLAYER p)
 	if (acro_back && acro_front)
 	{
 		//Apply turbo
+		current_turbo = T_MINI;
 
 		acro_front = false;
 		acro_back = false;
@@ -729,6 +733,8 @@ void ComponentCar::Acrobatics(PLAYER p)
 	else if(tmp_back != acro_back || tmp_front != acro_front)
 	{
 		//Start timer
+		acro_timer = 0.0f;
+
 		acro_on = true;
 	}
 }
