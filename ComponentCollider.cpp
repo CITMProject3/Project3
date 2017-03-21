@@ -30,8 +30,6 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-
 	if (App->IsGameRunning() == false || Static == true)
 	{
 		if (primitive != nullptr)
@@ -40,7 +38,7 @@ void ComponentCollider::Update()
 			float3 translate;
 			Quat rotation;
 			float3 scale;
-			trs->GetGlobalMatrix().Decompose(translate, rotation, scale);
+			game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
 			translate += offset_pos;
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
@@ -61,7 +59,7 @@ void ComponentCollider::Update()
 			primitive->SetRotation(rotation.Inverted());
 			primitive->Render();
 			float3 real_offset = rotation.Transform(offset_pos);
-			trs->Set(float4x4::FromTRS(translate - real_offset, rotation, trs->GetScale()));
+			game_object->transform->Set(float4x4::FromTRS(translate - real_offset, rotation, game_object->transform->GetScale()));
 		}
 	}
 
@@ -235,8 +233,7 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 	if (msh && shape != new_shape)
 	{
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		offset_pos = msh->GetBoundingBox().CenterPoint() - trs->GetPosition();
+		offset_pos = msh->GetBoundingBox().CenterPoint() - game_object->transform->GetPosition();
 	}
 	else
 	{
@@ -268,7 +265,7 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	case S_CONVEX:
 		if (msh == false)
 		{
-			shape == S_NONE;
+			shape = S_NONE;
 		}
 		else
 		{
@@ -305,7 +302,6 @@ void ComponentCollider::LoadShape()
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
 			break;
 		}

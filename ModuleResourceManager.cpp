@@ -1,14 +1,19 @@
-#include "Application.h"
 #include "ModuleResourceManager.h"
-#include "TextureImporter.h"
-#include "MeshImporter.h"
-#include "Random.h"
-#include "Data.h"
+
+#include "Application.h"
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
+#include "ModulePhysics3D.h"
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "Random.h"
 #include "Assets.h"
+#include "Time.h"
+
 #include "ShaderComplier.h"
+#include "TextureImporter.h"
+#include "MeshImporter.h"
 
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
@@ -19,9 +24,6 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
 #include "ResourceFilePrefab.h"
-
-#include "Glew\include\glew.h"
-#include <gl\GL.h>
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -34,11 +36,9 @@
 #pragma comment ( lib, "Devil/libx86/DevIL.lib" )
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
-#include <map>
 
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
-{
-}
+{ }
 
 ModuleResourceManager::~ModuleResourceManager()
 {
@@ -337,6 +337,29 @@ string ModuleResourceManager::UpdateFolderWithMeta(const string& meta_path)
 	return library_path;
 }
 
+void ModuleResourceManager::InputFileDropped(list<string>& files)
+{
+	//Classify not mesh files and mesh files
+	vector<string> non_mesh_files, mesh_files;
+	for (list<string>::iterator it = files.begin(); it != files.end(); ++it)
+	{
+		bool is_mesh = false;
+		if (App->file_system->IsDirectoryOutside((*it).data()) == false)
+			if (GetFileExtension((*it).data()) == FileType::MESH)
+				is_mesh = true;
+		if (is_mesh)
+			mesh_files.push_back(*it);
+		else
+			non_mesh_files.push_back(*it);
+	}
+
+	for (vector<string>::iterator it = non_mesh_files.begin(); it != non_mesh_files.end(); ++it)
+		FileDropped((*it).data());
+
+	for (vector<string>::iterator it = mesh_files.begin(); it != mesh_files.end(); ++it)
+		FileDropped((*it).data());
+}
+
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
 	//Files extensions accepted
@@ -510,6 +533,10 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -580,7 +607,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		//Remove the current scene
 		App->go_manager->ClearScene();
 
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			if (i == 0)
 				App->go_manager->root = App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
@@ -588,6 +615,24 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
 		App->go_manager->SetCurrentScenePath(file_name);
+
+		const char* terrain = scene.GetString("terrain");
+		const char*  terrain_texture = scene.GetString("terrain_texture");
+		float scaling = scene.GetFloat("terrain_scaling");
+
+		if (terrain)
+		{
+			App->physics->GenerateHeightmap(terrain);
+		}
+
+		if (terrain_texture)
+		{
+			App->physics->LoadTexture(terrain_texture);
+		}
+
+		App->physics->SetTerrainHeightScale(scaling);
+
+
 		ret = true;
 	}
 	else
@@ -820,7 +865,7 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
 	// Extensions must always contain 3 letters!
-	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
+	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ", "dae"};
 	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
@@ -832,7 +877,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
 
@@ -1238,7 +1283,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	map<unsigned int, unsigned int> uuids;
 	if (root_objects.IsNull() == false)
 	{
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
 		}
@@ -1294,7 +1339,7 @@ void ModuleResourceManager::CheckDirectoryModification(Directory * directory)
 	for (vector<AssetFile*>::iterator file = files_to_remove.begin(); file != files_to_remove.end(); ++file)
 		App->editor->assets->DeleteMetaAndLibraryFile((*file));
 
-	for (int i = 0; i < files_to_replace.size(); i++)
+	for (size_t i = 0; i < files_to_replace.size(); i++)
 	{
 		ImportFile(files_to_replace[i].data(), directory->path, directory->library_path, uuids[i]);
 		ResourceFile* rc = FindResourceByUUID(uuids[i]);

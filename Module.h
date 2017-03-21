@@ -11,9 +11,12 @@ struct PhysBody3D;
 
 class Module
 {
+
 private :
+
 	bool enabled;
 	std::string name;
+
 public:
 
 	Module (const char* name, bool start_enabled = true) : name(name)

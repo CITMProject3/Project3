@@ -27,11 +27,14 @@ public:
 	void SetRotation(float x, float y, float z);
 	void SetAngularSpeed(float x, float y, float z);
 	void SetLinearSpeed(float x, float y, float z);
+	void SetModularSpeed(float s);
+
 	math::vec GetPosition()const;
 
 	btTransform GetRealTransform()const;
 	void ApplyCentralForce(btVector3& force);
 
+	void SetFriction(float friction);
 	void SetBounciness(const float restitution,const float friction);
 
 private:

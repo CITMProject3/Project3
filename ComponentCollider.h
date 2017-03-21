@@ -5,7 +5,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 class btConvexHullShape;
-class PhysBody3D;
+struct PhysBody3D;
 class Primitive;
 
 enum Collider_Shapes

@@ -11,6 +11,8 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
 
+#include "Time.h"
+
 bool Animation::Advance(float dt)
 {
 	time += dt;
@@ -202,7 +204,7 @@ void ComponentAnimation::AddAnimation()
 	if (defCount > 0)
 		new_name.append(std::to_string(defCount));
 
-	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, 24);
+	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, rAnimation->ticks_per_second);
 }
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
@@ -331,9 +333,9 @@ bool ComponentAnimation::StartAnimation()
 	return started;
 }
 
-void ComponentAnimation::Update(float dt)
+void ComponentAnimation::Update()
 {
-	if (dt > 0.0f)
+	if (App->IsGameRunning())
 	{
 		if (playing == true)
 		{
@@ -345,8 +347,8 @@ void ComponentAnimation::Update(float dt)
 
 			if (blend_animation != nullptr)
 			{
-				blend_time += dt;
-				if (blend_animation->Advance(dt) == false)
+				blend_time += time->DeltaTime();
+				if (blend_animation->Advance(time->DeltaTime()) == false)
 				{
 					blend_animation = nullptr;
 				}
@@ -358,7 +360,7 @@ void ComponentAnimation::Update(float dt)
 				}
 			}
 			
-			if (current_animation->Advance(dt) == false)
+			if (current_animation->Advance(time->DeltaTime()) == false)
 			{
 				playing = false;
 			}
@@ -377,23 +379,23 @@ void ComponentAnimation::UpdateBonesTransform(const Animation* settings, const A
 
 	for (uint i = 0; i < links.size(); i++)
 	{
-		ComponentTransform* transform = (ComponentTransform*)links[i].gameObject->GetComponent(C_TRANSFORM);
+		GameObject *go = links[i].gameObject;
 
-		float3 position = GetChannelPosition(links[i], current_frame, transform->GetPosition(), *settings);
-		Quat rotation = GetChannelRotation(links[i], current_frame, transform->GetRotation(), *settings);
-		float3 scale = GetChannelScale(links[i], current_frame, transform->GetScale(), *settings);
+		float3 position = GetChannelPosition(links[i], current_frame, go->transform->GetPosition(), *settings);
+		Quat rotation = GetChannelRotation(links[i], current_frame, go->transform->GetRotation(), *settings);
+		float3 scale = GetChannelScale(links[i], current_frame, go->transform->GetScale(), *settings);
 
 		if (blend != nullptr)
 		{
 			uint blend_frame = blend->start_frame + blend->ticks_per_second * blend->time;
-			position = float3::Lerp(GetChannelPosition(links[i], blend_frame, transform->GetPosition(), *blend), position, blendRatio);
-			rotation = Quat::Slerp(GetChannelRotation(links[i], blend_frame, transform->GetRotation(), *blend), rotation, blendRatio);
-			scale = float3::Lerp(GetChannelScale(links[i], blend_frame, transform->GetScale(), *blend), scale, blendRatio);
+			position = float3::Lerp(GetChannelPosition(links[i], blend_frame, go->transform->GetPosition(), *blend), position, blendRatio);
+			rotation = Quat::Slerp(GetChannelRotation(links[i], blend_frame, go->transform->GetRotation(), *blend), rotation, blendRatio);
+			scale = float3::Lerp(GetChannelScale(links[i], blend_frame, go->transform->GetScale(), *blend), scale, blendRatio);
 		}
 
-		transform->SetPosition(position);
-		transform->SetRotation(rotation);
-		transform->SetScale(scale);
+		go->transform->SetPosition(position);
+		go->transform->SetRotation(rotation);
+		go->transform->SetScale(scale);
 	}
 }
 

@@ -1,10 +1,15 @@
 #include "Application.h"
-#include "ResourceFilePrefab.h"
+
+#include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
-#include "ModuleFileSystem.h"
-#include "ModuleGOManager.h"
+
+#include "ResourceFilePrefab.h"
+
+#include "Random.h"
 
 ResourceFilePrefab::ResourceFilePrefab(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {}
@@ -31,7 +36,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	if (root_objects.IsNull() == false)
 	{
 		GameObject* root = nullptr;
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			root = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
 
@@ -102,7 +107,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 
 	Data component;
 	unsigned int comp_size = root_prefab.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (size_t i = 0; i < comp_size; i++)
 	{
 		component = root_prefab.GetArray("components", i);
 
@@ -117,7 +122,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(0); //To update the matrix manually
+			c_transform->Update(); //To update the matrix manually
 		}
 	}
 
@@ -141,7 +146,7 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	uuids.insert(pair<unsigned int, unsigned int>(local_uuid, uuid));
 	list<GameObject*> parents;
 	parents.push_back(game_object);
-	for (int i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
+	for (size_t i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
 	{
 		//Read the uuid of the prefab
 		//find the local uuid of the child
@@ -266,7 +271,7 @@ void ResourceFilePrefab::CreateChildsByUUID(const Data & go_data, map<unsigned i
 	//Components
 	Data component;
 	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = go_data.GetArray("components", i);
 
@@ -275,7 +280,7 @@ void ResourceFilePrefab::CreateChildsByUUID(const Data & go_data, map<unsigned i
 		if (type != (int)ComponentType::C_TRANSFORM)
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
-			go_component = (Component*)go->GetComponent(C_TRANSFORM);
+			go_component = (Component*)go->transform;
 		go_component->Load(component);
 	}
 
@@ -390,7 +395,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 
 	Data component;
 	unsigned int comp_size = root_prefab.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = root_prefab.GetArray("components", i);
 
@@ -405,7 +410,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 		{
 			float4x4 transform_matrix = component.GetMatrix("matrix");
 			c_transform->SetScale(transform_matrix.GetScale());
-			c_transform->Update(0); //To update the matrix manually
+			c_transform->Update(); //To update the matrix manually
 		}
 	}
 
@@ -419,7 +424,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	origin->CollectChildrenUUID(c_childs_uuid, c_childs_local_uuid);
 	Data child_uuid_info;
 	map<unsigned int, unsigned int> childs_uuid;
-	for (int i = 0; i < c_childs_uuid.size(); i++)
+	for (size_t i = 0; i < c_childs_uuid.size(); i++)
 	{
 		
 		int child_uuid = c_childs_uuid[i];
@@ -432,7 +437,7 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	uuids.insert(pair<unsigned int, unsigned int>(local_uuid, uuid));
 	list<GameObject*> parents;
 	parents.push_back(game_object);
-	for (int i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
+	for (size_t i = 1; i < prefab_file.GetArraySize("GameObjects"); i++)
 	{
 		//Read the uuid of the prefab
 		//find the local uuid of the child

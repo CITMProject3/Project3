@@ -1,12 +1,18 @@
 #include "Application.h"
-#include "ComponentMaterial.h"
+
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "ComponentMaterial.h"
+
 #include "imgui\imgui.h"
 #include "Data.h"
+
 #include "ResourceFileTexture.h"
-#include "Assets.h"
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
+
+#include "Assets.h"
 #include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -101,6 +107,9 @@ void ComponentMaterial::OnInspector(bool debug)
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 			ChooseAlphaType();
 
+			ImGui::Text("Specular: "); ImGui::SameLine();
+			ImGui::DragFloat("###mat_specular", &specular, 0.01f, 0.0f, 1.0f);
+
 		}
 		else
 		{
@@ -118,11 +127,6 @@ void ComponentMaterial::OnInspector(bool debug)
 	}
 }
 
-void ComponentMaterial::Update(float dt)
-{
-
-	
-}
 
 void ComponentMaterial::Save(Data & file)const
 {
@@ -136,6 +140,7 @@ void ComponentMaterial::Save(Data & file)const
 	data.AppendUInt("blend_type", blend_type);
 	data.AppendFloat("alpha_test", alpha_test);
 	data.AppendFloat3("color", color);
+	data.AppendFloat("specular", specular);
 	data.AppendBool("texture_changed", texture_changed);
 
 	if (material_path.size() == 0 || texture_changed)
@@ -164,6 +169,7 @@ void ComponentMaterial::Load(Data & conf)
 		alpha = conf.GetUInt("alpha");
 		blend_type = conf.GetUInt("blend_type");
 		alpha_test = conf.GetFloat("alpha_test");
+		specular = conf.GetFloat("specular");
 		float3 color_tmp = conf.GetFloat3("color");
 		color[0] = color_tmp[0]; color[1] = color_tmp[1]; color[2] = color_tmp[2]; color[3] = color_tmp[3];
 		texture_changed = conf.GetBool("texture_changed");
@@ -269,7 +275,7 @@ void ComponentMaterial::Load(Data & conf)
 		Data texture;
 
 		unsigned int tex_size = conf.GetArraySize("textures");
-		for (int i = 0; i < tex_size; i++)
+		for (unsigned int i = 0; i < tex_size; i++)
 		{
 			texture = conf.GetArray("textures", i);
 
@@ -365,7 +371,7 @@ void ComponentMaterial::ChooseAlphaType()
 
 	if (alpha > 0)
 	{
-		if (ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f));
+		ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f);
 	}
 
 	if (alpha == 2)

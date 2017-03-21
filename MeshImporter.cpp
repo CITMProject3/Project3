@@ -21,6 +21,7 @@
 #include "ComponentBone.h"
 #include "ModuleResourceManager.h"
 #include "ModuleRenderer3D.h"
+#include "Random.h"
 
 bool MeshImporter::Import(const char * file, const char * path, const char* base_path, vector<unsigned int>& uuids, vector<unsigned int>& uuids_anim, vector<unsigned int>& uuids_bones)
 {
@@ -34,7 +35,7 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 		return ret;
 	}
 
-	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, NULL);
+	const aiScene* scene = aiImportFileFromMemory(buff, size, aiProcessPreset_TargetRealtime_MaxQuality, nullptr);
 
 	if (scene != nullptr && scene->HasMeshes())
 	{
@@ -143,18 +144,16 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 	go_root->name = name;
 
-	ComponentTransform* c_transform = (ComponentTransform*)go_root->GetComponent(C_TRANSFORM);
+	go_root->transform->SetPosition(pos);
+	go_root->transform->SetRotation(rot);
+	go_root->transform->SetScale(scale);
 
-	c_transform->SetPosition(pos);
-	c_transform->SetRotation(rot);
-	c_transform->SetScale(scale);
-
-	c_transform->Update(0); //Force it to update the matrix
+	go_root->transform->Update(); //Force it to update the matrix
 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();
 
-	for (int i = 0; i < node->mNumMeshes; i++)
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		GameObject* child = nullptr;
 
@@ -217,7 +216,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 				//Normal map
 				aiString normal_path;
-				material->GetTexture(aiTextureType_HEIGHT, 0, &normal_path);
+				material->GetTexture(aiTextureType_NORMALS, 0, &normal_path);
 				string normal_complete_path;
 				if (normal_path.length > 0)
 				{
@@ -239,7 +238,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 			}	
 		}
 	}
-	for (int i = 0; i < node->mNumChildren; i++)
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
 		MeshImporter::ImportNode(node->mChildren[i], scene, go_root, created_go, boned_meshes, boned_game_objects, mesh_file_directory, folder_path, uuids);
 }
 
@@ -278,7 +277,7 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 	{
 		mesh.num_uvs = mesh_to_load->mNumVertices; //Same size as vertices
 		mesh.uvs = new float[mesh.num_uvs * 2];
-		for (int uvs_item = 0; uvs_item < mesh.num_uvs; uvs_item++)
+		for (unsigned int uvs_item = 0; uvs_item < mesh.num_uvs; uvs_item++)
 		{
 			memcpy(&mesh.uvs[uvs_item * 2], &mesh_to_load->mTextureCoords[0][uvs_item].x, sizeof(float));
 			memcpy(&mesh.uvs[(uvs_item * 2) + 1], &mesh_to_load->mTextureCoords[0][uvs_item].y, sizeof(float));
@@ -499,9 +498,17 @@ void MeshImporter::LoadBuffers(Mesh* mesh)
 
 void MeshImporter::DeleteBuffers(Mesh* mesh)
 {
-	App->renderer3D->RemoveBuffer(mesh->id_vertices);
-	App->renderer3D->RemoveBuffer(mesh->id_indices);
-	App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	if (mesh != nullptr)
+	{
+		App->renderer3D->RemoveBuffer(mesh->id_vertices);
+		App->renderer3D->RemoveBuffer(mesh->id_indices);
+		App->renderer3D->RemoveBuffer(mesh->id_uvs);
+	}
+	else
+	{
+		LOG("Warning: Delete Buffers call on a null mesh");
+	}
+
 }
 
 void MeshImporter::CollectGameObjects(GameObject* root, std::vector<GameObject*> vector)
@@ -731,19 +738,17 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 
 	go_root->name = name;
 
-	ComponentTransform* c_transform = (ComponentTransform*)go_root->GetComponent(C_TRANSFORM);
+	go_root->transform->SetPosition(pos);
+	go_root->transform->SetRotation(rot);
+	go_root->transform->SetScale(scale);
 
-	c_transform->SetPosition(pos);
-	c_transform->SetRotation(rot);
-	c_transform->SetScale(scale);
-
-	c_transform->Update(0); //Force it to update the matrix
+	go_root->transform->Update(); //Force it to update the matrix
 
 	if (node->mName.length > 0)
 		go_root->name = node->mName.C_Str();
 
 
-	for (int i = 0; i < node->mNumMeshes; i++)
+	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		GameObject* child = nullptr;
 
@@ -828,7 +833,7 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 		}
 	}
 
-	for (int i = 0; i < node->mNumChildren; i++)
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
 		MeshImporter::ImportNodeUUID(node->mChildren[i], scene, go_root, created_go, boned_meshes, boned_game_objects, mesh_file_directory, folder_path, uuids);
 }
 
@@ -867,7 +872,7 @@ bool MeshImporter::ImportMeshUUID(const aiMesh * mesh_to_load, const char * fold
 	{
 		mesh.num_uvs = mesh_to_load->mNumVertices; //Same size as vertices
 		mesh.uvs = new float[mesh.num_uvs * 2];
-		for (int uvs_item = 0; uvs_item < mesh.num_uvs; uvs_item++)
+		for (unsigned int uvs_item = 0; uvs_item < mesh.num_uvs; uvs_item++)
 		{
 			memcpy(&mesh.uvs[uvs_item * 2], &mesh_to_load->mTextureCoords[0][uvs_item].x, sizeof(float));
 			memcpy(&mesh.uvs[(uvs_item * 2) + 1], &mesh_to_load->mTextureCoords[0][uvs_item].y, sizeof(float));

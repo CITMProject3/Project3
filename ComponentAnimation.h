@@ -8,7 +8,7 @@
 #include <map>
 
 class GameObject;
-class Channel;
+struct Channel;
 class ComponentMesh;
 class ComponentBone;
 
@@ -69,7 +69,7 @@ public:
 	void SetResource(ResourceFileAnimation* resource);
 
 	bool StartAnimation();
-	void Update(float dt);
+	void Update();
 
 private:
 	void UpdateBonesTransform(const Animation* settings, const Animation* blend, float blendRatio);

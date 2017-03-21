@@ -17,7 +17,6 @@ public:
 	~ComponentMaterial();
 
 	void OnInspector(bool debug);
-	void Update(float dt);
 
 	void Save(Data& file)const;
 	void Load(Data& conf);
@@ -40,6 +39,7 @@ public:
 	int alpha = 0;
 	float alpha_test = 0.25f;
 	int blend_type = 0;
+	float specular = 0.0f;
 
 	std::vector<std::string> list_textures_paths; //Default textures from fbx
 

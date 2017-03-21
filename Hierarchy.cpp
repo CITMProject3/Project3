@@ -1,6 +1,6 @@
 #include "Hierarchy.h"
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -13,6 +13,8 @@
 #include "ModuleInput.h"
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
+
+#include "SDL/include/SDL_scancode.h"
 
 Hierarchy::Hierarchy()
 {
@@ -162,8 +164,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 		ImGui::PopID();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
 		{
-			ComponentTransform* transform = (ComponentTransform*)(*object)->GetComponent(C_TRANSFORM);
-			App->camera->Center(transform->GetGlobalMatrix().TranslatePart());
+			App->camera->Center((*object)->transform->GetGlobalMatrix().TranslatePart());
 		}
 
 		if (ImGui::IsItemClicked(0) || ImGui::IsItemClicked(1))
@@ -180,13 +181,17 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 				}
 				setting_parent = false;
 			}
+			else if (App->editor->assign_wheel != -1)
+			{
+				App->editor->wheel_assign = *object;
+			}
 			else
 			{
 				OnClickSelect(*object);
 			}
 		}
 
-		if (hasChilds > 0 && open)
+		if (hasChilds && open)
 		{
 			DisplayGameObjectsChilds((*object)->GetChilds());
 			ImGui::TreePop();
