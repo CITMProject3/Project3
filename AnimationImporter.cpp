@@ -38,8 +38,8 @@ bool AnimationImporter::ImportAnimation(const aiAnimation* anim, const char* bas
 {
 	ResourceFileAnimation animation("", 0);
 
-	animation.full_duration = anim->mDuration;
-	animation.ticks_per_second = anim->mTicksPerSecond;
+	animation.full_duration = anim->mDuration * 24;
+	animation.ticks_per_second = anim->mTicksPerSecond * 24;
 	animation.num_channels = anim->mNumChannels;
 	animation.channels = new Channel[animation.num_channels];
 
@@ -64,15 +64,15 @@ void AnimationImporter::ImportChannel(const aiNodeAnim* node, Channel& channel)
 
 	//Loading position keys
 	for (uint i = 0; i < node->mNumPositionKeys; i++)
-		channel.positionKeys[node->mPositionKeys[i].mTime] = float3(node->mPositionKeys[i].mValue.x, node->mPositionKeys[i].mValue.y, node->mPositionKeys[i].mValue.z);
+		channel.positionKeys[node->mPositionKeys[i].mTime * 24] = float3(node->mPositionKeys[i].mValue.x, node->mPositionKeys[i].mValue.y, node->mPositionKeys[i].mValue.z);
 
 	//Loading rotation keys
 	for (uint i = 0; i < node->mNumRotationKeys; i++)
-		channel.rotationKeys[node->mRotationKeys[i].mTime] = Quat(node->mRotationKeys[i].mValue.x, node->mRotationKeys[i].mValue.y, node->mRotationKeys[i].mValue.z, node->mRotationKeys[i].mValue.w);
+		channel.rotationKeys[node->mRotationKeys[i].mTime * 24] = Quat(node->mRotationKeys[i].mValue.x, node->mRotationKeys[i].mValue.y, node->mRotationKeys[i].mValue.z, node->mRotationKeys[i].mValue.w);
 
 	//Loading scale keys
 	for (uint i = 0; i < node->mNumScalingKeys; i++)
-		channel.scaleKeys[node->mScalingKeys[i].mTime] = float3(node->mScalingKeys[i].mValue.x, node->mScalingKeys[i].mValue.y, node->mScalingKeys[i].mValue.z);
+		channel.scaleKeys[node->mScalingKeys[i].mTime * 24] = float3(node->mScalingKeys[i].mValue.x, node->mScalingKeys[i].mValue.y, node->mScalingKeys[i].mValue.z);
 }
 
 bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* folder_path, std::string& output_name, unsigned int& uuid)

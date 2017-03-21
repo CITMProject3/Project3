@@ -535,6 +535,7 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 
 	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -616,6 +617,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 		const char* terrain = scene.GetString("terrain");
 		const char*  terrain_texture = scene.GetString("terrain_texture");
+		float scaling = scene.GetFloat("terrain_scaling");
 
 		if (terrain)
 		{
@@ -626,6 +628,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		{
 			App->physics->LoadTexture(terrain_texture);
 		}
+
+		App->physics->SetTerrainHeightScale(scaling);
 
 
 		ret = true;
@@ -860,7 +864,7 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
 	// Extensions must always contain 3 letters!
-	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
+	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ", "dae"};
 	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
@@ -872,7 +876,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
 
