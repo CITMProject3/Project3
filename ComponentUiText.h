@@ -42,10 +42,8 @@ private:
 	uint len = 0;
 	uint img_width = 0;
 	uint img_height = 0;
-	uint char_row = 0;
 	uint char_w = 0;
 	uint char_h = 0;
-	uint rows = 0;
 
 	string current_text_changing = "";
 };

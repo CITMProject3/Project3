@@ -10,8 +10,8 @@
 ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	text = "124124"; 
-	array_values = "! @,_./0123456789$;<&?abcdefghijklmnopqrstuvwxyz";
-	rows = 1;
+	array_values = "0123456789:";
+	//rows = 1;
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
 	img_width = 100;
 	img_height = 100;
@@ -76,14 +76,6 @@ void ComponentUiText::OnInspector(bool debug)
 		{
 			SetText(array_values);
 		}
-
-		int tmp = rows;
-		ImGui::Text("Rows");
-		if (ImGui::InputInt("", &tmp, 1.0f))
-		{
-			rows = tmp;
-			GenerateFont();
-		}
 	}
 }
 
@@ -122,17 +114,17 @@ string ComponentUiText::GetArrayValues() const
 
 int ComponentUiText::GetCharRows() const
 {
-	return char_row;
+	return 0;
 }
 
 float ComponentUiText::GetCharwidth() const
 {
-	return float(char_w)/ float(img_width);
+	return char_w;
 }
 
 float ComponentUiText::GetCharHeight() const
 {
-	return float(char_h) / float(img_height);
+	return char_h;
 }
 
 float ComponentUiText::GetImgWidth() const
@@ -169,7 +161,6 @@ void ComponentUiText::SetText(string &text)
 void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
-	char_row = len / rows;
 	//OnChangeTexture();
 }
 
@@ -186,8 +177,8 @@ bool ComponentUiText::OnChangeTexture()
 		img_width = rc_tmp->GetWidth();
 		img_height = rc_tmp->GetHeight();
 
-		char_w = img_width / char_row;
-		char_h = img_height / rows;
+		char_w = img_width;
+		char_h = img_height;
 
 		ComponentRectTransform* c = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
 		c->SetSize(float2(char_w, char_h));

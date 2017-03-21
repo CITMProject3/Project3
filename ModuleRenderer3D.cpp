@@ -254,10 +254,13 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
-			if ((*obj)->GetComponent(C_UI_IMAGE))
-				DrawUIImage(*obj);
-			else if ((*obj)->GetComponent(C_UI_TEXT))
-				DrawUIText(*obj);
+			if ((*obj)->IsActive())
+			{
+				if ((*obj)->GetComponent(C_UI_IMAGE))
+					DrawUIImage(*obj);
+				else if ((*obj)->GetComponent(C_UI_TEXT))
+					DrawUIText(*obj);
+			}	
 		}
 	}
 
@@ -915,44 +918,28 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	float2 pos = float2(c->GetLocalPos().ptr());
 	float x = pos.x;
 	float y = pos.y;
-	for (int i = 0; i < strlen(text.data()); i++)
+	Mesh* mesh = c->GetMesh();
+	float4x4 m = c->GetFinalTransform();
+	glMultMatrixf(*m.Transposed().v);
+	for (int i = 0; i < text.length(); i++)
 	{
-		Mesh* mesh = c->GetMesh();
-		float4x4 m = c->GetFinalTransform();
-		m.Translate(float3(letter_w, 0, 0));
-		glMultMatrixf(*m.Transposed().v);
-		for (uint j = 0; j < t->GetLenght(); ++j)
+		for (uint j = 0; j < data_values.length(); ++j)
 		{
 			if (data_values[j] == text[i])
 			{
-				float r_x = letter_w * (j % row_chars);
-				float r_y = letter_h * (j / row_chars);
-
-				const float verts[] = {
-					0, 0,
-					0 + row_chars*letter_w, 0,
-					0 + row_chars*letter_w, 0 + letter_h * 2,
-					0, 0 + letter_h * 2
-				};
-
-				const float texVerts[] = {
-					r_x, r_y,
-					r_x + letter_w, r_y,
-					r_x + letter_w, r_y + letter_h,
-					r_x, r_y + letter_h
-				};
-
-				if (t->UImaterial->texture_ids.size()>0)
+				glTranslatex(letter_w,0,0);
+				if (t->UImaterial->texture_ids.size()>j)
 				{
 					// Texture
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, 0);
-					glBindTexture(GL_TEXTURE_2D, (*t->UImaterial->texture_ids.begin()).second);
+					glBindTexture(GL_TEXTURE_2D, (t->UImaterial->texture_ids.at(to_string(j))));
 				}
 
 				// Vertices
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
 				glVertexPointer(3, GL_FLOAT, 0, NULL);
+				
 				// Texture coordinates
 				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
 				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
@@ -962,7 +949,8 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 				// Indices
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
-				glPopMatrix();
+				
+				
 				x += letter_w;
 			}
 		}
@@ -973,7 +961,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	glPopMatrix();							  // Pop The Matrix
 	glMatrixMode(GL_MODELVIEW);               // Select Modelview
 	glPopMatrix();							  // Pop The Matrix
-	
+	glPopMatrix();
 	glEnable(GL_LIGHTING);
 
 	glDisable(GL_TEXTURE_2D);
