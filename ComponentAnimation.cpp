@@ -35,6 +35,12 @@ float Animation::GetDuration()
 	return ((float)end_frame - (float)start_frame) / ticks_per_second;
 }
 
+void Animation::SetFrameRatio(float ratio)
+{
+	if (ratio >= 0 && ratio <= 1)
+		time = GetDuration() * ratio;
+}
+
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
 {
 
@@ -54,6 +60,11 @@ void ComponentAnimation::OnInspector(bool debug)
 		{
 			PlayAnimation(current_animation->index);
 		}
+
+		ImGui::Text("Lock animation frame");
+		static float ratio;
+		if (ImGui::SliderFloat("##frameSlider", &ratio, 0.0f, 1.0f))
+			LockAnimationRatio(ratio);
 
 		ImGui::Text("Animations size: %i", animations.size());
 		ImGui::Separator();
@@ -262,6 +273,18 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
 				return;
 			}
 		}
+	}
+}
+
+void ComponentAnimation::LockAnimationRatio(float ratio)
+{
+	if (current_animation != nullptr)
+	{
+		current_animation->SetFrameRatio(ratio);
+		blend_animation = nullptr;
+		UpdateBonesTransform(current_animation, blend_animation, 0.0f);
+		UpdateMeshAnimation(game_object);
+		playing = false;
 	}
 }
 

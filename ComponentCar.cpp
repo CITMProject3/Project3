@@ -8,6 +8,7 @@
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentAnimation.h"
 
 #include "imgui/imgui.h"
 
@@ -946,6 +947,11 @@ void ComponentCar::LimitSpeed()
 
 void ComponentCar::CreateCar()
 {
+	if (p1_animation == nullptr)
+	{
+		p1_animation = (ComponentAnimation*)game_object->GetComponent(C_ANIMATION);
+	}
+
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
@@ -1030,6 +1036,14 @@ void ComponentCar::UpdateGO()
 			w_trs->SetGlobal(trans);
 			w_trs->SetScale(scale);
 		}
+	}
+
+	//Updating turn animation
+	if (p1_animation != nullptr)
+	{
+		p1_animation->PlayAnimation((uint)0, 0.0f);
+		float ratio = (turn_current + turn_max) / (turn_max + turn_max);
+		p1_animation->LockAnimationRatio(ratio);
 	}
 }
 

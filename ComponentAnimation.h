@@ -29,6 +29,7 @@ struct Animation
 	uint index;
 
 	bool Advance(float dt);
+	void SetFrameRatio(float ratio);
 	float GetDuration();
 };
 
@@ -61,6 +62,8 @@ public:
 
 	void PlayAnimation(uint index, float blendTime = 0.0f);
 	void PlayAnimation(const char* name, float blendTime = 0.0f);
+
+	void LockAnimationRatio(float ratio);
 	//-------------------------------------------
 
 	void LinkAnimation();
@@ -90,8 +93,9 @@ public:
 	Animation* blend_animation = nullptr;
 
 	bool playing = true;
-
 	bool linked = false;
+
+
 
 private:
 	ResourceFileAnimation* rAnimation;
