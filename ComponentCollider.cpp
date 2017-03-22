@@ -289,20 +289,20 @@ void ComponentCollider::LoadShape()
 		{
 		case S_CUBE:
 		{
-			body = App->physics->AddBody(*((Cube_P*)primitive), game_object, _mass);
+			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_SPHERE:
 		{
-			body = App->physics->AddBody(*((Sphere_P*)primitive), game_object, _mass);
+			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			body = App->physics->AddBody(*msh, game_object, _mass, false, &convexShape);
+			body = App->physics->AddBody(*msh, this, _mass, false, &convexShape);
 			break;
 		}
 		}

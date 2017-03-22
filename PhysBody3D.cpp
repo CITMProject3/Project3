@@ -1,10 +1,19 @@
+#include "Globals.h"
+
 #include "PhysBody3D.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 
 // =================================================
-PhysBody3D::PhysBody3D(btRigidBody* body, GameObject* go) : body(body)
+PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCollider* col) : body(body)
 {
-	this->go = go;
+	collider = col;
+	body->setUserPointer(this);
+}
+
+PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
+{
+	car = col;
+	collisionOptions = SetFlag(collisionOptions, co_isCar, true);
 	body->setUserPointer(this);
 }
 

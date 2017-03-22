@@ -10,7 +10,8 @@ class btRigidBody;
 class btTransform;
 class btVector3;
 class Module;
-class GameObject;
+class ComponentCollider;
+class ComponentCar;
 
 // =================================================
 struct PhysBody3D
@@ -21,7 +22,7 @@ public:
 	enum E_collisionOptions {//Flags for collision options. 8 bools stared in one byte
 		co_isTrigger = 0x01,		//00000001
 		co_isTransparent = 0x02,	//00000010
-		co_isPlayer = 0x04,			//00000100
+		co_isCar = 0x04,			//00000100
 		co_isItem = 0x08,			//00001000
 		co_isOutOfBounds = 0x10,	//00010000
 		co_isCheckpoint = 0x20,		//00100000
@@ -29,7 +30,8 @@ public:
 		co_none = 0x80				//10000000
 	};
 
-	PhysBody3D(btRigidBody* body, GameObject* go);
+	PhysBody3D(btRigidBody* body, ComponentCollider* col);
+	PhysBody3D(btRigidBody* body, ComponentCar* car);
 	~PhysBody3D();
 
 	void Push(float x, float y, float z);
@@ -50,11 +52,13 @@ public:
 	void SetFriction(float friction);
 	void SetBounciness(const float restitution,const float friction);
 
-	GameObject* GetGameobject() { return go; }
+	ComponentCollider* GetCollider() { return collider; }
+	ComponentCar* GetCar() { return car; }
 
 private:
 	btRigidBody* body = nullptr;
-	GameObject* go = nullptr;
+	ComponentCollider* collider = nullptr;
+	ComponentCar* car = nullptr;
 public:
 	unsigned char collisionOptions = 0;
 };

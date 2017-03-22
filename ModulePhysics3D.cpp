@@ -325,7 +325,7 @@ bool ModulePhysics3D::TerrainIsGenerated()
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, float mass, unsigned char flags)
+PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.push_back(colShape);
@@ -342,7 +342,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, flo
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body, go);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 	{
@@ -356,7 +356,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, flo
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float mass, unsigned char flags)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.push_back(colShape);
@@ -373,7 +373,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float m
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body, go);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
@@ -385,7 +385,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float m
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go, float mass, unsigned char flags)
+PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
 	shapes.push_back(colShape);
@@ -402,7 +402,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go,
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body, go);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
@@ -414,7 +414,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go,
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, float mass, unsigned char flags, btConvexHullShape** out_shape)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass, unsigned char flags, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
 
@@ -452,7 +452,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, 
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, simplifiedColShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body, go);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
@@ -469,7 +469,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, 
 
 
 // ---------------------------------------------------------
-PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, GameObject* go)
+PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar* col)
 {
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.push_back(comShape);
@@ -530,7 +530,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, GameObject* 
 	}
 	// ---------------------
 
-	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info, go);
+	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info, col);
 	world->addVehicle(vehicle);
 	vehicles.push_back(pvehicle);
 

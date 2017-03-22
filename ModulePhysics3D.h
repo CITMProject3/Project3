@@ -21,7 +21,8 @@ struct VehicleInfo;
 class DebugDrawer;
 class ComponentMesh;
 class ResourceFileTexture;
-class GameObject;
+class ComponentCollider;
+class ComponentCar;
 
 class btHeightfieldTerrainShape;
 
@@ -44,11 +45,11 @@ public:
 	void CleanWorld();
 	void CreateGround();
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const Cube_P& cube, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, GameObject* go, float mass = 1.0f, unsigned char flags = 0, btConvexHullShape** OUT_shape = nullptr);
-	PhysVehicle3D* AddVehicle(const VehicleInfo& info, GameObject* go);
+	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0, btConvexHullShape** OUT_shape = nullptr);
+	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();

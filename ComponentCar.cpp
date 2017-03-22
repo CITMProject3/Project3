@@ -1016,7 +1016,7 @@ void ComponentCar::CreateCar()
 	car->wheels[3].brake = true;
 	car->wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(*car, game_object);
+	vehicle = App->physics->AddVehicle(*car, this);
 }
 
 void ComponentCar::OnTransformModified()
