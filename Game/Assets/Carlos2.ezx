@@ -1,0 +1,4738 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 1312230038,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3159730148,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PortalProp_V1Normal",
+            "UUID": 2396780526,
+            "local_UUID": 0,
+            "parent": 1312230038,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3874330433,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "NormalPortal",
+            "UUID": 3561066131,
+            "local_UUID": 0,
+            "parent": 2396780526,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4043323879,
+                    "active": true,
+                    "matrix": [
+                        0.053631,
+                        0,
+                        0,
+                        -32.620201,
+                        0,
+                        0.053631,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.053631,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol1",
+            "UUID": 2273605849,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4074915339,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 905422406,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/89357823.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1254789597,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/3178449574\/3178449574.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Column",
+            "UUID": 1859358968,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3694976094,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4120221880,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/2999395236.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2382960012,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/4177825292\/4177825292.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol2",
+            "UUID": 827611230,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1869371414,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2237565201,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/976238316.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2369326156,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/3178449574\/3178449574.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol3",
+            "UUID": 3375736362,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2458362106,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2892797704,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/1595844071.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1579222843,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/3178449574\/3178449574.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Column2",
+            "UUID": 2516216525,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3116244613,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 457778516,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/269930251.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3924374200,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/4177825292\/4177825292.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Farol4",
+            "UUID": 1348575055,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1498526673,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3870896899,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/2859524367.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1445542361,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/3178449574\/3178449574.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rope1",
+            "UUID": 3427229548,
+            "local_UUID": 0,
+            "parent": 3561066131,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3242298300,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1370241225,
+                    "active": true,
+                    "path": "\/Library\/102184675\/3377220253\/3030014331.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1848126640,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/3585813302\/3585813302.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 1559654741,
+            "local_UUID": 0,
+            "parent": 1312230038,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1303169015,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 4107130166,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Tower",
+            "UUID": 812780301,
+            "local_UUID": 0,
+            "parent": 1312230038,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1777501320,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "NormalPortal",
+            "UUID": 3866730498,
+            "local_UUID": 0,
+            "parent": 812780301,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4170447810,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Column",
+            "UUID": 440766109,
+            "local_UUID": 0,
+            "parent": 3866730498,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2746626236,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        4.994316,
+                        0,
+                        1,
+                        0,
+                        11.995653,
+                        0,
+                        0,
+                        1,
+                        14.969055,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3051240020,
+                    "active": true,
+                    "path": "\/Library\/102184675\/2542195517\/2295702525.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2287536095,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/102184675\/\/4177825292\/4177825292.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "warrior",
+            "UUID": 1855952962,
+            "local_UUID": 0,
+            "parent": 1312230038,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3998647583,
+                    "active": true,
+                    "matrix": [
+                        -0.186716,
+                        0,
+                        -0.071674,
+                        31.399811,
+                        0,
+                        0.200000,
+                        0,
+                        -3.438644,
+                        0.071674,
+                        0,
+                        -0.186716,
+                        38.374527,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 5,
+                    "UUID": 1388956401,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2741933046.anim",
+                    "animations": []
+                }
+            ]
+        },
+        {
+            "name": "RPG-Character-Mesh",
+            "UUID": 3865268568,
+            "local_UUID": 0,
+            "parent": 1855952962,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3230250370,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -0.178409,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        -1,
+                        0,
+                        -0.079894,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4156694037,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3218835130.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4025060987,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Motion",
+            "UUID": 1526548261,
+            "local_UUID": 0,
+            "parent": 1855952962,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3028698970,
+                    "active": true,
+                    "matrix": [
+                        0.000002,
+                        1,
+                        0,
+                        -0.204375,
+                        0,
+                        0,
+                        1,
+                        0,
+                        1,
+                        -0.000001,
+                        0,
+                        -0.253184,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "B_Pelvis",
+            "UUID": 3850962197,
+            "local_UUID": 0,
+            "parent": 1526548261,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1208287162,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        1,
+                        -0.000002,
+                        0.051386,
+                        0,
+                        0.000001,
+                        1,
+                        -0.000001,
+                        1,
+                        0,
+                        0,
+                        132.993088,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2767004057,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/93606285.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_Spine",
+            "UUID": 1008510335,
+            "local_UUID": 0,
+            "parent": 3850962197,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1448890868,
+                    "active": true,
+                    "matrix": [
+                        0.999934,
+                        0.011456,
+                        0,
+                        9.260315,
+                        -0.011456,
+                        0.999934,
+                        0.000003,
+                        3.395593,
+                        0,
+                        -0.000003,
+                        1,
+                        -0.000005,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1803478193,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1489756574.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_Spine1",
+            "UUID": 2445251167,
+            "local_UUID": 0,
+            "parent": 1008510335,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 228108672,
+                    "active": true,
+                    "matrix": [
+                        0.989651,
+                        0.143496,
+                        0,
+                        17.629440,
+                        -0.143496,
+                        0.989651,
+                        0,
+                        -0.019911,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 741848834,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2164432120.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_Spine2",
+            "UUID": 3333055380,
+            "local_UUID": 0,
+            "parent": 2445251167,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 865764450,
+                    "active": true,
+                    "matrix": [
+                        0.997920,
+                        -0.064475,
+                        0,
+                        25.269379,
+                        0.064475,
+                        0.997920,
+                        0.000001,
+                        -0.016050,
+                        0,
+                        -0.000001,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 465851208,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3646745175.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Clavicle",
+            "UUID": 404754643,
+            "local_UUID": 0,
+            "parent": 3333055380,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3315388028,
+                    "active": true,
+                    "matrix": [
+                        -0.087198,
+                        -0.000794,
+                        0.996190,
+                        12.008545,
+                        -0.053901,
+                        -0.998531,
+                        -0.005514,
+                        -1.454860,
+                        0.994732,
+                        -0.054177,
+                        0.087027,
+                        5.302795,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2953129593,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/164630298.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_UpperArm",
+            "UUID": 373989030,
+            "local_UUID": 0,
+            "parent": 404754643,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3193976902,
+                    "active": true,
+                    "matrix": [
+                        0.610323,
+                        0.098423,
+                        0.786015,
+                        27.203571,
+                        0.017929,
+                        0.990280,
+                        -0.137922,
+                        0.000004,
+                        -0.791950,
+                        0.098269,
+                        0.602627,
+                        -0.000015,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2583458782,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4239646335.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Forearm",
+            "UUID": 3852795663,
+            "local_UUID": 0,
+            "parent": 373989030,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 850704881,
+                    "active": true,
+                    "matrix": [
+                        0.999991,
+                        0.004354,
+                        0,
+                        35.551193,
+                        -0.004354,
+                        0.999991,
+                        0,
+                        -0.000004,
+                        0,
+                        0,
+                        1,
+                        0.000015,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1002035214,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2871272084.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Hand",
+            "UUID": 537463494,
+            "local_UUID": 0,
+            "parent": 3852795663,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2787086704,
+                    "active": true,
+                    "matrix": [
+                        0.997068,
+                        -0.076144,
+                        0.007526,
+                        35.489616,
+                        -0.010498,
+                        -0.038715,
+                        0.999196,
+                        -0.000006,
+                        -0.075792,
+                        -0.996345,
+                        -0.039401,
+                        -0.000015,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1823460312,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1079694101.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger0",
+            "UUID": 3084427778,
+            "local_UUID": 0,
+            "parent": 537463494,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 279956414,
+                    "active": true,
+                    "matrix": [
+                        0.955337,
+                        0,
+                        0.295520,
+                        12.316864,
+                        0.238943,
+                        0.588429,
+                        -0.772436,
+                        -0.520882,
+                        -0.173892,
+                        0.808548,
+                        0.562148,
+                        -9.563871,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2903499053,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/94835749.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger01",
+            "UUID": 26694707,
+            "local_UUID": 0,
+            "parent": 3084427778,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3957433430,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        4.867081,
+                        0.231221,
+                        0.972901,
+                        0,
+                        -0.000015,
+                        0,
+                        0,
+                        1,
+                        -0.000031,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 807102419,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2888741452.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger02",
+            "UUID": 589482843,
+            "local_UUID": 0,
+            "parent": 26694707,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1421132588,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        4.867096,
+                        0.231222,
+                        0.972901,
+                        0,
+                        0.000008,
+                        0,
+                        0,
+                        1,
+                        0.000031,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4009199055,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3839273400.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger1",
+            "UUID": 2015355116,
+            "local_UUID": 0,
+            "parent": 537463494,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1126220374,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315132,
+                        0,
+                        1,
+                        0.000796,
+                        -2.635735,
+                        0,
+                        -0.000796,
+                        0.999999,
+                        -4.906816,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 833206678,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1708447613.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger11",
+            "UUID": 2533181511,
+            "local_UUID": 0,
+            "parent": 2015355116,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 943683288,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        5.438866,
+                        0.231222,
+                        0.972901,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0.000016,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 590694178,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1046720006.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger12",
+            "UUID": 4048867076,
+            "local_UUID": 0,
+            "parent": 2533181511,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1730567127,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        5.438873,
+                        0.231221,
+                        0.972901,
+                        0,
+                        -0.000023,
+                        0,
+                        0,
+                        1,
+                        -0.000024,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 578579535,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1381104069.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger2",
+            "UUID": 3742485955,
+            "local_UUID": 0,
+            "parent": 537463494,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 286234882,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315155,
+                        0,
+                        1,
+                        0.000796,
+                        -2.632576,
+                        0,
+                        -0.000796,
+                        1,
+                        -0.899354,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 290456096,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3014182945.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger21",
+            "UUID": 970954047,
+            "local_UUID": 0,
+            "parent": 3742485955,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2148177284,
+                    "active": true,
+                    "matrix": [
+                        0.972902,
+                        -0.231222,
+                        0,
+                        6.345329,
+                        0.231222,
+                        0.972901,
+                        0,
+                        -0.000015,
+                        0,
+                        0,
+                        1,
+                        0.000011,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4013339682,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2798164355.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger22",
+            "UUID": 3254157680,
+            "local_UUID": 0,
+            "parent": 970954047,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 932592133,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        6.345329,
+                        0.231222,
+                        0.972901,
+                        0,
+                        0.000023,
+                        0,
+                        0,
+                        1,
+                        -0.000006,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1912580003,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4049009921.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger3",
+            "UUID": 2586275291,
+            "local_UUID": 0,
+            "parent": 537463494,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3152437999,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315147,
+                        0,
+                        1,
+                        0.000797,
+                        -2.629341,
+                        0,
+                        -0.000797,
+                        0.999999,
+                        3.144605,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3426862553,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2931305994.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger31",
+            "UUID": 3910232185,
+            "local_UUID": 0,
+            "parent": 2586275291,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4016201251,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        5.438847,
+                        0.231221,
+                        0.972901,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1521226162,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4224992881.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger32",
+            "UUID": 3980193366,
+            "local_UUID": 0,
+            "parent": 3910232185,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4193309541,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        -0.000001,
+                        5.438858,
+                        0.231221,
+                        0.972901,
+                        0,
+                        0.000015,
+                        0,
+                        -0.000001,
+                        1,
+                        0.000005,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3300523587,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1356175854.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger4",
+            "UUID": 4131795635,
+            "local_UUID": 0,
+            "parent": 537463494,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4061792273,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315140,
+                        0,
+                        1,
+                        0.000799,
+                        -2.626289,
+                        0,
+                        -0.000799,
+                        1,
+                        6.989297,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2997759634,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3904728826.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger41",
+            "UUID": 1649026370,
+            "local_UUID": 0,
+            "parent": 4131795635,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1931581254,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        -0.000001,
+                        4.532387,
+                        0.231222,
+                        0.972901,
+                        0,
+                        0.000023,
+                        0.000001,
+                        0,
+                        1,
+                        0.000016,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1012737229,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/662223995.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Finger42",
+            "UUID": 2539607148,
+            "local_UUID": 0,
+            "parent": 1649026370,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1182453165,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        -0.000001,
+                        4.532364,
+                        0.231221,
+                        0.972901,
+                        0,
+                        -0.000031,
+                        0.000001,
+                        0,
+                        1,
+                        -0.000021,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1224518304,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2630540857.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Clavicle",
+            "UUID": 1290113834,
+            "local_UUID": 0,
+            "parent": 3333055380,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3175191609,
+                    "active": true,
+                    "matrix": [
+                        -0.087198,
+                        -0.000794,
+                        -0.996190,
+                        12.008545,
+                        -0.053895,
+                        -0.998531,
+                        0.005514,
+                        -1.454825,
+                        -0.994732,
+                        0.054170,
+                        0.087027,
+                        -5.302805,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2377793071,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1625368146.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_UpperArm",
+            "UUID": 802793792,
+            "local_UUID": 0,
+            "parent": 1290113834,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4051252437,
+                    "active": true,
+                    "matrix": [
+                        0.610323,
+                        0.098424,
+                        -0.786014,
+                        27.203560,
+                        0.017928,
+                        0.990281,
+                        0.137923,
+                        0.000013,
+                        0.791950,
+                        -0.098269,
+                        0.602627,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2247566368,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1561871641.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Forearm",
+            "UUID": 2749121220,
+            "local_UUID": 0,
+            "parent": 802793792,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 960200901,
+                    "active": true,
+                    "matrix": [
+                        0.999991,
+                        0.004353,
+                        0,
+                        35.551186,
+                        -0.004353,
+                        0.999990,
+                        0,
+                        0.000002,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4287387645,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2433883004.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Hand",
+            "UUID": 1186829883,
+            "local_UUID": 0,
+            "parent": 2749121220,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3049919154,
+                    "active": true,
+                    "matrix": [
+                        0.997069,
+                        -0.076144,
+                        -0.007526,
+                        35.489609,
+                        -0.010498,
+                        -0.038715,
+                        -0.999195,
+                        -0.000009,
+                        0.075792,
+                        0.996345,
+                        -0.039401,
+                        -0.000031,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2410725992,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1251085983.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger0",
+            "UUID": 911952964,
+            "local_UUID": 0,
+            "parent": 1186829883,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1595785660,
+                    "active": true,
+                    "matrix": [
+                        0.955337,
+                        0,
+                        -0.295520,
+                        12.316833,
+                        0.238942,
+                        0.588429,
+                        0.772436,
+                        -0.520874,
+                        0.173892,
+                        -0.808548,
+                        0.562148,
+                        9.563883,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 326879532,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1217340012.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger01",
+            "UUID": 2129726137,
+            "local_UUID": 0,
+            "parent": 911952964,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 263535810,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        4.867088,
+                        0.231222,
+                        0.972901,
+                        0,
+                        -0.000015,
+                        0,
+                        0,
+                        1,
+                        0.000008,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2084708987,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2814212506.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger02",
+            "UUID": 2582333415,
+            "local_UUID": 0,
+            "parent": 2129726137,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1430074477,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        4.867073,
+                        0.231221,
+                        0.972901,
+                        0,
+                        0.000008,
+                        0,
+                        0,
+                        1,
+                        0.000015,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4101146408,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3415954050.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger1",
+            "UUID": 1936603511,
+            "local_UUID": 0,
+            "parent": 1186829883,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 941703234,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315140,
+                        0,
+                        1,
+                        -0.000796,
+                        -2.635727,
+                        0,
+                        0.000796,
+                        1,
+                        4.906816,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4065164795,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1624754545.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger11",
+            "UUID": 1523219199,
+            "local_UUID": 0,
+            "parent": 1936603511,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1727666471,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        5.438847,
+                        0.231221,
+                        0.972901,
+                        0,
+                        -0.000015,
+                        0,
+                        0,
+                        1,
+                        0.000007,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1109425869,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4194335762.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger12",
+            "UUID": 2997736303,
+            "local_UUID": 0,
+            "parent": 1523219199,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2704480314,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        5.438866,
+                        0.231221,
+                        0.972901,
+                        0,
+                        -0.000008,
+                        0,
+                        0,
+                        1,
+                        -0.000012,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2378830352,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3480938946.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger2",
+            "UUID": 681229731,
+            "local_UUID": 0,
+            "parent": 1186829883,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1682446667,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315140,
+                        0,
+                        1,
+                        -0.000796,
+                        -2.632538,
+                        0,
+                        0.000796,
+                        0.999999,
+                        0.899359,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 385147090,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2165938140.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger21",
+            "UUID": 4093353810,
+            "local_UUID": 0,
+            "parent": 681229731,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 896374818,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        6.345341,
+                        0.231222,
+                        0.972901,
+                        0,
+                        -0.000015,
+                        0,
+                        0,
+                        1,
+                        -0.000031,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3552627861,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4276751914.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger22",
+            "UUID": 2313378078,
+            "local_UUID": 0,
+            "parent": 4093353810,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2480468174,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        6.345314,
+                        0.231221,
+                        0.972901,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0.000027,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1557937983,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3904389972.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger3",
+            "UUID": 1560718242,
+            "local_UUID": 0,
+            "parent": 1186829883,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3051912107,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315155,
+                        0,
+                        1,
+                        -0.000796,
+                        -2.629318,
+                        0,
+                        0.000796,
+                        1,
+                        -3.144617,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 270885441,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1445588821.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger31",
+            "UUID": 2240667757,
+            "local_UUID": 0,
+            "parent": 1560718242,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4082686991,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231222,
+                        0,
+                        5.438843,
+                        0.231222,
+                        0.972901,
+                        0,
+                        -0.000031,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 921306152,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1491708449.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger32",
+            "UUID": 1800595991,
+            "local_UUID": 0,
+            "parent": 2240667757,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3621749876,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        5.438889,
+                        0.231221,
+                        0.972901,
+                        -0.000001,
+                        -0.000015,
+                        0,
+                        0.000001,
+                        1,
+                        -0.000017,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 14336892,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3692358626.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger4",
+            "UUID": 3386920036,
+            "local_UUID": 0,
+            "parent": 1186829883,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2582059040,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        17.315155,
+                        0,
+                        1,
+                        -0.000797,
+                        -2.626312,
+                        0,
+                        0.000797,
+                        1,
+                        -6.989321,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4213066409,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3273290755.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger41",
+            "UUID": 1717757984,
+            "local_UUID": 0,
+            "parent": 3386920036,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2130462485,
+                    "active": true,
+                    "matrix": [
+                        0.972902,
+                        -0.231221,
+                        0,
+                        4.532345,
+                        0.231222,
+                        0.972901,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0.000029,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2888144241,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2469929512.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Finger42",
+            "UUID": 2429883997,
+            "local_UUID": 0,
+            "parent": 1717757984,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3376095275,
+                    "active": true,
+                    "matrix": [
+                        0.972901,
+                        -0.231221,
+                        0,
+                        4.532417,
+                        0.231221,
+                        0.972901,
+                        0,
+                        0.000023,
+                        0,
+                        0,
+                        1,
+                        -0.000007,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 218727912,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1140570700.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_Neck",
+            "UUID": 3721107027,
+            "local_UUID": 0,
+            "parent": 3333055380,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 263060388,
+                    "active": true,
+                    "matrix": [
+                        0.965926,
+                        -0.258819,
+                        -0.000001,
+                        33.547531,
+                        0.258819,
+                        0.965926,
+                        -0.000001,
+                        -3.045568,
+                        0.000001,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2737443169,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2756337982.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_Head",
+            "UUID": 2579438331,
+            "local_UUID": 0,
+            "parent": 3721107027,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1393506454,
+                    "active": true,
+                    "matrix": [
+                        0.996507,
+                        0.083510,
+                        0,
+                        10.931519,
+                        -0.083510,
+                        0.996507,
+                        0,
+                        -0.266273,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1575849472,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2489092694.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Thigh",
+            "UUID": 3751203980,
+            "local_UUID": 0,
+            "parent": 3850962197,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2400526072,
+                    "active": true,
+                    "matrix": [
+                        -0.998176,
+                        -0.011359,
+                        -0.059287,
+                        0,
+                        -0.011384,
+                        0.999935,
+                        0.000076,
+                        0.000022,
+                        0.059283,
+                        0.000751,
+                        -0.998241,
+                        11.652329,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4136137826,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2742756341.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Calf",
+            "UUID": 2201397306,
+            "local_UUID": 0,
+            "parent": 3751203980,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3647868740,
+                    "active": true,
+                    "matrix": [
+                        0.995064,
+                        0.099233,
+                        0,
+                        59.167969,
+                        -0.099233,
+                        0.995064,
+                        0.000008,
+                        0,
+                        0.000001,
+                        -0.000008,
+                        1,
+                        0.000006,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3329671509,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/2797553067.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Foot",
+            "UUID": 3923942888,
+            "local_UUID": 0,
+            "parent": 2201397306,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1626251824,
+                    "active": true,
+                    "matrix": [
+                        0.992122,
+                        -0.109386,
+                        -0.061058,
+                        59.505074,
+                        0.110356,
+                        0.993810,
+                        0.012732,
+                        -0.000002,
+                        0.059287,
+                        -0.019370,
+                        0.998053,
+                        -0.000006,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 587533826,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3922407492.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_L_Toe0",
+            "UUID": 2603151384,
+            "local_UUID": 0,
+            "parent": 3923942888,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1370638688,
+                    "active": true,
+                    "matrix": [
+                        -0.017326,
+                        -0.999850,
+                        0,
+                        14.912971,
+                        0.999850,
+                        -0.017326,
+                        0,
+                        24.276676,
+                        0,
+                        0,
+                        1,
+                        -0.217896,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2853309028,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/71103229.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Thigh",
+            "UUID": 785153377,
+            "local_UUID": 0,
+            "parent": 3850962197,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2841902232,
+                    "active": true,
+                    "matrix": [
+                        -0.998176,
+                        -0.011359,
+                        0.059287,
+                        0,
+                        -0.011384,
+                        0.999935,
+                        -0.000081,
+                        -0.000010,
+                        -0.059283,
+                        -0.000756,
+                        -0.998241,
+                        -11.652328,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4250213374,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/3613026993.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Calf",
+            "UUID": 1048622348,
+            "local_UUID": 0,
+            "parent": 785153377,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 768638094,
+                    "active": true,
+                    "matrix": [
+                        0.995064,
+                        0.099233,
+                        0,
+                        59.167969,
+                        -0.099233,
+                        0.995064,
+                        -0.000005,
+                        0,
+                        0,
+                        0.000005,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2864855245,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/1799652336.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Foot",
+            "UUID": 4681190,
+            "local_UUID": 0,
+            "parent": 1048622348,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2120991443,
+                    "active": true,
+                    "matrix": [
+                        0.992122,
+                        -0.109386,
+                        0.061058,
+                        59.505074,
+                        0.110356,
+                        0.993810,
+                        -0.012733,
+                        -0.000001,
+                        -0.059287,
+                        0.019371,
+                        0.998053,
+                        0.000006,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1378870340,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/4051990304.bone"
+                }
+            ]
+        },
+        {
+            "name": "B_R_Toe0",
+            "UUID": 4139868131,
+            "local_UUID": 0,
+            "parent": 4681190,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2965862836,
+                    "active": true,
+                    "matrix": [
+                        -0.017326,
+                        -0.999850,
+                        0,
+                        14.912968,
+                        0.999850,
+                        -0.017326,
+                        0,
+                        24.276680,
+                        0,
+                        0,
+                        1,
+                        0.217888,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3811001759,
+                    "active": true,
+                    "path": "\/Library\/3202450314\/158352671\/508054496.bone"
+                }
+            ]
+        },
+        {
+            "name": "aniTest",
+            "UUID": 3820330324,
+            "local_UUID": 0,
+            "parent": 1312230038,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3977341204,
+                    "active": true,
+                    "matrix": [
+                        0.615661,
+                        0,
+                        0.788011,
+                        -6.804451,
+                        0,
+                        1,
+                        0,
+                        -18.024448,
+                        -0.788011,
+                        0,
+                        0.615661,
+                        -42.935158,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 5,
+                    "UUID": 2468732065,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/84929147.anim",
+                    "animations": []
+                }
+            ]
+        },
+        {
+            "name": "Object02",
+            "UUID": 2680522753,
+            "local_UUID": 0,
+            "parent": 3820330324,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 773481740,
+                    "active": true,
+                    "matrix": [
+                        2.540000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        2.540000,
+                        0,
+                        0,
+                        -2.540000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 300214451,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3107594426.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1935528476,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1819589730\/\/1542318587\/1542318587.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform1",
+            "UUID": 1412681080,
+            "local_UUID": 0,
+            "parent": 3820330324,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 360058255,
+                    "active": true,
+                    "matrix": [
+                        0.965339,
+                        2.344461,
+                        -0.152384,
+                        -1.116104,
+                        -0.837240,
+                        0.497216,
+                        2.345934,
+                        15.688704,
+                        2.195165,
+                        -0.841354,
+                        0.961755,
+                        -0.138407,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bip001 Pelvis",
+            "UUID": 3025920374,
+            "local_UUID": 0,
+            "parent": 1412681080,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 690370967,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        1,
+                        -0.000001,
+                        0,
+                        0,
+                        0.000001,
+                        1,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 556990112,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/879614633.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 Spine",
+            "UUID": 4012903485,
+            "local_UUID": 0,
+            "parent": 3025920374,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1861705767,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        -0.000796,
+                        -0.000001,
+                        0.627852,
+                        0.000796,
+                        1,
+                        0.000004,
+                        0.318001,
+                        0.000001,
+                        -0.000004,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3693699977,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/889919499.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 Spine1",
+            "UUID": 1616958796,
+            "local_UUID": 0,
+            "parent": 4012903485,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2503936576,
+                    "active": true,
+                    "matrix": [
+                        0.743955,
+                        -0.651920,
+                        -0.146736,
+                        1.798031,
+                        0.534760,
+                        0.712505,
+                        -0.454278,
+                        -0.001359,
+                        0.400703,
+                        0.259494,
+                        0.878693,
+                        -0.000495,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 418478785,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2797764394.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 Neck",
+            "UUID": 371868258,
+            "local_UUID": 0,
+            "parent": 1616958796,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1028360861,
+                    "active": true,
+                    "matrix": [
+                        0.873811,
+                        -0.306982,
+                        0.377117,
+                        2.997202,
+                        0.281984,
+                        0.951715,
+                        0.121337,
+                        -0.234361,
+                        -0.396156,
+                        0.000316,
+                        0.918183,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2975535120,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1395505017.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Clavicle",
+            "UUID": 2051342287,
+            "local_UUID": 0,
+            "parent": 371868258,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 74578123,
+                    "active": true,
+                    "matrix": [
+                        -0.775714,
+                        -0.282679,
+                        0.564235,
+                        -0.455274,
+                        0.152162,
+                        -0.951471,
+                        -0.267489,
+                        -0.096788,
+                        0.612467,
+                        -0.121640,
+                        0.781082,
+                        0.797643,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 357381592,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1191917141.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L UpperArm",
+            "UUID": 1730953965,
+            "local_UUID": 0,
+            "parent": 2051342287,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 261190826,
+                    "active": true,
+                    "matrix": [
+                        0.761015,
+                        0.075740,
+                        0.644298,
+                        0.986254,
+                        -0.390013,
+                        0.847056,
+                        0.361090,
+                        0,
+                        -0.518408,
+                        -0.526080,
+                        0.674162,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2272528516,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1178667734.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Forearm",
+            "UUID": 330512341,
+            "local_UUID": 0,
+            "parent": 1730953965,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3550235684,
+                    "active": true,
+                    "matrix": [
+                        0.785224,
+                        0.619212,
+                        0,
+                        2.375838,
+                        -0.619212,
+                        0.785224,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 342080684,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2044156202.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Hand",
+            "UUID": 3672901014,
+            "local_UUID": 0,
+            "parent": 330512341,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1054645654,
+                    "active": true,
+                    "matrix": [
+                        0.976344,
+                        -0.211637,
+                        0.044301,
+                        1.846415,
+                        0.181344,
+                        0.913056,
+                        0.365299,
+                        0,
+                        -0.117760,
+                        -0.348624,
+                        0.929835,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2620033741,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/159910230.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger0",
+            "UUID": 3488567324,
+            "local_UUID": 0,
+            "parent": 3672901014,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3338298059,
+                    "active": true,
+                    "matrix": [
+                        0.679092,
+                        0.357355,
+                        0.641195,
+                        0.940946,
+                        0.560973,
+                        0.310726,
+                        -0.767306,
+                        0.081812,
+                        -0.473437,
+                        0.880765,
+                        0.010545,
+                        -0.580381,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1203582067,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2581345132.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger01",
+            "UUID": 2627114418,
+            "local_UUID": 0,
+            "parent": 3488567324,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2916152497,
+                    "active": true,
+                    "matrix": [
+                        0.987709,
+                        -0.156304,
+                        0,
+                        0.517244,
+                        0.156304,
+                        0.987709,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3079702862,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2214921119.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger02",
+            "UUID": 4138094861,
+            "local_UUID": 0,
+            "parent": 2627114418,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3133845577,
+                    "active": true,
+                    "matrix": [
+                        0.940362,
+                        -0.340175,
+                        0,
+                        0.304696,
+                        0.340175,
+                        0.940362,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 627092547,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1859240020.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger1",
+            "UUID": 2482791787,
+            "local_UUID": 0,
+            "parent": 3672901014,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1627183452,
+                    "active": true,
+                    "matrix": [
+                        0.914715,
+                        -0.371820,
+                        -0.158260,
+                        1.770775,
+                        0.393920,
+                        0.907796,
+                        0.143990,
+                        0.000361,
+                        0.090130,
+                        -0.194052,
+                        0.976842,
+                        -0.041459,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3576335626,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1758244519.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger11",
+            "UUID": 551134799,
+            "local_UUID": 0,
+            "parent": 2482791787,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3228237889,
+                    "active": true,
+                    "matrix": [
+                        0.861606,
+                        -0.500539,
+                        -0.084235,
+                        0.341537,
+                        0.507577,
+                        0.849659,
+                        0.142988,
+                        0,
+                        0,
+                        -0.165955,
+                        0.986134,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1850952531,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/363102633.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Finger12",
+            "UUID": 1525499106,
+            "local_UUID": 0,
+            "parent": 551134799,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2052792732,
+                    "active": true,
+                    "matrix": [
+                        0.827699,
+                        -0.553390,
+                        -0.093129,
+                        0.252604,
+                        0.561172,
+                        0.816222,
+                        0.137360,
+                        0,
+                        0,
+                        -0.165955,
+                        0.986133,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2885630050,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3859016941.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Clavicle",
+            "UUID": 2222601476,
+            "local_UUID": 0,
+            "parent": 371868258,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3385189253,
+                    "active": true,
+                    "matrix": [
+                        -0.118499,
+                        -0.185641,
+                        -0.975446,
+                        0.267881,
+                        0.350839,
+                        -0.926832,
+                        0.133768,
+                        -0.097360,
+                        -0.928908,
+                        -0.326374,
+                        0.174959,
+                        -0.878430,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3552291875,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3998438394.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R UpperArm",
+            "UUID": 1670000923,
+            "local_UUID": 0,
+            "parent": 2222601476,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 235004650,
+                    "active": true,
+                    "matrix": [
+                        0.749072,
+                        -0.144739,
+                        -0.646484,
+                        0.986254,
+                        -0.491632,
+                        0.532649,
+                        -0.688900,
+                        0,
+                        0.444060,
+                        0.833868,
+                        0.327834,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2517140146,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/970021720.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Forearm",
+            "UUID": 4093022948,
+            "local_UUID": 0,
+            "parent": 1670000923,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 697909242,
+                    "active": true,
+                    "matrix": [
+                        0.851712,
+                        0.524011,
+                        0,
+                        2.375838,
+                        -0.524011,
+                        0.851712,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2441175348,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/160797802.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Hand",
+            "UUID": 4139327559,
+            "local_UUID": 0,
+            "parent": 4093022948,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2257865040,
+                    "active": true,
+                    "matrix": [
+                        0.932818,
+                        -0.195882,
+                        0.302456,
+                        1.846414,
+                        0.351922,
+                        0.314786,
+                        -0.881511,
+                        -0.000001,
+                        0.077463,
+                        0.928730,
+                        0.362573,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3418029406,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2996731040.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger0",
+            "UUID": 3125691839,
+            "local_UUID": 0,
+            "parent": 4139327559,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2901893519,
+                    "active": true,
+                    "matrix": [
+                        0.688727,
+                        0.100692,
+                        -0.717995,
+                        0.940946,
+                        0.662579,
+                        0.314646,
+                        0.679696,
+                        0.081812,
+                        0.294355,
+                        -0.943853,
+                        0.149989,
+                        0.580381,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2228018356,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1638226005.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger01",
+            "UUID": 1910615303,
+            "local_UUID": 0,
+            "parent": 3125691839,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1549887279,
+                    "active": true,
+                    "matrix": [
+                        0.891067,
+                        -0.453873,
+                        0,
+                        0.517245,
+                        0.453873,
+                        0.891067,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1220510478,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2503693153.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger02",
+            "UUID": 1212478064,
+            "local_UUID": 0,
+            "parent": 1910615303,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1766090738,
+                    "active": true,
+                    "matrix": [
+                        0.940362,
+                        -0.340175,
+                        0,
+                        0.304696,
+                        0.340175,
+                        0.940362,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2349544689,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2166726444.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger1",
+            "UUID": 3781270437,
+            "local_UUID": 0,
+            "parent": 4139327559,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4273273191,
+                    "active": true,
+                    "matrix": [
+                        0.609090,
+                        -0.706556,
+                        0.360262,
+                        1.770776,
+                        0.710613,
+                        0.687903,
+                        0.147712,
+                        0.000361,
+                        -0.352192,
+                        0.166037,
+                        0.921082,
+                        0.041459,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1444785852,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2406617304.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger11",
+            "UUID": 1931577071,
+            "local_UUID": 0,
+            "parent": 3781270437,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2908943334,
+                    "active": true,
+                    "matrix": [
+                        0.636043,
+                        -0.771653,
+                        0,
+                        0.341537,
+                        0.771653,
+                        0.636043,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 4271492031,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1927632720.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Finger12",
+            "UUID": 3959567833,
+            "local_UUID": 0,
+            "parent": 1931577071,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3797640349,
+                    "active": true,
+                    "matrix": [
+                        0.420452,
+                        -0.907315,
+                        0,
+                        0.252603,
+                        0.907315,
+                        0.420452,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1171621850,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3482561518.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 Head",
+            "UUID": 1671284036,
+            "local_UUID": 0,
+            "parent": 371868258,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3643245236,
+                    "active": true,
+                    "matrix": [
+                        0.569694,
+                        0.788976,
+                        0.230141,
+                        1.101905,
+                        -0.727650,
+                        0.354035,
+                        0.587524,
+                        -0.000001,
+                        0.382065,
+                        -0.502171,
+                        0.775790,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 667118577,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/702078089.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bone001",
+            "UUID": 1951938323,
+            "local_UUID": 0,
+            "parent": 1671284036,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 805978278,
+                    "active": true,
+                    "matrix": [
+                        -0.309121,
+                        0.949777,
+                        0.048669,
+                        0.192795,
+                        0.951023,
+                        0.308716,
+                        0.015821,
+                        0.020197,
+                        0.000002,
+                        0.051176,
+                        -0.998690,
+                        -0.000001,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 898810081,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3249249997.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Thigh",
+            "UUID": 1330212700,
+            "local_UUID": 0,
+            "parent": 4012903485,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2560332117,
+                    "active": true,
+                    "matrix": [
+                        -0.828071,
+                        0.527163,
+                        -0.190784,
+                        -0.628105,
+                        0.507511,
+                        0.849460,
+                        0.144399,
+                        -0.317504,
+                        0.238185,
+                        0.022748,
+                        -0.970953,
+                        1.153569,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1953908567,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2505270150.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Calf",
+            "UUID": 858355276,
+            "local_UUID": 0,
+            "parent": 1330212700,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3786275028,
+                    "active": true,
+                    "matrix": [
+                        0.783394,
+                        0.621525,
+                        0,
+                        2.656434,
+                        -0.621525,
+                        0.783394,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1424451778,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3807593689.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Foot",
+            "UUID": 2823573408,
+            "local_UUID": 0,
+            "parent": 858355276,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2530382646,
+                    "active": true,
+                    "matrix": [
+                        0.877847,
+                        -0.417415,
+                        -0.234837,
+                        3.316416,
+                        0.334686,
+                        0.885377,
+                        -0.322635,
+                        0,
+                        0.342592,
+                        0.204627,
+                        0.916929,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 3405776017,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/3142646514.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 L Toe0",
+            "UUID": 3134152245,
+            "local_UUID": 0,
+            "parent": 2823573408,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3623554699,
+                    "active": true,
+                    "matrix": [
+                        -0.000001,
+                        -1,
+                        0.000001,
+                        0.806603,
+                        1,
+                        -0.000001,
+                        0.000001,
+                        1.325963,
+                        -0.000001,
+                        0.000001,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1786143733,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/920633318.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Thigh",
+            "UUID": 1960484479,
+            "local_UUID": 0,
+            "parent": 4012903485,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3047460259,
+                    "active": true,
+                    "matrix": [
+                        -0.486707,
+                        0.789722,
+                        0.373439,
+                        -0.628105,
+                        0.802498,
+                        0.573090,
+                        -0.166027,
+                        -0.317498,
+                        -0.345129,
+                        0.218877,
+                        -0.912677,
+                        -1.153570,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 175446469,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/2180072490.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Calf",
+            "UUID": 3847396118,
+            "local_UUID": 0,
+            "parent": 1960484479,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 364986121,
+                    "active": true,
+                    "matrix": [
+                        0.574149,
+                        0.818751,
+                        0,
+                        2.656434,
+                        -0.818751,
+                        0.574149,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1909846740,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/4165880940.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Foot",
+            "UUID": 3645655353,
+            "local_UUID": 0,
+            "parent": 3847396118,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1213212470,
+                    "active": true,
+                    "matrix": [
+                        0.930949,
+                        -0.249641,
+                        0.266482,
+                        3.316417,
+                        0.226837,
+                        0.967274,
+                        0.113692,
+                        0,
+                        -0.286144,
+                        -0.045394,
+                        0.957111,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 2434085193,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1605509170.bone"
+                }
+            ]
+        },
+        {
+            "name": "Bip001 R Toe0",
+            "UUID": 298623759,
+            "local_UUID": 0,
+            "parent": 3645655353,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3276775815,
+                    "active": true,
+                    "matrix": [
+                        -0.000001,
+                        -1,
+                        0,
+                        0.806603,
+                        1,
+                        -0.000001,
+                        0.000001,
+                        1.325963,
+                        -0.000001,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 6,
+                    "UUID": 1578629553,
+                    "active": true,
+                    "path": "\/Library\/1819589730\/227609664\/1919415730.bone"
+                }
+            ]
+        }
+    ]
+} 

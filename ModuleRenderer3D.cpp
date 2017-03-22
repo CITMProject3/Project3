@@ -66,11 +66,10 @@ bool ModuleRenderer3D::Init(Data& config)
 		// http://in2gpu.com/2015/05/29/debugging-opengl-part-ii-debug-output/
 
 		// initialize debug output 
-		glEnable(GL_DEBUG_OUTPUT);
+		/*glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLDebug::OpenGLDebugCallback, nullptr);
-		GLuint unusedIds = 0;
-		glDebugMessageControl(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_MEDIUM, 0, &unusedIds, GL_TRUE);
+		glDebugMessageControl(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_MEDIUM, 0, nullptr, GL_TRUE);*/
 		
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
