@@ -74,11 +74,13 @@ public:
 	void Load(Data& config);
 	void OnInspector(bool debug);
 
+	void OnPlay();
 
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void Reset();
+	void TrueReset();
 	void LimitSpeed();
 
 
@@ -247,7 +249,7 @@ private:
 	void WentThroughEnd(ComponentCollider* end);
 	unsigned char checkpoints = 0;
 	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 0;
+	unsigned int lap = 1;
 
 };
 

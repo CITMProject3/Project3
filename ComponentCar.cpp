@@ -475,6 +475,16 @@ void ComponentCar::OnInspector(bool debug)
 	}//Endof Collapsing header
 }
 
+void ComponentCar::OnPlay()
+{
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	if (trs)
+	{
+		reset_pos = trs->GetPosition();
+		reset_rot = trs->GetRotationEuler();
+	}
+}
+
 void ComponentCar::HandlePlayerInput()
 {
 	float brake;
@@ -1091,6 +1101,10 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 		lap++;
 		lastCheckpoint = end->GetGameObject();
 	}
+	if (lap >= 4)
+	{
+		TrueReset();
+	}
 }
 //--------------------------------------
 
@@ -1116,6 +1130,13 @@ void ComponentCar::Reset()
 		vehicle->SetRotation(tmp.x, tmp.y, tmp.z);
 	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+}
+
+void ComponentCar::TrueReset()
+{
+	lastCheckpoint = nullptr;
+	lap = 1;
+	Reset();
 }
 
 void ComponentCar::LimitSpeed()
