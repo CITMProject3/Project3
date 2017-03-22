@@ -688,14 +688,14 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(back_player);
 		}
 		//Power Up
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_DOWN)
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
 			UseItem();
 		}
 
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
 		{
-		//	ReleaseItem();
+			ReleaseItem();
 		}
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
@@ -768,7 +768,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Acrobatics(back_player);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		//current_turbo = T_MINI;
 		UseItem();
@@ -776,7 +776,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 	{
 		//current_turbo = T_MINI;
-		//ReleaseItem();
+		ReleaseItem();
 	}
 
 	//Front player
@@ -946,10 +946,21 @@ void ComponentCar::UseItem()
 	{
 		current_turbo = T_ROCKET;
 
-
+		
 
 		has_item = false;
 	}
+
+	if (applied_turbo && current_turbo)
+	{
+		if (applied_turbo->timer >= applied_turbo->time)
+		{
+			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+			current_turbo == T_IDLE;
+		}
+
+	}
+
 }
 
 void ComponentCar::ReleaseItem()
