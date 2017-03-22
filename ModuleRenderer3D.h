@@ -17,6 +17,7 @@ using namespace math;
 struct Mesh;
 class GameObject;
 class ComponentCamera;
+class ComponentMaterial;
 typedef void *SDL_GLContext;
 
 class ModuleRenderer3D : public Module, public Subject
@@ -50,7 +51,15 @@ private:
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
-	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
+	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
+
+	bool SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
+	void SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color)const;
+	void ShaderMVPUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam)const;
+	void ShaderTexturesUniforms(unsigned int shader_id, ComponentMaterial* material)const;
+	void ShaderLightUniforms(unsigned int shader_id, const LightInfo& light)const;
+	void ShaderCustomUniforms(unsigned int shader_id, ComponentMaterial* material)const;
+	void ShaderBuiltInUniforms(unsigned int shader_id, ComponentCamera* cam, ComponentMaterial* material, const float4 color)const;
 
 public:
 

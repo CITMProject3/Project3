@@ -28,6 +28,10 @@ void Time::UpdateFrame()
 	frame_started_at = SDL_GetPerformanceCounter();
 
 	time_unitary += real_delta_time;
+	if (time_unitary > 1.0f)
+	{
+		time_unitary = time_unitary - 1.0f;
+	}
 	
 }
 
