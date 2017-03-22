@@ -90,41 +90,35 @@ update_status ModulePhysics3D::PreUpdate()
 	if (App->IsGameRunning())
 	{
 		world->stepSimulation(dt, 15);
-	}
 
-	int numManifolds = world->getDispatcher()->getNumManifolds();
-	for(int i = 0; i<numManifolds; i++)
-	{
-		btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
-		btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
-		btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
-
-		int numContacts = contactManifold->getNumContacts();
-		if(numContacts > 0)
+		int numManifolds = world->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
 		{
-			PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
-			PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
+			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+			btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
 
-			if(pbodyA && pbodyB)
+			int numContacts = contactManifold->getNumContacts();
+			if (numContacts > 0)
 			{
-				list<Module*>::iterator item = pbodyA->collision_listeners.begin();
+				PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
+				PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
 
-				while (item != pbodyA->collision_listeners.end())
+				if (pbodyA && pbodyB)
 				{
-					(*item)->OnCollision(pbodyA, pbodyB);
-					++item;
-				}
+					if(pbodyA->GetCollisionOptions(PhysBody3D::co_isTrigger))
+					{
+						App->physics->OnCollision(pbodyA, pbodyB);
+					}
 
-				item = pbodyB->collision_listeners.begin();
-				while(item != pbodyB->collision_listeners.end())
-				{
-					(*item)->OnCollision(pbodyB, pbodyA);
-					++item;
+					if (pbodyB->GetCollisionOptions(PhysBody3D::co_isTrigger))
+					{
+						App->physics->OnCollision(pbodyB, pbodyA);
+					}
 				}
 			}
 		}
 	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -239,7 +233,6 @@ void ModulePhysics3D::CreateGround()
 
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
-
 	bool ret = false;
 	//Loading Heightmap Image
 	if (resLibPath != GetHeightmapPath())
@@ -352,7 +345,9 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, flo
 	PhysBody3D* pbody = new PhysBody3D(body, go);
 
 	if (isSensor)
-		body->setCollisionFlags(body->getCollisionFlags() |btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	{
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);

@@ -17,6 +17,18 @@ struct PhysBody3D
 {
 	friend class ModulePhysics3D;
 public:
+
+	enum E_collisionOptions {
+		co_isTrigger = 0x01,
+		co_isTransparent = 0x02,
+		co_isPlayer = 0x04,
+		co_isItem = 0x08,
+		co_isOutOfBounds = 0x10,
+		co_isCheckpoint = 0x20,
+		co_isFinishLane = 0x40,
+		co_none = 0x80
+	};
+
 	PhysBody3D(btRigidBody* body, GameObject* go);
 	~PhysBody3D();
 
@@ -39,12 +51,15 @@ public:
 	void SetBounciness(const float restitution,const float friction);
 
 	GameObject* GetGameobject() { return go; }
+
+	void SetCollisionOptions(E_collisionOptions flag, bool value);
+	bool GetCollisionOptions(E_collisionOptions flag);
+
 private:
 	btRigidBody* body = nullptr;
 	GameObject* go = nullptr;
-
 public:
-	list<Module*> collision_listeners;
+	unsigned char collisionOptions = 0;
 };
 
 #endif // __PhysBody3D_H__
