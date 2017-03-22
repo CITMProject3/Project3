@@ -18,6 +18,16 @@
 #include "Glew\include\glew.h"
 #include <gl/GL.h>
 #include <gl/GLU.h>
+
+#include "ModuleWindow.h"
+#include "ModuleCamera3D.h"
+#include "ModuleResourceManager.h"
+#include "ComponentRectTransform.h"
+#include "ComponentUiImage.h"
+#include "ComponentCanvas.h"
+#include "ComponentUiText.h"
+#include "ComponentUiButton.h"
+
 #include "SDL\include\SDL_opengl.h"
 
 #include "ResourceFileMaterial.h"
@@ -27,6 +37,7 @@
 #include "Time.h"
 
 #include "SDL/include/SDL_video.h"
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -174,7 +185,7 @@ update_status ModuleRenderer3D::PostUpdate()
 	//RenderTextures
 	vector<ComponentCamera*> cameras;
 	App->go_manager->GetAllCameras(cameras);
-	for (int i = 0; i < cameras.size(); ++i)
+	for (size_t i = 0; i < cameras.size(); ++i)
 	{
 		if (cameras[i]->render_texture)
 		{
@@ -250,6 +261,20 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+
+	//Draw UI
+	if (App->go_manager->current_scene_canvas != nullptr)
+	{
+		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
+		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
+		{
+				if ((*obj)->GetComponent(C_UI_IMAGE) || (*obj)->GetComponent(C_UI_BUTTON))
+					DrawUIImage(*obj);
+				else if ((*obj)->GetComponent(C_UI_TEXT))
+					DrawUIText(*obj);	
+		}
+	}
+
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
@@ -302,6 +327,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		Draw(it->second, App->lighting->GetLightInfo(),cam, alpha_object,true);
 	}
 	alpha_objects.clear();
+	
 
 	App->editor->skybox.Render(cam);
 
@@ -809,6 +835,196 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	glDisableVertexAttribArray(4);
 	glDisableVertexAttribArray(5);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
+{
+	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+	
+
+	ComponentUiImage* u = (ComponentUiImage*)obj->GetComponent(C_UI_IMAGE);
+	ComponentUiButton* b;
+	ComponentMaterial* m;
+	if (u == nullptr)
+	{
+		b = (ComponentUiButton*)obj->GetComponent(C_UI_BUTTON);
+
+		if (b == nullptr)
+			return;
+		else
+			m = b->UImaterial;
+	}
+	else
+		m = u->UImaterial;
+	
+	Mesh* mesh = c->GetMesh();
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glDisable(GL_LIGHTING); // Panel mesh is not afected by lights!
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, App->window->GetScreenWidth(), App->window->GetScreenHeight(), 0, -1, 1);	//
+	glMatrixMode(GL_MODELVIEW);             // Select Modelview Matrix
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();
+	glMultMatrixf(*c->GetFinalTransform().Transposed().v);
+	
+	switch (m->alpha)
+	{
+	case (2):
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, m->blend_type);
+	}
+	case (1):
+	{
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, m->alpha_test);
+		break;
+	}
+	}
+
+		// Vertices
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+		glVertexPointer(3, GL_FLOAT, 0, NULL);
+		// Texture coordinates
+		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+		if (m->texture_ids.size()>0 )
+		{
+			// Texture
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, 0);
+			glBindTexture(GL_TEXTURE_2D, (*m->texture_ids.begin()).second);
+		}
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glColor4fv(m->color);
+		// Indices
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+		glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+
+	glMatrixMode(GL_PROJECTION);              // Select Projection
+	glPopMatrix();							  // Pop The Matrix
+	glMatrixMode(GL_MODELVIEW);               // Select Modelview
+	glPopMatrix();							  // Pop The Matrix
+	glPopMatrix();
+	glEnable(GL_LIGHTING);
+	
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
+}
+
+void ModuleRenderer3D::DrawUIText(GameObject * obj) const
+{
+	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+
+	ComponentUiText* t = (ComponentUiText*)obj->GetComponent(C_UI_TEXT);
+	if (t == nullptr)
+		return;
+	
+	if (t->UImaterial->texture_ids.size() <= 0)
+		return;
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glDisable(GL_LIGHTING); // Panel mesh is not afected by lights!
+
+	glMatrixMode(GL_PROJECTION);
+	glPushMatrix();
+	glLoadIdentity();
+	glOrtho(0, App->window->GetScreenWidth(), App->window->GetScreenHeight(), 0, -1, 1);	//
+	glMatrixMode(GL_MODELVIEW);             // Select Modelview Matrix
+	glPushMatrix();							// Push The Matrix
+	glLoadIdentity();
+
+	switch (t->UImaterial->alpha)
+	{
+	case (2):
+	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, t->UImaterial->blend_type);
+	}
+	case (1):
+	{
+		glEnable(GL_ALPHA_TEST);
+		glAlphaFunc(GL_GREATER, t->UImaterial->alpha_test);
+		break;
+	}
+	}
+
+	string text = t->GetText();
+	string data_values = t->GetArrayValues();
+	int row_chars = t->GetCharRows();
+	float letter_w = c->GetRectSize().x;
+	float letter_h = t->GetCharHeight();
+	float2 pos = float2(c->GetLocalPos().ptr());
+	float x = 0;
+	float y = 0;
+	Mesh* mesh = c->GetMesh();
+	float4x4 m = c->GetFinalTransform();
+	glMultMatrixf(*m.Transposed().v);
+	float4x4 tmp = float4x4::identity;
+	for (size_t i = 0; i < text.length(); i++)
+	{
+		for (uint j = 0; j < data_values.length(); ++j)
+		{
+			if (data_values[j] == text[i])
+			{
+				
+				
+				glMultMatrixf(*tmp.Transposed().v);
+				if (t->UImaterial->texture_ids.size()>j)
+				{
+					// Texture
+					glEnable(GL_TEXTURE_2D);
+					glBindTexture(GL_TEXTURE_2D, 0);
+					glBindTexture(GL_TEXTURE_2D, (t->UImaterial->texture_ids.at(to_string(j))));
+				}
+
+				// Vertices
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+				glVertexPointer(3, GL_FLOAT, 0, NULL);
+				
+				// Texture coordinates
+				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+				glColor4fv(t->UImaterial->color);
+				// Indices
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
+				
+				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
+				x += letter_w;
+			}
+		}
+	}
+	
+	glMatrixMode(GL_PROJECTION);              // Select Projection
+	glPopMatrix();							  // Pop The Matrix
+	glMatrixMode(GL_MODELVIEW);               // Select Modelview
+	glPopMatrix();						  // Pop The Matrix
+	glPopMatrix();
+	for (size_t i = 0; i < text.length(); i++)
+	{
+		glPopMatrix();
+	}
+	glEnable(GL_LIGHTING);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisable(GL_BLEND);
+	glDisable(GL_ALPHA_TEST);
 }
 
 void ModuleRenderer3D::SetClearColor(const math::float3 & color) const

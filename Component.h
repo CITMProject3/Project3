@@ -13,6 +13,11 @@ enum ComponentType
 	C_AUDIO = 7,
 	C_COLLIDER = 8,
 	C_CAR = 9,
+	C_RECT_TRANSFORM = 10,
+	C_CANVAS = 11,
+	C_UI_IMAGE = 12,
+	C_UI_TEXT = 13,
+	C_UI_BUTTON = 14
 };
 
 class GameObject;

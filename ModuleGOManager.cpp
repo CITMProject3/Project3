@@ -343,7 +343,7 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 void ModuleGOManager::ClearScene()
 {
 	RemoveGameObject(root);
-
+	current_scene_canvas = nullptr;
 	//TODO: modules should have remove GameObject events and load scene events
 	App->editor->selected.clear();
 
@@ -667,7 +667,7 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 {
 	if (root == nullptr)
 		return;
-	
+
 	ComponentAnimation* c_anim = (ComponentAnimation*)root->GetComponent(C_ANIMATION);
 
 	if (c_anim)
@@ -681,7 +681,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 	const vector<GameObject*>* childs = root->GetChilds();
 	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
 		LinkAnimation(*child);
-
 }
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)

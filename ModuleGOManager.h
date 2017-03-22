@@ -13,6 +13,7 @@ class ComponentCamera;
 class ComponentLight;
 class LayerSystem;
 class RaycastHit;
+class ComponentCanvas;
 
 enum LightType;
 
@@ -105,7 +106,7 @@ public:
 	list<GameObject*> dynamic_gameobjects;
 	bool draw_octree = false;
 	GameObject* root = nullptr;
-
+	ComponentCanvas* current_scene_canvas = nullptr;
 	float3 lastRayData[3];
 };
 

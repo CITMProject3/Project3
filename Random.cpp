@@ -8,7 +8,6 @@ Random::Random()
 
 float Random::RandomFloat()
 {
-
 	seed ^= (seed << 5);
 	seed ^= (seed >> 13);
 	seed ^= (seed << 6);
