@@ -18,6 +18,8 @@
 #include "EventLinkGos.h"
 #include "AutoProfile.h"
 
+#include "ComponentCollider.h"
+
 #include "Time.h"
 
 #include <string>
@@ -107,6 +109,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		ImGui::Text("Current lap: %i", lap);
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
@@ -471,6 +474,21 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::TreePop();
 		}
 	}//Endof Collapsing header
+}
+
+void ComponentCar::OnPlay()
+{
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	if (trs)
+	{
+		reset_pos = trs->GetPosition();
+		reset_rot = trs->GetRotationEuler();
+	}
+}
+
+float ComponentCar::GetVelocity() const
+{
+	return vehicle->GetKmh();
 }
 
 void ComponentCar::HandlePlayerInput()
@@ -1149,6 +1167,51 @@ void ComponentCar::UpdateP2Animation()
 	}
 }
 
+void ComponentCar::WentThroughCheckpoint(ComponentCollider* checkpoint)
+{
+	lastCheckpoint = checkpoint->GetGameObject();
+	switch (checkpoint->n)
+	{
+	case 0:
+		checkpoints |= 0x01;
+		break;
+	case 1:
+		checkpoints |= 0x02;
+		break;
+	case 2:
+		checkpoints |= 0x04;
+		break;
+	case 3:
+		checkpoints |= 0x08;
+		break;
+	case 4:
+		checkpoints |= 0x010;
+		break;
+	case 5:
+		checkpoints |= 0x20;
+		break;
+	case 6:
+		checkpoints |= 0x40;
+		break;
+	case 7:
+		checkpoints |= 0x80;
+		break;
+	}
+}
+
+void ComponentCar::WentThroughEnd(ComponentCollider * end)
+{
+	if (checkpoints >= 255)
+	{
+		checkpoints = 0;
+		lap++;
+		lastCheckpoint = end->GetGameObject();
+	}
+	if (lap >= 4)
+	{
+		TrueReset();
+	}
+}
 //--------------------------------------
 
 void ComponentCar::GameLoopCheck()
@@ -1159,9 +1222,27 @@ void ComponentCar::GameLoopCheck()
 
 void ComponentCar::Reset()
 {
-	vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
-	vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+	if (lastCheckpoint == nullptr)
+	{
+		vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
+		vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+	}
+	else
+	{
+		ComponentTransform* trs = (ComponentTransform*)lastCheckpoint->GetComponent(C_TRANSFORM);
+		float3 tmp = trs->GetPosition();
+		vehicle->SetPos(tmp.x, tmp.y, tmp.z);
+		tmp = trs->GetRotationEuler();
+		vehicle->SetRotation(tmp.x, tmp.y, tmp.z);
+	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+}
+
+void ComponentCar::TrueReset()
+{
+	lastCheckpoint = nullptr;
+	lap = 1;
+	Reset();
 }
 
 void ComponentCar::LimitSpeed()
@@ -1266,6 +1347,12 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
+	if (App->IsGameRunning() == false)
+	{
+		lastCheckpoint = nullptr;
+		checkpoints = 0;
+	}
+
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 
 	for (uint i = 0; i < wheels_go.size(); i++)
@@ -1313,12 +1400,6 @@ void ComponentCar::UpdateGO()
 	if (p2_animation != nullptr)
 	{
 		UpdateP2Animation();
-		/*
-		if (p2_animation->playing == true && p2_animation->current_animation->index == 3)
-			if (p2_animation->playing == true)
-				return;
-
-		p2_animation->PlayAnimation(3, 0.5f);*/
 	}
 }
 

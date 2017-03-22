@@ -14,6 +14,7 @@ using namespace std;
 struct VehicleInfo;
 struct PhysVehicle3D;
 class ComponentAnimation;
+class ComponentCollider;
 
 enum PLAYER
 {
@@ -81,11 +82,16 @@ public:
 	void Load(Data& config);
 	void OnInspector(bool debug);
 
+	void OnPlay();
+
+	//Getters
+	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void Reset();
+	void TrueReset();
 	void LimitSpeed();
 
 
@@ -255,7 +261,14 @@ private:
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
 
-	//----------------------------------------------------------------------------------------------------------------------------------------
+	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
+	public:
+	void WentThroughCheckpoint(ComponentCollider* checkpoint);
+	void WentThroughEnd(ComponentCollider* end);
+	unsigned char checkpoints = 0;
+	GameObject* lastCheckpoint = nullptr;
+	unsigned int lap = 1;
+
 };
 
 

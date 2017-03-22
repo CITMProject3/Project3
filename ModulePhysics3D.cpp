@@ -180,11 +180,11 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 	{
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
 		{
-			//Do something
+			car->WentThroughCheckpoint(trigger);
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
 		{
-			//Do something
+			car->WentThroughEnd(trigger);
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
 		{
