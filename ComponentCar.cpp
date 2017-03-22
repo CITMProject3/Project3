@@ -1149,6 +1149,10 @@ void ComponentCar::UpdateP2Animation()
 			{
 				SetP2AnimationState(P2PUSH_START);
 			}
+			else
+			{
+				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (max_velocity + speed_boost));
+			}
 			break;
 		}
 		case(P2PUSH_START):
@@ -1404,7 +1408,7 @@ void ComponentCar::UpdateGO()
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
-		if (turn_current == turn_max)
+		if (turn_current >= turn_max + turn_boost)
 		{
 			if (p1_animation->current_animation->index != 1)
 			{
@@ -1412,7 +1416,7 @@ void ComponentCar::UpdateGO()
 			}
 
 		}
-		else if (turn_current == -turn_max)
+		else if (turn_current <= -turn_max - turn_boost)
 		{
 			if (p1_animation->current_animation->index != 2)
 			{
@@ -1422,7 +1426,7 @@ void ComponentCar::UpdateGO()
 		else
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
-			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
+			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_max + turn_boost);
 			p1_animation->LockAnimationRatio(ratio);
 		}
 	}
