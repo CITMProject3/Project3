@@ -165,42 +165,32 @@ void ComponentCollider::OnInspector(bool debug)
 		if (ImGui::TreeNode("Trigger options"))
 		{
 			bool a;
-
-			a = ReadFlag(collision_flags, PhysBody3D::co_isTrigger);
-			if (ImGui::Checkbox("Is trigger", &a)) {
-				collision_flags = SetFlag(collision_flags, PhysBody3D::co_isTrigger, a);
-			}
-
-			if (ReadFlag(collision_flags, PhysBody3D::co_isTrigger))
-			{
-				a = ReadFlag(collision_flags, PhysBody3D::co_isTransparent);
-				if (ImGui::Checkbox("Is transparent", &a)) {
-					if (App->IsGameRunning() == false)
-					{
-						collision_flags = SetFlag(collision_flags, PhysBody3D::co_isTransparent, a);
-					}
-				}
-
 				a = ReadFlag(collision_flags, PhysBody3D::co_isItem);
 				if (ImGui::Checkbox("Is item", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isItem, a);
+						collision_flags = SetFlag(collision_flags, PhysBody3D::co_isItem | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
 				}
 
 				a = ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint);
 				if (ImGui::Checkbox("Is checkpoint", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isCheckpoint, a);
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isCheckpoint | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
+				if (a)
+				{
+					ImGui::InputInt("Checkpoint number", &n, 1);
+					if (n > 8) { n = 8; }
+					if (n < 0) { n = 0; }
 				}
 
 				a = ReadFlag(collision_flags, PhysBody3D::co_isFinishLane);
 				if (ImGui::Checkbox("Is finish Lane", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane, a);
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
 				}
 
 				a = ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds);
 				if (ImGui::Checkbox("Is out of bounds", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds, a);
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
 				}
-			}
+
 			ImGui::TreePop();
 		}
 		ImGui::Separator();
