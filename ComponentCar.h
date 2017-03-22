@@ -38,11 +38,14 @@ struct Turbo
 	float speed_boost;
 	float turbo_speed;
 	float deceleration = 1.0f;
+	float fake_accel = 10.0f;
 
 	bool per_ac = false;
 	bool per_sp = false;
 	bool speed_direct = false;
 	bool speed_decrease = false;
+	bool speed_increase = false;
+
 
 	float time;
 	float timer = 0.0;
@@ -80,6 +83,8 @@ public:
 	void GameLoopCheck();
 	void Reset();
 	void LimitSpeed();
+
+	float GetVelocity();
 
 
 private:
@@ -231,6 +236,9 @@ private:
 	float turbo_accel_boost = 0.0f;
 	float turbo_speed_boost = 0.0f;
 	float turbo_deceleration = 0.0f;
+	float turbo_acceleration = 0.0f;
+	float current_speed_boost = 0.0f;
+	bool speed_boost_reached = false;
 	bool to_turbo_speed = false;
 	bool to_turbo_decelerate = false;
 

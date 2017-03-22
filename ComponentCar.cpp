@@ -292,7 +292,17 @@ void ComponentCar::OnInspector(bool debug)
 						{
 							ImGui::DragFloat("Deceleration", &mini_turbo.deceleration, 1.0f, 0.0f);
 						}
+						
 						ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
+						/*if (mini_turbo.speed_direct == true)
+						{
+							ImGui::Checkbox("Speed increase", &mini_turbo.speed_increase);
+
+							if (mini_turbo.speed_increase)
+							{
+								ImGui::DragFloat("Fake acceleration", &mini_turbo.fake_accel, 1.0f, 0.0f);
+							}
+						}*/
 
 
 						ImGui::TreePop();
@@ -313,8 +323,17 @@ void ComponentCar::OnInspector(bool debug)
 						{
 							ImGui::DragFloat("Deceleration", &drift_turbo_2.deceleration, 1.0f, 0.0f);
 						}
-						ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
 
+						ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
+						/*if (drift_turbo_2.speed_direct == true)
+						{
+							ImGui::Checkbox("Speed increase", &drift_turbo_2.speed_increase);
+
+							if (drift_turbo_2.speed_increase)
+							{
+								ImGui::DragFloat("Fake acceleration", &drift_turbo_2.fake_accel, 1.0f, 0.0f);
+							}
+						}*/
 
 						ImGui::TreePop();
 					}
@@ -337,6 +356,15 @@ void ComponentCar::OnInspector(bool debug)
 						}
 						ImGui::Checkbox("Direct speed", &drift_turbo_3.speed_direct);
 
+						/*if (drift_turbo_3.speed_direct == true)
+						{
+							ImGui::Checkbox("Speed increase", &drift_turbo_3.speed_increase);
+
+							if (drift_turbo_3.speed_increase)
+							{
+								ImGui::DragFloat("Fake acceleration", &drift_turbo_3.fake_accel, 1.0f, 0.0f);
+							}
+						}*/
 
 						ImGui::TreePop();
 					}
@@ -366,6 +394,16 @@ void ComponentCar::OnInspector(bool debug)
 								ImGui::DragFloat("Deceleration", &rocket_turbo.deceleration, 1.0f, 0.0f);
 							}
 							ImGui::Checkbox("Direct speed", &rocket_turbo.speed_direct);
+
+							/*if (rocket_turbo.speed_direct == true)
+							{
+								ImGui::Checkbox("Speed increase", &rocket_turbo.speed_increase);
+
+								if (rocket_turbo.speed_increase)
+								{
+									ImGui::DragFloat("Fake acceleration", &rocket_turbo.fake_accel, 1.0f, 0.0f);
+								}
+							}*/
 
 							ImGui::TreePop();
 						}
@@ -588,6 +626,9 @@ void ComponentCar::HandlePlayerInput()
 		}
 	}*/
 	JoystickControls(&accel, &brake, &turning);
+
+	
+
 	ApplyTurbo();
 
 	//Acrobactics control
@@ -654,7 +695,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
 		{
-			ReleaseItem();
+		//	ReleaseItem();
 		}
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
@@ -735,7 +776,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 	{
 		//current_turbo = T_MINI;
-		ReleaseItem();
+		//ReleaseItem();
 	}
 
 	//Front player
@@ -965,12 +1006,7 @@ void ComponentCar::ApplyTurbo()
 	//If there's a turbo on, apply it
 	if (applied_turbo)
 	{
-		//Speed boost after first frame
-		//NOTE: this doesn't need to be aplied after first frame anymore
-		if (to_turbo_speed)
-		{	
-			
-		}
+	
 
 		//Changes applied when turbo started
 		if (start)
@@ -988,22 +1024,46 @@ void ComponentCar::ApplyTurbo()
 				turbo_speed_boost = applied_turbo->speed_boost;
 
 
-			if (applied_turbo->speed_direct)
+			if (applied_turbo->speed_direct && !applied_turbo->speed_increase)
 			{
 				float3 fv = game_object->transform->GetForward();
 				float s_offset = 0.5;
 				vehicle->SetVelocity(fv.x, fv.y, fv.z, max_velocity + turbo_speed_boost - s_offset);
-				to_turbo_speed = false;
 			}
 
 			turbo_deceleration = applied_turbo->deceleration;
+			turbo_acceleration = applied_turbo->fake_accel;
 			to_turbo_decelerate = applied_turbo->speed_decrease;
+			current_speed_boost = 0.0f;
+			speed_boost_reached = false;
 
 		}
 
 		//Turbo applied every frame till it's time finish and then go to idle turbo
 		if (applied_turbo->timer < applied_turbo->time)
 		{
+			if (!speed_boost_reached)
+			{
+				if (applied_turbo->speed_direct && applied_turbo->speed_increase)
+				{
+					//Testing inn progress of progressive acceleration
+					current_speed_boost += turbo_acceleration * time->DeltaTime();
+
+					if (vehicle->GetKmh() > top_velocity)
+					{
+						speed_boost_reached = true;
+					}
+
+					float3 fv = game_object->transform->GetForward();
+					float s_offset = 0.5;
+					float current_velocity = GetVelocity();
+					float desired_velocity = GetVelocity() + turbo_acceleration; //* time->DeltaTime();
+					vehicle->SetVelocity(fv.x, fv.y, fv.z, desired_velocity);
+				}
+
+			}
+			
+
 			accel_boost += turbo_accel_boost;
 			speed_boost += turbo_speed_boost;
 
@@ -1136,16 +1196,22 @@ void ComponentCar::LimitSpeed()
 
 	if (vehicle)
 	{
-		top_velocity = (max_velocity + speed_boost);
-		if (vehicle->GetKmh() > top_velocity)
+		top_velocity = max_velocity + speed_boost;
+		//Here went definition of top_velocity
+		if (GetVelocity() > top_velocity)
 		{
 			vehicle->SetModularSpeed(top_velocity * KmhToMs);
 		}
-		else if (vehicle->GetKmh() < min_velocity)
+		else if (GetVelocity() < min_velocity)
 		{
 			vehicle->SetModularSpeed(-(min_velocity * KmhToMs));
 		}
 	}
+}
+
+float ComponentCar::GetVelocity()
+{
+	return vehicle->GetKmh();
 }
 
 void ComponentCar::CreateCar()
