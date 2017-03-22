@@ -79,8 +79,8 @@ public:
 	ModuleLighting* lighting;
 	Editor* editor;
 	Random* rnd = nullptr;
-private:
 
+private:
 
 	vector<Module*> list_modules;
 	int fps = 60;
