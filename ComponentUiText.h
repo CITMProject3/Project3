@@ -31,6 +31,7 @@ public:
 	float GetImgWidth() const;
 	float GetImgHeight()const;
 	void SetText(string &text);
+	void SetDisplayText(string text);
 private:
 	void GenerateFont();
 	bool OnChangeTexture();
@@ -44,7 +45,7 @@ private:
 	uint img_height = 0;
 	uint char_w = 0;
 	uint char_h = 0;
-
+	int text_type = 0;
 	string current_text_changing = "";
 };
 

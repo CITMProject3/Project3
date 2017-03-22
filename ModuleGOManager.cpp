@@ -488,7 +488,8 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
 			go_component = (Component*)go->transform;
-		go_component->Load(component);
+		if(go_component != nullptr)
+			go_component->Load(component);
 	}
 
 	if (is_static)
