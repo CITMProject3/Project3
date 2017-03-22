@@ -1,4 +1,3 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
@@ -15,7 +14,6 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|Win32.Build.0 = Debug|Win32
-<<<<<<< HEAD
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|x86.ActiveCfg = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|x86.Build.0 = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.ActiveCfg = Release|Win32
@@ -24,10 +22,6 @@ Global
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|x86.ActiveCfg = Release|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|x86.Build.0 = Release|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|x86.Deploy.0 = Release|Win32
-=======
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.ActiveCfg = Release|Win32
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.Build.0 = Release|Win32
->>>>>>> Engine
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
