@@ -169,23 +169,28 @@ bool ModulePhysics3D::CleanUp()
 	return true;
 }
 
-void ModulePhysics3D::OnCollision(PhysBody3D * car, PhysBody3D * body)
+void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 {
-	if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
+	ComponentCar* car = physCar->GetCar();
+	ComponentCollider* trigger = body->GetCollider();
+	if (car != nullptr && trigger != nullptr)
 	{
-		bool a = false;
-	}
-	if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
-	{
-		bool a = false;
-	}
-	if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
-	{
-		bool a = false;
-	}
-	if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
-	{
-		bool a = false;
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
+		{
+			//Do something
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
+		{
+			//Do something
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
+		{
+			//Do something
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
+		{
+			//Do something
+		}
 	}
 }
 
