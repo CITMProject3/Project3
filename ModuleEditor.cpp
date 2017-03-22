@@ -194,6 +194,8 @@ void ModuleEditor::Unselect(GameObject* game_object)
 
 void ModuleEditor::UnselectAll()
 {
+	assign_wheel = -1;
+	wheel_assign = nullptr;
 	selected.clear();
 }
 

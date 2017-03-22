@@ -787,6 +787,10 @@ bool ComponentCar::Push(float* accel)
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
 		*accel += push_force;
+		if (p2_animation != nullptr)
+		{
+			p2_animation->PlayAnimation(3, 0.5f);
+		}
 	}
 
 	return ret;
@@ -1186,7 +1190,6 @@ void ComponentCar::UpdateGO()
 			if (p1_animation->current_animation->index != 1)
 			{
 				p1_animation->PlayAnimation(1, 0.5f);
-				p2_animation->PlayAnimation(1, 0.5f);
 			}
 
 		}
@@ -1195,17 +1198,23 @@ void ComponentCar::UpdateGO()
 			if (p1_animation->current_animation->index != 2)
 			{
 				p1_animation->PlayAnimation(2, 0.5f);
-				p2_animation->PlayAnimation(2, 0.5f);
 			}
 		}
 		else
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
-			p2_animation->PlayAnimation((uint)0, 0.5f);
 			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
 			p1_animation->LockAnimationRatio(ratio);
-			p2_animation->LockAnimationRatio(ratio);
 		}
+	}
+
+	if (p2_animation != nullptr)
+	{
+		if (p2_animation->playing == true && p2_animation->current_animation->index == 3)
+			if (p2_animation->playing == true)
+				return;
+
+		p2_animation->PlayAnimation(4, 0.5f);
 	}
 }
 
