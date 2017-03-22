@@ -16,6 +16,7 @@
 #include "PhysVehicle3D.h"
 #include "EventQueue.h"
 #include "EventLinkGos.h"
+#include "AutoProfile.h"
 
 #include "Time.h"
 
@@ -1080,9 +1081,15 @@ void ComponentCar::LimitSpeed()
 
 void ComponentCar::CreateCar()
 {
-	if (p1_animation == nullptr)
+	std::vector<Component*> components;
+	game_object->GetComponentsInChilds(C_ANIMATION, components);
+	if (p1_animation == nullptr && components.size() > 0)
 	{
-		p1_animation = (ComponentAnimation*)game_object->GetComponentInChilds(C_ANIMATION);
+		p1_animation = (ComponentAnimation*)components[0];
+	}
+	if (p2_animation == nullptr && components.size() > 1)
+	{
+		p2_animation = (ComponentAnimation*)components[1];
 	}
 
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
@@ -1177,18 +1184,27 @@ void ComponentCar::UpdateGO()
 		if (turn_current == turn_max)
 		{
 			if (p1_animation->current_animation->index != 1)
+			{
 				p1_animation->PlayAnimation(1, 0.5f);
+				p2_animation->PlayAnimation(1, 0.5f);
+			}
+
 		}
 		else if (turn_current == -turn_max)
 		{
 			if (p1_animation->current_animation->index != 2)
+			{
 				p1_animation->PlayAnimation(2, 0.5f);
+				p2_animation->PlayAnimation(2, 0.5f);
+			}
 		}
 		else
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
+			p2_animation->PlayAnimation((uint)0, 0.5f);
 			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
 			p1_animation->LockAnimationRatio(ratio);
+			p2_animation->LockAnimationRatio(ratio);
 		}
 	}
 }
