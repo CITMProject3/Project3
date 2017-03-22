@@ -109,6 +109,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		ImGui::Text("Current lap: %i", lap);
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
