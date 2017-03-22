@@ -17,6 +17,9 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
+#include "ComponentCar.h"
+#include "ComponentCollider.h"
+
 #include "Assets.h"
 #include "RaycastHit.h"
 #include "Time.h"
@@ -190,6 +193,7 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
 		{
 			//Do something
+			car->Reset();
 		}
 	}
 }
