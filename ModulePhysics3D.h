@@ -2,11 +2,11 @@
 #define __MODULEPHYSICS_H__
 
 #include "Module.h"
-#include "Globals.h"
-#include <list>
+
 #include "Primitive.h"
 
-class ResourceFileTexture;
+#include <list>
+#include <string>
 
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
@@ -14,12 +14,14 @@ class ResourceFileTexture;
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
-
-class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
+
+class DebugDrawer;
 class ComponentMesh;
+class ResourceFileTexture;
+
 class btHeightfieldTerrainShape;
 
 class ModulePhysics3D : public Module
@@ -47,11 +49,11 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
 
-	bool GenerateHeightmap(string resLibPath);
+	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainHeightScale(float scale);
 
-	void LoadTexture(string resLibPath);
+	void LoadTexture(std::string resLibPath);
 	void DeleteTexture();
 
 	bool TerrainIsGenerated();
@@ -87,11 +89,11 @@ private:
 	btDefaultVehicleRaycaster*			vehicle_raycaster;
 	DebugDrawer*						debug_draw = nullptr;
 
-	list<btCollisionShape*> shapes;
-	list<PhysBody3D*> bodies;
-	list<btDefaultMotionState*> motions;
-	list<btTypedConstraint*> constraints;
-	list<PhysVehicle3D*> vehicles;
+	std::list<btCollisionShape*> shapes;
+	std::list<PhysBody3D*> bodies;
+	std::list<btDefaultMotionState*> motions;
+	std::list<btTypedConstraint*> constraints;
+	std::list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
 	float* terrainData = nullptr;
@@ -115,6 +117,7 @@ public:
 class DebugDrawer : public btIDebugDraw
 {
 public:
+
 	DebugDrawer() : line(0,0,0)
 	{}
 

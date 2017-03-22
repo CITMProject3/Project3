@@ -2,9 +2,11 @@
 #define __ModuleWindow_H__
 
 #include "Module.h"
-#include "SDL/include/SDL.h"
 
 class Application;
+
+struct SDL_Window;
+struct SDL_Surface;
 
 class ModuleWindow : public Module
 {
@@ -30,11 +32,13 @@ public:
 	void SetScreenSize(int width, int height);
 
 public:
+
 	//The window we'll be rendering to
 	SDL_Window* window;
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface;
+
 private:
 	int width = 1270;
 	int height = 860;

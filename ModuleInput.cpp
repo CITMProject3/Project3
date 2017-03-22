@@ -1,13 +1,16 @@
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleInput.h"
+#include "ModuleWindow.h"
+#include "ModuleResourceManager.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleEditor.h"
+
+#include "SDL/include/SDL.h"
 
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 #include "imgui\imgui_internal.h"
-#include "ModuleWindow.h"
-#include "ModuleResourceManager.h"
-#include "ModuleRenderer3D.h"
+
 #define MAX_KEYS 300
 
 ModuleInput::ModuleInput(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -275,12 +278,69 @@ void ModuleInput::SetMouseY(int y)
 	mouse_y = y;
 }
 
+int ModuleInput::GetMouseX() const
+{
+	return mouse_x;
+}
+
+int ModuleInput::GetMouseY() const
+{
+	return mouse_y;
+}
+
+int ModuleInput::GetMouseXMotion() const
+{
+	return mouse_x_motion;
+}
+
+int ModuleInput::GetMouseYMotion() const
+{
+	return mouse_y_motion;
+}
+
 int ModuleInput::GetMouseZ() const
 {
 	if (App->editor->UsingMouse() == false)
 		return mouse_z;
 	else
 		return 0;
+}
+
+KEY_STATE ModuleInput::GetJoystickButton(unsigned int joy, JOY_BUTTON id) const
+{
+	if (joy < joysticks.size() && joy >= 0)
+	{
+		return joysticks[joy]->button[id];
+	}
+	return KEY_IDLE;
+}
+
+float ModuleInput::GetJoystickAxis(unsigned int joy, JOY_AXIS id) const //From -1.0f to 1.0f
+{
+	if (joy < joysticks.size() && joy >= 0)
+	{
+		float ret = (float)joysticks[joy]->axis[id] / 32768;
+
+		if (ret < TOLERANCE && ret > TOLERANCE) ret = 0;
+
+		return ret;
+	}
+	return 0.0f;
+}
+
+int ModuleInput::GetNumberJoysticks() const
+{
+	return num_joysticks;
+}
+
+bool ModuleInput::Quit() const
+{
+	return wants_to_quit;
+}
+
+void ModuleInput::ResetQuit()
+{
+	wants_to_quit = false;
 }
 
 void ModuleInput::InfiniteHorizontal()

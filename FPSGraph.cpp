@@ -19,7 +19,7 @@ void FPSGraph::Draw()
 	//Get frames
 	if (frames.size() > 100) //Max seconds to show
 	{
-		for (int i = 1; i < frames.size(); i++)
+		for (size_t i = 1; i < frames.size(); i++)
 		{
 			frames[i-1] = frames[i];
 		}

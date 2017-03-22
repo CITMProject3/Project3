@@ -8,7 +8,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "MathGeoLib\include\MathBuildConfig.h"
 
-class Mesh;
+struct Mesh;
 class GameObject;
 class ComponentTransform;
 class ComponentCamera;

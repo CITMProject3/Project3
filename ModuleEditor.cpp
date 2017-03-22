@@ -1,7 +1,22 @@
+#include "ModuleEditor.h"
+
 #include "Application.h"
-#include "Editor.h"
-#include "Imgui\imgui.h"
-#include "Random.h"
+#include "ModuleInput.h"
+#include "ModuleFileSystem.h"
+#include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
+#include "ModulePhysics3D.h"
+#include "ModuleCamera3D.h"
+#include "ModuleGOManager.h"
+
+#include "GameObject.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
+#include "ComponentLight.h"
+
+#include "Time.h"
+
+#include "AutoProfile.h"
 #include "FPSGraph.h"
 #include "WindowOptions.h"
 #include "HardwareInfo.h"
@@ -10,9 +25,8 @@
 #include "Hierarchy.h"
 #include "Inspector.h"
 #include "Profiler.h"
-#include "DebugDraw.h"
+
 #include "CameraWindow.h"
-#include "Time.h"
 #include "ResourcesWindow.h"
 #include "MaterialCreatorWindow.h"
 #include "ShaderEditorWindow.h"
@@ -20,31 +34,22 @@
 #include "LayersWindow.h"
 #include "CurveWindow.h"
 #include "RenderTexEditorWindow.h"
-#include "ModuleCamera3D.h"
-#include "ComponentCamera.h"
 #include "TestWindow.h"
-#include "GameObject.h"
-#include "ComponentLight.h"
 #include "RaycastHit.h"
-#include "ModuleGOManager.h"
-#include "ImGuizmo\ImGuizmo.h"
-#include "GameObject.h"
-#include "ComponentTransform.h"
-#include "ModuleInput.h"
-#include "ModuleFileSystem.h"
-#include "ModuleWindow.h"
-#include "ModuleRenderer3D.h"
-#include "ModulePhysics3D.h"
 
-Editor::Editor(const char* name, bool start_enabled) : Module(name, start_enabled)
+#include "SDL/include/SDL_scancode.h"
+#include "SDL/include/SDL_messagebox.h"
+#include "SDL/include/SDL_mouse.h"
+
+ModuleEditor::ModuleEditor(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
 	windows.push_back(console = new Console()); //Create console in the constructor to get ALL init logs from other modules.
 }
 
-Editor::~Editor()
+ModuleEditor::~ModuleEditor()
 {}
 
-bool Editor::Init(Data & config)
+bool ModuleEditor::Init(Data & config)
 {
 	//TODO: move into parameter configuration setup (like window color)
 
@@ -57,30 +62,38 @@ bool Editor::Init(Data & config)
 	return true;
 }
 
-bool Editor::Start()
+bool ModuleEditor::Start()
 {
 	bool ret = true;
 
 	LOG("Start Editor");
 
-	//Create Windows
-	windows.push_back(&g_Profiler);
-	windows.push_back(fps_graph_win = new FPSGraph());
-	windows.push_back(winoptions_win = new WindowOptions());
-	windows.push_back(hardware_win = new HardwareInfo());
-	windows.push_back(assets = new Assets());
-	windows.push_back(hierarchy = new Hierarchy());
-	windows.push_back(inspector = new Inspector());
-	windows.push_back(camera_win = new CameraWindow());
-	windows.push_back(resource_win = new ResourcesWindow());
-	windows.push_back(material_creator_win = new MaterialCreatorWindow());
-	windows.push_back(shader_editor_win = new ShaderEditorWindow());
-	windows.push_back(lighting_win = new LightingWindow());
-	windows.push_back(layers_win = new LayersWindow());
-	windows.push_back(rendertex_win = new RenderTexEditorWindow());
-	windows.push_back(test_win = new TestWindow());
-	windows.push_back(curve_win = new CurveWindow());
-	InitSizes();
+	if (App->StartInGame() == false)
+	{
+		//Create Windows
+		windows.push_back(&g_Profiler);
+		windows.push_back(fps_graph_win = new FPSGraph());
+		windows.push_back(winoptions_win = new WindowOptions());
+		windows.push_back(hardware_win = new HardwareInfo());
+		windows.push_back(assets = new Assets());
+		windows.push_back(hierarchy = new Hierarchy());
+		windows.push_back(inspector = new Inspector());
+		windows.push_back(camera_win = new CameraWindow());
+		windows.push_back(resource_win = new ResourcesWindow());
+		windows.push_back(material_creator_win = new MaterialCreatorWindow());
+		windows.push_back(shader_editor_win = new ShaderEditorWindow());
+		windows.push_back(lighting_win = new LightingWindow());
+		windows.push_back(layers_win = new LayersWindow());
+		windows.push_back(rendertex_win = new RenderTexEditorWindow());
+		windows.push_back(test_win = new TestWindow());
+		windows.push_back(curve_win = new CurveWindow());
+		InitSizes();
+	}	
+	else
+	{
+		//Start in game
+		disable_grid = true;
+	}
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
@@ -90,7 +103,7 @@ bool Editor::Start()
 	return ret;
 }
 
-bool Editor::CleanUp()
+bool ModuleEditor::CleanUp()
 {
 	LOG("Clean Up Editor");
 
@@ -113,25 +126,25 @@ bool Editor::CleanUp()
 	return true;
 }
 
-string Editor::GetAssetsCurrentDir() const
+string ModuleEditor::GetAssetsCurrentDir() const
 {
 	return assets->CurrentDirectory();
 }
 
-void Editor::RefreshAssets() const
+void ModuleEditor::RefreshAssets() const
 {
 	if (assets)
 		assets->Refresh();
 }
 
-void Editor::InitSizes()
+void ModuleEditor::InitSizes()
 {
 	hierarchy->SetRelativeDimensions(ImVec2(0, 0.0), ImVec2(0.15, 0.8));
 	inspector->SetRelativeDimensions(ImVec2(0.80, 0.0), ImVec2(0.20, 0.8));
 	assets->SetRelativeDimensions(ImVec2(0, 0.8), ImVec2(1.0, 0.2));
 }
 
-void Editor::OnResize(int screen_width, int screen_height)
+void ModuleEditor::OnResize(int screen_width, int screen_height)
 {
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
@@ -141,31 +154,31 @@ void Editor::OnResize(int screen_width, int screen_height)
 	}
 }
 
-bool Editor::UsingKeyboard() const
+bool ModuleEditor::UsingKeyboard() const
 {
 	return using_keyboard;
 }
 
-bool Editor::UsingMouse() const
+bool ModuleEditor::UsingMouse() const
 {
 	return using_mouse;
 }
 
-void Editor::SelectSingle(GameObject* game_object)
+void ModuleEditor::SelectSingle(GameObject* game_object)
 {
 	UnselectAll();
 	if (game_object != nullptr)
 		selected.push_back(game_object);
 }
 
-void Editor::AddSelect(GameObject* game_object)
+void ModuleEditor::AddSelect(GameObject* game_object)
 {
 	//Just for safety
 	if (game_object != nullptr && IsSelected(game_object) == false)
 		selected.push_back(game_object);
 }
 
-void Editor::Unselect(GameObject* game_object)
+void ModuleEditor::Unselect(GameObject* game_object)
 {
 	std::list<GameObject*>::iterator it = selected.begin();
 	while (it != selected.end())
@@ -179,12 +192,12 @@ void Editor::Unselect(GameObject* game_object)
 	}
 }
 
-void Editor::UnselectAll()
+void ModuleEditor::UnselectAll()
 {
 	selected.clear();
 }
 
-bool Editor::IsSelected(GameObject* game_object) const
+bool ModuleEditor::IsSelected(GameObject* game_object) const
 {
 	std::list<GameObject*>::const_iterator it = selected.begin();
 	while (it != selected.end())
@@ -198,7 +211,7 @@ bool Editor::IsSelected(GameObject* game_object) const
 	return false;
 }
 
-void Editor::RemoveSelected()
+void ModuleEditor::RemoveSelected()
 {
 	std::list<GameObject*>::const_iterator it = selected.begin();
 	while (it != selected.end())
@@ -209,22 +222,22 @@ void Editor::RemoveSelected()
 	selected.clear();
 }
 
-void Editor::Copy(GameObject* game_object)
+void ModuleEditor::Copy(GameObject* game_object)
 {
 
 }
 
-void Editor::Paste(GameObject* game_object)
+void ModuleEditor::Paste(GameObject* game_object)
 {
 	
 }
 
-void Editor::Duplicate(GameObject* game_object)
+void ModuleEditor::Duplicate(GameObject* game_object)
 {
 
 }
 
-update_status Editor::PreUpdate()
+update_status ModuleEditor::PreUpdate()
 {
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
 	using_mouse = ImGui::GetIO().WantCaptureMouse;
@@ -232,15 +245,20 @@ update_status Editor::PreUpdate()
 	return UPDATE_CONTINUE;
 }
 
-update_status Editor::Update()
+update_status ModuleEditor::Update()
 {
 	PROFILE("Editor::Update()");
 
 	update_status ret = UPDATE_CONTINUE;
 
-	GameOptions(); //Play/Stop/Next Frame buttons
+	
 	DisplayGizmo();
-	ret = EditorWindows(); //Update the windows of the editor
+
+	if (App->StartInGame() == false)
+	{
+		GameOptions(); //Play/Stop/Next Frame buttons
+		ret = EditorWindows(); //Update the windows of the editor
+	}
 	
 	//Draw Grid
 	if (!disable_grid)
@@ -261,10 +279,16 @@ update_status Editor::Update()
 	//Handle Quit event
 	if (App->input->Quit())
 	{
-		save_quit = true;
-		OpenSaveSceneWindow();
+		if (App->StartInGame() == false)
+		{
+			save_quit = true;
+			OpenSaveSceneWindow();
+		}
+		else
+		{
+			quit = true;
+		}
 	}
-
 
 	if (quit)
 		ret = UPDATE_STOP;
@@ -272,7 +296,7 @@ update_status Editor::Update()
 	return ret;	
 }
 
-void Editor::HandleInput()
+void ModuleEditor::HandleInput()
 {
 	//Shortcut to save. TODO: Do a better implementation of the shortcuts
 	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_S) == KEY_DOWN)
@@ -315,7 +339,7 @@ void Editor::HandleInput()
 	}
 }
 
-void Editor::GameOptions() const
+void ModuleEditor::GameOptions() const
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth()/2, 30));
 	bool open = true;
@@ -345,7 +369,7 @@ void Editor::GameOptions() const
 	ImGui::End();
 }
 
-update_status Editor::EditorWindows()
+update_status ModuleEditor::EditorWindows()
 {
 	update_status ret = UPDATE_CONTINUE;
 
@@ -405,7 +429,7 @@ update_status Editor::EditorWindows()
 }
 
 
-void Editor::FileMenu()
+void ModuleEditor::FileMenu()
 {
 	if (ImGui::MenuItem("New Scene"))
 	{
@@ -436,7 +460,7 @@ void Editor::FileMenu()
 }
 
 //Menus -----------------------------------------------------------------------------------------------
-void Editor::HelpMenu()
+void ModuleEditor::HelpMenu()
 {
 	if (ImGui::MenuItem("Documentation"))
 		App->OpenURL("https://github.com/traguill/Ezwix-Engine/wiki");
@@ -463,7 +487,7 @@ void Editor::HelpMenu()
 	}
 }
 
-void Editor::WindowsMenu()
+void ModuleEditor::WindowsMenu()
 {
 	if (ImGui::BeginMenu("Configuration"))
 	{
@@ -529,7 +553,7 @@ void Editor::WindowsMenu()
 	}
 }
 
-void Editor::EditMenu()
+void ModuleEditor::EditMenu()
 {
 	if (ImGui::MenuItem("Camera"))
 	{
@@ -560,7 +584,7 @@ void Editor::EditMenu()
 	
 }
 
-void Editor::GameObjectMenu()
+void ModuleEditor::GameObjectMenu()
 {
 	if (ImGui::MenuItem("Create Empty"))
 	{
@@ -596,7 +620,7 @@ void Editor::GameObjectMenu()
 	}
 }
 
-void Editor::PhysicsMenu()
+void ModuleEditor::PhysicsMenu()
 {	
 	if (ImGui::BeginMenu("Select a heightmap:"))
 	{
@@ -604,7 +628,7 @@ void Editor::PhysicsMenu()
 		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
 		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
 
-		for (int i = 0; i < textures_list.size(); ++i)
+		for (size_t i = 0; i < textures_list.size(); ++i)
 		{
 			if (ImGui::MenuItem(textures_list[i].data()))
 			{
@@ -642,7 +666,7 @@ void Editor::PhysicsMenu()
 			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
 			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
 
-			for (int i = 0; i < textures_list.size(); ++i)
+			for (size_t i = 0; i < textures_list.size(); ++i)
 			{
 				if (ImGui::MenuItem(textures_list[i].data()))
 				{
@@ -700,7 +724,7 @@ void Editor::PhysicsMenu()
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 
-void Editor::DebugMenu()
+void ModuleEditor::DebugMenu()
 {
 	if (ImGui::MenuItem("Show/Hide Octree"))
 	{
@@ -713,7 +737,7 @@ void Editor::DebugMenu()
 	if (App->renderer3D->renderAABBs) { ImGui::SameLine(); ImGui::Text("X"); }
 }
 
-bool Editor::QuitWindow()
+bool ModuleEditor::QuitWindow()
 {
 	bool ret = false;
 
@@ -770,7 +794,7 @@ bool Editor::QuitWindow()
 	return ret;
 }
 
-void Editor::OnSaveCall()
+void ModuleEditor::OnSaveCall()
 {
 	std::string scene = App->go_manager->GetCurrentScenePath();
 	if (scene == "")
@@ -792,7 +816,7 @@ void Editor::OnSaveCall()
 	}
 }
 
-void Editor::OpenSaveSceneWindow()
+void ModuleEditor::OpenSaveSceneWindow()
 {
 	std::string scene_name_path = App->go_manager->GetCurrentScenePath();
 	if (scene_name_path != "")
@@ -812,7 +836,7 @@ void Editor::OpenSaveSceneWindow()
 	save_scene_win = true;
 }
 
-void Editor::SaveSceneWindow()
+void ModuleEditor::SaveSceneWindow()
 {
 	if (save_scene_win)
 	{
@@ -858,7 +882,7 @@ void Editor::SaveSceneWindow()
 }
 
 
-void Editor::DisplayGizmo()
+void ModuleEditor::DisplayGizmo()
 {
 	//Selection keys
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN)

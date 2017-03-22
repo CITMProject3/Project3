@@ -2,21 +2,22 @@
 #define __MODULERENDERER3D_H__
 
 #include "Module.h"
-#include "Globals.h"
 #include "MathGeoLib\include\MathGeoLib.h"
+
 #include "Light.h"
-#include <vector>
-#include <map>
 #include "Subject.h"
-#include "ModuleLighting.h"
+
+#include <vector>
+#include <utility> // for pair struct
 
 #define MAX_LIGHTS 8
 
 using namespace math;
 
-class Mesh;
+struct Mesh;
 class GameObject;
 class ComponentCamera;
+typedef void *SDL_GLContext;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -43,25 +44,26 @@ public:
 	void DrawLocator(float4x4 transform, float4 color = float4(1, 1, 1, 1));
 	void DrawLocator(float3 pos, Quat rot, float4 color = float4(1, 1, 1, 1));
 	void DrawAABB(float3 minPoint, float3 maxPoint, float4 color = float4(1, 1, 1, 1));
-
+	void DrawUIImage(GameObject* obj)const;
+	void DrawUIText(GameObject* obj)const;
 private:
 
-
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
-	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
+	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam)const;
 
-
 public:
+
 	bool renderAABBs = false;
 	Light lights[MAX_LIGHTS];
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	ComponentCamera* camera;
+
 private:
 
-	vector<GameObject*> objects_to_draw;
+	std::vector<GameObject*> objects_to_draw;
 };
 
 #endif // !__MODULERENDERER3D_H__

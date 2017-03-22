@@ -10,6 +10,11 @@
 #include "ComponentAudio.h"
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
+#include "ComponentRectTransform.h"
+#include "ComponentUiImage.h"
+#include "ComponentUiText.h"
+#include "ComponentCanvas.h"
+#include "ComponentUiButton.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -18,6 +23,8 @@
 #include "ComponentBone.h"
 #include "ModuleGOManager.h"
 #include "ResourceFilePrefab.h"
+
+#include "Random.h"
 
 GameObject::GameObject()
 {
@@ -146,7 +153,7 @@ bool GameObject::RemoveChild(GameObject* child)
 
 void GameObject::RemoveAllChilds()
 {
-	for (int i = 0; i < childs.size(); i++)
+	for (size_t i = 0; i < childs.size(); i++)
 	{
 		App->go_manager->FastRemoveGameObject(childs[i]);
 	}
@@ -337,7 +344,6 @@ bool GameObject::IsPrefab() const
 Component* GameObject::AddComponent(ComponentType type)
 {
 	Component* item = nullptr;
-
 	switch (type)
 	{
 	case C_TRANSFORM:
@@ -383,7 +389,32 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (transform)
 			item = new ComponentAudio(type, this);
 		break;
-
+	case C_RECT_TRANSFORM:
+		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
+			item = new ComponentRectTransform(type, this);
+		break;
+	case C_UI_IMAGE:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiImage(type, this);
+		break;
+	case C_UI_TEXT:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiText(type,this);
+		break;
+	case C_CANVAS:
+		if (GetComponent(C_RECT_TRANSFORM))
+		{
+			if (App->go_manager->current_scene_canvas == nullptr)
+			{
+				item = new ComponentCanvas(type, this);
+				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
+			}
+		}	
+		break;
+	case C_UI_BUTTON:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiButton(type, this);
+		break;
 	default:
 		LOG("Unknown type specified for GameObject %s", name);
 		break;
@@ -425,6 +456,22 @@ Component* GameObject::GetComponent(ComponentType type)const
 		}
 	}
 	return nullptr;
+}
+
+Component* GameObject::GetComponentInChilds(ComponentType type) const
+{
+	Component* ret = nullptr;
+	if ((ret = GetComponent(type)) != nullptr)
+		return ret;
+	vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		if ((ret = (*it)->GetComponentInChilds(type)) != nullptr)
+		{
+			return ret;
+		}
+	}
+	return ret;
 }
 
 void GameObject::RemoveComponent(Component * component)
@@ -547,7 +594,7 @@ bool GameObject::RayCast(Ray raycast, RaycastHit & hit_OUT)
 			float distance;
 			vec hit_point;
 			Triangle triangle;
-			for (int i = 0; i < mesh->num_indices; i+=3)
+			for (unsigned int i = 0; i < mesh->num_indices; i+=3)
 			{
 				u1 = mesh->indices[i];
 				u2 = mesh->indices[i+1];

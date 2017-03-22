@@ -1,16 +1,18 @@
 #ifndef __EDITOR_H__
 #define __EDITOR_H__
 
-//PEP : this is a git bash test
-
 #include "Module.h"
-#include "Globals.h"
+
+#include "Skybox.h"
+
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "ImGuizmo\ImGuizmo.h"
-#include "Window.h"
+#include "imgui/imgui.h"
+
 #include <list>
 #include <vector>
-#include "Skybox.h"
+
+class GameObject;
 
 class FPSGraph;
 class WindowOptions;
@@ -19,6 +21,7 @@ class Console;
 class Assets;
 class Hierarchy;
 class Inspector;
+class Window;
 class CameraWindow;
 class ResourcesWindow;
 class MaterialCreatorWindow;
@@ -31,12 +34,12 @@ class CurveWindow;
 
 using namespace std;
 
-class Editor : public Module
+class ModuleEditor : public Module
 {
 public:
-	Editor(const char* name, bool start_enabled = true);
-	~Editor();
-	 
+	ModuleEditor(const char* name, bool start_enabled = true);
+	~ModuleEditor();
+
 	bool Init(Data& config);
 
 	bool Start();
@@ -75,7 +78,7 @@ private:
 
 	//Editor Windows
 	update_status EditorWindows();
-	
+
 	//Menus
 	void FileMenu();
 	void HelpMenu();
