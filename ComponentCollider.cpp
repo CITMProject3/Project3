@@ -222,6 +222,8 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
+	data.AppendUInt("flags", (uint)collision_flags);
+
 	data.AppendInt("shape", shape);
 	data.AppendBool("static", Static);
 	data.AppendFloat("mass", mass);
@@ -260,6 +262,7 @@ void ComponentCollider::Load(Data & conf)
 		((Sphere_P*)primitive)->radius = conf.GetFloat("radius");
 		break;
 	}
+	collision_flags = (unsigned char)conf.GetUInt("flags");
 }
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)

@@ -39,6 +39,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OnCollision(PhysBody3D* car, PhysBody3D* body);
+
 	void OnPlay();
 	void OnStop();
 
