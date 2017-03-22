@@ -40,9 +40,9 @@ bool CubeMap::Load()
 
 		if (size > 0)
 		{
-			ILuint id;
-			ilGenImages(1, &id);
-			ilBindImage(id);
+			ILuint il_id;
+			ilGenImages(1, &il_id);
+			ilBindImage(il_id);
 			if (ilLoadL(IL_DDS, (const void*)buffer, size))
 			{
 				ILinfo info;
@@ -55,13 +55,28 @@ bool CubeMap::Load()
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 				glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
-				ilDeleteImages(1, &id);
+				ilDeleteImages(1, &il_id);
 			}
 		}
 		delete[] buffer;	
 	}
 
 	return true;
+}
+
+bool CubeMap::Unload()
+{
+	bool ret = true;
+
+	glDeleteBuffers(1, (GLuint*)&id);
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		LOG("Error removing buffer %i : %s", id, gluErrorString(error));
+		ret = false;
+	}
+
+	return ret;	
 }
 
 void CubeMap::Bind(int texture_unit)

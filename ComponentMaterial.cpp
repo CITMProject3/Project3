@@ -123,10 +123,7 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::ColorEdit4("Color: ###materialColor", color);
 				ChooseAlphaType();
 			}
-				
-		}
-		
-		
+		}		
 	}
 }
 
