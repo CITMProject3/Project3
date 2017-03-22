@@ -27,6 +27,7 @@ enum TURBO
 	T_MINI,
 	T_DRIFT_MACH_2,
 	T_DRIFT_MACH_3,
+	T_ROCKET,
 };
 
 struct Turbo
@@ -98,6 +99,7 @@ private:
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+	void UseItem(); //provisional
 	void IdleTurn();
 	void ApplyTurbo();
 
@@ -148,6 +150,7 @@ private:
 
 	//Acceleration
 	float accel_force = 1000.0f;
+	float decel_brake = 100.0f;
 	float max_velocity = 80.0f;
 	float min_velocity = -20.0f;
 
@@ -181,6 +184,9 @@ private:
 	Turbo drift_turbo_2;
 	Turbo drift_turbo_3;
 
+	//Rocket item
+	//WARNING: THIS WILL HAVE TO be in a better structure, provisional for vertical slice
+	Turbo rocket_turbo;
 	
 	//Update variables (change during game)----------------------------------------------------------------
 
@@ -236,6 +242,8 @@ private:
 	PLAYER front_player;
 	PLAYER back_player;
 
+	//Items! - provisional
+	bool has_item = false;
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;

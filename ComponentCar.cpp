@@ -59,6 +59,9 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	drift_turbo_3.SetTurbo("Drift turbo 3", 300.0f, 45.0f, 2.0f);
 	turbos.push_back(drift_turbo_3);
+
+	//Item
+	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 10.0f);
 }
 
 ComponentCar::~ComponentCar()
@@ -128,6 +131,8 @@ void ComponentCar::OnInspector(bool debug)
 
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
+
+				ImGui::Checkbox("Has item", &has_item);
 
 				ImGui::Text("");
 				ImGui::TreePop();
@@ -336,7 +341,36 @@ void ComponentCar::OnInspector(bool debug)
 						ImGui::TreePop();
 					}
 					
+					ImGui::TreePop();
+				}
 
+				if (ImGui::TreeNode("Items"))
+				{
+
+					if (ImGui::TreeNode("Rocket"))
+					{
+
+						if (ImGui::TreeNode("Turbo config"))
+						{
+							ImGui::Checkbox("Accel %", &rocket_turbo.per_ac);
+							ImGui::SameLine();
+							ImGui::Checkbox("Speed %", &rocket_turbo.per_sp);
+
+							ImGui::DragFloat("Accel boost", &rocket_turbo.accel_boost, 1.0f, 0.0f);
+							ImGui::DragFloat("Speed boost", &rocket_turbo.speed_boost, 1.0f, 0.0f);
+							ImGui::DragFloat("Duration", &rocket_turbo.time);
+
+							ImGui::Checkbox("Speed decrease", &rocket_turbo.speed_decrease);
+							if (mini_turbo.speed_decrease == true)
+							{
+								ImGui::DragFloat("Deceleration", &rocket_turbo.deceleration, 1.0f, 0.0f);
+							}
+							ImGui::Checkbox("Direct speed", &rocket_turbo.speed_direct);
+
+							ImGui::TreePop();
+						}
+						ImGui::TreePop();
+					}
 					ImGui::TreePop();
 				}
 
@@ -613,7 +647,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(back_player);
 		}
 		//Power Up
-
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_DOWN)
+		{
+			UseItem();
+		}
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
@@ -687,7 +724,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	}
 	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 	{
-		current_turbo = T_MINI;
+		//current_turbo = T_MINI;
+		UseItem();
 	}
 
 	//Front player
@@ -851,6 +889,17 @@ void ComponentCar::Acrobatics(PLAYER p)
 	}
 }
 
+void ComponentCar::UseItem()
+{
+	if (has_item)
+	{
+		current_turbo = T_ROCKET;
+
+
+
+		has_item = false;
+	}
+}
 
 void ComponentCar::IdleTurn()
 {
@@ -887,6 +936,9 @@ void ComponentCar::ApplyTurbo()
 			break;
 		case T_DRIFT_MACH_3:
 			applied_turbo = &drift_turbo_3;
+			break;
+		case T_ROCKET:
+			applied_turbo = &rocket_turbo;
 			break;
 		}
 	}
