@@ -952,7 +952,7 @@ uint ModulePhysics3D::GetCurrentTerrainUUID()
 	return 0;
 }
 
-const char * ModulePhysics3D::GetHeightmapPath()
+const char *ModulePhysics3D::GetHeightmapPath()
 {
 	if (heightMapImg)
 	{

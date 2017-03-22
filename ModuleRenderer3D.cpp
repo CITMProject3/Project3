@@ -185,7 +185,7 @@ update_status ModuleRenderer3D::PostUpdate()
 	//RenderTextures
 	vector<ComponentCamera*> cameras;
 	App->go_manager->GetAllCameras(cameras);
-	for (int i = 0; i < cameras.size(); ++i)
+	for (size_t i = 0; i < cameras.size(); ++i)
 	{
 		if (cameras[i]->render_texture)
 		{
@@ -972,7 +972,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	float4x4 m = c->GetFinalTransform();
 	glMultMatrixf(*m.Transposed().v);
 	float4x4 tmp = float4x4::identity;
-	for (int i = 0; i < text.length(); i++)
+	for (size_t i = 0; i < text.length(); i++)
 	{
 		for (uint j = 0; j < data_values.length(); ++j)
 		{
@@ -1014,7 +1014,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	glMatrixMode(GL_MODELVIEW);               // Select Modelview
 	glPopMatrix();						  // Pop The Matrix
 	glPopMatrix();
-	for (int i = 0; i < text.length(); i++)
+	for (size_t i = 0; i < text.length(); i++)
 	{
 		glPopMatrix();
 	}
