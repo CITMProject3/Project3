@@ -43,7 +43,7 @@ void ComponentScript::Update()
 				finded_start = true;
 				if (App->IsGameRunning() && !App->IsGamePaused())
 				{
-					start(App, GetGameObject());
+					start(GetGameObject());
 					started = true;
 				}
 			}
@@ -63,12 +63,12 @@ void ComponentScript::Update()
 				update_publics_path.append("_UpdatePublics");
 				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
 				{
-					update_publics(App, GetGameObject());
+					update_publics(GetGameObject());
 				}
 				finded_update = true;
 				if (App->IsGameRunning() && !App->IsGamePaused())
 				{
-					update(App, GetGameObject());
+					update(GetGameObject());
 				}
 			}
 			else

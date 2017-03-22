@@ -11,8 +11,8 @@ class GameObject;
 
 using namespace std;
 
-typedef void(*f_Start)(Application* engine_app, GameObject* game_object);
-typedef void(*f_Update)(Application* engine_app, GameObject* game_object);
+typedef void(*f_Start)(GameObject* game_object);
+typedef void(*f_Update)(GameObject* game_object);
 
 class ComponentScript : public Component
 {

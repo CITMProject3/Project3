@@ -34,7 +34,7 @@ void ResourceScriptsLibrary::LoadScriptNames()
 	if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(lib, "GetScriptNames"))
 	{
 		finded_script_names = true;
-		get_script_names(&script_names);
+		get_script_names(App, &script_names);
 		LoadScriptPublicVars();
 	}
 	else

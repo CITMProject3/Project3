@@ -14,7 +14,7 @@
 
 using namespace math;
 
-class Mesh;
+struct Mesh;
 class GameObject;
 class ComponentCamera;
 

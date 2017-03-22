@@ -9,16 +9,20 @@
 
 #include "../Application.h"
 #include "../ModuleScripting.h"
+#include "../ModuleInput.h"
 #include "../ModuleWindow.h"
 #include "../GameObject.h"
 #include "../ComponentScript.h"
+#include "../ComponentTransform.h"
 
 extern "C"
 {
 	namespace ScriptNames
 	{
-		void GetScriptNames(vector<const char*>* script_names)
+		void GetScriptNames(Application* engine_app, vector<const char*>* script_names)
 		{
+			App = engine_app;
+
 			script_names->push_back("Test");
 			script_names->push_back("Test2");
 		}
@@ -41,32 +45,39 @@ extern "C"
 			public_chars->insert(pair<const char*, string>("Title", test_title));
 		}
 
-		void Test_UpdatePublics(Application* engine_app, GameObject* game_object)
+		void Test_UpdatePublics(GameObject* game_object)
 		{
 			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 			test_title = script->public_chars.at("Title");
 		}
 
-		void Test_Start(Application* engine_app, GameObject* game_object)
+		void Test_Start(GameObject* game_object)
 		{
 		}
 
-		void Test_Update(Application* engine_app, GameObject* game_object)
+		void Test_Update(GameObject* game_object)
 		{
-			engine_app->window->SetTitle(test_title.c_str());
+			App->window->SetTitle(test_title.c_str());
+
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+			{
+				float3 tmp_pos = game_object->transform->GetPosition();
+				tmp_pos.z += 1;
+				game_object->transform->SetPosition(tmp_pos);
+			}
 		}
 	}
 
 	namespace Test2
 	{
-		void Test2_Start(Application* engine_app, GameObject* game_object)
+		void Test2_Start(GameObject* game_object)
 		{
 		}
 
-		void Test2_Update(Application* engine_app, GameObject* game_object)
+		void Test2_Update(GameObject* game_object)
 		{
-			engine_app->window->SetTitle("Hello World from Script2");
+			App->window->SetTitle("Hello World from Script2");
 		}
 	}
 }
