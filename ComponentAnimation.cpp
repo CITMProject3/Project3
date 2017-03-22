@@ -19,11 +19,12 @@ bool Animation::Advance(float dt)
 {
 	time += dt;
 
-	if (time > GetDuration())
+	if (time >= GetDuration())
 	{
 		if (loopable == false)
 		{
-			time = 0.0f;
+			//So we keep last frame
+			time = GetDuration();
 			return false;
 		}
 		else
@@ -326,9 +327,6 @@ void ComponentAnimation::LinkBones()
 		std::string string = bones[i]->GetResource()->mesh_path;
 		string = App->file_system->GetNameFromPath(string); //Just for old loaded bones
 		std::map<std::string, ComponentMesh*>::iterator it = meshes.find(string);
-		std::string first = (*meshes.begin()).first;
-		if (string == first)
-			LOG("String match");
 		if (it != meshes.end())
 		{
 			it->second->AddBone(bones[i]);
@@ -517,7 +515,8 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		meshes[App->file_system->GetNameFromPath(mesh->GetResource()->GetFile())] = mesh;
+		if (mesh->GetResource() != nullptr)
+			meshes[App->file_system->GetNameFromPath(mesh->GetResource()->GetFile())] = mesh;
 	}
 	ComponentBone* bone = (ComponentBone*)gameObject->GetComponent(C_BONE);
 	if (bone != nullptr)

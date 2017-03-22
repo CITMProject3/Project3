@@ -21,6 +21,14 @@ enum PLAYER
 	PLAYER_2,
 };
 
+enum Player2_State
+{
+	P2IDLE,
+	P2PUSH_START,
+	P2PUSH_LOOP,
+	P2PUSH_END,
+};
+
 enum TURBO
 {
 	T_IDLE,
@@ -95,6 +103,7 @@ private:
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
+	void StartPush();
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
@@ -105,6 +114,8 @@ private:
 	void CalcDriftForces();
 	void EndDrift();
 
+	void SetP2AnimationState(Player2_State state);
+	void UpdateP2Animation();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
@@ -117,6 +128,7 @@ public:
 	bool  on_kick = false;
 
 	bool drift_dir_left = false;
+	Player2_State p2_state = P2IDLE;
 
 private:
 	float kickTimer = 0.0f;
@@ -210,6 +222,9 @@ private:
 
 	//Leaning
 	
+	//Pushing
+	float pushStartTime = 0.0f;
+	bool pushing = false;
 
 	//Acrobatics
 	bool acro_front = false;

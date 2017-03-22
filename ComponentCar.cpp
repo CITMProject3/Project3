@@ -477,11 +477,14 @@ void ComponentCar::HandlePlayerInput()
 {
 	float brake;
 	bool turning = false;
-
 	accel_boost = speed_boost = turn_boost = 0.0f;
 	
 	accel = brake = 0.0f;
 
+	if (pushing && time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+	{
+		pushing = false;
+	}
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	
 	//Previous kick turbo (now usedd to test how tiles would work)
@@ -577,6 +580,14 @@ void ComponentCar::HandlePlayerInput()
 	if (drifting)
 		CalcDriftForces();
 
+	if (p2_animation != nullptr && p2_animation->current_animation != nullptr)
+	{
+		if (p2_animation->current_animation->index == 5)
+		{
+			Push(&accel);
+		}
+	}
+
 	if (vehicle)
 	{
 		accel += accel_boost;
@@ -617,7 +628,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			Push(accel);
+			StartPush();
+			//Push(accel);
 		}
 
 		//Slide attack
@@ -675,7 +687,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		Push(accel);
+		StartPush();
+//		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
@@ -781,16 +794,20 @@ void ComponentCar::Accelerate(float* accel)
 	*accel += accel_force;
 }
 
+void ComponentCar::StartPush()
+{
+	pushing = true;
+	pushStartTime = time->TimeSinceGameStartup();
+}
+
 bool ComponentCar::Push(float* accel)
 {
 	bool ret = false;
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
 		*accel += push_force;
-		if (p2_animation != nullptr)
-		{
-			p2_animation->PlayAnimation(3, 0.5f);
-		}
+		pushing = true;
+		pushStartTime = time->TimeSinceGameStartup();
 	}
 
 	return ret;
@@ -1049,6 +1066,89 @@ void ComponentCar::EndDrift()
 	vehicle->SetFriction(car->frictionSlip);
 	*/
 }
+
+void ComponentCar::SetP2AnimationState(Player2_State state)
+{
+	LOG("Setting new state: %i", state);
+	if (state == P2PUSH_END)
+		LOG("Out of push");
+	switch (state)
+	{
+		case (P2IDLE):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(3, 0.0f);
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			//Just in case
+			if (p2_state == P2IDLE)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(4, 0.0f);
+			}
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(5, 0.0f);
+			break;
+		}
+		case(P2PUSH_END):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(6, 0.0f);
+			break;
+		}
+	}
+}
+
+void ComponentCar::UpdateP2Animation()
+{
+	switch (p2_state)
+	{
+		case(P2IDLE):
+		{
+			if (pushing == true)
+			{
+				SetP2AnimationState(P2PUSH_START);
+			}
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			if (p2_animation->playing == false && pushing == true)
+			{
+				SetP2AnimationState(P2PUSH_LOOP);
+			}
+			else if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2PUSH_END);
+			}
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			p2_animation->animations[5].loopable = pushing;
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2PUSH_END);
+			}
+			break;
+		}
+		case (P2PUSH_END):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+	}
+}
+
 //--------------------------------------
 
 void ComponentCar::GameLoopCheck()
@@ -1093,7 +1193,8 @@ void ComponentCar::CreateCar()
 	}
 	if (p2_animation == nullptr && components.size() > 1)
 	{
-		p2_animation = (ComponentAnimation*)components[1];
+		if ((p2_animation = (ComponentAnimation*)components[1]) != nullptr)
+			p2_animation->PlayAnimation(3, 0.0f);
 	}
 
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
@@ -1208,13 +1309,16 @@ void ComponentCar::UpdateGO()
 		}
 	}
 
+	//Player 2 animation
 	if (p2_animation != nullptr)
 	{
+		UpdateP2Animation();
+		/*
 		if (p2_animation->playing == true && p2_animation->current_animation->index == 3)
 			if (p2_animation->playing == true)
 				return;
 
-		p2_animation->PlayAnimation(4, 0.5f);
+		p2_animation->PlayAnimation(3, 0.5f);*/
 	}
 }
 
