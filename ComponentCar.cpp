@@ -651,6 +651,11 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		{
 			UseItem();
 		}
+
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
+		{
+			ReleaseItem();
+		}
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
@@ -726,6 +731,11 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		//current_turbo = T_MINI;
 		UseItem();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+	{
+		//current_turbo = T_MINI;
+		ReleaseItem();
 	}
 
 	//Front player
@@ -901,6 +911,13 @@ void ComponentCar::UseItem()
 	}
 }
 
+void ComponentCar::ReleaseItem()
+{
+	if (current_turbo = T_ROCKET)
+	{
+		current_turbo = T_IDLE;
+	}
+}
 void ComponentCar::IdleTurn()
 {
 	if (turn_current > 0)

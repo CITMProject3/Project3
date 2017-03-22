@@ -100,6 +100,7 @@ private:
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
 	void UseItem(); //provisional
+	void ReleaseItem();
 	void IdleTurn();
 	void ApplyTurbo();
 
