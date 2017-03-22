@@ -10,7 +10,7 @@
 
 ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
-	text = "124124"; 
+	text = "20:20:20"; 
 	text.resize(20);
 	array_values = "0123456789:";
 	array_values.resize(20);
@@ -26,6 +26,15 @@ ComponentUiText::~ComponentUiText()
 }
 void ComponentUiText::Update()
 {
+	if (text_type == 1)
+	{
+		//Velo
+	}
+	else
+	{
+		//timer
+	}
+		
 }
 
 void ComponentUiText::CleanUp()
@@ -168,6 +177,11 @@ void ComponentUiText::SetText(string &text)
 		ImGui::End();
 	}
 
+}
+
+void ComponentUiText::SetDisplayText(string text)
+{
+	this->text = text;
 }
 
 void ComponentUiText::GenerateFont()

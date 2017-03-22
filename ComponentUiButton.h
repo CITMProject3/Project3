@@ -27,6 +27,7 @@ public:
 	ComponentMaterial* UImaterial = nullptr;
 private:
 	uint player_num = 1;
+	bool ready = false;
 };
 
 #endif __COMPONENTUIBUTTON_H__

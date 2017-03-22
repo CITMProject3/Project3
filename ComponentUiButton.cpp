@@ -2,11 +2,13 @@
 #include "Application.h"
 #include "Assets.h"
 #include "ModuleResourceManager.h"
+#include "ModuleGOManager.h"
 #include "ModuleInput.h"
 #include "ComponentRectTransform.h"
 #include "ResourceFileTexture.h"
 #include "GameObject.h"
 #include "ComponentMaterial.h"
+#include "ComponentCanvas.h"
 #include "imgui\imgui.h"
 
 ComponentUiButton::ComponentUiButton(ComponentType type, GameObject * game_object) : Component(type, game_object)
@@ -21,15 +23,25 @@ ComponentUiButton::~ComponentUiButton()
 
 void ComponentUiButton::Update()
 {
-	if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN)
+	if (game_object->IsActive())
 	{
-		if (UImaterial->texture_ids.size() >= 2)
+		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN)
 		{
-			uint tmp = UImaterial->texture_ids.at("0");
-			UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
-			UImaterial->texture_ids.at("1") = tmp;
+			if (UImaterial->texture_ids.size() >= 2)
+			{
+				uint tmp = UImaterial->texture_ids.at("0");
+				UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+				UImaterial->texture_ids.at("1") = tmp;
+				ready = !ready;
+				if (App->go_manager->current_scene_canvas != nullptr)
+				{
+					App->go_manager->current_scene_canvas->SetPlayerReady(player_num, ready);
+				}
+			}
 		}
 	}
+	else
+		ready = false;
 }
 
 void ComponentUiButton::CleanUp()
