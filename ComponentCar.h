@@ -178,7 +178,8 @@ private:
 
 	//Turbos
 	Turbo mini_turbo;
-	Turbo drift_turbo;
+	Turbo drift_turbo_2;
+	Turbo drift_turbo_3;
 
 	
 	//Update variables (change during game)----------------------------------------------------------------

@@ -50,9 +50,14 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	back_player = PLAYER_2;
 
 	//Turbo
-	mini_turbo.SetTurbo("Mini turbo", 500.0f, 50.0f, 3.0f);
-	
+	mini_turbo.SetTurbo("Mini turbo", 300.0f, 25.0f, 1.0f);
 	turbos.push_back(mini_turbo);
+
+	drift_turbo_2.SetTurbo("Drift turbo 2", 300.0f, 35.0f, 1.0f);
+	turbos.push_back(drift_turbo_2);
+
+	drift_turbo_3.SetTurbo("Drift turbo 3", 300.0f, 45.0f, 2.0f);
+	turbos.push_back(drift_turbo_3);
 }
 
 ComponentCar::~ComponentCar()
@@ -240,31 +245,96 @@ void ComponentCar::OnInspector(bool debug)
 				}
 				if (ImGui::TreeNode("Turbos"))
 				{
-					for (int i = 0; i < turbos.size(); i++)
+					/*for (int i = 0; i < turbos.size(); i++)
 					{
-						Turbo tmp = turbos[i];
+						Turbo* tmp = &turbos[i];
 
-						if (ImGui::TreeNode(tmp.name.c_str()))
+						if (ImGui::TreeNode(tmp->name.c_str()))
 						{
-							ImGui::Checkbox("Accel %", &tmp.per_ac);
+							ImGui::Checkbox("Accel %", &(tmp->per_ac));
 							ImGui::SameLine();
-							ImGui::Checkbox("Speed %", &tmp.per_sp);
+							ImGui::Checkbox("Speed %", &(tmp->per_sp));
 
-							ImGui::DragFloat("Accel boost", &tmp.accel_boost, 1.0f, 0.0f);
-							ImGui::DragFloat("Speed boost", &tmp.speed_boost, 1.0f, 0.0f);
-							ImGui::DragFloat("Duration", &tmp.time);
+							ImGui::DragFloat("Accel boost", &(tmp->accel_boost), 1.0f, 0.0f);
+							ImGui::DragFloat("Speed boost", &(tmp->speed_boost), 1.0f, 0.0f);
+							ImGui::DragFloat("Duration", &(tmp->time));
 
-							ImGui::Checkbox("Speed decrease", &tmp.speed_decrease);
-							if (mini_turbo.speed_decrease)
+							ImGui::Checkbox("Speed decrease", &(tmp->speed_decrease));
+							if (tmp->speed_decrease == true)
 							{
-								ImGui::DragFloat("Deceleration", &tmp.deceleration, 1.0f, 0.0f);
+								ImGui::DragFloat("Deceleration", &(tmp->deceleration), 1.0f, 0.0f);
 							}
-							ImGui::Checkbox("Direct speed", &tmp.speed_direct);
+							ImGui::Checkbox("Direct speed", &(tmp->speed_direct));
 
 
 							ImGui::TreePop();
 						}
+					}*/
+
+					if (ImGui::TreeNode("mini turbo"))
+					{
+						ImGui::Checkbox("Accel %", &mini_turbo.per_ac);
+						ImGui::SameLine();
+						ImGui::Checkbox("Speed %", &mini_turbo.per_sp);
+
+						ImGui::DragFloat("Accel boost", &mini_turbo.accel_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Speed boost", &mini_turbo.speed_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Duration", &mini_turbo.time);
+
+						ImGui::Checkbox("Speed decrease", &mini_turbo.speed_decrease);
+						if (mini_turbo.speed_decrease == true)
+						{
+							ImGui::DragFloat("Deceleration", &mini_turbo.deceleration, 1.0f, 0.0f);
+						}
+						ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
+
+
+						ImGui::TreePop();
 					}
+
+					if (ImGui::TreeNode("Drift turbo 2"))
+					{
+						ImGui::Checkbox("Accel %", &drift_turbo_2.per_ac);
+						ImGui::SameLine();
+						ImGui::Checkbox("Speed %", &drift_turbo_2.per_sp);
+
+						ImGui::DragFloat("Accel boost", &drift_turbo_2.accel_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Speed boost", &drift_turbo_2.speed_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Duration", &drift_turbo_2.time);
+
+						ImGui::Checkbox("Speed decrease", &drift_turbo_2.speed_decrease);
+						if (drift_turbo_2.speed_decrease == true)
+						{
+							ImGui::DragFloat("Deceleration", &drift_turbo_2.deceleration, 1.0f, 0.0f);
+						}
+						ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
+
+
+						ImGui::TreePop();
+					}
+
+
+					if (ImGui::TreeNode("Drift turbo 3"))
+					{
+						ImGui::Checkbox("Accel %", &drift_turbo_3.per_ac);
+						ImGui::SameLine();
+						ImGui::Checkbox("Speed %", &drift_turbo_3.per_sp);
+
+						ImGui::DragFloat("Accel boost", &drift_turbo_3.accel_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Speed boost", &drift_turbo_3.speed_boost, 1.0f, 0.0f);
+						ImGui::DragFloat("Duration", &drift_turbo_3.time);
+
+						ImGui::Checkbox("Speed decrease", &drift_turbo_3.speed_decrease);
+						if (drift_turbo_3.speed_decrease == true)
+						{
+							ImGui::DragFloat("Deceleration", &drift_turbo_3.deceleration, 1.0f, 0.0f);
+						}
+						ImGui::Checkbox("Direct speed", &drift_turbo_3.speed_direct);
+
+
+						ImGui::TreePop();
+					}
+					
 
 					ImGui::TreePop();
 				}
@@ -514,8 +584,8 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
 
-		if (accel != 0)
-			LimitSpeed();
+		
+		LimitSpeed();
 	}
 }
 
@@ -811,7 +881,12 @@ void ComponentCar::ApplyTurbo()
 		case T_MINI:
 			applied_turbo = &mini_turbo;
 			break;
-
+		case T_DRIFT_MACH_2:
+			applied_turbo = &drift_turbo_2;
+			break;
+		case T_DRIFT_MACH_3:
+			applied_turbo = &drift_turbo_3;
+			break;
 		}
 	}
 
@@ -821,13 +896,10 @@ void ComponentCar::ApplyTurbo()
 	if (applied_turbo)
 	{
 		//Speed boost after first frame
+		//NOTE: this doesn't need to be aplied after first frame anymore
 		if (to_turbo_speed)
 		{	
-			float3 fv = game_object->transform->GetForward();
 			
-
-			vehicle->SetVelocity(fv.x, fv.y, fv.z ,max_velocity + turbo_speed_boost);
-			to_turbo_speed = false;
 		}
 
 		//Changes applied when turbo started
@@ -848,11 +920,15 @@ void ComponentCar::ApplyTurbo()
 
 			if (applied_turbo->speed_direct)
 			{
-				to_turbo_speed = true;
+				float3 fv = game_object->transform->GetForward();
+				float s_offset = 0.5;
+				vehicle->SetVelocity(fv.x, fv.y, fv.z, max_velocity + turbo_speed_boost - s_offset);
+				to_turbo_speed = false;
 			}
 
 			turbo_deceleration = applied_turbo->deceleration;
 			to_turbo_decelerate = applied_turbo->speed_decrease;
+
 		}
 
 		//Turbo applied every frame till it's time finish and then go to idle turbo
@@ -945,6 +1021,8 @@ void ComponentCar::EndDrift()
 			break;
 
 		}
+
+		turbo_drift_lvl = 0;
 	}
 	//Old turbo
 	/*
@@ -984,7 +1062,7 @@ void ComponentCar::Reset()
 void ComponentCar::LimitSpeed()
 {
 	//Tmp convertor
-	float KmhToMs = 0.2777777;
+	float KmhToMs = 0.277;
 
 	if (vehicle)
 	{
