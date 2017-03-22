@@ -296,7 +296,7 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 			ComponentMesh* mesh = (ComponentMesh*)boned_game_objects[i]->GetComponent(C_MESH);
 			if (mesh != nullptr)
 			{
-				mesh_path = mesh->GetMesh()->file_path;
+				mesh_path = App->file_system->GetNameFromPath(mesh->GetMesh()->file_path);
 			}
 
 			std::string bone_file = "";

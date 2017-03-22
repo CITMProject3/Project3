@@ -11,6 +11,7 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
 #include "AutoProfile.h"
+#include "ModuleFileSystem.h"
 
 #include "Time.h"
 
@@ -323,7 +324,11 @@ void ComponentAnimation::LinkBones()
 	for (uint i = 0; i < bones.size(); i++)
 	{
 		std::string string = bones[i]->GetResource()->mesh_path;
+		string = App->file_system->GetNameFromPath(string); //Just for old loaded bones
 		std::map<std::string, ComponentMesh*>::iterator it = meshes.find(string);
+		std::string first = (*meshes.begin()).first;
+		if (string == first)
+			LOG("String match");
 		if (it != meshes.end())
 		{
 			it->second->AddBone(bones[i]);
@@ -512,7 +517,7 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		meshes[mesh->GetResource()->GetFile()] = mesh;
+		meshes[App->file_system->GetNameFromPath(mesh->GetResource()->GetFile())] = mesh;
 	}
 	ComponentBone* bone = (ComponentBone*)gameObject->GetComponent(C_BONE);
 	if (bone != nullptr)
