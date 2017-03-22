@@ -1299,23 +1299,47 @@ void ComponentCar::Save(Data& file) const
 
 	//Turbos-------
 	//Mini turbo
-	for (int i = 0; i < turbos.size(); i++)
-	{
-		Turbo tmp = turbos[i];
+	
+		data.AppendFloat("miniturbo_accel_boost", mini_turbo.accel_boost);
 
-		data.AppendFloat((tmp.name + "_accel_boost").c_str(), tmp.accel_boost);
+		data.AppendFloat("miniturbo_speed_boost", mini_turbo.speed_boost);
+		data.AppendFloat("miniturbo_turbo_speed", mini_turbo.turbo_speed);
+		data.AppendFloat("miniturbo_deceleration", mini_turbo.deceleration);
+		data.AppendFloat("miniturbo_time", mini_turbo.time);
 
-		
-		data.AppendFloat((tmp.name + "_speed_boost").c_str(), tmp.speed_boost);
-		data.AppendFloat((tmp.name + "_turbo_speed").c_str(), tmp.turbo_speed);
-		data.AppendFloat((tmp.name + "_deceleration").c_str(), tmp.deceleration);
-		data.AppendFloat((tmp.name + "_time").c_str(), tmp.time);
+		data.AppendBool("miniturbo_accel_per", mini_turbo.per_ac);
+		data.AppendBool("miniturbo_speed_per", mini_turbo.per_sp);
+		data.AppendBool("miniturbo_speed_direct", mini_turbo.speed_direct);
+		data.AppendBool("miniturbo_speed_decrease", mini_turbo.speed_decrease);
 
-		data.AppendBool((tmp.name + "_accel_per").c_str(), tmp.per_ac);
-		data.AppendBool((tmp.name + "_speed_per").c_str(), tmp.per_sp);
-		data.AppendBool((tmp.name + "_speed_direct").c_str(), tmp.speed_direct);
-		data.AppendBool((tmp.name + "_speed_decrease").c_str(), tmp.speed_decrease);
-	}
+		//Drift turbo 2
+
+		data.AppendFloat("drift_turbo_2_accel_boost", drift_turbo_2.accel_boost);
+
+		data.AppendFloat("drift_turbo_2_speed_boost", drift_turbo_2.speed_boost);
+		data.AppendFloat("drift_turbo_2_turbo_speed", drift_turbo_2.turbo_speed);
+		data.AppendFloat("drift_turbo_2_deceleration", drift_turbo_2.deceleration);
+		data.AppendFloat("drift_turbo_2_time", drift_turbo_2.time);
+
+		data.AppendBool("drift_turbo_2_accel_per", drift_turbo_2.per_ac);
+		data.AppendBool("drift_turbo_2_speed_per", drift_turbo_2.per_sp);
+		data.AppendBool("drift_turbo_2_speed_direct", drift_turbo_2.speed_direct);
+		data.AppendBool("drift_turbo_2_speed_decrease", drift_turbo_2.speed_decrease);
+
+		//Drift turbo 3
+
+		data.AppendFloat("drift_turbo_3_accel_boost", drift_turbo_3.accel_boost);
+
+		data.AppendFloat("drift_turbo_3_speed_boost", drift_turbo_3.speed_boost);
+		data.AppendFloat("drift_turbo_3_turbo_speed", drift_turbo_3.turbo_speed);
+		data.AppendFloat("drift_turbo_3_deceleration", drift_turbo_3.deceleration);
+		data.AppendFloat("drift_turbo_3_time", drift_turbo_3.time);
+
+		data.AppendBool("drift_turbo_3_accel_per", drift_turbo_3.per_ac);
+		data.AppendBool("drift_turbo_3_speed_per", drift_turbo_3.per_sp);
+		data.AppendBool("drift_turbo_3_speed_direct", drift_turbo_3.speed_direct);
+		data.AppendBool("drift_turbo_3_speed_decrease", drift_turbo_3.speed_decrease);
+	
 
 
 	//data.AppendFloat("kick_cooldown", kickCooldown);
@@ -1383,21 +1407,41 @@ void ComponentCar::Load(Data& conf)
 
 	//Turbo
 	//Mini turbo
-	for (int i = 0; i < turbos.size(); i++)
-	{
-		Turbo tmp = turbos[i];
+	mini_turbo.accel_boost = conf.GetFloat("miniturbo_accel_boost");
+	mini_turbo.speed_boost = conf.GetFloat("miniturbo_speed_boost");
+	mini_turbo.turbo_speed = conf.GetFloat("miniturbo_turbo_speed");
+	mini_turbo.deceleration = conf.GetFloat("miniturbo_deceleration");
+	mini_turbo.time = conf.GetFloat("miniturbo_time");
+	
+	mini_turbo.per_ac = conf.GetBool("miniturbo_accel_per");
+	mini_turbo.per_sp = conf.GetBool("miniturbo_speed_per");
+	mini_turbo.speed_direct = conf.GetBool("miniturbo_speed_direct");
+	mini_turbo.speed_decrease = conf.GetBool("miniturbo_speed_decrease");
 
-		tmp.accel_boost = conf.GetFloat((tmp.name +"_accel_boost").c_str());
-		tmp.speed_boost = conf.GetFloat((tmp.name + "_speed_boost").c_str());
-		tmp.turbo_speed = conf.GetFloat((tmp.name + "_turbo_speed").c_str());
-		tmp.deceleration = conf.GetFloat((tmp.name + "_deceleration").c_str());
-		tmp.time = conf.GetFloat((tmp.name + "_time").c_str());
+	//Drift turbo 2
+	drift_turbo_2.accel_boost = conf.GetFloat("drift_turbo_2_accel_boost");
+	drift_turbo_2.speed_boost = conf.GetFloat("drift_turbo_2_speed_boost");
+	drift_turbo_2.turbo_speed = conf.GetFloat("drift_turbo_2_turbo_speed");
+	drift_turbo_2.deceleration = conf.GetFloat("drift_turbo_2_deceleration");
+	drift_turbo_2.time = conf.GetFloat("drift_turbo_2_time");
 
-		tmp.per_ac = conf.GetBool((tmp.name + "_accel_per").c_str());
-		tmp.per_sp = conf.GetBool((tmp.name + "_speed_per").c_str());
-		tmp.speed_direct = conf.GetBool((tmp.name + "_speed_direct").c_str());
-		tmp.speed_decrease = conf.GetBool((tmp.name + "_speed_decrease").c_str());
-	}
+	drift_turbo_2.per_ac = conf.GetBool("drift_turbo_2_accel_per");
+	drift_turbo_2.per_sp = conf.GetBool("drift_turbo_2_speed_per");
+	drift_turbo_2.speed_direct = conf.GetBool("drift_turbo_2_speed_direct");
+	drift_turbo_2.speed_decrease = conf.GetBool("drift_turbo_2_speed_decrease");
+
+	//Drift turbo 3
+	drift_turbo_3.accel_boost = conf.GetFloat("drift_turbo_3_accel_boost");
+	drift_turbo_3.speed_boost = conf.GetFloat("drift_turbo_3_speed_boost");
+	drift_turbo_3.turbo_speed = conf.GetFloat("drift_turbo_3_turbo_speed");
+	drift_turbo_3.deceleration = conf.GetFloat("drift_turbo_3_deceleration");
+	drift_turbo_3.time = conf.GetFloat("drift_turbo_3_time");
+
+	drift_turbo_3.per_ac = conf.GetBool("drift_turbo_3_accel_per");
+	drift_turbo_3.per_sp = conf.GetBool("drift_turbo_3_speed_per");
+	drift_turbo_3.speed_direct = conf.GetBool("drift_turbo_3_speed_direct");
+	drift_turbo_3.speed_decrease = conf.GetBool("drift_turbo_3_speed_decrease");
+	
 
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings
