@@ -64,6 +64,21 @@ bool CubeMap::Load()
 	return true;
 }
 
+bool CubeMap::Unload()
+{
+	bool ret = true;
+
+	glDeleteBuffers(1, (GLuint*)&id);
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		LOG("Error removing buffer %i : %s", id, gluErrorString(error));
+		ret = false;
+	}
+
+	return ret;	
+}
+
 void CubeMap::Bind(int texture_unit)
 {
 	glActiveTexture(texture_unit);

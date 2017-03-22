@@ -50,19 +50,27 @@ bool ModuleRenderer3D::Init(Data& config)
 		LOG("OpenGL context could not be created! SDL_Error: %s\n", SDL_GetError());
 		ret = false;
 	}
-	glEnable(GL_DEBUG_OUTPUT);
+
 	GLenum gl_enum = glewInit();
 
 	if (GLEW_OK != gl_enum)
 	{
 		LOG("Glew failed");
 	}
-	
+
 	if(ret == true)
 	{
-		//Debug
-		glDebugMessageCallback(OpenGLDebug::OpenGLDebugCallback, NULL);
-		glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_MEDIUM, 0, NULL, GL_TRUE);
+		// More information on Debugging GPUs
+	    // https://learnopengl.com/#!In-Practice/Debugging
+		// https://www.khronos.org/opengl/wiki/Debug_Output
+		// http://in2gpu.com/2015/05/29/debugging-opengl-part-ii-debug-output/
+
+		// initialize debug output 
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLDebug::OpenGLDebugCallback, nullptr);
+		GLuint unusedIds = 0;
+		glDebugMessageControl(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_MEDIUM, 0, &unusedIds, GL_TRUE);
 		
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
@@ -143,6 +151,7 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+
 	if (camera->properties_modified)
 	{
 		UpdateProjectionMatrix();
@@ -537,7 +546,6 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor4fv(color.ptr());
 
-
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
@@ -801,6 +809,14 @@ void ModuleRenderer3D::RemoveBuffer(unsigned int id)
 	GLenum error = glGetError();
 	if (error != GL_NO_ERROR)
 		LOG("Error removing buffer %i : %s", id, gluErrorString(error));
+}
+
+void ModuleRenderer3D::RemoveTextureBuffer(unsigned int id)
+{
+	glDeleteTextures(1, (GLuint*)&id);
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+		LOG("Error removing texture buffer %i : %s", id, gluErrorString(error));
 }
 
 void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)

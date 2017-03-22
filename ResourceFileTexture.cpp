@@ -51,6 +51,6 @@ void ResourceFileTexture::LoadInMemory()
 void ResourceFileTexture::UnloadInMemory()
 {
 	//TextureImporter::Unload(texture_id);
-	App->renderer3D->RemoveBuffer(texture_id);
+	App->renderer3D->RemoveTextureBuffer(texture_id);
 	App->resource_manager->RemoveResourceFromList(this);
 }

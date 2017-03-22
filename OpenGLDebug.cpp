@@ -11,7 +11,7 @@ OpenGLDebug::~OpenGLDebug()
 
 void OpenGLDebug::OpenGLDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * msg, const void * data)
 {
-	LOG("****Debug Output****\n Source: %s \n Type: %s \n Severity: %s, Debug call: %s\n *************", GetStringForSource(source).c_str(), GetStringForType(type).c_str(), GetStringForSeverity(severity).c_str(), msg);
+	LOG("****Debug Output****\n Source: %s \n Type: %s \n Severity: %s \n Debug call: %s\n *************", GetStringForSource(source).c_str(), GetStringForType(type).c_str(), GetStringForSeverity(severity).c_str(), msg);
 }
 
 std::string OpenGLDebug::GetStringForType(GLenum type)

@@ -58,7 +58,7 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 		ilGenImages(1, &id);
 		ilBindImage(id);
 		if (ilLoadL(IL_DDS, (const void*)buffer, size))
-		{
+		{		
 			ILinfo info;
 			iluGetImageInfo(&info);
 			
