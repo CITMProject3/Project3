@@ -2,8 +2,9 @@
 #include "Bullet\include\btBulletDynamicsCommon.h"
 
 // =================================================
-PhysBody3D::PhysBody3D(btRigidBody* body) : body(body)
+PhysBody3D::PhysBody3D(btRigidBody* body, GameObject* go) : body(body)
 {
+	this->go = go;
 	body->setUserPointer(this);
 }
 

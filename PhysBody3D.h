@@ -10,13 +10,14 @@ class btRigidBody;
 class btTransform;
 class btVector3;
 class Module;
+class GameObject;
 
 // =================================================
 struct PhysBody3D
 {
 	friend class ModulePhysics3D;
 public:
-	PhysBody3D(btRigidBody* body);
+	PhysBody3D(btRigidBody* body, GameObject* go);
 	~PhysBody3D();
 
 	void Push(float x, float y, float z);
@@ -37,8 +38,10 @@ public:
 	void SetFriction(float friction);
 	void SetBounciness(const float restitution,const float friction);
 
+	GameObject* GetGameobject() { return go; }
 private:
 	btRigidBody* body = nullptr;
+	GameObject* go = nullptr;
 
 public:
 	list<Module*> collision_listeners;

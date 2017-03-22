@@ -7,6 +7,7 @@
 class btRaycastVehicle;
 class btVector;
 struct PhysBody3D;
+class GameObject;
 
 using namespace math;
 
@@ -49,7 +50,7 @@ struct VehicleInfo
 struct PhysVehicle3D : public PhysBody3D
 {
 public:
-	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
+	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info, GameObject* go);
 	~PhysVehicle3D();
 
 	void Render();

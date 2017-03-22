@@ -21,6 +21,7 @@ struct VehicleInfo;
 class DebugDrawer;
 class ComponentMesh;
 class ResourceFileTexture;
+class GameObject;
 
 class btHeightfieldTerrainShape;
 
@@ -43,11 +44,11 @@ public:
 	void CleanWorld();
 	void CreateGround();
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
-	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
+	PhysBody3D* AddBody(const Sphere_P& sphere, GameObject* go, float mass = 1.0f, bool isSensor = false);
+	PhysBody3D* AddBody(const Cube_P& cube, GameObject* go, float mass = 1.0f, bool isSensor = false);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, GameObject* go, float mass = 1.0f, bool isSensor = false);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, GameObject* go, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
+	PhysVehicle3D* AddVehicle(const VehicleInfo& info, GameObject* go);
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
