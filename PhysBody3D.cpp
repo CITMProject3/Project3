@@ -94,23 +94,6 @@ void PhysBody3D::SetBounciness(float restitution, float friction)
 	body->setRestitution(restitution);
 }
 
-void PhysBody3D::SetCollisionOptions(E_collisionOptions flag, bool value)
-{
-	if (value)
-	{
-		collisionOptions |= flag;
-	}
-	else
-	{
-		collisionOptions &= ~flag;
-	}
-}
-
-bool PhysBody3D::GetCollisionOptions(E_collisionOptions flag)
-{
-	return (bool)(collisionOptions & flag);
-}
-
 //----------------------------------------------------------
 void PhysBody3D::SetAngularSpeed(float x, float y, float z)
 {

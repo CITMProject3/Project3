@@ -44,10 +44,10 @@ public:
 	void CleanWorld();
 	void CreateGround();
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, GameObject* go, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cube_P& cube, GameObject* go, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, GameObject* go, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, GameObject* go, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
+	PhysBody3D* AddBody(const Sphere_P& sphere, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cube_P& cube, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, GameObject* go, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, GameObject* go, float mass = 1.0f, unsigned char flags = 0, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, GameObject* go);
 
 	bool GenerateHeightmap(std::string resLibPath);

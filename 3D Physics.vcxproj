@@ -291,6 +291,7 @@
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="EventLinkGos.cpp" />
     <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="flags.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />

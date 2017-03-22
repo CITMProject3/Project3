@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Globals.h"
 #include "PhysBody3D.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "Primitive.h"

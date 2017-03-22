@@ -106,12 +106,12 @@ update_status ModulePhysics3D::PreUpdate()
 
 				if (pbodyA && pbodyB)
 				{
-					if(pbodyA->GetCollisionOptions(PhysBody3D::co_isTrigger))
+					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger))
 					{
 						App->physics->OnCollision(pbodyA, pbodyB);
 					}
 
-					if (pbodyB->GetCollisionOptions(PhysBody3D::co_isTrigger))
+					if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
 					{
 						App->physics->OnCollision(pbodyB, pbodyA);
 					}
@@ -325,7 +325,7 @@ bool ModulePhysics3D::TerrainIsGenerated()
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.push_back(colShape);
@@ -344,7 +344,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, flo
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, go);
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 	{
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	}
@@ -356,7 +356,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, GameObject* go, flo
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.push_back(colShape);
@@ -375,7 +375,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float m
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, go);
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
@@ -385,7 +385,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, GameObject* go, float m
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
 	shapes.push_back(colShape);
@@ -404,7 +404,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go,
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, go);
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
@@ -414,7 +414,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, GameObject* go,
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, float mass, bool isSensor, btConvexHullShape** out_shape)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, float mass, unsigned char flags, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
 
@@ -454,7 +454,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, GameObject* go, 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, go);
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	delete hull;

@@ -18,15 +18,15 @@ struct PhysBody3D
 	friend class ModulePhysics3D;
 public:
 
-	enum E_collisionOptions {
-		co_isTrigger = 0x01,
-		co_isTransparent = 0x02,
-		co_isPlayer = 0x04,
-		co_isItem = 0x08,
-		co_isOutOfBounds = 0x10,
-		co_isCheckpoint = 0x20,
-		co_isFinishLane = 0x40,
-		co_none = 0x80
+	enum E_collisionOptions {//Flags for collision options. 8 bools stared in one byte
+		co_isTrigger = 0x01,		//00000001
+		co_isTransparent = 0x02,	//00000010
+		co_isPlayer = 0x04,			//00000100
+		co_isItem = 0x08,			//00001000
+		co_isOutOfBounds = 0x10,	//00010000
+		co_isCheckpoint = 0x20,		//00100000
+		co_isFinishLane = 0x40,		//01000000
+		co_none = 0x80				//10000000
 	};
 
 	PhysBody3D(btRigidBody* body, GameObject* go);
@@ -51,9 +51,6 @@ public:
 	void SetBounciness(const float restitution,const float friction);
 
 	GameObject* GetGameobject() { return go; }
-
-	void SetCollisionOptions(E_collisionOptions flag, bool value);
-	bool GetCollisionOptions(E_collisionOptions flag);
 
 private:
 	btRigidBody* body = nullptr;

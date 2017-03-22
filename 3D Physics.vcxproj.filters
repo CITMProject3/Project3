@@ -989,6 +989,9 @@
     <ClCompile Include="EventLinkGos.cpp">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
+    <ClCompile Include="flags.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ListIterator.snippet">
