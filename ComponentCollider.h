@@ -49,5 +49,7 @@ public:
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
+
+	unsigned char collision_flags = 0;
 };
 #endif // !__COMPONENT_COLLIDER_H__

@@ -19,7 +19,7 @@ struct PhysBody3D
 	friend class ModulePhysics3D;
 public:
 
-	enum E_collisionOptions {//Flags for collision options. 8 bools stared in one byte
+	enum E_collisionOptions {//Flags for collision options. 8 bools stored in one byte
 		co_isTrigger = 0x01,		//00000001
 		co_isTransparent = 0x02,	//00000010
 		co_isCar = 0x04,			//00000100

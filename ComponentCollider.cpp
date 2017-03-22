@@ -162,8 +162,49 @@ void ComponentCollider::OnInspector(bool debug)
 			}
 		}
 		ImGui::Separator();
+		if (ImGui::TreeNode("Trigger options"))
+		{
+			bool a;
 
-		if (ImGui::Button("Remove ###cam_rem"))
+			a = ReadFlag(collision_flags, PhysBody3D::co_isTrigger);
+			if (ImGui::Checkbox("Is trigger", &a)) {
+				collision_flags = SetFlag(collision_flags, PhysBody3D::co_isTrigger, a);
+			}
+
+			if (ReadFlag(collision_flags, PhysBody3D::co_isTrigger))
+			{
+				a = ReadFlag(collision_flags, PhysBody3D::co_isTransparent);
+				if (ImGui::Checkbox("Is transparent", &a)) {
+					if (App->IsGameRunning() == false)
+					{
+						collision_flags = SetFlag(collision_flags, PhysBody3D::co_isTransparent, a);
+					}
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isItem);
+				if (ImGui::Checkbox("Is item", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isItem, a);
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint);
+				if (ImGui::Checkbox("Is checkpoint", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isCheckpoint, a);
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isFinishLane);
+				if (ImGui::Checkbox("Is finish Lane", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane, a);
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds);
+				if (ImGui::Checkbox("Is out of bounds", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds, a);
+				}
+			}
+			ImGui::TreePop();
+		}
+		ImGui::Separator();
+		if (ImGui::Button("Remove ###col_rem"))
 		{
 			Remove();
 		}
@@ -289,20 +330,20 @@ void ComponentCollider::LoadShape()
 		{
 		case S_CUBE:
 		{
-			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass);
+			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, collision_flags);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_SPHERE:
 		{
-			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass);
+			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, collision_flags);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			body = App->physics->AddBody(*msh, this, _mass, false, &convexShape);
+			body = App->physics->AddBody(*msh, this, _mass, collision_flags, &convexShape);
 			break;
 		}
 		}
