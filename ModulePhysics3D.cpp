@@ -943,7 +943,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 void ModulePhysics3D::SetTerrainHeightScale(float scale)
 {
-	if (scale != 0)
+	if (scale > 0.001f)
 	{
 		if (heightMapImg)
 		{
@@ -952,8 +952,8 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
 			}
 		}
+		terrainHeightScaling = scale;
 	}
-	terrainHeightScaling = scale;
 	GenerateTerrainMesh();
 }
 
