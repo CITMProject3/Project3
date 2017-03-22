@@ -76,6 +76,9 @@ public:
 
 	void OnPlay();
 
+	//Getters
+	float GetVelocity()const;
+
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();

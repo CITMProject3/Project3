@@ -486,6 +486,11 @@ void ComponentCar::OnPlay()
 	}
 }
 
+float ComponentCar::GetVelocity() const
+{
+	return vehicle->GetKmh();
+}
+
 void ComponentCar::HandlePlayerInput()
 {
 	float brake;

@@ -3,6 +3,9 @@
 
 #include "Component.h"
 class GameObject;
+class RaceTimer;
+class ComponentCar;
+class ComponentUiText;
 
 class ComponentCanvas : public Component
 {
@@ -12,7 +15,7 @@ public:
 	ComponentCanvas(ComponentType type, GameObject* game_object);
 	~ComponentCanvas();
 	void Update();
-
+	void OnPlay();
 	void OnInspector(bool debug);
 	
 	// Save
@@ -33,6 +36,12 @@ private:
 	bool player_2_ready = false;
 	bool restart = false;
 	bool win = false;
+	int kmh = 0;
+	RaceTimer* r_timer = nullptr;
+	ComponentCar* current_car = nullptr;
+	ComponentUiText* play_timer = nullptr;
+	ComponentUiText* win_timer = nullptr;
+	ComponentUiText* kmh_text = nullptr;
 };
 
 #endif __COMPONENTCANVAS_H__

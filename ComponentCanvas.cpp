@@ -5,13 +5,19 @@
 #include "GameObject.h"
 #include "imgui\imgui.h"
 #include "ModuleInput.h"
-ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type,game_object)
-{
+#include "ComponentUiText.h"
+#include "RaceTimer.h"
+#include "ComponentCar.h"
+#include "PhysVehicle3D.h"
 
+ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
+{
+	r_timer = new RaceTimer();
 }
 
 ComponentCanvas::~ComponentCanvas()
 {
+	delete r_timer;
 	if (App->go_manager->current_scene_canvas == this)
 		App->go_manager->current_scene_canvas = nullptr;
 }
@@ -20,18 +26,38 @@ void ComponentCanvas::Update()
 {
 	if (scene_to_change != current_scene)
 		OnChangeScene();
-
+	GameObject* obj;
 	switch (current_scene)
 	{
-	//Main menu
+		//Main menu
 	case 0:
 		if (player_1_ready && player_2_ready)
 			scene_to_change = 1;
 		break;
-	//GamePlayMenu
+		//GamePlayMenu
 	case 1:
 		if (win)
 			scene_to_change = 2;
+		if (current_car != nullptr)
+		{
+			if (play_timer != nullptr)
+			{
+				int min, sec, milsec = 0;
+				if (current_car->lap != r_timer->GetCurrentLap())
+					r_timer->AddLap();
+				r_timer->GetLapTime(current_car->lap, min, sec, milsec);
+				string str = to_string(min) + ":" + to_string(sec) + ":" + to_string(milsec);
+				play_timer->SetDisplayText(str);
+			}
+
+			if (kmh_text != nullptr)
+			{
+				string str = to_string(int(current_car->GetVelocity())) + "k";
+				kmh_text->SetDisplayText(str);
+			}
+		}
+		
+		
 		break;
 	//Win Menu
 	case 2:
@@ -46,6 +72,39 @@ void ComponentCanvas::Update()
 		if (restart)
 			scene_to_change = 0;
 		break;
+	}
+}
+
+void ComponentCanvas::OnPlay()
+{
+	GameObject* obj = (*game_object->GetChilds()).at(1);
+	if (obj != nullptr)
+	{
+		GameObject* obj_child_time = (*game_object->GetChilds()).at(1)->GetChilds()->at(0);
+		if (obj_child_time != nullptr)
+		{
+			play_timer = (ComponentUiText*)obj_child_time->GetComponent(C_UI_TEXT);
+		}
+
+		GameObject* obj_child_vel = (*game_object->GetChilds()).at(1)->GetChilds()->at(1);
+		if (obj_child_vel != nullptr)
+		{
+			kmh_text = (ComponentUiText*)obj_child_vel->GetComponent(C_UI_TEXT);
+			if (kmh_text != nullptr)
+			{
+				string str = to_string(kmh) + " k";
+				kmh_text->SetDisplayText(str);
+			}
+
+		}
+	}
+	vector<GameObject*> all_objects;
+	App->go_manager->root->CollectAllChilds(all_objects);
+	for (vector<GameObject*>::const_iterator obj = all_objects.begin(); obj != all_objects.end(); ++obj)
+	{
+		current_car = (ComponentCar*)(*obj)->GetComponent(C_CAR);
+		if (current_car != nullptr)
+			return;
 	}
 }
 
@@ -162,6 +221,8 @@ void ComponentCanvas::OnChangeScene()
 			}
 			player_1_ready = false;
 			player_2_ready = false;
+			r_timer->Start();
+			r_timer->AddLap();
 		}
 		current_scene = scene_to_change;
 		
