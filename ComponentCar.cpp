@@ -1474,6 +1474,20 @@ void ComponentCar::Save(Data& file) const
 		data.AppendBool("drift_turbo_3_speed_per", drift_turbo_3.per_sp);
 		data.AppendBool("drift_turbo_3_speed_direct", drift_turbo_3.speed_direct);
 		data.AppendBool("drift_turbo_3_speed_decrease", drift_turbo_3.speed_decrease);
+
+		//Rocket turbo 
+
+		data.AppendFloat("rocket_turbo_accel_boost", rocket_turbo.accel_boost);
+
+		data.AppendFloat("rocket_turbo_speed_boost", rocket_turbo.speed_boost);
+		data.AppendFloat("rocket_turbo_turbo_speed", rocket_turbo.turbo_speed);
+		data.AppendFloat("rocket_turbo_deceleration", rocket_turbo.deceleration);
+		data.AppendFloat("rocket_turbo_time", rocket_turbo.time);
+
+		data.AppendBool("rocket_turbo_accel_per", rocket_turbo.per_ac);
+		data.AppendBool("rocket_turbo_speed_per", rocket_turbo.per_sp);
+		data.AppendBool("rocket_turbo_speed_direct", rocket_turbo.speed_direct);
+		data.AppendBool("rocket_turbo_speed_decrease", rocket_turbo.speed_decrease);
 	
 
 
@@ -1576,6 +1590,18 @@ void ComponentCar::Load(Data& conf)
 	drift_turbo_3.per_sp = conf.GetBool("drift_turbo_3_speed_per");
 	drift_turbo_3.speed_direct = conf.GetBool("drift_turbo_3_speed_direct");
 	drift_turbo_3.speed_decrease = conf.GetBool("drift_turbo_3_speed_decrease");
+
+	//Rocket
+	rocket_turbo.accel_boost = conf.GetFloat("rocket_turbo_accel_boost");
+	rocket_turbo.speed_boost = conf.GetFloat("rocket_turbo_speed_boost");
+	rocket_turbo.turbo_speed = conf.GetFloat("rocket_turbo_turbo_speed");
+	rocket_turbo.deceleration = conf.GetFloat("rocket_turbo_deceleration");
+	rocket_turbo.time = conf.GetFloat("rocket_turbo_time");
+
+	rocket_turbo.per_ac = conf.GetBool("rocket_turbo_accel_per");
+	rocket_turbo.per_sp = conf.GetBool("rocket_turbo_speed_per");
+	rocket_turbo.speed_direct = conf.GetBool("rocket_turbo_speed_direct");
+	rocket_turbo.speed_decrease = conf.GetBool("rocket_turbo_speed_decrease");
 	
 
 	//kickCooldown = conf.GetFloat("kick_cooldown");
