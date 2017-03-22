@@ -689,7 +689,52 @@
                     "local_uuid": 1409175507
                 }
             ]
+        },
+        {
+            "name": "Base sound",
+            "UUID": 3299117152,
+            "local_UUID": 0,
+            "parent": 3311277467,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1576433356,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 7,
+                    "UUID": 751965385,
+                    "active": true,
+                    "init_soundbank_lib_path": ""
+                }
+            ]
         }
     ],
+    "terrain": " ",
+    "terrain_texture": " ",
     "terrain_scaling": 0.500000
 } 

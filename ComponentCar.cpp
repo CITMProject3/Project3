@@ -109,6 +109,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
 		if (vehicle)
 		{
@@ -499,9 +500,10 @@ void ComponentCar::HandlePlayerInput()
 	
 	accel = brake = 0.0f;
 
-	if (pushing && time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+	if (pushing)
 	{
-		pushing = false;
+		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+			pushing = false;
 	}
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	
@@ -824,8 +826,6 @@ bool ComponentCar::Push(float* accel)
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
 		*accel += push_force;
-		pushing = true;
-		pushStartTime = time->TimeSinceGameStartup();
 	}
 
 	return ret;
@@ -1041,6 +1041,13 @@ void ComponentCar::EndDrift()
 	vehicle->Turn(0);
 	turn_current = 0;
 	vehicle->SetFriction(car->frictionSlip);
+	float4x4 matrix;
+	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	matrix.Transpose();
+
+	float3 out_vector = matrix.WorldZ() * (float)startDriftSpeed.length();
+	vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(out_vector.x, out_vector.y, out_vector.z));
+	//vehicle->SetLinearSpeed(startDriftSpeed);
 	drifting = false;
 
 	//New turbo
@@ -1087,9 +1094,6 @@ void ComponentCar::EndDrift()
 
 void ComponentCar::SetP2AnimationState(Player2_State state)
 {
-	LOG("Setting new state: %i", state);
-	if (state == P2PUSH_END)
-		LOG("Out of push");
 	switch (state)
 	{
 		case (P2IDLE):
@@ -1098,14 +1102,22 @@ void ComponentCar::SetP2AnimationState(Player2_State state)
 			p2_animation->PlayAnimation(3, 0.0f);
 			break;
 		}
+		case(P2DRIFT_LEFT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(2, 0.3f);
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(1, 0.3f);
+			break;
+		}
 		case(P2PUSH_START):
 		{
-			//Just in case
-			if (p2_state == P2IDLE)
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(4, 0.0f);
-			}
+			p2_state = state;
+			p2_animation->PlayAnimation(4, 0.0f);
 			break;
 		}
 		case(P2PUSH_LOOP):
@@ -1117,7 +1129,7 @@ void ComponentCar::SetP2AnimationState(Player2_State state)
 		case(P2PUSH_END):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(6, 0.0f);
+			p2_animation->PlayAnimation(6, 0.5f);
 			break;
 		}
 	}
@@ -1129,7 +1141,11 @@ void ComponentCar::UpdateP2Animation()
 	{
 		case(P2IDLE):
 		{
-			if (pushing == true)
+			if (drifting == true)
+			{
+				SetP2AnimationState(drift_dir_left ? P2DRIFT_LEFT : P2DRIFT_RIGHT);
+			}
+			else if (pushing == true)
 			{
 				SetP2AnimationState(P2PUSH_START);
 			}
@@ -1149,8 +1165,7 @@ void ComponentCar::UpdateP2Animation()
 		}
 		case(P2PUSH_LOOP):
 		{
-			p2_animation->animations[5].loopable = pushing;
-			if (p2_animation->playing == false)
+			if (pushing == false)
 			{
 				SetP2AnimationState(P2PUSH_END);
 			}
@@ -1159,6 +1174,22 @@ void ComponentCar::UpdateP2Animation()
 		case (P2PUSH_END):
 		{
 			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2DRIFT_LEFT):
+		{
+			if (drifting == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			if (drifting == false)
 			{
 				SetP2AnimationState(P2IDLE);
 			}

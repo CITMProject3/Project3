@@ -25,6 +25,8 @@ enum PLAYER
 enum Player2_State
 {
 	P2IDLE,
+	P2DRIFT_LEFT,
+	P2DRIFT_RIGHT,
 	P2PUSH_START,
 	P2PUSH_LOOP,
 	P2PUSH_END,
@@ -142,7 +144,7 @@ public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
-	float drift_mult = 1.0f;
+	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
 
 	float connection_height = 0.1f;
@@ -229,7 +231,7 @@ private:
 	//Leaning
 	
 	//Pushing
-	float pushStartTime = 0.0f;
+	double pushStartTime = 0.0f;
 	bool pushing = false;
 
 	//Acrobatics
