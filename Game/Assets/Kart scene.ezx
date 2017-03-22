@@ -112,18 +112,38 @@
                     "driftRatio": 0.500000,
                     "driftMult": 1,
                     "driftBoost": 1,
-                    "miniturbo_accel_boost": 300,
-                    "miniturbo_speed_boost": 300,
-                    "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 170,
-                    "miniturbo_time": 1.500000,
-                    "miniturbo_accel_per": true,
-                    "miniturbo_speed_per": true,
-                    "miniturbo_speed_direct": false,
-                    "miniturbo_speed_decrease": true,
+                    "Mini turbo_accel_boost": 300,
+                    "Mini turbo_speed_boost": 25,
+                    "Mini turbo_turbo_speed": -431602080,
+                    "Mini turbo_deceleration": 1,
+                    "Mini turbo_time": 1,
+                    "Mini turbo_accel_per": false,
+                    "Mini turbo_speed_per": false,
+                    "Mini turbo_speed_direct": false,
+                    "Mini turbo_speed_decrease": false,
+                    "Drift turbo 2_accel_boost": 300,
+                    "Drift turbo 2_speed_boost": 35,
+                    "Drift turbo 2_turbo_speed": -431602080,
+                    "Drift turbo 2_deceleration": 1,
+                    "Drift turbo 2_time": 1,
+                    "Drift turbo 2_accel_per": false,
+                    "Drift turbo 2_speed_per": false,
+                    "Drift turbo 2_speed_direct": false,
+                    "Drift turbo 2_speed_decrease": false,
+                    "Drift turbo 3_accel_boost": 300,
+                    "Drift turbo 3_speed_boost": 45,
+                    "Drift turbo 3_turbo_speed": -431602080,
+                    "Drift turbo 3_deceleration": 1,
+                    "Drift turbo 3_time": 2,
+                    "Drift turbo 3_accel_per": false,
+                    "Drift turbo 3_speed_per": false,
+                    "Drift turbo 3_speed_direct": false,
+                    "Drift turbo 3_speed_decrease": false,
                     "connection_height": 0.100000,
                     "wheel_radius": 0.300000,
                     "wheel_width": 0.200000,
+                    "Wheel Front Left": 4140825226,
+                    "Wheel Front Right": 2200471870,
                     "mass": 700,
                     "suspensionStiffness": 100,
                     "suspensionCompression": 0.830000,
@@ -177,7 +197,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.887906,
+                    "aspect_ratio": 1.886051,
                     "color": [
                         0,
                         0,
@@ -565,136 +585,6 @@
             ]
         },
         {
-            "name": "Tire_f_r",
-            "UUID": 2686365004,
-            "local_UUID": 0,
-            "parent": 3978796104,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 3189048878,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0.401633,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 1992835145,
-                    "active": true,
-                    "path": "\/Library\/2164247495\/1871214211\/1363129920.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 1586032043,
-                    "active": true,
-                    "path": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "textures": [
-                        {
-                            "path": "\/Library\/2164247495\/\/1603309458\/1603309458.dds"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Tire_f_l",
-            "UUID": 3705524020,
-            "local_UUID": 0,
-            "parent": 3978796104,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 4177101988,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0.401633,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 1809333281,
-                    "active": true,
-                    "path": "\/Library\/2164247495\/1871214211\/340112748.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 655393276,
-                    "active": true,
-                    "path": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "textures": [
-                        {
-                            "path": "\/Library\/2164247495\/\/1603309458\/1603309458.dds"
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "Tire_r_l",
             "UUID": 2605712264,
             "local_UUID": 0,
@@ -803,6 +693,210 @@
                 {
                     "type": 2,
                     "UUID": 2898777225,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2164247495\/\/1603309458\/1603309458.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wheel_frontR",
+            "UUID": 2200471870,
+            "local_UUID": 0,
+            "parent": 3978796104,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1771656179,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_r",
+            "UUID": 2686365004,
+            "local_UUID": 0,
+            "parent": 2200471870,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3189048878,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1992835145,
+                    "active": true,
+                    "path": "\/Library\/2164247495\/1871214211\/1363129920.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1586032043,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2164247495\/\/1603309458\/1603309458.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wheel_frontL",
+            "UUID": 4140825226,
+            "local_UUID": 0,
+            "parent": 3978796104,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3812966799,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.402000,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_l",
+            "UUID": 3705524020,
+            "local_UUID": 0,
+            "parent": 4140825226,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4177101988,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -0.000367,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1809333281,
+                    "active": true,
+                    "path": "\/Library\/2164247495\/1871214211\/340112748.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 655393276,
                     "active": true,
                     "path": "",
                     "properties_set": true,
@@ -3501,7 +3595,7 @@
         },
         {
             "name": "Kitsune",
-            "UUID": 70809279,
+            "UUID": 4075599282,
             "local_UUID": 0,
             "parent": 3853996561,
             "active": true,
@@ -3513,21 +3607,21 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3922273126,
+                    "UUID": 2287991445,
                     "active": true,
                     "matrix": [
                         1,
                         0,
                         0,
-                        0.047417,
-                        0,
-                        1,
-                        0,
-                        -0.484297,
                         0,
                         0,
                         1,
-                        -0.760317,
+                        0,
+                        -0.473955,
+                        0,
+                        0,
+                        1,
+                        0.542887,
                         0,
                         0,
                         0,
@@ -3536,30 +3630,44 @@
                 },
                 {
                     "type": 5,
-                    "UUID": 1474192158,
+                    "UUID": 55100586,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1773024249.anim",
+                    "path": "\/Library\/1939384431\/1720120090.anim",
                     "animations": [
                         {
-                            "name": "Default",
+                            "name": "Turn",
                             "start_frame": 30,
                             "end_frame": 80,
                             "ticks_per_second": 24,
                             "loopable": true
                         },
                         {
-                            "name": "Default1",
+                            "name": "Turn max left",
                             "start_frame": 101,
                             "end_frame": 200,
                             "ticks_per_second": 24,
                             "loopable": true
                         },
                         {
-                            "name": "Default2",
+                            "name": "Turn max right",
                             "start_frame": 201,
                             "end_frame": 300,
                             "ticks_per_second": 24,
+                            "loopable": true
+                        },
+                        {
+                            "name": "Push",
+                            "start_frame": 901,
+                            "end_frame": 950,
+                            "ticks_per_second": 24,
                             "loopable": false
+                        },
+                        {
+                            "name": "Idle",
+                            "start_frame": 301,
+                            "end_frame": 400,
+                            "ticks_per_second": 24,
+                            "loopable": true
                         }
                     ]
                 }
@@ -3567,9 +3675,9 @@
         },
         {
             "name": "LOW3",
-            "UUID": 4054813927,
+            "UUID": 2974958204,
             "local_UUID": 0,
-            "parent": 70809279,
+            "parent": 4075599282,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3579,7 +3687,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3788576120,
+                    "UUID": 3598164742,
                     "active": true,
                     "matrix": [
                         1,
@@ -3602,13 +3710,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2848945102,
+                    "UUID": 4271102312,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/648813733.msh"
+                    "path": "\/Library\/1939384431\/943911384.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 2571586182,
+                    "UUID": 378362095,
                     "active": true,
                     "path": "",
                     "properties_set": true,
@@ -3624,7 +3732,7 @@
                     "texture_changed": false,
                     "textures": [
                         {
-                            "path": "\/Library\/2040716074\/\/324513581\/324513581.dds"
+                            "path": "\/Library\/2040716074\/\/\/324513581\/324513581.dds"
                         }
                     ]
                 }
@@ -3632,9 +3740,9 @@
         },
         {
             "name": "SKELETON_KITSUNE",
-            "UUID": 453153516,
+            "UUID": 3051643794,
             "local_UUID": 0,
-            "parent": 70809279,
+            "parent": 4075599282,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3644,7 +3752,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2011319222,
+                    "UUID": 226401978,
                     "active": true,
                     "matrix": [
                         0.200000,
@@ -3658,7 +3766,7 @@
                         0,
                         0,
                         0.200000,
-                        0,
+                        -1.377513,
                         0,
                         0,
                         0,
@@ -3669,9 +3777,9 @@
         },
         {
             "name": "SKELETON",
-            "UUID": 184767862,
+            "UUID": 345411483,
             "local_UUID": 0,
-            "parent": 453153516,
+            "parent": 3051643794,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3681,7 +3789,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3368146207,
+                    "UUID": 3413415123,
                     "active": true,
                     "matrix": [
                         1,
@@ -3704,17 +3812,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3679345334,
+                    "UUID": 255816573,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/633981816.bone"
+                    "path": "\/Library\/1939384431\/3941320247.bone"
                 }
             ]
         },
         {
             "name": "Hip",
-            "UUID": 3786251600,
+            "UUID": 3230581304,
             "local_UUID": 0,
-            "parent": 184767862,
+            "parent": 345411483,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3724,16 +3832,16 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4062578001,
+                    "UUID": 1751803192,
                     "active": true,
                     "matrix": [
-                        -0.901476,
-                        -0.432728,
+                        -0.995113,
+                        -0.098293,
                         0.009366,
-                        -1,
-                        -0.432732,
-                        0.901521,
-                        0.001652,
+                        1,
+                        -0.098313,
+                        0.995154,
+                        -0.001651,
                         1.521829,
                         -0.009158,
                         -0.002564,
@@ -3747,17 +3855,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 312905694,
+                    "UUID": 3712012053,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3230130564.bone"
+                    "path": "\/Library\/1939384431\/1446081869.bone"
                 }
             ]
         },
         {
             "name": "LegR",
-            "UUID": 451693984,
+            "UUID": 847767604,
             "local_UUID": 0,
-            "parent": 3786251600,
+            "parent": 3230581304,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3767,20 +3875,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1780419749,
+                    "UUID": 1216226143,
                     "active": true,
                     "matrix": [
-                        0.023304,
-                        0.968132,
-                        -0.249354,
+                        0.700600,
+                        0.452311,
+                        -0.551883,
                         0.569909,
-                        -0.893262,
-                        -0.091840,
-                        -0.440055,
+                        -0.710940,
+                        0.376327,
+                        -0.594090,
                         0,
-                        -0.448932,
-                        0.232994,
-                        0.862655,
+                        -0.061025,
+                        0.808574,
+                        0.585221,
                         0,
                         0,
                         0,
@@ -3790,17 +3898,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3676614373,
+                    "UUID": 603674748,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2937836529.bone"
+                    "path": "\/Library\/1939384431\/2651527881.bone"
                 }
             ]
         },
         {
             "name": "TibiaR",
-            "UUID": 120139260,
+            "UUID": 394564849,
             "local_UUID": 0,
-            "parent": 451693984,
+            "parent": 847767604,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3810,20 +3918,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1169300779,
+                    "UUID": 3691307274,
                     "active": true,
                     "matrix": [
-                        0.464464,
-                        -0.821324,
-                        -0.331210,
+                        0.998673,
+                        0.049178,
+                        0.015263,
                         0.690762,
-                        -0.006652,
-                        0.370753,
-                        -0.928708,
+                        -0.039553,
+                        0.922434,
+                        -0.384124,
                         0,
-                        0.885567,
-                        0.433555,
-                        0.166738,
+                        -0.032970,
+                        0.383010,
+                        0.923156,
                         0,
                         0,
                         0,
@@ -3833,17 +3941,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1385659470,
+                    "UUID": 2017357054,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1623514918.bone"
+                    "path": "\/Library\/1939384431\/1754946301.bone"
                 }
             ]
         },
         {
             "name": "FootR",
-            "UUID": 2640684587,
+            "UUID": 2916256953,
             "local_UUID": 0,
-            "parent": 120139260,
+            "parent": 394564849,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3853,20 +3961,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2705832238,
+                    "UUID": 620712275,
                     "active": true,
                     "matrix": [
-                        -0.386270,
-                        -0.919535,
-                        0.072462,
+                        0.553898,
+                        -0.822431,
+                        0.129634,
                         0.556583,
-                        -0.730548,
-                        0.352948,
-                        0.584574,
+                        -0.656748,
+                        -0.335889,
+                        0.675175,
                         0.191869,
-                        -0.563112,
-                        0.172867,
-                        -0.808098,
+                        -0.511742,
+                        -0.459114,
+                        -0.726178,
                         0.147931,
                         0,
                         0,
@@ -3876,17 +3984,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 507864073,
+                    "UUID": 2213749985,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1332631956.bone"
+                    "path": "\/Library\/1939384431\/2606378426.bone"
                 }
             ]
         },
         {
             "name": "ToeCapR",
-            "UUID": 3608636093,
+            "UUID": 2766527273,
             "local_UUID": 0,
-            "parent": 2640684587,
+            "parent": 2916256953,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3896,7 +4004,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1342626661,
+                    "UUID": 2503602399,
                     "active": true,
                     "matrix": [
                         -0.378822,
@@ -3908,7 +4016,7 @@
                         0.453840,
                         -0.184335,
                         -0.898523,
-                        -0.000000,
+                        0,
                         -0.438927,
                         0.035507,
                         0,
@@ -3919,17 +4027,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1832635366,
+                    "UUID": 2575649660,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/227156049.bone"
+                    "path": "\/Library\/1939384431\/1188892521.bone"
                 }
             ]
         },
         {
             "name": "joint1",
-            "UUID": 751928835,
+            "UUID": 1130170084,
             "local_UUID": 0,
-            "parent": 3608636093,
+            "parent": 2766527273,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3939,7 +4047,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3681896392,
+                    "UUID": 3808297214,
                     "active": true,
                     "matrix": [
                         0.907188,
@@ -3962,17 +4070,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1534962163,
+                    "UUID": 3815901917,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/31606666.bone"
+                    "path": "\/Library\/1939384431\/2699219359.bone"
                 }
             ]
         },
         {
             "name": "Spine1",
-            "UUID": 467127029,
+            "UUID": 3107683174,
             "local_UUID": 0,
-            "parent": 3786251600,
+            "parent": 3230581304,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -3982,20 +4090,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2934388796,
+                    "UUID": 1235716793,
                     "active": true,
                     "matrix": [
-                        -0.106693,
-                        0.028922,
-                        -0.993872,
+                        -0.440181,
+                        0.028921,
+                        -0.897443,
                         -0.229997,
-                        0.980010,
-                        0.171874,
-                        -0.100203,
+                        0.886636,
+                        0.171875,
+                        -0.429342,
                         0.735051,
-                        0.167923,
-                        -0.984695,
-                        -0.046682,
+                        0.141831,
+                        -0.984694,
+                        -0.101299,
                         -0.194482,
                         0,
                         0,
@@ -4005,17 +4113,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 109397015,
+                    "UUID": 3237544231,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2335410798.bone"
+                    "path": "\/Library\/1939384431\/4123643958.bone"
                 }
             ]
         },
         {
             "name": "Spine2",
-            "UUID": 4099464843,
+            "UUID": 1074275087,
             "local_UUID": 0,
-            "parent": 467127029,
+            "parent": 3107683174,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4025,20 +4133,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1454192543,
+                    "UUID": 3934811188,
                     "active": true,
                     "matrix": [
-                        0.979664,
+                        0.988278,
                         0.032917,
-                        0.197927,
+                        -0.149075,
                         0.668419,
-                        -0.001274,
+                        -0.055208,
                         0.987452,
-                        -0.157917,
+                        -0.147957,
                         0,
-                        -0.200641,
+                        0.142334,
                         0.154453,
-                        0.967413,
+                        0.977694,
                         0,
                         0,
                         0,
@@ -4048,17 +4156,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1559663065,
+                    "UUID": 673781902,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1143584845.bone"
+                    "path": "\/Library\/1939384431\/2881766508.bone"
                 }
             ]
         },
         {
             "name": "Neck",
-            "UUID": 3789283573,
+            "UUID": 4102014313,
             "local_UUID": 0,
-            "parent": 4099464843,
+            "parent": 1074275087,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4068,7 +4176,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2814997395,
+                    "UUID": 2758667945,
                     "active": true,
                     "matrix": [
                         0.996892,
@@ -4091,17 +4199,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1250708700,
+                    "UUID": 1876108958,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/460244816.bone"
+                    "path": "\/Library\/1939384431\/3092857742.bone"
                 }
             ]
         },
         {
             "name": "Head",
-            "UUID": 4147462384,
+            "UUID": 80795370,
             "local_UUID": 0,
-            "parent": 3789283573,
+            "parent": 4102014313,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4111,20 +4219,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 814226093,
+                    "UUID": 4016054750,
                     "active": true,
                     "matrix": [
                         0.991877,
-                        0.068748,
-                        -0.107020,
+                        0.117332,
+                        0.049120,
                         0.417492,
                         0.127116,
-                        -0.505389,
-                        0.853477,
+                        -0.928271,
+                        -0.349507,
                         0,
                         0.004588,
-                        -0.860148,
-                        -0.510023,
+                        0.352912,
+                        -0.935645,
                         0,
                         0,
                         0,
@@ -4134,17 +4242,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3662074866,
+                    "UUID": 4184170657,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3373061820.bone"
+                    "path": "\/Library\/1939384431\/3317548681.bone"
                 }
             ]
         },
         {
             "name": "FinalHead",
-            "UUID": 2301471083,
+            "UUID": 1490593581,
             "local_UUID": 0,
-            "parent": 4147462384,
+            "parent": 80795370,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4154,7 +4262,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 840485749,
+                    "UUID": 748858002,
                     "active": true,
                     "matrix": [
                         0.003344,
@@ -4166,7 +4274,7 @@
                         -0.970347,
                         0,
                         -0.970440,
-                        0.000000,
+                        0,
                         0.241340,
                         0,
                         0,
@@ -4177,17 +4285,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 882273431,
+                    "UUID": 2788780106,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1699879915.bone"
+                    "path": "\/Library\/1939384431\/1420217085.bone"
                 }
             ]
         },
         {
             "name": "EarR",
-            "UUID": 2364034446,
+            "UUID": 1664636018,
             "local_UUID": 0,
-            "parent": 2301471083,
+            "parent": 1490593581,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4197,20 +4305,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 673929097,
+                    "UUID": 4220444166,
                     "active": true,
                     "matrix": [
-                        0.953675,
-                        0,
-                        -0.300837,
+                        0.800222,
+                        0.251607,
+                        0.544370,
                         -0.542878,
-                        0,
-                        -1,
-                        0,
+                        0.373150,
+                        -0.919510,
+                        -0.123534,
                         -0.357960,
-                        -0.300837,
-                        0,
-                        -0.953675,
+                        0.469472,
+                        0.301986,
+                        -0.829699,
                         -0.240242,
                         0,
                         0,
@@ -4220,17 +4328,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 837674664,
+                    "UUID": 617415657,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1622662810.bone"
+                    "path": "\/Library\/1939384431\/2069399966.bone"
                 }
             ]
         },
         {
             "name": "joint3",
-            "UUID": 1242561176,
+            "UUID": 3431481381,
             "local_UUID": 0,
-            "parent": 2364034446,
+            "parent": 1664636018,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4240,7 +4348,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 293314270,
+                    "UUID": 1306018475,
                     "active": true,
                     "matrix": [
                         0.050000,
@@ -4263,17 +4371,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 402987361,
+                    "UUID": 3880647970,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/999698793.bone"
+                    "path": "\/Library\/1939384431\/4199472182.bone"
                 }
             ]
         },
         {
             "name": "EarR1",
-            "UUID": 2748546973,
+            "UUID": 2310506299,
             "local_UUID": 0,
-            "parent": 2301471083,
+            "parent": 1490593581,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4283,20 +4391,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 246589529,
+                    "UUID": 350854439,
                     "active": true,
                     "matrix": [
-                        0.953675,
-                        0,
-                        -0.300837,
+                        0.800222,
+                        0.251607,
+                        0.544370,
                         0.542879,
-                        0,
-                        1,
-                        0,
+                        -0.373150,
+                        0.919510,
+                        0.123533,
                         -0.357950,
-                        0.300837,
-                        0,
-                        0.953675,
+                        -0.469472,
+                        -0.301986,
+                        0.829699,
                         -0.240219,
                         0,
                         0,
@@ -4306,17 +4414,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 823848048,
+                    "UUID": 2994311920,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3936960754.bone"
+                    "path": "\/Library\/1939384431\/1075300167.bone"
                 }
             ]
         },
         {
             "name": "joint4",
-            "UUID": 1418589954,
+            "UUID": 1491638379,
             "local_UUID": 0,
-            "parent": 2748546973,
+            "parent": 2310506299,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4326,7 +4434,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 468286706,
+                    "UUID": 3139448761,
                     "active": true,
                     "matrix": [
                         0.050000,
@@ -4349,17 +4457,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2210128523,
+                    "UUID": 2923793710,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1096382420.bone"
+                    "path": "\/Library\/1939384431\/3169200329.bone"
                 }
             ]
         },
         {
             "name": "ScapulaR",
-            "UUID": 3965713700,
+            "UUID": 1614767711,
             "local_UUID": 0,
-            "parent": 4099464843,
+            "parent": 1074275087,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4369,7 +4477,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1249854935,
+                    "UUID": 1272985281,
                     "active": true,
                     "matrix": [
                         0.221204,
@@ -4392,17 +4500,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3301269590,
+                    "UUID": 3677408399,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3572442455.bone"
+                    "path": "\/Library\/1939384431\/1727011468.bone"
                 }
             ]
         },
         {
             "name": "HumerusR",
-            "UUID": 3112547768,
+            "UUID": 1337788275,
             "local_UUID": 0,
-            "parent": 3965713700,
+            "parent": 1614767711,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4412,20 +4520,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1839089824,
+                    "UUID": 497870571,
                     "active": true,
                     "matrix": [
-                        -0.319676,
-                        -0.556996,
-                        0.766527,
+                        0.679830,
+                        0.692610,
+                        0.241087,
                         0.352774,
-                        0.594944,
-                        0.511635,
-                        0.619896,
+                        -0.318622,
+                        0.575037,
+                        -0.753534,
                         0,
-                        -0.737462,
-                        0.654206,
-                        0.167824,
+                        -0.660539,
+                        0.435459,
+                        0.611608,
                         0,
                         0,
                         0,
@@ -4435,17 +4543,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1183448733,
+                    "UUID": 4127309157,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2068993655.bone"
+                    "path": "\/Library\/1939384431\/3617374290.bone"
                 }
             ]
         },
         {
             "name": "RadiusR",
-            "UUID": 1779317723,
+            "UUID": 2525571953,
             "local_UUID": 0,
-            "parent": 3112547768,
+            "parent": 1337788275,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4455,20 +4563,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1386961123,
+                    "UUID": 222229037,
                     "active": true,
                     "matrix": [
-                        0.925546,
-                        -0.058988,
-                        0.374013,
+                        1,
+                        -0.000014,
+                        -0.000129,
                         0.957402,
-                        -0.123503,
-                        0.886734,
-                        0.445476,
+                        0.000074,
+                        0.877252,
+                        0.480030,
                         0,
-                        -0.357928,
-                        -0.458500,
-                        0.813428,
+                        0.000107,
+                        -0.480030,
+                        0.877252,
                         0,
                         0,
                         0,
@@ -4478,17 +4586,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2065085324,
+                    "UUID": 3152002357,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2463479767.bone"
+                    "path": "\/Library\/1939384431\/794992424.bone"
                 }
             ]
         },
         {
             "name": "HandR",
-            "UUID": 3262427109,
+            "UUID": 3767112269,
             "local_UUID": 0,
-            "parent": 1779317723,
+            "parent": 2525571953,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4498,20 +4606,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 226316685,
+                    "UUID": 1770142628,
                     "active": true,
                     "matrix": [
-                        -0.898089,
-                        -0.410082,
-                        0.158961,
+                        -0.047237,
+                        -0.744884,
+                        -0.665520,
                         1.602867,
-                        -0.352849,
-                        0.887563,
-                        0.296193,
+                        -0.794736,
+                        0.431643,
+                        -0.426708,
                         0,
-                        -0.262551,
-                        0.209919,
-                        -0.941807,
+                        0.605115,
+                        0.508756,
+                        -0.612375,
                         0,
                         0,
                         0,
@@ -4521,17 +4629,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1774390922,
+                    "UUID": 3416829845,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2307938428.bone"
+                    "path": "\/Library\/1939384431\/352813812.bone"
                 }
             ]
         },
         {
             "name": "F1R",
-            "UUID": 2124927672,
+            "UUID": 2226227400,
             "local_UUID": 0,
-            "parent": 3262427109,
+            "parent": 3767112269,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4541,7 +4649,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 861950651,
+                    "UUID": 459512114,
                     "active": true,
                     "matrix": [
                         -0.007846,
@@ -4564,17 +4672,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 968156636,
+                    "UUID": 278044447,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/922761798.bone"
+                    "path": "\/Library\/1939384431\/3403346495.bone"
                 }
             ]
         },
         {
             "name": "F11R",
-            "UUID": 2294005596,
+            "UUID": 1221373910,
             "local_UUID": 0,
-            "parent": 2124927672,
+            "parent": 2226227400,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4584,7 +4692,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3235355533,
+                    "UUID": 2876759610,
                     "active": true,
                     "matrix": [
                         -0.007846,
@@ -4596,7 +4704,7 @@
                         0.260724,
                         0,
                         -0.999967,
-                        0.000000,
+                        0,
                         -0.008127,
                         0,
                         0,
@@ -4607,17 +4715,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3307331742,
+                    "UUID": 2996557812,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3206330979.bone"
+                    "path": "\/Library\/1939384431\/3496618447.bone"
                 }
             ]
         },
         {
             "name": "F2R",
-            "UUID": 4183204576,
+            "UUID": 425819939,
             "local_UUID": 0,
-            "parent": 3262427109,
+            "parent": 3767112269,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4627,7 +4735,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3419382868,
+                    "UUID": 3173309202,
                     "active": true,
                     "matrix": [
                         0.222072,
@@ -4636,7 +4744,7 @@
                         -0.098486,
                         -0.891071,
                         0.453863,
-                        0.000000,
+                        0,
                         -0.256374,
                         0.395823,
                         0.777120,
@@ -4650,17 +4758,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 648026097,
+                    "UUID": 2557458749,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2038257781.bone"
+                    "path": "\/Library\/1939384431\/366283494.bone"
                 }
             ]
         },
         {
             "name": "F22R",
-            "UUID": 1627645478,
+            "UUID": 1430673625,
             "local_UUID": 0,
-            "parent": 4183204576,
+            "parent": 425819939,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4670,7 +4778,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1628999322,
+                    "UUID": 825529154,
                     "active": true,
                     "matrix": [
                         0.222072,
@@ -4682,7 +4790,7 @@
                         0.777120,
                         0.059859,
                         -0.872119,
-                        0.000000,
+                        0,
                         0.489293,
                         -0.027981,
                         0,
@@ -4693,17 +4801,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1543130438,
+                    "UUID": 4069565465,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/62425241.bone"
+                    "path": "\/Library\/1939384431\/145529114.bone"
                 }
             ]
         },
         {
             "name": "F3R",
-            "UUID": 3818369895,
+            "UUID": 1443712826,
             "local_UUID": 0,
-            "parent": 3262427109,
+            "parent": 3767112269,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4713,7 +4821,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 757767032,
+                    "UUID": 186092448,
                     "active": true,
                     "matrix": [
                         0.363701,
@@ -4736,17 +4844,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 134399577,
+                    "UUID": 2160715032,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1054428986.bone"
+                    "path": "\/Library\/1939384431\/3904770656.bone"
                 }
             ]
         },
         {
             "name": "F33R",
-            "UUID": 947591807,
+            "UUID": 3965222691,
             "local_UUID": 0,
-            "parent": 3818369895,
+            "parent": 1443712826,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4756,7 +4864,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 859287439,
+                    "UUID": 1870113262,
                     "active": true,
                     "matrix": [
                         0.363701,
@@ -4768,7 +4876,7 @@
                         0.567948,
                         0,
                         -0.645982,
-                        0.000000,
+                        0,
                         0.763353,
                         0,
                         0,
@@ -4779,17 +4887,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 516531689,
+                    "UUID": 3851674930,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/767028244.bone"
+                    "path": "\/Library\/1939384431\/3782491985.bone"
                 }
             ]
         },
         {
             "name": "F4R",
-            "UUID": 1798267390,
+            "UUID": 2736996578,
             "local_UUID": 0,
-            "parent": 3262427109,
+            "parent": 3767112269,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4799,7 +4907,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 51592917,
+                    "UUID": 3916266088,
                     "active": true,
                     "matrix": [
                         0.574797,
@@ -4808,7 +4916,7 @@
                         -0.039867,
                         -0.816982,
                         0.576663,
-                        -0.000000,
+                        0,
                         -0.316305,
                         0.046360,
                         0.065680,
@@ -4822,17 +4930,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 959639393,
+                    "UUID": 2895314440,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1894899454.bone"
+                    "path": "\/Library\/1939384431\/1056044710.bone"
                 }
             ]
         },
         {
             "name": "F44R",
-            "UUID": 2364129357,
+            "UUID": 380231144,
             "local_UUID": 0,
-            "parent": 1798267390,
+            "parent": 2736996578,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4842,7 +4950,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4018946857,
+                    "UUID": 1060787028,
                     "active": true,
                     "matrix": [
                         0.574797,
@@ -4867,9 +4975,9 @@
         },
         {
             "name": "ScapulaL",
-            "UUID": 2967736664,
+            "UUID": 264385122,
             "local_UUID": 0,
-            "parent": 4099464843,
+            "parent": 1074275087,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4879,7 +4987,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1063087742,
+                    "UUID": 1297911257,
                     "active": true,
                     "matrix": [
                         -0.194370,
@@ -4902,17 +5010,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3297900153,
+                    "UUID": 2382270753,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3469936871.bone"
+                    "path": "\/Library\/1939384431\/849529429.bone"
                 }
             ]
         },
         {
             "name": "HumerusL",
-            "UUID": 3392853874,
+            "UUID": 2468977494,
             "local_UUID": 0,
-            "parent": 2967736664,
+            "parent": 264385122,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4922,20 +5030,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 665469039,
+                    "UUID": 2669668261,
                     "active": true,
                     "matrix": [
-                        0.669129,
-                        0.700516,
-                        0.248079,
+                        -0.337379,
+                        -0.560738,
+                        0.756140,
                         -0.352775,
-                        -0.317163,
-                        0.571085,
-                        -0.757145,
+                        0.598628,
+                        0.492110,
+                        0.632038,
                         -0.000004,
-                        -0.672067,
-                        0.427946,
-                        0.604307,
+                        -0.726512,
+                        0.665883,
+                        0.169646,
                         0.000001,
                         0,
                         0,
@@ -4945,17 +5053,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 4258169888,
+                    "UUID": 3110354276,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3399853525.bone"
+                    "path": "\/Library\/1939384431\/1565271135.bone"
                 }
             ]
         },
         {
             "name": "RadiusL",
-            "UUID": 746091875,
+            "UUID": 1990527355,
             "local_UUID": 0,
-            "parent": 3392853874,
+            "parent": 2468977494,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -4965,20 +5073,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1993338451,
+                    "UUID": 104700833,
                     "active": true,
                     "matrix": [
-                        1,
-                        -0.000010,
-                        0.000057,
+                        0.927076,
+                        -0.058400,
+                        0.370297,
                         -0.957405,
-                        -0.000019,
-                        0.877252,
-                        0.480031,
+                        -0.122276,
+                        0.886658,
+                        0.445967,
                         0.000001,
-                        -0.000055,
-                        -0.480031,
-                        0.877252,
+                        -0.354371,
+                        -0.458724,
+                        0.814858,
                         0,
                         0,
                         0,
@@ -4988,17 +5096,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1125389520,
+                    "UUID": 3962077432,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3712167229.bone"
+                    "path": "\/Library\/1939384431\/2383013030.bone"
                 }
             ]
         },
         {
             "name": "HandL",
-            "UUID": 28261036,
+            "UUID": 2111392026,
             "local_UUID": 0,
-            "parent": 746091875,
+            "parent": 1990527355,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5008,20 +5116,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2269049814,
+                    "UUID": 3102357288,
                     "active": true,
                     "matrix": [
-                        -0.039812,
-                        -0.747220,
-                        -0.663384,
+                        -0.904312,
+                        -0.402977,
+                        0.140819,
                         -1.602869,
-                        -0.784112,
-                        0.434876,
-                        -0.442777,
+                        -0.346004,
+                        0.885163,
+                        0.311074,
                         0,
-                        0.619342,
-                        0.502539,
-                        -0.603217,
+                        -0.250004,
+                        0.232584,
+                        -0.939895,
                         0,
                         0,
                         0,
@@ -5031,17 +5139,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1148656484,
+                    "UUID": 667834684,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3314541038.bone"
+                    "path": "\/Library\/1939384431\/3413030652.bone"
                 }
             ]
         },
         {
             "name": "F1LL",
-            "UUID": 2848053580,
+            "UUID": 1960093661,
             "local_UUID": 0,
-            "parent": 28261036,
+            "parent": 2111392026,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5051,7 +5159,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1491447512,
+                    "UUID": 1905621331,
                     "active": true,
                     "matrix": [
                         -0.007846,
@@ -5074,17 +5182,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1847259783,
+                    "UUID": 1591749463,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/36478623.bone"
+                    "path": "\/Library\/1939384431\/499897983.bone"
                 }
             ]
         },
         {
             "name": "F11L",
-            "UUID": 825945120,
+            "UUID": 1338305061,
             "local_UUID": 0,
-            "parent": 2848053580,
+            "parent": 1960093661,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5094,7 +5202,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1162420934,
+                    "UUID": 890022948,
                     "active": true,
                     "matrix": [
                         -0.007846,
@@ -5119,9 +5227,9 @@
         },
         {
             "name": "F2L",
-            "UUID": 300122286,
+            "UUID": 3051336966,
             "local_UUID": 0,
-            "parent": 28261036,
+            "parent": 2111392026,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5131,7 +5239,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4063393773,
+                    "UUID": 3333351534,
                     "active": true,
                     "matrix": [
                         0.222072,
@@ -5140,7 +5248,7 @@
                         0.098480,
                         -0.891071,
                         0.453863,
-                        0.000000,
+                        0,
                         0.256370,
                         0.395823,
                         0.777120,
@@ -5154,17 +5262,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 4248033474,
+                    "UUID": 984936925,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2273116350.bone"
+                    "path": "\/Library\/1939384431\/144998423.bone"
                 }
             ]
         },
         {
             "name": "F22L",
-            "UUID": 2453746798,
+            "UUID": 538568049,
             "local_UUID": 0,
-            "parent": 300122286,
+            "parent": 3051336966,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5174,7 +5282,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4216018960,
+                    "UUID": 3068665028,
                     "active": true,
                     "matrix": [
                         0.222072,
@@ -5186,7 +5294,7 @@
                         0.777120,
                         -0.059856,
                         -0.872119,
-                        0.000000,
+                        0,
                         0.489293,
                         0.027980,
                         0,
@@ -5197,17 +5305,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2311891908,
+                    "UUID": 1715692011,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/877177459.bone"
+                    "path": "\/Library\/1939384431\/440658017.bone"
                 }
             ]
         },
         {
             "name": "F3L",
-            "UUID": 3531425640,
+            "UUID": 2678358459,
             "local_UUID": 0,
-            "parent": 28261036,
+            "parent": 2111392026,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5217,7 +5325,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 215541805,
+                    "UUID": 740512693,
                     "active": true,
                     "matrix": [
                         0.363701,
@@ -5240,17 +5348,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2806526730,
+                    "UUID": 614551985,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2320124688.bone"
+                    "path": "\/Library\/1939384431\/963932006.bone"
                 }
             ]
         },
         {
             "name": "F33L",
-            "UUID": 2066335484,
+            "UUID": 2716764005,
             "local_UUID": 0,
-            "parent": 3531425640,
+            "parent": 2678358459,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5260,7 +5368,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3703303028,
+                    "UUID": 2829583489,
                     "active": true,
                     "matrix": [
                         0.363701,
@@ -5272,7 +5380,7 @@
                         0.567948,
                         0.000001,
                         -0.645982,
-                        0.000000,
+                        0,
                         0.763353,
                         0,
                         0,
@@ -5283,17 +5391,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3712233016,
+                    "UUID": 2469794122,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2452952337.bone"
+                    "path": "\/Library\/1939384431\/41160573.bone"
                 }
             ]
         },
         {
             "name": "F4L",
-            "UUID": 2863100153,
+            "UUID": 3862916172,
             "local_UUID": 0,
-            "parent": 28261036,
+            "parent": 2111392026,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5303,7 +5411,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3366840570,
+                    "UUID": 742881245,
                     "active": true,
                     "matrix": [
                         0.574797,
@@ -5312,7 +5420,7 @@
                         0.039860,
                         -0.816982,
                         0.576663,
-                        -0.000000,
+                        0,
                         0.316310,
                         0.046360,
                         0.065680,
@@ -5326,17 +5434,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 89361143,
+                    "UUID": 2299952491,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1900029587.bone"
+                    "path": "\/Library\/1939384431\/2754702747.bone"
                 }
             ]
         },
         {
             "name": "F44L",
-            "UUID": 1949697849,
+            "UUID": 2108541335,
             "local_UUID": 0,
-            "parent": 2863100153,
+            "parent": 3862916172,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5346,7 +5454,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 558705219,
+                    "UUID": 2838876483,
                     "active": true,
                     "matrix": [
                         0.574797,
@@ -5371,9 +5479,9 @@
         },
         {
             "name": "Tails",
-            "UUID": 1439417750,
+            "UUID": 2532078397,
             "local_UUID": 0,
-            "parent": 3786251600,
+            "parent": 3230581304,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5383,7 +5491,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3718537878,
+                    "UUID": 3448802904,
                     "active": true,
                     "matrix": [
                         -0.962924,
@@ -5395,7 +5503,7 @@
                         -0.002564,
                         0.316460,
                         0.009511,
-                        0.000000,
+                        0,
                         -0.999955,
                         0.298088,
                         0,
@@ -5406,17 +5514,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1724706113,
+                    "UUID": 1560231813,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1877465683.bone"
+                    "path": "\/Library\/1939384431\/560911942.bone"
                 }
             ]
         },
         {
             "name": "T1",
-            "UUID": 1793541125,
+            "UUID": 4201669730,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5426,20 +5534,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 155411490,
+                    "UUID": 3591504920,
                     "active": true,
                     "matrix": [
-                        -0.592088,
-                        0.510066,
-                        0.623910,
+                        -0.342395,
+                        0.079116,
+                        0.936219,
                         -0.453637,
-                        0.503732,
-                        0.838565,
-                        -0.207514,
+                        -0.184254,
+                        0.971446,
+                        -0.149478,
                         0.012266,
-                        -0.629036,
-                        0.191417,
-                        -0.753441,
+                        -0.921312,
+                        -0.223683,
+                        -0.318041,
                         -0.232718,
                         0,
                         0,
@@ -5449,17 +5557,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1786463531,
+                    "UUID": 78327587,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1624337371.bone"
+                    "path": "\/Library\/1939384431\/736895425.bone"
                 }
             ]
         },
         {
             "name": "T11",
-            "UUID": 931752817,
+            "UUID": 2629651871,
             "local_UUID": 0,
-            "parent": 1793541125,
+            "parent": 4201669730,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5469,20 +5577,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 942266486,
+                    "UUID": 4150390416,
                     "active": true,
                     "matrix": [
-                        1,
-                        0.000138,
-                        -0.000200,
+                        0.600215,
+                        -0.698510,
+                        0.389649,
                         1.248507,
-                        -0.000148,
-                        0.998768,
-                        -0.049621,
+                        0.701867,
+                        0.693590,
+                        0.162219,
                         0,
-                        0.000193,
-                        0.049621,
-                        0.998768,
+                        -0.383568,
+                        0.176115,
+                        0.906565,
                         0,
                         0,
                         0,
@@ -5492,17 +5600,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1637940692,
+                    "UUID": 3814393973,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1460544026.bone"
+                    "path": "\/Library\/1939384431\/1685899267.bone"
                 }
             ]
         },
         {
             "name": "T111",
-            "UUID": 3544843063,
+            "UUID": 1091543323,
             "local_UUID": 0,
-            "parent": 931752817,
+            "parent": 2629651871,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5512,7 +5620,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3494935731,
+                    "UUID": 1925622336,
                     "active": true,
                     "matrix": [
                         -0.785443,
@@ -5537,9 +5645,9 @@
         },
         {
             "name": "T2",
-            "UUID": 1805785158,
+            "UUID": 4260603556,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5549,20 +5657,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1933535398,
+                    "UUID": 640036746,
                     "active": true,
                     "matrix": [
-                        -0.301274,
-                        0.322105,
-                        0.897487,
+                        -0.182478,
+                        0.096049,
+                        0.978507,
                         -0.129673,
-                        0.576314,
-                        0.811363,
-                        -0.097735,
+                        0.526816,
+                        0.849850,
+                        0.014824,
                         0.065203,
-                        -0.759669,
-                        0.487789,
-                        -0.430076,
+                        -0.830161,
+                        0.518198,
+                        -0.205679,
                         -0.321802,
                         0,
                         0,
@@ -5572,17 +5680,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 986136878,
+                    "UUID": 2276427333,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1024869548.bone"
+                    "path": "\/Library\/1939384431\/2427071507.bone"
                 }
             ]
         },
         {
             "name": "T22",
-            "UUID": 1810378802,
+            "UUID": 2903649543,
             "local_UUID": 0,
-            "parent": 1805785158,
+            "parent": 4260603556,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5592,7 +5700,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 378823185,
+                    "UUID": 1628158237,
                     "active": true,
                     "matrix": [
                         1,
@@ -5615,17 +5723,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3912306901,
+                    "UUID": 3849051103,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2572335629.bone"
+                    "path": "\/Library\/1939384431\/2192266322.bone"
                 }
             ]
         },
         {
             "name": "T222",
-            "UUID": 1102983680,
+            "UUID": 249108396,
             "local_UUID": 0,
-            "parent": 1810378802,
+            "parent": 2903649543,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5635,7 +5743,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2807312253,
+                    "UUID": 2512815664,
                     "active": true,
                     "matrix": [
                         -0.234990,
@@ -5647,7 +5755,7 @@
                         0.746205,
                         0,
                         0.913097,
-                        0.000000,
+                        0,
                         -0.407743,
                         0,
                         0,
@@ -5658,17 +5766,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 172607917,
+                    "UUID": 1286262330,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/303080005.bone"
+                    "path": "\/Library\/1939384431\/2564713216.bone"
                 }
             ]
         },
         {
             "name": "T3",
-            "UUID": 3734080893,
+            "UUID": 891092476,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5678,20 +5786,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2446973704,
+                    "UUID": 2895870754,
                     "active": true,
                     "matrix": [
-                        -0.419978,
-                        0.684445,
-                        0.595948,
+                        0.079185,
+                        0.563184,
+                        0.822529,
                         -0.300720,
-                        0.731886,
-                        0.643720,
-                        -0.223534,
+                        0.737304,
+                        0.522232,
+                        -0.428552,
                         0.272093,
-                        -0.536620,
-                        0.342287,
-                        -0.771284,
+                        -0.670905,
+                        0.640388,
+                        -0.373885,
                         -0.160403,
                         0,
                         0,
@@ -5701,17 +5809,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2680882442,
+                    "UUID": 2760146530,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3810790846.bone"
+                    "path": "\/Library\/1939384431\/3066126194.bone"
                 }
             ]
         },
         {
             "name": "T33",
-            "UUID": 3209968841,
+            "UUID": 1857409473,
             "local_UUID": 0,
-            "parent": 3734080893,
+            "parent": 891092476,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5721,20 +5829,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1376979250,
+                    "UUID": 1608724156,
                     "active": true,
                     "matrix": [
-                        1,
-                        -0.000014,
-                        -0.000016,
+                        0.732576,
+                        0.524290,
+                        0.434110,
                         1.249916,
-                        0.000011,
-                        0.982210,
-                        -0.187785,
+                        -0.401511,
+                        0.847824,
+                        -0.346385,
                         0,
-                        0.000018,
-                        0.187785,
-                        0.982210,
+                        -0.549656,
+                        0.079453,
+                        0.831604,
                         0,
                         0,
                         0,
@@ -5744,17 +5852,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3431781591,
+                    "UUID": 915312063,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1684633378.bone"
+                    "path": "\/Library\/1939384431\/2750701914.bone"
                 }
             ]
         },
         {
             "name": "T333",
-            "UUID": 4167925463,
+            "UUID": 3845645482,
             "local_UUID": 0,
-            "parent": 3209968841,
+            "parent": 1857409473,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5764,7 +5872,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1812228571,
+                    "UUID": 669043097,
                     "active": true,
                     "matrix": [
                         -0.722387,
@@ -5776,7 +5884,7 @@
                         0.173077,
                         0,
                         0.260913,
-                        -0.000000,
+                        0,
                         -0.965362,
                         0,
                         0,
@@ -5787,17 +5895,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 406652869,
+                    "UUID": 827861286,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2136596772.bone"
+                    "path": "\/Library\/1939384431\/3669082873.bone"
                 }
             ]
         },
         {
             "name": "T4",
-            "UUID": 118236527,
+            "UUID": 1389391460,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5807,20 +5915,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4086982343,
+                    "UUID": 501223101,
                     "active": true,
                     "matrix": [
-                        -0.274226,
-                        0.565058,
-                        0.778145,
+                        -0.236113,
+                        0.475958,
+                        0.847180,
                         -0.609378,
-                        0.816688,
-                        0.564079,
-                        -0.121803,
+                        0.773400,
+                        0.619872,
+                        -0.132703,
                         0.512620,
-                        -0.507761,
-                        0.602100,
-                        -0.616161,
+                        -0.588305,
+                        0.623876,
+                        -0.514466,
                         -0.640368,
                         0,
                         0,
@@ -5830,17 +5938,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 4175290634,
+                    "UUID": 2368347278,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3274116680.bone"
+                    "path": "\/Library\/1939384431\/824186677.bone"
                 }
             ]
         },
         {
             "name": "T44",
-            "UUID": 2926573828,
+            "UUID": 2817463786,
             "local_UUID": 0,
-            "parent": 118236527,
+            "parent": 1389391460,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5850,14 +5958,14 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3227421610,
+                    "UUID": 2109392299,
                     "active": true,
                     "matrix": [
                         1,
-                        -0.000000,
+                        0,
                         -0.000001,
                         1.082149,
-                        -0.000000,
+                        0,
                         0.869703,
                         -0.493575,
                         0,
@@ -5873,17 +5981,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 986712644,
+                    "UUID": 844844674,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2478022709.bone"
+                    "path": "\/Library\/1939384431\/607406041.bone"
                 }
             ]
         },
         {
             "name": "T444",
-            "UUID": 3286879704,
+            "UUID": 2249182028,
             "local_UUID": 0,
-            "parent": 2926573828,
+            "parent": 2817463786,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5893,7 +6001,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1704300026,
+                    "UUID": 2612101543,
                     "active": true,
                     "matrix": [
                         -0.223906,
@@ -5905,7 +6013,7 @@
                         0.256659,
                         0,
                         0.263867,
-                        -0.000000,
+                        0,
                         -0.964559,
                         0,
                         0,
@@ -5916,17 +6024,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1413699534,
+                    "UUID": 895779542,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1146699231.bone"
+                    "path": "\/Library\/1939384431\/1007461293.bone"
                 }
             ]
         },
         {
             "name": "T5",
-            "UUID": 3451478914,
+            "UUID": 2094474451,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5936,20 +6044,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 220475157,
+                    "UUID": 2185839301,
                     "active": true,
                     "matrix": [
-                        -0.036335,
-                        -0.210641,
-                        0.976888,
+                        0.249833,
+                        -0.347606,
+                        0.903744,
                         0.054299,
-                        0.312168,
-                        0.926224,
-                        0.211328,
+                        0.769032,
+                        0.638361,
+                        0.032939,
                         0.422328,
-                        -0.949332,
-                        0.312632,
-                        0.032101,
+                        -0.588365,
+                        0.686779,
+                        0.426804,
                         -0.508914,
                         0,
                         0,
@@ -5959,17 +6067,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3623657347,
+                    "UUID": 3858103216,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1415534040.bone"
+                    "path": "\/Library\/1939384431\/2835715007.bone"
                 }
             ]
         },
         {
             "name": "T55",
-            "UUID": 3903525796,
+            "UUID": 4088060587,
             "local_UUID": 0,
-            "parent": 3451478914,
+            "parent": 2094474451,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -5979,20 +6087,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3589244304,
+                    "UUID": 1372141295,
                     "active": true,
                     "matrix": [
-                        0.656961,
-                        -0.081003,
-                        -0.749560,
+                        1,
+                        0.000001,
+                        0.000001,
                         1.079129,
-                        0.619073,
-                        0.625391,
-                        0.475010,
+                        -0.000002,
+                        0.691973,
+                        0.721923,
                         0,
-                        0.430291,
-                        -0.776096,
-                        0.461005,
+                        0,
+                        -0.721923,
+                        0.691973,
                         0,
                         0,
                         0,
@@ -6002,17 +6110,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 870648472,
+                    "UUID": 2304618212,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1051852263.bone"
+                    "path": "\/Library\/1939384431\/3590725951.bone"
                 }
             ]
         },
         {
             "name": "T555",
-            "UUID": 1171529576,
+            "UUID": 614533619,
             "local_UUID": 0,
-            "parent": 3903525796,
+            "parent": 4088060587,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6022,7 +6130,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1126964201,
+                    "UUID": 3876133053,
                     "active": true,
                     "matrix": [
                         0.466260,
@@ -6034,7 +6142,7 @@
                         0.157656,
                         0,
                         0.179039,
-                        0.000000,
+                        0,
                         0.983842,
                         0,
                         0,
@@ -6045,17 +6153,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2664353082,
+                    "UUID": 431238375,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1647829839.bone"
+                    "path": "\/Library\/1939384431\/2228386072.bone"
                 }
             ]
         },
         {
             "name": "T6",
-            "UUID": 890727720,
+            "UUID": 4291934015,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6065,20 +6173,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2976812056,
+                    "UUID": 472106861,
                     "active": true,
                     "matrix": [
-                        0.112555,
-                        -0.335418,
-                        0.935322,
+                        0.447829,
+                        -0.534779,
+                        0.716562,
                         0.274508,
-                        0.205269,
-                        0.928848,
-                        0.308394,
+                        0.630213,
+                        0.757287,
+                        0.171309,
                         0.222943,
-                        -0.972212,
-                        0.157281,
-                        0.173397,
+                        -0.634256,
+                        0.374869,
+                        0.676160,
                         -0.173247,
                         0,
                         0,
@@ -6088,17 +6196,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2185355905,
+                    "UUID": 3808602890,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1325692687.bone"
+                    "path": "\/Library\/1939384431\/1260978576.bone"
                 }
             ]
         },
         {
             "name": "T66",
-            "UUID": 3000922692,
+            "UUID": 1891046551,
             "local_UUID": 0,
-            "parent": 890727720,
+            "parent": 4291934015,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6108,20 +6216,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1633399736,
+                    "UUID": 3187557078,
                     "active": true,
                     "matrix": [
-                        0.406860,
-                        -0.296809,
-                        -0.863927,
-                        1.961123,
-                        0.562337,
-                        0.826685,
-                        -0.019186,
+                        1,
+                        0.000002,
                         0,
-                        0.719890,
-                        -0.478012,
-                        0.503252,
+                        1.961123,
+                        -0.000002,
+                        0.939860,
+                        0.341559,
+                        0,
+                        0.000001,
+                        -0.341559,
+                        0.939860,
                         0,
                         0,
                         0,
@@ -6131,17 +6239,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1417917004,
+                    "UUID": 1470623220,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1949081781.bone"
+                    "path": "\/Library\/1939384431\/3973106825.bone"
                 }
             ]
         },
         {
             "name": "T666",
-            "UUID": 3172831292,
+            "UUID": 2917546654,
             "local_UUID": 0,
-            "parent": 3000922692,
+            "parent": 1891046551,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6151,7 +6259,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3705316961,
+                    "UUID": 936436837,
                     "active": true,
                     "matrix": [
                         0.680722,
@@ -6176,9 +6284,9 @@
         },
         {
             "name": "T7",
-            "UUID": 4174970284,
+            "UUID": 3948275535,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6188,20 +6296,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3748612198,
+                    "UUID": 3640819476,
                     "active": true,
                     "matrix": [
-                        0.201164,
-                        -0.110494,
-                        0.973306,
+                        0.517307,
+                        -0.503626,
+                        0.691920,
                         0.488518,
-                        -0.302927,
-                        0.937895,
-                        0.169083,
+                        0.502412,
+                        0.833237,
+                        0.230863,
                         -0.033917,
-                        -0.931541,
-                        -0.328854,
-                        0.155199,
+                        -0.692803,
+                        0.228202,
+                        0.684067,
                         -0.270268,
                         0,
                         0,
@@ -6211,17 +6319,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 4161062051,
+                    "UUID": 1955405862,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/1122456529.bone"
+                    "path": "\/Library\/1939384431\/3598258384.bone"
                 }
             ]
         },
         {
             "name": "T77",
-            "UUID": 1593306968,
+            "UUID": 929787476,
             "local_UUID": 0,
-            "parent": 4174970284,
+            "parent": 3948275535,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6231,20 +6339,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3215028478,
+                    "UUID": 3676961964,
                     "active": true,
                     "matrix": [
-                        0.305106,
-                        -0.861900,
-                        -0.405018,
+                        1,
+                        0.000004,
+                        -0.000002,
                         1.504911,
-                        0.866186,
-                        0.427909,
-                        -0.258102,
+                        -0.000004,
+                        0.999052,
+                        0.043528,
                         0,
-                        0.395769,
-                        -0.272072,
-                        0.877123,
+                        0.000002,
+                        -0.043528,
+                        0.999052,
                         0,
                         0,
                         0,
@@ -6254,17 +6362,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3732839521,
+                    "UUID": 2930599535,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2977620602.bone"
+                    "path": "\/Library\/1939384431\/256061588.bone"
                 }
             ]
         },
         {
             "name": "T777",
-            "UUID": 2449812693,
+            "UUID": 1172889745,
             "local_UUID": 0,
-            "parent": 1593306968,
+            "parent": 929787476,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6274,7 +6382,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2398189384,
+                    "UUID": 1980558446,
                     "active": true,
                     "matrix": [
                         0.716970,
@@ -6299,9 +6407,9 @@
         },
         {
             "name": "T8",
-            "UUID": 2726844664,
+            "UUID": 3211593877,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6311,20 +6419,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2863665880,
+                    "UUID": 2996485389,
                     "active": true,
                     "matrix": [
-                        -0.106404,
-                        -0.122212,
-                        0.986784,
+                        0.350045,
+                        -0.340281,
+                        0.872741,
                         0.167322,
-                        -0.074332,
-                        0.990618,
-                        0.114672,
+                        0.487408,
+                        0.861793,
+                        0.140519,
                         0.050196,
-                        -0.991541,
-                        -0.061148,
-                        -0.114490,
+                        -0.799939,
+                        0.376193,
+                        0.467522,
                         -0.436432,
                         0,
                         0,
@@ -6334,17 +6442,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 2060113769,
+                    "UUID": 3147731714,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3325104218.bone"
+                    "path": "\/Library\/1939384431\/353896943.bone"
                 }
             ]
         },
         {
             "name": "T88",
-            "UUID": 1297749038,
+            "UUID": 1641837041,
             "local_UUID": 0,
-            "parent": 2726844664,
+            "parent": 3211593877,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6354,20 +6462,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1770243969,
+                    "UUID": 1574763315,
                     "active": true,
                     "matrix": [
-                        0.591245,
-                        -0.608559,
-                        -0.529230,
+                        1,
+                        0.000015,
+                        -0.000002,
                         1.323478,
-                        0.678586,
-                        0.730005,
-                        -0.081326,
+                        -0.000015,
+                        0.993932,
+                        0.109998,
                         0,
-                        0.435832,
-                        -0.311045,
-                        0.844572,
+                        0.000004,
+                        -0.109998,
+                        0.993932,
                         0,
                         0,
                         0,
@@ -6377,17 +6485,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3352859848,
+                    "UUID": 3672569957,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/99904918.bone"
+                    "path": "\/Library\/1939384431\/3026312798.bone"
                 }
             ]
         },
         {
             "name": "T888",
-            "UUID": 4117559801,
+            "UUID": 91776077,
             "local_UUID": 0,
-            "parent": 1297749038,
+            "parent": 1641837041,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6397,7 +6505,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 135871201,
+                    "UUID": 998925160,
                     "active": true,
                     "matrix": [
                         0.541641,
@@ -6422,9 +6530,9 @@
         },
         {
             "name": "T9",
-            "UUID": 1437203453,
+            "UUID": 2195377815,
             "local_UUID": 0,
-            "parent": 1439417750,
+            "parent": 2532078397,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6434,20 +6542,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 4056510990,
+                    "UUID": 3867011204,
                     "active": true,
                     "matrix": [
-                        -0.007397,
-                        0.070093,
-                        0.997513,
+                        -0.002569,
+                        -0.026755,
+                        0.999639,
                         -0.068120,
-                        0.853269,
-                        0.520592,
-                        -0.030253,
+                        0.850904,
+                        0.525070,
+                        0.016240,
                         0.634992,
-                        -0.521418,
-                        0.850923,
-                        -0.063659,
+                        -0.525314,
+                        0.850639,
+                        0.021417,
                         -0.530407,
                         0,
                         0,
@@ -6457,17 +6565,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 238095768,
+                    "UUID": 156010378,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/475397011.bone"
+                    "path": "\/Library\/1939384431\/557373690.bone"
                 }
             ]
         },
         {
             "name": "T99",
-            "UUID": 864385914,
+            "UUID": 3064829500,
             "local_UUID": 0,
-            "parent": 1437203453,
+            "parent": 2195377815,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6477,7 +6585,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 732416380,
+                    "UUID": 1716155124,
                     "active": true,
                     "matrix": [
                         1,
@@ -6500,17 +6608,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 3450435933,
+                    "UUID": 394361449,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3565893148.bone"
+                    "path": "\/Library\/1939384431\/282583497.bone"
                 }
             ]
         },
         {
             "name": "T999",
-            "UUID": 4181615761,
+            "UUID": 57348134,
             "local_UUID": 0,
-            "parent": 864385914,
+            "parent": 3064829500,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6520,7 +6628,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1275807021,
+                    "UUID": 4090173654,
                     "active": true,
                     "matrix": [
                         0.019168,
@@ -6532,7 +6640,7 @@
                         0.980803,
                         0,
                         0.989831,
-                        0.000000,
+                        0,
                         0.142246,
                         0,
                         0,
@@ -6543,17 +6651,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1507861775,
+                    "UUID": 233538616,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2980066942.bone"
+                    "path": "\/Library\/1939384431\/3852003900.bone"
                 }
             ]
         },
         {
             "name": "LegR1",
-            "UUID": 111915866,
+            "UUID": 2413509112,
             "local_UUID": 0,
-            "parent": 3786251600,
+            "parent": 3230581304,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6563,20 +6671,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 778087302,
+                    "UUID": 3033692760,
                     "active": true,
                     "matrix": [
-                        0.231192,
-                        0.567859,
-                        -0.789991,
+                        -0.469271,
+                        0.760449,
+                        -0.448890,
                         -0.486954,
-                        0.971634,
-                        -0.093226,
-                        0.217337,
+                        0.775159,
+                        0.598232,
+                        0.203091,
                         -0.295913,
-                        0.049769,
-                        -0.817829,
-                        -0.573305,
+                        0.422981,
+                        -0.252656,
+                        -0.870202,
                         0.010439,
                         0,
                         0,
@@ -6586,17 +6694,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 470636811,
+                    "UUID": 2537521120,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3040835744.bone"
+                    "path": "\/Library\/1939384431\/3303087431.bone"
                 }
             ]
         },
         {
             "name": "TibiaR1",
-            "UUID": 1518469515,
+            "UUID": 884145465,
             "local_UUID": 0,
-            "parent": 111915866,
+            "parent": 2413509112,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6606,20 +6714,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 272490077,
+                    "UUID": 3008918225,
                     "active": true,
                     "matrix": [
-                        0.997614,
-                        0.068124,
-                        0.011228,
+                        0.523284,
+                        -0.735567,
+                        -0.430249,
                         -0.690753,
-                        -0.063797,
-                        0.971716,
-                        -0.227371,
+                        -0.017277,
+                        0.495632,
+                        -0.868361,
                         -0.000002,
-                        -0.026400,
-                        0.226112,
-                        0.973743,
+                        0.851983,
+                        0.461833,
+                        0.246648,
                         0.000001,
                         0,
                         0,
@@ -6629,17 +6737,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 4110926680,
+                    "UUID": 1142053988,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3017676546.bone"
+                    "path": "\/Library\/1939384431\/2691965257.bone"
                 }
             ]
         },
         {
             "name": "FootR1",
-            "UUID": 488618795,
+            "UUID": 1384989113,
             "local_UUID": 0,
-            "parent": 1518469515,
+            "parent": 884145465,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6649,20 +6757,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3727930065,
+                    "UUID": 149545257,
                     "active": true,
                     "matrix": [
-                        0.583300,
-                        -0.799098,
-                        0.145616,
+                        -0.369165,
+                        -0.928906,
+                        0.029173,
                         -0.556587,
-                        -0.645445,
-                        -0.347164,
-                        0.680351,
+                        -0.736378,
+                        0.311513,
+                        0.600589,
                         -0.191869,
-                        -0.493115,
-                        -0.490836,
-                        -0.718274,
+                        -0.566978,
+                        0.200234,
+                        -0.799026,
                         -0.147933,
                         0,
                         0,
@@ -6672,17 +6780,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 717024997,
+                    "UUID": 1369925802,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/256665825.bone"
+                    "path": "\/Library\/1939384431\/3635990872.bone"
                 }
             ]
         },
         {
             "name": "ToeCapR1",
-            "UUID": 808506580,
+            "UUID": 207747946,
             "local_UUID": 0,
-            "parent": 488618795,
+            "parent": 1384989113,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6692,7 +6800,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 396439231,
+                    "UUID": 746400442,
                     "active": true,
                     "matrix": [
                         -0.378822,
@@ -6704,7 +6812,7 @@
                         0.453840,
                         0.174257,
                         -0.898523,
-                        -0.000000,
+                        0,
                         -0.438927,
                         -0.058979,
                         0,
@@ -6715,17 +6823,17 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 898893900,
+                    "UUID": 924629497,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/3737667085.bone"
+                    "path": "\/Library\/1939384431\/2083876945.bone"
                 }
             ]
         },
         {
             "name": "joint2",
-            "UUID": 2041386108,
+            "UUID": 4051309949,
             "local_UUID": 0,
-            "parent": 808506580,
+            "parent": 207747946,
             "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -6735,7 +6843,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1736700054,
+                    "UUID": 3384726937,
                     "active": true,
                     "matrix": [
                         0.907188,
@@ -6758,9 +6866,9 @@
                 },
                 {
                     "type": 6,
-                    "UUID": 1130324068,
+                    "UUID": 4156916677,
                     "active": true,
-                    "path": "\/Library\/2040716074\/856668263\/2265654380.bone"
+                    "path": "\/Library\/1939384431\/1063661142.bone"
                 }
             ]
         },

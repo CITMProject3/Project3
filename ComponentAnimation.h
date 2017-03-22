@@ -92,7 +92,7 @@ public:
 	//Animation out of blend
 	Animation* blend_animation = nullptr;
 
-	bool playing = true;
+	bool playing = false;
 	bool linked = false;
 
 
