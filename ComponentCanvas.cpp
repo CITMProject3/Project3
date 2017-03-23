@@ -10,6 +10,10 @@
 #include "ComponentCar.h"
 #include "PhysVehicle3D.h"
 
+// Only for Vertical Slice 3
+#include "ComponentAudio.h"
+#include "ModuleAudio.h"
+
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	r_timer = new RaceTimer();
@@ -26,13 +30,21 @@ void ComponentCanvas::Update()
 {
 	if (scene_to_change != current_scene)
 		OnChangeScene();
-	GameObject* obj;
+
+	GameObject* obj = nullptr;
 	switch (current_scene)
 	{
 		//Main menu
 	case 0:
 		if (player_1_ready && player_2_ready)
+		{
 			scene_to_change = 1;
+
+			// Only for Vertical Slice 3
+			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
+			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
+		}
+			
 		break;
 		//GamePlayMenu
 	case 1:
@@ -70,33 +82,6 @@ void ComponentCanvas::Update()
 		break;
 	//Win Menu
 	case 2:
-		if (current_car != nullptr)
-		{
-			if (win_timer != nullptr)
-			{
-				int tmin = 0, tsec = 0, tmilsec = 0;
-				for (int i = 1; i <= r_timer->GetCurrentLap(); i++)
-				{
-					int min, sec, milsec = 0;
-					r_timer->GetLapTime(i,min, sec, milsec);
-					tmin += min;
-					tsec += sec;
-					tmilsec += milsec;
-				}
-				
-				string min_te = to_string(tmin);
-				string sec_te = to_string(tsec);
-				string mil_te = to_string(tmilsec);
-				if (tmin < 10)
-					min_te = "0" + min_te;
-				if (tsec < 10)
-					sec_te = "0" + sec_te;
-				if (tmilsec < 100)
-					mil_te = "0" + mil_te;
-				string str = min_te + ":" + sec_te + ":" + mil_te;
-				win_timer->SetDisplayText(str);
-			}
-		}
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::A) == KEY_DOWN)
 		{
 			restart = true;
@@ -289,6 +274,30 @@ void ComponentCanvas::OnChangeScene()
 
 		if (scene_to_change == 2)
 		{
+			if (current_car != nullptr)
+			{
+				if (win_timer != nullptr)
+				{
+					r_timer->AddLap();
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetAllLapsTime(min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						win_timer->SetDisplayText(str);
+					}
+				}
+			}
 			vector<GameObject*> tmp_childs = (*game_object->GetChilds());
 			if (tmp_childs.size() > 2)
 			{
@@ -296,6 +305,7 @@ void ComponentCanvas::OnChangeScene()
 				tmp_childs.at(1)->SetActive(false);
 				tmp_childs.at(2)->SetActive(true);
 			}
+			
 		}
 		current_scene = scene_to_change;
 		break;

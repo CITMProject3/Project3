@@ -123,7 +123,9 @@ private:
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+public:
 	void PickItem();
+private:
 	void UseItem(); //provisional
 	void ReleaseItem();
 	void IdleTurn();

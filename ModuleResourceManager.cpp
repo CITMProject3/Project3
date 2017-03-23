@@ -83,6 +83,7 @@ update_status ModuleResourceManager::Update()
 			App->editor->assets->Refresh();
 		}
 	}
+
 	
 	return UPDATE_CONTINUE;
 }
@@ -655,6 +656,15 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	App->go_manager->LinkAnimation(App->go_manager->root);
 
 	return ret;
+}
+
+void ModuleResourceManager::ReloadScene()
+{
+	string current_scene = App->go_manager->GetCurrentScenePath();
+	if (current_scene.size() > 0)
+	{
+		LoadScene(current_scene.data());
+	}
 }
 
 void ModuleResourceManager::SavePrefab(GameObject * gameobject)

@@ -18,6 +18,9 @@
 #include "EventLinkGos.h"
 #include "AutoProfile.h"
 
+#include "ModuleGOManager.h"
+#include "ComponentCanvas.h"
+
 #include "ComponentCollider.h"
 
 #include "Time.h"
@@ -78,7 +81,10 @@ void ComponentCar::Update()
 		if (vehicle)
 		{		
 			HandlePlayerInput();
-			vehicle->Render();
+			if (App->StartInGame() == false)
+			{
+				vehicle->Render();
+			}
 			UpdateGO();
 			GameLoopCheck();
 
@@ -114,6 +120,14 @@ void ComponentCar::OnInspector(bool debug)
 		}
 		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
+		if (lastCheckpoint != nullptr)
+		{
+			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
+		}
+		else
+		{
+			ImGui::Text("Last checkpoint: NULL");
+		}
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
@@ -179,6 +193,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Accel");
 					ImGui::SameLine();
 					if(ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)){}
+
+					ImGui::Text("Deceleration");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##DecelForce", &decel_brake, 1.0f, 0.0f)){}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -450,16 +468,17 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
 
-ImGui::Text("Damping");
-ImGui::SameLine();
-ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Damping");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
 
-ImGui::Text("Max force");
-ImGui::SameLine();
-ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Max force");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
 
-ImGui::TreePop();
+					ImGui::TreePop();
 				}
+
 				if (ImGui::TreeNode("Wheel settings"))
 				{
 					ImGui::Text("Connection height");
@@ -574,6 +593,7 @@ void ComponentCar::OnPlay()
 		reset_pos = trs->GetPosition();
 		reset_rot = trs->GetRotation();
 	}
+	checkpoints = 255;
 }
 
 float ComponentCar::GetVelocity() const
@@ -709,9 +729,15 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
 
-		
+		if (!accel && !brake)
+		{
+			vehicle->Brake(decel_brake);
+		}
+
 		LimitSpeed();
 	}
+
+
 
 	UpdateTurnOver();
 }
@@ -892,8 +918,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 	else if (left == false)
 		t_speed = -t_speed;
 
-	//Modified this *10
-	turn_current += t_speed * time->DeltaTime() * 10;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (drifting == false)
 	{
@@ -1509,6 +1534,11 @@ void ComponentCar::Reset()
 
 void ComponentCar::TrueReset()
 {
+	if (App->go_manager->current_scene_canvas != nullptr)
+	{
+		App->go_manager->current_scene_canvas->SetWin(true);
+	}
+
 	lastCheckpoint = nullptr;
 	lap = 1;
 	Reset();
@@ -1741,6 +1771,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("acceleration", accel_force);
 	data.AppendFloat("max_speed", max_velocity);
 	data.AppendFloat("min_speed", min_velocity);
+	data.AppendFloat("fake_break", decel_brake);
 
 	//Turn 
 	data.AppendFloat("turn_max", turn_max);
@@ -1868,6 +1899,7 @@ void ComponentCar::Load(Data& conf)
 	accel_force = conf.GetFloat("acceleration"); 
 	max_velocity = conf.GetFloat("max_speed"); 
 	min_velocity = conf.GetFloat("min_speed");
+	decel_brake = conf.GetFloat("fake_break");
 
 	//Turn 
 	turn_max = conf.GetFloat("turn_max"); 

@@ -183,7 +183,7 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
 		{
-			//Do something
+			car->PickItem();
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
 		{

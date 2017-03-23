@@ -56,10 +56,28 @@ bool RaceTimer::GetLapTime(int lap, int & minutes, int & seconds, int & miliseco
 
 	double time = lap_times[lap - 1];
 	seconds = floor(time / 1000);
-	miliseconds = floor(time - seconds);
+	miliseconds = floor(time - seconds * 1000);
 	minutes = floor(seconds / 60);
 	seconds = seconds - (minutes * 60);
 
 	return true;
+}
+
+bool RaceTimer::GetAllLapsTime(int & minutes, int & seconds, int & miliseconds) const
+{
+	double time = 0;
+	for (int i = 0; i < lap_times.size(); i++)
+	{
+		time += lap_times[i];
+	}
+	if (time > 0)
+	{
+		seconds = floor(time / 1000);
+		miliseconds = floor(time - seconds * 1000);
+		minutes = floor(seconds / 60);
+		seconds = seconds - (minutes * 60);
+		return true;
+	}
+	return false;
 }
 

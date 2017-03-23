@@ -1,0 +1,291 @@
+{
+    "GameObjects": [
+        {
+            "name": "kart",
+            "UUID": 2025635206,
+            "parent": 0,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2771743646,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pivot",
+            "UUID": 3848027398,
+            "parent": 2025635206,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4171443610,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2356630592,
+                    "active": true,
+                    "path": "\/Library\/577834624\/3703554926.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2783961902,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "chasis",
+            "UUID": 1559814520,
+            "parent": 3848027398,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 995526366,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 482532082,
+                    "active": true,
+                    "path": "\/Library\/577834624\/816880172.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2750791678,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "F_wheel",
+            "UUID": 273946469,
+            "parent": 1559814520,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2942136818,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2356027692,
+                    "active": true,
+                    "path": "\/Library\/577834624\/2024497704.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1797814012,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "B_wheel",
+            "UUID": 1379875419,
+            "parent": 1559814520,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1676616184,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2274413065,
+                    "active": true,
+                    "path": "\/Library\/577834624\/2632992416.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 386137637,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "camera",
+            "UUID": 854353376,
+            "parent": 3848027398,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3079347046,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.953818,
+                        -0.300385,
+                        2.449797,
+                        0,
+                        0.300385,
+                        0.953818,
+                        -4.985808,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 698079332,
+                    "active": true,
+                    "path": "\/Library\/577834624\/4235884965.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2732653410,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        }
+    ]
+} 

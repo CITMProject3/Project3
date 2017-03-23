@@ -503,12 +503,13 @@ void MeshImporter::DeleteBuffers(Mesh* mesh)
 		App->renderer3D->RemoveBuffer(mesh->id_vertices);
 		App->renderer3D->RemoveBuffer(mesh->id_indices);
 		App->renderer3D->RemoveBuffer(mesh->id_uvs);
+		App->renderer3D->RemoveBuffer(mesh->id_normals);
+		App->renderer3D->RemoveBuffer(mesh->id_tangents);
 	}
 	else
 	{
 		LOG("Warning: Delete Buffers call on a null mesh");
 	}
-
 }
 
 void MeshImporter::CollectGameObjects(GameObject* root, std::vector<GameObject*> vector)
