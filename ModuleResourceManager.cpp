@@ -1154,6 +1154,9 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 	case SOUNDBANK:
 		SoundbankDropped(path, base_dir, base_library_dir, uuid);
 		break;
+	case SCENE:
+		SceneDropped(path, base_dir, base_library_dir, uuid);
+		break;
 	}
 }
 
@@ -1283,6 +1286,26 @@ void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir,
 	string json_file_path = file_assets_path.substr(0, file_assets_path.find_last_of('.')) + ".json";
 	lib_json_path += std::to_string(uuid) + ".json";
 	App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data());
+}
+
+void ModuleResourceManager::SceneDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string final_scene_path = base_library_dir;
+	final_scene_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(final_scene_path.data());
+
+	string library_dir = final_scene_path;
+	final_scene_path += std::to_string(uuid) + ".fra";
+
+	GenerateMetaFile(file_assets_path.data(), FileType::SCENE, uuid, final_scene_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), final_scene_path.data());
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)
