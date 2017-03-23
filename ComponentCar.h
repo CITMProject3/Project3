@@ -180,6 +180,9 @@ private:
 	ComponentAnimation* p1_animation = nullptr;
 	ComponentAnimation* p2_animation = nullptr;
 
+	//Turn over
+	float turn_over_reset_time = 5.0f;
+
 	//Turn direction
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
