@@ -882,23 +882,43 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 	float top_turn = turn_max + turn_boost;
 
-	if (left)
+	if (drifting == false)
 	{
-		*left_turn = true;
+		if (left)
+		{
+			*left_turn = true;
+		}
+		else
+		{
+			*left_turn = false;
+			t_speed = -t_speed;
+		}
+	}
+	else if (left == false)
+		t_speed = -t_speed;
+
+	//Modified this *10
+	turn_current += t_speed * time->DeltaTime() * 10;
+
+	if (drifting == false)
+	{
+		if (turn_current > top_turn)
+			turn_current = top_turn;
+
+		else if(turn_current < -top_turn)
+			turn_current = -top_turn;
 	}
 	else
 	{
-		*left_turn = false;
-		t_speed = -t_speed;
+		//Drifting wheel limitation 0 -> top_current
+		if (drift_dir_left == false)
+			top_turn = -top_turn;
+		if (drift_dir_left ? turn_current < 0 : turn_current > 0)
+			turn_current = 0;
+		if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
+			turn_current = top_turn;
 	}
 
-	turn_current += t_speed * time->DeltaTime();
-
-	if (turn_current > top_turn)
-		turn_current = top_turn;
-
-	else if(turn_current < -top_turn)
-		turn_current = -top_turn;
 
 	return true;
 }
