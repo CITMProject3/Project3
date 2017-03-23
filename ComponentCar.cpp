@@ -980,12 +980,7 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
 			x_joy_input += 1;
-			x_joy_input /= if (drift_dir_left == false)
-				top_turn = -top_turn;
-			if (drift_dir_left ? turn_current < 0 : turn_current > 0)
-				turn_current = 0;
-			if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
-				turn_current = top_turn; 2;
+			x_joy_input /= 2;
 
 			if (drift_dir_left == true)
 			{
