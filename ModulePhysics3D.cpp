@@ -137,13 +137,14 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	RenderTerrain();
+	
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModulePhysics3D::PostUpdate()
 {
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -698,6 +699,7 @@ void ModulePhysics3D::RenderTerrain()
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
