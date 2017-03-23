@@ -116,6 +116,7 @@ private:
 
 	//Controls methods (to use in different parts)
 	void Brake(float* accel, float* brake);
+	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
@@ -189,7 +190,6 @@ private:
 	float max_velocity = 80.0f;
 	float min_velocity = -20.0f;
 
-
 	//Drifting
 	float drift_turn_boost = 0.15f;
 	float drift_min_speed = 20.0f;
@@ -209,6 +209,9 @@ private:
 	//Brake
 	float brake_force = 20.0f;
 	float back_force = 500.0f;
+
+	//Full brake
+	float full_brake_force = 300.0f;
 
 	//Reset
 	float lose_height = 0.0f;
