@@ -43,7 +43,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
-	reset_rot = { 0.0f, 0.0f, 0.0f };
+	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
 
 	for (uint i = 0; i < 4; i++)
 		wheels_go.push_back(nullptr);
@@ -158,14 +158,6 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Lose height");
 				ImGui::SameLine();
 				ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
-
-				ImGui::Text("Pos");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Rpoint", reset_pos.ptr());
-
-				ImGui::Text("Rot");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Rrot", reset_rot.ptr());
 
 				ImGui::Text("");
 				ImGui::TreePop();
@@ -580,7 +572,7 @@ void ComponentCar::OnPlay()
 	if (trs)
 	{
 		reset_pos = trs->GetPosition();
-		reset_rot = trs->GetRotationEuler();
+		reset_rot = trs->GetRotation();
 	}
 }
 
@@ -932,7 +924,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 	{
 		turn_current = turn_speed * -x_joy_input;
 
-		//TODO: adjust this with drifting
 		return true;
 	}
 	return false;
@@ -1743,8 +1734,6 @@ void ComponentCar::Save(Data& file) const
 
 	//Game loop settings
 	data.AppendFloat("lose_height", lose_height);
-	data.AppendFloat3("reset_pos", reset_pos.ptr());
-	data.AppendFloat3("reset_rot", reset_rot.ptr());
 
 	//Chassis settings
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
@@ -1872,8 +1861,6 @@ void ComponentCar::Load(Data& conf)
 
 	//Game loop settings
 	lose_height = conf.GetFloat("lose_height");
-	reset_pos = conf.GetFloat3("reset_pos");
-	reset_rot = conf.GetFloat3("reset_rot");
 
 	//Chassis settings
 	chasis_size = conf.GetFloat3("chasis_size");

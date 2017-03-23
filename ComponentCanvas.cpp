@@ -43,10 +43,19 @@ void ComponentCanvas::Update()
 			if (play_timer != nullptr)
 			{
 				int min, sec, milsec = 0;
-				if (current_car->lap != r_timer->GetCurrentLap())
+				if ((current_car->lap+1) != r_timer->GetCurrentLap())
 					r_timer->AddLap();
-				r_timer->GetLapTime(current_car->lap, min, sec, milsec);
-				string str = to_string(min) + ":" + to_string(sec) + ":" + to_string(milsec);
+				r_timer->GetCurrentLapTime(min, sec, milsec);
+				string min_te = to_string(min);
+				string sec_te = to_string(sec);
+				string mil_te = to_string(milsec);
+				if (min < 10)
+					min_te = "0" + min_te;
+				if (sec < 10)
+					sec_te = "0" + sec_te;
+				if (milsec < 100)
+					mil_te = "0" + mil_te;
+				string str = min_te + ":" + sec_te + ":" + mil_te;
 				play_timer->SetDisplayText(str);
 			}
 
@@ -61,6 +70,33 @@ void ComponentCanvas::Update()
 		break;
 	//Win Menu
 	case 2:
+		if (current_car != nullptr)
+		{
+			if (win_timer != nullptr)
+			{
+				int tmin = 0, tsec = 0, tmilsec = 0;
+				for (int i = 1; i <= r_timer->GetCurrentLap(); i++)
+				{
+					int min, sec, milsec = 0;
+					r_timer->GetLapTime(i,min, sec, milsec);
+					tmin += min;
+					tsec += sec;
+					tmilsec += milsec;
+				}
+				
+				string min_te = to_string(tmin);
+				string sec_te = to_string(tsec);
+				string mil_te = to_string(tmilsec);
+				if (tmin < 10)
+					min_te = "0" + min_te;
+				if (tsec < 10)
+					sec_te = "0" + sec_te;
+				if (tmilsec < 100)
+					mil_te = "0" + mil_te;
+				string str = min_te + ":" + sec_te + ":" + mil_te;
+				win_timer->SetDisplayText(str);
+			}
+		}
 		if (App->input->GetJoystickButton(0, JOY_BUTTON::A) == KEY_DOWN)
 		{
 			restart = true;
@@ -98,6 +134,17 @@ void ComponentCanvas::OnPlay()
 
 		}
 	}
+
+	GameObject* obji = (*game_object->GetChilds()).at(2);
+	if (obji != nullptr)
+	{
+		GameObject* obj_child_time = (*game_object->GetChilds()).at(2)->GetChilds()->at(0);
+		if (obj_child_time != nullptr)
+		{
+			win_timer = (ComponentUiText*)obj_child_time->GetComponent(C_UI_TEXT);
+		}
+	}
+
 	vector<GameObject*> all_objects;
 	App->go_manager->root->CollectAllChilds(all_objects);
 	for (vector<GameObject*>::const_iterator obj = all_objects.begin(); obj != all_objects.end(); ++obj)
@@ -222,7 +269,7 @@ void ComponentCanvas::OnChangeScene()
 			player_1_ready = false;
 			player_2_ready = false;
 			r_timer->Start();
-			r_timer->AddLap();
+			//r_timer->AddLap();
 		}
 		current_scene = scene_to_change;
 		

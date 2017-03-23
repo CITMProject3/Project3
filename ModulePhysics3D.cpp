@@ -109,11 +109,6 @@ update_status ModulePhysics3D::PreUpdate()
 
 				if (pbodyA && pbodyB)
 				{
-					bool aIsCar = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar);
-					bool bIsCar = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar);
-					bool aIsTrigger = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger);
-					bool bIsTrigger = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger);
-
 					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar) &&
 						ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
 					{
