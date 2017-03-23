@@ -71,6 +71,18 @@ bool Data::AppendFloat(const char * name, float value)
 	return json_object_set_number(root, name, (double)value) == JSONSuccess;
 }
 
+bool Data::AppendFloat2(const char * name, const float * value)
+{
+	JSON_Value* j_value = json_value_init_array();
+	JSON_Array* array = json_value_get_array(j_value);
+
+	for (int i = 0; i < 2; i++)
+		json_array_append_number(array, value[i]);
+
+	return json_object_set_value(root, name, j_value) == JSONSuccess;
+}
+
+
 bool Data::AppendFloat3(const char * name,const float * value)
 {
 	JSON_Value* j_value = json_value_init_array();
@@ -170,6 +182,21 @@ float Data::GetFloat(const char * name) const
 	return (float)json_object_get_number(root, name);
 }
 
+float2 Data::GetFloat2(const char * name) const
+{
+	JSON_Array* j_array = json_object_get_array(root, name);
+	if (j_array)
+	{
+		float2 ret((float)json_array_get_number(j_array, 0),
+			(float)json_array_get_number(j_array, 1));
+
+
+		return ret;
+	}
+	return float2::zero;
+}
+
+
 float3 Data::GetFloat3(const char * name) const
 {
 	JSON_Array* j_array = json_object_get_array(root, name);
@@ -206,5 +233,5 @@ size_t Data::Serialize(char ** buffer)
 
 bool Data::IsNull() const
 {
-	return (root_value == nullptr && root == nullptr & array == nullptr) ? true : false;
+	return (root_value == nullptr && root == nullptr && array == nullptr) ? true : false;
 }

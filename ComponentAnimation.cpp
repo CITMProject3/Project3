@@ -11,6 +11,8 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
 
+#include "Time.h"
+
 bool Animation::Advance(float dt)
 {
 	time += dt;
@@ -33,6 +35,12 @@ float Animation::GetDuration()
 	return ((float)end_frame - (float)start_frame) / ticks_per_second;
 }
 
+void Animation::SetFrameRatio(float ratio)
+{
+	if (ratio >= 0 && ratio <= 1)
+		time = GetDuration() * ratio;
+}
+
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
 {
 
@@ -52,6 +60,11 @@ void ComponentAnimation::OnInspector(bool debug)
 		{
 			PlayAnimation(current_animation->index);
 		}
+
+		ImGui::Text("Lock animation frame");
+		static float ratio;
+		if (ImGui::SliderFloat("##frameSlider", &ratio, 0.0f, 1.0f))
+			LockAnimationRatio(ratio);
 
 		ImGui::Text("Animations size: %i", animations.size());
 		ImGui::Separator();
@@ -202,7 +215,7 @@ void ComponentAnimation::AddAnimation()
 	if (defCount > 0)
 		new_name.append(std::to_string(defCount));
 
-	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, 24);
+	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, rAnimation->ticks_per_second);
 }
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
@@ -244,6 +257,7 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 			}
 		}
 		current_animation = &animations[index];
+		current_animation->time = 0;
 		playing = true;
 	}
 }
@@ -260,6 +274,18 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
 				return;
 			}
 		}
+	}
+}
+
+void ComponentAnimation::LockAnimationRatio(float ratio)
+{
+	if (current_animation != nullptr)
+	{
+		current_animation->SetFrameRatio(ratio);
+		blend_animation = nullptr;
+		UpdateBonesTransform(current_animation, blend_animation, 0.0f);
+		UpdateMeshAnimation(game_object);
+		playing = false;
 	}
 }
 
@@ -495,7 +521,7 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 {
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
-	if (mesh != nullptr)
+	if (mesh != nullptr && mesh->HasBones() == true)
 	{
 		mesh->DeformAnimMesh();
 	}

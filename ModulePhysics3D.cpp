@@ -1,22 +1,25 @@
+#include "ModulePhysics3D.h"
+
 #include "Glew\include\glew.h"
 
-#include "Globals.h"
 #include "Application.h"
-#include "ModulePhysics3D.h"
+#include "ModuleRenderer3D.h"
+#include "ModuleFileSystem.h"
+#include "ModuleInput.h"
+#include "ModuleLighting.h"
+
+#include "GameObject.h"
+#include "ComponentMesh.h"
+#include "ComponentTransform.h"
+#include "ComponentCamera.h"
+
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
-#include "ComponentMesh.h"
-#include "GameObject.h"
-#include "ComponentTransform.h"
-#include "Assets.h"
-#include "ModuleFileSystem.h"
-#include "ModuleInput.h"
-#include "ComponentCamera.h"
 
-#include "ModuleRenderer3D.h"
-#include "ModuleGOManager.h"
-#include "LayerSystem.h"
+#include "Assets.h"
+#include "RaycastHit.h"
+#include "Time.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
@@ -24,9 +27,9 @@
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
 #include "Bullet\include\BulletCollision\CollisionShapes\btHeightfieldTerrainShape.h"
 
-#include "RaycastHit.h"
-
 #include "ResourceFileTexture.h"
+
+#include "SDL\include\SDL_scancode.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -77,7 +80,7 @@ bool ModulePhysics3D::Start()
 	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
-
+	CreateGround();
 	return true;
 }
 
@@ -216,7 +219,7 @@ void ModulePhysics3D::CleanWorld()
 	}
 
 	vehicles.clear();
-
+	CreateGround();
 	world->clearForces();
 }
 
@@ -907,7 +910,7 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 	{
 		if (heightMapImg)
 		{
-			for (int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+			for (unsigned int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
 			{
 				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
 			}
@@ -949,7 +952,7 @@ uint ModulePhysics3D::GetCurrentTerrainUUID()
 	return 0;
 }
 
-const char * ModulePhysics3D::GetHeightmapPath()
+const char *ModulePhysics3D::GetHeightmapPath()
 {
 	if (heightMapImg)
 	{

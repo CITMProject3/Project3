@@ -3,6 +3,8 @@
 #include "ModuleScripting.h"
 #include "Color.h"
 
+#include "imgui\imgui.h"
+
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, const char* path) : Component(type, game_object)
 {
 	SetPath(path);

@@ -1,8 +1,4 @@
 #include "Application.h"
-#include "PerfTimer.h"
-#include "LinearAllocator.h"
-#include "Profiler.h"
-#include "Data.h"
 
 #include "Module.h"
 #include "ModuleScripting.h"
@@ -11,22 +7,34 @@
 #include "ModuleFileSystem.h"
 #include "ModuleGOManager.h"
 #include "ModuleInput.h"
+#include "ModuleSceneIntro.h"
 #include "ModuleLighting.h"
 #include "ModulePhysics3D.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
+#include "ModuleEditor.h"
 #include "ModuleWindow.h"
 
+#include "Time.h"
+#include "Random.h"
+#include "EventQueue.h"
+#include "Profiler.h"
+#include "Data.h"
 
 using namespace std;
 
 Application::Application()
 {
+	// Time controller
 	time = new Time();
-	//Random
+	
+	// Random
 	rnd = new Random();
 
-	//Modules
+	// EventQueue
+	event_queue = new EventQueue();
+
+	// Modules
 	window = new ModuleWindow("window");
 	resource_manager = new ModuleResourceManager("resource_manager");
 	input = new ModuleInput("input");
@@ -35,8 +43,8 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D("renderer");
 	camera = new ModuleCamera3D("camera");
 	physics = new ModulePhysics3D("physics");
-	editor = new Editor("editor");
 	scripting = new ModuleScripting("scripting");
+	editor = new ModuleEditor("editor");
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
 	lighting = new ModuleLighting("lighting");
@@ -73,6 +81,7 @@ Application::Application()
 Application::~Application()
 {
 	delete rnd;
+	delete event_queue;
 
 	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
@@ -99,7 +108,7 @@ bool Application::Init()
 			delete[] buffer;
 
 		Data root_node;
-
+		root_node.AppendBool("start_in_game", false);
 		vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 		while (i != list_modules.rend())
@@ -113,6 +122,8 @@ bool Application::Init()
 	}
 	Data config(buffer);
 	delete[] buffer;
+
+	start_in_game = config.GetBool("start_in_game");
 
 	// Call Init() in all modules
 	vector<Module*>::iterator i = list_modules.begin();
@@ -134,6 +145,17 @@ bool Application::Init()
 	}
 
 	capped_ms = 1000 / fps;
+
+	if (start_in_game)
+	{
+		game_state = GAME_RUNNING;
+		time->Play();
+
+		for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+		{
+			(*it)->OnPlay();
+		}
+	}	
 	
 	return ret;
 }
@@ -147,6 +169,8 @@ void Application::PrepareUpdate()
 // ---------------------------------------------
 void Application::FinishUpdate()
 {
+	event_queue->ProcessEvents();
+
 	//Update Profiler
 	g_Profiler.Update();
 
@@ -251,6 +275,8 @@ void Application::SaveBeforeClosing()
 	Data root_node;
 	char* buf;
 
+	root_node.AppendBool("start_in_game", start_in_game);
+
 	vector<Module*>::reverse_iterator i = list_modules.rbegin();
 
 	while (i != list_modules.rend())
@@ -290,7 +316,7 @@ int Application::GetFPS()
 	return 60; //TODO: Update time with fps limit.
 }
 
-bool Application::ChangeGameState(game_states new_state)
+bool Application::ChangeGameState(GameStates new_state)
 {
 	bool success = false;
 	switch (new_state)
@@ -335,4 +361,9 @@ bool Application::IsGameRunning() const
 bool Application::IsGamePaused() const
 {
 	return (game_state == GAME_PAUSED || game_state == GAME_NEXT_FRAME) ? true : false;
+}
+
+bool Application::StartInGame() const
+{
+	return start_in_game;
 }

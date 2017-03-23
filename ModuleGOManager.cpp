@@ -4,28 +4,22 @@
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
 #include "ModuleInput.h"
+#include "ModuleEditor.h"
 #include "ModuleFileSystem.h"
 #include "ModulePhysics3D.h"
 
 #include "GameObject.h"
-#include "Component.h"
-#include "ComponentCamera.h"
+#include "ComponentTransform.h"
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
 
-#include "Imgui\imgui.h"
-
 #include "RaycastHit.h"
 #include "LayerSystem.h"
+#include "AutoProfile.h"
+#include "Random.h"
 
-#include "ResourceFileMesh.h"
 #include "ResourceFilePrefab.h"
-
-#include "ComponentMesh.h"
-#include "ComponentTransform.h"
-
-#include <algorithm>
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -349,7 +343,7 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 void ModuleGOManager::ClearScene()
 {
 	RemoveGameObject(root);
-
+	current_scene_canvas = nullptr;
 	//TODO: modules should have remove GameObject events and load scene events
 	App->editor->selected.clear();
 
@@ -392,7 +386,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		//Components
 		Data component;
 		unsigned int comp_size = go_data.GetArraySize("components");
-		for (int i = 0; i < comp_size; i++)
+		for (unsigned int i = 0; i < comp_size; i++)
 		{
 			component = go_data.GetArray("components", i);
 
@@ -483,7 +477,7 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 	//Components
 	Data component;
 	unsigned int comp_size = go_data.GetArraySize("components");
-	for (int i = 0; i < comp_size; i++)
+	for (unsigned int i = 0; i < comp_size; i++)
 	{
 		component = go_data.GetArray("components", i);
 
@@ -528,6 +522,11 @@ GameObject * ModuleGOManager::FindGameObjectByUUID(GameObject* start, unsigned i
 	return ret;
 }
 
+void ModuleGOManager::LinkGameObjectPointer(GameObject **pointer_to_pointer_go, unsigned int uuid_to_assign)
+{
+	*pointer_to_pointer_go = FindGameObjectByUUID(root, uuid_to_assign);
+}
+
 //Sort the AABBs for the distance from the current camera
 int  CompareAABB(const void * a, const void * b)
 {
@@ -537,6 +536,7 @@ int  CompareAABB(const void * a, const void * b)
 	if (a_dst < b_dst) return -1;
 	if (a_dst = b_dst) return 0;
 	if (a_dst > b_dst) return 1;
+	return 99999;
 }
 
 RaycastHit ModuleGOManager::Raycast(const Ray & ray, std::vector<int> layersToCheck, bool keepDrawing)
@@ -666,7 +666,7 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 {
 	if (root == nullptr)
 		return;
-	
+
 	ComponentAnimation* c_anim = (ComponentAnimation*)root->GetComponent(C_ANIMATION);
 
 	if (c_anim)
@@ -680,7 +680,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 	const vector<GameObject*>* childs = root->GetChilds();
 	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
 		LinkAnimation(*child);
-
 }
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)

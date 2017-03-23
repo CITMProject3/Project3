@@ -101,7 +101,7 @@ void PhysVehicle3D::Turn(float degrees)
 }
 
 //-------------------------------------------------------------------------------
-void PhysVehicle3D::SetModularVelocity(double v)
+void PhysVehicle3D::SetModularVelocity(float v)
 {
 	btRigidBody* body = vehicle->getRigidBody();
 
@@ -110,6 +110,16 @@ void PhysVehicle3D::SetModularVelocity(double v)
 	sp = sp.normalized() * v;
 
 	body->setLinearVelocity(sp);
+}
+
+void PhysVehicle3D::SetVelocity(float x, float y, float z, float v)
+{
+	btVector3 dir(x, y, z);
+	btRigidBody* body = vehicle->getRigidBody();
+
+	dir = dir.normalized() * v;
+
+	body->setLinearVelocity(dir);
 }
 // ----------------------------------------------------------------------------
 float PhysVehicle3D::GetKmh() const

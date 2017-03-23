@@ -14,6 +14,7 @@
 #include "../GameObject.h"
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
+#include "../SDL/include/SDL_scancode.h"
 
 extern "C"
 {

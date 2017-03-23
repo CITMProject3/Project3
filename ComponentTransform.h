@@ -28,6 +28,8 @@ public:
 	void Set(math::float4x4 matrix);
 	void SetGlobal(float4x4 global);
 
+	
+
 	math::float3 GetPosition()const;
 	math::float3 GetRotationEuler()const;
 	math::Quat GetRotation()const;
@@ -39,6 +41,8 @@ public:
 	// Returns the final transformation matrix. Not the local one!
 	math::float4x4 GetTransformMatrix()const;
 	math::float4x4 GetGlobalMatrix()const;
+
+	math::float3 GetForward() const;
 
 	void Save(Data& file)const;
 	void Load(Data& conf);

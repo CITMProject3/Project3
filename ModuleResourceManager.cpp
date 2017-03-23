@@ -1,15 +1,19 @@
-#include "Application.h"
 #include "ModuleResourceManager.h"
-#include "TextureImporter.h"
-#include "MeshImporter.h"
-#include "Random.h"
-#include "Data.h"
+
+#include "Application.h"
 #include "ModuleGOManager.h"
 #include "ModuleFileSystem.h"
 #include "ModulePhysics3D.h"
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "Random.h"
 #include "Assets.h"
+#include "Time.h"
+
 #include "ShaderComplier.h"
+#include "TextureImporter.h"
+#include "MeshImporter.h"
 
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
@@ -21,9 +25,6 @@
 #include "ResourceFileTexture.h"
 #include "ResourceFilePrefab.h"
 #include "ResourceScriptsLibrary.h"
-
-#include "Glew\include\glew.h"
-#include <gl\GL.h>
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -37,12 +38,8 @@
 #pragma comment ( lib, "Devil/libx86/ILU.lib" )
 #pragma comment ( lib, "Devil/libx86/ILUT.lib" )
 
-#include <cctype>
-#include <map>
-
 ModuleResourceManager::ModuleResourceManager(const char* name, bool start_enabled) : Module(name, start_enabled)
-{
-}
+{ }
 
 ModuleResourceManager::~ModuleResourceManager()
 {
@@ -69,21 +66,25 @@ bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
 	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
-	UpdateAssetsAuto();
+	if(App->StartInGame() == false)
+		UpdateAssetsAuto();
 	return true;
 }
 
 update_status ModuleResourceManager::Update()
 {
-	//TODO:Only do this in editor mode. NOT in game
-	modification_timer += time->RealDeltaTime();
-
-	if (modification_timer >= CHECK_MOD_TIME)
+	if (App->StartInGame() == false)
 	{
-		CheckDirectoryModification(App->editor->assets->root);
-		modification_timer = 0.0f;
-		App->editor->assets->Refresh();
+		modification_timer += time->RealDeltaTime();
+
+		if (modification_timer >= CHECK_MOD_TIME)
+		{
+			CheckDirectoryModification(App->editor->assets->root);
+			modification_timer = 0.0f;
+			App->editor->assets->Refresh();
+		}
 	}
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -611,7 +612,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		//Remove the current scene
 		App->go_manager->ClearScene();
 
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			if (i == 0)
 				App->go_manager->root = App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
@@ -869,7 +870,7 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
 	// Extensions must always contain 3 letters!
-	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ"};
+	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ", "dae"};
 	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
@@ -882,7 +883,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 5; i++)
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
 
@@ -1314,7 +1315,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	map<unsigned int, unsigned int> uuids;
 	if (root_objects.IsNull() == false)
 	{
-		for (int i = 0; i < scene.GetArraySize("GameObjects"); i++)
+		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
 		}
@@ -1370,7 +1371,7 @@ void ModuleResourceManager::CheckDirectoryModification(Directory * directory)
 	for (vector<AssetFile*>::iterator file = files_to_remove.begin(); file != files_to_remove.end(); ++file)
 		App->editor->assets->DeleteMetaAndLibraryFile((*file));
 
-	for (int i = 0; i < files_to_replace.size(); i++)
+	for (size_t i = 0; i < files_to_replace.size(); i++)
 	{
 		ImportFile(files_to_replace[i].data(), directory->path, directory->library_path, uuids[i]);
 		ResourceFile* rc = FindResourceByUUID(uuids[i]);

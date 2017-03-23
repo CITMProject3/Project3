@@ -3,7 +3,6 @@
 #include "Profiler.h"
 #include "Globals.h"
 
-
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
@@ -17,11 +16,16 @@ enum main_states
 	MAIN_EXIT
 };
 
-Application* App = nullptr;
+class Console;
+class DebugDraw;
+class Time;
+
+Profiler g_Profiler;
 Console* console = nullptr;
 DebugDraw* g_Debug = nullptr;
 Time* time = nullptr;
-Profiler g_Profiler;
+
+Application* App = nullptr;
 
 int main(int argc, char ** argv)
 {

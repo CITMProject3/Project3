@@ -1,1 +1,30 @@
-
+version: 1.0.{build}
+branches:
+  only:
+  - master
+configuration: Release
+platform: x86
+build:
+  project: Engine.sln
+  verbosity: normal
+before_package:
+- ps: Copy-Item C:\projects\Project3\$env:CONFIGURATION\Engine.exe C:\projects\Project3\Game\
+artifacts:
+- path: Game
+  name: Project3
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: QhydgyQMxm8l8l9gAV7ByY9TCaj7XY0plvUrout15RVMfURdWPupt/Ra560eLxeO
+  draft: false
+  force_update: true
+  on:
+    CONFIGURATION: Release
+notifications:
+- provider: Slack
+  auth_token:
+    secure: 1j7T6A1nBF7r0ZP8xPtpDirUSb3G3W8maQQMVW2xag8u6tHq/OTOIoeiFZRYavncCAHLRSS6bD9i6AV9Uj1FqZKLKBIXAsWWA1u+Fupwc48=
+  channel: general
+  on_build_success: true
+  on_build_failure: true
+  on_build_status_changed: false

@@ -2,11 +2,13 @@
 #define __MODULEINPUT_H__
 
 #include "Module.h"
-#include "Globals.h"
 #include <vector>
 
 #define MAX_MOUSE_BUTTONS 5
 #define TOLERANCE 0.001
+
+typedef struct _SDL_Joystick SDL_Joystick;
+typedef int16_t Sint16;
 
 using namespace std;
 
@@ -71,64 +73,19 @@ public:
 	void SetMouseX(int x);
 	void SetMouseY(int y);
 
-	int GetMouseX() const
-	{
-		return mouse_x;
-	}
-
-	int GetMouseY() const
-	{
-		return mouse_y;
-	}
-
+	int GetMouseX() const;
+	int GetMouseY() const;
 	int GetMouseZ() const;
 
-	int GetMouseXMotion() const
-	{
-		return mouse_x_motion;
-	}
+	int GetMouseXMotion() const;
+	int GetMouseYMotion() const;
 
-	int GetMouseYMotion() const
-	{
-		return mouse_y_motion;
-	}
+	KEY_STATE GetJoystickButton(unsigned int joy, JOY_BUTTON id) const;
+	float GetJoystickAxis(unsigned int joy, JOY_AXIS id) const; //From -1.0f to 1.0f
+	int GetNumberJoysticks() const;
 
-	KEY_STATE GetJoystickButton(int joy, JOY_BUTTON id) const
-	{
-		if (joy < joysticks.size() && joy >= 0)
-		{
-			return joysticks[joy]->button[id];
-		}
-		return KEY_IDLE;
-	}
-
-	float GetJoystickAxis(int joy, JOY_AXIS id) const //From -1.0f to 1.0f
-	{
-		if (joy < joysticks.size() && joy >= 0)
-		{
-			float ret = (float)joysticks[joy]->axis[id] / 32768;
-
-			if (ret < TOLERANCE && ret > TOLERANCE) ret = 0;
-
-			return ret;
-		}
-		return 0.0f;
-	}
-
-	int GetNumberJoysticks() const
-	{
-		return num_joysticks;
-	}
-
-	bool Quit() const
-	{
-		return wants_to_quit;
-	}
-
-	void ResetQuit()
-	{
-		wants_to_quit = false;
-	}
+	bool Quit() const;
+	void ResetQuit();
 
 	void InfiniteHorizontal();
 
@@ -137,6 +94,7 @@ private:
 	void ResetImGuiDrag();
 
 private:
+
 	KEY_STATE* keyboard;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;

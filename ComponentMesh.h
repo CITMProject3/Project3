@@ -82,6 +82,7 @@ public:
 
 	void Remove();
 
+	bool HasBones();
 	void AddBone(ComponentBone* bone);
 	void DeformAnimMesh();
 
@@ -102,6 +103,7 @@ private:
 	math::AABB bounding_box; //In the world position
 
 public:
+
 	bool animated = false;
 	unsigned int weight_id = 0;
 	unsigned int bone_id = 0;
