@@ -72,7 +72,7 @@ bool ModuleResourceManager::Start()
 
 update_status ModuleResourceManager::Update()
 {
-	if (App->StartInGame() == false)
+	if (App->StartInGame() == false && App->IsGameRunning() == false)
 	{
 		modification_timer += time->RealDeltaTime();
 

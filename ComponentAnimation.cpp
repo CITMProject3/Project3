@@ -30,7 +30,6 @@ bool Animation::Advance(float dt)
 		else
 		{
 			time = time - GetDuration();
-			LOG("Loop end");
 		}
 	}
 	return true;

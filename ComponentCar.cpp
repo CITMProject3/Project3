@@ -817,6 +817,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
 		StartPush();
+		LOG("Key push down");
 //		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
@@ -1679,7 +1680,6 @@ void ComponentCar::UpdateGO()
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
 			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
-			LOG("ratio: %f", ratio);
 			p1_animation->LockAnimationRatio(ratio);
 		}
 	}
