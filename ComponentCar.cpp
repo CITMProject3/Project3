@@ -180,6 +180,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					if(ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)){}
 
+					ImGui::Text("Deceleration");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##DecelForce", &decel_brake, 1.0f, 0.0f)){}
+
 					ImGui::Text("");
 					ImGui::TreePop();
 				}
@@ -450,16 +454,17 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
 
-ImGui::Text("Damping");
-ImGui::SameLine();
-ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Damping");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
 
-ImGui::Text("Max force");
-ImGui::SameLine();
-ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Max force");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
 
-ImGui::TreePop();
+					ImGui::TreePop();
 				}
+
 				if (ImGui::TreeNode("Wheel settings"))
 				{
 					ImGui::Text("Connection height");
@@ -709,9 +714,15 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
 
-		
+		if (!accel && !brake)
+		{
+			vehicle->Brake(decel_brake);
+		}
+
 		LimitSpeed();
 	}
+
+
 
 	UpdateTurnOver();
 }
@@ -1741,6 +1752,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("acceleration", accel_force);
 	data.AppendFloat("max_speed", max_velocity);
 	data.AppendFloat("min_speed", min_velocity);
+	data.AppendFloat("fake_break", decel_brake);
 
 	//Turn 
 	data.AppendFloat("turn_max", turn_max);
@@ -1868,6 +1880,7 @@ void ComponentCar::Load(Data& conf)
 	accel_force = conf.GetFloat("acceleration"); 
 	max_velocity = conf.GetFloat("max_speed"); 
 	min_velocity = conf.GetFloat("min_speed");
+	decel_brake = conf.GetFloat("fake_break");
 
 	//Turn 
 	turn_max = conf.GetFloat("turn_max"); 
