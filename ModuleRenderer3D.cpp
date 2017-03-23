@@ -679,7 +679,7 @@ void ModuleRenderer3D::ShaderBuiltInUniforms(unsigned int shader_id, ComponentCa
 	GLint time_location = glGetUniformLocation(shader_id, "time");
 	if (time_location != -1)
 	{
-		glUniform1f(time_location, time->GetUnitaryTime());
+		glUniform1f(time_location, time->RealTimeSinceStartup());
 	}
 	//Color
 	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
