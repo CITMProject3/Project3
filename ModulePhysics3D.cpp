@@ -192,7 +192,6 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
 		{
-			//Do something
 			car->Reset();
 		}
 	}
@@ -953,8 +952,8 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 			}
 		}
 		terrainHeightScaling = scale;
+		GenerateTerrainMesh();
 	}
-	GenerateTerrainMesh();
 }
 
 void ModulePhysics3D::LoadTexture(string resLibPath)

@@ -290,9 +290,9 @@ private:
 	public:
 	void WentThroughCheckpoint(ComponentCollider* checkpoint);
 	void WentThroughEnd(ComponentCollider* end);
-	unsigned char checkpoints = 0;
+	unsigned char checkpoints = 255;
 	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 1;
+	unsigned int lap = 0;
 
 };
 
