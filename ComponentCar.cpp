@@ -987,7 +987,7 @@ bool ComponentCar::Push(float* accel)
 
 void ComponentCar::Leaning(float accel)
 {
-	if (vehicle->GetKmh() > 0.0f)
+	if (vehicle->GetKmh() > 0.0f && current_turbo == T_IDLE)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
