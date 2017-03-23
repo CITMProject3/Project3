@@ -19,7 +19,7 @@ public:
 	double GetCurrentLapTime()const;
 
 	bool GetLapTime(int lap, int& minutes, int&seconds, int& miliseconds)const;
-
+	bool GetAllLapsTime(int& minutes, int& seconds, int& miliseconds)const;
 private:
 	int current_lap = 1;
 
