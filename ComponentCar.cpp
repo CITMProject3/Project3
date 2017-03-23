@@ -961,8 +961,24 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.1f)
 	{
-		turn_current = turn_speed * -x_joy_input;
+		if (drifting == false)
+			turn_current = turn_max * -x_joy_input;
+		else
+		{
+			//Normalizing x_joy_input to 0-1 vlaue
+			x_joy_input += 1;
+			x_joy_input / 2;
 
+			if (drift_dir_left == true)
+			{
+				
+				turn_current = turn_max * x_joy_input;
+			}
+			else
+			{
+				turn_current = -turn_max * x_joy_input;
+			}
+		}
 		return true;
 	}
 	return false;
