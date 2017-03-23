@@ -6,6 +6,7 @@
 #include "imgui\imgui.h"
 #include "ModuleInput.h"
 #include "ComponentUiText.h"
+#include "ComponentUiButton.h"
 #include "RaceTimer.h"
 #include "ComponentCar.h"
 #include "PhysVehicle3D.h"
@@ -73,7 +74,12 @@ void ComponentCanvas::Update()
 
 			if (kmh_text != nullptr)
 			{
-				string str = to_string(int(current_car->GetVelocity())) + "k";
+				int vel = current_car->GetVelocity();
+				string str;
+				if(vel < 10)
+					str = "0" + to_string(vel) + "k";
+				else
+					str = to_string(vel) + "k";
 				kmh_text->SetDisplayText(str);
 			}
 		}
@@ -98,6 +104,21 @@ void ComponentCanvas::Update()
 
 void ComponentCanvas::OnPlay()
 {
+	GameObject* obj_b = (*game_object->GetChilds()).at(0);
+	if (obj_b != nullptr)
+	{
+		GameObject* obj_child_b1 = (*obj_b->GetChilds()).at(3);
+		if (obj_child_b1 != nullptr)
+		{
+			button1 = (ComponentUiButton*)obj_child_b1->GetComponent(C_UI_BUTTON);
+		}
+
+		GameObject* obj_child_b2 = (*obj_b->GetChilds()).at(4);
+		if (obj_child_b2 != nullptr)
+		{
+			button2 = (ComponentUiButton*)obj_child_b2->GetComponent(C_UI_BUTTON);
+		}
+	}
 	GameObject* obj = (*game_object->GetChilds()).at(1);
 	if (obj != nullptr)
 	{
@@ -270,6 +291,13 @@ void ComponentCanvas::OnChangeScene()
 				tmp_childs.at(1)->SetActive(true);
 				tmp_childs.at(2)->SetActive(false);	
 			}
+
+			if (button1 != nullptr)
+				button1->Reset();
+
+			if (button2 != nullptr)
+				button2->Reset();
+
 			player_1_ready = false;
 			player_2_ready = false;
 			r_timer->Start();

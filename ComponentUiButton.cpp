@@ -117,3 +117,13 @@ void ComponentUiButton::Load(Data & conf)
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
 }
+
+void ComponentUiButton::Reset()
+{
+	if (UImaterial->texture_ids.size() >= 2)
+	{
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+		UImaterial->texture_ids.at("1") = tmp;
+	}
+}
