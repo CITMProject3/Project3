@@ -1,0 +1,587 @@
+{
+    "GameObjects": [
+        {
+            "name": "Tree Prop_pref",
+            "UUID": 271233877,
+            "local_UUID": 271233877,
+            "parent": 0,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "\/Library\/3712756930\/1747055355\/1747055355.inf",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3112357198,
+                    "active": true,
+                    "matrix": [
+                        1.133081,
+                        0,
+                        -0.592838,
+                        108.685944,
+                        0,
+                        1.278800,
+                        0,
+                        41.157410,
+                        0.592838,
+                        0,
+                        1.133081,
+                        -101.538857,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pSphere22",
+            "UUID": 2583285698,
+            "local_UUID": 2583285698,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 340627815,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface31",
+            "UUID": 749890089,
+            "local_UUID": 749890089,
+            "parent": 2583285698,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 843785992,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform49",
+            "UUID": 3134666898,
+            "local_UUID": 3134666898,
+            "parent": 749890089,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3772488746,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface32",
+            "UUID": 3261556515,
+            "local_UUID": 3261556515,
+            "parent": 2583285698,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4202050386,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform48",
+            "UUID": 1329370398,
+            "local_UUID": 1329370398,
+            "parent": 3261556515,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2242333086,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pSphere23",
+            "UUID": 3963525995,
+            "local_UUID": 3963525995,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 125901545,
+                    "active": true,
+                    "matrix": [
+                        4.292956,
+                        0,
+                        0,
+                        0.069702,
+                        0,
+                        1.910833,
+                        0,
+                        0.865414,
+                        0,
+                        0,
+                        3.032290,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform51",
+            "UUID": 2941302515,
+            "local_UUID": 2941302515,
+            "parent": 3963525995,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2827770285,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pSphere24",
+            "UUID": 765424557,
+            "local_UUID": 765424557,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4209416450,
+                    "active": true,
+                    "matrix": [
+                        6.917706,
+                        0,
+                        0,
+                        3.801435,
+                        0,
+                        1.910833,
+                        0,
+                        -0.600387,
+                        0,
+                        0,
+                        3.768381,
+                        2.207956,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform52",
+            "UUID": 3831378421,
+            "local_UUID": 3831378421,
+            "parent": 765424557,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2040704681,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pSphere25",
+            "UUID": 3449828895,
+            "local_UUID": 3449828895,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2319245802,
+                    "active": true,
+                    "matrix": [
+                        6.031364,
+                        0,
+                        0,
+                        2.816474,
+                        0,
+                        1.910833,
+                        0,
+                        0.435020,
+                        0,
+                        0,
+                        3.164802,
+                        -1.610915,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform53",
+            "UUID": 1862654234,
+            "local_UUID": 1862654234,
+            "parent": 3449828895,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1903807904,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "curve3",
+            "UUID": 3746323578,
+            "local_UUID": 3746323578,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2848620707,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform50",
+            "UUID": 1116247833,
+            "local_UUID": 1116247833,
+            "parent": 3746323578,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1121546610,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "curve4",
+            "UUID": 524134782,
+            "local_UUID": 524134782,
+            "parent": 271233877,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 271233877,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2128017767,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2409798392,
+                    "active": true,
+                    "path": "\/Library\/3712756930\/1747055355\/2805041033.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2272561142,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/3712756930\/\/1179558159\/1179558159.dds"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+} 
