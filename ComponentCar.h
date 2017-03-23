@@ -122,6 +122,7 @@ private:
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+	void PickItem();
 	void UseItem(); //provisional
 	void ReleaseItem();
 	void IdleTurn();
@@ -147,6 +148,8 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
+	//TODO: provisional
+	GameObject* item = nullptr;
 private:
 	float kickTimer = 0.0f;
 public:

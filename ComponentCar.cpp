@@ -136,7 +136,14 @@ void ComponentCar::OnInspector(bool debug)
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
 
-				ImGui::Checkbox("Has item", &has_item);
+				bool hasItem = has_item;
+				if (ImGui::Checkbox("Has item", &hasItem))
+				{
+					if (hasItem == true)
+					{
+						PickItem();
+					}
+				}
 
 				ImGui::Text("");
 				ImGui::TreePop();
@@ -451,15 +458,15 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
 
-					ImGui::Text("Damping");
-					ImGui::SameLine();
-					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
+ImGui::Text("Damping");
+ImGui::SameLine();
+ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
 
-					ImGui::Text("Max force");
-					ImGui::SameLine();
-					ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+ImGui::Text("Max force");
+ImGui::SameLine();
+ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
 
-					ImGui::TreePop();
+ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Wheel settings"))
 				{
@@ -489,8 +496,9 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::InputFloat("Drift turn boost", &drift_turn_boost);
 			ImGui::InputFloat("Drift min speed", &drift_min_speed);
 			ImGui::TreePop();
+
 		} //Endof Car settings
-		
+
 		if (ImGui::TreeNode("Wheels"))
 		{
 			if (App->editor->assign_wheel != -1 && App->editor->wheel_assign != nullptr)
@@ -547,6 +555,22 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::TreePop();
 		}
+		//TODO: provisional
+		ImGui::Separator();
+		if (item != nullptr)
+		{
+			ImGui::Text(item->name.c_str());
+			ImGui::SameLine();
+		}
+
+		if (ImGui::Button("Assign Item"))
+		{
+			App->editor->assign_wheel = -1;
+			App->editor->wheel_assign = nullptr;
+			App->editor->assign_item = true;
+			App->editor->to_assign_item = this;
+		}
+
 	}//Endof Collapsing header
 }
 
@@ -983,23 +1007,59 @@ void ComponentCar::Acrobatics(PLAYER p)
 	}
 }
 
+void ComponentCar::PickItem()
+{
+	has_item = true;
+	if (item != nullptr)
+	{
+		item->SetActive(true);
+		for (std::vector<GameObject*>::const_iterator it = item->GetChilds()->begin(); it != item->GetChilds()->end(); it++)
+		{
+			GameObject* go = (*it)->GetChilds()->front();
+			ComponentTransform* trans = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+			float3 rotation = trans->GetRotationEuler();
+			rotation.z = 0;
+			trans->SetRotation(rotation);
+			go->SetActive(false);
+		}
+	}
+}
+
 void ComponentCar::UseItem()
 {
 	if (has_item)
 	{
 		current_turbo = T_ROCKET;
-
-		
-
 		has_item = false;
+	}
+
+	//Rotating yellow cubes
+	if (item != nullptr)
+	{
+		for (std::vector<GameObject*>::const_iterator it = item->GetChilds()->begin(); it != item->GetChilds()->end(); it++)
+		{
+			GameObject* go = (*it)->GetChilds()->front();
+			if (go->IsActive() == false) go->SetActive(true);
+			ComponentTransform* trans = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
+			float3 rotation = trans->GetRotationEuler();
+			rotation.z += 1000 * time->DeltaTime();
+			while (rotation.z > 360)
+				rotation.z -= 360;
+
+			trans->SetRotation(rotation);
+		}
 	}
 
 	if (applied_turbo && current_turbo)
 	{
+
+
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
+			if (item != nullptr)
+				item->SetActive(false);
 		}
 
 	}
@@ -1011,6 +1071,10 @@ void ComponentCar::ReleaseItem()
 	if (current_turbo = T_ROCKET)
 	{
 		current_turbo = T_IDLE;
+		if (item != nullptr)
+		{
+			item->SetActive(false);
+		}
 	}
 }
 void ComponentCar::IdleTurn()
@@ -1767,7 +1831,8 @@ void ComponentCar::Save(Data& file) const
 	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
 	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
 	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
-	
+	if (item) data.AppendUInt("Item", item->GetUUID());
+
 	//Car physics settings
 	data.AppendFloat("mass", car->mass);
 	data.AppendFloat("suspensionStiffness", car->suspensionStiffness);
@@ -1896,6 +1961,12 @@ void ComponentCar::Load(Data& conf)
 	if (conf.GetUInt("Wheel Back Right") != 0)
 	{
 		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[3], conf.GetUInt("Wheel Back Right"));
+		App->event_queue->PostEvent(ev);
+	}
+
+	if (conf.GetUInt("Item") != 0)
+	{
+		EventLinkGos *ev = new EventLinkGos((GameObject**)&item, conf.GetUInt("Item"));
 		App->event_queue->PostEvent(ev);
 	}
 
