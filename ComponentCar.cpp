@@ -1290,6 +1290,7 @@ void ComponentCar::ApplyTurbo()
 
 void ComponentCar::StartDrift()
 {
+	/*
 	if (GetVelocity() >= drift_min_speed)
 	{
 		drifting = true;
@@ -1297,6 +1298,7 @@ void ComponentCar::StartDrift()
 		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
 		vehicle->SetFriction(0);
 	}
+	*/
 }
 
 void ComponentCar::CalcDriftForces()
