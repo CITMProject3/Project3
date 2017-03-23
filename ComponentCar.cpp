@@ -918,8 +918,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 	else if (left == false)
 		t_speed = -t_speed;
 
-	//Modified this *10
-	turn_current += t_speed * time->DeltaTime() * 10;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (drifting == false)
 	{
@@ -988,7 +987,7 @@ bool ComponentCar::Push(float* accel)
 
 void ComponentCar::Leaning(float accel)
 {
-	if (vehicle->GetKmh() > 0.0f)
+	if (vehicle->GetKmh() > 0.0f && current_turbo == T_IDLE)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
@@ -1507,11 +1506,12 @@ void ComponentCar::GameLoopCheck()
 
 void ComponentCar::TurnOver()
 {
-	float3 current_pos = vehicle->GetPos();
+	Reset();
+	/*float3 current_pos = vehicle->GetPos();
 	current_pos.y += 2;
 	float4x4 matrix = float4x4::identity;
 	matrix.Translate(current_pos);
-	vehicle->SetTransform(matrix.ptr());
+	vehicle->SetTransform(matrix.ptr());*/
 }
 
 void ComponentCar::Reset()
