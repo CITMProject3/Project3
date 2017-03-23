@@ -980,7 +980,12 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
 			x_joy_input += 1;
-			x_joy_input / 2;
+			x_joy_input /= if (drift_dir_left == false)
+				top_turn = -top_turn;
+			if (drift_dir_left ? turn_current < 0 : turn_current > 0)
+				turn_current = 0;
+			if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
+				turn_current = top_turn; 2;
 
 			if (drift_dir_left == true)
 			{
@@ -1728,7 +1733,7 @@ void ComponentCar::UpdateGO()
 	}
 
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
-
+	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
 	{
 		if (wheels_go[i] != nullptr)
@@ -1743,7 +1748,7 @@ void ComponentCar::UpdateGO()
 			w_trs->SetScale(scale);
 		}
 	}
-
+	*/
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
