@@ -127,6 +127,25 @@ void ComponentCanvas::OnPlay()
 		if (obj_child_time != nullptr)
 		{
 			win_timer = (ComponentUiText*)obj_child_time->GetComponent(C_UI_TEXT);
+
+			
+		}
+
+		GameObject* obj_child_time1 = (*game_object->GetChilds()).at(2)->GetChilds()->at(1);
+		if (obj_child_time1 != nullptr)
+		{
+			lap1 = (ComponentUiText*)obj_child_time1->GetComponent(C_UI_TEXT);
+		}
+
+		GameObject* obj_child_time2 = (*game_object->GetChilds()).at(2)->GetChilds()->at(2);
+		if (obj_child_time2 != nullptr)
+		{
+			lap2 = (ComponentUiText*)obj_child_time2->GetComponent(C_UI_TEXT);
+		}
+		GameObject* obj_child_time3 = (*game_object->GetChilds()).at(2)->GetChilds()->at(3);
+		if (obj_child_time3 != nullptr)
+		{
+			lap3 = (ComponentUiText*)obj_child_time3->GetComponent(C_UI_TEXT);
 		}
 	}
 
@@ -295,6 +314,67 @@ void ComponentCanvas::OnChangeScene()
 							mil_te = "0" + mil_te;
 						string str = min_te + ":" + sec_te + ":" + mil_te;
 						win_timer->SetDisplayText(str);
+					}
+				}
+
+				if (lap1 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if (r_timer->GetLapTime(1,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap1->SetDisplayText(str);
+					}
+				}
+
+				if (lap2 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetLapTime(2,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap2->SetDisplayText(str);
+					}
+				}
+
+				if (lap3 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetLapTime(3,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap3->SetDisplayText(str);
 					}
 				}
 			}

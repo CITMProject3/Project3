@@ -44,6 +44,9 @@ private:
 	ComponentUiText* play_timer = nullptr;
 	ComponentUiText* win_timer = nullptr;
 	ComponentUiText* kmh_text = nullptr;
+	ComponentUiText* lap1 = nullptr;
+	ComponentUiText* lap2 = nullptr;
+	ComponentUiText* lap3 = nullptr;
 };
 
 #endif __COMPONENTCANVAS_H__
