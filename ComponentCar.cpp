@@ -1412,6 +1412,8 @@ void ComponentCar::UpdateTurnOver()
 		if (timer_start_turned >= turn_over_reset_time)
 		{
 			TurnOver();
+			timer_start_turned = 0.0f;
+			turned = false;
 		}
 	}
 		
