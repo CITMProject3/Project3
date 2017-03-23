@@ -154,7 +154,11 @@ void ComponentAudio::Load(Data & conf)
 	event_id = conf.GetUInt("event_id");
 	current_event = App->audio->FindEventById(event_id);
 	if (event_id != 0)
-		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);	
+	{
+		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
+		event_selected = current_event->name; // Name to show on Inspector
+	}
+		
 }
 
 void ComponentAudio::Remove()
