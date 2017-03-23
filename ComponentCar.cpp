@@ -163,6 +163,11 @@ void ComponentCar::OnInspector(bool debug)
 					}
 				}
 
+				if (turned)
+				{
+					ImGui::Text("Time to reset: %f", (turn_over_reset_time - timer_start_turned));
+				}
+
 				ImGui::Text("");
 				ImGui::TreePop();
 			}
@@ -183,6 +188,12 @@ void ComponentCar::OnInspector(bool debug)
 
 			if (ImGui::TreeNode("Control settings"))
 			{
+				if (ImGui::TreeNode("Turn over settings"))
+				{
+					ImGui::Text("Time to reset");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##rt_time", &max_velocity, 0.1f, 0.0f)) {}
+				}
 				if (ImGui::TreeNode("Acceleration settings"))
 				{
 					ImGui::Text("");
@@ -1380,8 +1391,28 @@ void ComponentCar::UpdateTurnOver()
 	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
 	float3 up_vector = matrix.WorldY();
 
-	if (up_vector.y < 0)
-		TurnOver();
+	if (up_vector.y < 0 && turned == false)
+	{
+		turned = true;
+	}
+	else if (turned = true)
+	{
+		if (up_vector.y < 0)
+		{
+			timer_start_turned += time->DeltaTime();
+		}
+		else if (up_vector.y > 0)
+		{
+			turned = false;
+			timer_start_turned = 0.0f;
+		}
+		
+		if (timer_start_turned >= turn_over_reset_time)
+		{
+			TurnOver();
+		}
+	}
+		
 }
 
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
@@ -1803,6 +1834,9 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
 	//Controls settings --------------
+	//Turn over
+	data.AppendFloat("turn_over_reset_time", turn_over_reset_time);
+
 	//Acceleration
 	data.AppendFloat("acceleration", accel_force);
 	data.AppendFloat("max_speed", max_velocity);
@@ -1932,6 +1966,9 @@ void ComponentCar::Load(Data& conf)
 	chasis_offset = conf.GetFloat3("chasis_offset");
 
 	//Gameplay settings-----------------
+	//Turn over
+	turn_over_reset_time = conf.GetFloat("turn_over_reset_time");
+
 	//Acceleration
 	accel_force = conf.GetFloat("acceleration"); 
 	max_velocity = conf.GetFloat("max_speed"); 
