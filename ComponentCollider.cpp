@@ -43,7 +43,10 @@ void ComponentCollider::Update()
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
 
-			primitive->Render();
+			if (App->StartInGame() == false)
+			{
+				primitive->Render();
+			}
 		}
 	}
 	else
@@ -57,7 +60,10 @@ void ComponentCollider::Update()
 			body->GetTransform().Transposed().Decompose(translate, rotation, scale);
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
-			primitive->Render();
+			if (App->StartInGame() == false)
+			{
+				primitive->Render();
+			}
 			float3 real_offset = rotation.Transform(offset_pos);
 			game_object->transform->Set(float4x4::FromTRS(translate - real_offset, rotation, game_object->transform->GetScale()));
 		}

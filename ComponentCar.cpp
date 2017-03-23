@@ -78,7 +78,10 @@ void ComponentCar::Update()
 		if (vehicle)
 		{		
 			HandlePlayerInput();
-			vehicle->Render();
+			if (App->StartInGame() == false)
+			{
+				vehicle->Render();
+			}
 			UpdateGO();
 			GameLoopCheck();
 
@@ -579,6 +582,7 @@ void ComponentCar::OnPlay()
 		reset_pos = trs->GetPosition();
 		reset_rot = trs->GetRotation();
 	}
+	checkpoints = 255;
 }
 
 float ComponentCar::GetVelocity() const
