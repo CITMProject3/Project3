@@ -1066,18 +1066,15 @@ void ComponentCar::UseItem()
 
 	if (applied_turbo && current_turbo)
 	{
-
-
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
+			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
 			if (item != nullptr)
 				item->SetActive(false);
 		}
-
 	}
-
 }
 
 void ComponentCar::ReleaseItem()
