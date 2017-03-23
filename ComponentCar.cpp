@@ -921,7 +921,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 	{
 		turn_current = turn_speed * -x_joy_input;
 
-		//TODO: adjust this with drifting
 		return true;
 	}
 	return false;
