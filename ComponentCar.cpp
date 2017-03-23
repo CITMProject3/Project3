@@ -720,6 +720,8 @@ void ComponentCar::HandlePlayerInput()
 		
 		LimitSpeed();
 	}
+
+	UpdateTurnOver();
 }
 
 void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
@@ -1324,6 +1326,16 @@ void ComponentCar::EndDrift()
 	*/
 }
 
+void ComponentCar::UpdateTurnOver()
+{
+	float4x4 matrix;
+	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	float3 up_vector = matrix.WorldY();
+
+	if (up_vector.y < 0)
+		TurnOver();
+}
+
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 {
 	switch (state)
@@ -1476,7 +1488,16 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 void ComponentCar::GameLoopCheck()
 {
 	if (game_object->transform->GetPosition().y <= lose_height)
-		Reset();
+		TurnOver();
+}
+
+void ComponentCar::TurnOver()
+{
+	float3 current_pos = vehicle->GetPos();
+	current_pos.y += 2;
+	float4x4 matrix = float4x4::identity;
+	matrix.Translate(current_pos);
+	vehicle->SetTransform(matrix.ptr());
 }
 
 void ComponentCar::Reset()
