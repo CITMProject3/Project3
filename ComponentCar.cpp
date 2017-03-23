@@ -18,6 +18,9 @@
 #include "EventLinkGos.h"
 #include "AutoProfile.h"
 
+#include "ModuleGOManager.h"
+#include "ComponentCanvas.h"
+
 #include "ComponentCollider.h"
 
 #include "Time.h"
@@ -117,6 +120,14 @@ void ComponentCar::OnInspector(bool debug)
 		}
 		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
+		if (lastCheckpoint != nullptr)
+		{
+			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
+		}
+		else
+		{
+			ImGui::Text("Last checkpoint: NULL");
+		}
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
@@ -907,8 +918,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 	else if (left == false)
 		t_speed = -t_speed;
 
-	//Modified this *10
-	turn_current += t_speed * time->DeltaTime() * 10;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (drifting == false)
 	{
@@ -1524,6 +1534,11 @@ void ComponentCar::Reset()
 
 void ComponentCar::TrueReset()
 {
+	if (App->go_manager->current_scene_canvas != nullptr)
+	{
+		App->go_manager->current_scene_canvas->SetWin(true);
+	}
+
 	lastCheckpoint = nullptr;
 	lap = 1;
 	Reset();
