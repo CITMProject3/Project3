@@ -36,6 +36,12 @@
       "Name": "Double_Drum",
       "ObjectPath": "\\Events\\Default Work Unit\\Double_Drum",
       "GUID": "{BC62B95B-B5A1-4B8F-913C-905896E6627F}"
+     },
+     {
+      "Id": "2674414691",
+      "Name": "Water_Mill",
+      "ObjectPath": "\\Events\\Default Work Unit\\Water_Mill",
+      "GUID": "{9919E716-C21E-449E-B8AC-2313AFE12436}"
      }
     ],
     "IncludedMemoryFiles": [
@@ -44,6 +50,12 @@
       "Language": "SFX",
       "ShortName": "Double_Drum.wav",
       "Path": "SFX\\Double_Drum_9E69E797.wem"
+     },
+     {
+      "Id": "896299035",
+      "Language": "SFX",
+      "ShortName": "water_mill.wav",
+      "Path": "SFX\\water_mill_4B8CC0C5.wem"
      }
     ]
    },
