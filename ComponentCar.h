@@ -208,7 +208,7 @@ private:
 	//Reset
 	float lose_height = 0.0f;
 	float3 reset_pos;
-	float3 reset_rot;
+	Quat reset_rot;
 
 	//Turbos
 	Turbo mini_turbo;
