@@ -71,6 +71,7 @@ public:
 
 	void SaveScene(const char* file_name, std::string base_library_path);
 	bool LoadScene(const char* file_name);
+	void ReloadScene();
 	void SavePrefab(GameObject* gameobject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
