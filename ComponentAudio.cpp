@@ -99,12 +99,22 @@ void ComponentAudio::OnInspector(bool debug)
 
 void ComponentAudio::OnPlay()
 {
-	App->audio->PostEvent(current_event, wwise_id_go);
+	//App->audio->PostEvent(current_event, wwise_id_go);
 }
 
 void ComponentAudio::OnStop()
 {
 	App->audio->StopEvent(current_event, wwise_id_go);
+}
+
+const AudioEvent *ComponentAudio::GetEvent() const
+{
+	return current_event;
+}
+
+long unsigned ComponentAudio::GetWiseID() const
+{
+	return wwise_id_go;
 }
 
 void ComponentAudio::Save(Data & file)const

@@ -26,7 +26,9 @@ public:
 	void SetPlayerReady(int num_player, bool ready);
 	void SetWin(bool win);
 	vector<GameObject*> GetUI();
+
 private:
+
 	void OnChangeScene();
 	vector<GameObject*> GetGameObjectChilds(GameObject* go);
 	GameObject* go_focus = nullptr;

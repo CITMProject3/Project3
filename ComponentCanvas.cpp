@@ -10,6 +10,10 @@
 #include "ComponentCar.h"
 #include "PhysVehicle3D.h"
 
+// Only for Vertical Slice 3
+#include "ComponentAudio.h"
+#include "ModuleAudio.h"
+
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	r_timer = new RaceTimer();
@@ -26,13 +30,21 @@ void ComponentCanvas::Update()
 {
 	if (scene_to_change != current_scene)
 		OnChangeScene();
-	GameObject* obj;
+
+	GameObject* obj = nullptr;
 	switch (current_scene)
 	{
 		//Main menu
 	case 0:
 		if (player_1_ready && player_2_ready)
+		{
 			scene_to_change = 1;
+
+			// Only for Vertical Slice 3
+			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
+			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
+		}
+			
 		break;
 		//GamePlayMenu
 	case 1:
