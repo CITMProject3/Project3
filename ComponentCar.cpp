@@ -1451,39 +1451,16 @@ void ComponentCar::UpdateP2Animation()
 
 void ComponentCar::WentThroughCheckpoint(ComponentCollider* checkpoint)
 {
-	lastCheckpoint = checkpoint->GetGameObject();
-	switch (checkpoint->n)
+	if (checkpoint->n == checkpoints + 1)
 	{
-	case 0:
-		checkpoints |= 0x01;
-		break;
-	case 1:
-		checkpoints |= 0x02;
-		break;
-	case 2:
-		checkpoints |= 0x04;
-		break;
-	case 3:
-		checkpoints |= 0x08;
-		break;
-	case 4:
-		checkpoints |= 0x010;
-		break;
-	case 5:
-		checkpoints |= 0x20;
-		break;
-	case 6:
-		checkpoints |= 0x40;
-		break;
-	case 7:
-		checkpoints |= 0x80;
-		break;
+		lastCheckpoint = checkpoint->GetGameObject();
+		checkpoints = checkpoint->n;
 	}
 }
 
 void ComponentCar::WentThroughEnd(ComponentCollider * end)
 {
-	if (checkpoints >= 255)
+	if (checkpoints + 1 >= end->n)
 	{
 		checkpoints = 0;
 		lap++;
@@ -1512,12 +1489,13 @@ void ComponentCar::Reset()
 	else
 	{
 		ComponentTransform* trs = (ComponentTransform*)lastCheckpoint->GetComponent(C_TRANSFORM);
-		float3 tmp = trs->GetPosition();
-		vehicle->SetPos(tmp.x, tmp.y, tmp.z);
-		tmp = trs->GetRotationEuler();
-		vehicle->SetRotation(tmp.x, tmp.y, tmp.z);
+		float3 pos = trs->GetPosition();
+		vehicle->SetPos(pos.x, pos.y, pos.z);
+		Quat rot = trs->GetRotation();
+		vehicle->SetRotation(rot);
 	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
 }
 
 void ComponentCar::TrueReset()

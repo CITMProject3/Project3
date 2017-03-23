@@ -192,7 +192,6 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
 		{
-			//Do something
 			car->Reset();
 		}
 	}
@@ -271,7 +270,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
 	bool ret = false;
 	//Loading Heightmap Image
-	if (resLibPath != GetHeightmapPath())
+	if (resLibPath != GetHeightmapPath() && resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
@@ -953,14 +952,14 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 			}
 		}
 		terrainHeightScaling = scale;
+		GenerateTerrainMesh();
 	}
-	GenerateTerrainMesh();
 }
 
 void ModulePhysics3D::LoadTexture(string resLibPath)
 {
 	//Loading Heightmap Image
-	if (resLibPath != GetTexturePath())
+	if (resLibPath != GetTexturePath() && resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)

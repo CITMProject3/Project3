@@ -265,6 +265,16 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 		case MATERIAL:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
+		case SOUNDBANK:
+		{
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data()); // Soundbank
+
+			string json_file_path = assets_path.substr(0, assets_path.find_last_of('.')) + ".json";
+			string lib_json_path = library_path.substr(0, library_path.find_last_of('/') + 1);	
+			lib_json_path += std::to_string(uuid) + ".json";
+			App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data()); // JSON
+			break;
+		}			
 		case RENDER_TEXTURE:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
