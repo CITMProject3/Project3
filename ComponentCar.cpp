@@ -712,6 +712,8 @@ void ComponentCar::HandlePlayerInput()
 		
 		LimitSpeed();
 	}
+
+	UpdateTurnOver();
 }
 
 void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
@@ -809,6 +811,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
 		StartPush();
+		LOG("Key push down");
 //		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
@@ -1063,18 +1066,15 @@ void ComponentCar::UseItem()
 
 	if (applied_turbo && current_turbo)
 	{
-
-
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
+			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
 			if (item != nullptr)
 				item->SetActive(false);
 		}
-
 	}
-
 }
 
 void ComponentCar::ReleaseItem()
@@ -1314,6 +1314,16 @@ void ComponentCar::EndDrift()
 	*/
 }
 
+void ComponentCar::UpdateTurnOver()
+{
+	float4x4 matrix;
+	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	float3 up_vector = matrix.WorldY();
+
+	if (up_vector.y < 0)
+		TurnOver();
+}
+
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 {
 	switch (state)
@@ -1466,7 +1476,16 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 void ComponentCar::GameLoopCheck()
 {
 	if (game_object->transform->GetPosition().y <= lose_height)
-		Reset();
+		TurnOver();
+}
+
+void ComponentCar::TurnOver()
+{
+	float3 current_pos = vehicle->GetPos();
+	current_pos.y += 2;
+	float4x4 matrix = float4x4::identity;
+	matrix.Translate(current_pos);
+	vehicle->SetTransform(matrix.ptr());
 }
 
 void ComponentCar::Reset()
@@ -1648,7 +1667,6 @@ void ComponentCar::UpdateGO()
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
 			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
-			LOG("ratio: %f", ratio);
 			p1_animation->LockAnimationRatio(ratio);
 		}
 	}

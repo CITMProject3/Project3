@@ -55,10 +55,19 @@ void ComponentCanvas::Update()
 			if (play_timer != nullptr)
 			{
 				int min, sec, milsec = 0;
-				if (current_car->lap != r_timer->GetCurrentLap())
+				if ((current_car->lap+1) != r_timer->GetCurrentLap())
 					r_timer->AddLap();
-				r_timer->GetLapTime(current_car->lap, min, sec, milsec);
-				string str = to_string(min) + ":" + to_string(sec) + ":" + to_string(milsec);
+				r_timer->GetCurrentLapTime(min, sec, milsec);
+				string min_te = to_string(min);
+				string sec_te = to_string(sec);
+				string mil_te = to_string(milsec);
+				if (min < 10)
+					min_te = "0" + min_te;
+				if (sec < 10)
+					sec_te = "0" + sec_te;
+				if (milsec < 100)
+					mil_te = "0" + mil_te;
+				string str = min_te + ":" + sec_te + ":" + mil_te;
 				play_timer->SetDisplayText(str);
 			}
 
@@ -110,6 +119,17 @@ void ComponentCanvas::OnPlay()
 
 		}
 	}
+
+	GameObject* obji = (*game_object->GetChilds()).at(2);
+	if (obji != nullptr)
+	{
+		GameObject* obj_child_time = (*game_object->GetChilds()).at(2)->GetChilds()->at(0);
+		if (obj_child_time != nullptr)
+		{
+			win_timer = (ComponentUiText*)obj_child_time->GetComponent(C_UI_TEXT);
+		}
+	}
+
 	vector<GameObject*> all_objects;
 	App->go_manager->root->CollectAllChilds(all_objects);
 	for (vector<GameObject*>::const_iterator obj = all_objects.begin(); obj != all_objects.end(); ++obj)
@@ -234,7 +254,7 @@ void ComponentCanvas::OnChangeScene()
 			player_1_ready = false;
 			player_2_ready = false;
 			r_timer->Start();
-			r_timer->AddLap();
+			//r_timer->AddLap();
 		}
 		current_scene = scene_to_change;
 		
@@ -254,6 +274,30 @@ void ComponentCanvas::OnChangeScene()
 
 		if (scene_to_change == 2)
 		{
+			if (current_car != nullptr)
+			{
+				if (win_timer != nullptr)
+				{
+					r_timer->AddLap();
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetAllLapsTime(min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						win_timer->SetDisplayText(str);
+					}
+				}
+			}
 			vector<GameObject*> tmp_childs = (*game_object->GetChilds());
 			if (tmp_childs.size() > 2)
 			{
@@ -261,6 +305,7 @@ void ComponentCanvas::OnChangeScene()
 				tmp_childs.at(1)->SetActive(false);
 				tmp_childs.at(2)->SetActive(true);
 			}
+			
 		}
 		current_scene = scene_to_change;
 		break;

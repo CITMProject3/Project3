@@ -97,6 +97,7 @@ public:
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
+	void TurnOver();
 	void Reset();
 	void TrueReset();
 	void LimitSpeed();
@@ -131,6 +132,8 @@ private:
 	void StartDrift();
 	void CalcDriftForces();
 	void EndDrift();
+
+	void UpdateTurnOver();
 
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
@@ -226,6 +229,10 @@ private:
 
 	//Car mechanics variables --------
 	float top_velocity = 0.0f;
+
+	//Turn over
+	bool turned = false;
+	float timer_start_turned = 0.0f;
 
 	//Boosts
 	float accel_boost = 0.0f;

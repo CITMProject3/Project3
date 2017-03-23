@@ -2,19 +2,28 @@
     "GameObjects": [
         {
             "name": "Canvas",
+<<<<<<< HEAD
             "UUID": 1058932404,
             "local_UUID": 1058932404,
             "parent": 0,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 2523649285,
+            "local_UUID": 2523649285,
+            "parent": 0,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "\/Library\/\/3733756644\/3733756644.pfb",
             "layer": 0,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2633873249,
+                    "UUID": 4176878120,
                     "active": true,
                     "matrix": [
                         1,
@@ -71,12 +80,21 @@
         },
         {
             "name": "Main Menu",
+<<<<<<< HEAD
             "UUID": 1728452793,
             "local_UUID": 1728452793,
             "parent": 1058932404,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 1235895113,
+            "local_UUID": 1235895113,
+            "parent": 2523649285,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -108,12 +126,21 @@
         },
         {
             "name": "Logo",
+<<<<<<< HEAD
             "UUID": 244738918,
             "local_UUID": 244738918,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 1733612991,
+            "local_UUID": 1733612991,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -153,7 +180,7 @@
                         1,
                         0,
                         0,
-                        325,
+                        500.000031,
                         0,
                         1,
                         0,
@@ -201,12 +228,21 @@
         },
         {
             "name": "Player 1",
+<<<<<<< HEAD
             "UUID": 1219964715,
             "local_UUID": 1219964715,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 2706629635,
+            "local_UUID": 2706629635,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -246,7 +282,7 @@
                         1,
                         0,
                         0,
-                        300,
+                        400.000031,
                         0,
                         1,
                         0,
@@ -294,12 +330,21 @@
         },
         {
             "name": "Player 2",
+<<<<<<< HEAD
             "UUID": 1362349683,
             "local_UUID": 1362349683,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 62698052,
+            "local_UUID": 62698052,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -339,7 +384,7 @@
                         1,
                         0,
                         0,
-                        750,
+                        950.000061,
                         0,
                         1,
                         0,
@@ -387,12 +432,21 @@
         },
         {
             "name": "Start p1",
+<<<<<<< HEAD
             "UUID": 1076714874,
             "local_UUID": 1076714874,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 1224081987,
+            "local_UUID": 1224081987,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -432,7 +486,7 @@
                         0.750000,
                         0,
                         0,
-                        278,
+                        367.000031,
                         0,
                         0.750000,
                         0,
@@ -484,12 +538,21 @@
         },
         {
             "name": "Start p2",
+<<<<<<< HEAD
             "UUID": 704345870,
             "local_UUID": 704345870,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 660981468,
+            "local_UUID": 660981468,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -529,7 +592,7 @@
                         0.750000,
                         0,
                         0,
-                        730,
+                        930.000061,
                         0,
                         0.750000,
                         0,
@@ -581,12 +644,21 @@
         },
         {
             "name": "Background",
+<<<<<<< HEAD
             "UUID": 1529602755,
             "local_UUID": 1529602755,
             "parent": 1728452793,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 2936672215,
+            "local_UUID": 2936672215,
+            "parent": 1235895113,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -619,8 +691,8 @@
                     "UUID": 718119623,
                     "active": true,
                     "rect_size": [
-                        1366,
-                        768
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
@@ -674,12 +746,21 @@
         },
         {
             "name": "UI in game",
+<<<<<<< HEAD
             "UUID": 301619675,
             "local_UUID": 301619675,
             "parent": 1058932404,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 3901160172,
+            "local_UUID": 3901160172,
+            "parent": 2523649285,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -711,12 +792,21 @@
         },
         {
             "name": "Timer",
+<<<<<<< HEAD
             "UUID": 3591326725,
             "local_UUID": 3591326725,
             "parent": 301619675,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 3735303668,
+            "local_UUID": 3735303668,
+            "parent": 3901160172,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -756,7 +846,7 @@
                         1,
                         0,
                         0,
-                        250.000015,
+                        390.000031,
                         0,
                         1,
                         0,
@@ -836,12 +926,21 @@
         },
         {
             "name": "Velocity",
+<<<<<<< HEAD
             "UUID": 1344709219,
             "local_UUID": 1344709219,
             "parent": 301619675,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 2069292510,
+            "local_UUID": 2069292510,
+            "parent": 3901160172,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -881,11 +980,11 @@
                         1,
                         0,
                         0,
-                        1000.000061,
+                        1290.000122,
                         0,
                         1,
                         0,
-                        653.000061,
+                        690.000061,
                         0,
                         0,
                         1,
@@ -964,12 +1063,21 @@
         },
         {
             "name": "Win menu",
+<<<<<<< HEAD
             "UUID": 2149184460,
             "local_UUID": 2149184460,
             "parent": 1058932404,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 589699332,
+            "local_UUID": 589699332,
+            "parent": 2523649285,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1001,12 +1109,21 @@
         },
         {
             "name": "Final time",
+<<<<<<< HEAD
             "UUID": 4175509829,
             "local_UUID": 4175509829,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 3334550165,
+            "local_UUID": 3334550165,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1046,7 +1163,7 @@
                         1,
                         0,
                         0,
-                        59.000004,
+                        196.000015,
                         0,
                         1,
                         0,
@@ -1126,12 +1243,21 @@
         },
         {
             "name": "Result",
+<<<<<<< HEAD
             "UUID": 3002535348,
             "local_UUID": 3002535348,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 2379817362,
+            "local_UUID": 2379817362,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1171,7 +1297,7 @@
                         1,
                         0,
                         0,
-                        530,
+                        678.000061,
                         0,
                         1,
                         0,
@@ -1219,12 +1345,21 @@
         },
         {
             "name": "Restart",
+<<<<<<< HEAD
             "UUID": 2447641789,
             "local_UUID": 2447641789,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 4278870271,
+            "local_UUID": 4278870271,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1312,12 +1447,21 @@
         },
         {
             "name": "Button_A",
+<<<<<<< HEAD
             "UUID": 1947338861,
             "local_UUID": 1947338861,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 3730527062,
+            "local_UUID": 3730527062,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1405,12 +1549,21 @@
         },
         {
             "name": "Quit",
+<<<<<<< HEAD
             "UUID": 3275744981,
             "local_UUID": 3275744981,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 3082801171,
+            "local_UUID": 3082801171,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1498,12 +1651,21 @@
         },
         {
             "name": "Button_B",
+<<<<<<< HEAD
             "UUID": 3560538548,
             "local_UUID": 3560538548,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 263261140,
+            "local_UUID": 263261140,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1591,12 +1753,21 @@
         },
         {
             "name": "Background",
+<<<<<<< HEAD
             "UUID": 2658334680,
             "local_UUID": 2658334680,
             "parent": 2149184460,
             "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 1058932404,
+=======
+            "UUID": 1109530209,
+            "local_UUID": 1109530209,
+            "parent": 589699332,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2523649285,
+>>>>>>> 66d0ad9813c34c0ab29a39708f1302df4f6bc25f
             "prefab_path": "",
             "layer": 0,
             "static": false,
@@ -1629,8 +1800,8 @@
                     "UUID": 2469295200,
                     "active": true,
                     "rect_size": [
-                        1366,
-                        768
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
