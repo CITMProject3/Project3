@@ -192,7 +192,9 @@ void ComponentCar::OnInspector(bool debug)
 				{
 					ImGui::Text("Time to reset");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##rt_time", &max_velocity, 0.1f, 0.0f)) {}
+					if (ImGui::DragFloat("##rt_time", &turn_over_reset_time, 0.1f, 0.0f)) {}
+
+					ImGui::TreePop();
 				}
 				if (ImGui::TreeNode("Acceleration settings"))
 				{
