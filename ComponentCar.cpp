@@ -231,6 +231,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Back_force", &back_force, 1.0f, 0.0f)) {}
 
+					ImGui::Text("Full brake force");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##full_br_force", &full_brake_force, 1.0f, 0.0f)){}
+
 					ImGui::Text("");
 					ImGui::TreePop();
 				}
@@ -859,6 +863,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		ReleaseItem();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+	{
+		FullBrake(brake);
+	}
+
+
 	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
 	{
@@ -963,6 +973,11 @@ void ComponentCar::Brake(float* accel, float* brake)
 		*brake = brake_force;
 }
 
+void ComponentCar::FullBrake(float* brake)
+{
+	if (vehicle->GetKmh() > 0)
+		*brake = full_brake_force;
+}
 void ComponentCar::Accelerate(float* accel)
 {
 	*accel += accel_force;
@@ -1785,6 +1800,7 @@ void ComponentCar::Save(Data& file) const
 	//Brake
 	data.AppendFloat("brakeForce", brake_force);
 	data.AppendFloat("backForce", back_force);
+	data.AppendFloat("full_brake_force", full_brake_force);
 
 	//Leaning
 	data.AppendFloat("lean_accel_boost", lean_top_acc);
@@ -1913,6 +1929,7 @@ void ComponentCar::Load(Data& conf)
 	//Brake
 	brake_force = conf.GetFloat("brakeForce"); 
 	back_force = conf.GetFloat("backForce"); 
+	full_brake_force = conf.GetFloat("full_brake_force");
 
 	//Leaning
 	lean_top_acc = conf.GetFloat("lean_accel_boost");  
