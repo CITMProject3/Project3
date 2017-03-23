@@ -85,6 +85,9 @@
     <Filter Include="Sources\Modules\EventQueue\EventTypes">
       <UniqueIdentifier>{ef345d6b-9779-4a82-bbd5-e359157b2407}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\VerticalSlice3">
+      <UniqueIdentifier>{581a4ac3-dd86-4a50-821d-946be2235d37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -594,7 +597,6 @@
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
-
     <ClInclude Include="ComponentUiText.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
     </ClInclude>
@@ -612,6 +614,15 @@
     </ClInclude>
     <ClInclude Include="EventLinkGos.h">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="RaceTimer.h">
+      <Filter>Sources\VerticalSlice3</Filter>
+    </ClInclude>
+    <ClInclude Include="BtTriProcessor.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLDebug.h">
+      <Filter>Sources\Tools</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1022,6 +1033,18 @@
     </ClCompile>
     <ClCompile Include="EventLinkGos.cpp">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="flags.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceTimer.cpp">
+      <Filter>Sources\VerticalSlice3</Filter>
+    </ClCompile>
+    <ClCompile Include="BtTriProcessor.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLDebug.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

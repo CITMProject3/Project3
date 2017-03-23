@@ -155,7 +155,9 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="ModuleLighting.h" />
+    <ClInclude Include="OpenGLDebug.h" />
     <ClInclude Include="OpenGLFunc.h" />
+    <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAnimation.h" />
     <ClInclude Include="ResourceFileBone.h" />
@@ -301,6 +303,7 @@
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="EventLinkGos.cpp" />
     <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="flags.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -324,7 +327,9 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
+    <ClCompile Include="OpenGLDebug.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
+    <ClCompile Include="RaceTimer.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAnimation.cpp" />
     <ClCompile Include="ResourceFileBone.cpp" />

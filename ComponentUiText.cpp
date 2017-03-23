@@ -10,9 +10,9 @@
 
 ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
-	text = "124124"; 
+	text = "20:20:20"; 
 	text.resize(20);
-	array_values = "0123456789:";
+	array_values = "0123456789:k";
 	array_values.resize(20);
 	current_text_changing.resize(20);
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
@@ -26,6 +26,15 @@ ComponentUiText::~ComponentUiText()
 }
 void ComponentUiText::Update()
 {
+	if (text_type == 1)
+	{
+		//Velo
+	}
+	else
+	{
+		//timer
+	}
+		
 }
 
 void ComponentUiText::CleanUp()
@@ -106,6 +115,7 @@ void ComponentUiText::Load(Data & conf)
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
 	text.resize(text.length() + 10);
+	array_values.resize(array_values.length() + 1);
 	LOG("%d",text.size());
 }
 
@@ -168,6 +178,11 @@ void ComponentUiText::SetText(string &text)
 		ImGui::End();
 	}
 
+}
+
+void ComponentUiText::SetDisplayText(string text)
+{
+	this->text = text;
 }
 
 void ComponentUiText::GenerateFont()

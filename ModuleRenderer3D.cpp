@@ -7,7 +7,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleEditor.h"
-
+#include "ModulePhysics3D.h"
 #include "GameObject.h"
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
@@ -46,6 +46,8 @@
 #include "Imgui\imgui.h"
 #include "Imgui\imgui_impl_sdl_gl3.h"
 
+#include "OpenGLDebug.h"
+
 ModuleRenderer3D::ModuleRenderer3D(const char* name, bool start_enabled) : Module(name, start_enabled)
 { }
 
@@ -73,9 +75,20 @@ bool ModuleRenderer3D::Init(Data& config)
 	{
 		LOG("Glew failed");
 	}
-	
+
 	if(ret == true)
 	{
+		// More information on Debugging GPUs
+	    // https://learnopengl.com/#!In-Practice/Debugging
+		// https://www.khronos.org/opengl/wiki/Debug_Output
+		// http://in2gpu.com/2015/05/29/debugging-opengl-part-ii-debug-output/
+
+		// initialize debug output 
+		/*glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLDebug::OpenGLDebugCallback, nullptr);
+		glDebugMessageControl(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_OTHER, GL_DEBUG_SEVERITY_MEDIUM, 0, nullptr, GL_TRUE);*/
+		
 		//Use Vsync
 		if(VSYNC && SDL_GL_SetSwapInterval(1) < 0)
 			LOG("Warning: Unable to set VSync! SDL Error: %s\n", SDL_GetError());
@@ -155,6 +168,7 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+
 	if (camera->properties_modified)
 	{
 		UpdateProjectionMatrix();
@@ -275,6 +289,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
+	App->physics->RenderTerrain();
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
@@ -562,7 +577,6 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glColor4fv(color.ptr());
 
-
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
@@ -811,8 +825,7 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	//Buffer tangents == 3
 	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-		
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);		
 
 	//Buffer bones id == 4
 	glEnableVertexAttribArray(4);
@@ -1034,9 +1047,18 @@ void ModuleRenderer3D::SetClearColor(const math::float3 & color) const
 
 void ModuleRenderer3D::RemoveBuffer(unsigned int id)
 {
-	//Patch for issue (https://github.com/traguill/Ezwix-Engine/issues/13). TODO: Solve the issue!
-	if(id != 9)
-		glDeleteBuffers(1, (GLuint*)&id);
+	glDeleteBuffers(1, (GLuint*)&id);
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+		LOG("Error removing buffer %i : %s", id, gluErrorString(error));
+}
+
+void ModuleRenderer3D::RemoveTextureBuffer(unsigned int id)
+{
+	glDeleteTextures(1, (GLuint*)&id);
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+		LOG("Error removing texture buffer %i : %s", id, gluErrorString(error));
 }
 
 void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)

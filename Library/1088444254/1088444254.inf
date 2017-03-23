@@ -1,0 +1,1016 @@
+{
+    "GameObjects": [
+        {
+            "name": "track_test",
+            "UUID": 1727965451,
+            "parent": 0,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4072541431,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track",
+            "UUID": 4225024811,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3546523566,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform3",
+            "UUID": 2075664340,
+            "parent": 4225024811,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 576430667,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n2__track",
+            "UUID": 570701652,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3270752578,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform4",
+            "UUID": 3164421286,
+            "parent": 570701652,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3788488051,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n3__track",
+            "UUID": 3616171539,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2535654342,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform1",
+            "UUID": 2742593117,
+            "parent": 3616171539,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3605637406,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n4__track",
+            "UUID": 4243184314,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 363944174,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform2",
+            "UUID": 1145644796,
+            "parent": 4243184314,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2542737107,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n5__track",
+            "UUID": 4258334877,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3145403389,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform5",
+            "UUID": 3542742798,
+            "parent": 4258334877,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 851131382,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "___",
+            "UUID": 302358228,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4286621798,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track1",
+            "UUID": 3940801227,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 298904751,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface3",
+            "UUID": 3636850212,
+            "parent": 3940801227,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3757338661,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform8",
+            "UUID": 2141498070,
+            "parent": 3636850212,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1180684249,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface4",
+            "UUID": 3845401544,
+            "parent": 3940801227,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2942345154,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform10",
+            "UUID": 2670623321,
+            "parent": 3845401544,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3260775024,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 3308194193,
+            "parent": 3940801227,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1401048512,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform9",
+            "UUID": 3513781343,
+            "parent": 3308194193,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 585724147,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform7",
+            "UUID": 2397092520,
+            "parent": 3940801227,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4020993495,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n5__track1",
+            "UUID": 2881508689,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 550774950,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface1",
+            "UUID": 2926269743,
+            "parent": 2881508689,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2746800320,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform11",
+            "UUID": 4261155422,
+            "parent": 2926269743,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3715027308,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface2",
+            "UUID": 1567173515,
+            "parent": 2881508689,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3804101321,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform12",
+            "UUID": 4106614012,
+            "parent": 1567173515,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1920606567,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "transform6",
+            "UUID": 1925642679,
+            "parent": 2881508689,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2889841113,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "n1__track2",
+            "UUID": 3751150267,
+            "parent": 1727965451,
+            "active": true,
+            "static": false,
+            "local_UUID": 0,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2023286057,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3358730355,
+                    "active": true,
+                    "path": "\/Library\/1088444254\/2319455979.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1378107178,
+                    "active": true,
+                    "path": "",
+                    "textures": []
+                }
+            ]
+        }
+    ]
+} 

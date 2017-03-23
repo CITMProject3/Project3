@@ -31,6 +31,7 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
+class ComponentCar;
 
 using namespace std;
 
@@ -110,6 +111,9 @@ public:
 
 	int assign_wheel = -1;
 	GameObject* wheel_assign = nullptr;
+
+	bool assign_item = false;
+	ComponentCar* to_assign_item = nullptr;
 
 private:
 
