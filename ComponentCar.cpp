@@ -1506,11 +1506,12 @@ void ComponentCar::GameLoopCheck()
 
 void ComponentCar::TurnOver()
 {
-	float3 current_pos = vehicle->GetPos();
+	Reset();
+	/*float3 current_pos = vehicle->GetPos();
 	current_pos.y += 2;
 	float4x4 matrix = float4x4::identity;
 	matrix.Translate(current_pos);
-	vehicle->SetTransform(matrix.ptr());
+	vehicle->SetTransform(matrix.ptr());*/
 }
 
 void ComponentCar::Reset()
