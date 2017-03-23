@@ -320,7 +320,7 @@ void ComponentCanvas::OnChangeScene()
 				if (lap1 != nullptr)
 				{
 					int min, sec, milsec = 0;
-					if (r_timer->GetLapTime(1,min, sec, milsec))
+					if (r_timer->GetLapTime(2,min, sec, milsec))
 					{
 						string min_te = to_string(min);
 						string sec_te = to_string(sec);
@@ -341,7 +341,7 @@ void ComponentCanvas::OnChangeScene()
 					int min, sec, milsec = 0;
 					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
 						r_timer->AddLap();
-					if (r_timer->GetLapTime(2,min, sec, milsec))
+					if (r_timer->GetLapTime(3,min, sec, milsec))
 					{
 						string min_te = to_string(min);
 						string sec_te = to_string(sec);
@@ -362,7 +362,7 @@ void ComponentCanvas::OnChangeScene()
 					int min, sec, milsec = 0;
 					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
 						r_timer->AddLap();
-					if (r_timer->GetLapTime(3,min, sec, milsec))
+					if (r_timer->GetLapTime(4,min, sec, milsec))
 					{
 						string min_te = to_string(min);
 						string sec_te = to_string(sec);
