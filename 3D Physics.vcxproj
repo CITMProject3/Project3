@@ -155,6 +155,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="ModuleLighting.h" />
+    <ClInclude Include="OpenGLDebug.h" />
     <ClInclude Include="OpenGLFunc.h" />
     <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
@@ -326,6 +327,7 @@
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
+    <ClCompile Include="OpenGLDebug.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
     <ClCompile Include="RaceTimer.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />

@@ -18,10 +18,17 @@ Skybox::Skybox()
 Skybox::~Skybox()
 {
 	if (cubemap)
+	{
+		//cubemap->Unload();
 		delete cubemap;
+	}
+
 	if (sphere_mesh)
+	{
+		//MeshImporter::DeleteBuffers(sphere_mesh);
 		delete sphere_mesh;
-}
+	}
+}		
 
 void Skybox::Init(const string & posx_filename, const string & negx_filename, const string & posy_filename, const string & negy_filename, const string & posz_filename, const string & negz_filename)
 {
