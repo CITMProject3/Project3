@@ -76,11 +76,17 @@
     <Filter Include="3rd Party Tools\Wwise">
       <UniqueIdentifier>{c480c1f0-4dec-461b-a473-70029f23408f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObjects\Components\UI Components">
+      <UniqueIdentifier>{8578464e-380c-4076-8483-ea2a939cdc33}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sources\Modules\EventQueue">
       <UniqueIdentifier>{693afdac-28e1-4523-9788-66dfc827b73a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources\Modules\EventQueue\EventTypes">
       <UniqueIdentifier>{ef345d6b-9779-4a82-bbd5-e359157b2407}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\VerticalSlice3">
+      <UniqueIdentifier>{581a4ac3-dd86-4a50-821d-946be2235d37}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +570,15 @@
     <ClInclude Include="Wwise_Library.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentRectTransform.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCanvas.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentUiImage.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
     <ClInclude Include="ResourceFileAnimation.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
@@ -582,6 +597,12 @@
     <ClInclude Include="CurveWindow.h">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentUiText.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentUiButton.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
     <ClInclude Include="ModuleEditor.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -593,6 +614,9 @@
     </ClInclude>
     <ClInclude Include="EventLinkGos.h">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="RaceTimer.h">
+      <Filter>Sources\VerticalSlice3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -962,6 +986,15 @@
     <ClCompile Include="ComponentAudio.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentRectTransform.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvas.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentUiImage.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
     <ClCompile Include="ResourceFileAnimation.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
@@ -980,6 +1013,12 @@
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
+    <ClCompile Include="ComponentUiText.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentUiButton.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
     <ClCompile Include="ModuleEditor.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -988,6 +1027,12 @@
     </ClCompile>
     <ClCompile Include="EventLinkGos.cpp">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="flags.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceTimer.cpp">
+      <Filter>Sources\VerticalSlice3</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -72,11 +72,14 @@ const char* ComponentBone::GetResourcePath() const
 
 void ComponentBone::Update()
 {
-	for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
+	if (App->StartInGame() == false)
 	{
-		float3 pos1 = game_object->transform->GetGlobalMatrix().TranslatePart();
-		float3 pos2 = (*it)->transform->GetGlobalMatrix().TranslatePart();
-		App->renderer3D->DrawLine(pos1, pos2, float4(1, 0, 1, 1));
+		for (std::vector<GameObject*>::const_iterator it = game_object->GetChilds()->begin(); it != game_object->GetChilds()->end(); it++)
+		{
+			float3 pos1 = game_object->transform->GetGlobalMatrix().TranslatePart();
+			float3 pos2 = (*it)->transform->GetGlobalMatrix().TranslatePart();
+			App->renderer3D->DrawLine(pos1, pos2, float4(1, 0, 1, 1));
+		}
 	}
 }
 

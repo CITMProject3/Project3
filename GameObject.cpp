@@ -10,6 +10,11 @@
 #include "ComponentAudio.h"
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
+#include "ComponentRectTransform.h"
+#include "ComponentUiImage.h"
+#include "ComponentUiText.h"
+#include "ComponentCanvas.h"
+#include "ComponentUiButton.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -339,7 +344,6 @@ bool GameObject::IsPrefab() const
 Component* GameObject::AddComponent(ComponentType type)
 {
 	Component* item = nullptr;
-
 	switch (type)
 	{
 	case C_TRANSFORM:
@@ -385,7 +389,32 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (transform)
 			item = new ComponentAudio(type, this);
 		break;
-
+	case C_RECT_TRANSFORM:
+		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
+			item = new ComponentRectTransform(type, this);
+		break;
+	case C_UI_IMAGE:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiImage(type, this);
+		break;
+	case C_UI_TEXT:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiText(type,this);
+		break;
+	case C_CANVAS:
+		if (GetComponent(C_RECT_TRANSFORM))
+		{
+			if (App->go_manager->current_scene_canvas == nullptr)
+			{
+				item = new ComponentCanvas(type, this);
+				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
+			}
+		}	
+		break;
+	case C_UI_BUTTON:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentUiButton(type, this);
+		break;
 	default:
 		LOG("Unknown type specified for GameObject %s", name);
 		break;

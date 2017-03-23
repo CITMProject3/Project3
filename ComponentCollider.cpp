@@ -162,8 +162,39 @@ void ComponentCollider::OnInspector(bool debug)
 			}
 		}
 		ImGui::Separator();
+		if (ImGui::TreeNode("Trigger options"))
+		{
+			bool a;
+				a = ReadFlag(collision_flags, PhysBody3D::co_isItem);
+				if (ImGui::Checkbox("Is item", &a)) {
+						collision_flags = SetFlag(collision_flags, PhysBody3D::co_isItem | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
 
-		if (ImGui::Button("Remove ###cam_rem"))
+				a = ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint);
+				if (ImGui::Checkbox("Is checkpoint", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isCheckpoint | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
+				if (a)
+				{
+					ImGui::InputInt("Checkpoint number", &n, 1);
+					if (n > 8) { n = 8; }
+					if (n < 0) { n = 0; }
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isFinishLane);
+				if (ImGui::Checkbox("Is finish Lane", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
+
+				a = ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds);
+				if (ImGui::Checkbox("Is out of bounds", &a)) {
+					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
+
+			ImGui::TreePop();
+		}
+		ImGui::Separator();
+		if (ImGui::Button("Remove ###col_rem"))
 		{
 			Remove();
 		}
@@ -180,6 +211,8 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
+
+	data.AppendUInt("flags", (uint)collision_flags);
 
 	data.AppendInt("shape", shape);
 	data.AppendBool("static", Static);
@@ -219,6 +252,7 @@ void ComponentCollider::Load(Data & conf)
 		((Sphere_P*)primitive)->radius = conf.GetFloat("radius");
 		break;
 	}
+	collision_flags = (unsigned char)conf.GetUInt("flags");
 }
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)
@@ -289,20 +323,20 @@ void ComponentCollider::LoadShape()
 		{
 		case S_CUBE:
 		{
-			body = App->physics->AddBody(*((Cube_P*)primitive), _mass);
+			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, collision_flags);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_SPHERE:
 		{
-			body = App->physics->AddBody(*((Sphere_P*)primitive), _mass);
+			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, collision_flags);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			body = App->physics->AddBody(*msh, _mass, false, &convexShape);
+			body = App->physics->AddBody(*msh, this, _mass, collision_flags, &convexShape);
 			break;
 		}
 		}

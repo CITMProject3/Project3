@@ -17,6 +17,9 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
+#include "ComponentCar.h"
+#include "ComponentCollider.h"
+
 #include "Assets.h"
 #include "RaycastHit.h"
 #include "Time.h"
@@ -90,41 +93,42 @@ update_status ModulePhysics3D::PreUpdate()
 	if (App->IsGameRunning())
 	{
 		world->stepSimulation(dt, 15);
-	}
 
-	int numManifolds = world->getDispatcher()->getNumManifolds();
-	for(int i = 0; i<numManifolds; i++)
-	{
-		btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
-		btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
-		btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
-
-		int numContacts = contactManifold->getNumContacts();
-		if(numContacts > 0)
+		int numManifolds = world->getDispatcher()->getNumManifolds();
+		for (int i = 0; i < numManifolds; i++)
 		{
-			PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
-			PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
+			btPersistentManifold* contactManifold = world->getDispatcher()->getManifoldByIndexInternal(i);
+			btCollisionObject* obA = (btCollisionObject*)(contactManifold->getBody0());
+			btCollisionObject* obB = (btCollisionObject*)(contactManifold->getBody1());
 
-			if(pbodyA && pbodyB)
+			int numContacts = contactManifold->getNumContacts();
+			if (numContacts > 0)
 			{
-				list<Module*>::iterator item = pbodyA->collision_listeners.begin();
+				PhysBody3D* pbodyA = (PhysBody3D*)obA->getUserPointer();
+				PhysBody3D* pbodyB = (PhysBody3D*)obB->getUserPointer();
 
-				while (item != pbodyA->collision_listeners.end())
+				if (pbodyA && pbodyB)
 				{
-					(*item)->OnCollision(pbodyA, pbodyB);
-					++item;
-				}
+					bool aIsCar = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar);
+					bool bIsCar = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar);
+					bool aIsTrigger = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger);
+					bool bIsTrigger = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger);
 
-				item = pbodyB->collision_listeners.begin();
-				while(item != pbodyB->collision_listeners.end())
-				{
-					(*item)->OnCollision(pbodyB, pbodyA);
-					++item;
+					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar) &&
+						ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
+					{
+						App->physics->OnCollision(pbodyA, pbodyB);
+					}
+
+					if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar) &&
+						ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger))
+					{
+						App->physics->OnCollision(pbodyB, pbodyA);
+					}
 				}
 			}
 		}
 	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -166,6 +170,32 @@ bool ModulePhysics3D::CleanUp()
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
+{
+	ComponentCar* car = physCar->GetCar();
+	ComponentCollider* trigger = body->GetCollider();
+	if (car != nullptr && trigger != nullptr)
+	{
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
+		{
+			car->WentThroughCheckpoint(trigger);
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
+		{
+			car->WentThroughEnd(trigger);
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
+		{
+			//Do something
+		}
+		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
+		{
+			//Do something
+			car->Reset();
+		}
+	}
 }
 
 void ModulePhysics3D::OnPlay()
@@ -239,7 +269,6 @@ void ModulePhysics3D::CreateGround()
 
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
-
 	bool ret = false;
 	//Loading Heightmap Image
 	if (resLibPath != GetHeightmapPath())
@@ -332,7 +361,7 @@ bool ModulePhysics3D::TerrainIsGenerated()
 
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.push_back(colShape);
@@ -349,10 +378,13 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool is
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
+	pbody->collisionOptions = flags;
 
-	if (isSensor)
-		body->setCollisionFlags(body->getCollisionFlags() |btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
+	{
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	}
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -361,7 +393,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, float mass, bool is
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.push_back(colShape);
@@ -378,9 +410,10 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSens
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
+	pbody->collisionOptions = flags;
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
@@ -390,7 +423,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, float mass, bool isSens
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, bool isSensor)
+PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass, unsigned char flags)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
 	shapes.push_back(colShape);
@@ -407,9 +440,10 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, colShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
+	pbody->collisionOptions = flags;
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
@@ -419,7 +453,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, float mass, boo
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool isSensor, btConvexHullShape** out_shape)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass, unsigned char flags, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
 
@@ -457,9 +491,10 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, simplifiedColShape, localInertia);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	PhysBody3D* pbody = new PhysBody3D(body);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
+	pbody->collisionOptions = flags;
 
-	if (isSensor)
+	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	delete hull;
@@ -474,7 +509,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, float mass, bool
 
 
 // ---------------------------------------------------------
-PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
+PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar* col)
 {
 	btCompoundShape* comShape = new btCompoundShape();
 	shapes.push_back(comShape);
@@ -535,11 +570,13 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info)
 	}
 	// ---------------------
 
-	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info);
+	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info, col);
 	world->addVehicle(vehicle);
 	vehicles.push_back(pvehicle);
 
 	pvehicle->SetTransform(info.transform.Transposed().ptr());
+
+	pvehicle->collisionOptions = SetFlag(pvehicle->collisionOptions, PhysVehicle3D::co_isCar, true);
 
 	return pvehicle;
 }
@@ -906,7 +943,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 void ModulePhysics3D::SetTerrainHeightScale(float scale)
 {
-	if (scale != 0)
+	if (scale > 0.001f)
 	{
 		if (heightMapImg)
 		{
@@ -915,8 +952,8 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
 			}
 		}
+		terrainHeightScaling = scale;
 	}
-	terrainHeightScaling = scale;
 	GenerateTerrainMesh();
 }
 
@@ -952,7 +989,7 @@ uint ModulePhysics3D::GetCurrentTerrainUUID()
 	return 0;
 }
 
-const char * ModulePhysics3D::GetHeightmapPath()
+const char *ModulePhysics3D::GetHeightmapPath()
 {
 	if (heightMapImg)
 	{

@@ -52,10 +52,10 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories />
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -73,10 +73,10 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalIncludeDirectories />
-      <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -110,12 +110,17 @@
     <ClInclude Include="ComponentBone.h" />
     <ClInclude Include="ComponentAudio.h" />
     <ClInclude Include="ComponentCamera.h" />
+    <ClInclude Include="ComponentCanvas.h" />
     <ClInclude Include="ComponentCar.h" />
     <ClInclude Include="ComponentCollider.h" />
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentTransform.h" />
+    <ClInclude Include="ComponentUiButton.h" />
+    <ClInclude Include="ComponentUiImage.h" />
+    <ClInclude Include="ComponentUiText.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="CubeMap.h" />
     <ClInclude Include="CurveWindow.h" />
@@ -151,6 +156,7 @@
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="OpenGLFunc.h" />
+    <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAnimation.h" />
     <ClInclude Include="ResourceFileBone.h" />
@@ -278,12 +284,17 @@
     <ClCompile Include="ComponentBone.cpp" />
     <ClCompile Include="ComponentAudio.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
+    <ClCompile Include="ComponentCanvas.cpp" />
     <ClCompile Include="ComponentCar.cpp" />
     <ClCompile Include="ComponentCollider.cpp" />
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
+    <ClCompile Include="ComponentUiButton.cpp" />
+    <ClCompile Include="ComponentUiImage.cpp" />
+    <ClCompile Include="ComponentUiText.cpp" />
     <ClCompile Include="Console.cpp" />
     <ClCompile Include="CubeMap.cpp" />
     <ClCompile Include="CurveWindow.cpp" />
@@ -291,6 +302,7 @@
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="EventLinkGos.cpp" />
     <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="flags.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="FPSGraph.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -315,6 +327,7 @@
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
+    <ClCompile Include="RaceTimer.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAnimation.cpp" />
     <ClCompile Include="ResourceFileBone.cpp" />

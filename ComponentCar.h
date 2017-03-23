@@ -14,11 +14,23 @@ using namespace std;
 struct VehicleInfo;
 struct PhysVehicle3D;
 class ComponentAnimation;
+class ComponentCollider;
 
 enum PLAYER
 {
 	PLAYER_1,
 	PLAYER_2,
+};
+
+enum Player2_State
+{
+	P2IDLE,
+	P2DRIFT_LEFT,
+	P2DRIFT_RIGHT,
+	P2PUSH_START,
+	P2PUSH_LOOP,
+	P2PUSH_END,
+	P2LEANING,
 };
 
 enum TURBO
@@ -77,11 +89,16 @@ public:
 	void Load(Data& config);
 	void OnInspector(bool debug);
 
+	void OnPlay();
+
+	//Getters
+	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void Reset();
+	void TrueReset();
 	void LimitSpeed();
 
 	float GetVelocity();
@@ -101,6 +118,7 @@ private:
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
+	void StartPush();
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
@@ -113,6 +131,8 @@ private:
 	void CalcDriftForces();
 	void EndDrift();
 
+	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
+	void UpdateP2Animation();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
@@ -125,6 +145,7 @@ public:
 	bool  on_kick = false;
 
 	bool drift_dir_left = false;
+	Player2_State p2_state = P2IDLE;
 
 private:
 	float kickTimer = 0.0f;
@@ -132,7 +153,7 @@ public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
-	float drift_mult = 1.0f;
+	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
 
 	float connection_height = 0.1f;
@@ -163,6 +184,7 @@ private:
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
+	float drift_min_speed = 20.0f;
 
 	//Push
 	float push_force = 10000.0f;
@@ -221,7 +243,11 @@ private:
 	int turbo_drift_lvl = 0;
 
 	//Leaning
-	
+	bool leaning = false;
+
+	//Pushing
+	double pushStartTime = 0.0f;
+	bool pushing = false;
 
 	//Acrobatics
 	bool acro_front = false;
@@ -257,7 +283,14 @@ private:
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
 
-	//----------------------------------------------------------------------------------------------------------------------------------------
+	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
+	public:
+	void WentThroughCheckpoint(ComponentCollider* checkpoint);
+	void WentThroughEnd(ComponentCollider* end);
+	unsigned char checkpoints = 0;
+	GameObject* lastCheckpoint = nullptr;
+	unsigned int lap = 1;
+
 };
 
 

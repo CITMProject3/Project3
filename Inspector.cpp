@@ -147,6 +147,30 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_AUDIO);
 			}
 
+			if (ImGui::Selectable("Add Canvas"))
+			{
+				selected_GO->AddComponent(C_CANVAS);
+			}
+
+			if (ImGui::Selectable("Add Rect Transform"))
+			{
+				selected_GO->AddComponent(C_RECT_TRANSFORM);
+			}
+
+			if (ImGui::Selectable("Add UI Image"))
+			{
+				selected_GO->AddComponent(C_UI_IMAGE);
+			}
+
+			if (ImGui::Selectable("Add UI Text"))
+			{
+				selected_GO->AddComponent(C_UI_TEXT);
+			}
+
+			if (ImGui::Selectable("Add Button"))
+			{
+				selected_GO->AddComponent(C_UI_BUTTON);
+			}
 			ImGui::EndPopup();
 		}
 	}

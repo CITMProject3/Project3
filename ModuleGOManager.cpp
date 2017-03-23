@@ -343,7 +343,7 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 void ModuleGOManager::ClearScene()
 {
 	RemoveGameObject(root);
-
+	current_scene_canvas = nullptr;
 	//TODO: modules should have remove GameObject events and load scene events
 	App->editor->selected.clear();
 
@@ -406,15 +406,24 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		if (rc_prefab)
 		{
 			go = rc_prefab->LoadPrefabFromScene(go_data, parent);
-			go->rc_prefab = rc_prefab;
+			if (go != nullptr)
+				go->rc_prefab = rc_prefab;
+			else
+			{
+				LOG("Warning: error when loading prefab '%s'", prefab_path.c_str());
+			}
 		}
 	}
 
-	//Space partioning
-	if (go->IsStatic())
-		octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
-	else
-		dynamic_gameobjects.push_back(go);
+	if (go != nullptr)
+	{
+		//Space partioning
+		if (go->IsStatic())
+			octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
+		else
+			dynamic_gameobjects.push_back(go);
+	}
+
 
 	return go;
 }
@@ -488,7 +497,8 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
 			go_component = (Component*)go->transform;
-		go_component->Load(component);
+		if(go_component != nullptr)
+			go_component->Load(component);
 	}
 
 	if (is_static)
@@ -667,7 +677,7 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 {
 	if (root == nullptr)
 		return;
-	
+
 	ComponentAnimation* c_anim = (ComponentAnimation*)root->GetComponent(C_ANIMATION);
 
 	if (c_anim)
@@ -681,7 +691,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 	const vector<GameObject*>* childs = root->GetChilds();
 	for (vector<GameObject*>::const_iterator child = (*childs).begin(); child != (*childs).end(); ++child)
 		LinkAnimation(*child);
-
 }
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)

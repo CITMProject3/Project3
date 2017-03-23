@@ -18,6 +18,8 @@
 #include "EventLinkGos.h"
 #include "AutoProfile.h"
 
+#include "ComponentCollider.h"
+
 #include "Time.h"
 
 #include <string>
@@ -110,6 +112,8 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		ImGui::Text("Bool pushing: %i", (int)pushing);
+		ImGui::Text("Current lap: %i", lap);
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
@@ -483,6 +487,7 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::NewLine();
 			ImGui::InputFloat("Drift exit boost", &drift_boost);
 			ImGui::InputFloat("Drift turn boost", &drift_turn_boost);
+			ImGui::InputFloat("Drift min speed", &drift_min_speed);
 			ImGui::TreePop();
 		} //Endof Car settings
 		
@@ -545,15 +550,35 @@ void ComponentCar::OnInspector(bool debug)
 	}//Endof Collapsing header
 }
 
+void ComponentCar::OnPlay()
+{
+	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	if (trs)
+	{
+		reset_pos = trs->GetPosition();
+		reset_rot = trs->GetRotationEuler();
+	}
+}
+
+float ComponentCar::GetVelocity() const
+{
+	return vehicle->GetKmh();
+}
+
 void ComponentCar::HandlePlayerInput()
 {
 	float brake;
 	bool turning = false;
-
+	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
 	
 	accel = brake = 0.0f;
 
+	if (pushing)
+	{
+		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+			pushing = false;
+	}
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	
 	//Previous kick turbo (now usedd to test how tiles would work)
@@ -652,6 +677,14 @@ void ComponentCar::HandlePlayerInput()
 	if (drifting)
 		CalcDriftForces();
 
+	if (p2_animation != nullptr && p2_animation->current_animation != nullptr)
+	{
+		if (p2_animation->current_animation->index == 5)
+		{
+			Push(&accel);
+		}
+	}
+
 	if (vehicle)
 	{
 		accel += accel_boost;
@@ -700,7 +733,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			Push(accel);
+			StartPush();
+			//Push(accel);
 		}
 
 		//Slide attack
@@ -758,7 +792,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		Push(accel);
+		StartPush();
+//		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
@@ -809,7 +844,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		StartDrift();
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
 	{ 
 		EndDrift();
 	}	
@@ -870,6 +905,12 @@ void ComponentCar::Accelerate(float* accel)
 	*accel += accel_force;
 }
 
+void ComponentCar::StartPush()
+{
+	pushing = true;
+	pushStartTime = time->TimeSinceGameStartup();
+}
+
 bool ComponentCar::Push(float* accel)
 {
 	bool ret = false;
@@ -885,6 +926,8 @@ void ComponentCar::Leaning(float accel)
 {
 	if (vehicle->GetKmh() > 0.0f)
 	{
+		SetP2AnimationState(P2LEANING, 0.5f);
+		leaning = true;
 		accel_boost += ((accel / 100)*lean_top_acc);
 		speed_boost += ((max_velocity / 100)*lean_top_sp);
 		turn_boost -= ((turn_max / 100)*lean_red_turn);
@@ -1099,10 +1142,13 @@ void ComponentCar::ApplyTurbo()
 
 void ComponentCar::StartDrift()
 {
-	drifting = true;
-	drift_dir_left = turning_left;
-	startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
-	vehicle->SetFriction(0);
+	if (GetVelocity() >= drift_min_speed)
+	{
+		drifting = true;
+		drift_dir_left = turning_left;
+		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		vehicle->SetFriction(0);
+	}
 }
 
 void ComponentCar::CalcDriftForces()
@@ -1142,6 +1188,13 @@ void ComponentCar::EndDrift()
 	vehicle->Turn(0);
 	turn_current = 0;
 	vehicle->SetFriction(car->frictionSlip);
+	float4x4 matrix;
+	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	matrix.Transpose();
+
+	float3 out_vector = matrix.WorldZ() * (float)startDriftSpeed.length();
+	vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(out_vector.x, out_vector.y, out_vector.z));
+	//vehicle->SetLinearSpeed(startDriftSpeed);
 	drifting = false;
 
 	//New turbo
@@ -1185,6 +1238,177 @@ void ComponentCar::EndDrift()
 	vehicle->SetFriction(car->frictionSlip);
 	*/
 }
+
+void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
+{
+	switch (state)
+	{
+		case (P2IDLE):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(3, blend_ratio);
+			break;
+		}
+		case(P2DRIFT_LEFT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(2, blend_ratio);
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(1, blend_ratio);
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(4, blend_ratio);
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(5, blend_ratio);
+			break;
+		}
+		case(P2PUSH_END):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(6, blend_ratio);
+			break;
+		}
+		case(P2LEANING):
+		{
+			if (p2_state != P2LEANING)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(7, blend_ratio);
+			}
+		}
+	}
+}
+
+void ComponentCar::UpdateP2Animation()
+{
+	switch (p2_state)
+	{
+		case(P2IDLE):
+		{
+			if (drifting == true)
+			{
+				SetP2AnimationState(drift_dir_left ? P2DRIFT_LEFT : P2DRIFT_RIGHT);
+			}
+			else if (pushing == true)
+			{
+				SetP2AnimationState(P2PUSH_START);
+			}
+			else
+			{
+				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (max_velocity + speed_boost));
+			}
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			if (p2_animation->playing == false && pushing == true)
+			{
+				SetP2AnimationState(P2PUSH_LOOP);
+			}
+			else if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2PUSH_END);
+			}
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			if (pushing == false)
+			{
+				SetP2AnimationState(P2PUSH_END);
+			}
+			break;
+		}
+		case (P2PUSH_END):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2DRIFT_LEFT):
+		{
+			if (drifting == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			if (drifting == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2LEANING):
+		{
+			if (leaning == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+		}
+	}
+}
+
+void ComponentCar::WentThroughCheckpoint(ComponentCollider* checkpoint)
+{
+	lastCheckpoint = checkpoint->GetGameObject();
+	switch (checkpoint->n)
+	{
+	case 0:
+		checkpoints |= 0x01;
+		break;
+	case 1:
+		checkpoints |= 0x02;
+		break;
+	case 2:
+		checkpoints |= 0x04;
+		break;
+	case 3:
+		checkpoints |= 0x08;
+		break;
+	case 4:
+		checkpoints |= 0x010;
+		break;
+	case 5:
+		checkpoints |= 0x20;
+		break;
+	case 6:
+		checkpoints |= 0x40;
+		break;
+	case 7:
+		checkpoints |= 0x80;
+		break;
+	}
+}
+
+void ComponentCar::WentThroughEnd(ComponentCollider * end)
+{
+	if (checkpoints >= 255)
+	{
+		checkpoints = 0;
+		lap++;
+		lastCheckpoint = end->GetGameObject();
+	}
+	if (lap >= 4)
+	{
+		TrueReset();
+	}
+}
 //--------------------------------------
 
 void ComponentCar::GameLoopCheck()
@@ -1195,9 +1419,27 @@ void ComponentCar::GameLoopCheck()
 
 void ComponentCar::Reset()
 {
-	vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
-	vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+	if (lastCheckpoint == nullptr)
+	{
+		vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
+		vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+	}
+	else
+	{
+		ComponentTransform* trs = (ComponentTransform*)lastCheckpoint->GetComponent(C_TRANSFORM);
+		float3 tmp = trs->GetPosition();
+		vehicle->SetPos(tmp.x, tmp.y, tmp.z);
+		tmp = trs->GetRotationEuler();
+		vehicle->SetRotation(tmp.x, tmp.y, tmp.z);
+	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+}
+
+void ComponentCar::TrueReset()
+{
+	lastCheckpoint = nullptr;
+	lap = 1;
+	Reset();
 }
 
 void ComponentCar::LimitSpeed()
@@ -1235,7 +1477,8 @@ void ComponentCar::CreateCar()
 	}
 	if (p2_animation == nullptr && components.size() > 1)
 	{
-		p2_animation = (ComponentAnimation*)components[1];
+		if ((p2_animation = (ComponentAnimation*)components[1]) != nullptr)
+			p2_animation->PlayAnimation(3, 0.0f);
 	}
 
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
@@ -1299,7 +1542,7 @@ void ComponentCar::CreateCar()
 	car->wheels[3].brake = true;
 	car->wheels[3].steering = false;
 
-	vehicle = App->physics->AddVehicle(*car);
+	vehicle = App->physics->AddVehicle(*car, this);
 }
 
 void ComponentCar::OnTransformModified()
@@ -1307,6 +1550,12 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
+	if (App->IsGameRunning() == false)
+	{
+		lastCheckpoint = nullptr;
+		checkpoints = 0;
+	}
+
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 
 	for (uint i = 0; i < wheels_go.size(); i++)
@@ -1327,31 +1576,34 @@ void ComponentCar::UpdateGO()
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
-		if (turn_current == turn_max)
+		if (turn_current >= turn_max + turn_boost)
 		{
 			if (p1_animation->current_animation->index != 1)
 			{
 				p1_animation->PlayAnimation(1, 0.5f);
-				p2_animation->PlayAnimation(1, 0.5f);
 			}
 
 		}
-		else if (turn_current == -turn_max)
+		else if (turn_current <= -turn_max - turn_boost)
 		{
 			if (p1_animation->current_animation->index != 2)
 			{
 				p1_animation->PlayAnimation(2, 0.5f);
-				p2_animation->PlayAnimation(2, 0.5f);
 			}
 		}
 		else
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
-			p2_animation->PlayAnimation((uint)0, 0.5f);
-			float ratio = (-turn_current + turn_max) / (turn_max + turn_max);
+			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+			LOG("ratio: %f", ratio);
 			p1_animation->LockAnimationRatio(ratio);
-			p2_animation->LockAnimationRatio(ratio);
 		}
+	}
+
+	//Player 2 animation
+	if (p2_animation != nullptr)
+	{
+		UpdateP2Animation();
 	}
 }
 
@@ -1442,6 +1694,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftRatio", drift_ratio);
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
+	data.AppendFloat("driftMinSpeed", drift_min_speed);
 
 	//Turbos-------
 	//Mini turbo
@@ -1660,6 +1913,7 @@ void ComponentCar::Load(Data& conf)
 	drift_ratio = conf.GetFloat("driftRatio");
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
+	drift_min_speed = conf.GetFloat("driftMinSpeed");
 }
 
 
