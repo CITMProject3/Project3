@@ -30,7 +30,7 @@ void ComponentUiButton::Update()
 {
 	if (game_object->IsActive())
 	{
-		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN)
+		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_G) == KEY_STATE::KEY_DOWN)
 		{
 			// Only for Vertical Slice 3 --> Launching Double Drum sound
 			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
