@@ -833,7 +833,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 		t_speed = -t_speed;
 	}
 
-	turn_current += t_speed;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (turn_current > top_turn)
 		turn_current = top_turn;
@@ -974,13 +974,13 @@ void ComponentCar::IdleTurn()
 {
 	if (turn_current > 0)
 	{
-		turn_current -= turn_speed;
+		turn_current -= turn_speed * time->DeltaTime();
 		if (turn_current < 0)
 			turn_current = 0;
 	}
 	else if (turn_current < 0)
 	{
-		turn_current += turn_speed;
+		turn_current += turn_speed * time->DeltaTime();
 		if (turn_current > 0)
 			turn_current = 0;
 	}
