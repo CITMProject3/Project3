@@ -269,6 +269,9 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 		case RENDER_TEXTURE:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
+		case SCRIPTS_LIBRARY:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
 	}
 }
 
