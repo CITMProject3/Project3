@@ -30,6 +30,7 @@ enum Player2_State
 	P2PUSH_START,
 	P2PUSH_LOOP,
 	P2PUSH_END,
+	P2LEANING,
 };
 
 enum TURBO
@@ -122,7 +123,7 @@ private:
 	void CalcDriftForces();
 	void EndDrift();
 
-	void SetP2AnimationState(Player2_State state);
+	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
@@ -174,6 +175,7 @@ private:
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
+	float drift_min_speed = 20.0f;
 
 	//Push
 	float push_force = 10000.0f;
@@ -229,7 +231,8 @@ private:
 	int turbo_drift_lvl = 0;
 
 	//Leaning
-	
+	bool leaning = false;
+
 	//Pushing
 	double pushStartTime = 0.0f;
 	bool pushing = false;

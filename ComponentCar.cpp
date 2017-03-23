@@ -415,6 +415,7 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::NewLine();
 			ImGui::InputFloat("Drift exit boost", &drift_boost);
 			ImGui::InputFloat("Drift turn boost", &drift_turn_boost);
+			ImGui::InputFloat("Drift min speed", &drift_min_speed);
 			ImGui::TreePop();
 		} //Endof Car settings
 		
@@ -496,6 +497,7 @@ void ComponentCar::HandlePlayerInput()
 {
 	float brake;
 	bool turning = false;
+	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
 	
 	accel = brake = 0.0f;
@@ -753,7 +755,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		StartDrift();
 	}
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP)
+	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
 	{ 
 		EndDrift();
 	}	
@@ -835,6 +837,8 @@ void ComponentCar::Leaning(float accel)
 {
 	if (vehicle->GetKmh() > 0.0f)
 	{
+		SetP2AnimationState(P2LEANING, 0.5f);
+		leaning = true;
 		accel_boost += ((accel / 100)*lean_top_acc);
 		speed_boost += ((max_velocity / 100)*lean_top_sp);
 		turn_boost -= ((turn_max / 100)*lean_red_turn);
@@ -998,10 +1002,13 @@ void ComponentCar::ApplyTurbo()
 
 void ComponentCar::StartDrift()
 {
-	drifting = true;
-	drift_dir_left = turning_left;
-	startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
-	vehicle->SetFriction(0);
+	if (GetVelocity() >= drift_min_speed)
+	{
+		drifting = true;
+		drift_dir_left = turning_left;
+		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
+		vehicle->SetFriction(0);
+	}
 }
 
 void ComponentCar::CalcDriftForces()
@@ -1092,45 +1099,53 @@ void ComponentCar::EndDrift()
 	*/
 }
 
-void ComponentCar::SetP2AnimationState(Player2_State state)
+void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 {
 	switch (state)
 	{
 		case (P2IDLE):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(3, 0.0f);
+			p2_animation->PlayAnimation(3, blend_ratio);
 			break;
 		}
 		case(P2DRIFT_LEFT):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(2, 0.3f);
+			p2_animation->PlayAnimation(2, blend_ratio);
 			break;
 		}
 		case(P2DRIFT_RIGHT):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(1, 0.3f);
+			p2_animation->PlayAnimation(1, blend_ratio);
 			break;
 		}
 		case(P2PUSH_START):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(4, 0.0f);
+			p2_animation->PlayAnimation(4, blend_ratio);
 			break;
 		}
 		case(P2PUSH_LOOP):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(5, 0.0f);
+			p2_animation->PlayAnimation(5, blend_ratio);
 			break;
 		}
 		case(P2PUSH_END):
 		{
 			p2_state = state;
-			p2_animation->PlayAnimation(6, 0.5f);
+			p2_animation->PlayAnimation(6, blend_ratio);
 			break;
+		}
+		case(P2LEANING):
+		{
+			if (p2_state != P2LEANING)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(7, blend_ratio);
+			}
 		}
 	}
 }
@@ -1198,6 +1213,13 @@ void ComponentCar::UpdateP2Animation()
 				SetP2AnimationState(P2IDLE);
 			}
 			break;
+		}
+		case(P2LEANING):
+		{
+			if (leaning == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
 		}
 	}
 }
@@ -1426,7 +1448,8 @@ void ComponentCar::UpdateGO()
 		else
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
-			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_max + turn_boost);
+			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+			LOG("ratio: %f", ratio);
 			p1_animation->LockAnimationRatio(ratio);
 		}
 	}
@@ -1525,6 +1548,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftRatio", drift_ratio);
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
+	data.AppendFloat("driftMinSpeed", drift_min_speed);
 
 	//Turbos-------
 	//Mini turbo
@@ -1673,6 +1697,7 @@ void ComponentCar::Load(Data& conf)
 	drift_ratio = conf.GetFloat("driftRatio");
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
+	drift_min_speed = conf.GetFloat("driftMinSpeed");
 }
 
 
