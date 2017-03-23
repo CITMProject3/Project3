@@ -149,7 +149,11 @@ void ComponentCar::OnInspector(bool debug)
 
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
-
+				
+				if (on_t)
+				{
+					ImGui::Text("Time left: %f", (applied_turbo->time - applied_turbo->timer));
+				}
 				bool hasItem = has_item;
 				if (ImGui::Checkbox("Has item", &hasItem))
 				{
