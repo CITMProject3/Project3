@@ -5,6 +5,7 @@
 #include "Application.h"
 
 #include "GameObject.h"
+#include "ComponentTransform.h"
 #include "Random.h"
 
 #include "imgui\imgui.h"
@@ -24,6 +25,11 @@ ComponentAudio::~ComponentAudio()
 
 void ComponentAudio::Update()
 { 
+	math::float3 pos = game_object->transform->GetPosition();
+	AkListenerPosition ak_pos;
+	ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);
+
 	// I don't like this snippet here, but it has to be checked soon!
 	// Setting current event, from Selection on Inspector or loading form the value of event_id
 	if (current_event == nullptr)
