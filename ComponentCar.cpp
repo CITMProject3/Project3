@@ -149,7 +149,11 @@ void ComponentCar::OnInspector(bool debug)
 
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
-
+				
+				if (on_t)
+				{
+					ImGui::Text("Time left: %f", (applied_turbo->time - applied_turbo->timer));
+				}
 				bool hasItem = has_item;
 				if (ImGui::Checkbox("Has item", &hasItem))
 				{
@@ -230,6 +234,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Back force");
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Back_force", &back_force, 1.0f, 0.0f)) {}
+
+					ImGui::Text("Full brake force");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##full_br_force", &full_brake_force, 1.0f, 0.0f)){}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -815,7 +823,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		{
 			StartDrift();
 		}
-		else if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
+		else if ( drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
 		{
 			EndDrift();
 		}
@@ -858,6 +866,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		//current_turbo = T_MINI;
 		ReleaseItem();
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+	{
+		FullBrake(brake);
+	}
+
 
 	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -947,8 +961,24 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.1f)
 	{
-		turn_current = turn_speed * -x_joy_input;
+		if (drifting == false)
+			turn_current = turn_max * -x_joy_input;
+		else
+		{
+			//Normalizing x_joy_input to 0-1 vlaue
+			x_joy_input += 1;
+			x_joy_input / 2;
 
+			if (drift_dir_left == true)
+			{
+				
+				turn_current = turn_max * x_joy_input;
+			}
+			else
+			{
+				turn_current = -turn_max * x_joy_input;
+			}
+		}
 		return true;
 	}
 	return false;
@@ -963,6 +993,11 @@ void ComponentCar::Brake(float* accel, float* brake)
 		*brake = brake_force;
 }
 
+void ComponentCar::FullBrake(float* brake)
+{
+	if (vehicle->GetKmh() > 0)
+		*brake = full_brake_force;
+}
 void ComponentCar::Accelerate(float* accel)
 {
 	*accel += accel_force;
@@ -1785,6 +1820,7 @@ void ComponentCar::Save(Data& file) const
 	//Brake
 	data.AppendFloat("brakeForce", brake_force);
 	data.AppendFloat("backForce", back_force);
+	data.AppendFloat("full_brake_force", full_brake_force);
 
 	//Leaning
 	data.AppendFloat("lean_accel_boost", lean_top_acc);
@@ -1913,6 +1949,7 @@ void ComponentCar::Load(Data& conf)
 	//Brake
 	brake_force = conf.GetFloat("brakeForce"); 
 	back_force = conf.GetFloat("backForce"); 
+	full_brake_force = conf.GetFloat("full_brake_force");
 
 	//Leaning
 	lean_top_acc = conf.GetFloat("lean_accel_boost");  

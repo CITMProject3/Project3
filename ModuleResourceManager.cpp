@@ -1157,6 +1157,9 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 	case SCENE:
 		SceneDropped(path, base_dir, base_library_dir, uuid);
 		break;
+	case PREFAB:
+		PrefabDropped(path, base_dir, base_library_dir, uuid);
+		break;
 	}
 }
 
@@ -1302,10 +1305,30 @@ void ModuleResourceManager::SceneDropped(const char * path, std::string base_dir
 	App->file_system->GenerateDirectory(final_scene_path.data());
 
 	string library_dir = final_scene_path;
-	final_scene_path += std::to_string(uuid) + ".fra";
+	final_scene_path += std::to_string(uuid) + ".ezx";
 
 	GenerateMetaFile(file_assets_path.data(), FileType::SCENE, uuid, final_scene_path);
 	App->file_system->DuplicateFile(file_assets_path.data(), final_scene_path.data());
+}
+
+void ModuleResourceManager::PrefabDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string final_prefab_path = base_library_dir;
+	final_prefab_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(final_prefab_path.data());
+
+	string library_dir = final_prefab_path;
+	final_prefab_path += std::to_string(uuid) + ".pfb";
+
+	GenerateMetaFile(file_assets_path.data(), FileType::PREFAB, uuid, final_prefab_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), final_prefab_path.data());
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)

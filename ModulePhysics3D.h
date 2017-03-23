@@ -70,9 +70,10 @@ public:
 	int GetTexture();
 	uint GetTextureUUID();
 	const char* GetTexturePath();
+	void RenderTerrain();
 private:
 	void AddTerrain();
-	void RenderTerrain();
+	
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
