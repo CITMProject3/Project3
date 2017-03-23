@@ -918,8 +918,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 	else if (left == false)
 		t_speed = -t_speed;
 
-	//Modified this *10
-	turn_current += t_speed * time->DeltaTime() * 10;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (drifting == false)
 	{
