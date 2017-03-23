@@ -1630,7 +1630,6 @@ void ComponentCar::UpdateGO()
 
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 
-	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
 	{
 		if (wheels_go[i] != nullptr)
@@ -1645,7 +1644,7 @@ void ComponentCar::UpdateGO()
 			w_trs->SetScale(scale);
 		}
 	}
-	*/
+
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
