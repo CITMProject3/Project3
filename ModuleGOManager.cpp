@@ -160,7 +160,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	
 	string prim_path = "Resources/Primitives/";
 
-	std::map<PrimitiveType, long unsigned> prim_codes;
+	std::map<PrimitiveType, unsigned> prim_codes;
 	prim_codes[P_CUBE] = 2147000001;
 	prim_codes[P_CYLINDER] = 2147000002;
 	prim_codes[P_PLANE] = 2147000003;

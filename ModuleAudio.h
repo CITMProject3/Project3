@@ -11,7 +11,7 @@ struct SoundBank;
 struct AudioEvent
 {
 	std::string name;
-	long unsigned int id = 0;
+	unsigned int id = 0;
 	SoundBank *parent_soundbank = nullptr;
 };
 
@@ -19,7 +19,7 @@ struct SoundBank
 {
 	std::string name;
 	std::string path;
-	long unsigned int id = 0;
+	unsigned int id = 0;
 	std::vector<AudioEvent*> events;
 };
 
@@ -45,7 +45,7 @@ public:
 	void SetListener(const ComponentCamera *listener);
 	void SetLibrarySoundbankPath(const char *lib_path);
 	const char *GetInitLibrarySoundbankPath() const;
-	long unsigned int ExtractSoundBankInfo(std::string soundbank_path);
+	unsigned int ExtractSoundBankInfo(std::string soundbank_path);
 	void ObtainEvents(std::vector<AudioEvent*> &events);
 
 	void InitSoundbankLoaded();
@@ -53,13 +53,13 @@ public:
 
 	void LoadSoundBank(const char *soundbank_path);
 	void UnloadSoundBank(const char *soundbank_path);
-	void PostEvent(const AudioEvent *ev, long unsigned int id);
-	void StopEvent(const AudioEvent *ev, long unsigned int id);
+	void PostEvent(const AudioEvent *ev, unsigned int id);
+	void StopEvent(const AudioEvent *ev, unsigned int id);
 
-	void RegisterGameObject(long unsigned int id);
-	void UnregisterGameObject(long unsigned int id);
+	void RegisterGameObject(unsigned int id);
+	void UnregisterGameObject(unsigned int id);
 
-	AudioEvent *FindEventById(long unsigned event_id);
+	AudioEvent *FindEventById(unsigned event_id);
 
 
 private:
