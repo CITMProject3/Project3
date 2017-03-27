@@ -214,7 +214,7 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	{
 		//Check file modification
 		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
-		if (time_mod > lib_mod_time)
+		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
 		}

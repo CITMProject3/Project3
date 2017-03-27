@@ -22,11 +22,13 @@ public:
 	DWORD GetError();
 	void LoadScriptsLibrary();
 	vector<const char*> GetScriptNamesList()const;
-	void GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools, map<const char*, GameObject>* public_gos);
+	void GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos);
 
 	bool resource_created;
 	bool scripts_loaded;
 	bool setting_go_var;
+	const char* setting_go_var_name;
+	GameObject* set_go_var_now;
 
 private:
 	DWORD last_error = 0;

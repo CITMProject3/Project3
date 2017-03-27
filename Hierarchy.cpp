@@ -59,6 +59,7 @@ void Hierarchy::Draw()
 			{
 				if (App->editor->selected.size() > 0)
 				{
+					App->scripting->set_go_var_now = App->editor->selected.back();
 				}
 			}
 		}
@@ -191,6 +192,14 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			}
 			else if (App->scripting->setting_go_var == true)
 			{
+				if (App->editor->selected.size() > 0)
+				{
+					App->scripting->set_go_var_now = *object;
+					App->scripting->setting_go_var = false;
+					App->editor->UnselectAll();
+					break;
+				}
+				App->scripting->setting_go_var = false;
 			}
 			else if (App->editor->assign_wheel != -1)
 			{

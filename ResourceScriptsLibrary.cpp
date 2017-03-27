@@ -66,7 +66,7 @@ void ResourceScriptsLibrary::LoadScriptPublicVars()
 			map<const char*, int> tmp_public_ints;
 			map<const char*, float> tmp_public_floats;
 			map<const char*, bool> tmp_public_bools;
-			map<const char*, GameObject> tmp_public_gos;
+			map<const char*, GameObject*> tmp_public_gos;
 
 			getPublics(&tmp_public_chars, &tmp_public_ints, &tmp_public_floats, &tmp_public_bools, &tmp_public_gos);
 
@@ -88,13 +88,13 @@ void ResourceScriptsLibrary::LoadScriptPublicVars()
 			}
 			if (!tmp_public_gos.empty())
 			{
-				public_gos.insert(pair<const char*, map<const char*, GameObject>>(script_names[i], tmp_public_gos));
+				public_gos.insert(pair<const char*, map<const char*, GameObject*>>(script_names[i], tmp_public_gos));
 			}
 		}
 	}
 }
 
-void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools, map<const char*, GameObject>* public_gos)
+void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 {
 	string str = script_name;
 	for (map<const char*, map<const char*, string>>::iterator it = this->public_chars.begin(); it != this->public_chars.end(); it++)
@@ -129,12 +129,12 @@ void ResourceScriptsLibrary::GetPublicVars(const char* script_name, map<const ch
 				public_bools->insert(pair<const char*, bool>((*it2).first, (*it2).second));
 		}
 	}
-	for (map<const char*, map<const char*, GameObject>>::iterator it = this->public_gos.begin(); it != this->public_gos.end(); it++)
+	for (map<const char*, map<const char*, GameObject*>>::iterator it = this->public_gos.begin(); it != this->public_gos.end(); it++)
 	{
 		if (str.compare((*it).first) == 0)
 		{
-			for (map<const char*, GameObject>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
-				public_gos->insert(pair<const char*, GameObject>((*it2).first, (*it2).second));
+			for (map<const char*, GameObject*>::iterator it2 = (*it).second.begin(); it2 != (*it).second.end(); it2++)
+				public_gos->insert(pair<const char*, GameObject*>((*it2).first, (*it2).second));
 		}
 	}
 }

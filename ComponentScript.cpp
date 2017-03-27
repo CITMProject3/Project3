@@ -193,14 +193,34 @@ void ComponentScript::OnInspector(bool debug)
 		}
 		if (!public_gos.empty())
 		{
-			for (map<const char*, GameObject>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
 			{
-				if (ImGui::Button((*it).first, ImVec2(80, 20)))
+				if (App->scripting->set_go_var_now != nullptr)
+				{
+					if (App->scripting->setting_go_var_name == (*it).first)
+					{
+						(*it).second = App->scripting->set_go_var_now;
+						App->scripting->set_go_var_now = nullptr;
+						App->scripting->setting_go_var = false;
+					}
+				}
+				if ((*it).second != nullptr)
+					ImGui::Text((*it).second->name.c_str());
+				else
+					ImGui::Text("NULL GO");
+				ImGui::SameLine();
+				if (ImGui::Button("Set GO", ImVec2(80, 20)))
+				{
+					ImGui::OpenPopup("Set GameObject options");
+				}
+				if (ImGui::BeginPopup("Set GameObject options"))
 				{
 					if (ImGui::MenuItem("Set GameObject"))
 					{
 						App->scripting->setting_go_var = true;
+						App->scripting->setting_go_var_name = (*it).first;
 					}
+					ImGui::EndPopup();
 				}
 			}
 		}
@@ -246,9 +266,10 @@ void ComponentScript::Save(Data & file) const
 	}
 	if (!public_gos.empty())
 	{
-		for (map<const char*, GameObject>::const_iterator it = public_gos.begin(); it != public_gos.end(); it++)
+		for (map<const char*, GameObject*>::const_iterator it = public_gos.begin(); it != public_gos.end(); it++)
 		{
-			data.AppendUInt((*it).first, (*it).second.GetUUID());
+			if((*it).second != nullptr)
+				data.AppendUInt((*it).first, (*it).second->GetUUID());
 		}
 	}
 
@@ -292,7 +313,7 @@ void ComponentScript::Load(Data & conf)
 		}
 		if (!public_gos.empty())
 		{
-			for (map<const char*, GameObject>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
 			{
 				(*it).second = App->go_manager->FindGameObjectByUUID(App->go_manager->root, conf.GetUInt((*it).first));
 			}

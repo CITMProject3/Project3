@@ -35,9 +35,9 @@ extern "C"
 		string test_title;
 		int test_int;
 		int test_int2;
-		GameObject test_go;
+		GameObject* test_go;
 
-		void Test_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject>* public_gos)
+		void Test_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 		{
 			test_title = "Hello World from Script";
 			test_int = 3;
@@ -46,7 +46,7 @@ extern "C"
 
 			public_chars->insert(pair<const char*, string>("Title", test_title));
 
-			public_gos->insert(pair<const char*, GameObject>("Test_go", test_go));
+			public_gos->insert(pair<const char*, GameObject*>("Test_go", nullptr));
 		}
 
 		void Test_UpdatePublics(GameObject* game_object)
@@ -70,6 +70,12 @@ extern "C"
 				float3 tmp_pos = game_object->transform->GetPosition();
 				tmp_pos.z += 1;
 				game_object->transform->SetPosition(tmp_pos);
+				if (test_go != nullptr)
+				{
+					float3 tmp_pos = test_go->transform->GetPosition();
+					tmp_pos.z += 1;
+					test_go->transform->SetPosition(tmp_pos);
+				}
 			}
 		}
 	}
