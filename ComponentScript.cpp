@@ -155,7 +155,7 @@ void ComponentScript::OnInspector(bool debug)
 			}
 
 
-			if (App->IsGameRunning() && !App->IsGamePaused())
+			if (IsActive() && App->IsGameRunning() && !App->IsGamePaused())
 			{
 				if (!finded_start)
 				{
@@ -226,6 +226,7 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				if (ImGui::Button("Set GO", ImVec2(80, 20)))
 				{
+					(*it).second = nullptr;
 					App->scripting->setting_go_var = true;
 					App->scripting->setting_go_var_name = (*it).first;
 				}
