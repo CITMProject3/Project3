@@ -73,6 +73,8 @@ public:
 	void RenderTerrain();
 private:
 	void AddTerrain();
+
+	void UpdateTerrainLODs();
 	
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();
@@ -101,6 +103,7 @@ private:
 	std::list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
+	uint* indices = nullptr;
 	float* terrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
 	ResourceFileTexture* heightMapImg = nullptr;
