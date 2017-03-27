@@ -22,6 +22,7 @@ EventQueue::~EventQueue()
 
 void EventQueue::PostEvent(EventData *ev)
 {
+	// TODO: Expand ring buffer queue when is completely full
 	assert((tail + 1) % MAX_PENDING != head);
 	queue[tail] = ev;
 	tail = (tail + 1) % MAX_PENDING;
@@ -35,6 +36,6 @@ void EventQueue::ProcessEvents()
 		queue[head]->Process();
 		delete queue[head];
 		queue[head] = nullptr;
-		head = head + 1 % MAX_PENDING;
+		head = (head + 1) % MAX_PENDING;
 	}
 }

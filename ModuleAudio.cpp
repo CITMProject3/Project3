@@ -117,7 +117,7 @@ void ModuleAudio::UpdateListenerPos()
 	math::float3 pos = listener->GetPos();	    // Position of the listener
 
 	AkListenerPosition ak_pos;
-	ak_pos.Set(pos.x, pos.y, pos.z, front.x, front.y, front.z, up.x, up.y, up.z);
+	ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
 
 	AK::SoundEngine::SetListenerPosition(ak_pos);
 }

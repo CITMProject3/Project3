@@ -7,7 +7,7 @@
 #include "ModuleCamera3D.h"
 #include "ModuleResourceManager.h"
 #include "ModuleEditor.h"
-
+#include "ModulePhysics3D.h"
 #include "GameObject.h"
 #include "ComponentCamera.h"
 #include "ComponentMesh.h"
@@ -289,6 +289,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
+	App->physics->RenderTerrain();
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
