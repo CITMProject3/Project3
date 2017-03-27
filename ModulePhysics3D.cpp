@@ -863,8 +863,7 @@ void ModulePhysics3D::DeleteTerrainMesh()
 	}
 	if (terrainNormalBuffer != 0)
 	{
-		//TODO
-		//glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
 		terrainNormalBuffer = 0;
 	}
 	if (indices != nullptr)
@@ -879,17 +878,28 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	int w = heightMapImg->GetWidth();
 	int h = heightMapImg->GetHeight();
 
-	float* Rbuf = new float[w*h];
-	float* Gbuf = new float[w*h];
-	float* Bbuf = new float[w*h];
+	edgeDetectionImage = new uint[w*h];
 
+	float* buf = new float[w*h];
+
+	//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			buf[y*w + x] = (max(max(R[y*w + x], G[y*w + x]), B[y*w + x]));
+		}
+	}
+
+	float value = 0.0f;
+	int n = 0;
 	//Iterating all image pixels
 	for (int y = 0; y < h; y++)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			float value = 0.0f;
-			int n = 0;
+			value = 0.0f;
+			n = 0;
 			//Iterating all nearby pixels and checking they actually exist in the image
 			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
 			{
@@ -900,62 +910,36 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 						if (_x > 0 && _x < w)
 						{
 							n++;
-							value += R[_y * w + _x];
+							value += buf[_y * w + _x];
 						}
 					}
 				}
 			}
-			value /= n;
-			Rbuf[y*w + x] = value;
 
-			value = 0.0f;
-			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
+			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
+			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
+			float horizontal = 0;
+			float vertical = 0;
+			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
 			{
-				if (_y > 0 && _y < h)
+				for (int _y = -1; _y <= 1; _y++)
 				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
+					for (int _x = -1; _x <= 1; _x++)
 					{
-						if (_x > 0 && _x < w)
-						{
-							value += G[_y * w + _x];
-						}
+						horizontal += buf[(y + _y) * w + x + _x] * hk[_y][_x];
+						vertical += buf[(y + _y) * w + x + _x] * vk[_y][_x];
 					}
 				}
 			}
+
+			edgeDetectionImage[y * w + x] = math::Sqrt(horizontal*horizontal + vertical * vertical);
+
 			value /= n;
-			Gbuf[y*w + x] = value;
-
-			value = 0.0f;
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
-			{
-				if (_y > 0 && _y < h)
-				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
-					{
-						if (_x > 0 && _x < w)
-						{
-							value += B[_y * w + _x];
-						}
-					}
-				}
-			}
-			value /= n;
-			Bbuf[y*w + x] = value;
+			terrainData[y*w + x] = value * terrainHeightScaling;
 		}
-	}
+	}	
 
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
-		{
-			terrainData[y*w + x] = (max(max(Rbuf[y*w + x], Gbuf[y*w + x]), Bbuf[y*w + x]) / 3.0) * terrainHeightScaling;
-		}
-	}
-
-	delete[] Rbuf;
-	delete[] Gbuf;
-	delete[] Bbuf;
+	delete[] buf;
 }
 
 void ModulePhysics3D::SetTerrainHeightScale(float scale)
