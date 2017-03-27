@@ -1,12 +1,18 @@
 #include "Application.h"
-#include "ComponentMaterial.h"
+
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
+#include "ComponentMaterial.h"
+
 #include "imgui\imgui.h"
 #include "Data.h"
+
 #include "ResourceFileTexture.h"
-#include "Assets.h"
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
+
+#include "Assets.h"
 #include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -89,15 +95,18 @@ void ComponentMaterial::OnInspector(bool debug)
 				}
 				ImGui::EndMenu();
 			}
-			if(texture_ids.size() == 0)
+
+			//if (texture_ids.size() == 0)
 				AddTexture();
+				int i = 0;
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
 				ImGui::Text("%s", (*it).first.data());
 				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
-				ChangeTextureNoMaterial((*it).first);
+				ChangeTextureNoMaterial((*it).first,i);
+				i++;
 			}
-			
+
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 			ChooseAlphaType();
 
@@ -114,10 +123,7 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::ColorEdit4("Color: ###materialColor", color);
 				ChooseAlphaType();
 			}
-				
-		}
-		
-		
+		}		
 	}
 }
 
@@ -269,7 +275,7 @@ void ComponentMaterial::Load(Data & conf)
 		Data texture;
 
 		unsigned int tex_size = conf.GetArraySize("textures");
-		for (int i = 0; i < tex_size; i++)
+		for (unsigned int i = 0; i < tex_size; i++)
 		{
 			texture = conf.GetArray("textures", i);
 
@@ -291,6 +297,28 @@ void ComponentMaterial::Load(Data & conf)
 
 	}
 	
+}
+
+bool ComponentMaterial::DefaultMaterialInspector()
+{
+	bool ret = false;
+	ret = AddTexture();
+	int i = 0;
+	bool ret_tmp = false;
+	for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
+	{
+		
+		ImGui::Text("%s", (*it).first.data());
+		ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
+		ret_tmp = ChangeTextureNoMaterial((*it).first,i);
+		if (ret_tmp)
+			ret = true;
+		i++;
+	}
+
+	ImGui::ColorEdit4("Color: ###materialColorDefault", color);
+	ChooseAlphaType();
+	return ret;
 }
 
 void ComponentMaterial::PrintMaterialProperties()
@@ -365,7 +393,7 @@ void ComponentMaterial::ChooseAlphaType()
 
 	if (alpha > 0)
 	{
-		if (ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f));
+		ImGui::DragFloat("##MaterialAlphaTest", &alpha_test, 0.01f, 0.0f, 1.0f);
 	}
 
 	if (alpha == 2)
@@ -391,8 +419,9 @@ void ComponentMaterial::ChooseAlphaType()
 
 }
 
-void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
+bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 {
+	bool ret = false;
 	ImGui::Text("Change Texture: ");
 	ImGui::SameLine();
 	std::string str = ("Textures: ##ChangeTexture" + tex_name);
@@ -411,10 +440,11 @@ void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 				if (rc_tmp)
 				{
 					tex_resources.pop_back();
-					texture_ids.at("") = rc_tmp->GetTexture();
+					texture_ids.at(std::to_string(num)) = rc_tmp->GetTexture();
 					list_textures_paths.pop_back();
 					tex_resources.push_back(rc_tmp);
 					list_textures_paths.push_back(u_sampler2d);
+					ret = true;
 				}
 				else
 				{
@@ -424,6 +454,7 @@ void ComponentMaterial::ChangeTextureNoMaterial(string tex_name)
 		}
 		ImGui::EndMenu();
 	}
+	return ret;
 }
 
 void ComponentMaterial::ChangeTexture(string tex_name, Uniform* &value)
@@ -502,8 +533,9 @@ void ComponentMaterial::RefreshTextures()
 	}
 }
 
-void ComponentMaterial::AddTexture()
+bool ComponentMaterial::AddTexture()
 {
+	bool ret = false;
 	ImGui::Text("Add Texture: ");
 	ImGui::SameLine();
 	std::string str = ("##AddTexture");
@@ -522,8 +554,9 @@ void ComponentMaterial::AddTexture()
 				if (rc_tmp)
 				{
 					tex_resources.push_back(rc_tmp);
-					texture_ids.insert(pair<string, uint>("", rc_tmp->GetTexture()));
+					texture_ids.insert(pair<string, uint>(to_string(texture_ids.size()), rc_tmp->GetTexture()));
 					list_textures_paths.push_back(path);
+					ret = true;
 				}
 				else
 				{
@@ -533,6 +566,7 @@ void ComponentMaterial::AddTexture()
 		}
 		ImGui::EndMenu();
 	}
+	return ret;
 }
 
 void ComponentMaterial::CleanUp()

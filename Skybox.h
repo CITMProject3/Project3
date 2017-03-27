@@ -4,7 +4,7 @@
 #include <string>
 
 class CubeMap;
-class Mesh;
+struct Mesh;
 class ComponentCamera;
 
 #define SKYBOX_MESH_PATH "Resources/Skybox/skybox_sphere.msh"

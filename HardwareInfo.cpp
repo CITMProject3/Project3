@@ -30,17 +30,17 @@ void HardwareInfo::Draw()
 	ImGui::SameLine();
 	string buff = "";
 
-	if (SDL_Has3DNow) buff +="3DNow, ";
-	if (SDL_HasAVX) buff += "AVX, ";
+	if (SDL_Has3DNow()) buff +="3DNow, ";
+	if (SDL_HasAVX()) buff += "AVX, ";
 	/*if (SDL_HasAVX2) buff += "AVX2, ";*/
-	if (SDL_HasAltiVec) buff += "AltiVec, ";
-	if (SDL_HasMMX) buff += "MMX, ";
-	if (SDL_HasRDTSC) buff += "RDTSC, ";
-	if (SDL_HasSSE) buff += "SSE, ";
-	if (SDL_HasSSE2) buff += "SSE2, ";
-	if (SDL_HasSSE3) buff += "SSE3, ";
-	if (SDL_HasSSE41) buff += "SSE41, ";
-	if (SDL_HasSSE41) buff += "SSE42, ";
+	if (SDL_HasAltiVec()) buff += "AltiVec, ";
+	if (SDL_HasMMX()) buff += "MMX, ";
+	if (SDL_HasRDTSC()) buff += "RDTSC, ";
+	if (SDL_HasSSE()) buff += "SSE, ";
+	if (SDL_HasSSE2()) buff += "SSE2, ";
+	if (SDL_HasSSE3()) buff += "SSE3, ";
+	if (SDL_HasSSE41()) buff += "SSE41, ";
+	if (SDL_HasSSE42()) buff += "SSE42, ";
 
 	ImGui::TextColored(TEXT_COLORED, buff.c_str());
 

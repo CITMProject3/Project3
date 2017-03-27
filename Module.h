@@ -11,9 +11,12 @@ struct PhysBody3D;
 
 class Module
 {
+
 private :
+
 	bool enabled;
 	std::string name;
+
 public:
 
 	Module (const char* name, bool start_enabled = true) : name(name)
@@ -52,7 +55,7 @@ public:
 		return true; 
 	}
 
-	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	virtual void OnCollision(PhysBody3D* car, PhysBody3D* body)
 	{}
 
 	virtual void OnPlay()

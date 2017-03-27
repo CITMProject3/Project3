@@ -12,6 +12,7 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleGOManager.h"
 #include "ModuleCamera3D.h"
+#include "ModuleEditor.h"
 
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -65,7 +66,8 @@ void ComponentCamera::PreUpdate()
 
 void ComponentCamera::Update()
 {
-	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
+	if (App->StartInGame() == false)
+		g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
 void ComponentCamera::OnInspector(bool debug)

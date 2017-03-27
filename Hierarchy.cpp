@@ -1,11 +1,12 @@
 #include "Hierarchy.h"
 #include "Application.h"
-#include "Editor.h"
+#include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentCar.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -13,6 +14,8 @@
 #include "ModuleInput.h"
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
+
+#include "SDL/include/SDL_scancode.h"
 
 Hierarchy::Hierarchy()
 {
@@ -183,13 +186,19 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			{
 				App->editor->wheel_assign = *object;
 			}
+			else if (App->editor->assign_item == true)
+			{
+				App->editor->to_assign_item->item = *object;
+				App->editor->assign_item = false;
+				App->editor->to_assign_item = nullptr;
+			}
 			else
 			{
 				OnClickSelect(*object);
 			}
 		}
 
-		if (hasChilds > 0 && open)
+		if (hasChilds && open)
 		{
 			DisplayGameObjectsChilds((*object)->GetChilds());
 			ImGui::TreePop();

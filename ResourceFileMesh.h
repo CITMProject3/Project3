@@ -14,12 +14,14 @@ public:
 
 	Mesh* GetMesh() const;
 
+	void ReLoadInMemory();
+	Mesh* mesh = nullptr;
 private:
 	void LoadInMemory();
 	void UnloadInMemory();
 
 private:
-	Mesh* mesh = nullptr;
+	
 };
 
 #endif // !__RESOURCEFILEMESH_H__

@@ -51,6 +51,9 @@ public:
 	Component* AddComponent(ComponentType type);
 	const std::vector<Component*>* GetComponents();
 	Component *GetComponent(ComponentType type) const;
+	Component* GetComponentInChilds(ComponentType type) const;
+	void GetComponentsInChilds(ComponentType type, std::vector<Component*>& vector) const;
+
 	void RemoveComponent(Component* component);
 
 	float4x4 GetGlobalMatrix()const;

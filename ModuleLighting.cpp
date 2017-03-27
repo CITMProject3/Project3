@@ -1,7 +1,9 @@
-#include "Application.h"
 #include "ModuleLighting.h"
-#include "ComponentLight.h"
+
+#include "Application.h"
 #include "ModuleGOManager.h"
+
+#include "ComponentLight.h"
 
 ModuleLighting::ModuleLighting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -29,7 +31,7 @@ update_status ModuleLighting::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-const LightInfo & ModuleLighting::GetLightInfo() const
+const LightInfo &ModuleLighting::GetLightInfo() const
 {
 	return light_info;
 }

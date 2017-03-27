@@ -2,11 +2,11 @@
 #define __MODULEPHYSICS_H__
 
 #include "Module.h"
-#include "Globals.h"
-#include <list>
+
 #include "Primitive.h"
 
-class ResourceFileTexture;
+#include <list>
+#include <string>
 
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
@@ -14,12 +14,16 @@ class ResourceFileTexture;
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
-
-class DebugDrawer;
 struct PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
+
+class DebugDrawer;
 class ComponentMesh;
+class ResourceFileTexture;
+class ComponentCollider;
+class ComponentCar;
+
 class btHeightfieldTerrainShape;
 
 class ModulePhysics3D : public Module
@@ -35,23 +39,25 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void OnCollision(PhysBody3D* car, PhysBody3D* body);
+
 	void OnPlay();
 	void OnStop();
 
 	void CleanWorld();
 	void CreateGround();
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cube_P& cube, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, float mass = 1.0f, bool isSensor = false);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, float mass = 1.0f, bool isSensor = false, btConvexHullShape** OUT_shape = nullptr);
-	PhysVehicle3D* AddVehicle(const VehicleInfo& info);
+	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0, btConvexHullShape** OUT_shape = nullptr);
+	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
-	bool GenerateHeightmap(string resLibPath);
+	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainHeightScale(float scale);
 
-	void LoadTexture(string resLibPath);
+	void LoadTexture(std::string resLibPath);
 	void DeleteTexture();
 
 	bool TerrainIsGenerated();
@@ -64,9 +70,10 @@ public:
 	int GetTexture();
 	uint GetTextureUUID();
 	const char* GetTexturePath();
+	void RenderTerrain();
 private:
 	void AddTerrain();
-	void RenderTerrain();
+	
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
@@ -87,11 +94,11 @@ private:
 	btDefaultVehicleRaycaster*			vehicle_raycaster;
 	DebugDrawer*						debug_draw = nullptr;
 
-	list<btCollisionShape*> shapes;
-	list<PhysBody3D*> bodies;
-	list<btDefaultMotionState*> motions;
-	list<btTypedConstraint*> constraints;
-	list<PhysVehicle3D*> vehicles;
+	std::list<btCollisionShape*> shapes;
+	std::list<PhysBody3D*> bodies;
+	std::list<btDefaultMotionState*> motions;
+	std::list<btTypedConstraint*> constraints;
+	std::list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
 	float* terrainData = nullptr;
@@ -115,6 +122,7 @@ public:
 class DebugDrawer : public btIDebugDraw
 {
 public:
+
 	DebugDrawer() : line(0,0,0)
 	{}
 

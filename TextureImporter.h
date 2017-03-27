@@ -11,6 +11,7 @@ namespace TextureImporter
 	bool Load(ResourceFileTexture * res);
 	//Doesn't use ResourceManager
 	int LoadSimpleFile(const char* name); 
+	void Unload(unsigned int id);
 }
 
 

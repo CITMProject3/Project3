@@ -8,7 +8,7 @@
 #include <map>
 
 class GameObject;
-class Channel;
+struct Channel;
 class ComponentMesh;
 class ComponentBone;
 
@@ -29,6 +29,7 @@ struct Animation
 	uint index;
 
 	bool Advance(float dt);
+	void SetFrameRatio(float ratio);
 	float GetDuration();
 };
 
@@ -59,8 +60,10 @@ public:
 	void AddAnimation(const char* name, uint init, uint end, float ticksPerSec);
 	void RemoveAnimation(uint index);
 
-	void PlayAnimation(uint index, float blendTime = 0.0f);
-	void PlayAnimation(const char* name, float blendTime = 0.0f);
+	void PlayAnimation(uint index, float blendTime = 0.0f, bool keepBlend = false);
+	void PlayAnimation(const char* name, float blendTime = 0.0f, bool keepBlend = false);
+
+	void LockAnimationRatio(float ratio);
 	//-------------------------------------------
 
 	void LinkAnimation();
@@ -89,9 +92,10 @@ public:
 	//Animation out of blend
 	Animation* blend_animation = nullptr;
 
-	bool playing = true;
-
+	bool playing = false;
 	bool linked = false;
+
+
 
 private:
 	ResourceFileAnimation* rAnimation;

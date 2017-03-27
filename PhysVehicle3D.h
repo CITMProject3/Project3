@@ -1,11 +1,14 @@
 #pragma once
 
+#include "Globals.h"
 #include "PhysBody3D.h"
 #include "MathGeoLib\include\MathGeoLib.h"
 #include "Primitive.h"
 
 class btRaycastVehicle;
+class btVector;
 struct PhysBody3D;
+class ComponentCar;
 
 using namespace math;
 
@@ -48,14 +51,15 @@ struct VehicleInfo
 struct PhysVehicle3D : public PhysBody3D
 {
 public:
-	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info);
+	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info, ComponentCar* car);
 	~PhysVehicle3D();
 
 	void Render();
 	void ApplyEngineForce(float force);
 	void Brake(float force);
 	void Turn(float degrees);
-	void SetModularVelocity(double v);
+	void SetModularVelocity(float v);
+	void SetVelocity(float x, float y, float z, float v);
 	float GetKmh() const;
 	vec GetPos()const;
 public:

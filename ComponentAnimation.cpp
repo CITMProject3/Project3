@@ -10,20 +10,27 @@
 #include "ComponentBone.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
+#include "AutoProfile.h"
+#include "ModuleFileSystem.h"
+
+#include "Time.h"
 
 bool Animation::Advance(float dt)
 {
 	time += dt;
 
-	if (time > GetDuration())
+	if (time >= GetDuration())
 	{
 		if (loopable == false)
 		{
-			time = 0.0f;
+			//So we keep last frame
+			time = GetDuration();
 			return false;
 		}
 		else
+		{
 			time = time - GetDuration();
+		}
 	}
 	return true;
 }
@@ -31,6 +38,12 @@ bool Animation::Advance(float dt)
 float Animation::GetDuration()
 {
 	return ((float)end_frame - (float)start_frame) / ticks_per_second;
+}
+
+void Animation::SetFrameRatio(float ratio)
+{
+	if (ratio >= 0 && ratio <= 1)
+		time = GetDuration() * ratio;
 }
 
 ComponentAnimation::ComponentAnimation(GameObject* game_object) : Component(C_ANIMATION, game_object)
@@ -52,6 +65,11 @@ void ComponentAnimation::OnInspector(bool debug)
 		{
 			PlayAnimation(current_animation->index);
 		}
+
+		ImGui::Text("Lock animation frame");
+		static float ratio;
+		if (ImGui::SliderFloat("##frameSlider", &ratio, 0.0f, 1.0f))
+			LockAnimationRatio(ratio);
 
 		ImGui::Text("Animations size: %i", animations.size());
 		ImGui::Separator();
@@ -202,7 +220,7 @@ void ComponentAnimation::AddAnimation()
 	if (defCount > 0)
 		new_name.append(std::to_string(defCount));
 
-	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, 24);
+	AddAnimation(new_name.c_str(), 0, rAnimation->full_duration, rAnimation->ticks_per_second);
 }
 
 void ComponentAnimation::AddAnimation(const char* name, uint init, uint end, float ticksPerSec)
@@ -230,7 +248,7 @@ void ComponentAnimation::RemoveAnimation(uint index)
 	animations.erase(animations.begin() + index);
 }
 
-void ComponentAnimation::PlayAnimation(uint index, float blend_time)
+void ComponentAnimation::PlayAnimation(uint index, float blend_time, bool keepBlend)
 {
 	if (index < animations.size())
 	{
@@ -238,17 +256,23 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 		{
 			if (blend_time > 0 && playing == true)
 			{
-				blend_animation = current_animation;
+				if (keepBlend == false)
+				{
+					blend_animation = current_animation;
+					this->blend_time = 0.0f;
+				}
+
 				blend_time_duration = blend_time;
-				this->blend_time = 0.0f;
+
 			}
 		}
 		current_animation = &animations[index];
+		current_animation->time = 0;
 		playing = true;
 	}
 }
 
-void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
+void ComponentAnimation::PlayAnimation(const char* name, float blendTime, bool keepBlend)
 {
 	if (current_animation->name != name)
 	{
@@ -260,6 +284,19 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
 				return;
 			}
 		}
+	}
+}
+
+void ComponentAnimation::LockAnimationRatio(float ratio)
+{
+	PROFILE("Animation Lock ratio");
+	if (current_animation != nullptr)
+	{
+		current_animation->SetFrameRatio(ratio);
+		blend_animation = nullptr;
+		UpdateBonesTransform(current_animation, blend_animation, 0.0f);
+		UpdateMeshAnimation(game_object);
+		playing = false;
 	}
 }
 
@@ -290,6 +327,7 @@ void ComponentAnimation::LinkBones()
 	for (uint i = 0; i < bones.size(); i++)
 	{
 		std::string string = bones[i]->GetResource()->mesh_path;
+		string = App->file_system->GetNameFromPath(string); //Just for old loaded bones
 		std::map<std::string, ComponentMesh*>::iterator it = meshes.find(string);
 		if (it != meshes.end())
 		{
@@ -333,6 +371,7 @@ bool ComponentAnimation::StartAnimation()
 
 void ComponentAnimation::Update()
 {
+	
 	if (App->IsGameRunning())
 	{
 		if (playing == true)
@@ -362,7 +401,7 @@ void ComponentAnimation::Update()
 			{
 				playing = false;
 			}
-
+			PROFILE("Animation Update");
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 		}
 	}
@@ -478,7 +517,8 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		meshes[mesh->GetResource()->GetFile()] = mesh;
+		if (mesh->GetResource() != nullptr)
+			meshes[App->file_system->GetNameFromPath(mesh->GetResource()->GetFile())] = mesh;
 	}
 	ComponentBone* bone = (ComponentBone*)gameObject->GetComponent(C_BONE);
 	if (bone != nullptr)
@@ -495,7 +535,7 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 {
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
-	if (mesh != nullptr)
+	if (mesh != nullptr && mesh->HasBones() == true)
 	{
 		mesh->DeformAnimMesh();
 	}

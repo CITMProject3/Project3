@@ -32,7 +32,7 @@ bool TextureImporter::Import(const char* file, const char * path)
 				data = new ILubyte[il_size];
 				if (ilSaveL(IL_DDS, data, il_size) > 0)
 				{
-					ret = App->file_system->Save(file, data, il_size);
+					ret = App->file_system->Save(file, data, il_size) != 0 ? true : false;
 				}
 				delete[] data;
 				ilDeleteImages(1, &id);
@@ -58,7 +58,7 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 		ilGenImages(1, &id);
 		ilBindImage(id);
 		if (ilLoadL(IL_DDS, (const void*)buffer, size))
-		{
+		{		
 			ILinfo info;
 			iluGetImageInfo(&info);
 			
@@ -104,4 +104,9 @@ int TextureImporter::LoadSimpleFile(const char * name)
 	delete[] buffer;
 
 	return ret;
+}
+
+void TextureImporter::Unload(unsigned int id)
+{
+	ilDeleteImages(1, &id);
 }

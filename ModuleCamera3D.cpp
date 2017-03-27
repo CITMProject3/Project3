@@ -1,19 +1,22 @@
-#include "Globals.h"
-#include "Application.h"
 #include "ModuleCamera3D.h"
-#include "ComponentCamera.h"
-#include "ComponentTransform.h"
-#include "ModuleAudio.h"
-#include "GameObject.h"
+
+#include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleAudio.h"
+
+#include "ComponentCamera.h"
+
+#include "Time.h"
+
+#include "SDL/include/SDL_scancode.h"
+#include "SDL/include/SDL_mouse.h"
 
 ModuleCamera3D::ModuleCamera3D(const char* name, bool start_enabled) : Module(name, start_enabled)
-{
-}
+{ }
 
 ModuleCamera3D::~ModuleCamera3D()
-{}
+{ }
 
 bool ModuleCamera3D::Init(Data & config)
 {
@@ -53,12 +56,14 @@ void ModuleCamera3D::OnPlay()
 	if (playCamera != nullptr)
 	{
 		App->renderer3D->SetCamera(playCamera);
+		App->audio->SetListener(playCamera);
 	}
 }
 
 void ModuleCamera3D::OnStop()
 {
 	App->renderer3D->SetCamera(GetEditorCamera());
+	App->audio->SetListener(GetEditorCamera());
 }
 
 update_status ModuleCamera3D::Update()

@@ -5,7 +5,7 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 class btConvexHullShape;
-class PhysBody3D;
+struct PhysBody3D;
 class Primitive;
 
 enum Collider_Shapes
@@ -49,5 +49,8 @@ public:
 	PhysBody3D* body;
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
+
+	unsigned char collision_flags = 0;
+	int n = 0;
 };
 #endif // !__COMPONENT_COLLIDER_H__
