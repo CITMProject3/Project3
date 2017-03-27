@@ -8,6 +8,7 @@ ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(
 	scripts_lib = NULL;
 	resource_created = false;
 	scripts_loaded = false;
+	setting_go_var = false;
 }
 
 ModuleScripting::~ModuleScripting()
@@ -77,7 +78,7 @@ vector<const char*> ModuleScripting::GetScriptNamesList()const
 	return scripts_lib->script_names;
 }
 
-void ModuleScripting::GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools)
+void ModuleScripting::GetPublics(const char* script_name, map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_floats, map<const char*, bool>* public_bools, map<const char*, GameObject>* public_gos)
 {
-	scripts_lib->GetPublicVars(script_name, public_chars, public_ints, public_floats, public_bools);
+	scripts_lib->GetPublicVars(script_name, public_chars, public_ints, public_floats, public_bools, public_gos);
 }

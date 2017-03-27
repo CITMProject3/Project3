@@ -2,6 +2,8 @@
 #include "Application.h"
 #include "ModuleScripting.h"
 #include "Color.h"
+#include "GameObject.h"
+#include "ModuleGOManager.h"
 
 #include "imgui\imgui.h"
 
@@ -189,6 +191,19 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::Checkbox((*it).first, &(*it).second);
 			}
 		}
+		if (!public_gos.empty())
+		{
+			for (map<const char*, GameObject>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+			{
+				if (ImGui::Button((*it).first, ImVec2(80, 20)))
+				{
+					if (ImGui::MenuItem("Set GameObject"))
+					{
+						App->scripting->setting_go_var = true;
+					}
+				}
+			}
+		}
 	}
 }
 
@@ -227,6 +242,13 @@ void ComponentScript::Save(Data & file) const
 		for (map<const char*, bool>::const_iterator it = public_bools.begin(); it != public_bools.end(); it++)
 		{
 			data.AppendBool((*it).first, (*it).second);
+		}
+	}
+	if (!public_gos.empty())
+	{
+		for (map<const char*, GameObject>::const_iterator it = public_gos.begin(); it != public_gos.end(); it++)
+		{
+			data.AppendUInt((*it).first, (*it).second.GetUUID());
 		}
 	}
 
@@ -268,6 +290,13 @@ void ComponentScript::Load(Data & conf)
 				(*it).second = conf.GetBool((*it).first);
 			}
 		}
+		if (!public_gos.empty())
+		{
+			for (map<const char*, GameObject>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+			{
+				(*it).second = App->go_manager->FindGameObjectByUUID(App->go_manager->root, conf.GetUInt((*it).first));
+			}
+		}
 
 	started = false;
 }
@@ -277,7 +306,7 @@ void ComponentScript::SetPath(const char * path)
 	this->path = path;
 	started = false;
 
-	if(!public_chars.empty())
+	if (!public_chars.empty())
 		public_chars.clear();
 	if (!public_ints.empty())
 		public_ints.clear();
@@ -285,9 +314,11 @@ void ComponentScript::SetPath(const char * path)
 		public_floats.clear();
 	if (!public_bools.empty())
 		public_bools.clear();
+	if (!public_gos.empty())
+		public_gos.clear();
 
 	if (App->scripting->scripts_loaded)
 	{
-		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools);
+		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools, &public_gos);
 	}
 }

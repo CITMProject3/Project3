@@ -35,8 +35,9 @@ extern "C"
 		string test_title;
 		int test_int;
 		int test_int2;
+		GameObject test_go;
 
-		void Test_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools)
+		void Test_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject>* public_gos)
 		{
 			test_title = "Hello World from Script";
 			test_int = 3;
@@ -44,6 +45,8 @@ extern "C"
 
 
 			public_chars->insert(pair<const char*, string>("Title", test_title));
+
+			public_gos->insert(pair<const char*, GameObject>("Test_go", test_go));
 		}
 
 		void Test_UpdatePublics(GameObject* game_object)
@@ -51,6 +54,7 @@ extern "C"
 			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 			test_title = script->public_chars.at("Title");
+			test_go = script->public_gos.at("Test_go");
 		}
 
 		void Test_Start(GameObject* game_object)

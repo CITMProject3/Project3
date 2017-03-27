@@ -46,5 +46,6 @@ public:
 	map<const char*, int> public_ints;
 	map<const char*, float> public_floats;
 	map<const char*, bool> public_bools;
+	map<const char*, GameObject> public_gos;
 };
 #endif // !__COMPONENT_SCRIPT_H__
