@@ -566,7 +566,7 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 			component_data.AppendInt("type", (*component)->GetType());
 			component_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
 			component_data.AppendBool("active", true);
-			//MERGE TODO: add C_CAR
+
 			switch ((*component)->GetType())
 			{
 				case (C_MESH):

@@ -16,7 +16,9 @@
 #include "Glew\include\glew.h"
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
-{}
+{
+
+}
 
 ComponentMaterial::~ComponentMaterial()
 {
@@ -96,15 +98,38 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::EndMenu();
 			}
 
-			//if (texture_ids.size() == 0)
-				AddTexture();
-				int i = 0;
+			AddTexture();
+			int i = 0;
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
-				ImGui::Text("%s", (*it).first.data());
+				if (i != 0)
+					ImGui::Separator();
+
+				std::string text_string = "";
+				if ((*it).first == "0")
+					text_string += "Diffuse: ";
+				if ((*it).first == "1")
+					text_string += "Normal: ";
+				text_string += (*it).first.data();
+
+				ImGui::Text("%s", text_string.c_str());
 				ImGui::Image((ImTextureID)(*it).second, ImVec2(50, 50));
+				if (ImGui::IsItemClicked(1))
+				{
+					delete_texture_name = (*it).first;
+					ImGui::OpenPopup("DeleteTexNoMaterial");
+				}
 				ChangeTextureNoMaterial((*it).first,i);
 				i++;
+			}
+			if (ImGui::BeginPopup("DeleteTexNoMaterial"))
+			{
+				if (ImGui::Button("Delete"))
+				{
+					RemoveTexture(delete_texture_name.c_str());
+					ImGui::CloseCurrentPopup();
+				}
+				ImGui::EndPopup();
 			}
 
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
@@ -439,9 +464,34 @@ bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(u_sampler2d, ResourceFileType::RES_TEXTURE);
 				if (rc_tmp)
 				{
-					tex_resources.pop_back();
+					//Erasing texture from tex_resources vector
+					std::map<string, uint>::iterator it = texture_ids.find(tex_name.c_str());
+					if (it != texture_ids.end())
+					{
+						uint id = (*it).second;
+						for (std::vector<ResourceFile*>::iterator it2 = tex_resources.begin(); it2 != tex_resources.end(); it2++)
+						{
+							ResourceFileTexture* tex = (ResourceFileTexture*)(*it2);
+							if (tex->GetTexture() == id)
+							{
+								//Erasing texture from list_textures_paths
+								for (std::vector<std::string>::iterator it3 = list_textures_paths.begin(); it3 != list_textures_paths.end(); it3++)
+								{
+									if ((*it3) == (*it2)->GetFile())
+									{
+										list_textures_paths.erase(it3);
+										break;
+									}
+								}
+
+								(*it2)->Unload();
+								tex_resources.erase(it2);
+								break;
+							}
+						}
+					}
+
 					texture_ids.at(std::to_string(num)) = rc_tmp->GetTexture();
-					list_textures_paths.pop_back();
 					tex_resources.push_back(rc_tmp);
 					list_textures_paths.push_back(u_sampler2d);
 					ret = true;
@@ -567,6 +617,46 @@ bool ComponentMaterial::AddTexture()
 		ImGui::EndMenu();
 	}
 	return ret;
+}
+
+void ComponentMaterial::RemoveTexture(std::string name)
+{
+	std::map<string, uint>::iterator it = texture_ids.find(name);
+	if (it != texture_ids.end())
+	{
+		//Erasing texture from tex_resources vector
+		uint id = (*it).second;
+		for (std::vector<ResourceFile*>::iterator it2 = tex_resources.begin(); it2 != tex_resources.end(); it2++)
+		{
+			ResourceFileTexture* tex = (ResourceFileTexture*)(*it2);
+			if (tex->GetTexture() == id)
+			{
+				//Erasing texture from list_textures_paths
+				for (std::vector<std::string>::iterator it3 = list_textures_paths.begin(); it3 != list_textures_paths.end(); it3++)
+				{
+					if ((*it3) == (*it2)->GetFile())
+					{
+						list_textures_paths.erase(it3);
+						break;
+					}
+				}
+
+				(*it2)->Unload();
+				tex_resources.erase(it2);
+				break;
+			}
+		}
+
+		//Removing texture on shader
+		if (name == "0" || name == "1")
+		{
+			(*it).second = 0;
+		}
+		else
+		{
+			texture_ids.erase(it);
+		}
+	}
 }
 
 void ComponentMaterial::CleanUp()
