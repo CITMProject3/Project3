@@ -7,7 +7,7 @@ EXPORTS
 	Test_Start
 	Test_Update
 	Test_UpdatePublics
-	Test_Collision
+	Test_OnCollision
 
 	Test2_Start
 	Test2_Update

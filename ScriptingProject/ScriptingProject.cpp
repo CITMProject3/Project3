@@ -15,6 +15,8 @@
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
 #include "../SDL/include/SDL_scancode.h"
+#include "../PhysBody3D.h"
+#include "../ComponentCollider.h"
 
 extern "C"
 {
@@ -80,6 +82,9 @@ extern "C"
 		}
 		void Test_OnCollision(PhysBody3D* col)
 		{
+			float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
+			tmp_pos.x -= 2;
+			col->GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
 		}
 	}
 
