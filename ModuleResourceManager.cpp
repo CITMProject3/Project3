@@ -24,6 +24,7 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
 #include "ResourceFilePrefab.h"
+#include "ResourceScriptsLibrary.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -214,7 +215,7 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	{
 		//Check file modification
 		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
-		if (time_mod > lib_mod_time)
+		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
 		}
@@ -277,6 +278,9 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 			break;
 		}			
 		case RENDER_TEXTURE:
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+			break;
+		case SCRIPTS_LIBRARY:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
 	}
@@ -468,6 +472,10 @@ ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceF
 		case RES_PREFAB:
 			rc_file = new ResourceFilePrefab(type, path, uuid); 
 			rc_file->Load(); //This load doesn't actually do his job. Needs to call another load method after this.
+			break;
+		case RES_SCRIPTS_LIBRARY:
+			rc_file = new ResourceScriptsLibrary(type, path, uuid);
+			rc_file->Load();
 			break;
 		}
 
@@ -892,6 +900,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
 	char* soundbank_extension = "bnk";
+	char* script_library_extension = "dll";
 	char* prefab_extension = "pfb";
 
 	string name = path;
@@ -919,6 +928,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(soundbank_extension) == 0)
 		return FileType::SOUNDBANK;
+
+	if (extension.compare(script_library_extension) == 0)
+		return FileType::SCRIPTS_LIBRARY;
 
 	if (extension.compare(prefab_extension) == 0)
 		return FileType::PREFAB;
@@ -1154,6 +1166,8 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 	case SOUNDBANK:
 		SoundbankDropped(path, base_dir, base_library_dir, uuid);
 		break;
+	case SCRIPTS_LIBRARY:
+		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
 	case SCENE:
 		SceneDropped(path, base_dir, base_library_dir, uuid);
 		break;
@@ -1289,6 +1303,25 @@ void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir,
 	string json_file_path = file_assets_path.substr(0, file_assets_path.find_last_of('.')) + ".json";
 	lib_json_path += std::to_string(uuid) + ".json";
 	App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data());
+}
+
+void ModuleResourceManager::ScriptLibraryDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string script_library_path = base_library_dir;
+	script_library_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(script_library_path.data());
+
+	// ScriptLibrary metainfo	
+	script_library_path += std::to_string(uuid) + ".dll";
+	GenerateMetaFile(file_assets_path.data(), FileType::SCRIPTS_LIBRARY, uuid, script_library_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), script_library_path.data());
 }
 
 void ModuleResourceManager::SceneDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const

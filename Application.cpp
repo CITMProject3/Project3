@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "Module.h"
+#include "ModuleScripting.h"
 #include "ModuleAudio.h"
 #include "ModuleCamera3D.h"
 #include "ModuleFileSystem.h"
@@ -42,6 +43,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D("renderer");
 	camera = new ModuleCamera3D("camera");
 	physics = new ModulePhysics3D("physics");
+	scripting = new ModuleScripting("scripting");
 	editor = new ModuleEditor("editor");
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
@@ -59,6 +61,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(input);
 	AddModule(g_Debug);
+	AddModule(scripting);
 	AddModule(go_manager);
 	AddModule(camera);
 	AddModule(audio);

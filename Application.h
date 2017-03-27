@@ -19,6 +19,7 @@ class ModuleResourceManager;
 class ModuleEditor;
 class ModuleWindow;
 class ModuleAudio;
+class ModuleScripting;
 
 class Random;
 class EventQueue;
@@ -78,6 +79,7 @@ public:
 	ModuleGOManager* go_manager;
 	ModuleResourceManager* resource_manager;
 	ModuleLighting* lighting;
+	ModuleScripting* scripting;
 	ModuleEditor* editor;
 
 	Random* rnd = nullptr;

@@ -1,0 +1,12 @@
+LIBRARY SCRIPTINGPROJECT
+
+EXPORTS
+	GetScriptNames					
+	
+	Test_GetPublics					
+	Test_Start						
+	Test_Update						
+	Test_UpdatePublics				
+
+	Test2_Start						
+	Test2_Update					
