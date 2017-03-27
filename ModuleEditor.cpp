@@ -254,10 +254,11 @@ update_status ModuleEditor::Update()
 	update_status ret = UPDATE_CONTINUE;
 
 	
-	DisplayGizmo();
+	
 
 	if (App->StartInGame() == false)
 	{
+		DisplayGizmo();
 		GameOptions(); //Play/Stop/Next Frame buttons
 		ret = EditorWindows(); //Update the windows of the editor
 	}

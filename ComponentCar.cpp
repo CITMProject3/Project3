@@ -192,7 +192,7 @@ void ComponentCar::OnInspector(bool debug)
 				{
 					ImGui::Text("Time to reset");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##rt_time", &turn_over_reset_time, 0.1f, 0.0f)) {}
+					if (ImGui::DragFloat("##rt_time", &turn_over_reset_time, 0.1f, 0.5f, 10.0f)) {}
 
 					ImGui::TreePop();
 				}
@@ -1974,6 +1974,10 @@ void ComponentCar::Load(Data& conf)
 	//Gameplay settings-----------------
 	//Turn over
 	turn_over_reset_time = conf.GetFloat("turn_over_reset_time");
+	if(turn_over_reset_time < 0.2f)
+	{
+		turn_over_reset_time = 4.0f;
+	}
 
 	//Acceleration
 	accel_force = conf.GetFloat("acceleration"); 
