@@ -41,6 +41,9 @@ private:
 
 	DWORD error;
 
+	map<const char*, unsigned int> tmp_public_gos_uuint;
+	bool public_gos_to_set;
+
 public:
 	map<const char*, string> public_chars;
 	map<const char*, int> public_ints;

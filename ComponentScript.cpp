@@ -15,6 +15,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object, co
 	finded_update = false;
 	script_num = 0;
 	filter = "";
+	public_gos_to_set = false;
 }
 
 ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -24,6 +25,7 @@ ComponentScript::ComponentScript(ComponentType type, GameObject* game_object) : 
 	finded_update = false;
 	script_num = 0;
 	filter = "";
+	public_gos_to_set = false;
 }
 
 ComponentScript::~ComponentScript()
@@ -32,9 +34,22 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Update()
 {
+	if (public_gos_to_set)
+	{
+		if (!public_gos.empty())
+		{
+			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+			{
+				(*it).second = App->go_manager->FindGameObjectByUUID(App->go_manager->root, tmp_public_gos_uuint.find((*it).first)->second);
+			}
+			public_gos_to_set = false;
+			tmp_public_gos_uuint.clear();
+		}
+	}
+
 	//Component must be active to update
 	if (!IsActive())
-		return;
+		return;	
 
 	if (App->scripting->scripts_loaded)
 	{
@@ -211,16 +226,8 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				if (ImGui::Button("Set GO", ImVec2(80, 20)))
 				{
-					ImGui::OpenPopup("Set GameObject options");
-				}
-				if (ImGui::BeginPopup("Set GameObject options"))
-				{
-					if (ImGui::MenuItem("Set GameObject"))
-					{
-						App->scripting->setting_go_var = true;
-						App->scripting->setting_go_var_name = (*it).first;
-					}
-					ImGui::EndPopup();
+					App->scripting->setting_go_var = true;
+					App->scripting->setting_go_var_name = (*it).first;
 				}
 			}
 		}
@@ -315,7 +322,8 @@ void ComponentScript::Load(Data & conf)
 		{
 			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
 			{
-				(*it).second = App->go_manager->FindGameObjectByUUID(App->go_manager->root, conf.GetUInt((*it).first));
+				tmp_public_gos_uuint.insert(pair<const char*, unsigned int>((*it).first, conf.GetUInt((*it).first)));
+				public_gos_to_set = true;
 			}
 		}
 
