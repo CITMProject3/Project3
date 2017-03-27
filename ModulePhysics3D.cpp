@@ -123,7 +123,11 @@ update_status ModulePhysics3D::PreUpdate()
 					}
 
 					//Scripting
-					ComponentScript* tmp = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+					ComponentScript* tmp = nullptr;
+					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
+						tmp = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+					else
+						tmp = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 					if (tmp != nullptr)
 					{
 						tmp->OnCollision(pbodyB);
