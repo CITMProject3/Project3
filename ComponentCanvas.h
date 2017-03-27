@@ -6,6 +6,7 @@ class GameObject;
 class RaceTimer;
 class ComponentCar;
 class ComponentUiText;
+class ComponentUiButton;
 
 class ComponentCanvas : public Component
 {
@@ -47,6 +48,8 @@ private:
 	ComponentUiText* lap1 = nullptr;
 	ComponentUiText* lap2 = nullptr;
 	ComponentUiText* lap3 = nullptr;
+	ComponentUiButton* button1 = nullptr;
+	ComponentUiButton* button2 = nullptr;
 };
 
 #endif __COMPONENTCANVAS_H__

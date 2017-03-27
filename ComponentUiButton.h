@@ -22,7 +22,7 @@ public:
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
-
+	void Reset();
 public:
 	ComponentMaterial* UImaterial = nullptr;
 private:
