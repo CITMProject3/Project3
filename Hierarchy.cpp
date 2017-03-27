@@ -15,6 +15,8 @@
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
 
+#include "ModuleScripting.h"
+
 #include "SDL/include/SDL_scancode.h"
 
 Hierarchy::Hierarchy()
@@ -52,6 +54,13 @@ void Hierarchy::Draw()
 					child_to_set = App->editor->selected.back();
 					set_parent_now = true;
 					App->editor->UnselectAll();
+				}
+			}
+			if (App->scripting->setting_go_var == true)
+			{
+				if (App->editor->selected.size() > 0)
+				{
+					App->scripting->set_go_var_now = App->editor->selected.back();
 				}
 			}
 		}
@@ -181,6 +190,17 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 					break;
 				}
 				setting_parent = false;
+			}
+			else if (App->scripting->setting_go_var == true)
+			{
+				if (App->editor->selected.size() > 0)
+				{
+					App->scripting->set_go_var_now = *object;
+					App->scripting->setting_go_var = false;
+					App->editor->UnselectAll();
+					break;
+				}
+				App->scripting->setting_go_var = false;
 			}
 			else if (App->editor->assign_wheel != -1)
 			{

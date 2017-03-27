@@ -15,7 +15,7 @@ float Random::RandomFloat()
 	return seed * (1.0f / 4294967295.0f);
 }
 
-int Random::RandomInt()
+unsigned int Random::RandomInt()
 {
 	seed ^= (seed << 5);
 	seed ^= (seed >> 13);
@@ -23,7 +23,7 @@ int Random::RandomInt()
 	return seed;
 }
 
-int Random::RandomInt(int min, int max)
+unsigned int Random::RandomInt(int min, int max)
 {
 	seed ^= (seed << 5);
 	seed ^= (seed >> 13);

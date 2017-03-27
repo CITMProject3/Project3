@@ -18,6 +18,7 @@
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
+#include "ComponentScript.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
 #include "ComponentBone.h"
@@ -388,6 +389,9 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_AUDIO:
 		if (transform)
 			item = new ComponentAudio(type, this);
+		break;
+	case C_SCRIPT:
+		item = new ComponentScript(type, this);
 		break;
 	case C_RECT_TRANSFORM:
 		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject

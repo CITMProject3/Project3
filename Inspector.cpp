@@ -147,6 +147,11 @@ void Inspector::Draw()
 				selected_GO->AddComponent(C_AUDIO);
 			}
 
+			if (ImGui::Selectable("Add Script"))
+			{
+				selected_GO->AddComponent(C_SCRIPT);
+			}
+
 			if (ImGui::Selectable("Add Canvas"))
 			{
 				selected_GO->AddComponent(C_CANVAS);
