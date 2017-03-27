@@ -357,6 +357,9 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	bool is_prefab = true;
 	unsigned int prefab_root_uuid = origin->prefab_root_uuid;
 
+	if (App->go_manager->current_scene_canvas == (ComponentCanvas*)origin->GetComponent(C_CANVAS))
+		App->go_manager->current_scene_canvas = nullptr;
+
 	GameObject* game_object = new GameObject(name, uuid, parent, active, false, true, 0, prefab_root_uuid, file_path);
 
 	game_object->rc_prefab = this;

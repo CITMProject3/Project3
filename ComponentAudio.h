@@ -26,6 +26,9 @@ public:
 	void OnPlay();
 	void OnStop();
 
+	const AudioEvent *GetEvent() const;
+	long unsigned GetWiseID() const;
+
 private:
 
 	ResourceFileAudio *rc_audio = nullptr;
