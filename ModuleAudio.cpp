@@ -117,12 +117,12 @@ void ModuleAudio::UpdateListenerPos()
 	math::float3 pos = listener->GetPos();	    // Position of the listener
 
 	AkListenerPosition ak_pos;
-	ak_pos.Set(pos.x, pos.y, pos.z, front.x, front.y, front.z, up.x, up.y, up.z);
+	ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
 
 	AK::SoundEngine::SetListenerPosition(ak_pos);
 }
 
-long unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
+unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 {
 	char *buf;
 	AkUInt32 ret = 0;
@@ -200,22 +200,22 @@ void ModuleAudio::UnloadSoundBank(const char *soundbank_path)
 	assert(eResult == AK_Success);
 }
 
-void ModuleAudio::PostEvent(const AudioEvent *ev, long unsigned int id)
+void ModuleAudio::PostEvent(const AudioEvent *ev, unsigned int id)
 {
 	if(ev) AK::SoundEngine::PostEvent(ev->name.c_str(), id);
 }
 
-void ModuleAudio::StopEvent(const AudioEvent *ev, long unsigned int id)
+void ModuleAudio::StopEvent(const AudioEvent *ev, unsigned int id)
 {
 	if (ev) AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
 }
 
-void ModuleAudio::RegisterGameObject(long unsigned int id)
+void ModuleAudio::RegisterGameObject(unsigned int id)
 {
 	AK::SoundEngine::RegisterGameObj(id);
 }
 
-void ModuleAudio::UnregisterGameObject(long unsigned int id)
+void ModuleAudio::UnregisterGameObject(unsigned int id)
 {
 	AK::SoundEngine::UnregisterGameObj(id);
 }
@@ -242,7 +242,7 @@ bool ModuleAudio::IsInitSoundbankLoaded() const
 	return init_sb_loaded;
 }
 
-AudioEvent *ModuleAudio::FindEventById(long unsigned event_id)
+AudioEvent *ModuleAudio::FindEventById(unsigned event_id)
 {
 	// Deleting soundbank information
 	for (std::vector<SoundBank*>::const_iterator it_sb = soundbank_list.begin(); it_sb != soundbank_list.end(); ++it_sb)

@@ -73,7 +73,7 @@ bool ModuleResourceManager::Start()
 
 update_status ModuleResourceManager::Update()
 {
-	if (App->StartInGame() == false)
+	if (App->StartInGame() == false && App->IsGameRunning() == false)
 	{
 		modification_timer += time->RealDeltaTime();
 
@@ -84,6 +84,7 @@ update_status ModuleResourceManager::Update()
 			App->editor->assets->Refresh();
 		}
 	}
+
 	
 	return UPDATE_CONTINUE;
 }
@@ -266,6 +267,16 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 		case MATERIAL:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
+		case SOUNDBANK:
+		{
+			App->file_system->DuplicateFile(assets_path.data(), library_path.data()); // Soundbank
+
+			string json_file_path = assets_path.substr(0, assets_path.find_last_of('.')) + ".json";
+			string lib_json_path = library_path.substr(0, library_path.find_last_of('/') + 1);	
+			lib_json_path += std::to_string(uuid) + ".json";
+			App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data()); // JSON
+			break;
+		}			
 		case RENDER_TEXTURE:
 			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
 			break;
@@ -653,6 +664,15 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	App->go_manager->LinkAnimation(App->go_manager->root);
 
 	return ret;
+}
+
+void ModuleResourceManager::ReloadScene()
+{
+	string current_scene = App->go_manager->GetCurrentScenePath();
+	if (current_scene.size() > 0)
+	{
+		LoadScene(current_scene.data());
+	}
 }
 
 void ModuleResourceManager::SavePrefab(GameObject * gameobject)
@@ -1148,6 +1168,11 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 		break;
 	case SCRIPTS_LIBRARY:
 		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
+	case SCENE:
+		SceneDropped(path, base_dir, base_library_dir, uuid);
+		break;
+	case PREFAB:
+		PrefabDropped(path, base_dir, base_library_dir, uuid);
 		break;
 	}
 }
@@ -1289,7 +1314,6 @@ void ModuleResourceManager::ScriptLibraryDropped(const char * path, string base_
 		file_assets_path = path;
 
 	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
-
 	string script_library_path = base_library_dir;
 	script_library_path += std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(script_library_path.data());
@@ -1298,6 +1322,46 @@ void ModuleResourceManager::ScriptLibraryDropped(const char * path, string base_
 	script_library_path += std::to_string(uuid) + ".dll";
 	GenerateMetaFile(file_assets_path.data(), FileType::SCRIPTS_LIBRARY, uuid, script_library_path);
 	App->file_system->DuplicateFile(file_assets_path.data(), script_library_path.data());
+}
+
+void ModuleResourceManager::SceneDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string final_scene_path = base_library_dir;
+	final_scene_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(final_scene_path.data());
+
+	string library_dir = final_scene_path;
+	final_scene_path += std::to_string(uuid) + ".ezx";
+
+	GenerateMetaFile(file_assets_path.data(), FileType::SCENE, uuid, final_scene_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), final_scene_path.data());
+}
+
+void ModuleResourceManager::PrefabDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string final_prefab_path = base_library_dir;
+	final_prefab_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(final_prefab_path.data());
+
+	string library_dir = final_prefab_path;
+	final_prefab_path += std::to_string(uuid) + ".pfb";
+
+	GenerateMetaFile(file_assets_path.data(), FileType::PREFAB, uuid, final_prefab_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), final_prefab_path.data());
 }
 
 void ModuleResourceManager::LoadPrefabFile(const string & library_path)

@@ -85,6 +85,9 @@
     <Filter Include="Sources\GameObjects\Components\UI Components">
       <UniqueIdentifier>{477c58d8-fcda-4948-bec6-0d595ff0efe8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\VerticalSlice3">
+      <UniqueIdentifier>{581a4ac3-dd86-4a50-821d-946be2235d37}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -606,8 +609,8 @@
     <ClInclude Include="EventLinkGos.h">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentCanvas.h">
-      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    <ClInclude Include="RaceTimer.h">
+      <Filter>Sources\VerticalSlice3</Filter>
     </ClInclude>
     <ClInclude Include="ComponentRectTransform.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
@@ -620,6 +623,9 @@
     </ClInclude>
     <ClInclude Include="ComponentUiText.h">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentCanvas.h">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1016,17 +1022,17 @@
     <ClCompile Include="CurveWindow.cpp">
       <Filter>Sources\Editor\Windows\Edit</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleEditor.cpp">
-      <Filter>Sources\Modules</Filter>
-    </ClCompile>
     <ClCompile Include="EventQueue.cpp">
       <Filter>Sources\Modules\EventQueue</Filter>
     </ClCompile>
     <ClCompile Include="EventLinkGos.cpp">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentCanvas.cpp">
-      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    <ClCompile Include="flags.cpp">
+      <Filter>Sources\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="RaceTimer.cpp">
+      <Filter>Sources\VerticalSlice3</Filter>
     </ClCompile>
     <ClCompile Include="ComponentRectTransform.cpp">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
@@ -1039,6 +1045,12 @@
     </ClCompile>
     <ClCompile Include="ComponentUiText.cpp">
       <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentCanvas.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleEditor.cpp">
+      <Filter>Sources\Modules</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

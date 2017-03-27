@@ -160,7 +160,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	
 	string prim_path = "Resources/Primitives/";
 
-	std::map<PrimitiveType, long unsigned> prim_codes;
+	std::map<PrimitiveType, unsigned> prim_codes;
 	prim_codes[P_CUBE] = 2147000001;
 	prim_codes[P_CYLINDER] = 2147000002;
 	prim_codes[P_PLANE] = 2147000003;
@@ -405,15 +405,24 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		if (rc_prefab)
 		{
 			go = rc_prefab->LoadPrefabFromScene(go_data, parent);
-			go->rc_prefab = rc_prefab;
+			if (go != nullptr)
+				go->rc_prefab = rc_prefab;
+			else
+			{
+				LOG("Warning: error when loading prefab '%s'", prefab_path.c_str());
+			}
 		}
 	}
 
-	//Space partioning
-	if (go->IsStatic())
-		octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
-	else
-		dynamic_gameobjects.push_back(go);
+	if (go != nullptr)
+	{
+		//Space partioning
+		if (go->IsStatic())
+			octree.Insert(go, go->bounding_box->CenterPoint()); //Needs to go after the components because of the bounding box reference
+		else
+			dynamic_gameobjects.push_back(go);
+	}
+
 
 	return go;
 }
@@ -487,7 +496,8 @@ GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsi
 			go_component = go->AddComponent(static_cast<ComponentType>(type));
 		else
 			go_component = (Component*)go->transform;
-		go_component->Load(component);
+		if(go_component != nullptr)
+			go_component->Load(component);
 	}
 
 	if (is_static)

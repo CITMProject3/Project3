@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentCar.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -204,6 +205,12 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			else if (App->editor->assign_wheel != -1)
 			{
 				App->editor->wheel_assign = *object;
+			}
+			else if (App->editor->assign_item == true)
+			{
+				App->editor->to_assign_item->item = *object;
+				App->editor->assign_item = false;
+				App->editor->to_assign_item = nullptr;
 			}
 			else
 			{

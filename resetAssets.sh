@@ -1,4 +1,5 @@
 
+
 # This script deletes all META files recursively within 
 # Assets folder and completely removes Library folder
 
@@ -9,3 +10,4 @@
 find Game/Assets/ -name '*.meta' | xargs rm -f
 # Wipping out the entire Library folder
 rm -fr Game/Library
+
