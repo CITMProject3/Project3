@@ -8,11 +8,13 @@
 
 class Application;
 class GameObject;
+struct PhysBody3D;
 
 using namespace std;
 
 typedef void(*f_Start)(GameObject* game_object);
 typedef void(*f_Update)(GameObject* game_object);
+typedef void(*f_OnCollision)(PhysBody3D* col);
 
 class ComponentScript : public Component
 {
@@ -29,6 +31,8 @@ public:
 	void Load(Data& conf);
 
 	void SetPath(const char* path);
+
+	void OnCollision(PhysBody3D* col);
 
 private:
 	string path;

@@ -19,6 +19,7 @@
 
 #include "ComponentCar.h"
 #include "ComponentCollider.h"
+#include "ComponentScript.h"
 
 #include "Assets.h"
 #include "RaycastHit.h"
@@ -119,6 +120,13 @@ update_status ModulePhysics3D::PreUpdate()
 						ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger))
 					{
 						App->physics->OnCollision(pbodyB, pbodyA);
+					}
+
+					//Scripting
+					ComponentScript* tmp = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+					if (tmp != nullptr)
+					{
+						tmp->OnCollision(pbodyB);
 					}
 				}
 			}

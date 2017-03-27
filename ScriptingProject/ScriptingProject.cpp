@@ -78,6 +78,9 @@ extern "C"
 				}
 			}
 		}
+		void Test_OnCollision(PhysBody3D* col)
+		{
+		}
 	}
 
 	namespace Test2

@@ -4,6 +4,7 @@
 #include "Color.h"
 #include "GameObject.h"
 #include "ModuleGOManager.h"
+#include "PhysBody3D.h"
 
 #include "imgui\imgui.h"
 
@@ -350,5 +351,27 @@ void ComponentScript::SetPath(const char * path)
 	if (App->scripting->scripts_loaded)
 	{
 		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools, &public_gos);
+	}
+}
+
+void ComponentScript::OnCollision(PhysBody3D* col)
+{
+	if (App->scripting->scripts_loaded)
+	{
+		if (!started)
+		{
+			string collision_path = path.c_str();
+			collision_path.append("_OnCollision");
+			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
+			{
+				finded_start = true;
+				if (App->IsGameRunning() && !App->IsGamePaused())
+					onCollision(col);
+			}
+			else
+			{
+				error = GetLastError();
+			}
+		}
 	}
 }
