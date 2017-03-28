@@ -625,6 +625,14 @@ void ModuleEditor::GameObjectMenu()
 
 void ModuleEditor::PhysicsMenu()
 {	
+	if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
+	{
+		ImGui::Image((void*)App->physics->edgeTexId, ImVec2(200,200));
+		ImGui::Image((void*)App->physics->edgeHId, ImVec2(200, 200));
+		ImGui::Image((void*)App->physics->edgeVId, ImVec2(200, 200));
+	}
+
+
 	if (ImGui::BeginMenu("Select a heightmap:"))
 	{
 		vector<string> textures_list;
@@ -707,15 +715,6 @@ void ModuleEditor::PhysicsMenu()
 	bool tmp = App->physics->TerrainIsGenerated();
 	ImGui::Checkbox("Terrain is generated", &tmp);
 	ImGui::NewLine();
-	/*if (ImGui::MenuItem("Save Terrain"))
-	{
-		App->physics->SaveTerrain();
-	}
-	if (ImGui::MenuItem("Delete Terrain"))
-	{
-		App->physics->DeleteTerrain();
-	}
-	ImGui::NewLine();*/
 	ImGui::Separator();
 
 	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);

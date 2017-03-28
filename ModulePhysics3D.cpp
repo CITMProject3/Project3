@@ -137,8 +137,6 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	
-
 	return UPDATE_CONTINUE;
 }
 
@@ -878,9 +876,17 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	int w = heightMapImg->GetWidth();
 	int h = heightMapImg->GetHeight();
 
-	edgeDetectionImage = new uint[w*h];
+	float* edgeH = new float[(w*h) * 3];
+	float* edgeV = new float[(w*h) * 3];
+
+	if (edgeDetectionImage != nullptr)
+	{
+		delete[] edgeDetectionImage;
+	}
+	edgeDetectionImage = new float[(w*h)*3];
 
 	float* buf = new float[w*h];
+	float maxVal = 0;
 
 	//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
 	for (int y = 0; y < h; y++)
@@ -918,27 +924,91 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
 			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
-			float horizontal = 0;
-			float vertical = 0;
+			edgeH[(y * w + x) * 3] = 0;
+			edgeV[(y * w + x) * 3] = 0;
 			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
 			{
 				for (int _y = -1; _y <= 1; _y++)
 				{
 					for (int _x = -1; _x <= 1; _x++)
 					{
-						horizontal += buf[(y + _y) * w + x + _x] * hk[_y][_x];
-						vertical += buf[(y + _y) * w + x + _x] * vk[_y][_x];
+						edgeH[(y * w + x) * 3] += buf[(y + _y) * w + x + _x] * hk[_y][_x];
+
+						edgeV[(y * w + x) * 3] += buf[(y + _y) * w + x + _x] * vk[_y][_x];
 					}
 				}
 			}
 
-			edgeDetectionImage[y * w + x] = math::Sqrt(horizontal*horizontal + vertical * vertical);
+			edgeDetectionImage[(y * w + x)*3] = math::Sqrt(edgeH[(y * w + x) * 3] * edgeH[(y * w + x) * 3] + edgeV[(y * w + x) * 3] * edgeV[(y * w + x) * 3]);
+			edgeDetectionImage[(y * w + x) * 3 + 1] = edgeDetectionImage[(y * w + x) * 3];
+			edgeDetectionImage[(y * w + x) * 3 + 2] = edgeDetectionImage[(y * w + x) * 3];
+			if (edgeDetectionImage[(y * w + x) * 3] > maxVal)
+			{
+				maxVal = edgeDetectionImage[(y * w + x) * 3];
+			}
 
 			value /= n;
 			terrainData[y*w + x] = value * terrainHeightScaling;
 		}
 	}	
 
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+			edgeDetectionImage[(y * w + x) * 3] = (edgeDetectionImage[(y * w + x) * 3] / maxVal);// *255.0;
+			edgeDetectionImage[(y * w + x) * 3 + 1] = edgeDetectionImage[(y * w + x) * 3];
+			edgeDetectionImage[(y * w + x) * 3 + 2] = edgeDetectionImage[(y * w + x) * 3];
+
+			edgeH[(y * w + x) * 3] /= maxVal;
+			edgeH[(y * w + x) * 3 + 1] = edgeH[(y * w + x) * 3];
+			edgeH[(y * w + x) * 3 + 2] = edgeH[(y * w + x) * 3];
+
+			edgeV[(y * w + x) * 3] /= maxVal;
+			edgeV[(y * w + x) * 3 + 1] = edgeV[(y * w + x) * 3];
+			edgeV[(y * w + x) * 3 + 2] = edgeV[(y * w + x) * 3];
+		}
+	}
+
+	glEnable(GL_TEXTURE_2D);
+	if (edgeTexId == 0)
+	{
+		glGenTextures(1, &edgeTexId);
+	}
+	if (edgeHId == 0)
+	{
+		glGenTextures(1, &edgeHId);
+	}
+	if (edgeVId == 0)
+	{
+		glGenTextures(1, &edgeVId);
+	}
+	glBindTexture(GL_TEXTURE_2D, edgeTexId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeDetectionImage);
+
+	glBindTexture(GL_TEXTURE_2D, edgeVId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeV);
+
+	glBindTexture(GL_TEXTURE_2D, edgeHId);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeH);
+
+	delete[] edgeH;
+	delete[] edgeV;
 	delete[] buf;
 }
 

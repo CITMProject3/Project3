@@ -117,12 +117,15 @@ private:
 
 	int terrainSmoothLevels = 1;
 	uint numIndices = 0;
-
-	//TMP stuff
-	uint* edgeDetectionImage = nullptr;
-	///////
 #pragma endregion
 public:
+	//TMP stuff
+	uint edgeVId = 0;
+	uint edgeHId = 0;
+
+	uint edgeTexId = 0;
+	float* edgeDetectionImage = nullptr;
+	///////
 	bool renderWiredTerrain = false;
 };
 
