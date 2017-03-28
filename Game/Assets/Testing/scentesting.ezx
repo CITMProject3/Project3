@@ -1,0 +1,309 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 1168729260,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3491706307,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "face_noTex",
+            "UUID": 854107506,
+            "local_UUID": 0,
+            "parent": 1168729260,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 651756325,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cara",
+            "UUID": 2413082944,
+            "local_UUID": 0,
+            "parent": 854107506,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3148001329,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1891942511,
+                    "active": true,
+                    "path": "\/Library\/1817176543\/4068804492\/859874484.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2143049001,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "OjoBoca",
+            "UUID": 1373521284,
+            "local_UUID": 0,
+            "parent": 854107506,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2027665337,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2225004094,
+                    "active": true,
+                    "path": "\/Library\/1817176543\/4068804492\/2285445427.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3324859990,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": []
+                }
+            ]
+        },
+        {
+            "name": "Gorro",
+            "UUID": 4182206587,
+            "local_UUID": 0,
+            "parent": 854107506,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3812754388,
+                    "active": true,
+                    "matrix": [
+                        -1,
+                        0,
+                        -0.000000,
+                        0,
+                        0,
+                        1,
+                        0,
+                        3.875954,
+                        0.000000,
+                        0,
+                        -1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3798444586,
+                    "active": true,
+                    "path": "\/Library\/1817176543\/4068804492\/1250848903.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 191980733,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1817176543\/\/2294945257\/2294945257.dds"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 302023298,
+            "local_UUID": 0,
+            "parent": 1168729260,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3598897988,
+                    "active": true,
+                    "matrix": [
+                        -1,
+                        0,
+                        -0.000000,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.000000,
+                        0,
+                        -1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 2969292097,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        }
+    ],
+    "terrain_scaling": 0.500000
+} 
