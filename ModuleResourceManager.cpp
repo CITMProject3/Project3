@@ -551,23 +551,16 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
 		name_to_save += ".ezx";
 
-	Data root_node;
-	
-	root_node.AppendString("current_scene_path", name_to_save.c_str());
+	// Saving SCENE information
+	Data root_node;	
 	root_node.AppendArray("GameObjects");
-
 	App->go_manager->root->Save(root_node);
 
 	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	
-	char* buf;
-	size_t size = root_node.Serialize(&buf);	
 
-	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
-	App->file_system->Save(name_to_save.data(), buf, size);	
-
+	string library_scene_path;
 	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
 	{
@@ -577,8 +570,8 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		if (meta_size > 0)
 		{
 			Data meta_data(meta_buf);
-			string library_path = meta_data.GetString("library_path");
-			App->file_system->Save(library_path.data(), buf, size);
+			library_scene_path = meta_data.GetString("library_path");
+			//App->file_system->Save(library_path.data(), buf, size);
 		}
 		else
 		{
@@ -592,16 +585,26 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		unsigned int uuid = App->rnd->RandomInt();
 		string library_dir = base_library_path + "/" + std::to_string(uuid) + "/";
 		App->file_system->GenerateDirectory(library_dir.data());
-		string library_filename = library_dir + std::to_string(uuid) + ".ezx";
-		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_filename.data());
-		App->file_system->Save(library_filename.data(), buf, size); //Duplicate the file in library
+		library_scene_path = library_dir + std::to_string(uuid) + ".ezx";
+		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_scene_path.data());
+		//App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 	}
+
+	root_node.AppendString("current_assets_scene_path", name_to_save.c_str());
+	App->go_manager->SetCurrentAssetsScenePath(name_to_save.c_str());
+	root_node.AppendString("current_library_scene_path", library_scene_path.c_str());
+	App->go_manager->SetCurrentLibraryScenePath(library_scene_path.c_str());
+
+	char* buf;
+	size_t size = root_node.Serialize(&buf);
+	App->file_system->Save(name_to_save.data(), buf, size);
+	App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 
 	delete[] buf;
 	App->editor->RefreshAssets();
 }
 
-bool ModuleResourceManager::LoadScene(const char * file_name)
+bool ModuleResourceManager::LoadScene(const char *file_name)
 {
 	bool ret = false;
 	//TODO: Now the current scene is destroyed. Ask the user if wants to save the changes.
@@ -617,8 +620,10 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	}
 
 	Data scene(buffer);
-	const char *scene_path = scene.GetString("current_scene_path");
-	if(scene_path) App->go_manager->SetCurrentScenePath(scene_path);
+	const char *scene_path = scene.GetString("current_assets_scene_path");
+	if(scene_path) App->go_manager->SetCurrentAssetsScenePath(scene_path);
+	scene_path = scene.GetString("current_library_scene_path");
+	if (scene_path) App->go_manager->SetCurrentLibraryScenePath(scene_path);
 
 	Data root_objects;
 	root_objects = scene.GetArray("GameObjects", 0);
@@ -671,7 +676,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 void ModuleResourceManager::ReloadScene()
 {
-	string current_scene = App->go_manager->GetCurrentScenePath();
+	string current_scene = App->go_manager->GetCurrentLibraryScenePath();
 	if (current_scene.size() > 0)
 	{
 		LoadScene(current_scene.data());

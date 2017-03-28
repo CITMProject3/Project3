@@ -133,7 +133,6 @@ update_status ModulePhysics3D::PreUpdate()
 					{
 						tmp->OnCollision(pbodyB);
 					}
-
 					else
 					{
 						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))

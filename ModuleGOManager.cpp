@@ -40,26 +40,7 @@ bool ModuleGOManager::Init(Data & config)
 	layer_system->Load(config);
 
 	// Whether exists one scene on Configuration.json, load it on Start()!
-	current_scene_path = config.GetString("current_scene_path");
-	///*bool scene_success = false;*/
-	//if (path)
-	//{
-	//	EventLoadAndPlayGame *ev = new EventLoadAndPlayGame(path);
-	//	App->event_queue->PostEvent(ev);
-
-		//if (strcmp(path, "") != 0)
-		//{
-		//	current_scene_path = path; //The scene is loaded at start because OpenGL needs to be init at ModuleRender
-		//	scene_success = true;
-		//}
-	//}
-
-	/*if (!scene_success)
-	{
-		LoadEmptyScene();
-	}*/
-
-	
+	current_library_scene_path = config.GetString("current_library_scene_path");
 	
 	return true;
 }
@@ -68,20 +49,8 @@ bool ModuleGOManager::Start()
 {
 	octree.Create(OCTREE_SIZE);
 
-	if (!current_scene_path.empty() && App->IsGameRunning())
-		App->resource_manager->LoadScene(current_scene_path.data());
-
-
-	
-
-	////Load last scene 
-	//if (root == nullptr)
-	//{
-	//	if (App->resource_manager->LoadScene(current_scene_path.data()) == false)
-	//	{
-	//		LoadEmptyScene();
-	//	}
-	//}
+	if (!current_library_scene_path.empty() && App->IsGameRunning())
+		App->resource_manager->LoadScene(current_library_scene_path.data());	
 
 	return true;
 }
@@ -125,7 +94,8 @@ update_status ModuleGOManager::Update()
 
 void ModuleGOManager::SaveBeforeClosing(Data& data) const
 {
-	data.AppendString("current_scene_path", current_scene_path.data());
+	data.AppendString("current_assets_scene_path", current_assets_scene_path.data());
+	data.AppendString("current_library_scene_path", current_library_scene_path.data());
 	data.AppendArray("layers");
 	layer_system->Save(data);
 }
@@ -290,7 +260,10 @@ void ModuleGOManager::LoadEmptyScene()
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
-	current_scene_path = "";
+
+	current_assets_scene_path = "";
+	current_library_scene_path = "";
+
 	App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 }
 
@@ -440,15 +413,24 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 	return go;
 }
 
-void ModuleGOManager::SetCurrentScenePath(const char * scene_path)
+void ModuleGOManager::SetCurrentAssetsScenePath(const char* scene_path)
 {
-	current_scene_path = scene_path;
+	current_assets_scene_path = scene_path;
 }
 
-
-const char* ModuleGOManager::GetCurrentScenePath()
+const char* ModuleGOManager::GetCurrentAssetsScenePath() const
 {
-	return current_scene_path.c_str();
+	return current_assets_scene_path.c_str();
+}
+
+void ModuleGOManager::SetCurrentLibraryScenePath(const char* scene_path)
+{
+	current_library_scene_path = scene_path;
+}
+
+const char* ModuleGOManager::GetCurrentLibraryScenePath() const
+{
+	return current_library_scene_path.c_str();
 }
 
 GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
