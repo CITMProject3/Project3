@@ -123,7 +123,12 @@ bool Application::Init()
 	Data config(buffer);
 	delete[] buffer;
 
-	start_in_game = config.GetBool("start_in_game");
+	// Game is initialized in PlayMode?
+	if (config.GetBool("start_in_game"))
+	{
+		start_in_game = true;
+		game_state = GAME_RUNNING;
+	}		
 
 	// Call Init() in all modules
 	vector<Module*>::iterator i = list_modules.begin();
@@ -146,15 +151,13 @@ bool Application::Init()
 
 	capped_ms = 1000 / max_fps;
 
+	//// Play all Components of every GameObject on the scene
 	if (start_in_game)
-	{
-		game_state = GAME_RUNNING;
+	{		
 		time->Play();
 
 		for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-		{
 			(*it)->OnPlay();
-		}
 	}	
 	
 	return ret;
@@ -186,17 +189,13 @@ void Application::RunGame()
 {
 	//Save current scene only if the game was stopped
 	if (game_state == GAME_STOP)
-	{
 		go_manager->SaveSceneBeforeRunning();
-	}
 
 	game_state = GAME_RUNNING;
 	time->Play();
 
 	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-	{
 		(*it)->OnPlay();
-	}
 }
 
 void Application::PauseGame()

@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 #include "MeshImporter.h"
 #include "Globals.h"
 #include "Assimp/include/cimport.h"
@@ -31,7 +32,8 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 
 	if (size == 0)
 	{
-		LOG("Error loading %s", path);
+		LOG("[ERROR] Loading mesh %s has failed", path);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Loading mesh %s has failed", path);
 		return ret;
 	}
 
@@ -89,7 +91,8 @@ bool MeshImporter::Import(const char * file, const char * path, const char* base
 	}
 	else
 	{
-		LOG("Error loading scene %s. ERROR: %s", path, aiGetErrorString());
+		LOG("[ERROR] Loading scene %s due to %s", path, aiGetErrorString());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Loading scene %s due to %s", path, aiGetErrorString());
 	}
 
 	delete[] buff;
@@ -263,7 +266,8 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 		{
 			if (mesh_to_load->mFaces[f].mNumIndices != 3)
 			{
-				LOG("WARNING: geometry with face != 3 indices is trying to be loaded");
+				LOG("[WARNING] Geometry with face != 3 indices is trying to be loaded");
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Geometry with face != 3 indices is trying to be loaded");
 			}
 			else
 			{
@@ -377,7 +381,7 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 
 	//Generate random UUID for the name
 	msh_uuid = (unsigned int)App->rnd->RandomInt();
-	ret = App->file_system->SaveUnique(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -628,7 +632,8 @@ bool MeshImporter::ImportUUID(const char * file, const char * path, const char *
 
 	if (size == 0)
 	{
-		LOG("Error loading %s", path);
+		LOG("[ERROR] Loading mesh %s has failed", path);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Loading mesh %s has failed", path);
 		return ret;
 	}
 
@@ -685,6 +690,7 @@ bool MeshImporter::ImportUUID(const char * file, const char * path, const char *
 	else
 	{
 		LOG("Error loading scene %s. ERROR: %s", path, aiGetErrorString());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Loading scene %s due to %s", path, aiGetErrorString());
 	}
 
 	delete[] buff;
@@ -860,6 +866,7 @@ bool MeshImporter::ImportMeshUUID(const aiMesh * mesh_to_load, const char * fold
 			if (mesh_to_load->mFaces[f].mNumIndices != 3)
 			{
 				LOG("WARNING: geometry with face != 3 indices is trying to be loaded");
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Geometry with face != 3 indices is trying to be loaded");
 			}
 			else
 			{
@@ -972,7 +979,7 @@ bool MeshImporter::SaveUUID(Mesh & mesh, const char * folder_path, std::string &
 	cursor += bytes;
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;

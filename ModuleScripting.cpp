@@ -1,7 +1,10 @@
 #include "ModuleScripting.h"
+
 #include "Application.h"
 #include "ModuleResourceManager.h"
-#include "Globals.h"
+#include "ModuleEditor.h"
+
+//#include "Globals.h"
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
@@ -29,7 +32,8 @@ bool ModuleScripting::Start()
 
 bool ModuleScripting::CleanUp()
 {
-	scripts_lib->Unload();
+	if(scripts_lib)
+		scripts_lib->Unload();
 	resource_created = false;
 	scripts_loaded = false;
 
@@ -62,10 +66,14 @@ void ModuleScripting::LoadScriptsLibrary()
 
 			if (last_error == 127)
 			{
-				LOG("Can't find Game.dll");
+				LOG("[ERROR] Can't find Game.dll");
+				App->editor->DisplayWarning(WarningType::W_ERROR, "Can't find Game.dll");
 			}
 			else
-				LOG("Unknown error loading Game.dll");
+			{
+				LOG("[ERROR] Unknown error loading Game.dll");
+				App->editor->DisplayWarning(WarningType::W_ERROR, "Unknown error loading Game.dll");
+			}			
 		}
 		else
 		{

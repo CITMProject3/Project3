@@ -55,6 +55,7 @@ public:
 	bool IsGamePaused()const;
 
 	bool StartInGame()const;
+
 private:
 
 	void AddModule(Module* mod);
@@ -62,8 +63,8 @@ private:
 	void FinishUpdate();
 
 	//Game States
-	void StopGame();
 	void RunGame();
+	void StopGame();	
 	void PauseGame();
 
 public:

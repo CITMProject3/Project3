@@ -214,7 +214,7 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	if (App->file_system->Exists(library_path.data()))
 	{
 		//Check file modification
-		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
+		double lib_mod_time = App->file_system->GetLastModificationTime(assets_path.data());
 		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
@@ -547,28 +547,20 @@ ResourceFile * ModuleResourceManager::FindResourceByLibraryPath(const string & l
 void ModuleResourceManager::SaveScene(const char * file_name, string base_library_path)
 {
 	string name_to_save = file_name;
+	//Add extension if doesn't have it yet
+	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
+		name_to_save += ".ezx";
 
-	Data root_node;
+	// Saving SCENE information
+	Data root_node;	
 	root_node.AppendArray("GameObjects");
-
 	App->go_manager->root->Save(root_node);
 
 	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	
-	char* buf;
-	size_t size = root_node.Serialize(&buf);
 
-	//Add extension if doesn't have it yet
-	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
-		name_to_save += ".ezx";
-
-	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
-
-	App->file_system->Save(name_to_save.data(), buf, size);
-	
-
+	string library_scene_path;
 	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
 	{
@@ -578,12 +570,13 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		if (meta_size > 0)
 		{
 			Data meta_data(meta_buf);
-			string library_path = meta_data.GetString("library_path");
-			App->file_system->Save(library_path.data(), buf, size);
+			library_scene_path = meta_data.GetString("library_path");
+			//App->file_system->Save(library_path.data(), buf, size);
 		}
 		else
 		{
-			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			LOG("[ERROR] While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
 		}
 
 		delete[] meta_buf;
@@ -593,16 +586,26 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		unsigned int uuid = App->rnd->RandomInt();
 		string library_dir = base_library_path + "/" + std::to_string(uuid) + "/";
 		App->file_system->GenerateDirectory(library_dir.data());
-		string library_filename = library_dir + std::to_string(uuid) + ".ezx";
-		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_filename.data());
-		App->file_system->Save(library_filename.data(), buf, size); //Duplicate the file in library
+		library_scene_path = library_dir + std::to_string(uuid) + ".ezx";
+		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_scene_path.data());
+		//App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 	}
+
+	root_node.AppendString("current_assets_scene_path", name_to_save.c_str());
+	App->go_manager->SetCurrentAssetsScenePath(name_to_save.c_str());
+	root_node.AppendString("current_library_scene_path", library_scene_path.c_str());
+	App->go_manager->SetCurrentLibraryScenePath(library_scene_path.c_str());
+
+	char* buf;
+	size_t size = root_node.Serialize(&buf);
+	App->file_system->Save(name_to_save.data(), buf, size);
+	App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 
 	delete[] buf;
 	App->editor->RefreshAssets();
 }
 
-bool ModuleResourceManager::LoadScene(const char * file_name)
+bool ModuleResourceManager::LoadScene(const char *file_name)
 {
 	bool ret = false;
 	//TODO: Now the current scene is destroyed. Ask the user if wants to save the changes.
@@ -611,13 +614,20 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	uint size = App->file_system->Load(file_name, &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading Scene: %s", file_name);
+		LOG("[ERROR] While loading Scene %s", file_name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading scene %s", file_name);
+
 		if (buffer)
 			delete[] buffer;
 		return false;
 	}
 
 	Data scene(buffer);
+	const char *scene_path = scene.GetString("current_assets_scene_path");
+	if(scene_path) App->go_manager->SetCurrentAssetsScenePath(scene_path);
+	scene_path = scene.GetString("current_library_scene_path");
+	if (scene_path) App->go_manager->SetCurrentLibraryScenePath(scene_path);
+
 	Data root_objects;
 	root_objects = scene.GetArray("GameObjects", 0);
 
@@ -633,7 +643,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 			else
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
-		App->go_manager->SetCurrentScenePath(file_name);
+
+		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
 		const char* terrain = scene.GetString("terrain");
 		const char*  terrain_texture = scene.GetString("terrain_texture");
@@ -656,7 +667,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	}
 	else
 	{
-		LOG("The scene %s is not a valid scene file", file_name);
+		LOG("[WARNING] The scene %s is not a valid scene file", file_name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "The scene %s is not a valid scene file", file_name);
 	}
 
 	delete[] buffer;
@@ -668,7 +680,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 void ModuleResourceManager::ReloadScene()
 {
-	string current_scene = App->go_manager->GetCurrentScenePath();
+	string current_scene = App->go_manager->GetCurrentLibraryScenePath();
 	if (current_scene.size() > 0)
 	{
 		LoadScene(current_scene.data());
@@ -710,6 +722,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		else
 		{
 			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name.data());
 		}
 
 		delete[] meta_buf;
@@ -780,7 +793,8 @@ string ModuleResourceManager::FindFile(const string & assets_file_path) const
 	}
 	else
 	{
-		LOG("Could not find file %s", assets_file_path.data());
+		LOG("[ERROR] Could not find file %s", assets_file_path.c_str());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not find file %s", assets_file_path.c_str());
 	}
 	delete[] buffer;
 
@@ -1116,7 +1130,60 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 		original_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		// Generating new meta folder file with new path
-		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		if((FileType)type != FileType::MESH)
+			GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		else
+		{
+			vector<unsigned int> meshes_uuids, animations_uuids, bones_uuids;
+
+			if (meta.GetArray("meshes", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("meshes"); i++)
+				{
+					Data mesh_info = meta.GetArray("meshes", i);
+					meshes_uuids.push_back(mesh_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+				
+
+			if (meta.GetArray("animations", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("animations"); i++)
+				{
+					Data animation_info = meta.GetArray("animations", i);
+					animations_uuids.push_back(animation_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+				
+
+			if (meta.GetArray("bones", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("bones"); i++)
+				{
+					Data bones_info = meta.GetArray("bones", i);
+					bones_uuids.push_back(bones_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+			}				
+
+			GenerateMetaFileMesh(original_path.c_str(), uuid, lib_path, meshes_uuids, animations_uuids, bones_uuids);
+			
+		}
+		
 		delete[] buf;
 	}
 }
@@ -1370,7 +1437,8 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	uint size = App->file_system->Load(library_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", library_path.data());
+		LOG("[ERROR] While loading prefab file %s", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab file %s", library_path.data());
 		if (buffer)
 			delete[] buffer;
 		return;
@@ -1390,6 +1458,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	else
 	{
 		LOG("The %s is not a valid mesh/prefab file", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The %s is not a valid mesh / prefab file", library_path.data());
 	}
 
 	delete[] buffer;

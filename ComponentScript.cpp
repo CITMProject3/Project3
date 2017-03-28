@@ -126,7 +126,7 @@ void ComponentScript::OnInspector(bool debug)
 			SetActive(is_active);
 		}		
 		
-		if (App->scripting->scripts_lib->finded_script_names)
+		if (App->scripting->scripts_lib && App->scripting->scripts_lib->finded_script_names)
 		{
 			ImGui::Text("Script name: %s", path.c_str());
 			if (ImGui::Button("Set Script", ImVec2(80, 20)))

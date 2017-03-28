@@ -128,9 +128,22 @@ update_status ModulePhysics3D::PreUpdate()
 						tmp = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
 					else
 						tmp = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
 					if (tmp != nullptr)
 					{
 						tmp->OnCollision(pbodyB);
+					}
+					else
+					{
+						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
+							tmp = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+						else
+							tmp = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+						if (tmp != nullptr)
+						{
+							tmp->OnCollision(pbodyA);
+						}
 					}
 				}
 			}

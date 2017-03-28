@@ -1,15 +1,16 @@
 #include "Application.h"
+
+#include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
+
 #include "ResourceFileRenderTexture.h"
 #include "OpenGLFunc.h"
-#include "ModuleFileSystem.h"
 
 ResourceFileRenderTexture::ResourceFileRenderTexture(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
-{
-}
+{}
 
 ResourceFileRenderTexture::~ResourceFileRenderTexture()
-{
-}
+{}
 
 void ResourceFileRenderTexture::Bind()
 {
@@ -41,8 +42,10 @@ void ResourceFileRenderTexture::LoadInMemory()
 		frame_buffer = OpenGLFunc::CreateFBO(width, height, texture_buffer, depth_buffer);
 	}
 	else
-		LOG("Could not load resource %s", file_path.data());
-
+	{
+		LOG("[ERROR] Could not load resource %s", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not load resource %s", file_path.data());
+	}
 
 	if(buffer)
 		delete[] buffer;
