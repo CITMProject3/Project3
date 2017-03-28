@@ -214,7 +214,7 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	if (App->file_system->Exists(library_path.data()))
 	{
 		//Check file modification
-		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
+		double lib_mod_time = App->file_system->GetLastModificationTime(assets_path.data());
 		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
@@ -547,8 +547,13 @@ ResourceFile * ModuleResourceManager::FindResourceByLibraryPath(const string & l
 void ModuleResourceManager::SaveScene(const char * file_name, string base_library_path)
 {
 	string name_to_save = file_name;
+	//Add extension if doesn't have it yet
+	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
+		name_to_save += ".ezx";
 
 	Data root_node;
+	
+	root_node.AppendString("current_scene_path", name_to_save.c_str());
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
@@ -558,16 +563,10 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
-	size_t size = root_node.Serialize(&buf);
-
-	//Add extension if doesn't have it yet
-	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
-		name_to_save += ".ezx";
+	size_t size = root_node.Serialize(&buf);	
 
 	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
-
-	App->file_system->Save(name_to_save.data(), buf, size);
-	
+	App->file_system->Save(name_to_save.data(), buf, size);	
 
 	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
@@ -618,6 +617,9 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	}
 
 	Data scene(buffer);
+	const char *scene_path = scene.GetString("current_scene_path");
+	if(scene_path) App->go_manager->SetCurrentScenePath(scene_path);
+
 	Data root_objects;
 	root_objects = scene.GetArray("GameObjects", 0);
 
@@ -633,7 +635,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 			else
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
-		App->go_manager->SetCurrentScenePath(file_name);
+
+		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
 		const char* terrain = scene.GetString("terrain");
 		const char*  terrain_texture = scene.GetString("terrain_texture");
@@ -1116,7 +1119,49 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 		original_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		// Generating new meta folder file with new path
-		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		if((FileType)type != FileType::MESH)
+			GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		else
+		{
+			vector<unsigned int> meshes_uuids, animations_uuids, bones_uuids;
+
+			if (meta.GetArray("meshes", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("meshes"); i++)
+				{
+					Data mesh_info = meta.GetArray("meshes", i);
+					meshes_uuids.push_back(mesh_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			if (meta.GetArray("animations", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("animations"); i++)
+				{
+					Data animation_info = meta.GetArray("animations", i);
+					animations_uuids.push_back(animation_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			if (meta.GetArray("bones", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("bones"); i++)
+				{
+					Data bones_info = meta.GetArray("bones", i);
+					bones_uuids.push_back(bones_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			GenerateMetaFileMesh(original_path.c_str(), uuid, lib_path, meshes_uuids, animations_uuids, bones_uuids);
+			
+		}
+		
 		delete[] buf;
 	}
 }

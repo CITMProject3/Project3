@@ -214,6 +214,23 @@ bool ModuleFileSystem::SaveUnique(const char * file, const void* buffer, unsigne
 		return false;
 }
 
+bool ModuleFileSystem::Save(const char * file, const void * buffer, unsigned int size, const char * path, const char * extension, std::string & output_name)
+{
+	char name_to_save[50];
+	sprintf_s(name_to_save, 50, "%s.%s", file, extension);
+
+	char name[300];
+	sprintf_s(name, 300, "%s%s", path, name_to_save);
+
+	if (Save(name, buffer, size) > 0)
+	{
+		output_name = name;
+		return true;
+	}
+	else
+		return false;
+}
+
 bool ModuleFileSystem::GetEnumerateFiles(const char * dir, std::vector<std::string>& buffer)
 {
 	char** ef =PHYSFS_enumerateFiles(dir);

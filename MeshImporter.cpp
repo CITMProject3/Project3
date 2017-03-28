@@ -232,9 +232,9 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 					normal_complete_path.erase(0, 1);
 				}
 
-				c_material->list_textures_paths.push_back(complete_path);
+				c_material->list_textures_paths[0] = complete_path;
 				if (normal_path.length > 0)
-					c_material->list_textures_paths.push_back(normal_complete_path);
+					c_material->list_textures_paths[1] = normal_complete_path;
 			}	
 		}
 	}
@@ -377,7 +377,7 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 
 	//Generate random UUID for the name
 	msh_uuid = (unsigned int)App->rnd->RandomInt();
-	ret = App->file_system->SaveUnique(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -566,7 +566,7 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 			component_data.AppendInt("type", (*component)->GetType());
 			component_data.AppendUInt("UUID", (unsigned int)App->rnd->RandomInt());
 			component_data.AppendBool("active", true);
-			//MERGE TODO: add C_CAR
+
 			switch ((*component)->GetType())
 			{
 				case (C_MESH):
@@ -972,7 +972,7 @@ bool MeshImporter::SaveUUID(Mesh & mesh, const char * folder_path, std::string &
 	cursor += bytes;
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;

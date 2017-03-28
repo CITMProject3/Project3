@@ -35,25 +35,31 @@ ModuleGOManager::~ModuleGOManager()
 
 bool ModuleGOManager::Init(Data & config)
 {
-	//Load last open scene
-	const char* path = config.GetString("current_scene_path");
-	bool scene_success = false;
-	if (path)
-	{
-		if (strcmp(path, "") != 0)
-		{
-			current_scene_path = path; //The scene is loaded at start because OpenGL needs to be init at ModuleRender
-			scene_success = true;
-		}
-	}
-
-	if (!scene_success)
-	{
-		LoadEmptyScene();
-	}
-
+	LoadEmptyScene();
 	layer_system = new LayerSystem();
 	layer_system->Load(config);
+
+	// Whether exists one scene on Configuration.json, load it on Start()!
+	current_scene_path = config.GetString("current_scene_path");
+	///*bool scene_success = false;*/
+	//if (path)
+	//{
+	//	EventLoadAndPlayGame *ev = new EventLoadAndPlayGame(path);
+	//	App->event_queue->PostEvent(ev);
+
+		//if (strcmp(path, "") != 0)
+		//{
+		//	current_scene_path = path; //The scene is loaded at start because OpenGL needs to be init at ModuleRender
+		//	scene_success = true;
+		//}
+	//}
+
+	/*if (!scene_success)
+	{
+		LoadEmptyScene();
+	}*/
+
+	
 	
 	return true;
 }
@@ -61,14 +67,21 @@ bool ModuleGOManager::Init(Data & config)
 bool ModuleGOManager::Start()
 {
 	octree.Create(OCTREE_SIZE);
-	//Load last scene 
-	if (root == nullptr)
-	{
-		if (App->resource_manager->LoadScene(current_scene_path.data()) == false)
-		{
-			LoadEmptyScene();
-		}
-	}
+
+	if (!current_scene_path.empty() && App->IsGameRunning())
+		App->resource_manager->LoadScene(current_scene_path.data());
+
+
+	
+
+	////Load last scene 
+	//if (root == nullptr)
+	//{
+	//	if (App->resource_manager->LoadScene(current_scene_path.data()) == false)
+	//	{
+	//		LoadEmptyScene();
+	//	}
+	//}
 
 	return true;
 }
@@ -305,14 +318,15 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 
-	App->file_system->Save("Library/current_scene.json", buf, size); //TODO: Find the right place to save the scene.
+	App->file_system->Save(TEMPORAL_SCENE, buf, size); //TODO: Find the right place to save the scene.
 
 	delete[] buf;
 }
 
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
-	App->resource_manager->LoadScene("Library/current_scene.json");
+	App->resource_manager->LoadScene(TEMPORAL_SCENE);
+	App->file_system->Delete(TEMPORAL_SCENE);
 }
 
 bool ModuleGOManager::InsertGameObjectInOctree(GameObject * go)
@@ -422,7 +436,6 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		else
 			dynamic_gameobjects.push_back(go);
 	}
-
 
 	return go;
 }
