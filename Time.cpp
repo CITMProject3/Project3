@@ -9,6 +9,7 @@ Time::Time()
 		frequency = SDL_GetPerformanceFrequency();
 	started_at = SDL_GetPerformanceCounter();
 	frame_started_at = started_at;
+	capped_ms = 1 / (float)max_fps;
 }
 
 Time::~Time()
@@ -17,6 +18,12 @@ Time::~Time()
 void Time::UpdateFrame()
 {
 	real_delta_time = (float)((double(SDL_GetPerformanceCounter() - frame_started_at) / double(frequency)));
+
+	if (capped_ms > 0 && real_delta_time < capped_ms)
+	{
+		SDL_Delay(capped_ms - real_delta_time);
+		real_delta_time = capped_ms;
+	}
 
 	//Game is running
 	if (game_started_at > 0 && !game_paused)

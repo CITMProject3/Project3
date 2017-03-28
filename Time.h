@@ -44,6 +44,10 @@ private:
 	float time_scale = 1.0f; 
 
 	float time_unitary = 0.0f;
+	
+	float capped_ms = 0;
+	int max_fps = 60;
+	int last_fps = 60;
 };
 
 extern Time* time;
