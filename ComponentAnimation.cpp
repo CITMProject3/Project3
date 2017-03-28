@@ -13,6 +13,8 @@
 #include "AutoProfile.h"
 #include "ModuleFileSystem.h"
 
+#include "ModuleEditor.h"
+
 #include "Time.h"
 
 bool Animation::Advance(float dt)
@@ -361,7 +363,8 @@ bool ComponentAnimation::StartAnimation()
 {
 	if (linked == false)
 	{
-		LOG("ERROR: The animation of %s is not linked and is trying to be played.", game_object->name);
+		LOG("[ERROR] The animation of %s is not linked and is trying to be played.", game_object->name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The animation of %s is not linked and is trying to be played", game_object->name);
 	}
 
 	if (current_animation != nullptr)

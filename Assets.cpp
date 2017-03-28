@@ -246,7 +246,9 @@ void Assets::FillDirectoriesRecursive(Directory* root_dir)
 		uint size = App->file_system->Load((root_dir->path + (*file)).data(), &buffer);
 		if (size == 0)
 		{
-			LOG("Error while loading Meta file: %s", (root_dir->path + (*file)).data());
+			LOG("[ERROR] Loading failure Meta file: %s", (root_dir->path + (*file)).data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on Meta file: %s", (root_dir->path + (*file)).data());
+
 			if (buffer)
 				delete[] buffer;
 			return;
