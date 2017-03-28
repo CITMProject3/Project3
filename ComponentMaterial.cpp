@@ -17,7 +17,11 @@
 
 ComponentMaterial::ComponentMaterial(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
+	list_textures_paths.push_back("");
+	list_textures_paths.push_back("");
 
+	texture_ids["0"] = 0;
+	texture_ids["1"] = 0;
 }
 
 ComponentMaterial::~ComponentMaterial()
@@ -98,12 +102,10 @@ void ComponentMaterial::OnInspector(bool debug)
 				ImGui::EndMenu();
 			}
 
-			AddTexture();
 			int i = 0;
 			for (map<string, uint>::iterator it = texture_ids.begin(); it != texture_ids.end(); it++)
 			{
-				if (i != 0)
-					ImGui::Separator();
+				ImGui::Separator();
 
 				std::string text_string = "";
 				if ((*it).first == "0")
@@ -131,7 +133,9 @@ void ComponentMaterial::OnInspector(bool debug)
 				}
 				ImGui::EndPopup();
 			}
-
+			ImGui::NewLine();
+			AddTexture();
+			ImGui::Separator();
 			ImGui::ColorEdit4("Color: ###materialColorDefault", color);
 			ChooseAlphaType();
 
@@ -179,7 +183,6 @@ void ComponentMaterial::Save(Data & file)const
 		}
 	}
 	
-
 	file.AppendArrayValue(data);
 }
 
@@ -248,28 +251,11 @@ void ComponentMaterial::Load(Data & conf)
 					i++;
 					string tex_path = texture.GetString("path");
 
-					ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
-
-					if (rc_tmp)
+					if (tex_path != "")
 					{
-						int sampler_size = tex_path.size();
-						char* content = new char[sizeof(int) + sampler_size * sizeof(char)];
-						memcpy(content, &sampler_size, sizeof(int));
-						char* pointer = content + sizeof(int);
-						memcpy(pointer, tex_path.c_str(), sizeof(char)* sampler_size);
-						int size;
-						memcpy(&size, content, sizeof(int));
-						(*uni)->value = new char[sizeof(int) + sizeof(char) * size];
-						memcpy((*uni)->value, content, sizeof(int) + sizeof(char) * size);
+						ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
 
-						tex_resources.push_back(rc_tmp);
-						texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
-						list_textures_paths.push_back(tex_path);
-					}
-					else
-					{
-						ResourceFileTexture* rc_rndtx = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_RENDER_TEX);
-						if (rc_rndtx)
+						if (rc_tmp)
 						{
 							int sampler_size = tex_path.size();
 							char* content = new char[sizeof(int) + sampler_size * sizeof(char)];
@@ -280,16 +266,51 @@ void ComponentMaterial::Load(Data & conf)
 							memcpy(&size, content, sizeof(int));
 							(*uni)->value = new char[sizeof(int) + sizeof(char) * size];
 							memcpy((*uni)->value, content, sizeof(int) + sizeof(char) * size);
-							tex_resources.push_back(rc_rndtx);
-							texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_rndtx->GetTexture()));
-							list_textures_paths.push_back(tex_path);
+							tex_resources.push_back(rc_tmp);
+
+							if ( i < 2)
+							{
+								texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
+								list_textures_paths[i] = tex_path;
+							}
+							else
+							{
+								texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
+								list_textures_paths.push_back(tex_path);
+							}
 						}
 						else
-							LOG("Material: error while loading texture %s", tex_path.data());
+						{
+							ResourceFileTexture* rc_rndtx = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_RENDER_TEX);
+							if (rc_rndtx)
+							{
+								int sampler_size = tex_path.size();
+								char* content = new char[sizeof(int) + sampler_size * sizeof(char)];
+								memcpy(content, &sampler_size, sizeof(int));
+								char* pointer = content + sizeof(int);
+								memcpy(pointer, tex_path.c_str(), sizeof(char)* sampler_size);
+								int size;
+								memcpy(&size, content, sizeof(int));
+								(*uni)->value = new char[sizeof(int) + sizeof(char) * size];
+								memcpy((*uni)->value, content, sizeof(int) + sizeof(char) * size);
+								tex_resources.push_back(rc_rndtx);
+
+								if (i < 2)
+								{
+									texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
+									list_textures_paths[i] = tex_path;
+								}
+								else
+								{
+									texture_ids.insert(pair<string, uint>((*uni)->name.data(), rc_tmp->GetTexture()));
+									list_textures_paths.push_back(tex_path);
+								}
+							}
+							else
+								LOG("Material: error while loading texture %s", tex_path.data());
+						}
 					}
 				}
-				
-
 			}
 			//RefreshTextures();
 		}
@@ -310,8 +331,16 @@ void ComponentMaterial::Load(Data & conf)
 			if (rc_tmp)
 			{
 				tex_resources.push_back(rc_tmp);
-				texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
-				list_textures_paths.push_back(tex_path);
+				if (i < 2)
+				{
+					texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
+					list_textures_paths[i] = tex_path;
+				}
+				else
+				{
+					texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
+					list_textures_paths.push_back(tex_path);
+				}
 			}
 			else
 			{
@@ -459,7 +488,6 @@ bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 		{
 			if (ImGui::MenuItem((*it).data()))
 			{
-				
 				string u_sampler2d = App->resource_manager->FindFile(*it);
 				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(u_sampler2d, ResourceFileType::RES_TEXTURE);
 				if (rc_tmp)
@@ -475,13 +503,16 @@ bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 							if (tex->GetTexture() == id)
 							{
 								//Erasing texture from list_textures_paths
+								uint vec_count = 0;
 								for (std::vector<std::string>::iterator it3 = list_textures_paths.begin(); it3 != list_textures_paths.end(); it3++)
 								{
 									if ((*it3) == (*it2)->GetFile())
 									{
-										list_textures_paths.erase(it3);
+										if (vec_count >= 2)
+											list_textures_paths.erase(it3);
 										break;
 									}
+									vec_count++;
 								}
 
 								(*it2)->Unload();
@@ -493,7 +524,14 @@ bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 
 					texture_ids.at(std::to_string(num)) = rc_tmp->GetTexture();
 					tex_resources.push_back(rc_tmp);
-					list_textures_paths.push_back(u_sampler2d);
+					if (num < 2)
+					{
+						list_textures_paths[num] = u_sampler2d;
+					}
+					else
+					{
+						list_textures_paths.push_back(u_sampler2d);
+					}
 					ret = true;
 				}
 				else
@@ -632,13 +670,18 @@ void ComponentMaterial::RemoveTexture(std::string name)
 			if (tex->GetTexture() == id)
 			{
 				//Erasing texture from list_textures_paths
+				uint vec_count = 0;
 				for (std::vector<std::string>::iterator it3 = list_textures_paths.begin(); it3 != list_textures_paths.end(); it3++)
 				{
 					if ((*it3) == (*it2)->GetFile())
 					{
-						list_textures_paths.erase(it3);
+						if (vec_count >= 2)
+							list_textures_paths.erase(it3);
+						else
+							(*it3) = "";
 						break;
 					}
+					vec_count++;
 				}
 
 				(*it2)->Unload();
