@@ -49,9 +49,9 @@ DWORD ModuleScripting::GetError()
 void ModuleScripting::LoadScriptsLibrary()
 {
 	if(_DEBUG)
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
 	else
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Scripts/Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
 
 	if (scripts_lib != nullptr)
 	{
