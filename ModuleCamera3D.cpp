@@ -98,6 +98,11 @@ float ModuleCamera3D::GetFOV() const
 	return camera->GetFOV();
 }
 
+float ModuleCamera3D::GetAspectRatio() const
+{
+	return camera->aspect_ratio;
+}
+
 void ModuleCamera3D::SetNearPlane(const float & near_plane)
 {
 	camera->SetNearPlane(near_plane);
@@ -117,6 +122,11 @@ void ModuleCamera3D::SetBackgroundColor(const math::float3 & color)
 {
 	camera->SetBackgroundColor(color);
 	App->renderer3D->SetClearColor(color);
+}
+
+void ModuleCamera3D::SetAspectRatio(float ar)
+{
+	camera->SetAspectRatio(ar);
 }
 
 bool ModuleCamera3D::MoveArrows(float dt)
