@@ -214,7 +214,7 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	if (App->file_system->Exists(library_path.data()))
 	{
 		//Check file modification
-		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
+		double lib_mod_time = App->file_system->GetLastModificationTime(assets_path.data());
 		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
@@ -1124,7 +1124,49 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 		original_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		// Generating new meta folder file with new path
-		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		if((FileType)type != FileType::MESH)
+			GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		else
+		{
+			vector<unsigned int> meshes_uuids, animations_uuids, bones_uuids;
+
+			if (meta.GetArray("meshes", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("meshes"); i++)
+				{
+					Data mesh_info = meta.GetArray("meshes", i);
+					meshes_uuids.push_back(mesh_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			if (meta.GetArray("animations", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("animations"); i++)
+				{
+					Data animation_info = meta.GetArray("animations", i);
+					animations_uuids.push_back(animation_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			if (meta.GetArray("bones", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("bones"); i++)
+				{
+					Data bones_info = meta.GetArray("bones", i);
+					bones_uuids.push_back(bones_info.GetUInt("uuid"));
+				}
+			}
+			else
+				LOG("Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+
+			GenerateMetaFileMesh(original_path.c_str(), uuid, lib_path, meshes_uuids, animations_uuids, bones_uuids);
+			
+		}
+		
 		delete[] buf;
 	}
 }

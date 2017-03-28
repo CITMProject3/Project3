@@ -109,7 +109,7 @@ bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* fold
 	if (uuid == 0)
 		uuid = App->rnd->RandomInt();
 	
-	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "anim", output_name);
+	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "anim", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -372,7 +372,7 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 
 	if (uuid == 0)
 		uuid = App->rnd->RandomInt();
-	bool ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
+	bool ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
 
 	delete[] data;
 	data = nullptr;
