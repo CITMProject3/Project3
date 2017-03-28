@@ -59,6 +59,7 @@ private:
 public:
 	Directory* FindDirectory(const string& dir)const;
 	AssetFile* FindAssetFile(const string& file);
+	string FindAssetFileFromLibrary(const string& lib_path)const;
 
 	bool IsMeshExtension(const std::string& file_name)const;
 	bool IsSceneExtension(const std::string& file_name)const;
