@@ -261,9 +261,6 @@ update_status ModuleEditor::PreUpdate()
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
 	using_mouse = ImGui::GetIO().WantCaptureMouse;
 
-	if (App->input->GetKey(SDL_SCANCODE_6) == KEY_STATE::KEY_DOWN)
-		DisplayWarning(WarningType::W_ERROR, "This is a %s %s", "incredible", "test");
-
 	return UPDATE_CONTINUE;
 }
 
