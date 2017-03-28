@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -420,7 +422,8 @@ Component* GameObject::AddComponent(ComponentType type)
 			item = new ComponentUiButton(type, this);
 		break;
 	default:
-		LOG("Unknown type specified for GameObject %s", name);
+		LOG("[WARNING] Unknown type specified for GameObject %s", name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Unknown type specified for GameObject %s", name);
 		break;
 	}
 
@@ -430,9 +433,9 @@ Component* GameObject::AddComponent(ComponentType type)
 	}
 	else
 	{
-		LOG("Error while adding component to %s", this->name);
-	}
-		
+		LOG("[ERROR] When adding component to %s", this->name.c_str());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s", this->name.c_str());
+	}		
 
 	return item;
 }

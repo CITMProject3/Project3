@@ -305,6 +305,7 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="WarningWindow.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowOptions.h" />
     <ClInclude Include="Wwise_Library.h" />
@@ -449,6 +450,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="WarningWindow.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowOptions.cpp" />
   </ItemGroup>
