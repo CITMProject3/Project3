@@ -29,7 +29,8 @@ bool ModuleScripting::Start()
 
 bool ModuleScripting::CleanUp()
 {
-	scripts_lib->Unload();
+	if(scripts_lib)
+		scripts_lib->Unload();
 	resource_created = false;
 	scripts_loaded = false;
 
