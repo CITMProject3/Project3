@@ -70,6 +70,7 @@ public:
 
 	void GeneralOptions();
 	void MeshFileOptions();
+	void ImageFileOptions();
 	void SceneFileOptions();
 	void DirectoryOptions();
 	void PrefabFileOptions();

@@ -97,6 +97,7 @@ void Assets::Draw()
 				if (ImGui::Selectable((*file)->name.data()))
 				{
 					file_selected = (*file);
+					ImGui::OpenPopup("FileImageOptions");
 					//imgui open popup fileimageoptions TODO
 				}
 				break;
@@ -183,6 +184,7 @@ void Assets::Draw()
 
 	DirectoryOptions();
 	MeshFileOptions();
+	ImageFileOptions();
 	SceneFileOptions();
 	PrefabFileOptions();
 	MaterialFileOptions();
@@ -547,6 +549,17 @@ void Assets::MeshFileOptions()
 	}
 }
 
+void Assets::ImageFileOptions()
+{
+	if (ImGui::BeginPopup("FileImageOptions"))
+	{
+		if (ImGui::Selectable("Remove"))
+		{
+			DeleteAssetFile(file_selected);
+		}
+		ImGui::EndPopup();
+	}
+}
 void Assets::SceneFileOptions()
 {
 	if (ImGui::BeginPopup("FileSceneOptions"))
