@@ -7,6 +7,8 @@
 #include "imgui\imgui.h"
 #include "ModuleRenderer3D.h"
 
+#include "ModuleEditor.h"
+
 #include <stack>
 
 ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -121,7 +123,8 @@ void ComponentRectTransform::CalculateFinalTransform()
 	}
 	else
 	{
-		LOG("Error: Component created but not attached to any gameobject");
+		LOG("[WARNING] Component created but not attached to any gameobject");
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Component created but not attached to any gameobject");
 	}
 }
 

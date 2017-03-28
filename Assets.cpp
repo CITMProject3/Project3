@@ -246,7 +246,9 @@ void Assets::FillDirectoriesRecursive(Directory* root_dir)
 		uint size = App->file_system->Load((root_dir->path + (*file)).data(), &buffer);
 		if (size == 0)
 		{
-			LOG("Error while loading Meta file: %s", (root_dir->path + (*file)).data());
+			LOG("[ERROR] Loading failure Meta file: %s", (root_dir->path + (*file)).data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on Meta file: %s", (root_dir->path + (*file)).data());
+
 			if (buffer)
 				delete[] buffer;
 			return;
@@ -415,6 +417,40 @@ Directory * Assets::FindDirectory(const string & dir)const
 AssetFile* Assets::FindAssetFile(const string & file)
 {
 	return FindAssetFileRecursive(file, root);
+}
+
+string Assets::FindAssetFileFromLibrary(const string & lib_path) const
+{
+	string ret;
+
+	if (root != nullptr)
+	{
+		stack<Directory*> stack;
+		stack.push(root);
+		Directory* item = nullptr;
+		bool found = false;
+		while (!found && !stack.empty())
+		{
+			item = stack.top();
+			stack.pop();
+
+			for (vector<AssetFile*>::const_iterator it = item->files.begin(); it != item->files.end(); ++it)
+			{
+				if ((*it)->content_path.compare(lib_path) == 0)
+				{
+					found = true;
+					ret = (*it)->original_file;
+					break;
+				}
+			}
+
+			if (!found)
+				for (vector<Directory*>::const_iterator it = item->directories.begin(); it != item->directories.end(); ++it)
+					stack.push((*it));
+		}
+	}
+
+	return ret;
 }
 
 AssetFile* Assets::FindAssetFileRecursive(const string& file, Directory* directory)
