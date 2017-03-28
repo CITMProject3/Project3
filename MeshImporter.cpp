@@ -377,7 +377,7 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 
 	//Generate random UUID for the name
 	msh_uuid = (unsigned int)App->rnd->RandomInt();
-	ret = App->file_system->SaveUnique(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(msh_uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -972,7 +972,7 @@ bool MeshImporter::SaveUUID(Mesh & mesh, const char * folder_path, std::string &
 	cursor += bytes;
 
 	//Generate random UUID for the name
-	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
+	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
 
 	delete[] data;
 	data = nullptr;

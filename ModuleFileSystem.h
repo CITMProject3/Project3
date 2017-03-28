@@ -37,6 +37,7 @@ public:
 	unsigned int Save(const char* file, const void* buffer, unsigned int size) const;
 	//File = filename without extension. Path = Directory to save. Extension = extension to save without the "."
 	bool SaveUnique(const char* file, const void* buffer, unsigned int size, const char* path, const char* extension,std::string& output_name);
+	bool Save(const char* file, const void* buffer, unsigned int size, const char* path, const char* extension, std::string& output_name);
 
 	bool GetEnumerateFiles(const char* dir, std::vector<std::string>& buffer);
 	void GetFilesAndDirectories(const char* dir, std::vector<std::string>& folders, std::vector<std::string>& files, bool only_meta_files = false)const;
