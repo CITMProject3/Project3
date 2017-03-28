@@ -5,6 +5,7 @@
 #include "application.h"
 
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ResourceFileBone.h"
@@ -30,7 +31,8 @@ bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* 
 		ret = ImportAnimation(scene->mAnimations[0], base_path, output_name, uuids[0]);
 		if (ret == false)
 		{
-			LOG("Warning: could not import animation");
+			LOG("[WARNING] Animation hasn't been imported");
+			App->editor->DisplayWarning(WarningType::W_WARNING, "Animation has not been imported");
 		}
 	}
 	return ret;

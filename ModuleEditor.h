@@ -9,6 +9,8 @@
 #include "ImGuizmo\ImGuizmo.h"
 #include "imgui/imgui.h"
 
+#include "WarningWindow.h" // Needed here because of WarningType
+
 #include <list>
 #include <vector>
 
@@ -31,7 +33,6 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
-class WarningWindow;
 
 class ComponentCar;
 
@@ -74,6 +75,8 @@ public:
 	void Copy(GameObject* game_object);
 	void Paste(GameObject* game_object);
 	void Duplicate(GameObject* game_object);
+
+	void DisplayWarning(WarningType type, const char *format, ...);
 
 private:
 	//Game Simulation Options

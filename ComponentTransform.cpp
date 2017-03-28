@@ -278,7 +278,8 @@ void ComponentTransform::Reset()
 
 void ComponentTransform::Remove()
 {
-	LOG("Component Transform from GO(%s) can't be removed.",GetGameObject()->name);
+	LOG("[WARNING] Component Transform from gameobject %s can't be removed.", GetGameObject()->name);
+	App->editor->DisplayWarning(WarningType::W_WARNING, "Component Transform from gameobject %s can't be removed.", GetGameObject()->name);
 }
 
 void ComponentTransform::SaveAsPrefab(Data & file) const
@@ -313,7 +314,8 @@ void ComponentTransform::CalculateFinalTransform()
 	}
 	else
 	{	
-		LOG("Error: Component created but not attached to any gameobject");
+		LOG("[WARNING] Component created but not attached to any gameobject");
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Component created but not attached to any gameobject");
 	}
 }
 

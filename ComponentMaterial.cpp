@@ -307,14 +307,15 @@ void ComponentMaterial::Load(Data & conf)
 								}
 							}
 							else
-								LOG("Material: error while loading texture %s", tex_path.data());
+							{
+								LOG("[ERROR] Loading failure on texture %s", tex_path.data());
+								App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", tex_path.data());
+							}								
 						}
 					}
 				}
 			}
-			//RefreshTextures();
 		}
-
 	}
 	else //Default material
 	{
@@ -344,7 +345,8 @@ void ComponentMaterial::Load(Data & conf)
 			}
 			else
 			{
-					LOG("Material: error while loading texture %s", tex_path.data());
+					LOG("[ERROR] Loading failure on texture %s", tex_path.data());
+					App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", tex_path.data());
 			}
 			
 		}
@@ -536,7 +538,8 @@ bool ComponentMaterial::ChangeTextureNoMaterial(string tex_name, int num)
 				}
 				else
 				{
-					LOG("Material: error while loading texture %s", (*it).data());
+					LOG("[ERROR] Loading failure on texture %s", (*it).data());
+					App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", (*it).data());
 				}
 			}
 		}
@@ -648,7 +651,8 @@ bool ComponentMaterial::AddTexture()
 				}
 				else
 				{
-					LOG("Material: error while loading texture %s", (*it).data());
+					LOG("[ERROR] Loading failure on texture %s", (*it).data());
+					App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", (*it).data());
 				}
 			}
 		}

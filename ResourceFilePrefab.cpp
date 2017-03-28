@@ -2,6 +2,7 @@
 
 #include "ModuleFileSystem.h"
 #include "ModuleGOManager.h"
+#include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include "Component.h"
@@ -23,7 +24,8 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	uint size = App->file_system->Load(file_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", file_path.data());
+		LOG("[ERROR] While loading prefab resource %s", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab resource %s", file_path.data());
 		if (buffer)
 			delete[] buffer;
 		return;
@@ -52,7 +54,8 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	}
 	else
 	{
-		LOG("The %s is not a valid mesh/prefab file", file_path.data());
+		LOG("[ERROR] The %s is not a valid mesh/prefab file", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The %s is not a valid mesh / prefab file", file_path.data());
 	}
 
 	delete[] buffer;
@@ -88,7 +91,9 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	uint size = App->file_system->Load(file_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", file_path.data());
+		LOG("[ERROR] While loading prefab resource %s", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab resource %s", file_path.data());
+		
 		if (buffer)
 			delete[] buffer;
 		return nullptr;
@@ -379,7 +384,8 @@ void ResourceFilePrefab::ResetInstance(GameObject * origin, vector<GameObject*>&
 	uint size = App->file_system->Load(file_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", file_path.data());
+		LOG("[ERROR] While loading prefab resource %s", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab resource %s", file_path.data());
 		if (buffer)
 			delete[] buffer;
 		return;

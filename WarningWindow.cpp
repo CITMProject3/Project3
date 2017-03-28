@@ -4,41 +4,62 @@ WarningWindow::WarningWindow()
 { }
 
 WarningWindow::~WarningWindow()
-{ }
+{ 
+	RemoveMessages();
+}
+
+void WarningWindow::AddMessage(const char *message, WarningType type)
+{
+	WarningMessage *msg = new WarningMessage(message, type);
+	warning_messages.push_back(msg);
+	SetActive(true);
+}
 
 void WarningWindow::Draw()
 {
 	if (!active)
 		return;
 
-	//int fps = App->GetFPS();
+	ImGui::Begin("Warning!", &active, flags);
 
-	////Get frames
-	//if (frames.size() > 100) //Max seconds to show
-	//{
-	//	for (size_t i = 1; i < frames.size(); i++)
-	//	{
-	//		frames[i - 1] = frames[i];
-	//	}
-	//	frames[frames.size() - 1] = fps;
-	//}
-	//else
-	//{
-	//	frames.push_back(fps);
-	//}
+	for (std::vector<WarningMessage*>::iterator it = warning_messages.begin(); it != warning_messages.end(); ++it)
+	{
+		switch ((*it)->type)
+		{
+			case(WarningType::W_ERROR):
+			{
+				ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "[ERROR] ");
+				ImGui::SameLine();
+				ImGui::Text((*it)->message.data());
+				break;
+			}
+			case(WarningType::W_WARNING):
+			{
+				ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "[WARNING] ");
+				ImGui::SameLine();
+				ImGui::Text((*it)->message.data());
+				break;
+			}
+		}
+	}
 
-	//ImGui::Begin("FPS Graph", &active, flags);
+	ImGui::Separator();
+	
+	if (ImGui::Button("CLEAN")) // remove all warning messages
+		RemoveMessages();
 
-	//char text[20];
-	//sprintf_s(text, 20, "Frames: %d", fps);
-	//ImGui::Text(text);
+	ImGui::SameLine();
+	if (ImGui::Button("OK"))  // close window
+		SetActive(false);
 
-	//ImGui::PlotHistogram("Framerate", &frames[0], frames.size(), 0, NULL, 0.0f, 100.0f, ImVec2(300, 100));
-	//if (ImGui::SliderInt("Max FPS", &max_fps, -1, 200, NULL))
-	//{
-	//	App->SetMaxFPS(max_fps);
-	//}
-	//ImGui::End();
+	ImGui::End();
+}
+
+void WarningWindow::RemoveMessages()
+{
+	for (std::vector<WarningMessage*>::iterator it = warning_messages.begin(); it != warning_messages.end(); ++it)
+		delete (*it);
+	warning_messages.clear();
 }
 
 
