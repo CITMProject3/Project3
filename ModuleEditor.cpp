@@ -799,7 +799,7 @@ bool ModuleEditor::QuitWindow()
 
 void ModuleEditor::OnSaveCall()
 {
-	std::string scene = App->go_manager->GetCurrentScenePath();
+	std::string scene = App->go_manager->GetCurrentAssetsScenePath();
 	if (scene == "")
 	{
 		OpenSaveSceneWindow();
@@ -821,7 +821,7 @@ void ModuleEditor::OnSaveCall()
 
 void ModuleEditor::OpenSaveSceneWindow()
 {
-	std::string scene_name_path = App->go_manager->GetCurrentScenePath();
+	std::string scene_name_path = App->go_manager->GetCurrentAssetsScenePath();
 	if (scene_name_path != "")
 	{
 		std::string scene_name = App->file_system->GetNameFromPath(scene_name_path.c_str());
