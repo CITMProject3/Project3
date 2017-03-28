@@ -1607,10 +1607,6 @@ void ComponentCar::Reset()
 
 void ComponentCar::TrueReset()
 {
-	if (App->go_manager->current_scene_canvas != nullptr)
-	{
-		App->go_manager->current_scene_canvas->SetWin(true);
-	}
 
 	lastCheckpoint = nullptr;
 	lap = 1;
