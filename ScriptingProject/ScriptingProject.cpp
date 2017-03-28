@@ -86,7 +86,7 @@ extern "C"
 			{
 				float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
 				tmp_pos.x -= 2;
-				col->GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
+				col->SetPos(tmp_pos.x, tmp_pos.y, tmp_pos.z);//GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
 			}
 		}
 	}
