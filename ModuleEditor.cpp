@@ -876,9 +876,9 @@ void ModuleEditor::SaveSceneWindow()
 				save_scene_win = false;
 				App->input->ResetQuit();
 			}
-			ImGui::End();
+			
 		}
-		
+		ImGui::End();
 		if(!save_scene_win)
 			App->input->ResetQuit();
 	}

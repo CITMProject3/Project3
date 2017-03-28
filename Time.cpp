@@ -9,7 +9,7 @@ Time::Time()
 		frequency = SDL_GetPerformanceFrequency();
 	started_at = SDL_GetPerformanceCounter();
 	frame_started_at = started_at;
-	capped_ms = 1 / (float)max_fps;
+	SetMaxFPS(max_fps);
 }
 
 Time::~Time()
@@ -18,11 +18,21 @@ Time::~Time()
 void Time::UpdateFrame()
 {
 	real_delta_time = (float)((double(SDL_GetPerformanceCounter() - frame_started_at) / double(frequency)));
+	real_frame_count++;
 
+	//Frame delay to cap FPS
 	if (capped_ms > 0 && real_delta_time < capped_ms)
 	{
 		SDL_Delay(capped_ms - real_delta_time);
 		real_delta_time = capped_ms;
+	}
+
+	second_counter += real_delta_time;
+	if (second_counter >= 1)
+	{
+		second_counter = 0;
+		last_fps = real_frame_count;
+		real_frame_count = 0;
 	}
 
 	//Game is running
@@ -35,7 +45,6 @@ void Time::UpdateFrame()
 	frame_started_at = SDL_GetPerformanceCounter();
 
 	time_unitary += real_delta_time;
-	
 }
 
 double Time::RealTimeSinceStartup()const
@@ -89,6 +98,16 @@ unsigned int Time::GetFrameCount() const
 	return frame_count;
 }
 
+int Time::GetFPS()const
+{
+	return last_fps;
+}
+
+int Time::GetMaxFPS()const
+{
+	return max_fps;
+}
+
 float Time::DeltaTime() const
 {
 	return (game_paused || started_at == 0) ? 0 : delta_time;
@@ -108,6 +127,18 @@ void Time::SetTimeScale(float time_scale)
 {
 	if (time_scale >= 0)
 		this->time_scale = time_scale;
+}
+
+void Time::SetMaxFPS(int max_fps)
+{
+	this->max_fps = max_fps;
+	if (max_fps == 0)
+	{
+		this->max_fps = -1;
+		capped_ms = 0;
+	}
+	else
+		capped_ms = 1 / (double)max_fps;
 }
 
 float Time::GetUnitaryTime()
