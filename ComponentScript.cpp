@@ -358,13 +358,12 @@ void ComponentScript::OnCollision(PhysBody3D* col)
 {
 	if (App->scripting->scripts_loaded)
 	{
-		if (!started)
+		if (started)
 		{
 			string collision_path = path.c_str();
 			collision_path.append("_OnCollision");
 			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
 			{
-				finded_start = true;
 				if (App->IsGameRunning() && !App->IsGamePaused())
 					onCollision(col);
 			}

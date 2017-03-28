@@ -547,8 +547,13 @@ ResourceFile * ModuleResourceManager::FindResourceByLibraryPath(const string & l
 void ModuleResourceManager::SaveScene(const char * file_name, string base_library_path)
 {
 	string name_to_save = file_name;
+	//Add extension if doesn't have it yet
+	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
+		name_to_save += ".ezx";
 
 	Data root_node;
+	
+	root_node.AppendString("current_scene_path", name_to_save.c_str());
 	root_node.AppendArray("GameObjects");
 
 	App->go_manager->root->Save(root_node);
@@ -558,16 +563,10 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
-	size_t size = root_node.Serialize(&buf);
-
-	//Add extension if doesn't have it yet
-	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
-		name_to_save += ".ezx";
+	size_t size = root_node.Serialize(&buf);	
 
 	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
-
-	App->file_system->Save(name_to_save.data(), buf, size);
-	
+	App->file_system->Save(name_to_save.data(), buf, size);	
 
 	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
@@ -618,6 +617,9 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	}
 
 	Data scene(buffer);
+	const char *scene_path = scene.GetString("current_scene_path");
+	if(scene_path) App->go_manager->SetCurrentScenePath(scene_path);
+
 	Data root_objects;
 	root_objects = scene.GetArray("GameObjects", 0);
 
@@ -633,7 +635,8 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 			else
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
-		App->go_manager->SetCurrentScenePath(file_name);
+
+		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
 		const char* terrain = scene.GetString("terrain");
 		const char*  terrain_texture = scene.GetString("terrain_texture");
