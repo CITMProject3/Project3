@@ -82,9 +82,12 @@ extern "C"
 		}
 		void Test_OnCollision(PhysBody3D* col)
 		{
-			float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
-			tmp_pos.x -= 2;
-			col->GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
+			if (!col->GetCollider()->Static)
+			{
+				float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
+				tmp_pos.x -= 2;
+				col->GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
+			}
 		}
 	}
 
