@@ -126,6 +126,7 @@ public:
 	uint edgeTexId = 0;
 	float* edgeDetectionImage = nullptr;
 	///////
+
 	bool renderWiredTerrain = false;
 };
 

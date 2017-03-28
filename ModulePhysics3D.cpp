@@ -883,10 +883,12 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		delete[] edgeDetectionImage;
 	}
-	edgeDetectionImage = new float[(w*h)*3];
+	edgeDetectionImage = new float[(w*h)];
 
 	float* buf = new float[w*h];
 	float maxVal = 0;
+	float maxHVal = 0;
+	float maxVVal = 0;
 
 	//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
 	for (int y = 0; y < h; y++)
@@ -924,27 +926,34 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
 			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
-			edgeH[(y * w + x) * 3] = 0;
-			edgeV[(y * w + x) * 3] = 0;
+			edgeH[(y * w + x)] = 0;
+			edgeV[(y * w + x)] = 0;
 			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
 			{
 				for (int _y = -1; _y <= 1; _y++)
 				{
 					for (int _x = -1; _x <= 1; _x++)
 					{
-						edgeH[(y * w + x) * 3] += buf[(y + _y) * w + x + _x] * hk[_y][_x];
+						edgeH[(y * w + x)] += buf[(y + _y) * w + x + _x] * hk[_y][_x];
 
-						edgeV[(y * w + x) * 3] += buf[(y + _y) * w + x + _x] * vk[_y][_x];
+						edgeV[(y * w + x)] += buf[(y + _y) * w + x + _x] * vk[_y][_x];
 					}
 				}
 			}
 
-			edgeDetectionImage[(y * w + x)*3] = math::Sqrt(edgeH[(y * w + x) * 3] * edgeH[(y * w + x) * 3] + edgeV[(y * w + x) * 3] * edgeV[(y * w + x) * 3]);
-			edgeDetectionImage[(y * w + x) * 3 + 1] = edgeDetectionImage[(y * w + x) * 3];
-			edgeDetectionImage[(y * w + x) * 3 + 2] = edgeDetectionImage[(y * w + x) * 3];
-			if (edgeDetectionImage[(y * w + x) * 3] > maxVal)
+			edgeDetectionImage[(y * w + x)] = math::Sqrt(edgeH[(y * w + x)] * edgeH[(y * w + x)] + edgeV[(y * w + x)] * edgeV[(y * w + x)]);
+			if (edgeDetectionImage[(y * w + x)] > maxVal)
 			{
-				maxVal = edgeDetectionImage[(y * w + x) * 3];
+				maxVal = edgeDetectionImage[(y * w + x)];
+			}
+
+			if (edgeH[(y * w + x)] > maxHVal)
+			{
+				maxHVal = edgeH[(y * w + x)];
+			}
+			if (edgeV[(y * w + x)] > maxVVal)
+			{
+				maxVVal = edgeV[(y * w + x)];
 			}
 
 			value /= n;
@@ -956,17 +965,11 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			edgeDetectionImage[(y * w + x) * 3] = (edgeDetectionImage[(y * w + x) * 3] / maxVal);// *255.0;
-			edgeDetectionImage[(y * w + x) * 3 + 1] = edgeDetectionImage[(y * w + x) * 3];
-			edgeDetectionImage[(y * w + x) * 3 + 2] = edgeDetectionImage[(y * w + x) * 3];
+			edgeDetectionImage[(y * w + x)] /= maxVal;
 
-			edgeH[(y * w + x) * 3] /= maxVal;
-			edgeH[(y * w + x) * 3 + 1] = edgeH[(y * w + x) * 3];
-			edgeH[(y * w + x) * 3 + 2] = edgeH[(y * w + x) * 3];
+			edgeH[(y * w + x)] /= maxHVal;
 
-			edgeV[(y * w + x) * 3] /= maxVal;
-			edgeV[(y * w + x) * 3 + 1] = edgeV[(y * w + x) * 3];
-			edgeV[(y * w + x) * 3 + 2] = edgeV[(y * w + x) * 3];
+			edgeV[(y * w + x)] /= maxVVal;
 		}
 	}
 
@@ -989,7 +992,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeDetectionImage);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeDetectionImage);
 
 	glBindTexture(GL_TEXTURE_2D, edgeVId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -997,7 +1000,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeV);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeV);
 
 	glBindTexture(GL_TEXTURE_2D, edgeHId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -1005,7 +1008,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_FLOAT, edgeH);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeH);
 
 	delete[] edgeH;
 	delete[] edgeV;
