@@ -89,7 +89,8 @@ public:
 private:
 
 	vector<Module*> list_modules;
-	int fps = 60;
+	int max_fps = 60;
+	int last_fps = 60;
 	int capped_ms = -1;
 
 	bool start_in_game = false;

@@ -1,5 +1,6 @@
 #include "FPSGraph.h"
 #include "Application.h"
+#include "Time.h"
 
 FPSGraph::FPSGraph()
 {
@@ -14,7 +15,7 @@ void FPSGraph::Draw()
 	if (!active)
 		return;
 
-	int fps = App->GetFPS();
+	int fps = time->GetFPS();
 
 	//Get frames
 	if (frames.size() > 100) //Max seconds to show
@@ -39,7 +40,7 @@ void FPSGraph::Draw()
 	ImGui::PlotHistogram("Framerate", &frames[0], frames.size(), 0, NULL, 0.0f, 100.0f, ImVec2(300, 100));
 	if (ImGui::SliderInt("Max FPS", &max_fps, -1, 200, NULL))
 	{
-		App->SetMaxFPS(max_fps);
+		time->SetMaxFPS(max_fps);
 	}
 	ImGui::End();
 }
