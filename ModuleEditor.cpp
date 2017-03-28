@@ -346,7 +346,10 @@ void ModuleEditor::GameOptions() const
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth()/2, 30));
 	bool open = true;
-	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1, 0.1, 0.1, 1));
 
 	if (App->IsGameRunning() == false || App->IsGamePaused())
 	{
@@ -369,6 +372,9 @@ void ModuleEditor::GameOptions() const
 	ImGui::SameLine();
 	int time_game_running = time->TimeSinceGameStartup();
 	ImGui::Text("Game time: %i", time_game_running);
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::End();
 }
 
