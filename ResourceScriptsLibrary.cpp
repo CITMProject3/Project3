@@ -1,6 +1,8 @@
 #include "ResourceScriptsLibrary.h"
 
 #include "Application.h"
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
 #include <string>
 
@@ -47,10 +49,14 @@ void ResourceScriptsLibrary::LoadScriptNames()
 
 		if (last_error == 126)
 		{
-			LOG("Can't find script names function");
+			LOG("[ERROR] Can't find script names function");
+			App->editor->DisplayWarning(WarningType::W_ERROR, "Can't find script names function");
 		}
 		else
+		{
 			LOG("Unknown error loading script names");
+			App->editor->DisplayWarning(WarningType::W_ERROR, "Unknown error loading script names");
+		}			
 	}
 }
 

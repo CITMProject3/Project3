@@ -396,7 +396,8 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 				go->rc_prefab = rc_prefab;
 			else
 			{
-				LOG("Warning: error when loading prefab '%s'", prefab_path.c_str());
+				LOG("[ERROR] When loading prefab '%s'", prefab_path.c_str());
+				App->editor->DisplayWarning(WarningType::W_ERROR, "When loading prefab '%s'", prefab_path.c_str());
 			}
 		}
 	}

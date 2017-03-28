@@ -575,7 +575,8 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		}
 		else
 		{
-			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			LOG("[ERROR] While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
 		}
 
 		delete[] meta_buf;
@@ -613,7 +614,9 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 	uint size = App->file_system->Load(file_name, &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading Scene: %s", file_name);
+		LOG("[ERROR] While loading Scene %s", file_name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading scene %s", file_name);
+
 		if (buffer)
 			delete[] buffer;
 		return false;
@@ -664,7 +667,8 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 	}
 	else
 	{
-		LOG("The scene %s is not a valid scene file", file_name);
+		LOG("[WARNING] The scene %s is not a valid scene file", file_name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "The scene %s is not a valid scene file", file_name);
 	}
 
 	delete[] buffer;
@@ -718,6 +722,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		else
 		{
 			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name.data());
 		}
 
 		delete[] meta_buf;
@@ -788,7 +793,8 @@ string ModuleResourceManager::FindFile(const string & assets_file_path) const
 	}
 	else
 	{
-		LOG("Could not find file %s", assets_file_path.data());
+		LOG("[ERROR] Could not find file %s", assets_file_path.c_str());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not find file %s", assets_file_path.c_str());
 	}
 	delete[] buffer;
 
@@ -1139,7 +1145,11 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 				}
 			}
 			else
-				LOG("Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+			{
+				LOG("[WARNING] Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+				
 
 			if (meta.GetArray("animations", 0).IsNull() == false)
 			{
@@ -1150,7 +1160,11 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 				}
 			}
 			else
-				LOG("Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+			{
+				LOG("[WARNING] Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+				
 
 			if (meta.GetArray("bones", 0).IsNull() == false)
 			{
@@ -1161,7 +1175,10 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 				}
 			}
 			else
-				LOG("Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+			{
+				LOG("[WARNING] Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+			}				
 
 			GenerateMetaFileMesh(original_path.c_str(), uuid, lib_path, meshes_uuids, animations_uuids, bones_uuids);
 			
@@ -1420,7 +1437,8 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	uint size = App->file_system->Load(library_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", library_path.data());
+		LOG("[ERROR] While loading prefab file %s", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab file %s", library_path.data());
 		if (buffer)
 			delete[] buffer;
 		return;
@@ -1440,6 +1458,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	else
 	{
 		LOG("The %s is not a valid mesh/prefab file", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The %s is not a valid mesh / prefab file", library_path.data());
 	}
 
 	delete[] buffer;

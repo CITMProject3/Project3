@@ -1,8 +1,8 @@
 #include "Application.h"
 #include "RenderTexEditorWindow.h"
-#include "Globals.h"
 #include "ModuleResourceManager.h"
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 
 RenderTexEditorWindow::RenderTexEditorWindow()
 {}
@@ -64,7 +64,8 @@ void RenderTexEditorWindow::LoadToEdit(const char * path)
 	}
 	else
 	{
-		LOG("Render Texture Editor: could not load file %s", path);
+		LOG("[Error] Could not load file %s", path);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not load file %s", path);
 	}
 
 	if (buffer)
