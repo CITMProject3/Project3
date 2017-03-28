@@ -18,6 +18,7 @@ class ComponentCanvas;
 enum LightType;
 
 #define OCTREE_SIZE 800
+#define TEMPORAL_SCENE "Library/temporal_scene.json"
 
 enum PrimitiveType
 {
