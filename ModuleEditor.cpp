@@ -26,6 +26,7 @@
 #include "Inspector.h"
 #include "Profiler.h"
 
+#include "WarningWindow.h"
 #include "CameraWindow.h"
 #include "ResourcesWindow.h"
 #include "MaterialCreatorWindow.h"
@@ -87,6 +88,7 @@ bool ModuleEditor::Start()
 		windows.push_back(rendertex_win = new RenderTexEditorWindow());
 		windows.push_back(test_win = new TestWindow());
 		windows.push_back(curve_win = new CurveWindow());
+		windows.push_back(warning_window = new WarningWindow());
 		InitSizes();
 	}	
 	else
@@ -120,6 +122,7 @@ bool ModuleEditor::CleanUp()
 	delete rendertex_win;
 	delete test_win;
 	delete curve_win;
+	delete warning_window;
 
 	windows.clear();
 

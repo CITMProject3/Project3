@@ -627,6 +627,9 @@
     <ClInclude Include="ComponentCanvas.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="WarningWindow.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1051,6 +1054,9 @@
     </ClCompile>
     <ClCompile Include="ModuleEditor.cpp">
       <Filter>Sources\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="WarningWindow.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

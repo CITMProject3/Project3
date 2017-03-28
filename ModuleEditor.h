@@ -31,6 +31,8 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
+class WarningWindow;
+
 class ComponentCar;
 
 using namespace std;
@@ -97,6 +99,7 @@ private:
 	void DisplayGizmo();
 
 public:
+
 	Assets* assets = nullptr;
 	MaterialCreatorWindow* material_creator_win = nullptr;
 	RenderTexEditorWindow* rendertex_win = nullptr;
@@ -125,9 +128,11 @@ private:
 
 	vector<Window*> windows;
 
-	//Windows
+	// Permanent windows
 	Hierarchy* hierarchy = nullptr;
 	Inspector* inspector = nullptr;
+
+	// Other windows
 	FPSGraph* fps_graph_win = nullptr;
 	WindowOptions* winoptions_win = nullptr;
 	HardwareInfo* hardware_win = nullptr;
@@ -138,6 +143,7 @@ private:
 	LayersWindow* layers_win = nullptr;
 	TestWindow* test_win = nullptr;
 	CurveWindow* curve_win = nullptr;
+	WarningWindow *warning_window = nullptr;
 
 	bool save_scene_win = false;
 	string scene_name_to_save;
