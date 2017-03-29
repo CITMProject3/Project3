@@ -57,11 +57,14 @@ void CameraWindow::Draw()
 	ImGui::SameLine();
 
 
-	ComponentCamera* current_camera = App->renderer3D->camera;
+	ComponentCamera* current_camera = App->renderer3D->cameras[0];
 	std::string text = "Editor Camera";
-	if (current_camera->GetGameObject() != nullptr)
+	if (current_camera != nullptr)
 	{
-		text = current_camera->GetGameObject()->name.c_str();
+		if (current_camera->GetGameObject() != nullptr)
+		{
+			text = current_camera->GetGameObject()->name.c_str();
+		}
 	}
 
 	if (ImGui::BeginMenu(text.c_str()))

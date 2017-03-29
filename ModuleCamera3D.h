@@ -55,7 +55,8 @@ private:
 
 public:
 
-	ComponentCamera* playCamera = nullptr;
+	ComponentCamera* player1_camera = nullptr;
+	ComponentCamera* player2_camera = nullptr;
 };
 
 #endif // !__MODULECAMERA3D_H__
