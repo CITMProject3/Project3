@@ -74,7 +74,7 @@ public:
 private:
 	void AddTerrain();
 
-	void UpdateTerrainLODs();
+	void GenerateIndices();
 	
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();

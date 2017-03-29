@@ -593,12 +593,15 @@ void ModulePhysics3D::AddTerrain()
 	}
 }
 
-void ModulePhysics3D::UpdateTerrainLODs()
+void ModulePhysics3D::GenerateIndices()
 {
 	int w = heightMapImg->GetWidth();
 	int h = heightMapImg->GetHeight();
 
-	numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 * 3) + (h * 2 * 3) - 2 - 1 - 2 - 1;
+	//Interior vertices all need 6 indices
+	//limit vertices all need 3 indices
+	//Except corner ones. Two need 1 and two need 2
+	numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
 	if (indices != nullptr)
 	{
 		delete[] indices;
@@ -760,7 +763,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 		int h = heightMapImg->GetHeight();
 		uint numVertices = w * h;
 
-		UpdateTerrainLODs();
+		GenerateIndices();
 
 		float3* vertices = new float3[numVertices];
 		float3* normals = new float3[numVertices];
@@ -883,7 +886,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		delete[] edgeDetectionImage;
 	}
-	edgeDetectionImage = new float[(w*h)];
+	edgeDetectionImage = new float[w*h];
 
 	float* buf = new float[w*h];
 	float maxVal = 0;
@@ -906,6 +909,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
+#pragma region GaussianBlur
 			value = 0.0f;
 			n = 0;
 			//Iterating all nearby pixels and checking they actually exist in the image
@@ -923,41 +927,43 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 					}
 				}
 			}
+			value /= n;
+			terrainData[y*w + x] = value * terrainHeightScaling;
+#pragma endregion
 
-			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
-			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
-			edgeH[(y * w + x)] = 0;
-			edgeV[(y * w + x)] = 0;
+#pragma region Edge detection
+			int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
+			int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
+			edgeH[y * w + x] = 0;
+			edgeV[y * w + x] = 0;
 			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
 			{
 				for (int _y = -1; _y <= 1; _y++)
 				{
 					for (int _x = -1; _x <= 1; _x++)
 					{
-						edgeH[(y * w + x)] += buf[(y + _y) * w + x + _x] * hk[_y][_x];
+						edgeH[y * w + x] += buf[(y + _y) * w + x + _x] * hk[_y+1][_x + 1];
 
-						edgeV[(y * w + x)] += buf[(y + _y) * w + x + _x] * vk[_y][_x];
+						edgeV[y * w + x] += buf[(y + _y) * w + x + _x] * vk[_y + 1][_x + 1];
 					}
 				}
 			}
 
-			edgeDetectionImage[(y * w + x)] = math::Sqrt(edgeH[(y * w + x)] * edgeH[(y * w + x)] + edgeV[(y * w + x)] * edgeV[(y * w + x)]);
-			if (edgeDetectionImage[(y * w + x)] > maxVal)
+			edgeDetectionImage[y * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+			if (edgeDetectionImage[y * w + x] > maxVal)
 			{
-				maxVal = edgeDetectionImage[(y * w + x)];
+				maxVal = edgeDetectionImage[y * w + x];
 			}
 
-			if (edgeH[(y * w + x)] > maxHVal)
+			if (edgeH[y * w + x] > maxHVal)
 			{
-				maxHVal = edgeH[(y * w + x)];
+				maxHVal = edgeH[y * w + x];
 			}
-			if (edgeV[(y * w + x)] > maxVVal)
+			if (edgeV[y * w + x] > maxVVal)
 			{
-				maxVVal = edgeV[(y * w + x)];
+				maxVVal = edgeV[y * w + x];
 			}
-
-			value /= n;
-			terrainData[y*w + x] = value * terrainHeightScaling;
+#pragma endregion
 		}
 	}	
 
@@ -965,11 +971,11 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			edgeDetectionImage[(y * w + x)] /= maxVal;
+			edgeDetectionImage[y * w + x] /= maxVal;
 
-			edgeH[(y * w + x)] /= maxHVal;
+			edgeH[y * w + x] /= maxHVal;
 
-			edgeV[(y * w + x)] /= maxVVal;
+			edgeV[y * w + x] /= maxVVal;
 		}
 	}
 
