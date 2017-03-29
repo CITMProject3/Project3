@@ -16,7 +16,6 @@
 #include "PhysVehicle3D.h"
 #include "EventQueue.h"
 #include "EventLinkGos.h"
-#include "AutoProfile.h"
 
 #include "ModuleGOManager.h"
 #include "ComponentCanvas.h"

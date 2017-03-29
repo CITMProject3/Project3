@@ -38,6 +38,8 @@
 
 #include "SDL/include/SDL_video.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -168,6 +170,7 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PreUpdate", Profiler::Color::HotPink)
 
 	if (camera->properties_modified)
 	{
@@ -195,6 +198,8 @@ update_status ModuleRenderer3D::PreUpdate()
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
+
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
 	vector<ComponentCamera*> cameras;
@@ -210,6 +215,13 @@ update_status ModuleRenderer3D::PostUpdate()
 	glDisable(GL_CLIP_DISTANCE0);
 
 	DrawScene(camera);
+	/*
+	glViewport(0, App->window->GetScreenHeight()/2, App->window->GetScreenWidth(), App->window->GetScreenHeight()/2);
+	DrawScene(camera);
+
+	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight() / 2);
+	DrawScene(camera);
+	*/
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -232,7 +244,6 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	camera->SetAspectRatio((float)width / (float)height);
 	UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);
