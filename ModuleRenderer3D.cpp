@@ -172,17 +172,17 @@ update_status ModuleRenderer3D::PreUpdate()
 {
 	BROFILER_CATEGORY("ModuleRenderer3d::PreUpdate", Profiler::Color::HotPink)
 
-	if (camera->properties_modified)
+	if (cameras[0]->properties_modified)
 	{
-		UpdateProjectionMatrix();
-		camera->properties_modified = false;
+		UpdateProjectionMatrix(cameras[0]);
+		cameras[0]->properties_modified = false;
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((float*)camera->GetViewMatrix().v);
+	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->GetPosition().x, App->camera->GetPosition().y, App->camera->GetPosition().z);
@@ -202,19 +202,23 @@ update_status ModuleRenderer3D::PostUpdate()
 
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
-	vector<ComponentCamera*> cameras;
-	App->go_manager->GetAllCameras(cameras);
-	for (size_t i = 0; i < cameras.size(); ++i)
+	vector<ComponentCamera*> scene_cameras;
+	App->go_manager->GetAllCameras(scene_cameras);
+	for (size_t i = 0; i < scene_cameras.size(); ++i)
 	{
-		if (cameras[i]->render_texture)
+		if (scene_cameras[i]->render_texture)
 		{
-			DrawScene(cameras[i], true);
+			DrawScene(scene_cameras[i], true);
 		}
 	}
 
 	glDisable(GL_CLIP_DISTANCE0);
 
-	DrawScene(camera);
+	for (uint i = 0; i < cameras.size(); i++)
+	{
+		DrawScene(cameras[i]);
+	}
+
 	/*
 	glViewport(0, App->window->GetScreenHeight()/2, App->window->GetScreenWidth(), App->window->GetScreenHeight()/2);
 	DrawScene(camera);
@@ -244,13 +248,13 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	UpdateProjectionMatrix();
+	//UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);
 	SendEvent(this, Event::WINDOW_RESIZE);
 }
 
-void ModuleRenderer3D::UpdateProjectionMatrix()
+void ModuleRenderer3D::UpdateProjectionMatrix(ComponentCamera* camera)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -263,15 +267,34 @@ void ModuleRenderer3D::UpdateProjectionMatrix()
 
 const ComponentCamera* ModuleRenderer3D::GetCamera() const
 {
-	return camera;
+	return cameras[0];
 }
 
 void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 {
-	if (this->camera != camera && camera != nullptr)
+	cameras.clear();
+	if (camera != nullptr)
 	{
-		this->camera = camera;
-		UpdateProjectionMatrix();
+		for (uint i = 0; i < cameras.size(); i++)
+		{
+			if (cameras[i] == camera)
+				return;
+		}
+		cameras.push_back(camera);
+		UpdateProjectionMatrix(cameras.back());
+	}
+}
+
+void ModuleRenderer3D::AddCamera(ComponentCamera* camera)
+{
+	if (camera != nullptr)
+	{
+		for (uint i = 0; i < cameras.size(); i++)
+		{
+			if (cameras[i] == camera)
+				return;
+		}
+		cameras.push_back(camera);
 	}
 }
 
@@ -286,6 +309,22 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
+
+	glLoadIdentity();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
+
+	UpdateProjectionMatrix(cam);
+
+	//Draw Grid
+	if (!App->editor->disable_grid)
+	{
+		Plane_P grid(0, 1, 0, 0);
+		grid.axis = true;
+		grid.Render();
+	}
 
 	//Draw UI
 	if (App->go_manager->current_scene_canvas != nullptr)
@@ -300,7 +339,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
-	App->physics->RenderTerrain();
+	App->physics->RenderTerrain(cam);
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();

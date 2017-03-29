@@ -31,9 +31,10 @@ public:
 	bool CleanUp();
 
 	void OnResize(int width, int height, float fovy);
-	void UpdateProjectionMatrix();
+	void UpdateProjectionMatrix(ComponentCamera* camera);
 	const ComponentCamera* GetCamera() const;
 	void SetCamera(ComponentCamera* camera);
+	void AddCamera(ComponentCamera* camera);
 
 	void AddToDraw(GameObject* obj);
 
@@ -60,7 +61,7 @@ public:
 	SDL_GLContext context;
 	float3x3 NormalMatrix;
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
-	ComponentCamera* camera;
+	std::vector<ComponentCamera*> cameras;
 
 private:
 

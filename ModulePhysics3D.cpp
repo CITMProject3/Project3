@@ -12,14 +12,14 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentCar.h"
+#include "ComponentCollider.h"
+#include "ComponentScript.h"
 
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-#include "ComponentCar.h"
-#include "ComponentCollider.h"
-#include "ComponentScript.h"
 
 #include "Assets.h"
 #include "RaycastHit.h"
@@ -626,7 +626,7 @@ void ModulePhysics3D::AddTerrain()
 	}
 }
 
-void ModulePhysics3D::RenderTerrain()
+void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
 	if (numIndices != 0 && terrainData != nullptr)
 	{
@@ -646,9 +646,9 @@ void ModulePhysics3D::RenderTerrain()
 		GLint model_location = glGetUniformLocation(shader_id, "model");
 		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
 		GLint projection_location = glGetUniformLocation(shader_id, "projection");
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *App->renderer3D->camera->GetProjectionMatrix().v);
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
 		GLint view_location = glGetUniformLocation(shader_id, "view");
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
 		int count = 0;
 		if (texture != nullptr)
