@@ -936,8 +936,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 #pragma endregion
 
 #pragma region Edge detection
-			int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
-			int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
+			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
+			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
 			edgeH[y * w + x] = 0;
 			edgeV[y * w + x] = 0;
 			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
@@ -967,7 +967,14 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		for (int x = 0; x < w; x++)
 		{
 			edgeDetectionImage[y * w + x] /= maxVal + maxVal/2;
-			edgeDetectionImage[y * w + x] += 0.25f;
+			if (edgeDetectionImage[y * w + x] < 0.04f)
+			{
+				edgeDetectionImage[y * w + x] = 0.2f;
+			}
+			else
+			{
+				edgeDetectionImage[y * w + x] = 1.0f;
+			}
 		}
 	}
 
