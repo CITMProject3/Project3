@@ -209,11 +209,14 @@ update_status ModuleRenderer3D::PostUpdate()
 
 	glDisable(GL_CLIP_DISTANCE0);
 
+	DrawScene(camera);
+	/*
 	glViewport(0, App->window->GetScreenHeight()/2, App->window->GetScreenWidth(), App->window->GetScreenHeight()/2);
 	DrawScene(camera);
 
 	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight() / 2);
 	DrawScene(camera);
+	*/
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -236,7 +239,6 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	camera->SetAspectRatio((float)width / ((float)height/2));
 	UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);

@@ -187,7 +187,7 @@ void ComponentCamera::OnNotify(void * entity, Event event)
 {
 	if (event == Event::WINDOW_RESIZE)
 	{
-		aspect_ratio = (float)App->window->GetScreenWidth() / ((float)App->window->GetScreenHeight()/2);
+		aspect_ratio = (float)App->window->GetScreenWidth() / ((float)App->window->GetScreenHeight());
 		frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
 	}
 }
