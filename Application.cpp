@@ -149,7 +149,7 @@ bool Application::Init()
 		++i;
 	}
 
-	capped_ms = 1000 / fps;
+	capped_ms = 1000 / max_fps;
 
 	//// Play all Components of every GameObject on the scene
 	if (start_in_game)
@@ -178,10 +178,11 @@ void Application::FinishUpdate()
 	g_Profiler.Update();
 
 	//TODO:limit FPS
-	/*if (capped_ms > 0 && last_frame_ms < capped_ms)
+	/*if (capped_ms > 0 && Time::DeltaTime() < capped_ms)
 	{
 		SDL_Delay(capped_ms - last_frame_ms);
-	}*/
+	}
+	*/
 }
 
 void Application::RunGame() 
@@ -305,9 +306,9 @@ void Application::OpenURL(const char* url)
 
 void Application::SetMaxFPS(int max_fps)
 {
-	fps = max_fps;
-	if (fps == 0) fps = -1;
-	capped_ms = 1000 / fps;
+	this->max_fps = max_fps;
+	if (max_fps == 0) this->max_fps = -1;
+	capped_ms = 1000 / max_fps;
 }
 
 int Application::GetFPS()
