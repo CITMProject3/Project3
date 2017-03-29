@@ -22,11 +22,15 @@ bool ModuleCamera3D::Init(Data & config)
 {
 	camera = new ComponentCamera(C_CAMERA, nullptr);
 	camera->frustum.SetPos(vec(0, 3, -10));
+	camera->viewport_rel_position.x = 0.0f;
+	camera->viewport_rel_position.y = 0.0f;
+	camera->viewport_rel_size.x = 1.0f;
+	camera->viewport_rel_size.y = 1.0f;
 
 	reference = float3(0, 0, 0);
 	camera->LookAt(reference);	
 
-	App->renderer3D->camera = camera;
+	App->renderer3D->SetCamera(camera);
 
 	// Camera acts as the audio listener
 	App->audio->SetListener(camera);
@@ -53,10 +57,21 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::OnPlay()
 {
-	if (playCamera != nullptr)
+	if (player1_camera != nullptr || player2_camera != nullptr)
 	{
-		App->renderer3D->SetCamera(playCamera);
-		App->audio->SetListener(playCamera);
+		//Removing current camera
+		App->renderer3D->SetCamera(nullptr);
+	}
+
+	if (player1_camera != nullptr)
+	{
+		App->renderer3D->AddCamera(player1_camera);
+		App->audio->SetListener(player1_camera);
+	}
+	if (player2_camera != nullptr)
+	{
+		App->renderer3D->AddCamera(player2_camera);
+		//App->audio->SetListener(player2_camera);
 	}
 }
 

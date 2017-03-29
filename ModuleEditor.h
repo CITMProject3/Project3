@@ -121,6 +121,7 @@ public:
 	bool assign_item = false;
 	ComponentCar* to_assign_item = nullptr;
 
+	bool disable_grid = false;
 private:
 
 	bool using_keyboard;
@@ -150,8 +151,6 @@ private:
 
 	bool save_scene_win = false;
 	string scene_name_to_save;
-
-	bool disable_grid = false;
 
 	float heightMapScaling = 1.0f;
 
