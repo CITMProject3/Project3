@@ -318,14 +318,6 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 	UpdateProjectionMatrix(cam);
 
-	//Draw Grid
-	if (!App->editor->disable_grid)
-	{
-		Plane_P grid(0, 1, 0, 0);
-		grid.axis = true;
-		grid.Render();
-	}
-
 	//Draw UI
 	if (App->go_manager->current_scene_canvas != nullptr)
 	{
