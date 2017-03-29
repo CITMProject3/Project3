@@ -10,6 +10,10 @@
 #include "ComponentBone.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
+#include "AutoProfile.h"
+#include "ModuleFileSystem.h"
+
+#include "ModuleEditor.h"
 
 #include "Time.h"
 
@@ -17,15 +21,18 @@ bool Animation::Advance(float dt)
 {
 	time += dt;
 
-	if (time > GetDuration())
+	if (time >= GetDuration())
 	{
 		if (loopable == false)
 		{
-			time = 0.0f;
+			//So we keep last frame
+			time = GetDuration();
 			return false;
 		}
 		else
+		{
 			time = time - GetDuration();
+		}
 	}
 	return true;
 }
@@ -243,7 +250,7 @@ void ComponentAnimation::RemoveAnimation(uint index)
 	animations.erase(animations.begin() + index);
 }
 
-void ComponentAnimation::PlayAnimation(uint index, float blend_time)
+void ComponentAnimation::PlayAnimation(uint index, float blend_time, bool keepBlend)
 {
 	if (index < animations.size())
 	{
@@ -251,9 +258,14 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 		{
 			if (blend_time > 0 && playing == true)
 			{
-				blend_animation = current_animation;
+				if (keepBlend == false)
+				{
+					blend_animation = current_animation;
+					this->blend_time = 0.0f;
+				}
+
 				blend_time_duration = blend_time;
-				this->blend_time = 0.0f;
+
 			}
 		}
 		current_animation = &animations[index];
@@ -262,7 +274,7 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time)
 	}
 }
 
-void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
+void ComponentAnimation::PlayAnimation(const char* name, float blendTime, bool keepBlend)
 {
 	if (current_animation->name != name)
 	{
@@ -279,6 +291,7 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime)
 
 void ComponentAnimation::LockAnimationRatio(float ratio)
 {
+	PROFILE("Animation Lock ratio");
 	if (current_animation != nullptr)
 	{
 		current_animation->SetFrameRatio(ratio);
@@ -316,6 +329,7 @@ void ComponentAnimation::LinkBones()
 	for (uint i = 0; i < bones.size(); i++)
 	{
 		std::string string = bones[i]->GetResource()->mesh_path;
+		string = App->file_system->GetNameFromPath(string); //Just for old loaded bones
 		std::map<std::string, ComponentMesh*>::iterator it = meshes.find(string);
 		if (it != meshes.end())
 		{
@@ -349,7 +363,8 @@ bool ComponentAnimation::StartAnimation()
 {
 	if (linked == false)
 	{
-		LOG("ERROR: The animation of %s is not linked and is trying to be played.", game_object->name);
+		LOG("[ERROR] The animation of %s is not linked and is trying to be played.", game_object->name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The animation of %s is not linked and is trying to be played", game_object->name);
 	}
 
 	if (current_animation != nullptr)
@@ -359,6 +374,7 @@ bool ComponentAnimation::StartAnimation()
 
 void ComponentAnimation::Update()
 {
+	
 	if (App->IsGameRunning())
 	{
 		if (playing == true)
@@ -388,7 +404,7 @@ void ComponentAnimation::Update()
 			{
 				playing = false;
 			}
-
+			PROFILE("Animation Update");
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 		}
 	}
@@ -504,7 +520,8 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr)
 	{
-		meshes[mesh->GetResource()->GetFile()] = mesh;
+		if (mesh->GetResource() != nullptr)
+			meshes[App->file_system->GetNameFromPath(mesh->GetResource()->GetFile())] = mesh;
 	}
 	ComponentBone* bone = (ComponentBone*)gameObject->GetComponent(C_BONE);
 	if (bone != nullptr)

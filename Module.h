@@ -55,7 +55,7 @@ public:
 		return true; 
 	}
 
-	virtual void OnCollision(PhysBody3D* body1, PhysBody3D* body2)
+	virtual void OnCollision(PhysBody3D* car, PhysBody3D* body)
 	{}
 
 	virtual void OnPlay()

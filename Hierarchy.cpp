@@ -6,6 +6,7 @@
 #include "Component.h"
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentCar.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -13,6 +14,8 @@
 #include "ModuleInput.h"
 #include "ModuleResourceManager.h"
 #include "ModuleCamera3D.h"
+
+#include "ModuleScripting.h"
 
 #include "SDL/include/SDL_scancode.h"
 
@@ -51,6 +54,13 @@ void Hierarchy::Draw()
 					child_to_set = App->editor->selected.back();
 					set_parent_now = true;
 					App->editor->UnselectAll();
+				}
+			}
+			if (App->scripting->setting_go_var == true)
+			{
+				if (App->editor->selected.size() > 0)
+				{
+					App->scripting->set_go_var_now = App->editor->selected.back();
 				}
 			}
 		}
@@ -181,9 +191,26 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 				}
 				setting_parent = false;
 			}
+			else if (App->scripting->setting_go_var == true)
+			{
+				if (App->editor->selected.size() > 0)
+				{
+					App->scripting->set_go_var_now = *object;
+					App->scripting->setting_go_var = false;
+					App->editor->UnselectAll();
+					break;
+				}
+				App->scripting->setting_go_var = false;
+			}
 			else if (App->editor->assign_wheel != -1)
 			{
 				App->editor->wheel_assign = *object;
+			}
+			else if (App->editor->assign_item == true)
+			{
+				App->editor->to_assign_item->item = *object;
+				App->editor->assign_item = false;
+				App->editor->to_assign_item = nullptr;
 			}
 			else
 			{

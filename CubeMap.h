@@ -13,6 +13,7 @@ public:
 	~CubeMap();
 
 	bool Load();
+	bool Unload();
 	void Bind(int texture_unit);
 
 private:

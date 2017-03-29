@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include "ModuleEditor.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -18,6 +20,7 @@
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
+#include "ComponentScript.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
 #include "ComponentBone.h"
@@ -389,6 +392,9 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (transform)
 			item = new ComponentAudio(type, this);
 		break;
+	case C_SCRIPT:
+		item = new ComponentScript(type, this);
+		break;
 	case C_RECT_TRANSFORM:
 		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
 			item = new ComponentRectTransform(type, this);
@@ -416,7 +422,8 @@ Component* GameObject::AddComponent(ComponentType type)
 			item = new ComponentUiButton(type, this);
 		break;
 	default:
-		LOG("Unknown type specified for GameObject %s", name);
+		LOG("[WARNING] Unknown type specified for GameObject %s", name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Unknown type specified for GameObject %s", name);
 		break;
 	}
 
@@ -426,9 +433,9 @@ Component* GameObject::AddComponent(ComponentType type)
 	}
 	else
 	{
-		LOG("Error while adding component to %s", this->name);
-	}
-		
+		LOG("[ERROR] When adding component to %s", this->name.c_str());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s", this->name.c_str());
+	}		
 
 	return item;
 }
@@ -472,6 +479,19 @@ Component* GameObject::GetComponentInChilds(ComponentType type) const
 		}
 	}
 	return ret;
+}
+
+void GameObject::GetComponentsInChilds(ComponentType type, std::vector<Component*>& vector) const
+{
+	Component* comp = GetComponent(type);
+	if (comp != nullptr)
+		vector.push_back(comp);
+
+	std::vector<GameObject*>::const_iterator it = childs.begin();
+	for (it; it != childs.end(); ++it)
+	{
+		(*it)->GetComponentsInChilds(type, vector);
+	}
 }
 
 void GameObject::RemoveComponent(Component * component)

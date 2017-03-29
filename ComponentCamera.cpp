@@ -66,7 +66,8 @@ void ComponentCamera::PreUpdate()
 
 void ComponentCamera::Update()
 {
-	g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
+	if (App->StartInGame() == false)
+		g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
 void ComponentCamera::OnInspector(bool debug)
@@ -176,8 +177,10 @@ void ComponentCamera::OnTransformModified()
 	if (game_object)
 		desiredTransform = game_object->transform->GetGlobalMatrix();
 	else
-		LOG("Error: Component Camera is trying to update it's matrix but it is not attached to any game object.");
-
+	{
+		LOG("[ERROR] Component Camera is trying to update it's matrix but it is not attached to any game object.");
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Component Camera is trying to update it's matrix but it is not attached to any game object" );
+	}
 }
 
 void ComponentCamera::OnNotify(void * entity, Event event)

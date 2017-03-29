@@ -5,6 +5,7 @@
 #include "application.h"
 
 #include "ModuleFileSystem.h"
+#include "ModuleEditor.h"
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ResourceFileBone.h"
@@ -30,7 +31,8 @@ bool AnimationImporter::ImportSceneAnimations(const aiScene* scene, GameObject* 
 		ret = ImportAnimation(scene->mAnimations[0], base_path, output_name, uuids[0]);
 		if (ret == false)
 		{
-			LOG("Warning: could not import animation");
+			LOG("[WARNING] Animation hasn't been imported");
+			App->editor->DisplayWarning(WarningType::W_WARNING, "Animation has not been imported");
 		}
 	}
 	return ret;
@@ -109,7 +111,7 @@ bool AnimationImporter::Save(const ResourceFileAnimation& anim, const char* fold
 	if (uuid == 0)
 		uuid = App->rnd->RandomInt();
 	
-	ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "anim", output_name);
+	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "anim", output_name);
 
 	delete[] data;
 	data = nullptr;
@@ -296,7 +298,7 @@ void AnimationImporter::ImportSceneBones(const std::vector<const aiMesh*>& boned
 			ComponentMesh* mesh = (ComponentMesh*)boned_game_objects[i]->GetComponent(C_MESH);
 			if (mesh != nullptr)
 			{
-				mesh_path = mesh->GetMesh()->file_path;
+				mesh_path = App->file_system->GetNameFromPath(mesh->GetMesh()->file_path);
 			}
 
 			std::string bone_file = "";
@@ -372,7 +374,7 @@ bool AnimationImporter::SaveBone(const ResourceFileBone& bone, const char* folde
 
 	if (uuid == 0)
 		uuid = App->rnd->RandomInt();
-	bool ret = App->file_system->SaveUnique(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
+	bool ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "bone", output_name);
 
 	delete[] data;
 	data = nullptr;

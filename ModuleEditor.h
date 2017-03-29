@@ -9,6 +9,8 @@
 #include "ImGuizmo\ImGuizmo.h"
 #include "imgui/imgui.h"
 
+#include "WarningWindow.h" // Needed here because of WarningType
+
 #include <list>
 #include <vector>
 
@@ -31,6 +33,8 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
+
+class ComponentCar;
 
 using namespace std;
 
@@ -72,6 +76,8 @@ public:
 	void Paste(GameObject* game_object);
 	void Duplicate(GameObject* game_object);
 
+	void DisplayWarning(WarningType type, const char *format, ...);
+
 private:
 	//Game Simulation Options
 	void GameOptions()const;
@@ -96,6 +102,7 @@ private:
 	void DisplayGizmo();
 
 public:
+
 	Assets* assets = nullptr;
 	MaterialCreatorWindow* material_creator_win = nullptr;
 	RenderTexEditorWindow* rendertex_win = nullptr;
@@ -111,6 +118,9 @@ public:
 	int assign_wheel = -1;
 	GameObject* wheel_assign = nullptr;
 
+	bool assign_item = false;
+	ComponentCar* to_assign_item = nullptr;
+
 private:
 
 	bool using_keyboard;
@@ -121,9 +131,11 @@ private:
 
 	vector<Window*> windows;
 
-	//Windows
+	// Permanent windows
 	Hierarchy* hierarchy = nullptr;
 	Inspector* inspector = nullptr;
+
+	// Other windows
 	FPSGraph* fps_graph_win = nullptr;
 	WindowOptions* winoptions_win = nullptr;
 	HardwareInfo* hardware_win = nullptr;
@@ -134,6 +146,7 @@ private:
 	LayersWindow* layers_win = nullptr;
 	TestWindow* test_win = nullptr;
 	CurveWindow* curve_win = nullptr;
+	WarningWindow *warning_window = nullptr;
 
 	bool save_scene_win = false;
 	string scene_name_to_save;

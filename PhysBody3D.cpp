@@ -1,9 +1,19 @@
+#include "Globals.h"
+
 #include "PhysBody3D.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 
 // =================================================
-PhysBody3D::PhysBody3D(btRigidBody* body) : body(body)
+PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCollider* col) : body(body)
 {
+	collider = col;
+	body->setUserPointer(this);
+}
+
+PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
+{
+	car = col;
+	collisionOptions = SetFlag(collisionOptions, co_isCar, true);
 	body->setUserPointer(this);
 }
 
@@ -61,6 +71,14 @@ void PhysBody3D::SetRotation(float x, float y, float z)
 	body->setWorldTransform(t);
 }
 
+void PhysBody3D::SetRotation(Quat rot)
+{
+	btTransform t = body->getWorldTransform();
+	btQuaternion q(rot.x, rot.y, rot.z, rot.w);
+	t.setRotation(q);
+	body->setWorldTransform(t);
+}
+
 // ---------------------------------------------------------
 void PhysBody3D::Stop()
 {
@@ -108,11 +126,13 @@ void PhysBody3D::SetLinearSpeed(float x, float y, float z)
 void PhysBody3D::SetModularSpeed(float s)
 {
 	btVector3 sp = body->getLinearVelocity();
+	if (sp.length2() > 0.0f)
+	{
+		sp.normalize();
+		sp *= s;
 
-	sp.normalize();
-	sp *= s;
-
-	body->setLinearVelocity(sp);
+		body->setLinearVelocity(sp);
+	}
 }
 //----------------------------------------------------------
 math::vec PhysBody3D::GetPosition()const
@@ -124,4 +144,3 @@ math::vec PhysBody3D::GetPosition()const
 
 	return ret;
 }
-

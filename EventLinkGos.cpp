@@ -3,7 +3,7 @@
 #include "Application.h"
 #include "ModuleGOManager.h"
 
-EventLinkGos::EventLinkGos(GameObject **pointer_to_go, long unsigned uuid_to_assign)
+EventLinkGos::EventLinkGos(GameObject **pointer_to_go, unsigned int uuid_to_assign)
 {
 	type = EventType::E_LINK_GOS;
 	this->pointer_to_go = pointer_to_go;

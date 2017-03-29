@@ -18,6 +18,10 @@ void log(const char file[], int line, const char* format, ...);
 
 typedef unsigned int uint;
 
+//Changes the correspondant value from the container and returns the modified value
+unsigned char SetFlag(unsigned char container, uint flag, bool value);
+bool ReadFlag(unsigned char container, uint flag);
+
 enum update_status
 {
 	UPDATE_CONTINUE = 1,

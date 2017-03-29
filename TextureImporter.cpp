@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ModuleEditor.h"
 #include "TextureImporter.h"
 #include "ModuleFileSystem.h"
 #include "ResourceFileTexture.h"
@@ -58,7 +59,7 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 		ilGenImages(1, &id);
 		ilBindImage(id);
 		if (ilLoadL(IL_DDS, (const void*)buffer, size))
-		{
+		{		
 			ILinfo info;
 			iluGetImageInfo(&info);
 			
@@ -70,7 +71,8 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 	}
 	else
 	{
-		LOG("Could not load texture: %s", res->GetFile());
+		LOG("[ERROR] Could not load texture %s", res->GetFile());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not load texture %s", res->GetFile());
 	}
 
 	delete[] buffer;
@@ -98,10 +100,16 @@ int TextureImporter::LoadSimpleFile(const char * name)
 	}
 	else
 	{
-		LOG("Could load texture: %s", name);
+		LOG("[ERROR] Could not load texture %s", name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not load texture %s", name);
 	}
 
 	delete[] buffer;
 
 	return ret;
+}
+
+void TextureImporter::Unload(unsigned int id)
+{
+	ilDeleteImages(1, &id);
 }

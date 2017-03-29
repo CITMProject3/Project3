@@ -8,8 +8,8 @@ public:
 
 	Random();
 	float RandomFloat();
-	int RandomInt();
-	int RandomInt(int min, int max);
+	unsigned int RandomInt();
+	unsigned int RandomInt(int min, int max);
 
 	void SetSeed(unsigned int seed);
 

@@ -25,7 +25,8 @@ enum FileType
 	FRAGMENT,
 	MATERIAL,
 	RENDER_TEXTURE,
-	SOUNDBANK
+	SOUNDBANK,
+	SCRIPTS_LIBRARY
 };
 
 struct tmp_mesh_file
@@ -71,6 +72,7 @@ public:
 
 	void SaveScene(const char* file_name, std::string base_library_path);
 	bool LoadScene(const char* file_name);
+	void ReloadScene();
 	void SavePrefab(GameObject* gameobject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
@@ -113,6 +115,9 @@ private:
 	void VertexDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void FragmentDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void SoundbankDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void ScriptLibraryDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void SceneDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void PrefabDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
 	void LoadPrefabFile(const std::string& library_path);
 

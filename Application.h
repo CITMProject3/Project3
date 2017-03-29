@@ -19,6 +19,7 @@ class ModuleResourceManager;
 class ModuleEditor;
 class ModuleWindow;
 class ModuleAudio;
+class ModuleScripting;
 
 class Random;
 class EventQueue;
@@ -54,6 +55,7 @@ public:
 	bool IsGamePaused()const;
 
 	bool StartInGame()const;
+
 private:
 
 	void AddModule(Module* mod);
@@ -61,8 +63,8 @@ private:
 	void FinishUpdate();
 
 	//Game States
-	void StopGame();
 	void RunGame();
+	void StopGame();	
 	void PauseGame();
 
 public:
@@ -78,6 +80,7 @@ public:
 	ModuleGOManager* go_manager;
 	ModuleResourceManager* resource_manager;
 	ModuleLighting* lighting;
+	ModuleScripting* scripting;
 	ModuleEditor* editor;
 
 	Random* rnd = nullptr;
@@ -86,9 +89,9 @@ public:
 private:
 
 	vector<Module*> list_modules;
-	int fps = 60;
+	int max_fps = 60;
+	int last_fps = 60;
 	int capped_ms = -1;
-
 
 	bool start_in_game = false;
 	GameStates game_state = GAME_STOP;
