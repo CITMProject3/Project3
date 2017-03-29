@@ -187,7 +187,7 @@ void ComponentCamera::OnNotify(void * entity, Event event)
 {
 	if (event == Event::WINDOW_RESIZE)
 	{
-		aspect_ratio = (float)App->window->GetScreenWidth() / (float)App->window->GetScreenHeight();
+		aspect_ratio = (float)App->window->GetScreenWidth() / ((float)App->window->GetScreenHeight());
 		frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
 	}
 }
@@ -270,9 +270,11 @@ void ComponentCamera::SetFOV(float value)
 
 void ComponentCamera::SetAspectRatio(float value)
 {
-	float horizontalFov = frustum.HorizontalFov();
-	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, value);
-	properties_modified = true;
+	aspect_ratio = value;
+	SetFOV(fov);
+	//float horizontalFov = frustum.HorizontalFov();
+	//frustum.SetHorizontalFovAndAspectRatio(horizontalFov, value);
+	//properties_modified = true;
 }
 
 void ComponentCamera::LookAt(const math::float3 & point)
