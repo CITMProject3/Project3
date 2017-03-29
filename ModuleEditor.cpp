@@ -243,14 +243,10 @@ void ModuleEditor::TMP_TerrainWindow()
 {
 	if (ImGui::Begin("TerrainWindow"))
 	{
+		ImVec2 winSize = ImGui::GetWindowSize();
 		if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
 		{
-			ImVec2 size = ImGui::GetWindowSize();
-			ImGui::Image((void*)App->physics->edgeTexId, ImVec2((size.x-40)/3, (size.x - 40) / 3));
-			ImGui::SameLine();
-			ImGui::Image((void*)App->physics->edgeHId, ImVec2((size.x - 40) / 3, (size.x - 40) / 3));
-			ImGui::SameLine();
-			ImGui::Image((void*)App->physics->edgeVId, ImVec2((size.x - 40) / 3, (size.x - 40) / 3));
+			ImGui::Image((void*)App->physics->edgeTexId, ImVec2((winSize.x-40), (winSize.x - 40)));
 		}
 
 
@@ -285,7 +281,7 @@ void ModuleEditor::TMP_TerrainWindow()
 			float maxSize = max(size.x, size.y);
 			if (maxSize > 200)
 			{
-				float scale = 200.0f / maxSize;
+				float scale = (winSize.x - 40) / maxSize;
 				size.x *= scale;
 				size.y *= scale;
 			}
@@ -323,7 +319,7 @@ void ModuleEditor::TMP_TerrainWindow()
 				float maxSize = max(size.x, size.y);
 				if (maxSize > 200)
 				{
-					float scale = 200.0f / maxSize;
+					float scale = (winSize.x-40) / maxSize;
 					size.x *= scale;
 					size.y *= scale;
 				}
@@ -738,8 +734,6 @@ void ModuleEditor::PhysicsMenu()
 	if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
 	{
 		ImGui::Image((void*)App->physics->edgeTexId, ImVec2(200,200));
-		ImGui::Image((void*)App->physics->edgeHId, ImVec2(200, 200));
-		ImGui::Image((void*)App->physics->edgeVId, ImVec2(200, 200));
 	}
 
 

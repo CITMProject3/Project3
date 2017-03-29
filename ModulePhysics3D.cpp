@@ -677,7 +677,13 @@ void ModulePhysics3D::RenderTerrain()
 		else
 		{
 			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-			glUniform1i(has_tex_location, 0);
+			glUniform1i(has_tex_location, 1);
+			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, edgeTexId);
+			glUniform1i(texture_location, 0);
+			//GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+			//glUniform1i(has_tex_location, 0);
 		}
 
 
@@ -890,8 +896,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 	float* buf = new float[w*h];
 	float maxVal = 0;
-	float maxHVal = 0;
-	float maxVVal = 0;
 
 	//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
 	for (int y = 0; y < h; y++)
@@ -954,15 +958,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 			{
 				maxVal = edgeDetectionImage[y * w + x];
 			}
-
-			if (edgeH[y * w + x] > maxHVal)
-			{
-				maxHVal = edgeH[y * w + x];
-			}
-			if (edgeV[y * w + x] > maxVVal)
-			{
-				maxVVal = edgeV[y * w + x];
-			}
 #pragma endregion
 		}
 	}	
@@ -971,11 +966,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			edgeDetectionImage[y * w + x] /= maxVal;
-
-			edgeH[y * w + x] /= maxHVal;
-
-			edgeV[y * w + x] /= maxVVal;
+			edgeDetectionImage[y * w + x] /= (maxVal*2);
+			edgeDetectionImage[y * w + x] += 0.5f;
 		}
 	}
 
@@ -984,14 +976,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		glGenTextures(1, &edgeTexId);
 	}
-	if (edgeHId == 0)
-	{
-		glGenTextures(1, &edgeHId);
-	}
-	if (edgeVId == 0)
-	{
-		glGenTextures(1, &edgeVId);
-	}
 	glBindTexture(GL_TEXTURE_2D, edgeTexId);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -999,22 +983,6 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeDetectionImage);
-
-	glBindTexture(GL_TEXTURE_2D, edgeVId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeV);
-
-	glBindTexture(GL_TEXTURE_2D, edgeHId);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeH);
 
 	delete[] edgeH;
 	delete[] edgeV;

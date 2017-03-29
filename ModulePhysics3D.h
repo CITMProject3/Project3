@@ -120,9 +120,6 @@ private:
 #pragma endregion
 public:
 	//TMP stuff
-	uint edgeVId = 0;
-	uint edgeHId = 0;
-
 	uint edgeTexId = 0;
 	float* edgeDetectionImage = nullptr;
 	///////
