@@ -561,6 +561,11 @@ void ModuleRenderer3D::ShaderMVPUniforms(unsigned int shader_id, GameObject* obj
 
 void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentMaterial* material) const
 {
+	GLint alpha_location = glGetUniformLocation(shader_id, "_alpha_val");
+	if (alpha_location != -1)
+	{
+		glUniform1f(alpha_location, material->alpha_test);
+	}
 	int count = 0;
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
 	{
