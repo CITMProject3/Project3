@@ -13,11 +13,13 @@
 
 ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
-	local_position.Set(100.0f, 100.0f, 0.0f);
+	local_position.Set(0.0f, 0.0f, 0.0f);
+	
 	global_position.Set(0.0f, 0.0f, 0.0f);
 	rect_size.Set(100.0f, 100.0f);
 	size.Set(1.0f, 1.0f,1.0f);
 	transform_matrix = transform_matrix.FromTRS(local_position, Quat::identity, size);
+	local_middle_position.Set(0.0f, 0.0f, 0.0f);
 	CalculateFinalTransform();
 	GeneratePlane();
 }
@@ -35,7 +37,6 @@ void ComponentRectTransform::GeneratePlane()
 	plane->mesh->num_uvs = 4;
 	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
 	ResizePlane();
-
 }
 
 
@@ -44,9 +45,13 @@ void ComponentRectTransform::Update()
 {
 	if (apply_transformation)
 	{
+		local_position.Set(local_middle_position.x - (rect_size.x / 2), local_middle_position.y, 0.0f);
 		transform_matrix = transform_matrix.FromTRS(local_position, Quat::identity, size);
+		
+		game_object->TransformModified(); 
 		CalculateFinalTransform();
 		ResizePlane();
+		
 		apply_transformation = false;
 	}
 
@@ -71,8 +76,8 @@ void ComponentRectTransform::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
-		if (ImGui::DragFloat2("Position ##pos", local_position.ptr(),1.000f))
+		
+		if (ImGui::DragFloat2("Position ##pos", local_middle_position.ptr(),1.000f))
 		{
 			apply_transformation = true;
 		}
@@ -114,11 +119,29 @@ void ComponentRectTransform::CalculateFinalTransform()
 			else
 			{
 				final_transform_matrix = transform_matrix;
+				std::vector<GameObject*>::const_iterator go_childs = game_object->GetChilds()->begin();
+				for (go_childs; go_childs != game_object->GetChilds()->end(); ++go_childs)
+				{
+					ComponentRectTransform* transform = (ComponentRectTransform*)(*go_childs)->GetComponent(C_RECT_TRANSFORM);
+					if (transform)
+					{
+						transform->CalculateFinalTransform();
+					}
+				}
 			}
 		}
 		else
 		{
 			final_transform_matrix = transform_matrix;
+			std::vector<GameObject*>::const_iterator go_childs = game_object->GetChilds()->begin();
+			for (go_childs; go_childs != game_object->GetChilds()->end(); ++go_childs)
+			{
+				ComponentRectTransform* transform = (ComponentRectTransform*)(*go_childs)->GetComponent(C_RECT_TRANSFORM);
+				if (transform)
+				{
+					transform->CalculateFinalTransform();
+				}
+			}
 		}
 	}
 	else
@@ -130,7 +153,7 @@ void ComponentRectTransform::CalculateFinalTransform()
 
 void ComponentRectTransform::OnTransformModified()
 {
-	apply_transformation = true;
+	//apply_transformation = true;
 }
 
 math::float4x4 ComponentRectTransform::GetFinalTransform()
@@ -163,9 +186,16 @@ const math::vec &ComponentRectTransform::GetLocalPos() const
 	return local_position;
 }
 
+void ComponentRectTransform::SetLocalPos(const float2 & local_pos)
+{
+	local_middle_position.Set(local_pos.x, local_pos.y, 0.0f);
+	apply_transformation = true;
+}
+
 void ComponentRectTransform::SetSize(const float2 & size)
 {
 	rect_size = size;
+	apply_transformation = true;
 }
 
 float2 ComponentRectTransform::GetRectSize() const

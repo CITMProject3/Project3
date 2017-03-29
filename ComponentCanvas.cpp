@@ -4,20 +4,12 @@
 #include "ModuleGOManager.h"
 #include "GameObject.h"
 #include "imgui\imgui.h"
-#include "ModuleInput.h"
-#include "ComponentUiText.h"
-#include "ComponentUiButton.h"
-#include "RaceTimer.h"
-#include "ComponentCar.h"
-#include "PhysVehicle3D.h"
-
-// Only for Vertical Slice 3
-#include "ComponentAudio.h"
-#include "ModuleAudio.h"
+#include "ComponentRectTransform.h"
+#include "ModuleWindow.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
-
+	OnTransformModified();
 }
 
 ComponentCanvas::~ComponentCanvas()
@@ -53,6 +45,14 @@ void ComponentCanvas::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 	}
+}
+
+void ComponentCanvas::OnTransformModified()
+{
+	ComponentRectTransform* c = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
+
+	c->SetSize(float2(App->window->GetScreenWidth(), App->window->GetScreenHeight()));
+	c->SetLocalPos(float2(App->window->GetScreenWidth(), 0.0f));
 }
 
 void ComponentCanvas::Save(Data & file) const

@@ -18,7 +18,7 @@ public:
 	void Update();
 	void OnPlay();
 	void OnInspector(bool debug);
-	
+	void OnTransformModified();
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
