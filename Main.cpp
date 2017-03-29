@@ -1,11 +1,13 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "Profiler.h"
 #include "Globals.h"
 
 #include "SDL/include/SDL.h"
 #pragma comment( lib, "SDL/libx86/SDL2.lib" )
 #pragma comment( lib, "SDL/libx86/SDL2main.lib" )
+
+// Brofiler
+#pragma comment(lib, "Brofiler/lib/ProfilerCore32.lib")
 
 enum main_states
 {
@@ -20,7 +22,6 @@ class Console;
 class DebugDraw;
 class Time;
 
-Profiler g_Profiler;
 Console* console = nullptr;
 DebugDraw* g_Debug = nullptr;
 Time* time = nullptr;

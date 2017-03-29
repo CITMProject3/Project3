@@ -18,8 +18,9 @@
 #include "Time.h"
 #include "Random.h"
 #include "EventQueue.h"
-#include "Profiler.h"
 #include "Data.h"
+
+#include "Brofiler/include/Brofiler.h"
 
 using namespace std;
 
@@ -174,9 +175,6 @@ void Application::FinishUpdate()
 {
 	event_queue->ProcessEvents();
 
-	//Update Profiler
-	g_Profiler.Update();
-
 	//TODO:limit FPS
 	/*if (capped_ms > 0 && Time::DeltaTime() < capped_ms)
 	{
@@ -224,6 +222,8 @@ void Application::StopGame()
 // Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
+	BROFILER_FRAME("GameLoop")
+
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	

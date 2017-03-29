@@ -31,9 +31,6 @@
     <Filter Include="Sources\MemoryManagement">
       <UniqueIdentifier>{d2a4b768-e0d5-4ade-bc26-1fe93f70ba9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\Profiler">
-      <UniqueIdentifier>{932b0f29-0944-4b89-abb1-f982cd488491}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources\GameObjects">
       <UniqueIdentifier>{96fd846a-1986-4c6c-961f-8cc8f7e78379}</UniqueIdentifier>
     </Filter>
@@ -87,6 +84,9 @@
     </Filter>
     <Filter Include="Sources\VerticalSlice3">
       <UniqueIdentifier>{581a4ac3-dd86-4a50-821d-946be2235d37}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sources\MemoryManagement\Profiler_Guillem">
+      <UniqueIdentifier>{84165a18-33d7-46fd-af59-3ef7675602c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -381,12 +381,6 @@
     <ClInclude Include="PoolAllocator.h">
       <Filter>Sources\MemoryManagement</Filter>
     </ClInclude>
-    <ClInclude Include="AutoProfile.h">
-      <Filter>Sources\Profiler</Filter>
-    </ClInclude>
-    <ClInclude Include="Profiler.h">
-      <Filter>Sources\Profiler</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleFileSystem.h">
       <Filter>Sources\Modules</Filter>
     </ClInclude>
@@ -446,9 +440,6 @@
     </ClInclude>
     <ClInclude Include="ResourceFileTexture.h">
       <Filter>Sources\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="MemLeaks.h">
-      <Filter>Sources\Tools</Filter>
     </ClInclude>
     <ClInclude Include="ResourcesWindow.h">
       <Filter>Sources\Editor\Windows</Filter>
@@ -629,6 +620,15 @@
     </ClInclude>
     <ClInclude Include="WarningWindow.h">
       <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="MemLeaks.h">
+      <Filter>Sources\MemoryManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="AutoProfile.h">
+      <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiler.h">
+      <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -829,12 +829,6 @@
     </ClCompile>
     <ClCompile Include="PoolAllocator.cpp">
       <Filter>Sources\MemoryManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="AutoProfile.cpp">
-      <Filter>Sources\Profiler</Filter>
-    </ClCompile>
-    <ClCompile Include="Profiler.cpp">
-      <Filter>Sources\Profiler</Filter>
     </ClCompile>
     <ClCompile Include="ModuleFileSystem.cpp">
       <Filter>Sources\Modules</Filter>
@@ -1057,6 +1051,12 @@
     </ClCompile>
     <ClCompile Include="WarningWindow.cpp">
       <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="AutoProfile.cpp">
+      <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
+    </ClCompile>
+    <ClCompile Include="Profiler.cpp">
+      <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

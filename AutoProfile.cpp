@@ -17,6 +17,6 @@ AutoProfile::~AutoProfile()
 	uint64_t end_time = SDL_GetPerformanceCounter();
 	double elapsed_time = 1000.0 * (double(end_time - start_time) / double(frequency));
 
-	g_Profiler.StoreSample(name, elapsed_time);
+	//g_Profiler.StoreSample(name, elapsed_time);
 	
 }

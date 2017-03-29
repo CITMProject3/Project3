@@ -10,7 +10,6 @@
 #include "ComponentBone.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
-#include "AutoProfile.h"
 #include "ModuleFileSystem.h"
 
 #include "ModuleEditor.h"
@@ -291,7 +290,6 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime, bool k
 
 void ComponentAnimation::LockAnimationRatio(float ratio)
 {
-	PROFILE("Animation Lock ratio");
 	if (current_animation != nullptr)
 	{
 		current_animation->SetFrameRatio(ratio);
@@ -404,7 +402,7 @@ void ComponentAnimation::Update()
 			{
 				playing = false;
 			}
-			PROFILE("Animation Update");
+		
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 		}
 	}

@@ -38,6 +38,8 @@
 
 #include "SDL/include/SDL_video.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -168,6 +170,7 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PreUpdate", Profiler::Color::HotPink)
 
 	if (camera->properties_modified)
 	{
@@ -195,6 +198,8 @@ update_status ModuleRenderer3D::PreUpdate()
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
+
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
 	vector<ComponentCamera*> cameras;
