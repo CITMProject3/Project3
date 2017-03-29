@@ -261,6 +261,7 @@ int ShaderCompiler::LoadDefaultShader()
 		"uniform vec3 _DirectionalDirection;\n"
 		"uniform vec4 material_color;\n"
 		"uniform float _specular;\n"
+		"uniform float _alpha_val;\n"
 
 		"vec3 CalculateBumpedNormal()\n"
 		"{\n"
@@ -290,6 +291,8 @@ int ShaderCompiler::LoadDefaultShader()
 
 		"void main()\n"
 		"{\n"
+		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
+		"	if(tex_color.a < _alpha_val) discard;\n"
 		"   vec3 new_normal = (_HasNormalMap) ? CalculateBumpedNormal() : normal0;\n"
 		"	vec4 ambient = vec4(_AmbientIntensity) * vec4(_AmbientColor, 1.0f);\n"
 		"	vec4 directional_color = vec4(_DirectionalColor * _DirectionalIntensity, 1.0f);\n"
@@ -328,9 +331,7 @@ int ShaderCompiler::LoadDefaultShader()
 		"			specular_color = vec4(_DirectionalColor * _specular * sf, 1.0f);\n"
 		"       }\n"
 		"   }\n"
-		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
 		"	color = material_color * tex_color * (ambient + diffuse + specular_color);\n"
-		"   color.w = material_color.w;\n"
 		"}\n";
 
 	GLint success;
@@ -419,6 +420,7 @@ int ShaderCompiler::LoadDefaultAnimShader()
 		"uniform vec3 _DirectionalDirection;\n"
 		"uniform vec4 material_color;\n"
 		"uniform float _specular;\n"
+		"uniform float _alpha_val;\n"
 
 		"vec3 CalculateBumpedNormal()\n"
 		"{\n"
@@ -448,6 +450,8 @@ int ShaderCompiler::LoadDefaultAnimShader()
 
 		"void main()\n"
 		"{\n"
+		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
+		"	if(tex_color.a < _alpha_val) discard;\n"
 		"   vec3 new_normal = (_HasNormalMap) ? CalculateBumpedNormal() : normal0;\n"
 		"	vec4 ambient = vec4(_AmbientIntensity) * vec4(_AmbientColor, 1.0f);\n"
 		"	vec4 directional_color = vec4(_DirectionalColor * _DirectionalIntensity, 1.0f);\n"
@@ -486,7 +490,6 @@ int ShaderCompiler::LoadDefaultAnimShader()
 		"			specular_color = vec4(_DirectionalColor * _specular * sf, 1.0f);\n"
 		"       }\n"
 		"   }\n"
-		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
 		"	color = material_color * tex_color * (ambient + diffuse + specular_color);\n"
 		"   color.w = material_color.w;\n"
 		"}\n";

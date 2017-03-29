@@ -327,32 +327,32 @@ void ComponentMaterial::Load(Data & conf)
 			texture = conf.GetArray("textures", i);
 
 			string tex_path = texture.GetString("path");
-			ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
-
-			if (rc_tmp)
+			if (tex_path != "")
 			{
-				tex_resources.push_back(rc_tmp);
-				if (i < 2)
+				ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
+
+				if (rc_tmp)
 				{
-					texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
-					list_textures_paths[i] = tex_path;
+					tex_resources.push_back(rc_tmp);
+					if (i < 2)
+					{
+						texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
+						list_textures_paths[i] = tex_path;
+					}
+					else
+					{
+						texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
+						list_textures_paths.push_back(tex_path);
+					}
 				}
 				else
 				{
-					texture_ids.insert(pair<string, uint>(std::to_string(i), rc_tmp->GetTexture()));
-					list_textures_paths.push_back(tex_path);
+						LOG("[ERROR] Loading failure on texture %s", tex_path.data());
+						App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", tex_path.data());
 				}
-			}
-			else
-			{
-					LOG("[ERROR] Loading failure on texture %s", tex_path.data());
-					App->editor->DisplayWarning(WarningType::W_ERROR, "Loading failure on texture %s", tex_path.data());
-			}
-			
+			}		
 		}
-
 	}
-	
 }
 
 bool ComponentMaterial::DefaultMaterialInspector()
