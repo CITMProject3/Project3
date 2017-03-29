@@ -7,7 +7,7 @@
 
 class btRaycastVehicle;
 class btVector;
-struct PhysBody3D;
+class PhysBody3D;
 class ComponentCar;
 
 using namespace math;
