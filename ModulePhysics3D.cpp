@@ -953,10 +953,10 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 				}
 			}
 
-			edgeDetectionImage[y * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
-			if (edgeDetectionImage[y * w + x] > maxVal)
+			edgeDetectionImage[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+			if (edgeDetectionImage[(h - y - 1) * w + x] > maxVal)
 			{
-				maxVal = edgeDetectionImage[y * w + x];
+				maxVal = edgeDetectionImage[(h - y - 1) * w + x];
 			}
 #pragma endregion
 		}
@@ -966,8 +966,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			edgeDetectionImage[y * w + x] /= (maxVal*2);
-			edgeDetectionImage[y * w + x] += 0.5f;
+			edgeDetectionImage[y * w + x] /= maxVal + maxVal/2;
+			edgeDetectionImage[y * w + x] += 0.25f;
 		}
 	}
 
