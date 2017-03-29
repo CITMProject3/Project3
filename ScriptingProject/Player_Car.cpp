@@ -13,6 +13,7 @@
 #include "../SDL/include/SDL_scancode.h"
 #include "../PhysBody3D.h"
 #include "../ComponentCollider.h"
+#include "../Globals.h"
 
 namespace Player_Car
 {
@@ -34,10 +35,13 @@ namespace Player_Car
 	}
 	void Player_Car_OnCollision(PhysBody3D* col)
 	{
-		if (col->collisionOptions == col->co_isItem)
+		if (ReadFlag(col->collisionOptions, col->co_isItem))
 		{
 			ComponentCollider* Hitodama_Player_Car = col->GetCollider();
-			//Do something
+			if (Hitodama_Player_Car->GetGameObject()->name.compare("Hitodama"))
+			{
+				//Do something
+			}
 		}
 	}
 }
