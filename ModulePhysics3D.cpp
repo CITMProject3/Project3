@@ -35,6 +35,8 @@
 
 #include "SDL\include\SDL_scancode.h"
 
+#include "Brofiler/include/Brofiler.h"
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -90,6 +92,8 @@ bool ModulePhysics3D::Start()
 
 update_status ModulePhysics3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::PreUpdate", Profiler::Color::YellowGreen)
+
 	float dt = time->DeltaTime();
 	if (App->IsGameRunning())
 	{
@@ -154,6 +158,8 @@ update_status ModulePhysics3D::PreUpdate()
 
 update_status ModulePhysics3D::Update()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Update", Profiler::Color::LimeGreen)
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
@@ -169,7 +175,7 @@ update_status ModulePhysics3D::Update()
 
 update_status ModulePhysics3D::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("ModulePhysics3D::PostUpdate", Profiler::Color::Green)
 	return UPDATE_CONTINUE;
 }
 

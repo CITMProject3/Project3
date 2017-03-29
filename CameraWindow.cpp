@@ -41,6 +41,11 @@ void CameraWindow::Draw()
 	if (ImGui::SliderFloat("##fov", &fov_value, 0, 180))
 		App->camera->SetFOV(fov_value);
 	
+	ImGui::Text("Aspect Ratio: ");
+	float aspect_ratio = App->camera->GetAspectRatio();
+	if (ImGui::SliderFloat("##ar", &aspect_ratio, 0, 5))
+		App->camera->SetAspectRatio(aspect_ratio);
+
 	ImGui::Text("Background color: "); ImGui::SameLine();
 	float3 color = App->camera->GetBackgroundColor();
 	if (ImGui::ColorEdit3("", color.ptr()))
