@@ -37,8 +37,8 @@ namespace Player_Car
 	{
 		if (ReadFlag(col->collisionOptions, col->co_isItem))
 		{
-			ComponentCollider* Hitodama_Player_Car = col->GetCollider();
-			if (Hitodama_Player_Car->GetGameObject()->name.compare("Hitodama"))
+			ComponentCollider* Hitodama_col = col->GetCollider();
+			if (Hitodama_col->GetGameObject()->name.compare("Hitodama"))
 			{
 				//Do something
 			}
