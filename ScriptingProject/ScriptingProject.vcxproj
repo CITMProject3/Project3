@@ -72,7 +72,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(Configuration)_Game</TargetName>
-    <OutDir>$(SolutionDir)\Assets\Game\Scripts</OutDir>
+    <OutDir>$(SolutionDir)\Game\Assets\Scripts</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
