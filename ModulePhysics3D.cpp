@@ -294,6 +294,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 					int height = ilGetInteger(IL_IMAGE_HEIGHT);
 					BYTE* tmp = new BYTE[width * height * 3];
 					//Copying all RGB data of each pixel into a uchar (BYTE) array. We need to transform it into float numbers
+					realTerrainData = new float[width * height];
 					terrainData = new float[width * height];
 					ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
 
@@ -337,6 +338,11 @@ void ModulePhysics3D::DeleteHeightmap()
 	{
 		delete[] terrainData;
 		terrainData = nullptr;
+	}
+	if (realTerrainData != nullptr)
+	{
+		delete[] realTerrainData;
+		realTerrainData = nullptr;
 	}
 	if (heightMapImg != nullptr)
 	{
@@ -779,7 +785,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 		{
 			for (int x = 0; x < w; x++)
 			{
-				vertices[z * w + x] = float3(x - w / 2, terrainData[z * w + x], z - h / 2);
+				vertices[z * w + x] = float3(x - w / 2, realTerrainData[z * w + x] * terrainMaxHeight, z - h / 2);
 				float uv_x = (float)x / (float)w;
 				float uv_y = 1 - ((float)z / (float)h);
 				uvs[z * w + x] = float2(uv_x, uv_y);
@@ -932,7 +938,9 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 				}
 			}
 			value /= n;
-			terrainData[y*w + x] = value * terrainHeightScaling;
+			value /= 255;
+			realTerrainData[y*w + x] = value;
+			terrainData[y*w + x] = value * terrainMaxHeight;
 #pragma endregion
 
 #pragma region Edge detection
@@ -967,7 +975,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		for (int x = 0; x < w; x++)
 		{
 			edgeDetectionImage[y * w + x] /= maxVal + maxVal/2;
-			if (edgeDetectionImage[y * w + x] < 0.04f)
+			if (edgeDetectionImage[y * w + x] < 0.02f)
 			{
 				edgeDetectionImage[y * w + x] = 0.2f;
 			}
@@ -996,18 +1004,18 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	delete[] buf;
 }
 
-void ModulePhysics3D::SetTerrainHeightScale(float scale)
+void ModulePhysics3D::SetTerrainMaxHeight(float height)
 {
-	if (scale > 0.001f)
+	if (height > 0.1f)
 	{
 		if (heightMapImg)
 		{
 			for (unsigned int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
 			{
-				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
+				terrainData[n] = realTerrainData[n]  * height;
 			}
 		}
-		terrainHeightScaling = scale;
+		terrainMaxHeight = height;
 		GenerateTerrainMesh();
 	}
 }

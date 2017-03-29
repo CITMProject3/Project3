@@ -641,7 +641,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 			App->physics->LoadTexture(terrain_texture);
 		}
 
-		App->physics->SetTerrainHeightScale(scaling);
+		App->physics->SetTerrainMaxHeight(scaling);
 
 
 		ret = true;

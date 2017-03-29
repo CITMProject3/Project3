@@ -55,13 +55,13 @@ public:
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
-	void SetTerrainHeightScale(float scale);
+	void SetTerrainMaxHeight(float height);
 
 	void LoadTexture(std::string resLibPath);
 	void DeleteTexture();
 
 	bool TerrainIsGenerated();
-	float GetTerrainHeightScale() { return terrainHeightScaling; }
+	float GetTerrainHeightScale() { return terrainMaxHeight; }
 	uint GetCurrentTerrainUUID();
 	const char* GetHeightmapPath();
 	int GetHeightmap();
@@ -105,10 +105,11 @@ private:
 #pragma region Terrain
 	uint* indices = nullptr;
 	float* terrainData = nullptr;
+	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
 	ResourceFileTexture* heightMapImg = nullptr;
 	ResourceFileTexture* texture = nullptr;
-	float terrainHeightScaling = 0.5f;
+	float terrainMaxHeight = 200.0f;
 
 	int terrainVerticesBuffer = 0;
 	int terrainIndicesBuffer = 0;

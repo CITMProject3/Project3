@@ -334,11 +334,9 @@ void ModuleEditor::TMP_TerrainWindow()
 		ImGui::NewLine();
 		ImGui::Separator();
 
-		ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
-		ImGui::SameLine();
-		if (ImGui::Button("Set terrain height scaling"))
+		if (ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 1.0f, 0.1f, 10000.0f))
 		{
-			App->physics->SetTerrainHeightScale(heightMapScaling);
+			App->physics->SetTerrainMaxHeight(heightMapScaling);
 		}
 		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 		ImGui::End();
@@ -821,11 +819,9 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
-	ImGui::SameLine();
-	if(ImGui::Button("Set terrain height scaling"))
+	if (ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 1.0f, 0.1f, 10000.0f))
 	{
-		App->physics->SetTerrainHeightScale(heightMapScaling);
+		App->physics->SetTerrainMaxHeight(heightMapScaling);
 	}
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
