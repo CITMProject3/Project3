@@ -15,6 +15,7 @@
 #include "ModuleEditor.h"
 
 #include "Time.h"
+#include "Brofiler\include\Brofiler.h"
 
 bool Animation::Advance(float dt)
 {
@@ -372,7 +373,8 @@ bool ComponentAnimation::StartAnimation()
 
 void ComponentAnimation::Update()
 {
-	
+	BROFILER_CATEGORY("ComponentAnimation::Update", Profiler::Color::Red)
+
 	if (App->IsGameRunning())
 	{
 		if (playing == true)
@@ -402,11 +404,12 @@ void ComponentAnimation::Update()
 			{
 				playing = false;
 			}
-		
+			BROFILER_CATEGORY("ComponentAnimation::UpdateBonesTransform", Profiler::Color::BlueViolet)
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 		}
 	}
 
+	BROFILER_CATEGORY("ComponentAnimation::UpdateMeshAnimation", Profiler::Color::Cyan)
 	UpdateMeshAnimation(game_object); //Do it always
 }
 
