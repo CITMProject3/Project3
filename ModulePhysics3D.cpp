@@ -687,19 +687,20 @@ void ModulePhysics3D::RenderTerrain()
 		GLint view_location = glGetUniformLocation(shader_id, "view");
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
 
+		GLint n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
+		glUniform1i(n_texs_location, textures.size());
+
+		GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, edgeTexId);
+		glUniform1i(tex_distributor_location, 0);
+
 		int count = 0;
 		if (textures.size() > 0)
-		{
-			GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, edgeTexId);
-			glUniform1i(tex_distributor_location, 0);
-
+		{		
 			uint nTextures = textures.size();
 			GLint texture_location = 0;
 			//TEXTURE 0
-			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_0");
-			glUniform1i(has_tex_location, 0<nTextures);
 			if (0 < nTextures)
 			{
 				GLint texture_location = glGetUniformLocation(shader_id, "_Texture_0");
@@ -708,10 +709,7 @@ void ModulePhysics3D::RenderTerrain()
 				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
 			}
 
-			//TEXTURE 1
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_1");
-			glUniform1i(has_tex_location, 1 < nTextures);
-
+			//TEXTURE 1			
 			if (1 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_1");
@@ -721,9 +719,6 @@ void ModulePhysics3D::RenderTerrain()
 			}
 
 			//TEXTURE 2
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_2");
-			glUniform1i(has_tex_location, 2  < nTextures);
-
 			if (2 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_2");
@@ -733,8 +728,6 @@ void ModulePhysics3D::RenderTerrain()
 			}
 
 			//TEXTURE 3
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_3");
-			glUniform1i(has_tex_location, 3 < nTextures);
 			if (3 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_3");
@@ -744,8 +737,6 @@ void ModulePhysics3D::RenderTerrain()
 			}
 
 			//TEXTURE 4
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_4");
-			glUniform1i(has_tex_location, 4 < nTextures);
 			if (4 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_4");
@@ -754,8 +745,6 @@ void ModulePhysics3D::RenderTerrain()
 				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
 			}
 			//TEXTURE 5
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_5");
-			glUniform1i(has_tex_location, 5 < nTextures);
 			if (5 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_5");
@@ -764,8 +753,6 @@ void ModulePhysics3D::RenderTerrain()
 				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
 			}
 			//TEXTURE 6
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_7");
-			glUniform1i(has_tex_location, 6 < nTextures);
 			if (6 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
@@ -775,8 +762,6 @@ void ModulePhysics3D::RenderTerrain()
 			}
 
 			//TEXTURE 7
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_7");
-			glUniform1i(has_tex_location, 7 < nTextures);
 			if (7 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
@@ -785,8 +770,6 @@ void ModulePhysics3D::RenderTerrain()
 				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
 			}
 			//TEXTURE 8
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_8");
-			glUniform1i(has_tex_location, 8  < nTextures);
 			if (8 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_8");
@@ -795,8 +778,6 @@ void ModulePhysics3D::RenderTerrain()
 				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
 			}
 			//TEXTURE 9
-			has_tex_location = glGetUniformLocation(shader_id, "_HasTexture_9");
-			glUniform1i(has_tex_location, 9 < nTextures);
 			if (9 < nTextures)
 			{
 				texture_location = glGetUniformLocation(shader_id, "_Texture_9");
