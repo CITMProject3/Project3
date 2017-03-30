@@ -1148,7 +1148,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			textureMap[y * w + x] /= maxVal + maxVal/2;
+			textureMap[y * w + x] /= maxVal;/*
 			if (textureMap[y * w + x] < 0.02f)
 			{
 				textureMap[y * w + x] = 0.2f;
@@ -1156,7 +1156,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 			else
 			{
 				textureMap[y * w + x] = 1.0f;
-			}
+			}*/
 		}
 	}
 
