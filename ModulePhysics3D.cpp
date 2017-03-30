@@ -138,6 +138,10 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
+	float3 tmp = lastPos;
+	tmp.x += 3;
+	App->renderer3D->DrawLine(lastPos, tmp);
+
 	if (paintMode)
 	{
 		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
@@ -146,15 +150,17 @@ update_status ModulePhysics3D::Update()
 			RaycastHit hit;
 			if (RayCast(ray, hit))
 			{
+				lastPos = hit.point;
+
 				CAP(paintTexture, 0, 10);
 
 				int x = floor(hit.point.x);
 				int y = floor(hit.point.z);
 				x += heightMapImg->GetWidth() / 2;
 				y += heightMapImg->GetHeight() / 2;
-				for (int _y = -5; _y <= 5; _y++)
+				for (int _y = -brushSize; _y <= brushSize; _y++)
 				{
-					for (int _x = -5; _x <= 5; _x++)
+					for (int _x = -brushSize; _x <= brushSize; _x++)
 					{
 						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
 						{

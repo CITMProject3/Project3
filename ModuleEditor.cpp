@@ -758,20 +758,36 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::Separator();
 	ImGui::NewLine();
 	ImGui::Checkbox("Texture paint mode", &App->physics->paintMode);
-	ImGui::DragInt("TextureToPaint", &App->physics->paintTexture, 1, 0, App->physics->GetNTextures() - 1);
-	if (App->physics->paintTexture < App->physics->GetNTextures())
+	if (App->physics->paintMode)
 	{
-		float2 size = App->physics->GetHeightmapSize();
-		float maxSize = max(size.x, size.y);
-		if (maxSize > 200)
+		ImGui::Text("Brush");
+		char button[64] = " ";
+		for (int n = 0; n < App->physics->GetNTextures(); n++)
 		{
-			float scale = 200.0f / maxSize;
-			size.x *= scale;
-			size.y *= scale;
+			sprintf(button, "%i##paintTextureButton", n + 1);
+			ImGui::SameLine();
+			if (ImGui::Button(button))
+			{
+				App->physics->paintTexture = n;
+			}
 		}
-		ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
+		ImGui::InputInt("Brush Size", &App->physics->brushSize);
+		if (App->physics->paintTexture < App->physics->GetNTextures())
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 200)
+			{
+				float scale = 200.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
+		}
 	}
 
+	ImGui::NewLine();
+	ImGui::Separator();
 
 	float tmp = App->physics->GetTerrainHeightScale();
 	ImGui::Text("Terrain Max Height:");
