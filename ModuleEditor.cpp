@@ -646,9 +646,9 @@ void ModuleEditor::PhysicsMenu()
 		{
 			float2 size = App->physics->GetHeightmapSize();
 			float maxSize = max(size.x, size.y);
-			if (maxSize > 400)
+			if (maxSize > 500)
 			{
-				float scale = 400.0f / maxSize;
+				float scale = 500.0f / maxSize;
 				size.x *= scale;
 				size.y *= scale;
 			}
@@ -717,7 +717,15 @@ void ModuleEditor::PhysicsMenu()
 		ImGui::Text("Slopes detection result:");
 		if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
 		{
-			ImGui::Image((void*)App->physics->edgeTexId, ImVec2(200, 200));
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 400)
+			{
+				float scale = 400.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)App->physics->edgeTexId, ImVec2(size.x, size.y));
 		}
 		else
 		{
@@ -727,6 +735,7 @@ void ModuleEditor::PhysicsMenu()
 	}
 
 	bool terrainExists = App->physics->TerrainIsGenerated();
+	ImGui::NewLine();
 	ImGui::Checkbox("Terrain is generated", &terrainExists);
 	ImGui::NewLine();
 	ImGui::Separator();
