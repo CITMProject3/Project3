@@ -65,6 +65,7 @@ bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
 	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
+	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
 	if(App->StartInGame() == false)
 		UpdateAssetsAuto();
 	return true;
@@ -762,6 +763,11 @@ unsigned int ModuleResourceManager::GetDefaultShaderId() const
 unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
 {
 	return default_anim_shader;
+}
+
+unsigned int ModuleResourceManager::GetDefaultTerrainShaderId() const
+{
+	return default_terrain_shader;
 }
 
 string ModuleResourceManager::FindFile(const string & assets_file_path) const

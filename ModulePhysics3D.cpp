@@ -673,7 +673,7 @@ void ModulePhysics3D::RenderTerrain()
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
-		uint shader_id = App->resource_manager->GetDefaultShaderId();
+		uint shader_id = App->resource_manager->GetDefaultTerrainShaderId();
 		//Use shader
 		glUseProgram(shader_id);
 
