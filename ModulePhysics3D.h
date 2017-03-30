@@ -60,7 +60,7 @@ public:
 	void SetTerrainMaxHeight(float height);
 	void SetTextureScaling(float scale, bool doNotUse = false);
 
-	void LoadTexture(std::string resLibPath);
+	void LoadTexture(std::string resLibPath, int pos = -1);
 	void DeleteTexture(uint n);
 
 	bool TerrainIsGenerated();

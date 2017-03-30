@@ -666,7 +666,7 @@ void ModuleEditor::PhysicsMenu()
 	{
 		if (App->physics->GetHeightmap() != 0)
 		{
-			if (ImGui::BeginMenu("Load a texture:"))
+			if (ImGui::BeginMenu("Load a new texture:"))
 			{
 				vector<string> textures_list;
 				App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
@@ -687,6 +687,25 @@ void ModuleEditor::PhysicsMenu()
 			{
 				for (uint n = 0; n < App->physics->GetNTextures(); n++)
 				{
+					ImGui::NewLine();
+					char menuName[64] = " ";
+					sprintf(menuName, "Replace texture:##texn%u", n);
+					if (ImGui::BeginMenu(menuName))
+					{
+						vector<string> textures_list;
+						App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+						App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+						for (size_t i = 0; i < textures_list.size(); ++i)
+						{
+							if (ImGui::MenuItem(textures_list[i].data()))
+							{
+								string lib_file = App->resource_manager->FindFile(textures_list[i]);
+								App->physics->LoadTexture(lib_file, n);
+							}
+						}
+						ImGui::EndMenu();
+					}
 					float2 size = App->physics->GetHeightmapSize();
 					float maxSize = max(size.x, size.y);
 					if (maxSize > 200)

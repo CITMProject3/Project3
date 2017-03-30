@@ -654,7 +654,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 
 		"vec4 tex_color = vec4(1,1,1,1);\n"
 		"if(_nTextures >= 2)\n"
-		"{\n"//terrainCoord   TexCoord
+		"{\n"
 		"	vec4 dist = texture(_TextureDistributor, terrainCoord);\n"
 		"		if (dist.x < 0.9f) { tex_color = texture(_Texture_0, TexCoord); }\n"
 		"		else { tex_color = texture(_Texture_1, TexCoord); }\n"

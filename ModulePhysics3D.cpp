@@ -153,6 +153,10 @@ bool ModulePhysics3D::CleanUp()
 	CleanWorld();
 
 	DeleteHeightmap();
+	for (uint n = 0; n < GetNTextures(); n++)
+	{
+		DeleteTexture(n);
+	}
 
 	if (heightMapImg)
 	{
@@ -161,6 +165,12 @@ bool ModulePhysics3D::CleanUp()
 	for (uint n = 0; n < GetNTextures(); n++)
 	{
 		DeleteTexture(n);
+	}
+
+	if (terrainOriginalUvBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainOriginalUvBuffer);
+		terrainOriginalUvBuffer = 0;
 	}
 
 	delete vehicle_raycaster;
@@ -351,10 +361,6 @@ void ModulePhysics3D::DeleteHeightmap()
 	{
 		heightMapImg->Unload();
 		heightMapImg = nullptr;
-	}
-	for (uint n = 0; n < GetNTextures(); n++)
-	{
-		DeleteTexture(n);
 	}
 	DeleteTerrainMesh();
 }
@@ -651,7 +657,10 @@ void ModulePhysics3D::GenerateIndices()
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
 
 		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
-		glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
+		if (terrainOriginalUvBuffer == 0)
+		{
+			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
+		}
 		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
 
@@ -672,12 +681,6 @@ void ModulePhysics3D::DeleteIndices()
 		indices = nullptr;
 	}
 	numIndices = 0;
-
-	if (terrainOriginalUvBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainOriginalUvBuffer);
-		terrainOriginalUvBuffer = 0;
-	}
 }
 
 void ModulePhysics3D::RenderTerrain()
@@ -1203,18 +1206,29 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 	}
 }
 
-void ModulePhysics3D::LoadTexture(string resLibPath)
+void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 {
 	//Loading Heightmap Image
 	if (resLibPath != "" && resLibPath != " ")
 	{
-		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
-		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+		if ((pos == -1) || (pos >= 0 && pos < GetNTextures()))
 		{
-			textures.push_back((ResourceFileTexture*)res);
-			if (textures.size() == 1)
+			ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+			if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 			{
-				GenerateUVs();
+				if (pos == -1)
+				{
+					textures.push_back((ResourceFileTexture*)res);
+				}
+				else
+				{
+					textures[pos]->Unload();
+					textures[pos] = (ResourceFileTexture*)res;
+				}
+				if (textures.size() == 1)
+				{
+					GenerateUVs();
+				}
 			}
 		}
 	}
