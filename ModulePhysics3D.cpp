@@ -1076,12 +1076,15 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 	}
 }
 
-void ModulePhysics3D::SetTextureScaling(float scale)
+void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 {
 	if (scale > 0)
 	{
+		float tmp = 0.0f;
+		if (doNotUse) { tmp = textureScaling; }
 		textureScaling = scale;
 		GenerateUVs();
+		if (doNotUse) { textureScaling = tmp; }
 	}
 }
 
@@ -1094,6 +1097,10 @@ void ModulePhysics3D::LoadTexture(string resLibPath)
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 		{
 			textures.push_back((ResourceFileTexture*)res);
+			if (textures.size() == 1)
+			{
+				GenerateUVs();
+			}
 		}
 	}
 }
@@ -1113,6 +1120,11 @@ void ModulePhysics3D::DeleteTexture(uint n)
 			}
 			x++;
 		}
+	}
+
+	if (textures.size() == 0)
+	{
+		SetTextureScaling(1.0f, true);
 	}
 }
 

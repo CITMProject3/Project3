@@ -56,7 +56,7 @@ public:
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainMaxHeight(float height);
-	void SetTextureScaling(float scale);
+	void SetTextureScaling(float scale, bool doNotUse = false);
 
 	void LoadTexture(std::string resLibPath);
 	void DeleteTexture(uint n);
