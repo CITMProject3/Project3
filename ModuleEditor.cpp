@@ -756,6 +756,22 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::Checkbox("Terrain is generated", &terrainExists);
 	ImGui::NewLine();
 	ImGui::Separator();
+	ImGui::NewLine();
+	ImGui::Checkbox("Texture paint mode", &App->physics->paintMode);
+	ImGui::DragInt("TextureToPaint", &App->physics->paintTexture, 1, 0, App->physics->GetNTextures() - 1);
+	if (App->physics->paintTexture < App->physics->GetNTextures())
+	{
+		float2 size = App->physics->GetHeightmapSize();
+		float maxSize = max(size.x, size.y);
+		if (maxSize > 200)
+		{
+			float scale = 200.0f / maxSize;
+			size.x *= scale;
+			size.y *= scale;
+		}
+		ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
+	}
+
 
 	float tmp = App->physics->GetTerrainHeightScale();
 	ImGui::Text("Terrain Max Height:");

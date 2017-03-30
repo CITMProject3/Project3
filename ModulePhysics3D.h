@@ -74,6 +74,7 @@ public:
 	int GetHeightmap();
 	float2 GetHeightmapSize();
 
+	void AutoGenerateTextureMap();
 	void ReinterpretTextureMap();
 
 	int GetTexture(uint n);
@@ -146,6 +147,8 @@ public:
 	uint textureMapBufferID = 0;
 	float* textureMap = nullptr;
 	
+	bool paintMode = false;
+	int paintTexture = 0;
 
 	bool renderWiredTerrain = false;
 };

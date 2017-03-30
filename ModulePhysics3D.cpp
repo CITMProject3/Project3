@@ -7,6 +7,7 @@
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
 #include "ModuleLighting.h"
+#include "ModuleCamera3D.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -135,6 +136,35 @@ update_status ModulePhysics3D::Update()
 	if(debug == true)
 	{
 		world->debugDrawWorld();
+	}
+
+	if (paintMode)
+	{
+		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+		{
+			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+			RaycastHit hit;
+			if (RayCast(ray, hit))
+			{
+				CAP(paintTexture, 0, 10);
+
+				int x = floor(hit.point.x);
+				int y = floor(hit.point.z);
+				x += heightMapImg->GetWidth() / 2;
+				y += heightMapImg->GetHeight() / 2;
+				for (int _y = -5; _y <= 5; _y++)
+				{
+					for (int _x = -5; _x <= 5; _x++)
+					{
+						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						{
+							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+						}
+					}
+				}
+				ReinterpretTextureMap();
+			}
+		}
 	}
 
 	return UPDATE_CONTINUE;
@@ -932,6 +962,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 	GenerateVertices();
 	GenerateIndices();
 	GenerateUVs();
+	AutoGenerateTextureMap();
 }
 
 void ModulePhysics3D::DeleteNormals()
@@ -1347,10 +1378,30 @@ float2 ModulePhysics3D::GetHeightmapSize()
 	return float2::zero;
 }
 
+void ModulePhysics3D::AutoGenerateTextureMap()
+{
+	int w = heightMapImg->GetWidth();
+	int h = heightMapImg->GetHeight();
+	for (int y = 0; y < h; y++)
+	{
+		for (int x = 0; x < w; x++)
+		{
+				if (textureMap[y * w + x] > 0.15)
+				{
+					textureMap[y * w + x] = 0.15f;
+				}
+				else
+				{
+					textureMap[y * w + x] = 0.05f;
+				}
+		}
+	}
+}
+
 void ModulePhysics3D::ReinterpretTextureMap()
 {
 	glEnable(GL_TEXTURE_2D);
-
+	glActiveTexture(GL_TEXTURE0);
 	if (textureMapBufferID == 0)
 	{
 		glGenTextures(1, &textureMapBufferID);
