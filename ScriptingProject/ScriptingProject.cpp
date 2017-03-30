@@ -30,6 +30,7 @@ extern "C"
 			script_names->push_back("Test2");
 
 			script_names->push_back("Player_Car");
+			script_names->push_back("Player_Camera");
 		}
 	}
 

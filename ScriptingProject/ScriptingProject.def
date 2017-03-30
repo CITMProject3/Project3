@@ -15,3 +15,8 @@ EXPORTS
 	Player_Car_Update
 	Player_Car_UpdatePublics
 	Player_Car_OnCollision
+
+	Player_Camera_GetPublics
+	Player_Camera_Start
+	Player_Camera_Update
+	Player_Camera_UpdatePublics
