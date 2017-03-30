@@ -49,7 +49,7 @@ public:
 	bool FastRemoveGameObject(GameObject* object); // Doesn't remove the GameObject from the parent list.
 
 	void GetAllCameras(std::vector<ComponentCamera*>& list, GameObject* from = nullptr) const;
-	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;
+	void GetLightInfo(std::vector<ComponentLight*>& lights, GameObject* from = nullptr)const;
 
 	void LoadEmptyScene();
 	GameObject* LoadPrefabGameObject(const Data& go_data, map<unsigned int, unsigned int>& uuids); //Used to load prefabs and mesh files

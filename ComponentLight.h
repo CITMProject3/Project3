@@ -6,7 +6,8 @@
 
 enum LightType 
 {
-	DIRECTIONAL_LIGHT = 0
+	DIRECTIONAL_LIGHT = 0,
+	POINT_LIGHT = 1
 };
 
 class ComponentLight : public Component
@@ -30,6 +31,7 @@ public:
 private:
 
 	void DirectionalLightInspector();
+	void PointLightInspector();
 
 private:
 	LightType light_type = LightType::DIRECTIONAL_LIGHT;

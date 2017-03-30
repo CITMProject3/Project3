@@ -233,7 +233,7 @@ void ModuleGOManager::GetAllCameras(std::vector<ComponentCamera*>& list, GameObj
 		GetAllCameras(list, (*child));
 }
 
-ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
+void ModuleGOManager::GetLightInfo(std::vector<ComponentLight*>& lights, GameObject* from) const
 {
 	ComponentLight* light = nullptr;
 	GameObject* go = (from) ? from : root;
@@ -241,19 +241,14 @@ ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
 	light = (ComponentLight*)go->GetComponent(C_LIGHT);
 	if (light)
 	{
-		if(light->GetLightType() == LightType::DIRECTIONAL_LIGHT)
-			return light;
+		lights.push_back(light);
 	}		
 
 	const vector<GameObject*>* childs = go->GetChilds();
 	for (vector<GameObject*>::const_iterator child = childs->begin(); child != childs->end(); ++child)
 	{
-		light = GetDirectionalLight((*child));
-		if (light)
-			return light;
+		GetLightInfo(lights, (*child));
 	}
-
-	return nullptr;
 }
 
 void ModuleGOManager::LoadEmptyScene()

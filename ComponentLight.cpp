@@ -18,9 +18,17 @@ ComponentLight::~ComponentLight()
 
 void ComponentLight::Update()
 {
-	float4x4 matrix = game_object->transform->GetGlobalMatrix();
-	float3 forward = matrix.Col3(2);
-	g_Debug->AddArrow(matrix.TranslatePart(), forward, g_Debug->yellow, 3.0f);
+	if (light_type == LightType::DIRECTIONAL_LIGHT)
+	{
+		float4x4 matrix = game_object->transform->GetGlobalMatrix();
+		float3 forward = matrix.Col3(2);
+		g_Debug->AddArrow(matrix.TranslatePart(), forward, g_Debug->yellow, 3.0f);
+	}
+	
+	if (light_type == LightType::POINT_LIGHT)
+	{
+		g_Debug->AddCross(game_object->transform->GetPosition(), g_Debug->yellow, 1.0f, 3.0f);
+	}
 }
 
 void ComponentLight::OnInspector(bool debug)
@@ -50,6 +58,9 @@ void ComponentLight::OnInspector(bool debug)
 		case DIRECTIONAL_LIGHT:
 			light_type_name = "DirectionalLight";
 			break;
+		case POINT_LIGHT:
+			light_type_name = "PointLight";
+			break;
 		}
 
 		if (ImGui::BeginMenu(light_type_name.data()))
@@ -58,6 +69,10 @@ void ComponentLight::OnInspector(bool debug)
 			{
 				light_type = DIRECTIONAL_LIGHT;
 			}
+			if (ImGui::MenuItem("Point light"))
+			{
+				light_type = POINT_LIGHT;
+			}
 			ImGui::EndMenu();
 		}
 		ImGui::Separator();
@@ -65,6 +80,9 @@ void ComponentLight::OnInspector(bool debug)
 		{
 		case DIRECTIONAL_LIGHT:
 			DirectionalLightInspector();
+			break;
+		case POINT_LIGHT:
+			PointLightInspector();
 			break;
 		}
 	}
@@ -111,6 +129,11 @@ void ComponentLight::DirectionalLightInspector()
 {
 	ImGui::InputFloat("Intensity: ###directional_in", &intensity);
 	ImGui::ColorEdit3("Color: ###directional_col", color.ptr());
+}
+
+void ComponentLight::PointLightInspector()
+{
+	ImGui::ColorEdit3("Color: ###point_col", color.ptr());
 }
 
 //TODO: add a light to render module and remove previous light?

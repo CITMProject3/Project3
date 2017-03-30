@@ -2,7 +2,7 @@
 #pragma once
 #include "Color.h"
 #include "MathGeoLib\include\MathGeoLib.h"
-
+#include <vector>
 using namespace math;
 
 struct Light
@@ -31,4 +31,7 @@ struct LightInfo
 	math::float3 directional_color;
 	float directional_intensity;
 	math::float3 directional_direction;
+
+	std::vector<math::float3> point_positions;
+	std::vector<math::float3> point_color;
 };

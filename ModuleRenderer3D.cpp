@@ -680,6 +680,15 @@ void ModuleRenderer3D::ShaderLightUniforms(unsigned int shader_id, const LightIn
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 	}
+
+	//Pointlights
+	
+	GLint pl_position_location = glGetUniformLocation(shader_id, "lightPositions");
+
+	glUniform3fv(pl_position_location, light.point_positions.size(), reinterpret_cast<const GLfloat*>(light.point_positions.data()));
+
+	GLint pl_color_location = glGetUniformLocation(shader_id, "lightColors");
+	glUniform3fv(pl_color_location, light.point_color.size(), reinterpret_cast<const GLfloat*>((light.point_color.data())));
 }
 
 void ModuleRenderer3D::ShaderCustomUniforms(unsigned int shader_id, ComponentMaterial* material) const
