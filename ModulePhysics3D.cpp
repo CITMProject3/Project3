@@ -607,49 +607,60 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::GenerateIndices()
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-
-	//Interior vertices all need 6 indices
-	//limit vertices all need 3 indices
-	//Except corner ones. Two need 1 and two need 2
-	numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
-	if (indices != nullptr)
+	if (heightMapImg)
 	{
-		delete[] indices;
-	}
-	indices = new uint[numIndices];
+		DeleteIndices();
 
-	int n = 0;
-	for (int z = 0; z < h - 1; z++)
-	{
-		for (int x = 0; x < w - 1; x++)
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+
+		//Interior vertices all need 6 indices
+		//limit vertices all need 3 indices
+		//Except corner ones. Two need 1 and two need 2
+		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
+		indices = new uint[numIndices];
+
+		int n = 0;
+		for (int z = 0; z < h - 1; z++)
 		{
-			indices[n] = (z + 1) * w + x;
-			n++;
-			indices[n] = z * w + x + 1;
-			n++;
-			indices[n] = z * w + x;
-			n++;
+			for (int x = 0; x < w - 1; x++)
+			{
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = z * w + x;
+				n++;
 
-			indices[n] = z * w + x + 1;
-			n++;
-			indices[n] = (z + 1) * w + x;
-			n++;
-			indices[n] = (z + 1) * w + x + 1;
-			n++;
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = (z + 1) * w + x + 1;
+				n++;
+			}
 		}
-	}
 
+		//Load indices buffer to VRAM
+		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+	}
+}
+
+void ModulePhysics3D::DeleteIndices()
+{
 	if (terrainIndicesBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
+		terrainIndicesBuffer = 0;
 	}
-
-	//Load indices buffer to VRAM
-	glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+	if (indices != nullptr)
+	{
+		delete[] indices;
+		indices = nullptr;
+	}
+	numIndices = 0;
 }
 
 void ModulePhysics3D::RenderTerrain()
@@ -733,8 +744,7 @@ void ModulePhysics3D::RenderTerrain()
 			if (directional_direction_location != -1)
 				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 		}
-
-
+		
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
@@ -750,11 +760,6 @@ void ModulePhysics3D::RenderTerrain()
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
-/*
-		//Buffer tangents == 3
-		glEnableVertexAttribArray(3);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);*/
 
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
@@ -771,32 +776,116 @@ void ModulePhysics3D::RenderTerrain()
 
 void ModulePhysics3D::GenerateTerrainMesh()
 {
-	if (terrainIndicesBuffer != 0)
+	GenerateVertices();
+	GenerateIndices();
+	GenerateUVs();
+}
+
+void ModulePhysics3D::DeleteNormals()
+{
+	if (terrainNormalBuffer != 0)
 	{
-		DeleteTerrainMesh();
+		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		terrainNormalBuffer = 0;
 	}
+}
+
+void ModulePhysics3D::GenerateUVs()
+{
+	if (heightMapImg)
+	{
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+
+		float2* uvs = new float2[w*h];
+
+		for (int z = 0; z < h; z++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+				float uv_x = ((float)x / (float)w) / textureScaling;
+				float uv_y = 1 - (((float)z / (float)h) / textureScaling);
+				uvs[z * w + x] = float2(uv_x, uv_y);
+			}
+		}
+
+		DeleteUVs();
+
+		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, uvs, GL_STATIC_DRAW);
+
+		delete[] uvs;
+	}
+}
+
+void ModulePhysics3D::DeleteUVs()
+{
+	if (terrainUvBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
+		terrainUvBuffer = 0;
+	}
+}
+
+void ModulePhysics3D::DeleteTerrainMesh()
+{
+	DeleteVertices();
+	DeleteNormals();
+	DeleteUVs();
+	DeleteIndices();
+}
+
+void ModulePhysics3D::GenerateVertices()
+{
 	if (heightMapImg)
 	{
 		int w = heightMapImg->GetWidth();
 		int h = heightMapImg->GetHeight();
 		uint numVertices = w * h;
 
-		GenerateIndices();
-
 		float3* vertices = new float3[numVertices];
-		float3* normals = new float3[numVertices];
-		float2* uvs = new float2[numVertices];
 
 		for (int z = 0; z < h; z++)
 		{
 			for (int x = 0; x < w; x++)
 			{
 				vertices[z * w + x] = float3(x - w / 2, realTerrainData[z * w + x] * terrainMaxHeight, z - h / 2);
-				float uv_x = (float)x;
-				float uv_y = 1 - ((float)z);
-				uvs[z * w + x] = float2(uv_x, uv_y);
 			}
 		}
+
+		DeleteVertices();
+
+		//Load vertices buffer to VRAM
+		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
+
+		GenerateNormals(vertices);
+
+		delete[] vertices;
+	}
+}
+
+void ModulePhysics3D::DeleteVertices()
+{
+	if (terrainVerticesBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
+		terrainVerticesBuffer = 0;
+	}
+}
+
+void ModulePhysics3D::GenerateNormals(float3* vertices)
+{
+	if (heightMapImg)
+	{
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		uint numVertices = w * h;
+
+		float3* normals = new float3[numVertices];
 
 		for (int z = 0; z < h; z++)
 		{
@@ -842,53 +931,14 @@ void ModulePhysics3D::GenerateTerrainMesh()
 			}
 		}
 
-		//Load vertices buffer to VRAM
-		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
+		DeleteNormals();
 
-		//Load UVs -----------------------------------------------------------------------------------------------------------------------
-		glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
-
-		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		//Load Normalss -----------------------------------------------------------------------------------------------------------------------
 		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
 
-		delete[] vertices;
 		delete[] normals;
-		delete[] uvs;
-	}
-}
-
-void ModulePhysics3D::DeleteTerrainMesh()
-{
-	if (terrainVerticesBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
-		terrainVerticesBuffer = 0;
-	}
-	if (terrainIndicesBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-		terrainIndicesBuffer = 0;
-	}
-	if (terrainUvBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
-		terrainUvBuffer = 0;
-	}
-	if (terrainNormalBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
-		terrainNormalBuffer = 0;
-	}
-	if (indices != nullptr)
-	{
-		delete[] indices;
-		indices = nullptr;
 	}
 }
 
@@ -1023,6 +1073,15 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 		}
 		terrainMaxHeight = height;
 		GenerateTerrainMesh();
+	}
+}
+
+void ModulePhysics3D::SetTextureScaling(float scale)
+{
+	if (scale > 0)
+	{
+		textureScaling = scale;
+		GenerateUVs();
 	}
 }
 

@@ -726,14 +726,22 @@ void ModuleEditor::PhysicsMenu()
 		ImGui::EndMenu();
 	}
 
-	bool tmp = App->physics->TerrainIsGenerated();
-	ImGui::Checkbox("Terrain is generated", &tmp);
+	bool terrainExists = App->physics->TerrainIsGenerated();
+	ImGui::Checkbox("Terrain is generated", &terrainExists);
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	if (ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 1.0f, 0.1f, 10000.0f))
+	float tmp = App->physics->GetTerrainHeightScale();
+	ImGui::Text("Terrain Max Height:");
+	if (ImGui::DragFloat("##TerrainHeightScaling", &tmp, 1.0f, 0.1f, 10000.0f))
 	{
-		App->physics->SetTerrainMaxHeight(heightMapScaling);
+		App->physics->SetTerrainMaxHeight(tmp);
+	}
+	tmp = App->physics->GetTextureScaling();
+	ImGui::Text("Terrain Texture Scaling:");
+	if (ImGui::DragFloat("##TerrainTextureScaling", &tmp, 0.001f, 0.001f, 1.0f))
+	{
+		App->physics->SetTextureScaling(tmp);
 	}
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }

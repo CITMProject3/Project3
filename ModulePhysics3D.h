@@ -56,6 +56,7 @@ public:
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainMaxHeight(float height);
+	void SetTextureScaling(float scale);
 
 	void LoadTexture(std::string resLibPath);
 	void DeleteTexture(uint n);
@@ -71,14 +72,24 @@ public:
 	uint GetTextureUUID(uint n);
 	const char* GetTexturePath(uint n);
 	uint GetNTextures();
+	float GetTextureScaling() { return textureScaling; }
+
 	void RenderTerrain();
 private:
 	void AddTerrain();
-
-	void GenerateIndices();
 	
 	void GenerateTerrainMesh();
 	void DeleteTerrainMesh();
+
+	void GenerateVertices();
+	void DeleteVertices();
+	void GenerateNormals(float3* vertices);
+	void DeleteNormals();
+	void GenerateUVs();
+	void DeleteUVs();
+	void GenerateIndices();
+	void DeleteIndices();
+
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
 public:
 
@@ -110,6 +121,7 @@ private:
 	btHeightfieldTerrainShape* terrain = nullptr;
 	ResourceFileTexture* heightMapImg = nullptr;
 	std::vector<ResourceFileTexture*> textures;
+	float textureScaling = 1.0f;
 	float terrainMaxHeight = 200.0f;
 
 	int terrainVerticesBuffer = 0;
