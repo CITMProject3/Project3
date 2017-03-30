@@ -158,7 +158,10 @@ bool ModulePhysics3D::CleanUp()
 	{
 		heightMapImg->Unload();
 	}
-	DeleteTexture();
+	for (uint n = 0; n < GetNTextures(); n++)
+	{
+		DeleteTexture(n);
+	}
 
 	delete vehicle_raycaster;
 	delete world;
@@ -349,7 +352,10 @@ void ModulePhysics3D::DeleteHeightmap()
 		heightMapImg->Unload();
 		heightMapImg = nullptr;
 	}
-	DeleteTexture();
+	for (uint n = 0; n < GetNTextures(); n++)
+	{
+		DeleteTexture(n);
+	}
 	DeleteTerrainMesh();
 }
 
@@ -671,13 +677,13 @@ void ModulePhysics3D::RenderTerrain()
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
 
 		int count = 0;
-		if (texture != nullptr)
+		if (textures.size() > 0)
 		{
 			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			glUniform1i(has_tex_location, 1);
 			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture->GetTexture());
+			glBindTexture(GL_TEXTURE_2D, textures.front()->GetTexture());
 			glUniform1i(texture_location, 0);
 		}
 		else
@@ -786,8 +792,8 @@ void ModulePhysics3D::GenerateTerrainMesh()
 			for (int x = 0; x < w; x++)
 			{
 				vertices[z * w + x] = float3(x - w / 2, realTerrainData[z * w + x] * terrainMaxHeight, z - h / 2);
-				float uv_x = (float)x / (float)w;
-				float uv_y = 1 - ((float)z / (float)h);
+				float uv_x = (float)x;
+				float uv_y = 1 - ((float)z);
 				uvs[z * w + x] = float2(uv_x, uv_y);
 			}
 		}
@@ -1023,23 +1029,31 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 void ModulePhysics3D::LoadTexture(string resLibPath)
 {
 	//Loading Heightmap Image
-	if (resLibPath != GetTexturePath() && resLibPath != "" && resLibPath != " ")
+	if (resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 		{
-			DeleteTexture();
-			texture = (ResourceFileTexture*)res;
+			textures.push_back((ResourceFileTexture*)res);
 		}
 	}
 }
 
-void ModulePhysics3D::DeleteTexture()
+void ModulePhysics3D::DeleteTexture(uint n)
 {
-	if (texture != nullptr)
+	if (n >= 0 && n < textures.size())
 	{
-		texture->Unload();
-		texture = nullptr;
+		int x = 0;
+		for (std::vector<ResourceFileTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
+		{
+			if (x == n)
+			{
+				textures[n]->Unload();
+				textures.erase(it);
+				break;
+			}
+			x++;
+		}
 	}
 }
 
@@ -1071,32 +1085,37 @@ int ModulePhysics3D::GetHeightmap()
 	return 0;
 }
 
-int ModulePhysics3D::GetTexture()
+int ModulePhysics3D::GetTexture(uint n)
 {
-	if (texture != nullptr)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetTexture();
+		return textures[n]->GetTexture();
 	}
 	return 0;
 }
 
-uint ModulePhysics3D::GetTextureUUID()
+uint ModulePhysics3D::GetTextureUUID(uint n)
 {
-	if (texture)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetUUID();
+		return textures[n]->GetUUID();
 	}
 	return 0;
 }
 
-const char * ModulePhysics3D::GetTexturePath()
+const char * ModulePhysics3D::GetTexturePath(uint n)
 {
-	if (texture)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetFile();
+		return textures[n]->GetFile();
 	}
 	char ret[5] = " ";
 	return ret;
+}
+
+uint ModulePhysics3D::GetNTextures()
+{
+	return textures.size();
 }
 
 float2 ModulePhysics3D::GetHeightmapSize()

@@ -546,7 +546,10 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	App->go_manager->root->Save(root_node);
 
 	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		root_node.AppendString("terrain_texture", App->physics->GetTexturePath(n));
+	}
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 	
 	char* buf;
@@ -628,18 +631,20 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 		App->go_manager->SetCurrentScenePath(file_name);
 
 		const char* terrain = scene.GetString("terrain");
-		const char*  terrain_texture = scene.GetString("terrain_texture");
-		float scaling = scene.GetFloat("terrain_scaling");
-
 		if (terrain)
 		{
 			App->physics->GenerateHeightmap(terrain);
 		}
 
-		if (terrain_texture)
+		const char*  terrain_texture = scene.GetString("terrain_texture");
+		while (terrain_texture != nullptr)
 		{
 			App->physics->LoadTexture(terrain_texture);
+			//TODO
+			break;
 		}
+		
+		float scaling = scene.GetFloat("terrain_scaling");
 
 		App->physics->SetTerrainMaxHeight(scaling);
 

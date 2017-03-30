@@ -239,109 +239,6 @@ void ModuleEditor::Duplicate(GameObject* game_object)
 
 }
 
-void ModuleEditor::TMP_TerrainWindow()
-{
-	if (ImGui::Begin("TerrainWindow"))
-	{
-		ImVec2 winSize = ImGui::GetWindowSize();
-		if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
-		{
-			ImGui::Image((void*)App->physics->edgeTexId, ImVec2((winSize.x-40), (winSize.x - 40)));
-		}
-
-
-		if (ImGui::BeginMenu("Select a heightmap:"))
-		{
-			vector<string> textures_list;
-			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
-			App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
-
-			for (size_t i = 0; i < textures_list.size(); ++i)
-			{
-				if (ImGui::MenuItem(textures_list[i].data()))
-				{
-					string lib_file = App->resource_manager->FindFile(textures_list[i]);
-					App->physics->GenerateHeightmap(lib_file);
-				}
-			}
-			ImGui::EndMenu();
-		}
-		int tex = App->physics->GetHeightmap();
-		if (tex != 0)
-		{
-			if (ImGui::Button("Delete heightmap"))
-			{
-				App->physics->DeleteHeightmap();
-			}
-		}
-		tex = App->physics->GetHeightmap();
-		if (tex != 0)
-		{
-			float2 size = App->physics->GetHeightmapSize();
-			float maxSize = max(size.x, size.y);
-			if (maxSize > 200)
-			{
-				float scale = (winSize.x - 40) / maxSize;
-				size.x *= scale;
-				size.y *= scale;
-			}
-			ImGui::Image((void*)tex, ImVec2(size.x, size.y));
-
-
-			if (ImGui::BeginMenu("Select a texture:"))
-			{
-				vector<string> textures_list;
-				App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
-				App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
-
-				for (size_t i = 0; i < textures_list.size(); ++i)
-				{
-					if (ImGui::MenuItem(textures_list[i].data()))
-					{
-						string lib_file = App->resource_manager->FindFile(textures_list[i]);
-						App->physics->LoadTexture(lib_file);
-					}
-				}
-				ImGui::EndMenu();
-			}
-			int tex2 = App->physics->GetTexture();
-			if (tex2 != 0)
-			{
-				if (ImGui::Button("Delete texture"))
-				{
-					App->physics->DeleteTexture();
-				}
-			}
-			tex2 = App->physics->GetTexture();
-			if (tex2 != 0)
-			{
-				float2 size = App->physics->GetHeightmapSize();
-				float maxSize = max(size.x, size.y);
-				if (maxSize > 200)
-				{
-					float scale = (winSize.x-40) / maxSize;
-					size.x *= scale;
-					size.y *= scale;
-				}
-				ImGui::Image((void*)tex2, ImVec2(size.x, size.y));
-			}
-
-		}
-
-
-		bool tmp = App->physics->TerrainIsGenerated();
-		ImGui::Checkbox("Terrain is generated", &tmp);
-		ImGui::NewLine();
-		ImGui::Separator();
-
-		if (ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 1.0f, 0.1f, 10000.0f))
-		{
-			App->physics->SetTerrainMaxHeight(heightMapScaling);
-		}
-		ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
-		ImGui::End();
-	}
-}
 
 update_status ModuleEditor::PreUpdate()
 {
@@ -356,9 +253,6 @@ update_status ModuleEditor::Update()
 	PROFILE("Editor::Update()");
 
 	update_status ret = UPDATE_CONTINUE;
-
-	
-	TMP_TerrainWindow();
 
 	if (App->StartInGame() == false)
 	{
@@ -729,51 +623,9 @@ void ModuleEditor::GameObjectMenu()
 
 void ModuleEditor::PhysicsMenu()
 {	
-	if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
+	if(ImGui::BeginMenu("Heightmap"))
 	{
-		ImGui::Image((void*)App->physics->edgeTexId, ImVec2(200,200));
-	}
-
-
-	if (ImGui::BeginMenu("Select a heightmap:"))
-	{
-		vector<string> textures_list;
-		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
-		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
-
-		for (size_t i = 0; i < textures_list.size(); ++i)
-		{
-			if (ImGui::MenuItem(textures_list[i].data()))
-			{
-				string lib_file = App->resource_manager->FindFile(textures_list[i]);
-				App->physics->GenerateHeightmap(lib_file);
-			}
-		}
-		ImGui::EndMenu();
-	}
-	int tex = App->physics->GetHeightmap();
-	if (tex != 0)
-	{
-		if (ImGui::Button("Delete heightmap"))
-		{
-			App->physics->DeleteHeightmap();
-		}
-	}
-	tex = App->physics->GetHeightmap();
-	if (tex != 0)
-	{
-		float2 size = App->physics->GetHeightmapSize();
-		float maxSize = max(size.x, size.y);
-		if (maxSize > 200)
-		{
-			float scale = 200.0f / maxSize;
-			size.x *= scale;
-			size.y *= scale;
-		}
-		ImGui::Image((void*)tex, ImVec2(size.x, size.y));
-
-
-		if (ImGui::BeginMenu("Select a texture:"))
+		if (ImGui::BeginMenu("Select a heightmap:"))
 		{
 			vector<string> textures_list;
 			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
@@ -784,35 +636,95 @@ void ModuleEditor::PhysicsMenu()
 				if (ImGui::MenuItem(textures_list[i].data()))
 				{
 					string lib_file = App->resource_manager->FindFile(textures_list[i]);
-					App->physics->LoadTexture(lib_file);
+					App->physics->GenerateHeightmap(lib_file);
 				}
 			}
 			ImGui::EndMenu();
 		}
-		int tex2 = App->physics->GetTexture();
-		if (tex2 != 0)
-		{
-			if (ImGui::Button("Delete texture"))
-			{
-				App->physics->DeleteTexture();
-			}
-		}
-		tex2 = App->physics->GetTexture();
-		if (tex2 != 0)
+		int tex = App->physics->GetHeightmap();
+		if (tex != 0)
 		{
 			float2 size = App->physics->GetHeightmapSize();
 			float maxSize = max(size.x, size.y);
-			if (maxSize > 200)
+			if (maxSize > 400)
 			{
-				float scale = 200.0f / maxSize;
+				float scale = 400.0f / maxSize;
 				size.x *= scale;
 				size.y *= scale;
 			}
-			ImGui::Image((void*)tex2, ImVec2(size.x, size.y));
+			ImGui::Image((void*)tex, ImVec2(size.x, size.y));
 		}
+		if (tex != 0)
+		{
+			if (ImGui::Button("Delete heightmap"))
+			{
+				App->physics->DeleteHeightmap();
+			}
+		}
+		ImGui::EndMenu();
+	}	
 
+	if (ImGui::BeginMenu("Diffuse Textures"))
+	{
+		if (App->physics->GetHeightmap() != 0)
+		{
+			if (ImGui::BeginMenu("Load a texture:"))
+			{
+				vector<string> textures_list;
+				App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+				App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+				for (size_t i = 0; i < textures_list.size(); ++i)
+				{
+					if (ImGui::MenuItem(textures_list[i].data()))
+					{
+						string lib_file = App->resource_manager->FindFile(textures_list[i]);
+						App->physics->LoadTexture(lib_file);
+					}
+				}
+				ImGui::EndMenu();
+			}
+
+			if (App->physics->GetNTextures() > 0)
+			{
+				for (uint n = 0; n < App->physics->GetNTextures(); n++)
+				{
+					float2 size = App->physics->GetHeightmapSize();
+					float maxSize = max(size.x, size.y);
+					if (maxSize > 200)
+					{
+						float scale = 200.0f / maxSize;
+						size.x *= scale;
+						size.y *= scale;
+					}
+					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
+					char buttonName[64] = "";
+					sprintf(buttonName, "Delete texture##delText%u", n);
+					if (ImGui::Button(buttonName))
+					{
+						App->physics->DeleteTexture(n);
+					}
+					ImGui::Separator();
+					ImGui::NewLine();
+				}
+			}
+		}
+		ImGui::EndMenu();
 	}
 
+	if (ImGui::BeginMenu("Debug Images: "))
+	{
+		ImGui::Text("Slopes detection result:");
+		if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
+		{
+			ImGui::Image((void*)App->physics->edgeTexId, ImVec2(200, 200));
+		}
+		else
+		{
+			ImGui::Text("\nNot Loaded\n");
+		}
+		ImGui::EndMenu();
+	}
 
 	bool tmp = App->physics->TerrainIsGenerated();
 	ImGui::Checkbox("Terrain is generated", &tmp);

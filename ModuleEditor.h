@@ -73,8 +73,6 @@ public:
 	void Paste(GameObject* game_object);
 	void Duplicate(GameObject* game_object);
 
-	void TMP_TerrainWindow();
-
 private:
 	//Game Simulation Options
 	void GameOptions()const;
