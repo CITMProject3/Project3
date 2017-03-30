@@ -98,8 +98,6 @@ bool ModuleEditor::Start()
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
 
-	heightMapScaling = App->physics->GetTerrainHeightScale();
-
 	return ret;
 }
 
