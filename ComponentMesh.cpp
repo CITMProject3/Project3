@@ -16,6 +16,8 @@
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
 
+#include "Brofiler/include/Brofiler.h"
+
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	aabb.SetNegativeInfinity();
@@ -225,6 +227,8 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 
 void ComponentMesh::DeformAnimMesh()
 {
+	BROFILER_CATEGORY("ComponentMesh::DeformAnimMesh", Profiler::Color::Maroon)
+
 	bones_trans.clear();
 
 	for (uint i = 0; i < bones_reference.size(); i++)
