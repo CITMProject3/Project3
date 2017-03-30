@@ -712,7 +712,7 @@ void ModulePhysics3D::RenderTerrain()
 
 		GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, edgeTexId);
+		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 		glUniform1i(tex_distributor_location, 0);
 
 		int count = 0;
@@ -813,7 +813,7 @@ void ModulePhysics3D::RenderTerrain()
 			glUniform1i(has_tex_location, 1);
 			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, edgeTexId);
+			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 			glUniform1i(texture_location, 0);
 			//GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			//glUniform1i(has_tex_location, 0);
@@ -1068,11 +1068,11 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	float* edgeH = new float[(w*h) * 3];
 	float* edgeV = new float[(w*h) * 3];
 
-	if (edgeDetectionImage != nullptr)
+	if (textureMap != nullptr)
 	{
-		delete[] edgeDetectionImage;
+		delete[] textureMap;
 	}
-	edgeDetectionImage = new float[w*h];
+	textureMap = new float[w*h];
 
 	float* buf = new float[w*h];
 	float maxVal = 0;
@@ -1118,8 +1118,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 #pragma endregion
 
 #pragma region Edge detection
-			int hk[3][3] = { {-1,0,1}, {-2,0,2}, {-1,0,1} };
-			int vk[3][3] = { { -1,-2,-1 },{ 0,0,0 },{ 1,2,1 } };
+			int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
+			int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
 			edgeH[y * w + x] = 0;
 			edgeV[y * w + x] = 0;
 			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
@@ -1135,10 +1135,10 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 				}
 			}
 
-			edgeDetectionImage[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
-			if (edgeDetectionImage[(h - y - 1) * w + x] > maxVal)
+			textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+			if (textureMap[(h - y - 1) * w + x] > maxVal)
 			{
-				maxVal = edgeDetectionImage[(h - y - 1) * w + x];
+				maxVal = textureMap[(h - y - 1) * w + x];
 			}
 #pragma endregion
 		}
@@ -1148,30 +1148,30 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			edgeDetectionImage[y * w + x] /= maxVal + maxVal/2;
-			if (edgeDetectionImage[y * w + x] < 0.02f)
+			textureMap[y * w + x] /= maxVal + maxVal/2;
+			if (textureMap[y * w + x] < 0.02f)
 			{
-				edgeDetectionImage[y * w + x] = 0.2f;
+				textureMap[y * w + x] = 0.2f;
 			}
 			else
 			{
-				edgeDetectionImage[y * w + x] = 1.0f;
+				textureMap[y * w + x] = 1.0f;
 			}
 		}
 	}
 
 	glEnable(GL_TEXTURE_2D);
-	if (edgeTexId == 0)
+	if (textureMapBufferID == 0)
 	{
-		glGenTextures(1, &edgeTexId);
+		glGenTextures(1, &textureMapBufferID);
 	}
-	glBindTexture(GL_TEXTURE_2D, edgeTexId);
+	glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, edgeDetectionImage);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, textureMap);
 
 	delete[] edgeH;
 	delete[] edgeV;

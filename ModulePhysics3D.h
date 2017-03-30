@@ -136,10 +136,8 @@ private:
 	uint numIndices = 0;
 #pragma endregion
 public:
-	//TMP stuff
-	uint edgeTexId = 0;
-	float* edgeDetectionImage = nullptr;
-	///////
+	uint textureMapBufferID = 0;
+	float* textureMap = nullptr;
 
 	bool renderWiredTerrain = false;
 };

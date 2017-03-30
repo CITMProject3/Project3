@@ -732,7 +732,7 @@ void ModuleEditor::PhysicsMenu()
 	if (ImGui::BeginMenu("Debug Images: "))
 	{
 		ImGui::Text("Slopes detection result:");
-		if (App->physics->edgeDetectionImage != nullptr && App->physics->edgeTexId != 0)
+		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
 		{
 			float2 size = App->physics->GetHeightmapSize();
 			float maxSize = max(size.x, size.y);
@@ -742,7 +742,7 @@ void ModuleEditor::PhysicsMenu()
 				size.x *= scale;
 				size.y *= scale;
 			}
-			ImGui::Image((void*)App->physics->edgeTexId, ImVec2(size.x, size.y));
+			ImGui::Image((void*)App->physics->textureMapBufferID, ImVec2(size.x, size.y));
 		}
 		else
 		{
