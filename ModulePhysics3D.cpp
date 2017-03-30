@@ -273,6 +273,42 @@ void ModulePhysics3D::CreateGround()
 	world->addRigidBody(body);
 }
 
+bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
+{
+	RaycastHit hit_info;
+	bool ret = false;
+
+	uint u1, u2, u3;
+	float distance;
+	vec hit_point;
+	Triangle triangle;
+	for (unsigned int i = 0; i < heightMapImg->GetWidth() * heightMapImg->GetHeight(); i += 3)
+	{
+		u1 = indices[i];
+		u2 = indices[i + 1];
+		u3 = indices[i + 2];
+		triangle = Triangle(float3(vertices[u1 * 3]), float3(vertices[u2 * 3]), float3(vertices[u3 * 3]));
+		if (raycast.Intersects(triangle, &distance, &hit_point))
+		{
+			ret = true;
+			if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+			{
+				hit_OUT.distance = distance;
+				hit_OUT.point = hit_point;
+				hit_OUT.normal = triangle.NormalCCW();
+			}
+		}
+
+		if (ret == true)
+		{
+			hit_OUT.object = nullptr;
+			hit_OUT.normal.Normalize();
+		}
+	}
+
+	return ret;
+}
+
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
 	bool ret = false;
@@ -963,7 +999,9 @@ void ModulePhysics3D::GenerateVertices()
 		int h = heightMapImg->GetHeight();
 		uint numVertices = w * h;
 
-		float3* vertices = new float3[numVertices];
+		DeleteVertices();
+
+		vertices = new float3[numVertices];
 
 		for (int z = 0; z < h; z++)
 		{
@@ -973,16 +1011,12 @@ void ModulePhysics3D::GenerateVertices()
 			}
 		}
 
-		DeleteVertices();
-
 		//Load vertices buffer to VRAM
 		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
 		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
 
-		GenerateNormals(vertices);
-
-		delete[] vertices;
+		GenerateNormals();
 	}
 }
 
@@ -993,15 +1027,22 @@ void ModulePhysics3D::DeleteVertices()
 		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
 		terrainVerticesBuffer = 0;
 	}
+	if (vertices != nullptr)
+	{
+		delete[] vertices;
+		vertices = nullptr;
+	}
 }
 
-void ModulePhysics3D::GenerateNormals(float3* vertices)
+void ModulePhysics3D::GenerateNormals()
 {
-	if (heightMapImg)
+	if (heightMapImg && vertices)
 	{
 		int w = heightMapImg->GetWidth();
 		int h = heightMapImg->GetHeight();
 		uint numVertices = w * h;
+
+		DeleteNormals();
 
 		float3* normals = new float3[numVertices];
 
@@ -1048,8 +1089,6 @@ void ModulePhysics3D::GenerateNormals(float3* vertices)
 				normals[z * w + x] = norm;
 			}
 		}
-
-		DeleteNormals();
 
 		//Load Normalss -----------------------------------------------------------------------------------------------------------------------
 		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
@@ -1148,30 +1187,11 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	{
 		for (int x = 0; x < w; x++)
 		{
-			textureMap[y * w + x] /= maxVal;/*
-			if (textureMap[y * w + x] < 0.02f)
-			{
-				textureMap[y * w + x] = 0.2f;
-			}
-			else
-			{
-				textureMap[y * w + x] = 1.0f;
-			}*/
+			textureMap[y * w + x] /= maxVal;
 		}
 	}
-
-	glEnable(GL_TEXTURE_2D);
-	if (textureMapBufferID == 0)
-	{
-		glGenTextures(1, &textureMapBufferID);
-	}
-	glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_FLOAT, textureMap);
+	
+	ReinterpretTextureMap();
 
 	delete[] edgeH;
 	delete[] edgeV;
@@ -1325,6 +1345,23 @@ float2 ModulePhysics3D::GetHeightmapSize()
 		return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
 	}
 	return float2::zero;
+}
+
+void ModulePhysics3D::ReinterpretTextureMap()
+{
+	glEnable(GL_TEXTURE_2D);
+
+	if (textureMapBufferID == 0)
+	{
+		glGenTextures(1, &textureMapBufferID);
+	}
+	glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, heightMapImg->GetWidth(), heightMapImg->GetHeight(), 0, GL_RED, GL_FLOAT, textureMap);
 }
 
 

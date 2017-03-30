@@ -5,6 +5,8 @@
 
 #include "Primitive.h"
 
+#include "RaycastHit.h"
+
 #include <list>
 #include <string>
 
@@ -49,6 +51,8 @@ public:
 	void CleanWorld();
 	void CreateGround();
 
+	bool RayCast(Ray ray, RaycastHit& hit);
+
 	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
 	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
 	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
@@ -70,6 +74,8 @@ public:
 	int GetHeightmap();
 	float2 GetHeightmapSize();
 
+	void ReinterpretTextureMap();
+
 	int GetTexture(uint n);
 	uint GetTextureUUID(uint n);
 	const char* GetTexturePath(uint n);
@@ -85,7 +91,7 @@ private:
 
 	void GenerateVertices();
 	void DeleteVertices();
-	void GenerateNormals(float3* vertices);
+	void GenerateNormals();
 	void DeleteNormals();
 	void GenerateUVs();
 	void DeleteUVs();
@@ -118,6 +124,7 @@ private:
 
 #pragma region Terrain
 	uint* indices = nullptr;
+	float3* vertices = nullptr;
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
@@ -138,6 +145,7 @@ private:
 public:
 	uint textureMapBufferID = 0;
 	float* textureMap = nullptr;
+	
 
 	bool renderWiredTerrain = false;
 };
