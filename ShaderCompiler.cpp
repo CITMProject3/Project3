@@ -524,7 +524,7 @@ int ShaderCompiler::LoadDefaultAnimShader()
 int ShaderCompiler::LoadDefaultTerrainShader()
 {
 	GLuint vertex_shader, fragment_shader;
-	GLuint shader = glCreateProgram();;
+	GLuint shader = glCreateProgram();
 
 	const GLchar* vertex_code =
 		"#version 330 core \n"
@@ -552,12 +552,34 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"#version 330 core\n"
 		"in vec2 TexCoord;\n"
 		"in vec3 normal0;\n"
+		"in vec2 terrainCoord;\n"
 		"in vec3 tangent0;\n"
 		"in vec3 world_pos0;\n"
 		"out vec4 color;\n"
 		"uniform vec3 _EyeWorldPos;\n"
-		"uniform bool _HasTexture;\n"
-		"uniform sampler2D _Texture;\n"
+
+		"uniform sampler2D _TextureDistributor;\n"
+		"uniform bool _HasTexture_0;\n"
+		"uniform sampler2D _Texture_0;\n"
+		"uniform bool _HasTexture_1;\n"
+		"uniform sampler2D _Texture_1;\n"
+		"uniform bool _HasTexture_2;\n"
+		"uniform sampler2D _Texture_2;\n"
+		"uniform bool _HasTexture_3;\n"
+		"uniform sampler2D _Texture_3;\n"
+		"uniform bool _HasTexture_4;\n"
+		"uniform sampler2D _Texture_4;\n"
+		"uniform bool _HasTexture_5;\n"
+		"uniform sampler2D _Texture_5;\n"
+		"uniform bool _HasTexture_6;\n"
+		"uniform sampler2D _Texture_6;\n"
+		"uniform bool _HasTexture_7;\n"
+		"uniform sampler2D _Texture_7;\n"
+		"uniform bool _HasTexture_8;\n"
+		"uniform sampler2D _Texture_8;\n"
+		"uniform bool _HasTexture_9;\n"
+		"uniform sampler2D _Texture_9;\n"
+
 		"uniform sampler2D _NormalMap;\n"
 		"uniform bool _HasNormalMap;\n"
 		"uniform float _AmbientIntensity;\n"
@@ -635,7 +657,15 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"			specular_color = vec4(_DirectionalColor * _specular * sf, 1.0f);\n"
 		"       }\n"
 		"   }\n"
-		"   vec4 tex_color = (_HasTexture) ? texture(_Texture, TexCoord) : vec4(1,1,1,1);\n"
+
+		"vec4 tex_color = vec4(1,1,1,1);\n"
+		"if(_HasTexture_0 && _HasTexture_1)\n"
+		"{\n"//terrainCoord   TexCoord
+		"	vec4 dist = texture(_TextureDistributor, TexCoord);\n"
+		"		if (dist.x < 0.9f) { tex_color = texture(_Texture_0, TexCoord); }\n"
+		"		else { tex_color = texture(_Texture_1, TexCoord); }\n"
+		"}\n"
+
 		"	color = material_color * tex_color * (ambient + diffuse + specular_color);\n"
 		"   color.w = material_color.w;\n"
 		"}\n";

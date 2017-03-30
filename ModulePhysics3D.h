@@ -14,6 +14,8 @@
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
+#define MAX_TERRAIN_TEXTURES 10
+
 class PhysBody3D;
 struct PhysVehicle3D;
 struct VehicleInfo;
@@ -127,6 +129,7 @@ private:
 	int terrainVerticesBuffer = 0;
 	int terrainIndicesBuffer = 0;
 	int terrainUvBuffer = 0;
+	int terrainOriginalUvBuffer = 0;
 	int terrainNormalBuffer = 0;
 
 	int terrainSmoothLevels = 1;
