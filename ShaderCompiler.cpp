@@ -528,12 +528,14 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 
 	const GLchar* vertex_code =
 		"#version 330 core \n"
-		"layout(location = 0) in vec3 position;\n" 
+		"layout(location = 0) in vec3 position;\n"
 		"layout(location = 1) in vec2 texCoord;\n"
 		"layout(location = 2) in vec3 normal;\n"
 		"layout(location = 3) in vec3 tangent;\n"
+		"layout(location = 4) in vec2 TerrainCoord;\n"
 		"out vec2 TexCoord;\n"
 		"out vec3 normal0;\n"
+		"out vec2 terrainCoord;\n"
 		"out vec3 tangent0;\n"
 		"out vec3 world_pos0;\n"
 		"uniform mat4 model;\n"
@@ -543,6 +545,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"{\n"
 		"	gl_Position = projection * view * model * vec4(position, 1.0f);\n"
 		"	TexCoord = texCoord;\n"
+		"   terrainCoord = TerrainCoord;\n"
 		"	normal0 = (model * vec4(normal, 0.0f)).xyz;\n"
 		"   tangent0 = (model * vec4(tangent, 0.0f)).xyz;\n"
 		"   world_pos0 = (model * vec4(position, 1.0f)).xyz;\n"
@@ -550,10 +553,9 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 
 	const GLchar* fragment_code =
 		"#version 330 core\n"
-		"#extension GL_ARB_separate_shader_objects : enable\n"
-		"layout (location = 1) in vec2 TexCoord;\n"
-		"layout (location = 2) in vec3 normal0;\n"
-		"layout (location = 3) in vec2 terrainCoord;\n"
+		"in vec2 TexCoord;\n"
+		"in vec3 normal0;\n"
+		"in vec2 terrainCoord;\n"
 		"in vec3 tangent0;\n"
 		"in vec3 world_pos0;\n"
 		"out vec4 color;\n"
