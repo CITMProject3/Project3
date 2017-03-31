@@ -1971,6 +1971,18 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("base_turn_max", base_turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
 
+	//Max turn change
+	data.AppendFloat("velocity_to_change", velocity_to_begin_change);
+	data.AppendFloat("turn_max_limit", turn_max_limit);
+
+	data.AppendFloat("base_max_turn_change_speed", base_max_turn_change_speed);
+	data.AppendFloat("base_max_turn_change_accel", base_max_turn_change_accel);
+	data.AppendBool("limit_to_a_turn_max", limit_to_a_turn_max);
+	data.AppendBool("accelerated_change", accelerated_change);
+
+	data.AppendInt("current_max_turn_change_mode", current_max_turn_change_mode);
+	
+
 	//Push
 	data.AppendFloat("push_force", push_force);
 	data.AppendFloat("push_speed_per", push_speed_per);
@@ -2106,6 +2118,17 @@ void ComponentCar::Load(Data& conf)
 	//Turn 
 	base_turn_max = conf.GetFloat("base_turn_max"); 
 	turn_speed = conf.GetFloat("turn_speed");
+
+	//Max turn change
+	velocity_to_begin_change = conf.GetFloat("velocity_to_change"); 
+	turn_max_limit = conf.GetFloat("turn_max_limit"); 
+
+	base_max_turn_change_speed = conf.GetFloat("base_max_turn_change_speed");
+	base_max_turn_change_accel = conf.GetFloat("base_max_turn_change_accel"); 
+	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
+	accelerated_change = conf.GetBool("accelerated_change");
+
+	current_max_turn_change_mode = MAX_TURN_CHANGE_MODE(conf.GetInt("current_max_turn_change_mode"));
 
 	//Push
 	push_force = conf.GetFloat("push_force"); 

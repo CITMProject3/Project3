@@ -208,6 +208,8 @@ private:
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
 
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
+
 	//Graph
 	bool show_graph = false;
 	//----
@@ -280,10 +282,6 @@ private:
 	float turn_max;
 	float turn_current = 0.0f;
 	bool turning_left = false;
-
-	//Max turn change 
-
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
 
 	//Drift
 	bool drifting = false;
