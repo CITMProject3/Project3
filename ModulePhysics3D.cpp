@@ -318,12 +318,12 @@ bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 	float distance;
 	vec hit_point;
 	Triangle triangle;
-	for (unsigned int i = 0; i < heightMapImg->GetWidth() * heightMapImg->GetHeight(); i += 3)
+	for (unsigned int i = 0; i < numIndices - 100; i += 3)
 	{
 		u1 = indices[i];
 		u2 = indices[i + 1];
 		u3 = indices[i + 2];
-		triangle = Triangle(float3(vertices[u1 * 3]), float3(vertices[u2 * 3]), float3(vertices[u3 * 3]));
+		triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
 		if (raycast.Intersects(triangle, &distance, &hit_point))
 		{
 			ret = true;
