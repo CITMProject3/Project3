@@ -181,6 +181,7 @@
     </ClCompile>
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
+    <ClCompile Include="Scene_Manager.cpp" />
     <ClCompile Include="ScriptingProject.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -8,11 +8,6 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	scripts_lib = NULL;
-	resource_created = false;
-	scripts_loaded = false;
-	setting_go_var = false;
-	set_go_var_now = nullptr;
 }
 
 ModuleScripting::~ModuleScripting()

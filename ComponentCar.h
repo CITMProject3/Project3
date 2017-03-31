@@ -20,6 +20,8 @@ enum PLAYER
 {
 	PLAYER_1,
 	PLAYER_2,
+	PLAYER_3,
+	PLAYER_4,
 };
 
 enum Player2_State
@@ -96,6 +98,9 @@ public:
 	void OnInspector(bool debug);
 
 	void OnPlay();
+
+	void SetFrontPlayer(PLAYER player);
+	void SetBackPlayer(PLAYER player);
 
 	//Getters
 	float GetVelocity()const;

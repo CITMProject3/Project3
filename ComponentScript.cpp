@@ -235,26 +235,18 @@ void ComponentScript::OnInspector(bool debug)
 		{
 			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
 			{
-				if (App->scripting->set_go_var_now != nullptr)
-				{
-					if (App->scripting->setting_go_var_name == (*it).first)
-					{
-						(*it).second = App->scripting->set_go_var_now;
-						App->scripting->set_go_var_now = nullptr;
-						App->scripting->setting_go_var = false;
-					}
-				}
+				ImGui::Text((*it).first);
 				if ((*it).second != nullptr)
 					ImGui::Text((*it).second->name.c_str());
 				else
-					ImGui::Text("NULL GO");
+					ImGui::Text("nullptr");
 				ImGui::SameLine();
 				if (ImGui::Button("Set GO", ImVec2(80, 20)))
 				{
-					(*it).second = nullptr;
-					App->scripting->setting_go_var = true;
 					App->scripting->setting_go_var_name = (*it).first;
+					App->scripting->to_set_var = this;
 				}
+				ImGui::Separator();
 			}
 		}
 	}
@@ -376,6 +368,19 @@ void ComponentScript::SetPath(const char * path)
 	{
 		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools, &public_gos);
 	}
+}
+
+void ComponentScript::SetGOVar(GameObject* game_object)
+{
+	for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+	{
+		if ((*it).first == App->scripting->setting_go_var_name)
+		{
+			(*it).second = game_object;
+		}
+	}
+	App->scripting->to_set_var = nullptr;
+	App->scripting->setting_go_var_name = "";
 }
 
 void ComponentScript::OnCollision(PhysBody3D* col)

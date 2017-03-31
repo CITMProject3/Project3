@@ -120,6 +120,19 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		int player_f = (int)front_player;
+		if (ImGui::InputInt("Front player joystick", &player_f, 1))
+		{
+			math::Clamp(player_f, 0, 3);
+			front_player = (PLAYER)player_f;
+		}
+		int player_b = (int)back_player;
+		if (ImGui::InputInt("Front player joystick", &player_b, 1))
+		{
+			math::Clamp(player_b, 0, 3);
+			back_player = (PLAYER)player_b;
+		}
+
 		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
 		if (lastCheckpoint != nullptr)
@@ -656,6 +669,22 @@ void ComponentCar::OnPlay()
 	checkpoints = 255;
 }
 
+void ComponentCar::SetFrontPlayer(PLAYER player)
+{
+	if (player > 0 && player < App->input->GetNumberJoysticks())
+	{
+		front_player = player;
+	}
+}
+
+void ComponentCar::SetBackPlayer(PLAYER player)
+{
+	if (player > 0 && player < App->input->GetNumberJoysticks())
+	{
+		back_player = player;
+	}
+}
+
 float ComponentCar::GetVelocity() const
 {
 	return vehicle->GetKmh();
@@ -700,55 +729,7 @@ void ComponentCar::HandlePlayerInput()
 	
 	KeyboardControls(&accel, &brake, &turning);
 
-	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
-	/*if (App->input->GetNumberJoysticks() > 0)
-	{
-		//Kick to accelerate
-		if (kickTimer >= kickCooldown)
-		{
-			if (App->input->GetJoystickButton(0, JOY_BUTTON::A) == KEY_DOWN)
-			{
-				accel = force;
-				kickTimer = 0.0f;
-			}
-		}
-		//Brake
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::B))
-		{
-			brake = brake_force;
-		}
-		//Turn
-		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
-		if (math::Abs(X_joy_input) > 0.1f)
-		{
-			turn_current = turn_max * -X_joy_input;
-		}
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
-		{
-			turning = true;
-
-			turn_current -= turn_speed;
-			if (turn_current < -turn_max)
-				turn_current = -turn_max;
-		}
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_LEFT))
-		{
-			turning = true;
-
-			turn_current += turn_speed;
-			if (turn_current > turn_max)
-				turn_current = turn_max;
-		}
-
-
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::SELECT))
-		{
-			Reset();
-		}
-	}*/
 	JoystickControls(&accel, &brake, &turning);
-
-	
 
 	ApplyTurbo();
 

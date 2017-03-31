@@ -31,6 +31,8 @@ extern "C"
 
 			script_names->push_back("Player_Car");
 			script_names->push_back("Player_Camera");
+
+			script_names->push_back("Scene_Manager");
 		}
 	}
 

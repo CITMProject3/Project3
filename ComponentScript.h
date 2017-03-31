@@ -31,6 +31,7 @@ public:
 	void Load(Data& conf);
 
 	void SetPath(const char* path);
+	void SetGOVar(GameObject* game_object);
 
 	void OnCollision(PhysBody3D* col);
 
