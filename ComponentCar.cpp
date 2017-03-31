@@ -159,7 +159,7 @@ void ComponentCar::OnInspector(bool debug)
 					if (hasItem == true)
 					{
 						PickItem();
-					}
+					}    
 				}
 
 				if (turned)
@@ -1649,6 +1649,51 @@ float ComponentCar::GetMaxVelocity() const
 float ComponentCar::GetMinVelocity() const
 {
 	return min_velocity;
+}
+
+float ComponentCar::GetMaxTurnByCurrentVelocity()
+{
+	float max_t = turn_max;
+
+	float sp = GetVelocity();
+
+	if (sp <= velocity_to_begin_change)
+	{
+		return max_t;
+	}
+	else
+	{
+		if (by_speed)
+		{
+			float velocity_dif = sp - velocity_to_begin_change;
+			
+			max_t += (velocity_dif * base_max_turn_change_speed);
+
+			if (accelerated_change)
+			{
+				max_t += ((base_max_turn_change_accel / 2) * velocity_dif * velocity_dif);
+			}
+
+			if (max_t < turn_max_limit)
+			{
+				max_t = turn_max_limit;
+			}
+
+		}
+
+		else if (by_interpolation)
+		{
+			float turn_max_change_dif = turn_max_limit - turn_max;
+			float velocity_dif = max_velocity - velocity_to_begin_change;
+
+			max_t += (turn_max_change_dif / velocity_dif) * sp;
+		}
+
+		
+	}
+
+
+	return max_t;
 }
 
 TURBO ComponentCar::GetCurrentTurbo() const

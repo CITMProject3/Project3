@@ -105,6 +105,8 @@ public:
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
+	float GetMaxTurnByCurrentVelocity();
+
 
 	TURBO GetCurrentTurbo()const;
 
@@ -189,6 +191,25 @@ private:
 	//Turn direction
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
+	
+	//----Max turn change 
+	float velocity_to_begin_change = 10.0f;
+	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_accel = -0.1f;
+	float turn_max_limit = 0.0f;
+
+	//Do an interpolation with a final result
+	//NOTE: maybe doing an Enum?
+	bool by_interpolation = false;
+	bool by_speed = false;
+
+	bool limit_to_a_turn_max = false;
+	
+
+	//Not change max turn with uniform speed
+	bool accelerated_change = false;
+	//----
+
 
 	//Acceleration
 	float accel_force = 1000.0f;
