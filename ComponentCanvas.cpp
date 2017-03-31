@@ -97,6 +97,17 @@ vector<GameObject*> ComponentCanvas::GetUI()
 	return tmp_childs;
 }
 
+GameObject * ComponentCanvas::GetGoFocus() const
+{
+	return go_focus;
+}
+
+void ComponentCanvas::SetGoFocus(GameObject * new_focus)
+{
+	if (new_focus != nullptr)
+		go_focus = new_focus;
+}
+
 vector<GameObject*> ComponentCanvas::GetGameObjectChilds(GameObject * go)
 {
 	vector<GameObject*> tmp_childs = (*go->GetChilds());

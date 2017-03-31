@@ -24,7 +24,8 @@ public:
 	void Load(Data& conf);
 	void Remove();
 	vector<GameObject*> GetUI();
-
+	GameObject* GetGoFocus()const;
+	void SetGoFocus(GameObject* new_focus);
 private:
 
 	vector<GameObject*> GetGameObjectChilds(GameObject* go);

@@ -45,7 +45,7 @@ void ComponentRectTransform::Update()
 {
 	if (apply_transformation)
 	{
-		local_position.Set(local_middle_position.x - (rect_size.x / 2), local_middle_position.y, 0.0f);
+ 		local_position.Set(local_middle_position.x - (rect_size.x / 2), local_middle_position.y, 0.0f);
 		transform_matrix = transform_matrix.FromTRS(local_position, Quat::identity, size);
 		
 		game_object->TransformModified(); 
