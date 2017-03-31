@@ -183,28 +183,52 @@ void ComponentScript::OnInspector(bool debug)
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
 			{
-				ImGui::InputText((*it).first, (*it).second._Myptr(), (*it).second.size());
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputText(str.c_str(), (*it).second._Myptr(), (*it).second.size());
 			}
 		}
 		if (!public_ints.empty())
 		{
 			for (map<const char*, int>::iterator it = public_ints.begin(); it != public_ints.end(); it++)
 			{
-				ImGui::InputInt((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputInt(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_floats.empty())
 		{
 			for (map<const char*, float>::iterator it = public_floats.begin(); it != public_floats.end(); it++)
 			{
-				ImGui::InputFloat((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputFloat(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_bools.empty())
 		{
 			for (map<const char*, bool>::iterator it = public_bools.begin(); it != public_bools.end(); it++)
 			{
-				ImGui::Checkbox((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::Checkbox(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_gos.empty())
