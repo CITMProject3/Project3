@@ -43,6 +43,8 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	car->num_wheels = 4;
 	car->wheels = new Wheel[4];
 
+	turn_max = base_turn_max;
+
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
@@ -159,6 +161,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("");
 
 				ImGui::Text("Current turn: %f", turn_current);
+				ImGui::Text("Current turn max: %f", turn_max);
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
 
@@ -238,9 +241,9 @@ void ComponentCar::OnInspector(bool debug)
 				{
 					ImGui::Text("");
 
-					ImGui::Text("Turn max");
+					ImGui::Text("Base turn max");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
+					if (ImGui::DragFloat("##Turnmax", &base_turn_max, 0.1f, 0.0f, 2.0f)) {}
 
 
 					ImGui::Text("Turn speed");
@@ -280,6 +283,21 @@ void ComponentCar::OnInspector(bool debug)
 							ImGui::Text("Base accel of max turn change speed");
 							ImGui::DragFloat("##a_mx_tn_change", &base_max_turn_change_accel, 0.01f);
 						}
+					}
+
+					
+					ImGui::Checkbox("Show max turn/ velocity graph", &show_graph);
+
+					if (show_graph)
+					{
+						float values[14];
+
+						for (int i = 0; i < 14; i ++)
+						{
+							values[i] = GetMaxTurnByCurrentVelocity(float(i)* 10.0f);
+						}
+
+						ImGui::PlotLines("Max turn / Velocity", values, 14);
 					}
 
 					//NOTE: put a graph so the designers know how it  will affect turn max change over time
@@ -692,6 +710,8 @@ float ComponentCar::GetVelocity() const
 
 void ComponentCar::HandlePlayerInput()
 {
+	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
+
 	float brake;
 	bool turning = false;
 	leaning = false;
@@ -1674,7 +1694,7 @@ float ComponentCar::GetMinVelocity() const
 
 float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 {
-	float max_t = turn_max;
+	float max_t = base_turn_max;
 
 
 	if (sp <= velocity_to_begin_change)
@@ -1703,10 +1723,10 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 
 		else if (current_max_turn_change_mode == M_INTERPOLATION)
 		{
-			float turn_max_change_dif = turn_max_limit - turn_max;
+			float turn_max_change_dif = turn_max_limit - base_turn_max;
 			float velocity_dif = max_velocity - velocity_to_begin_change;
 
-			max_t += (turn_max_change_dif / velocity_dif) * sp;
+			max_t += (turn_max_change_dif / velocity_dif) * (sp - velocity_to_begin_change);
 		}
 
 		
@@ -1929,8 +1949,20 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("fake_break", decel_brake);
 
 	//Turn 
-	data.AppendFloat("turn_max", turn_max);
+	data.AppendFloat("base_turn_max", base_turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
+
+	//Max turn change
+	data.AppendFloat("velocity_to_change", velocity_to_begin_change);
+	data.AppendFloat("turn_max_limit", turn_max_limit);
+
+	data.AppendFloat("base_max_turn_change_speed", base_max_turn_change_speed);
+	data.AppendFloat("base_max_turn_change_accel", base_max_turn_change_accel);
+	data.AppendBool("limit_to_a_turn_max", limit_to_a_turn_max);
+	data.AppendBool("accelerated_change", accelerated_change);
+
+	data.AppendInt("current_max_turn_change_mode", current_max_turn_change_mode);
+	
 
 	//Push
 	data.AppendFloat("push_force", push_force);
@@ -2065,8 +2097,19 @@ void ComponentCar::Load(Data& conf)
 	decel_brake = conf.GetFloat("fake_break");
 
 	//Turn 
-	turn_max = conf.GetFloat("turn_max"); 
+	base_turn_max = conf.GetFloat("base_turn_max"); 
 	turn_speed = conf.GetFloat("turn_speed");
+
+	//Max turn change
+	velocity_to_begin_change = conf.GetFloat("velocity_to_change"); 
+	turn_max_limit = conf.GetFloat("turn_max_limit"); 
+
+	base_max_turn_change_speed = conf.GetFloat("base_max_turn_change_speed");
+	base_max_turn_change_accel = conf.GetFloat("base_max_turn_change_accel"); 
+	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
+	accelerated_change = conf.GetBool("accelerated_change");
+
+	current_max_turn_change_mode = MAX_TURN_CHANGE_MODE(conf.GetInt("current_max_turn_change_mode"));
 
 	//Push
 	push_force = conf.GetFloat("push_force"); 
