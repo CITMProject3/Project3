@@ -1641,6 +1641,21 @@ float ComponentCar::GetVelocity()
 	return vehicle->GetKmh();
 }
 
+float ComponentCar::GetMaxVelocity() const
+{
+	return max_velocity;
+}
+
+float ComponentCar::GetMinVelocity() const
+{
+	return min_velocity;
+}
+
+TURBO ComponentCar::GetCurrentTurbo() const
+{
+	return current_turbo;
+}
+
 void ComponentCar::CreateCar()
 {
 	std::vector<Component*> components;
