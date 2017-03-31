@@ -103,7 +103,10 @@ public:
 	void LimitSpeed();
 
 	float GetVelocity();
+	float GetMaxVelocity()const;
+	float GetMinVelocity()const;
 
+	TURBO GetCurrentTurbo()const;
 
 private:
 	void CreateCar();
