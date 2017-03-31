@@ -138,31 +138,26 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	float3 tmp = lastPos;
-	tmp.x += 3;
-	App->renderer3D->DrawLine(lastPos, tmp);
-
 	if (paintMode)
 	{
+
 		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 		{
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			RaycastHit hit;
 			if (RayCast(ray, hit))
 			{
-				lastPos = hit.point;
-
 				CAP(paintTexture, 0, 10);
 
-				int x = floor(hit.point.x);
-				int y = floor(hit.point.z);
+				int x = ceil(hit.point.x) - 1;
+				int y = ceil(hit.point.z);
 				x += heightMapImg->GetWidth() / 2;
 				y += heightMapImg->GetHeight() / 2;
 				for (int _y = -brushSize; _y <= brushSize; _y++)
 				{
 					for (int _x = -brushSize; _x <= brushSize; _x++)
 					{
-						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						if (_x + x >= 0 && _y + y >= 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
 						{
 							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
 						}
@@ -755,9 +750,25 @@ void ModulePhysics3D::RenderTerrain()
 {
 	if (numIndices != 0 && terrainData != nullptr)
 	{
+		if (paintMode && renderWiredTerrain == false)
+		{
+			if (renderWiredTerrain == false)
+			{
+				renderWiredTerrain = true;
+				RenderTerrain();
+				renderWiredTerrain = false;
+			}
+		}
 		if (renderWiredTerrain)
 		{
-			glLineWidth(1.0f);
+			if (paintMode)
+			{
+				glLineWidth(2.0f);
+			}
+			else
+			{
+				glLineWidth(1.0f);
+			}
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
@@ -784,7 +795,7 @@ void ModulePhysics3D::RenderTerrain()
 		glUniform1i(tex_distributor_location, 0);
 
 		int count = 0;
-		if (textures.size() > 0)
+		if (textures.size() > 0 && renderWiredTerrain == false)
 		{		
 			uint nTextures = textures.size();
 			GLint texture_location = 0;
@@ -952,6 +963,27 @@ void ModulePhysics3D::RenderTerrain()
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(3);
+
+		glActiveTexture(GL_TEXTURE10);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE7);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 

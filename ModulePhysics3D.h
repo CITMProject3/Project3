@@ -149,7 +149,6 @@ public:
 	
 	bool paintMode = false;
 	int paintTexture = 0;
-	float3 lastPos = float3::zero;
 	int brushSize = 5;
 
 	bool renderWiredTerrain = false;
