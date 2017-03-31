@@ -195,7 +195,7 @@ private:
 	float turn_over_reset_time = 5.0f;
 
 	//Turn direction
-	float turn_max = 0.7f;
+	float base_turn_max = 0.7f;
 	float turn_speed = 0.1f;
 	
 	//----Max turn change 
@@ -207,6 +207,9 @@ private:
 	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
+
+	//Graph
+	bool show_graph = false;
 	//----
 
 
@@ -274,6 +277,7 @@ private:
 	float accel = 0.0f;
 
 	//Turn
+	float turn_max;
 	float turn_current = 0.0f;
 	bool turning_left = false;
 
