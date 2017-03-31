@@ -101,6 +101,9 @@ void ComponentCar::Update()
 
 void ComponentCar::OnInspector(bool debug)
 {
+
+	ImGui::ShowTestWindow();
+
 	string str = (string("Car") + string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -233,6 +236,43 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("");
 					ImGui::TreePop();
+				}
+
+				if (ImGui::TreeNode("Max turn change settings"))
+				{
+					ImGui::Text("Velocity to begin change");
+					ImGui::DragFloat("##v_to_change", &velocity_to_begin_change, 0.1f, 0.0f);
+
+					ImGui::Text("Limit max turn");
+					ImGui::DragFloat("##l_max_turn", &turn_max_limit, 1.0f, 0.0f);
+
+					bool by_interpolation = (current_max_turn_change_mode == M_INTERPOLATION);
+					bool by_speed = (current_max_turn_change_mode == M_SPEED);
+					if (ImGui::Checkbox("By interpolation", &by_interpolation))
+						current_max_turn_change_mode = M_INTERPOLATION;
+					ImGui::SameLine();
+					if (ImGui::Checkbox("By speed", &by_speed))
+						current_max_turn_change_mode = M_SPEED;
+
+					if (by_speed)
+					{
+						ImGui::Text("Base speed of max turn change");
+						ImGui::DragFloat("##s_mx_tn_change", &base_max_turn_change_speed, 0.1f);
+						
+						ImGui::Checkbox("Limit to a certain turn max", &limit_to_a_turn_max);
+
+						ImGui::Checkbox("Accelerate the change", &accelerated_change);
+						if (accelerated_change)
+						{
+							ImGui::Text("Base accel of max turn change speed");
+							ImGui::DragFloat("##a_mx_tn_change", &base_max_turn_change_accel, 0.01f);
+						}
+					}
+
+					//NOTE: put a graph so the designers know how it  will affect turn max change over time
+					ImGui::TreePop();
+
+
 				}
 
 				if (ImGui::TreeNode("Brake settings"))
@@ -1651,11 +1691,10 @@ float ComponentCar::GetMinVelocity() const
 	return min_velocity;
 }
 
-float ComponentCar::GetMaxTurnByCurrentVelocity()
+float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 {
 	float max_t = turn_max;
 
-	float sp = GetVelocity();
 
 	if (sp <= velocity_to_begin_change)
 	{
@@ -1663,7 +1702,7 @@ float ComponentCar::GetMaxTurnByCurrentVelocity()
 	}
 	else
 	{
-		if (by_speed)
+		if (current_max_turn_change_mode == M_SPEED)
 		{
 			float velocity_dif = sp - velocity_to_begin_change;
 			
@@ -1681,7 +1720,7 @@ float ComponentCar::GetMaxTurnByCurrentVelocity()
 
 		}
 
-		else if (by_interpolation)
+		else if (current_max_turn_change_mode == M_INTERPOLATION)
 		{
 			float turn_max_change_dif = turn_max_limit - turn_max;
 			float velocity_dif = max_velocity - velocity_to_begin_change;

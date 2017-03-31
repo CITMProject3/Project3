@@ -42,6 +42,12 @@ enum TURBO
 	T_ROCKET,
 };
 
+enum MAX_TURN_CHANGE_MODE
+{
+	M_SPEED,
+	M_INTERPOLATION,
+};
+
 struct Turbo
 {
 	string name;
@@ -105,7 +111,7 @@ public:
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
-	float GetMaxTurnByCurrentVelocity();
+	float GetMaxTurnByCurrentVelocity(float sp);
 
 
 	TURBO GetCurrentTurbo()const;
@@ -194,19 +200,12 @@ private:
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
-	float base_max_turn_change_speed = -1.0f;
-	float base_max_turn_change_accel = -0.1f;
 	float turn_max_limit = 0.0f;
 
-	//Do an interpolation with a final result
-	//NOTE: maybe doing an Enum?
-	bool by_interpolation = false;
-	bool by_speed = false;
-
+	//By speed
+	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
-	
-
-	//Not change max turn with uniform speed
 	bool accelerated_change = false;
 	//----
 
@@ -277,6 +276,10 @@ private:
 	//Turn
 	float turn_current = 0.0f;
 	bool turning_left = false;
+
+	//Max turn change 
+
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
 
 	//Drift
 	bool drifting = false;
