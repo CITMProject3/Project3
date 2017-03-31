@@ -1430,6 +1430,7 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 				}
 		}
 	}
+	ReinterpretTextureMap();
 }
 
 void ModulePhysics3D::ReinterpretTextureMap()
