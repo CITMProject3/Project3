@@ -354,10 +354,6 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 		{
-			if (heightMapImg != nullptr)
-			{
-				heightMapImg->Unload();
-			}
 			DeleteHeightmap();
 			
 
