@@ -152,6 +152,7 @@
     <ClInclude Include="ComponentCanvas.h" />
     <ClInclude Include="ComponentCar.h" />
     <ClInclude Include="ComponentCollider.h" />
+    <ClInclude Include="ComponentGrid.h" />
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
@@ -330,6 +331,7 @@
     <ClCompile Include="ComponentCanvas.cpp" />
     <ClCompile Include="ComponentCar.cpp" />
     <ClCompile Include="ComponentCollider.cpp" />
+    <ClCompile Include="ComponentGrid.cpp" />
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />

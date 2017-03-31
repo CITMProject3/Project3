@@ -52,14 +52,7 @@ void ComponentUiButton::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-		int tmp_num = player_num + 1;
-		if(ImGui::InputInt("Player Number", &tmp_num, 1, 1))
-		{
-			if (tmp_num >= 2)
-				player_num = 1;
-			else
-				player_num = 0;
-		}
+
 		UImaterial->DefaultMaterialInspector();
 		if (ImGui::Button("Set Size"))
 		{
@@ -72,6 +65,19 @@ void ComponentUiButton::OnInspector(bool debug)
 	}
 }
 
+void ComponentUiButton::OnFocus()
+{
+}
+
+void ComponentUiButton::OnPress()
+{
+}
+
+void ComponentUiButton::ChangeState()
+{
+	pressed = !pressed;
+}
+
 void ComponentUiButton::Save(Data & file) const
 {
 	Data data;
@@ -79,7 +85,6 @@ void ComponentUiButton::Save(Data & file) const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendUInt("player_num", player_num);
 	data.AppendArray("Material");
 	UImaterial->Save(data);
 	file.AppendArrayValue(data);
@@ -89,7 +94,6 @@ void ComponentUiButton::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-	player_num = conf.GetUInt("player_num");
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);

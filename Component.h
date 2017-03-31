@@ -18,7 +18,8 @@ enum ComponentType
 	C_CANVAS = 12,
 	C_UI_IMAGE = 13,
 	C_UI_TEXT = 14,
-	C_UI_BUTTON = 15
+	C_UI_BUTTON = 15,
+	C_GRID = 16
 };
 
 class GameObject;
@@ -52,7 +53,7 @@ public:
 	virtual void OnPlay() {}
 	virtual void OnPause() {}
 	virtual void OnStop() {}
-
+	virtual void OnFocus() {}
 protected:
 	bool active = true;
 	ComponentType type;

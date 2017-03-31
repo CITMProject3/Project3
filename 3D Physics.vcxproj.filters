@@ -630,6 +630,9 @@
     <ClInclude Include="WarningWindow.h">
       <Filter>Sources\Editor\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentGrid.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1057,6 +1060,9 @@
     </ClCompile>
     <ClCompile Include="WarningWindow.cpp">
       <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentGrid.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
