@@ -183,16 +183,13 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			}
 			else if (App->scripting->setting_go_var_name != "")
 			{
-				if (App->editor->selected.size() > 0)
+				if (App->scripting->to_set_var != nullptr)
 				{
-					if (App->scripting->to_set_var != nullptr)
-					{
-						App->scripting->to_set_var->SetGOVar(*object);
-					}
-					else
-					{
-						App->scripting->setting_go_var_name = "";
-					}
+					App->scripting->to_set_var->SetGOVar(*object);
+				}
+				else
+				{
+					App->scripting->setting_go_var_name = "";
 				}
 			}
 			else if (App->editor->assign_wheel != -1)
