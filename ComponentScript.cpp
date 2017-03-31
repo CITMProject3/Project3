@@ -241,7 +241,8 @@ void ComponentScript::OnInspector(bool debug)
 				else
 					ImGui::Text("nullptr");
 				ImGui::SameLine();
-				if (ImGui::Button("Set GO", ImVec2(80, 20)))
+				std::string str = "Set GO##" + std::string((*it).first);
+				if (ImGui::Button(str.c_str(), ImVec2(80, 20)))
 				{
 					App->scripting->setting_go_var_name = (*it).first;
 					App->scripting->to_set_var = this;
