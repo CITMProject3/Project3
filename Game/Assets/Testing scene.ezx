@@ -3516,8 +3516,9 @@
             ]
         }
     ],
-    "terrain": "\/Library\/3227717137\/\/3442451943\/3442451943.dds",
+    "terrain_textures": [],
     "terrain_scaling": 0.500000,
+    "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/Testing scene.ezx",
     "current_library_scene_path": "\/Library\/\/3722201106\/3722201106.ezx"
 } 
