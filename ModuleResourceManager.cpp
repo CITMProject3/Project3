@@ -235,7 +235,7 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 	switch (type)
 	{
 		case IMAGE:
-			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
+			TextureImporter::Import(library_path.data(), assets_path.data());
 			break;
 		case MESH:
 		{

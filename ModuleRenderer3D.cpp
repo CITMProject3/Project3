@@ -315,10 +315,12 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 	glLoadIdentity();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
 
 	UpdateProjectionMatrix(cam);
+
+	int layer_mask = cam->GetLayerMask();
 
 	//Draw UI
 	if (App->go_manager->current_scene_canvas != nullptr)
@@ -326,10 +328,14 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
+			if (layer_mask == (layer_mask | (1 << (*obj)->layer)))
+			{
 				if ((*obj)->GetComponent(C_UI_IMAGE) || (*obj)->GetComponent(C_UI_BUTTON))
 					DrawUIImage(*obj);
 				else if ((*obj)->GetComponent(C_UI_TEXT))
-					DrawUIText(*obj);	
+					DrawUIText(*obj);
+			}
+					
 		}
 	}
 
@@ -340,7 +346,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	map<float, GameObject*> alpha_objects;
-	int layer_mask = cam->GetLayerMask();
+	
 	//Draw Static GO
 	vector<GameObject*> static_objects;
 	App->go_manager->octree.Intersect(static_objects, *cam); //Culling for static objects

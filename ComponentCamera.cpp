@@ -46,6 +46,7 @@ ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : 
 	OnTransformModified();
 	App->renderer3D->AddObserver(this);
 
+	App->camera->AddSceneCamera(this);
 }
 
 ComponentCamera::~ComponentCamera()
@@ -53,15 +54,7 @@ ComponentCamera::~ComponentCamera()
 	App->renderer3D->RemoveObserver(this);
 	if(render_texture)
 		render_texture->Unload();
-
-	if (App->camera->player1_camera == this)
-	{
-		App->camera->player1_camera = nullptr;
-	}
-	if (App->camera->player2_camera == this)
-	{
-		App->camera->player2_camera = nullptr;
-	}
+	App->camera->RemoveSceneCamera(this);
 }
 
 void ComponentCamera::PreUpdate()
@@ -92,18 +85,6 @@ void ComponentCamera::OnInspector(bool debug)
 				Remove();
 			}
 			ImGui::EndPopup();
-		}
-
-		bool isPlay1Cam = (App->camera->player1_camera == this);
-		if (ImGui::Checkbox("Set as Player1 camera", &isPlay1Cam))
-		{
-			App->camera->player1_camera = isPlay1Cam ? this : nullptr;
-		}
-
-		bool isPlay2Cam = (App->camera->player2_camera == this);
-		if (ImGui::Checkbox("Set as Player2 camera", &isPlay2Cam))
-		{
-			App->camera->player2_camera = isPlay2Cam ? this : nullptr;
 		}
 
 
@@ -401,9 +382,6 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendString("render_texture_path", render_texture_path.data());
 	data.AppendString("render_texture_path_lib", render_texture_path_lib.data());
 
-	data.AppendBool("is_player1_camera", (App->camera->player1_camera == this));
-	data.AppendBool("is_player2_camera", (App->camera->player2_camera == this));
-
 	data.AppendFloat("viewport_rel_pos_x", viewport_rel_position.x);
 	data.AppendFloat("viewport_rel_pos_y", viewport_rel_position.y);
 
@@ -430,16 +408,6 @@ void ComponentCamera::Load(Data & conf)
 	layer_mask = conf.GetInt("layer_mask");
 	render_texture_path = conf.GetString("render_texture_path");
 	render_texture_path_lib = conf.GetString("render_texture_path_lib");
-
-	if (conf.GetBool("is_player1_camera"))
-	{
-		App->camera->player1_camera = this;
-	}
-
-	if (conf.GetBool("is_player2_camera"))
-	{
-		App->camera->player2_camera = this;
-	}
 
 	viewport_rel_position.x = conf.GetFloat("viewport_rel_pos_x");
 	viewport_rel_position.y = conf.GetFloat("viewport_rel_pos_y");
