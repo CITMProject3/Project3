@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleEditor.h"
 #include "ResourceFileMesh.h"
 #include "ComponentMesh.h"
 #include "MeshImporter.h"
@@ -47,7 +48,8 @@ void ResourceFileMesh::LoadInMemory()
 	}
 	else
 	{
-		LOG("Couldn't load resource mesh: %s", file_path.data());
+		LOG("[ERROR] Couldn't load resource mesh %s", file_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Couldn't load resource mesh %s", file_path.data());
 	}
 }
 

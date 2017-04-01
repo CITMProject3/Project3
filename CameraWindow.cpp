@@ -41,6 +41,11 @@ void CameraWindow::Draw()
 	if (ImGui::SliderFloat("##fov", &fov_value, 0, 180))
 		App->camera->SetFOV(fov_value);
 	
+	ImGui::Text("Aspect Ratio: ");
+	float aspect_ratio = App->camera->GetAspectRatio();
+	if (ImGui::SliderFloat("##ar", &aspect_ratio, 0, 5))
+		App->camera->SetAspectRatio(aspect_ratio);
+
 	ImGui::Text("Background color: "); ImGui::SameLine();
 	float3 color = App->camera->GetBackgroundColor();
 	if (ImGui::ColorEdit3("", color.ptr()))
@@ -52,11 +57,14 @@ void CameraWindow::Draw()
 	ImGui::SameLine();
 
 
-	ComponentCamera* current_camera = App->renderer3D->camera;
+	ComponentCamera* current_camera = App->renderer3D->cameras[0];
 	std::string text = "Editor Camera";
-	if (current_camera->GetGameObject() != nullptr)
+	if (current_camera != nullptr)
 	{
-		text = current_camera->GetGameObject()->name.c_str();
+		if (current_camera->GetGameObject() != nullptr)
+		{
+			text = current_camera->GetGameObject()->name.c_str();
+		}
 	}
 
 	if (ImGui::BeginMenu(text.c_str()))

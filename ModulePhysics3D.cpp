@@ -13,13 +13,14 @@
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentCar.h"
+#include "ComponentCollider.h"
+#include "ComponentScript.h"
 
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-#include "ComponentCar.h"
-#include "ComponentCollider.h"
 
 #include "Assets.h"
 #include "RaycastHit.h"
@@ -34,6 +35,8 @@
 #include "ResourceFileTexture.h"
 
 #include "SDL\include\SDL_scancode.h"
+
+#include "Brofiler/include/Brofiler.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -90,6 +93,8 @@ bool ModulePhysics3D::Start()
 
 update_status ModulePhysics3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::PreUpdate", Profiler::Color::YellowGreen)
+
 	float dt = time->DeltaTime();
 	if (App->IsGameRunning())
 	{
@@ -121,6 +126,30 @@ update_status ModulePhysics3D::PreUpdate()
 					{
 						App->physics->OnCollision(pbodyB, pbodyA);
 					}
+
+					//Scripting
+					ComponentScript* tmp_script = nullptr;
+					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
+						tmp_script = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+					else
+						tmp_script = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+					if (tmp_script != nullptr)
+					{
+						tmp_script->OnCollision(pbodyB);
+					}
+					else
+					{
+						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
+							tmp_script = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+						else
+							tmp_script = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+						if (tmp_script != nullptr)
+						{
+							tmp_script->OnCollision(pbodyA);
+						}
+					}
 				}
 			}
 		}
@@ -130,6 +159,8 @@ update_status ModulePhysics3D::PreUpdate()
 
 update_status ModulePhysics3D::Update()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Update", Profiler::Color::LimeGreen)
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
@@ -173,7 +204,7 @@ update_status ModulePhysics3D::Update()
 
 update_status ModulePhysics3D::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("ModulePhysics3D::PostUpdate", Profiler::Color::Green)
 	return UPDATE_CONTINUE;
 }
 
@@ -772,8 +803,10 @@ void ModulePhysics3D::DeleteIndices()
 	numIndices = 0;
 }
 
-void ModulePhysics3D::RenderTerrain()
+void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
+
 	if (numIndices != 0 && terrainData != nullptr)
 	{
 		if (paintMode && renderWiredTerrain == false)
@@ -781,7 +814,7 @@ void ModulePhysics3D::RenderTerrain()
 			if (renderWiredTerrain == false)
 			{
 				renderWiredTerrain = true;
-				RenderTerrain();
+				RenderTerrain(camera);
 				renderWiredTerrain = false;
 			}
 		}
@@ -808,9 +841,9 @@ void ModulePhysics3D::RenderTerrain()
 		GLint model_location = glGetUniformLocation(shader_id, "model");
 		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
 		GLint projection_location = glGetUniformLocation(shader_id, "projection");
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *App->renderer3D->camera->GetProjectionMatrix().v);
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
 		GLint view_location = glGetUniformLocation(shader_id, "view");
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
 		GLint n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
 		glUniform1i(n_texs_location, textures.size());

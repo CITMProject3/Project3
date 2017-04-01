@@ -10,6 +10,7 @@
 #include <gl/GLU.h>
 #include "ShaderComplier.h"
 #include "GameObject.h"
+#include "Brofiler/include/Brofiler.h"
 
 Skybox::Skybox()
 {
@@ -48,6 +49,8 @@ void Skybox::Init(const string & posx_filename, const string & negx_filename, co
 
 void Skybox::Render(ComponentCamera* camera)
 {
+	BROFILER_CATEGORY("Skybox::Render", Profiler::Color::WhiteSmoke);
+
 	glUseProgram(shader_id);
 
 	GLint old_cull_face_mode;

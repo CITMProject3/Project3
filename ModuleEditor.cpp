@@ -16,7 +16,6 @@
 
 #include "Time.h"
 
-#include "AutoProfile.h"
 #include "FPSGraph.h"
 #include "WindowOptions.h"
 #include "HardwareInfo.h"
@@ -24,7 +23,6 @@
 #include "Assets.h"
 #include "Hierarchy.h"
 #include "Inspector.h"
-#include "Profiler.h"
 
 #include "CameraWindow.h"
 #include "ResourcesWindow.h"
@@ -71,7 +69,6 @@ bool ModuleEditor::Start()
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
-		windows.push_back(&g_Profiler);
 		windows.push_back(fps_graph_win = new FPSGraph());
 		windows.push_back(winoptions_win = new WindowOptions());
 		windows.push_back(hardware_win = new HardwareInfo());
@@ -87,6 +84,7 @@ bool ModuleEditor::Start()
 		windows.push_back(rendertex_win = new RenderTexEditorWindow());
 		windows.push_back(test_win = new TestWindow());
 		windows.push_back(curve_win = new CurveWindow());
+		windows.push_back(warning_window = new WarningWindow());
 		InitSizes();
 	}	
 	else
@@ -118,6 +116,7 @@ bool ModuleEditor::CleanUp()
 	delete rendertex_win;
 	delete test_win;
 	delete curve_win;
+	delete warning_window;
 
 	windows.clear();
 
@@ -140,6 +139,7 @@ void ModuleEditor::InitSizes()
 	hierarchy->SetRelativeDimensions(ImVec2(0, 0.0), ImVec2(0.15, 0.8));
 	inspector->SetRelativeDimensions(ImVec2(0.80, 0.0), ImVec2(0.20, 0.8));
 	assets->SetRelativeDimensions(ImVec2(0, 0.8), ImVec2(1.0, 0.2));
+	warning_window->SetRelativeDimensions(ImVec2(0.4, 0.4), ImVec2(0.2, 0.2));
 }
 
 void ModuleEditor::OnResize(int screen_width, int screen_height)
@@ -237,6 +237,19 @@ void ModuleEditor::Duplicate(GameObject* game_object)
 
 }
 
+void ModuleEditor::DisplayWarning(WarningType type, const char *format, ...)
+{
+	static char tmp_string[4096];
+	static char tmp_string2[4096];
+	static va_list ap;
+
+	// Construct the string from variable arguments
+	va_start(ap, format);
+	vsprintf_s(tmp_string, 4096, format, ap);
+	va_end(ap);
+
+	if(warning_window) warning_window->AddMessage(tmp_string, type);
+}
 
 update_status ModuleEditor::PreUpdate()
 {
@@ -248,8 +261,6 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	PROFILE("Editor::Update()");
-
 	update_status ret = UPDATE_CONTINUE;
 
 	if (App->StartInGame() == false)
@@ -342,7 +353,10 @@ void ModuleEditor::GameOptions() const
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth()/2, 30));
 	bool open = true;
-	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1, 0.1, 0.1, 1));
 
 	if (App->IsGameRunning() == false || App->IsGamePaused())
 	{
@@ -365,6 +379,9 @@ void ModuleEditor::GameOptions() const
 	ImGui::SameLine();
 	int time_game_running = time->TimeSinceGameStartup();
 	ImGui::Text("Game time: %i", time_game_running);
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::End();
 }
 
@@ -417,7 +434,6 @@ update_status ModuleEditor::EditorWindows()
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
-		PROFILE("Editor::Update-PaintWindows");
 		(*win)->Draw();
 		++win;
 	}
@@ -510,10 +526,10 @@ void ModuleEditor::WindowsMenu()
 	{
 		console->SetActive(true);
 	}
-	
-	if (ImGui::MenuItem("Profiler"))
+
+	if (ImGui::MenuItem("Warnings"))
 	{
-		g_Profiler.SetActive(true);
+		warning_window->SetActive(true);
 	}
 
 	if (ImGui::MenuItem("Assets"))
@@ -876,7 +892,7 @@ bool ModuleEditor::QuitWindow()
 
 void ModuleEditor::OnSaveCall()
 {
-	std::string scene = App->go_manager->GetCurrentScenePath();
+	std::string scene = App->go_manager->GetCurrentAssetsScenePath();
 	if (scene == "")
 	{
 		OpenSaveSceneWindow();
@@ -898,7 +914,7 @@ void ModuleEditor::OnSaveCall()
 
 void ModuleEditor::OpenSaveSceneWindow()
 {
-	std::string scene_name_path = App->go_manager->GetCurrentScenePath();
+	std::string scene_name_path = App->go_manager->GetCurrentAssetsScenePath();
 	if (scene_name_path != "")
 	{
 		std::string scene_name = App->file_system->GetNameFromPath(scene_name_path.c_str());
@@ -953,9 +969,9 @@ void ModuleEditor::SaveSceneWindow()
 				save_scene_win = false;
 				App->input->ResetQuit();
 			}
-			ImGui::End();
+			
 		}
-		
+		ImGui::End();
 		if(!save_scene_win)
 			App->input->ResetQuit();
 	}

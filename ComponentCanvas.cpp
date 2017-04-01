@@ -29,6 +29,7 @@ ComponentCanvas::~ComponentCanvas()
 
 void ComponentCanvas::Update()
 {
+	/*
 	if (scene_to_change != current_scene)
 		OnChangeScene();
 
@@ -100,10 +101,12 @@ void ComponentCanvas::Update()
 			scene_to_change = 0;
 		break;
 	}
+	*/
 }
 
 void ComponentCanvas::OnPlay()
 {
+	/*
 	GameObject* obj_b = (*game_object->GetChilds()).at(0);
 	if (obj_b != nullptr)
 	{
@@ -178,6 +181,7 @@ void ComponentCanvas::OnPlay()
 		if (current_car != nullptr)
 			return;
 	}
+	*/
 }
 
 void ComponentCanvas::OnInspector(bool debug)

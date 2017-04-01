@@ -1,0 +1,28 @@
+EXPORTS
+	GetScriptNames					
+	
+	Test_GetPublics
+	Test_Start
+	Test_Update
+	Test_UpdatePublics
+	Test_ActualizePublics
+	Test_OnCollision
+
+	Test2_Start
+	Test2_Update
+
+	Player_Car_GetPublics
+	Player_Car_Start
+	Player_Car_Update
+	Player_Car_UpdatePublics
+	Player_Car_OnCollision
+
+	Player_Camera_GetPublics
+	Player_Camera_Start
+	Player_Camera_Update
+	Player_Camera_UpdatePublics
+
+	Scene_Manager_GetPublics
+	Scene_Manager_UpdatePublics
+	Scene_Manager_Start
+	Scene_Manager_Update

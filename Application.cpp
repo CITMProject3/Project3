@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include "Module.h"
+#include "ModuleScripting.h"
 #include "ModuleAudio.h"
 #include "ModuleCamera3D.h"
 #include "ModuleFileSystem.h"
@@ -17,8 +18,9 @@
 #include "Time.h"
 #include "Random.h"
 #include "EventQueue.h"
-#include "Profiler.h"
 #include "Data.h"
+
+#include "Brofiler/include/Brofiler.h"
 
 using namespace std;
 
@@ -42,6 +44,7 @@ Application::Application()
 	renderer3D = new ModuleRenderer3D("renderer");
 	camera = new ModuleCamera3D("camera");
 	physics = new ModulePhysics3D("physics");
+	scripting = new ModuleScripting("scripting");
 	editor = new ModuleEditor("editor");
 	file_system = new ModuleFileSystem("file_system");
 	go_manager = new ModuleGOManager("go_manager");
@@ -59,6 +62,7 @@ Application::Application()
 	AddModule(window);
 	AddModule(input);
 	AddModule(g_Debug);
+	AddModule(scripting);
 	AddModule(go_manager);
 	AddModule(camera);
 	AddModule(audio);
@@ -120,7 +124,12 @@ bool Application::Init()
 	Data config(buffer);
 	delete[] buffer;
 
-	start_in_game = config.GetBool("start_in_game");
+	// Game is initialized in PlayMode?
+	if (config.GetBool("start_in_game"))
+	{
+		start_in_game = true;
+		game_state = GAME_RUNNING;
+	}		
 
 	// Call Init() in all modules
 	vector<Module*>::iterator i = list_modules.begin();
@@ -141,17 +150,15 @@ bool Application::Init()
 		++i;
 	}
 
-	capped_ms = 1000 / fps;
+	capped_ms = 1000 / max_fps;
 
+	//// Play all Components of every GameObject on the scene
 	if (start_in_game)
-	{
-		game_state = GAME_RUNNING;
+	{		
 		time->Play();
 
 		for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-		{
 			(*it)->OnPlay();
-		}
 	}	
 	
 	return ret;
@@ -168,31 +175,25 @@ void Application::FinishUpdate()
 {
 	event_queue->ProcessEvents();
 
-	//Update Profiler
-	g_Profiler.Update();
-
 	//TODO:limit FPS
-	/*if (capped_ms > 0 && last_frame_ms < capped_ms)
+	/*if (capped_ms > 0 && Time::DeltaTime() < capped_ms)
 	{
 		SDL_Delay(capped_ms - last_frame_ms);
-	}*/
+	}
+	*/
 }
 
 void Application::RunGame() 
 {
 	//Save current scene only if the game was stopped
 	if (game_state == GAME_STOP)
-	{
 		go_manager->SaveSceneBeforeRunning();
-	}
 
 	game_state = GAME_RUNNING;
 	time->Play();
 
 	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-	{
 		(*it)->OnPlay();
-	}
 }
 
 void Application::PauseGame()
@@ -221,6 +222,8 @@ void Application::StopGame()
 // Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
+	BROFILER_FRAME("GameLoop")
+
 	update_status ret = UPDATE_CONTINUE;
 	PrepareUpdate();
 	
@@ -303,9 +306,9 @@ void Application::OpenURL(const char* url)
 
 void Application::SetMaxFPS(int max_fps)
 {
-	fps = max_fps;
-	if (fps == 0) fps = -1;
-	capped_ms = 1000 / fps;
+	this->max_fps = max_fps;
+	if (max_fps == 0) this->max_fps = -1;
+	capped_ms = 1000 / max_fps;
 }
 
 int Application::GetFPS()

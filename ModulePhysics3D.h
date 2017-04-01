@@ -27,6 +27,7 @@ class ComponentMesh;
 class ResourceFileTexture;
 class ComponentCollider;
 class ComponentCar;
+class ComponentCamera;
 
 class btHeightfieldTerrainShape;
 
@@ -86,7 +87,7 @@ public:
 	uint GetNTextures();
 	float GetTextureScaling() { return textureScaling; }
 
-	void RenderTerrain();
+	void RenderTerrain(ComponentCamera* camera);
 private:
 	void AddTerrain();
 	
