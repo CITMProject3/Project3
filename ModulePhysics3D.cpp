@@ -628,6 +628,8 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
+
 	if (numIndices != 0 && terrainData != nullptr)
 	{
 		if (renderWiredTerrain)

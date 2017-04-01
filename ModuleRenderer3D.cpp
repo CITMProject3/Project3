@@ -309,6 +309,8 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::DrawScene", Profiler::Color::NavajoWhite);
+
 	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
 
 	glLoadIdentity();
@@ -848,6 +850,8 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 
 void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::DrawUIText", Profiler::Color::Teal);
+
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 
 	ComponentUiText* t = (ComponentUiText*)obj->GetComponent(C_UI_TEXT);
@@ -903,8 +907,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 		{
 			if (data_values[j] == text[i])
 			{
-				
-				
 				glMultMatrixf(*tmp.Transposed().v);
 				if (t->UImaterial->texture_ids.size()>j)
 				{
@@ -930,6 +932,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 				
 				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
 				x += letter_w;
+				break;
 			}
 		}
 	}

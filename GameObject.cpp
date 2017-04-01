@@ -396,16 +396,26 @@ Component* GameObject::AddComponent(ComponentType type)
 		item = new ComponentScript(type, this);
 		break;
 	case C_RECT_TRANSFORM:
-		if (GetComponent(type) == nullptr) //Only one transform compoenent for gameobject
+		if (GetComponent(type) == nullptr) //Only one rect transform compoenent for gameobject
 			item = new ComponentRectTransform(type, this);
 		break;
 	case C_UI_IMAGE:
 		if (GetComponent(C_RECT_TRANSFORM))
 			item = new ComponentUiImage(type, this);
+		else
+		{
+			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
+		}
 		break;
 	case C_UI_TEXT:
 		if (GetComponent(C_RECT_TRANSFORM))
 			item = new ComponentUiText(type,this);
+		else
+		{
+			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
+		}
 		break;
 	case C_CANVAS:
 		if (GetComponent(C_RECT_TRANSFORM))

@@ -125,11 +125,10 @@ void Hierarchy::Draw()
 	ImGui::SetCursorPosX(0);
 	if (ImGui::InvisibleButton("test: unselect GO", ImVec2(size_x, size_y)))
 	{
-		if (set_parent_now == true)
+		if (setting_parent == true)
 		{
-			set_parent_now = false;
 			setting_parent = false;
-			child_to_set->SetParent(parent_to_set);
+			child_to_set->SetParent(App->go_manager->root);
 			parent_to_set = child_to_set = nullptr;
 		}
 		else if (App->scripting->setting_go_var_name != "")
@@ -143,7 +142,13 @@ void Hierarchy::Draw()
 		}
 	}
 
-
+	if (set_parent_now == true)
+	{
+		set_parent_now = false;
+		setting_parent = false;
+		child_to_set->SetParent(parent_to_set);
+		parent_to_set = child_to_set = nullptr;
+	}
 	
 	ImGui::End();
 }
@@ -176,7 +181,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 					parent_to_set = *object;
 					child_to_set = App->editor->selected.back();
 					set_parent_now = true;
-//					App->editor->UnselectAll(); 
+					App->editor->UnselectAll(); 
 					break;
 				}
 				setting_parent = false;
