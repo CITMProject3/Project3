@@ -29,7 +29,6 @@ void ComponentCanvas::Update()
 			grid->OnFocus();
 		}
 	}
-
 }
 
 void ComponentCanvas::OnPlay()

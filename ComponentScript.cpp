@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "ModuleGOManager.h"
 #include "PhysBody3D.h"
+#include "Brofiler/include/Brofiler.h"
 
 #include "imgui\imgui.h"
 
@@ -35,6 +36,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Update()
 {
+	BROFILER_CATEGORY("ComponentScript::Update", Profiler::Color::LawnGreen);
 	if (public_gos_to_set)
 	{
 		if (!public_gos.empty())
@@ -54,47 +56,62 @@ void ComponentScript::Update()
 
 	if (App->scripting->scripts_loaded)
 	{
-		if (!started)
+		if (App->IsGameRunning() && !App->IsGamePaused())
 		{
-			string start_path = path.c_str();
-			start_path.append("_Start");
-			if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
+			if (!started)
 			{
-				finded_start = true;
-				if (App->IsGameRunning() && !App->IsGamePaused())
+				string start_path = path.c_str();
+				start_path.append("_Start");
+				if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
 				{
-					start(GetGameObject());
-					started = true;
+					finded_start = true;
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						start(GetGameObject());
+						started = true;
+					}
+				}
+				else
+				{
+					finded_start = false;
+					error = GetLastError();
 				}
 			}
 			else
 			{
-				finded_start = false;
-				error = GetLastError();
-			}
-		}
-		else
-		{
-			string update_path = path.c_str();
-			update_path.append("_Update");
-			if (f_Update update = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
-			{
-				string update_publics_path = path.c_str();
-				update_publics_path.append("_UpdatePublics");
-				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+				string update_path = path.c_str();
+				update_path.append("_Update");
+				if (f_Update update = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
 				{
-					update_publics(GetGameObject());
+					finded_update = true;
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						update(GetGameObject());
+					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
 				}
-				finded_update = true;
-				if (App->IsGameRunning() && !App->IsGamePaused())
+				else
 				{
-					update(GetGameObject());
+					finded_update = false;
+					error = GetLastError();
 				}
-			}
-			else
-			{
-				finded_update = false;
-				error = GetLastError();
 			}
 		}
 	}
@@ -183,54 +200,71 @@ void ComponentScript::OnInspector(bool debug)
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
 			{
-				ImGui::InputText((*it).first, (*it).second._Myptr(), (*it).second.size());
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputText(str.c_str(), (*it).second._Myptr(), (*it).second.size());
 			}
 		}
 		if (!public_ints.empty())
 		{
 			for (map<const char*, int>::iterator it = public_ints.begin(); it != public_ints.end(); it++)
 			{
-				ImGui::InputInt((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputInt(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_floats.empty())
 		{
 			for (map<const char*, float>::iterator it = public_floats.begin(); it != public_floats.end(); it++)
 			{
-				ImGui::InputFloat((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::InputFloat(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_bools.empty())
 		{
 			for (map<const char*, bool>::iterator it = public_bools.begin(); it != public_bools.end(); it++)
 			{
-				ImGui::Checkbox((*it).first, &(*it).second);
+				string str = (*it).first;
+				str += ":";
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				str = "##";
+				str += (*it).first;
+				ImGui::Checkbox(str.c_str(), &(*it).second);
 			}
 		}
 		if (!public_gos.empty())
 		{
 			for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
 			{
-				if (App->scripting->set_go_var_now != nullptr)
-				{
-					if (App->scripting->setting_go_var_name == (*it).first)
-					{
-						(*it).second = App->scripting->set_go_var_now;
-						App->scripting->set_go_var_now = nullptr;
-						App->scripting->setting_go_var = false;
-					}
-				}
+				ImGui::Text((*it).first);
 				if ((*it).second != nullptr)
 					ImGui::Text((*it).second->name.c_str());
 				else
-					ImGui::Text("NULL GO");
+					ImGui::Text("nullptr");
 				ImGui::SameLine();
-				if (ImGui::Button("Set GO", ImVec2(80, 20)))
+				std::string str = "Set GO##" + std::string((*it).first);
+				if (ImGui::Button(str.c_str(), ImVec2(80, 20)))
 				{
-					(*it).second = nullptr;
-					App->scripting->setting_go_var = true;
 					App->scripting->setting_go_var_name = (*it).first;
+					App->scripting->to_set_var = this;
 				}
+				ImGui::Separator();
 			}
 		}
 	}
@@ -352,6 +386,19 @@ void ComponentScript::SetPath(const char * path)
 	{
 		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools, &public_gos);
 	}
+}
+
+void ComponentScript::SetGOVar(GameObject* game_object)
+{
+	for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
+	{
+		if ((*it).first == App->scripting->setting_go_var_name)
+		{
+			(*it).second = game_object;
+		}
+	}
+	App->scripting->to_set_var = nullptr;
+	App->scripting->setting_go_var_name = "";
 }
 
 void ComponentScript::OnCollision(PhysBody3D* col)

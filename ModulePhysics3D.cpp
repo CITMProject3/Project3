@@ -127,26 +127,26 @@ update_status ModulePhysics3D::PreUpdate()
 					}
 
 					//Scripting
-					ComponentScript* tmp = nullptr;
+					ComponentScript* tmp_script = nullptr;
 					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
-						tmp = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+						tmp_script = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
 					else
-						tmp = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+						tmp_script = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
-					if (tmp != nullptr)
+					if (tmp_script != nullptr)
 					{
-						tmp->OnCollision(pbodyB);
+						tmp_script->OnCollision(pbodyB);
 					}
 					else
 					{
 						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
-							tmp = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+							tmp_script = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
 						else
-							tmp = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+							tmp_script = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
-						if (tmp != nullptr)
+						if (tmp_script != nullptr)
 						{
-							tmp->OnCollision(pbodyA);
+							tmp_script->OnCollision(pbodyA);
 						}
 					}
 				}
@@ -628,6 +628,8 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
+
 	if (numIndices != 0 && terrainData != nullptr)
 	{
 		if (renderWiredTerrain)

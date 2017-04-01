@@ -46,17 +46,16 @@ public:
 	math::float3 GetBackgroundColor()const;
 	ComponentCamera* GetEditorCamera() const;
 
+	void AddSceneCamera(ComponentCamera* cam);
+	void RemoveSceneCamera(ComponentCamera* cam);
+
 private:
 
 	float3 reference;
 	ComponentCamera* camera = nullptr;
 
 	void EditorCameraMovement(float dt);	
-
-public:
-
-	ComponentCamera* player1_camera = nullptr;
-	ComponentCamera* player2_camera = nullptr;
+	std::vector<ComponentCamera*> scene_cameras; //Cameras in the current scene
 };
 
 #endif // !__MODULECAMERA3D_H__

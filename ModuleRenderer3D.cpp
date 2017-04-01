@@ -309,14 +309,18 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::DrawScene", Profiler::Color::NavajoWhite);
+
 	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
 
 	glLoadIdentity();
 
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
+	//glMatrixMode(GL_MODELVIEW);
+	//glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
 
 	UpdateProjectionMatrix(cam);
+
+	int layer_mask = cam->GetLayerMask();
 
 	//Draw UI
 	if (App->go_manager->current_scene_canvas != nullptr)
@@ -324,10 +328,14 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		vector<GameObject*> ui_objects = App->go_manager->current_scene_canvas->GetUI();
 		for (vector<GameObject*>::const_iterator obj = ui_objects.begin(); obj != ui_objects.end(); ++obj)
 		{
+			if (layer_mask == (layer_mask | (1 << (*obj)->layer)))
+			{
 				if ((*obj)->GetComponent(C_UI_IMAGE) || (*obj)->GetComponent(C_UI_BUTTON))
 					DrawUIImage(*obj);
 				else if ((*obj)->GetComponent(C_UI_TEXT))
-					DrawUIText(*obj);	
+					DrawUIText(*obj);
+			}
+					
 		}
 	}
 
@@ -338,7 +346,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	map<float, GameObject*> alpha_objects;
-	int layer_mask = cam->GetLayerMask();
+	
 	//Draw Static GO
 	vector<GameObject*> static_objects;
 	App->go_manager->octree.Intersect(static_objects, *cam); //Culling for static objects
@@ -848,6 +856,8 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 
 void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::DrawUIText", Profiler::Color::Teal);
+
 	ComponentRectTransform* c = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 
 	ComponentUiText* t = (ComponentUiText*)obj->GetComponent(C_UI_TEXT);
@@ -903,8 +913,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 		{
 			if (data_values[j] == text[i])
 			{
-				
-				
 				glMultMatrixf(*tmp.Transposed().v);
 				if (t->UImaterial->texture_ids.size()>j)
 				{
@@ -930,6 +938,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 				
 				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
 				x += letter_w;
+				break;
 			}
 		}
 	}

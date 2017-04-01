@@ -114,7 +114,7 @@ void ComponentUiText::Load(Data & conf)
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
-	text.resize(text.length() + 10);
+//	text.resize(text.length() + 10);
 	array_values.resize(array_values.length() + 1);
 	LOG("%d",text.size());
 }
@@ -170,7 +170,7 @@ void ComponentUiText::SetText(string &text)
 		ImGui::InputText("", current_text_changing._Myptr(), current_text_changing.capacity());
 		if (ImGui::Button("Save ##change_text"))
 		{
-			text = current_text_changing;
+			text = current_text_changing.c_str();
 			change_text = false;
 			change_array_values = false;
 			GenerateFont();
