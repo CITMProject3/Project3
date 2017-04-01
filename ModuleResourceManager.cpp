@@ -665,7 +665,7 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 			App->physics->GenerateHeightmap(terrain);
 		}
 
-		while(App->physics->GetNTextures() > 0)
+		while (App->physics->GetNTextures() > 0)
 		{
 			App->physics->DeleteTexture(0);
 		}
@@ -678,11 +678,25 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
 		App->physics->SetTextureScaling(scene.GetFloat("terrain_tex_scaling"));
 
-		std::string textureMapPath = scene_path;
-		textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 3);
+		std::string textureMapPath;
+		int len = 0;
+		if (scene_path != nullptr)
+		{
+			textureMapPath = scene_path;			
+		}
+		else
+		{
+			textureMapPath = file_name;
+		}
+		len = textureMapPath.find(".ezx");
+		if (len == string::npos)
+		{
+			len = textureMapPath.find(".json");
+		}
+		len++;
+		textureMapPath = textureMapPath.substr(0, len);
 		textureMapPath += "txmp";
 		App->physics->LoadTextureMap(textureMapPath.data());
-
 		ret = true;
 	}
 	else
