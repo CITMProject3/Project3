@@ -85,6 +85,15 @@ extern "C"
 				}
 			}
 		}
+		
+		void Test_ActualizePublics(GameObject* game_object)
+		{
+			ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+			test_script->public_chars.at("Title") = test_title;
+			test_script->public_gos.at("Test_go") = test_go;
+		}
+
 		void Test_OnCollision(PhysBody3D* col)
 		{
 			if (!col->GetCollider()->Static)
