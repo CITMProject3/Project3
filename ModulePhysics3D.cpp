@@ -169,9 +169,8 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	if (paintMode)
+	if (paintMode && heightMapImg)
 	{
-
 		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 		{
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
@@ -461,28 +460,34 @@ void ModulePhysics3D::DeleteHeightmap()
 
 bool ModulePhysics3D::SaveTextureMap(const char * path)
 {	
-	return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+	if (heightMapImg)
+	{
+		return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+	}
 }
 
 void ModulePhysics3D::LoadTextureMap(const char * path)
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-	if (textureMap != nullptr)
+	if (heightMapImg)
 	{
-		delete[] textureMap;
-	}
-	textureMap = new float[w*h];
-	char* tmp = (char *)textureMap;
-	uint size = App->file_system->Load(path, &tmp);
-	if (size <= 0)
-	{
-		for (int n = 0; n < w*h; n++)
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		if (textureMap != nullptr)
 		{
-			textureMap[n] = 0;
+			delete[] textureMap;
 		}
+		textureMap = new float[w*h];
+		char* tmp = (char *)textureMap;
+		uint size = App->file_system->Load(path, &tmp);
+		if (size <= 0)
+		{
+			for (int n = 0; n < w*h; n++)
+			{
+				textureMap[n] = 0;
+			}
+		}
+		ReinterpretTextureMap();
 	}
-	ReinterpretTextureMap();
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -1225,101 +1230,104 @@ void ModulePhysics3D::GenerateNormals()
 
 void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-
-	float* edgeH = new float[(w*h) * 3];
-	float* edgeV = new float[(w*h) * 3];
-
-	if (textureMap != nullptr)
+	if (heightMapImg)
 	{
-		delete[] textureMap;
-	}
-	textureMap = new float[w*h];
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
 
-	float* buf = new float[w*h];
-	float maxVal = 0;
+		float* edgeH = new float[(w*h) * 3];
+		float* edgeV = new float[(w*h) * 3];
 
-	//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
+		if (textureMap != nullptr)
 		{
-			buf[y*w + x] = (max(max(R[y*w + x], G[y*w + x]), B[y*w + x]));
+			delete[] textureMap;
 		}
-	}
+		textureMap = new float[w*h];
 
-	float value = 0.0f;
-	int n = 0;
-	//Iterating all image pixels
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
+		float* buf = new float[w*h];
+		float maxVal = 0;
+
+		//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
+		for (int y = 0; y < h; y++)
 		{
-#pragma region GaussianBlur
-			value = 0.0f;
-			n = 0;
-			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
+			for (int x = 0; x < w; x++)
 			{
-				if (_y > 0 && _y < h)
+				buf[y*w + x] = (max(max(R[y*w + x], G[y*w + x]), B[y*w + x]));
+			}
+		}
+
+		float value = 0.0f;
+		int n = 0;
+		//Iterating all image pixels
+		for (int y = 0; y < h; y++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+#pragma region GaussianBlur
+				value = 0.0f;
+				n = 0;
+				//Iterating all nearby pixels and checking they actually exist in the image
+				for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
 				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
+					if (_y > 0 && _y < h)
 					{
-						if (_x > 0 && _x < w)
+						for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
 						{
-							n++;
-							value += buf[_y * w + _x];
+							if (_x > 0 && _x < w)
+							{
+								n++;
+								value += buf[_y * w + _x];
+							}
 						}
 					}
 				}
-			}
-			value /= n;
-			value /= 255;
-			realTerrainData[y*w + x] = value;
-			terrainData[y*w + x] = value * terrainMaxHeight;
+				value /= n;
+				value /= 255;
+				realTerrainData[y*w + x] = value;
+				terrainData[y*w + x] = value * terrainMaxHeight;
 #pragma endregion
 
 #pragma region Edge detection
-			int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
-			int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
-			edgeH[y * w + x] = 0;
-			edgeV[y * w + x] = 0;
-			if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
-			{
-				for (int _y = -1; _y <= 1; _y++)
+				int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
+				int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
+				edgeH[y * w + x] = 0;
+				edgeV[y * w + x] = 0;
+				if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
 				{
-					for (int _x = -1; _x <= 1; _x++)
+					for (int _y = -1; _y <= 1; _y++)
 					{
-						edgeH[y * w + x] += buf[(y + _y) * w + x + _x] * hk[_y+1][_x + 1];
+						for (int _x = -1; _x <= 1; _x++)
+						{
+							edgeH[y * w + x] += buf[(y + _y) * w + x + _x] * hk[_y + 1][_x + 1];
 
-						edgeV[y * w + x] += buf[(y + _y) * w + x + _x] * vk[_y + 1][_x + 1];
+							edgeV[y * w + x] += buf[(y + _y) * w + x + _x] * vk[_y + 1][_x + 1];
+						}
 					}
 				}
-			}
 
-			textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
-			if (textureMap[(h - y - 1) * w + x] > maxVal)
-			{
-				maxVal = textureMap[(h - y - 1) * w + x];
-			}
+				textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+				if (textureMap[(h - y - 1) * w + x] > maxVal)
+				{
+					maxVal = textureMap[(h - y - 1) * w + x];
+				}
 #pragma endregion
+			}
 		}
-	}	
 
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
+		for (int y = 0; y < h; y++)
 		{
-			textureMap[y * w + x] /= maxVal;
+			for (int x = 0; x < w; x++)
+			{
+				textureMap[y * w + x] /= maxVal;
+			}
 		}
-	}
-	
-	ReinterpretTextureMap();
 
-	delete[] edgeH;
-	delete[] edgeV;
-	delete[] buf;
+		ReinterpretTextureMap();
+
+		delete[] edgeH;
+		delete[] edgeV;
+		delete[] buf;
+	}
 }
 
 void ModulePhysics3D::SetTerrainMaxHeight(float height)
@@ -1497,19 +1505,22 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 
 void ModulePhysics3D::ReinterpretTextureMap()
 {
-	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
-	if (textureMapBufferID == 0)
+	if (heightMapImg)
 	{
-		glGenTextures(1, &textureMapBufferID);
+		glEnable(GL_TEXTURE_2D);
+		glActiveTexture(GL_TEXTURE0);
+		if (textureMapBufferID == 0)
+		{
+			glGenTextures(1, &textureMapBufferID);
+		}
+		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, heightMapImg->GetWidth(), heightMapImg->GetHeight(), 0, GL_RED, GL_FLOAT, textureMap);
 	}
-	glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, heightMapImg->GetWidth(), heightMapImg->GetHeight(), 0, GL_RED, GL_FLOAT, textureMap);
 }
 
 

@@ -134,8 +134,8 @@ private:
 	btHeightfieldTerrainShape* terrain = nullptr;
 	ResourceFileTexture* heightMapImg = nullptr;
 	std::vector<ResourceFileTexture*> textures;
-	float textureScaling = 1.0f;
-	float terrainMaxHeight = 200.0f;
+	float textureScaling = 0.03f;
+	float terrainMaxHeight = 100.0f;
 
 	int terrainVerticesBuffer = 0;
 	int terrainIndicesBuffer = 0;
