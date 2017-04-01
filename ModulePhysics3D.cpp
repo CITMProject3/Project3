@@ -1473,12 +1473,14 @@ float2 ModulePhysics3D::GetHeightmapSize()
 
 void ModulePhysics3D::AutoGenerateTextureMap()
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-	for (int y = 0; y < h; y++)
+	if (heightMapImg)
 	{
-		for (int x = 0; x < w; x++)
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		for (int y = 0; y < h; y++)
 		{
+			for (int x = 0; x < w; x++)
+			{
 				if (textureMap[y * w + x] > 0.15)
 				{
 					textureMap[y * w + x] = 0.15f;
@@ -1487,9 +1489,10 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 				{
 					textureMap[y * w + x] = 0.05f;
 				}
+			}
 		}
+		ReinterpretTextureMap();
 	}
-	ReinterpretTextureMap();
 }
 
 void ModulePhysics3D::ReinterpretTextureMap()

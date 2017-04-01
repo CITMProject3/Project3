@@ -655,21 +655,23 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
 		const char* terrain = scene.GetString("terrain");
-		const char*  terrain_texture = scene.GetString("terrain_texture");
-		float scaling = scene.GetFloat("terrain_scaling");
-
 		if (terrain)
 		{
 			App->physics->GenerateHeightmap(terrain);
 		}
 
-		if (terrain_texture)
+		for (int n = 0; n < MAX_TERRAIN_TEXTURES; n++)
 		{
-			App->physics->LoadTexture(terrain_texture);
+			App->physics->DeleteTexture(n);
+		}
+		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
+		{
+			Data tex = scene.GetArray("terrain_textures", i);
+			App->physics->LoadTexture(tex.GetString("path"));
 		}
 
-		App->physics->SetTerrainMaxHeight(scaling);
-
+		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
+		App->physics->SetTextureScaling(scene.GetFloat("terrain_tex_scaling"));
 
 		ret = true;
 	}
