@@ -253,6 +253,13 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
 
+					ImGui::Checkbox("Idle turn by interpolation", &idle_turn_by_interpolation);
+					if (idle_turn_by_interpolation)
+					{
+						ImGui::Text("Time to idle turn");
+						ImGui::DragFloat("##id_turn_time", &time_to_idle, 0.01f, 0.0f);
+					}
+
 					ImGui::Text("");
 					ImGui::TreePop();
 				}
@@ -1209,15 +1216,22 @@ void ComponentCar::ReleaseItem()
 }
 void ComponentCar::IdleTurn()
 {
+	//By turn interpolation
+	float  t_idle_speed = turn_speed;
+
+	if(idle_turn_by_interpolation)
+		 t_idle_speed = turn_max / time_to_idle;
+
+	//By turn speed
 	if (turn_current > 0)
 	{
-		turn_current -= turn_speed * time->DeltaTime();
+		turn_current -= t_idle_speed * time->DeltaTime();
 		if (turn_current < 0)
 			turn_current = 0;
 	}
 	else if (turn_current < 0)
 	{
-		turn_current += turn_speed * time->DeltaTime();
+		turn_current += t_idle_speed * time->DeltaTime();
 		if (turn_current > 0)
 			turn_current = 0;
 	}
@@ -1958,6 +1972,9 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("base_turn_max", base_turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
 
+	data.AppendFloat("time_to_idle", time_to_idle);
+	data.AppendBool("idle_turn_by_interpolation", idle_turn_by_interpolation);
+
 	//Max turn change
 	data.AppendFloat("velocity_to_change", velocity_to_begin_change);
 	data.AppendFloat("turn_max_limit", turn_max_limit);
@@ -2105,6 +2122,9 @@ void ComponentCar::Load(Data& conf)
 	//Turn 
 	base_turn_max = conf.GetFloat("base_turn_max"); 
 	turn_speed = conf.GetFloat("turn_speed");
+
+	time_to_idle = conf.GetFloat("time_to_idle");
+	idle_turn_by_interpolation = conf.GetBool("idle_turn_by_interpolation");
 
 	//Max turn change
 	velocity_to_begin_change = conf.GetFloat("velocity_to_change"); 
