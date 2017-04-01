@@ -56,47 +56,62 @@ void ComponentScript::Update()
 
 	if (App->scripting->scripts_loaded)
 	{
-		if (!started)
+		if (App->IsGameRunning() && !App->IsGamePaused())
 		{
-			string start_path = path.c_str();
-			start_path.append("_Start");
-			if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
+			if (!started)
 			{
-				finded_start = true;
-				if (App->IsGameRunning() && !App->IsGamePaused())
+				string start_path = path.c_str();
+				start_path.append("_Start");
+				if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
 				{
-					start(GetGameObject());
-					started = true;
+					finded_start = true;
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						start(GetGameObject());
+						started = true;
+					}
+				}
+				else
+				{
+					finded_start = false;
+					error = GetLastError();
 				}
 			}
 			else
 			{
-				finded_start = false;
-				error = GetLastError();
-			}
-		}
-		else
-		{
-			string update_path = path.c_str();
-			update_path.append("_Update");
-			if (f_Update update = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
-			{
-				string update_publics_path = path.c_str();
-				update_publics_path.append("_UpdatePublics");
-				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+				string update_path = path.c_str();
+				update_path.append("_Update");
+				if (f_Update update = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
 				{
-					update_publics(GetGameObject());
+					finded_update = true;
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						update(GetGameObject());
+					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
 				}
-				finded_update = true;
-				if (App->IsGameRunning() && !App->IsGamePaused())
+				else
 				{
-					update(GetGameObject());
+					finded_update = false;
+					error = GetLastError();
 				}
-			}
-			else
-			{
-				finded_update = false;
-				error = GetLastError();
 			}
 		}
 	}
