@@ -1,0 +1,283 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 2811522462,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 331797136,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 1172945599,
+            "local_UUID": 0,
+            "parent": 2811522462,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3465789864,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 640675383,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 12,
+                    "UUID": 379103174,
+                    "active": true
+                }
+            ]
+        },
+        {
+            "name": "UI_Text",
+            "UUID": 2599494296,
+            "local_UUID": 0,
+            "parent": 1172945599,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4026964979,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3293228092,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        300,
+                        0,
+                        1,
+                        0,
+                        100,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 172855813,
+                    "active": true,
+                    "text": "00:00:000",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3163462555,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/2973258377\/\/463092857\/463092857.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/1600362676\/1600362676.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2898373967\/2898373967.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/161308879\/161308879.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/3055190436\/3055190436.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/655278897\/655278897.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/1928624804\/1928624804.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/854143677\/854143677.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2630533862\/2630533862.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/1631460914\/1631460914.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/1985002160\/1985002160.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Scene Manager",
+            "UUID": 1039918690,
+            "local_UUID": 0,
+            "parent": 2811522462,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 575453403,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2649203942,
+                    "active": true,
+                    "script_path": "Scene_Manager",
+                    "script_num": 0,
+                    "Timer_Text": 2599494296
+                }
+            ]
+        }
+    ],
+    "terrain_scaling": 0.500000,
+    "current_assets_scene_path": "\/Assets\/UI_Test.ezx",
+    "current_library_scene_path": "\/Library\/\/882899655\/882899655.ezx"
+} 
