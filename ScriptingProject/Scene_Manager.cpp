@@ -38,11 +38,17 @@ namespace Scene_Manager
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
 	{
+		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+		car_1_go = script->public_gos["Car1"];
+		timer_text_go = script->public_gos["Timer_Text"];
 
 	}
 
+	void Scene_Manager_UpdatePublics(GameObject* game_object);
+
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		Scene_Manager_UpdatePublics(game_object);
 		timer.Start();
 		if (car_1_go != nullptr)
 		{
@@ -56,29 +62,31 @@ namespace Scene_Manager
 
 	void Scene_Manager_Update(GameObject* game_object)
 	{
-		int min, sec, milisec = 0;
+		//Updating car laps
 		if (car_1 != nullptr)
 		{
 			if (car_1->lap + 1 != timer.GetCurrentLap())
 				timer.AddLap();
+		}
 
-			//Updating UI timer
-			if (timer_text != nullptr)
-			{
-				timer.GetCurrentLapTime(min, sec, milisec);
-				string min_str = to_string(min);
-				string sec_str = to_string(sec);
-				string mil_str = to_string(milisec);
-				if (min < 10)
-					min_str = "0" + min_str;
-				if (sec < 10)
-					sec_str = "0" + sec_str;
-				if (milisec < 100)
-					mil_str = "0" + mil_str;
+		//Updating UI timer
+		if (timer_text != nullptr)
+		{
+			int min, sec, milisec = 0;
+			timer.GetCurrentLapTime(min, sec, milisec);
+			string min_str = to_string(min);
+			string sec_str = to_string(sec);
+			string mil_str = to_string(milisec);
+			if (min < 10)
+				min_str = "0" + min_str;
+			if (sec < 10)
+				sec_str = "0" + sec_str;
+			if (milisec < 100)
+				mil_str = "0" + mil_str;
 
-				string timer_string = min_str + ":" + sec_str + ":" + mil_str;
-				timer_text->SetDisplayText(timer_string);
-			}
+			string timer_string = min_str + ":" + sec_str + ":" + mil_str;
+			timer_text->SetDisplayText(timer_string);
+			LOG("Text set: %s", timer_string.c_str());
 		}
 	}
 }

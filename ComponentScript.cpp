@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "ModuleGOManager.h"
 #include "PhysBody3D.h"
+#include "Brofiler/include/Brofiler.h"
 
 #include "imgui\imgui.h"
 
@@ -35,6 +36,7 @@ ComponentScript::~ComponentScript()
 
 void ComponentScript::Update()
 {
+	BROFILER_CATEGORY("ComponentScript::Update", Profiler::Color::LawnGreen);
 	if (public_gos_to_set)
 	{
 		if (!public_gos.empty())
