@@ -323,9 +323,14 @@ bool ModuleFileSystem::CopyFromOutsideFile(const char * from_path, const char * 
 	{
 		LOG("File System error while copying %s", from_path);
 	}
-
-	fclose(file);
-	PHYSFS_close(fs_file);
+	if (file)
+	{
+		fclose(file);
+	}
+	if (fs_file)
+	{
+		PHYSFS_close(fs_file);
+	}
 
 	return ret;
 }
