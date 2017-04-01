@@ -470,21 +470,15 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 {
 	if (heightMapImg)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
-		if (textureMap != nullptr)
-		{
-			delete[] textureMap;
-		}
 		char* tmp = nullptr;		
-		uint size = App->file_system->Load(path, &tmp);
-		textureMap = (float*)tmp;
-		if (size <= 0)
+		uint size = App->file_system->Load(path, &tmp);		
+		if (size > 0)
 		{
-			for (int n = 0; n < w*h; n++)
+			if (textureMap != nullptr)
 			{
-				textureMap[n] = 0;
+				delete[] textureMap;
 			}
+			textureMap = (float*)tmp;
 		}
 		ReinterpretTextureMap();
 	}

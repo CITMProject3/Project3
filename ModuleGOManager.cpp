@@ -309,6 +309,12 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	App->file_system->Save(TEMPORAL_SCENE, buf, size); //TODO: Find the right place to save the scene.
 
 	delete[] buf;
+
+	std::string textureMapPath  = TEMPORAL_SCENE;
+	textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 4);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 }
 
 void ModuleGOManager::LoadSceneBeforeRunning()
