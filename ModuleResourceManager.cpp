@@ -610,6 +610,11 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 
 	delete[] buf;
+
+	std::string textureMapPath = library_scene_path.substr(0, library_scene_path.length() - 3);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 	App->editor->RefreshAssets();
 }
 
@@ -672,6 +677,11 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 
 		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
 		App->physics->SetTextureScaling(scene.GetFloat("terrain_tex_scaling"));
+
+		std::string textureMapPath = scene_path;
+		textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 3);
+		textureMapPath += "txmp";
+		App->physics->LoadTextureMap(textureMapPath.data());
 
 		ret = true;
 	}

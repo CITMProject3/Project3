@@ -476,9 +476,9 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 		{
 			delete[] textureMap;
 		}
-		textureMap = new float[w*h];
-		char* tmp = (char *)textureMap;
+		char* tmp = nullptr;		
 		uint size = App->file_system->Load(path, &tmp);
+		textureMap = (float*)tmp;
 		if (size <= 0)
 		{
 			for (int n = 0; n < w*h; n++)
