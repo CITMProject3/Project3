@@ -67,6 +67,9 @@ public:
 	void LoadTexture(std::string resLibPath, int pos = -1);
 	void DeleteTexture(uint n);
 
+	bool SaveTextureMap(const char* path);
+	void LoadTextureMap(const char* path);
+
 	bool TerrainIsGenerated();
 	float GetTerrainHeightScale() { return terrainMaxHeight; }
 	uint GetCurrentTerrainUUID();
@@ -106,7 +109,6 @@ public:
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
 
 private:
-
 	bool debug = false;
 
 	btDefaultCollisionConfiguration*	collision_conf;

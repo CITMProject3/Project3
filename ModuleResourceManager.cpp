@@ -582,6 +582,10 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 			Data meta_data(meta_buf);
 			string library_path = meta_data.GetString("library_path");
 			App->file_system->Save(library_path.data(), buf, size);
+			
+			string textureMap = library_path.substr(0, library_path.length() - 3);
+			textureMap += "txmp";
+			App->physics->SaveTextureMap(textureMap.data());
 		}
 		else
 		{

@@ -428,6 +428,32 @@ void ModulePhysics3D::DeleteHeightmap()
 	DeleteTerrainMesh();
 }
 
+bool ModulePhysics3D::SaveTextureMap(const char * path)
+{	
+	return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+}
+
+void ModulePhysics3D::LoadTextureMap(const char * path)
+{
+	int w = heightMapImg->GetWidth();
+	int h = heightMapImg->GetHeight();
+	if (textureMap != nullptr)
+	{
+		delete[] textureMap;
+	}
+	textureMap = new float[w*h];
+	char* tmp = (char *)textureMap;
+	uint size = App->file_system->Load(path, &tmp);
+	if (size <= 0)
+	{
+		for (int n = 0; n < w*h; n++)
+		{
+			textureMap[n] = 0;
+		}
+	}
+	ReinterpretTextureMap();
+}
+
 bool ModulePhysics3D::TerrainIsGenerated()
 {
 	return (terrainData != nullptr);
