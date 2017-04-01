@@ -1100,7 +1100,6 @@ void ComponentCar::Leaning(float accel)
 
 void ComponentCar::Acrobatics(PLAYER p)
 {
-	//This flow will need to be checked, it may cause some minor bugs in acrobatics functionality
 	bool tmp_front = acro_front;
 	bool tmp_back = acro_back;
 
@@ -1113,10 +1112,13 @@ void ComponentCar::Acrobatics(PLAYER p)
 		acro_back = true;
 	}
 
+	
 	if (acro_back && acro_front)
 	{
+		//Applieds for the drifting turbo at VS3
 		//Apply turbo
 		//current_turbo = T_MINI;
+		/*
 		if (drifting)
 		{
 			switch (turbo_drift_lvl)
@@ -1133,10 +1135,15 @@ void ComponentCar::Acrobatics(PLAYER p)
 			}
 
 			to_drift_turbo = true;
-		}
+		}*/
 
 		acro_front = false;
 		acro_back = false;
+	}
+
+	if (acro_back && acro_front)
+	{
+
 	}
 	else if(tmp_back != acro_back || tmp_front != acro_front)
 	{
@@ -2118,6 +2125,7 @@ void ComponentCar::Load(Data& conf)
 	max_velocity = conf.GetFloat("max_speed"); 
 	min_velocity = conf.GetFloat("min_speed");
 	decel_brake = conf.GetFloat("fake_break");
+
 
 	//Turn 
 	base_turn_max = conf.GetFloat("base_turn_max"); 

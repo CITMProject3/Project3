@@ -62,6 +62,9 @@ public:
 	void SetVelocity(float x, float y, float z, float v);
 	float GetKmh() const;
 	vec GetPos()const;
+
+
+	bool IsVehicleInContact() const;
 public:
 
 	VehicleInfo info;
