@@ -1,5 +1,3 @@
-LIBRARY SCRIPTINGPROJECT
-
 EXPORTS
 	GetScriptNames					
 	
@@ -11,3 +9,9 @@ EXPORTS
 
 	Test2_Start
 	Test2_Update
+
+	Player_Car_GetPublics
+	Player_Car_Start
+	Player_Car_Update
+	Player_Car_UpdatePublics
+	Player_Car_OnCollision

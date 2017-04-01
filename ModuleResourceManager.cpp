@@ -127,8 +127,6 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 	{
 		if (GetFileExtension((*file).c_str()) != FileType::NONE)
 		{
-			string file_name = (*file).substr(0, (*file).find_first_of("."));
-
 			bool meta_found = false;
 			//Search for the meta
 			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
@@ -137,7 +135,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 				if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 				{
 					string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
-					if (file_name.compare(meta_name) == 0)
+					if ((*file).compare(meta_name) == 0)
 					{
 						meta_found = true;
 						string meta_complete_path = assets_dir + *meta;
@@ -561,7 +559,7 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
 
 	string library_scene_path;
-	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
+	string meta_file = name_to_save + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
 	{
 		char* meta_buf;
@@ -706,7 +704,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	name += ".pfb";
 	App->file_system->Save(name.data(), buf, size);
 
-	string meta_file = name.substr(0, name.length() - 4) + ".meta";
+	string meta_file = name + ".meta";
 	string library_path;
 	if (App->file_system->Exists(meta_file.data()))
 	{
@@ -781,7 +779,7 @@ string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
 
-	string meta = assets_file_path.substr(0, assets_file_path.length() - 4);
+	string meta = assets_file_path;
 	meta += ".meta";
 
 	char* buffer = nullptr;
@@ -977,8 +975,7 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	size_t size = root.Serialize(&buf);
 
 	string final_path = path;
-	if(is_file)
-		final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+	
 	final_path += ".meta";
 
 	App->file_system->Save(final_path.data(), buf, size);
@@ -1024,7 +1021,7 @@ void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, s
 	size_t size = root.Serialize(&buf);
 
 	string final_path = path;
-	final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+	
 	final_path += ".meta";
 
 	App->file_system->Save(final_path.data(), buf, size);

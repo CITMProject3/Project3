@@ -16,10 +16,11 @@
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
-#include "AutoProfile.h"
 #include "Random.h"
 
 #include "ResourceFilePrefab.h"
+
+#include "Brofiler\include\Brofiler.h"
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -57,6 +58,7 @@ bool ModuleGOManager::Start()
 
 update_status ModuleGOManager::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleGOManager::PreUpdate", Profiler::Color::Aquamarine)
 	//Remove all GameObjects that needs to be erased
 	for (vector<GameObject*>::iterator go = go_to_remove.begin(); go != go_to_remove.end(); ++go)
 	{
@@ -82,6 +84,7 @@ update_status ModuleGOManager::PreUpdate()
 
 update_status ModuleGOManager::Update()
 {
+	BROFILER_CATEGORY("ModuleGOManager::Update", Profiler::Color::SkyBlue)
 	//Update GameObjects
 	if(root)
 		UpdateGameObjects(root);
@@ -690,8 +693,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
-	PROFILE("ModuleGOManager::UpdateGameObjects");
-
 	if(root != object && object->IsActive() == true)
 		object->Update();
 

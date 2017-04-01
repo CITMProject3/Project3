@@ -27,11 +27,13 @@ public:
 	float GetNearPlane()const;
 	float GetFarPlane()const;
 	float GetFOV()const;
+	float GetAspectRatio() const;
 
 	void SetNearPlane(const float& near_plane);
 	void SetFarPlane(const float& far_plane);
 	void SetFOV(const float& fov);
 	void SetBackgroundColor(const math::float3& color);
+	void SetAspectRatio(float ar);
 
 	//Movement---------------------
 	bool MoveArrows(float dt);
@@ -53,7 +55,8 @@ private:
 
 public:
 
-	ComponentCamera* playCamera = nullptr;
+	ComponentCamera* player1_camera = nullptr;
+	ComponentCamera* player2_camera = nullptr;
 };
 
 #endif // !__MODULECAMERA3D_H__

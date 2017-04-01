@@ -38,6 +38,8 @@
 
 #include "SDL/include/SDL_video.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 
 #pragma comment (lib, "glu32.lib")    /* link OpenGL Utility lib     */
 #pragma comment (lib, "opengl32.lib") /* link Microsoft OpenGL lib   */
@@ -168,18 +170,19 @@ bool ModuleRenderer3D::Init(Data& config)
 // PreUpdate: clear buffer
 update_status ModuleRenderer3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PreUpdate", Profiler::Color::HotPink)
 
-	if (camera->properties_modified)
+	if (cameras[0]->properties_modified)
 	{
-		UpdateProjectionMatrix();
-		camera->properties_modified = false;
+		UpdateProjectionMatrix(cameras[0]);
+		cameras[0]->properties_modified = false;
 	}
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
 	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf((float*)camera->GetViewMatrix().v);
+	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
 
 	// light 0 on cam pos
 	lights[0].SetPos(App->camera->GetPosition().x, App->camera->GetPosition().y, App->camera->GetPosition().z);
@@ -195,21 +198,34 @@ update_status ModuleRenderer3D::PreUpdate()
 // PostUpdate present buffer to screen
 update_status ModuleRenderer3D::PostUpdate()
 {
+	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
+
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
-	vector<ComponentCamera*> cameras;
-	App->go_manager->GetAllCameras(cameras);
-	for (size_t i = 0; i < cameras.size(); ++i)
+	vector<ComponentCamera*> scene_cameras;
+	App->go_manager->GetAllCameras(scene_cameras);
+	for (size_t i = 0; i < scene_cameras.size(); ++i)
 	{
-		if (cameras[i]->render_texture)
+		if (scene_cameras[i]->render_texture)
 		{
-			DrawScene(cameras[i], true);
+			DrawScene(scene_cameras[i], true);
 		}
 	}
 
 	glDisable(GL_CLIP_DISTANCE0);
 
+	for (uint i = 0; i < cameras.size(); i++)
+	{
+		DrawScene(cameras[i]);
+	}
+
+	/*
+	glViewport(0, App->window->GetScreenHeight()/2, App->window->GetScreenWidth(), App->window->GetScreenHeight()/2);
 	DrawScene(camera);
+
+	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight() / 2);
+	DrawScene(camera);
+	*/
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -232,14 +248,13 @@ void ModuleRenderer3D::OnResize(int width, int height, float fovy)
 {
 	glViewport(0, 0, width, height);
 
-	camera->SetAspectRatio((float)width / (float)height);
-	UpdateProjectionMatrix();
+	//UpdateProjectionMatrix();
 
 	App->window->SetScreenSize(width, height);
 	SendEvent(this, Event::WINDOW_RESIZE);
 }
 
-void ModuleRenderer3D::UpdateProjectionMatrix()
+void ModuleRenderer3D::UpdateProjectionMatrix(ComponentCamera* camera)
 {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -252,15 +267,34 @@ void ModuleRenderer3D::UpdateProjectionMatrix()
 
 const ComponentCamera* ModuleRenderer3D::GetCamera() const
 {
-	return camera;
+	return cameras[0];
 }
 
 void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 {
-	if (this->camera != camera && camera != nullptr)
+	cameras.clear();
+	if (camera != nullptr)
 	{
-		this->camera = camera;
-		UpdateProjectionMatrix();
+		for (uint i = 0; i < cameras.size(); i++)
+		{
+			if (cameras[i] == camera)
+				return;
+		}
+		cameras.push_back(camera);
+		UpdateProjectionMatrix(cameras.back());
+	}
+}
+
+void ModuleRenderer3D::AddCamera(ComponentCamera* camera)
+{
+	if (camera != nullptr)
+	{
+		for (uint i = 0; i < cameras.size(); i++)
+		{
+			if (cameras[i] == camera)
+				return;
+		}
+		cameras.push_back(camera);
 	}
 }
 
@@ -275,6 +309,14 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
+	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
+
+	glLoadIdentity();
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
+
+	UpdateProjectionMatrix(cam);
 
 	//Draw UI
 	if (App->go_manager->current_scene_canvas != nullptr)
@@ -289,7 +331,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
-	App->physics->RenderTerrain();
+	App->physics->RenderTerrain(cam);
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
@@ -359,34 +401,154 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	if (material == nullptr)
 		return;
 
-	float4 color = { 1.0f,1.0f,1.0f,1.0f };
-
-
 	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
 	if (c_mesh->HasBones())
 	{
-		DrawAnimated(obj, light, cam);
+		DrawAnimated(obj, light, cam, alpha_object, alpha_render);
 		return;
 	}
 
 	uint shader_id = 0;
+	float4 color = { 1.0f,1.0f,1.0f,1.0f };
 	color = float4(material->color);
-	if (material->rc_material)
-	{
-		shader_id = material->rc_material->GetShaderId();
-	}
-	else
-	{
-		shader_id = App->resource_manager->GetDefaultShaderId();
-	}
 
+	if (material->rc_material)
+		shader_id = material->rc_material->GetShaderId();
+	else
+		shader_id = App->resource_manager->GetDefaultShaderId();
+
+	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
+	if (ret_alpha == false)
+		return;
+	
+	//Use shader
+	glUseProgram(shader_id);
+
+	SetShaderUniforms(shader_id, obj, cam, material, light, color);
+
+	//Buffer vertices == 0
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer uvs == 1
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_uvs);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer normals == 2
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer tangents == 3
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
+	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, ComponentCamera * cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render)const
+{
+	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
+
+	if (material == nullptr)
+		return;
+
+	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
+
+	float4 color = { 1.0f,1.0f,1.0f,1.0f };
+	color = float4(material->color);
+
+	uint shader_id = 0;
+	if (material->rc_material)
+		shader_id = material->rc_material->GetShaderId();
+	else
+		shader_id = App->resource_manager->GetDefaultAnimShaderId();
+
+	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
+	if (ret_alpha == false)
+		return;
+
+	//Use shader
+	glUseProgram(shader_id);
+
+	
+	SetShaderUniforms(shader_id, obj, cam, material, light, color);
+
+	//Array of bone transformations
+	GLint bone_location = glGetUniformLocation(shader_id, "bones");
+	glUniformMatrix4fv(bone_location, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
+
+
+	//Buffer vertices == 0
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer uvs == 1
+	glEnableVertexAttribArray(1);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_uvs);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer normals == 2
+	glEnableVertexAttribArray(2);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Buffer tangents == 3
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		
+
+	//Buffer bones id == 4
+	glEnableVertexAttribArray(4);
+	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->bone_id);
+	glVertexAttribIPointer(4, 4, GL_INT, 0, (GLvoid*)0);
+
+	//Buffer weights == 5
+	glEnableVertexAttribArray(5);
+	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->weight_id);
+	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+	//Index buffer
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
+	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
+	glDisableVertexAttribArray(5);
+
+	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_BLEND);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const
+{
 	if (material->alpha == 2 && alpha_render == false)
 	{
 		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj->transform->GetPosition());
 		alpha_object = pair<float, GameObject*>(distance, obj);
-		return;
+		return false;
 	}
-	
+
 	switch (material->alpha)
 	{
 	case (2):
@@ -401,22 +563,40 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		break;
 	}
 	}
-	
-	//Use shader
-	glUseProgram(shader_id);
 
-	//Set uniforms
+	return true;
+}
 
-	//Matrices
+void ModuleRenderer3D::SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color) const
+{
+	ShaderMVPUniforms(shader_id, obj, cam);
+
+	ShaderTexturesUniforms(shader_id, material);
+
+	ShaderLightUniforms(shader_id, light);
+
+	ShaderCustomUniforms(shader_id, material);
+
+	ShaderBuiltInUniforms(shader_id, cam, material, color);
+}
+
+void ModuleRenderer3D::ShaderMVPUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam) const
+{
 	GLint model_location = glGetUniformLocation(shader_id, "model");
 	glUniformMatrix4fv(model_location, 1, GL_FALSE, *(obj->GetGlobalMatrix().Transposed()).v);
 	GLint projection_location = glGetUniformLocation(shader_id, "projection");
 	glUniformMatrix4fv(projection_location, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
 	GLint view_location = glGetUniformLocation(shader_id, "view");
-	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);	
+	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);
+}
 
-	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
-
+void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentMaterial* material) const
+{
+	GLint alpha_location = glGetUniformLocation(shader_id, "_alpha_val");
+	if (alpha_location != -1)
+	{
+		glUniform1f(alpha_location, material->alpha_test);
+	}
 	int count = 0;
 	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
 	{
@@ -456,6 +636,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		}
 	}
 
+	//Reset Texture and Normal if doesn't have
 	if (material->texture_ids.size() < 2)
 	{
 		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
@@ -471,233 +652,10 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
-
-	//Lighting
-
-	//Ambient
-	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
-	if (ambient_intensity_location != -1)
-		glUniform1f(ambient_intensity_location, light.ambient_intensity);
-	GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
-	if (ambient_color_location != -1)
-		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
-
-	//Directional
-	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
-	glUniform1i(has_directional_location, light.has_directional);
-
-	if (light.has_directional)
-	{
-		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
-		if (directional_intensity_location != -1)
-			glUniform1f(directional_intensity_location, light.directional_intensity);
-		GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
-		if (directional_color_location != -1)
-			glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
-		if (directional_direction_location != -1)
-			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-	}	
-	
-	//Other uniforms
-	if (material->rc_material)
-	{
-		for (vector<Uniform*>::const_iterator uni = material->rc_material->material.uniforms.begin(); uni != material->rc_material->material.uniforms.end(); ++uni)
-		{
-			GLint uni_location = glGetUniformLocation(shader_id, (*uni)->name.data());
-			
-			if(uni_location != -1)
-			switch ((*uni)->type)
-			{
-			case UniformType::U_BOOL:
-			{
-				glUniform1i(uni_location, *reinterpret_cast<bool*>((*uni)->value));
-			}
-				break;
-			case U_INT:
-			{
-				glUniform1i(uni_location, *reinterpret_cast<int*>((*uni)->value));
-			}
-				break;
-			case U_FLOAT:
-			{
-				glUniform1f(uni_location, *reinterpret_cast<GLfloat*>((*uni)->value));
-			}
-				break;
-			case U_VEC2:
-			{
-				glUniform2fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
-			}
-				break;
-			case U_VEC3:
-			{
-				glUniform3fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
-			}
-				break;
-			case U_VEC4:
-			{
-				glUniform4fv(uni_location, 1, reinterpret_cast<GLfloat*>((*uni)->value));
-			}
-			break;
-			case U_MAT4X4:
-			{
-				glUniformMatrix4fv(uni_location, 1, GL_FALSE, reinterpret_cast<GLfloat*>((*uni)->value));
-			}
-				break;
-			case U_SAMPLER2D:
-				//Already handled before.
-				break;
-			}
-		}
-	}
-
-	//Time(special)
-	GLint time_location = glGetUniformLocation(shader_id, "time");
-	if (time_location != -1)
-	{
-		glUniform1f(time_location, time->GetUnitaryTime());
-	}
-	//Color
-	if (colorLoc != -1)
-	{
-		glUniform4fv(colorLoc, 1, color.ptr());
-		if(material->rc_material != nullptr)
-			material->rc_material->material.has_color = true;
-	}
-	//Specular
-	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
-	if (specular_location != -1)
-		glUniform1f(specular_location, material->specular);
-	//EyeWorld
-	GLint eye_world_pos = glGetUniformLocation(shader_id, "_EyeWorldPos");
-	if (eye_world_pos != -1)
-		glUniform3fv(eye_world_pos, 1, cam->GetPos().ptr());
-
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glColor4fv(color.ptr());
-
-	//Buffer vertices == 0
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer uvs == 1
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_uvs);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer normals == 2
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer tangents == 3
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
-	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
-
-	glDisable(GL_ALPHA_TEST);
-	glDisable(GL_BLEND);
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, ComponentCamera * cam)const
+void ModuleRenderer3D::ShaderLightUniforms(unsigned int shader_id, const LightInfo& light) const
 {
-	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
-
-	if (material == nullptr)
-		return;
-
-	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-
-
-	uint shader_id = 0;
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultAnimShaderId();
-
-	//Use shader
-	glUseProgram(shader_id);
-
-	//Set uniforms
-
-	//Matrices
-	GLint model_location = glGetUniformLocation(shader_id, "model");
-	glUniformMatrix4fv(model_location, 1, GL_FALSE, *(obj->GetGlobalMatrix().Transposed()).v);
-	GLint projection_location = glGetUniformLocation(shader_id, "projection");
-	glUniformMatrix4fv(projection_location, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
-	GLint view_location = glGetUniformLocation(shader_id, "view");
-	glUniformMatrix4fv(view_location, 1, GL_FALSE, *cam->GetViewMatrix().v);
-
-	int count = 0;
-	//Good code for textures. The code above must be removed.
-	for (map<string, uint>::iterator tex = material->texture_ids.begin(); tex != material->texture_ids.end(); ++tex)
-	{
-		//Default first texture diffuse (if no specified)
-		if ((*tex).first.compare("0") == 0 && count == 0)
-		{
-			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-			glUniform1i(has_tex_location, 1);
-			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, (*tex).second);
-			glUniform1i(texture_location, 0);
-			count++;
-			continue;
-		}
-
-		//Default second texture normal (if no specified)
-		if ((*tex).first.compare("1") == 0 && count == 1)
-		{
-			GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-			glUniform1i(has_normal_location, 1);
-			GLint texture_location = glGetUniformLocation(shader_id, "_NormalMap");
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, (*tex).second);
-			glUniform1i(texture_location, 1);
-			count++;
-			continue;
-		}
-
-		GLint tex_location = glGetUniformLocation(shader_id, (*tex).first.data());
-		if (tex_location != -1)
-		{
-			glActiveTexture(GL_TEXTURE0 + count);
-			glBindTexture(GL_TEXTURE_2D, (*tex).second);
-			glUniform1i(tex_location, count);
-			++count;
-		}
-	}
-
-	if (material->texture_ids.size() < 2)
-	{
-		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
-		glUniform1i(has_normal_location, 0);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	if (material->texture_ids.empty() == true)
-	{
-		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-		glUniform1i(has_tex_location, 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
-	}
-
-	//Lighting
-
 	//Ambient
 	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
 	if (ambient_intensity_location != -1)
@@ -722,8 +680,10 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 	}
+}
 
-	//Other uniforms
+void ModuleRenderer3D::ShaderCustomUniforms(unsigned int shader_id, ComponentMaterial* material) const
+{
 	if (material->rc_material)
 	{
 		for (vector<Uniform*>::const_iterator uni = material->rc_material->material.uniforms.begin(); uni != material->rc_material->material.uniforms.end(); ++uni)
@@ -774,23 +734,24 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 				}
 		}
 	}
+}
 
+void ModuleRenderer3D::ShaderBuiltInUniforms(unsigned int shader_id, ComponentCamera* cam, ComponentMaterial* material, const float4 color) const
+{
 	//Time(special)
 	GLint time_location = glGetUniformLocation(shader_id, "time");
 	if (time_location != -1)
 	{
-		glUniform1f(time_location, time->GetUnitaryTime());
+		glUniform1f(time_location, time->RealTimeSinceStartup());
 	}
 	//Color
 	GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
-	float4 color = float4(material->color);
 	if (colorLoc != -1)
 	{
 		glUniform4fv(colorLoc, 1, color.ptr());
 		if (material->rc_material != nullptr)
 			material->rc_material->material.has_color = true;
-	}	
-
+	}
 	//Specular
 	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
 	if (specular_location != -1)
@@ -799,55 +760,6 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	GLint eye_world_pos = glGetUniformLocation(shader_id, "_EyeWorldPos");
 	if (eye_world_pos != -1)
 		glUniform3fv(eye_world_pos, 1, cam->GetPos().ptr());
-
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-	glColor4fv(color.ptr());
-
-	//Array of bone transformations
-	GLint bone_location = glGetUniformLocation(shader_id, "bones");
-	glUniformMatrix4fv(bone_location, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
-
-	//Buffer vertices == 0
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer uvs == 1
-	glEnableVertexAttribArray(1);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_uvs);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer normals == 2
-	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer tangents == 3
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);		
-
-	//Buffer bones id == 4
-	glEnableVertexAttribArray(4);
-	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->bone_id);
-	glVertexAttribIPointer(4, 4, GL_INT, 0, (GLvoid*)0);
-
-	//Buffer weights == 5
-	glEnableVertexAttribArray(5);
-	glBindBuffer(GL_ARRAY_BUFFER, c_mesh->weight_id);
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Index buffer
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
-	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
-	glDisableVertexAttribArray(4);
-	glDisableVertexAttribArray(5);
-	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void ModuleRenderer3D::DrawUIImage(GameObject * obj) const

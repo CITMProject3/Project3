@@ -198,6 +198,7 @@
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleScripting.h" />
     <ClInclude Include="OpenGLFunc.h" />
+    <ClInclude Include="Profiler.h" />
     <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAnimation.h" />
@@ -294,7 +295,6 @@
     <ClInclude Include="PhysVehicle3D.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="Primitive.h" />
-    <ClInclude Include="Profiler.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="ResourceFile.h" />
@@ -374,6 +374,7 @@
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleScripting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
+    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="RaceTimer.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAnimation.cpp" />
@@ -440,7 +441,6 @@
     <ClCompile Include="PhysVehicle3D.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Primitive.cpp" />
-    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RaycastHit.cpp" />
     <ClCompile Include="ResourceFile.cpp" />

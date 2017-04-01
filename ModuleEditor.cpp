@@ -16,7 +16,6 @@
 
 #include "Time.h"
 
-#include "AutoProfile.h"
 #include "FPSGraph.h"
 #include "WindowOptions.h"
 #include "HardwareInfo.h"
@@ -24,7 +23,6 @@
 #include "Assets.h"
 #include "Hierarchy.h"
 #include "Inspector.h"
-#include "Profiler.h"
 
 #include "CameraWindow.h"
 #include "ResourcesWindow.h"
@@ -71,7 +69,6 @@ bool ModuleEditor::Start()
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
-		windows.push_back(&g_Profiler);
 		windows.push_back(fps_graph_win = new FPSGraph());
 		windows.push_back(winoptions_win = new WindowOptions());
 		windows.push_back(hardware_win = new HardwareInfo());
@@ -266,8 +263,6 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	PROFILE("Editor::Update()");
-
 	update_status ret = UPDATE_CONTINUE;
 
 	//ImGui::ShowTestWindow();	
@@ -362,7 +357,10 @@ void ModuleEditor::GameOptions() const
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth()/2, 30));
 	bool open = true;
-	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1, 0.1, 0.1, 1));
 
 	if (App->IsGameRunning() == false || App->IsGamePaused())
 	{
@@ -385,6 +383,9 @@ void ModuleEditor::GameOptions() const
 	ImGui::SameLine();
 	int time_game_running = time->TimeSinceGameStartup();
 	ImGui::Text("Game time: %i", time_game_running);
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::End();
 }
 
@@ -437,7 +438,6 @@ update_status ModuleEditor::EditorWindows()
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
-		PROFILE("Editor::Update-PaintWindows");
 		(*win)->Draw();
 		++win;
 	}
@@ -534,11 +534,6 @@ void ModuleEditor::WindowsMenu()
 	if (ImGui::MenuItem("Warnings"))
 	{
 		warning_window->SetActive(true);
-	}
-	
-	if (ImGui::MenuItem("Profiler"))
-	{
-		g_Profiler.SetActive(true);
 	}
 
 	if (ImGui::MenuItem("Assets"))
@@ -897,9 +892,9 @@ void ModuleEditor::SaveSceneWindow()
 				save_scene_win = false;
 				App->input->ResetQuit();
 			}
-			ImGui::End();
+			
 		}
-		
+		ImGui::End();
 		if(!save_scene_win)
 			App->input->ResetQuit();
 	}

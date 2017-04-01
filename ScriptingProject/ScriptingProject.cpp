@@ -28,6 +28,8 @@ extern "C"
 
 			script_names->push_back("Test");
 			script_names->push_back("Test2");
+
+			script_names->push_back("Player_Car");
 		}
 	}
 
@@ -53,10 +55,10 @@ extern "C"
 
 		void Test_UpdatePublics(GameObject* game_object)
 		{
-			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+			ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-			test_title = script->public_chars.at("Title");
-			test_go = script->public_gos.at("Test_go");
+			test_title = test_script->public_chars.at("Title");
+			test_go = test_script->public_gos.at("Test_go");
 		}
 
 		void Test_Start(GameObject* game_object)
@@ -82,9 +84,12 @@ extern "C"
 		}
 		void Test_OnCollision(PhysBody3D* col)
 		{
-			float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
-			tmp_pos.x -= 2;
-			col->GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
+			if (!col->GetCollider()->Static)
+			{
+				float3 tmp_pos = col->GetCollider()->GetGameObject()->transform->GetPosition();
+				tmp_pos.x -= 2;
+				col->SetPos(tmp_pos.x, tmp_pos.y, tmp_pos.z);//GetCollider()->GetGameObject()->transform->SetPosition(tmp_pos);
+			}
 		}
 	}
 

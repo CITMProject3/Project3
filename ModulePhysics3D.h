@@ -23,6 +23,7 @@ class ComponentMesh;
 class ResourceFileTexture;
 class ComponentCollider;
 class ComponentCar;
+class ComponentCamera;
 
 class btHeightfieldTerrainShape;
 
@@ -70,7 +71,7 @@ public:
 	int GetTexture();
 	uint GetTextureUUID();
 	const char* GetTexturePath();
-	void RenderTerrain();
+	void RenderTerrain(ComponentCamera* camera);
 private:
 	void AddTerrain();
 	
