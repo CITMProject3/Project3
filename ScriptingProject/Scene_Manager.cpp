@@ -32,12 +32,17 @@ namespace Scene_Manager
 	GameObject* kmh_go = nullptr;
 	ComponentUiText* kmh_text = nullptr;
 
+	GameObject* lap_go = nullptr;
+	ComponentUiText* lap_text = nullptr;
+
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 //		public_gos->insert(std::pair<const char*, GameObject*>("Canvas", canvas));
 		public_gos->insert(std::pair<const char*, GameObject*>("Car1", car_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Timer_Text", timer_text_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Kmh_Text", kmh_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Text", lap_go)); public_gos->insert(std::pair<const char*, GameObject*>("Lap_Text", lap_go));
+
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -46,6 +51,7 @@ namespace Scene_Manager
 		car_1_go = script->public_gos["Car1"];
 		timer_text_go = script->public_gos["Timer_Text"];
 		kmh_go = script->public_gos["Kmh_Text"];
+		lap_go = script->public_gos["Lap_Text"];
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object);
@@ -66,6 +72,10 @@ namespace Scene_Manager
 		{
 			kmh_text = (ComponentUiText*)kmh_go->GetComponent(C_UI_TEXT);
 		}
+		if (lap_go != nullptr)
+		{
+			lap_text = (ComponentUiText*)lap_go->GetComponent(C_UI_TEXT);
+		}
 	}
 
 	void Scene_Manager_Update(GameObject* game_object)
@@ -74,16 +84,27 @@ namespace Scene_Manager
 		if (car_1 != nullptr)
 		{
 			if (car_1->lap + 1 != timer.GetCurrentLap())
+			{
 				timer.AddLap();
+				//Update lap text
+				if (lap_text != nullptr)
+				{
+					string str = std::to_string(car_1->lap);
+					lap_text->SetDisplayText(str);
+				}
+			}
 
 			//Update car 1 kmh
-			int vel = car_1->GetVelocity();
-			string str;
-			if (vel < 10)
-				str = "0" + to_string(vel) + "k";
-			else
-				str = to_string(vel) + "k";
-			kmh_text->SetDisplayText(str);
+			if (kmh_text != nullptr)
+			{
+				int vel = car_1->GetVelocity();
+				string str;
+				if (vel < 10)
+					str = "0" + to_string(vel) + "k";
+				else
+					str = to_string(vel) + "k";
+				kmh_text->SetDisplayText(str);
+			}
 		}
 
 		//Update UI race timer

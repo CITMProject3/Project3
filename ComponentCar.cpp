@@ -127,14 +127,19 @@ void ComponentCar::OnInspector(bool debug)
 			front_player = (PLAYER)player_f;
 		}
 		int player_b = (int)back_player;
-		if (ImGui::InputInt("Front player joystick", &player_b, 1))
+		if (ImGui::InputInt("Back player joystick", &player_b, 1))
 		{
 			math::Clamp(player_b, 0, 3);
 			back_player = (PLAYER)player_b;
 		}
 
 		ImGui::Text("Bool pushing: %i", (int)pushing);
-		ImGui::Text("Current lap: %i", lap);
+		int lap = this->lap;
+		if (ImGui::InputInt("Current lap", &lap))
+		{
+			if (lap < 0) lap = 0;
+			this->lap = lap;
+		}
 		if (lastCheckpoint != nullptr)
 		{
 			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
