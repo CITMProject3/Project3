@@ -50,6 +50,14 @@ enum MAX_TURN_CHANGE_MODE
 	M_INTERPOLATION,
 };
 
+enum GROUND_CONTACT
+{
+	G_NONE,
+	G_BEGIN,
+	G_REPEAT,
+	G_EXIT,
+};
+
 struct Turbo
 {
 	string name;
@@ -106,6 +114,10 @@ public:
 	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
+private:
+	void CheckGroundCollision();
+	void OnGroundCollision(GROUND_CONTACT state);
+public:
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void TurnOver();
@@ -333,6 +345,11 @@ private:
 
 	//Items! - provisional
 	bool has_item = false;
+
+	//Ground contact
+
+	bool ground_contact_state = false;
+
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;

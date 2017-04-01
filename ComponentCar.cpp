@@ -82,6 +82,7 @@ void ComponentCar::Update()
 		int vel = GetVelocity();
 		if (vehicle)
 		{		
+			CheckGroundCollision();
 			HandlePlayerInput();
 			if (App->StartInGame() == false)
 			{
@@ -167,6 +168,9 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Current turn max: %f", turn_max);
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
+
+				bool on_ground = ground_contact_state;
+				ImGui::Checkbox("On ground", &on_ground);
 
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
@@ -1768,6 +1772,36 @@ TURBO ComponentCar::GetCurrentTurbo() const
 	return current_turbo;
 }
 
+void ComponentCar::CheckGroundCollision()
+{
+	bool last_contact = ground_contact_state;
+
+	ground_contact_state = vehicle->IsVehicleInContact();
+
+	
+	if (ground_contact_state != last_contact)
+	{
+		if (last_contact)
+			OnGroundCollision(G_EXIT);
+		else
+			OnGroundCollision(G_BEGIN);
+	}
+
+	//We don't need repeat nor none for now
+
+}
+
+void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
+{
+	if (state == G_EXIT)
+	{
+		//Changes when exits ground contact
+	}
+	else if (state == G_BEGIN)
+	{
+		//Changes when entres ground contact
+	}
+}
 void ComponentCar::CreateCar()
 {
 	std::vector<Component*> components;

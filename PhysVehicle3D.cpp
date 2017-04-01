@@ -147,7 +147,7 @@ bool PhysVehicle3D::IsVehicleInContact() const
 
 	int num_wheels = vehicle->getNumWheels();
 
-	for (int i = 0; i < num_wheels, ret == true; i++)
+	for (int i = 0; i < num_wheels && ret == false; i++)
 	{
 		btWheelInfo wheel_info = vehicle->getWheelInfo(i);
 
