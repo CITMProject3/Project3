@@ -128,7 +128,11 @@ void Hierarchy::Draw()
 		if (setting_parent == true)
 		{
 			setting_parent = false;
-			child_to_set->SetParent(App->go_manager->root);
+			if (App->editor->selected.empty() == false)
+			{
+				child_to_set = App->editor->selected.back();
+				child_to_set->SetParent(App->go_manager->root);
+			}
 			parent_to_set = child_to_set = nullptr;
 		}
 		else if (App->scripting->setting_go_var_name != "")

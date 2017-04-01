@@ -79,6 +79,7 @@ void ComponentCar::Update()
 {
 	if (App->IsGameRunning())
 	{
+		int vel = GetVelocity();
 		if (vehicle)
 		{		
 			HandlePlayerInput();
@@ -103,9 +104,6 @@ void ComponentCar::Update()
 
 void ComponentCar::OnInspector(bool debug)
 {
-
-	ImGui::ShowTestWindow();
-
 	string str = (string("Car") + string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
@@ -678,6 +676,9 @@ void ComponentCar::OnInspector(bool debug)
 
 void ComponentCar::OnPlay()
 {
+	if (vehicle == nullptr)
+		CreateCar();
+
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	if (trs)
 	{

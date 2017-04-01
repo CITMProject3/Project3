@@ -29,11 +29,15 @@ namespace Scene_Manager
 	GameObject* timer_text_go = nullptr;
 	ComponentUiText* timer_text = nullptr;
 
+	GameObject* kmh_go = nullptr;
+	ComponentUiText* kmh_text = nullptr;
+
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 //		public_gos->insert(std::pair<const char*, GameObject*>("Canvas", canvas));
 		public_gos->insert(std::pair<const char*, GameObject*>("Car1", car_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Timer_Text", timer_text_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Kmh_Text", kmh_go));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -41,7 +45,7 @@ namespace Scene_Manager
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 		car_1_go = script->public_gos["Car1"];
 		timer_text_go = script->public_gos["Timer_Text"];
-
+		kmh_go = script->public_gos["Kmh_Text"];
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object);
@@ -58,6 +62,10 @@ namespace Scene_Manager
 		{
 			timer_text = (ComponentUiText*)timer_text_go->GetComponent(C_UI_TEXT);
 		}
+		if (kmh_go != nullptr)
+		{
+			kmh_text = (ComponentUiText*)kmh_go->GetComponent(C_UI_TEXT);
+		}
 	}
 
 	void Scene_Manager_Update(GameObject* game_object)
@@ -67,9 +75,18 @@ namespace Scene_Manager
 		{
 			if (car_1->lap + 1 != timer.GetCurrentLap())
 				timer.AddLap();
+
+			//Update car 1 kmh
+			int vel = car_1->GetVelocity();
+			string str;
+			if (vel < 10)
+				str = "0" + to_string(vel) + "k";
+			else
+				str = to_string(vel) + "k";
+			kmh_text->SetDisplayText(str);
 		}
 
-		//Updating UI timer
+		//Update UI race timer
 		if (timer_text != nullptr)
 		{
 			int min, sec, milisec = 0;
@@ -87,6 +104,6 @@ namespace Scene_Manager
 			string timer_string = min_str + ":" + sec_str + ":" + mil_str;
 			timer_text->SetDisplayText(timer_string);
 			LOG("Text set: %s", timer_string.c_str());
-		}
+		}	
 	}
 }
