@@ -21,6 +21,7 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Init(Data & config)
 {
 	camera = new ComponentCamera(C_CAMERA, nullptr);
+	RemoveSceneCamera(camera); //Editor cam is not a scene camera
 	camera->frustum.SetPos(vec(0, 3, -10));
 	camera->viewport_rel_position.x = 0.0f;
 	camera->viewport_rel_position.y = 0.0f;
@@ -57,21 +58,16 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::OnPlay()
 {
-	if (player1_camera != nullptr || player2_camera != nullptr)
-	{
-		//Removing current camera
-		App->renderer3D->SetCamera(nullptr);
-	}
 
-	if (player1_camera != nullptr)
+	//Removing current camera
+	App->renderer3D->SetCamera(nullptr);
+
+	if (scene_cameras.size() > 0)
+		App->audio->SetListener(*scene_cameras.begin());
+
+	for (vector<ComponentCamera*>::iterator it = scene_cameras.begin(); it != scene_cameras.end(); ++it)
 	{
-		App->renderer3D->AddCamera(player1_camera);
-		App->audio->SetListener(player1_camera);
-	}
-	if (player2_camera != nullptr)
-	{
-		App->renderer3D->AddCamera(player2_camera);
-		//App->audio->SetListener(player2_camera);
+		App->renderer3D->AddCamera((*it));	
 	}
 }
 
@@ -253,6 +249,18 @@ math::float3 ModuleCamera3D::GetBackgroundColor() const
 ComponentCamera * ModuleCamera3D::GetEditorCamera() const
 {
 	return camera;
+}
+
+void ModuleCamera3D::AddSceneCamera(ComponentCamera * cam)
+{
+	scene_cameras.push_back(cam);
+}
+
+void ModuleCamera3D::RemoveSceneCamera(ComponentCamera * cam)
+{
+	vector<ComponentCamera*>::iterator f_cam = std::find(scene_cameras.begin(), scene_cameras.end(), cam);
+	if(f_cam != scene_cameras.end())
+		scene_cameras.erase(f_cam);
 }
 
 void ModuleCamera3D::EditorCameraMovement(float dt)
