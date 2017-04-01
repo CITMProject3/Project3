@@ -201,19 +201,21 @@ private:
 
 	//Turn direction
 	float base_turn_max = 0.7f;
-	float turn_speed = 0.1f;
+	float turn_speed = 1.5f;
+	float time_to_idle = 0.1f;
+	bool idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.0f;
+	float turn_max_limit = 0.01f;
 
 	//By speed
-	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_speed = -0.01f;
 	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
 
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
 
 	//Graph
 	bool show_graph = false;
