@@ -319,6 +319,7 @@ private:
 	bool acro_front = false;
 	bool acro_back = false;
 	bool acro_on = false;
+	bool acro_done = false;
 	float acro_timer = 0.0f;
 	
 	//Turbo

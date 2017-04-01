@@ -1104,57 +1104,60 @@ void ComponentCar::Leaning(float accel)
 
 void ComponentCar::Acrobatics(PLAYER p)
 {
-	bool tmp_front = acro_front;
-	bool tmp_back = acro_back;
-
-	if(p == front_player)
-	{ 
-		acro_front = true;
-	}
-	else if (p == back_player)
+	if (!ground_contact_state)
 	{
-		acro_back = true;
-	}
+		bool tmp_front = acro_front;
+		bool tmp_back = acro_back;
 
-	
-	if (acro_back && acro_front)
-	{
-		//Applieds for the drifting turbo at VS3
-		//Apply turbo
-		//current_turbo = T_MINI;
-		/*
-		if (drifting)
+		if (p == front_player)
 		{
-			switch (turbo_drift_lvl)
+			acro_front = true;
+		}
+		else if (p == back_player)
+		{
+			acro_back = true;
+		}
+
+
+		if (acro_back && acro_front)
+		{
+			//Applieds for the drifting turbo at VS3
+			//Apply turbo
+			//current_turbo = T_MINI;
+			/*
+			if (drifting)
 			{
-			case 0:
-				turbo_drift_lvl = 1;
-				break;
-			case 1:
-				turbo_drift_lvl = 2;
-				break;
-			case 2:
-				turbo_drift_lvl = 3;
-				break;
-			}
+				switch (turbo_drift_lvl)
+				{
+				case 0:
+					turbo_drift_lvl = 1;
+					break;
+				case 1:
+					turbo_drift_lvl = 2;
+					break;
+				case 2:
+					turbo_drift_lvl = 3;
+					break;
+				}
 
-			to_drift_turbo = true;
-		}*/
+				to_drift_turbo = true;
+			}*/
+			//Normal acrobatics
+			acro_done = true;
 
-		acro_front = false;
-		acro_back = false;
-	}
+			acro_front = false;
+			acro_back = false;
+		}
 
-	if (acro_back && acro_front)
-	{
 
-	}
-	else if(tmp_back != acro_back || tmp_front != acro_front)
-	{
-		//Start timer
-		acro_timer = 0.0f;
 
-		acro_on = true;
+		else if (tmp_back != acro_back || tmp_front != acro_front)
+		{
+			//Start timer
+			acro_timer = 0.0f;
+
+			acro_on = true;
+		}
 	}
 }
 
@@ -1799,6 +1802,10 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	}
 	else if (state == G_BEGIN)
 	{
+		if (acro_done)
+			current_turbo = T_MINI;
+		else if (acro_on)
+			acro_on = false;
 		//Changes when entres ground contact
 	}
 }
