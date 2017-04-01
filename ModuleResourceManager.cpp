@@ -665,9 +665,9 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 			App->physics->GenerateHeightmap(terrain);
 		}
 
-		for (int n = 0; n < MAX_TERRAIN_TEXTURES; n++)
+		while(App->physics->GetNTextures() > 0)
 		{
-			App->physics->DeleteTexture(n);
+			App->physics->DeleteTexture(0);
 		}
 		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
 		{
