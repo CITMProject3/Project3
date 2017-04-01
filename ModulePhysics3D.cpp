@@ -958,10 +958,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 			glUniform1i(texture_location, 0);
-			//GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-			//glUniform1i(has_tex_location, 0);
 		}
-
 
 		GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
 		if (colorLoc != -1)
