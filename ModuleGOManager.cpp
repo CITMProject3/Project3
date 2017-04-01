@@ -289,7 +289,19 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
-	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+
+	root_node.AppendArray("terrain_textures");
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		Data texture;
+		texture.AppendString("path", App->physics->GetTexturePath(n));
+		root_node.AppendArrayValue(texture);
+	}
+
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
+	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);

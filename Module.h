@@ -5,7 +5,7 @@
 #include "Data.h"
 #include <string>
 
-struct PhysBody3D;
+class PhysBody3D;
 
 #define NAME_MODULE_LENGTH 32
 

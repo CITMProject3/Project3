@@ -12,6 +12,7 @@ namespace ShaderCompiler
 	int CompileShader(unsigned int vertex_id, unsigned int fragment_id);
 	int LoadDefaultShader();
 	int LoadDefaultAnimShader();
+	int LoadDefaultTerrainShader();
 
 	void DeleteShader(unsigned int shader_id);
 }
