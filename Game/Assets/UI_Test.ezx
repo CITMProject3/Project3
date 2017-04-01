@@ -531,6 +531,59 @@
                     "maxSuspensionForce": 6000
                 }
             ]
+        },
+        {
+            "name": "Camera",
+            "UUID": 1590667295,
+            "local_UUID": 0,
+            "parent": 2811522462,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1218058410,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        2.228789,
+                        0,
+                        0,
+                        1,
+                        -5.144024,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2905545634,
+                    "active": true,
+                    "script_path": "Player_Camera",
+                    "script_num": 0,
+                    "dist_y": 10,
+                    "dist_z": -10,
+                    "camera_y": 0,
+                    "inclination y max min": 0,
+                    "inclination z max min": 0,
+                    "y change boost": 0,
+                    "z change boost": 0,
+                    "fov change boost": 0,
+                    "target": 1804320022
+                }
+            ]
         }
     ],
     "terrain_scaling": 0.500000,
