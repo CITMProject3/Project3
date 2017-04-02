@@ -1,20 +1,47 @@
 #include "ComponentGrid.h"
+#include "Application.h"
 #include "ModuleResourceManager.h"
+#include "ModuleInput.h"
 #include "GameObject.h"
 #include "ComponentUiButton.h"
 #include "ComponentRectTransform.h"
+#include "SDL\include\SDL_scancode.h"
 #include "imgui\imgui.h"
 
 ComponentGrid::ComponentGrid(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
+	focus_objects.push_back(game_object);
+	focus_objects.push_back(game_object);
+	focus_objects.push_back(game_object);
+	focus_objects.push_back(game_object);
 }
 
 ComponentGrid::~ComponentGrid()
 {
 }
 
+
+
 void ComponentGrid::Update()
 {
+	if (after_load)
+	{
+		for (int i = 0; i < players_controlling; i++)
+		{
+			std::vector<GameObject*> childs = *game_object->GetChilds();
+			int j = 0;
+			for (std::vector<GameObject*>::const_iterator it = childs.begin(); it != childs.end(); ++it)
+			{
+				if (j == child_focus_index[i])
+				{
+					focus_objects.at(i) = (*it);
+					break;
+				}
+				j++;
+			}
+		}
+		after_load = false;
+	}
 	if (reorganize_grid)
 	{
 		OrganizeGrid();
@@ -49,11 +76,34 @@ void ComponentGrid::OnInspector(bool debug)
 
 		if (grid_enabled)
 		{
-			int tmp = player_controlling;
+			int tmp = players_controlling;
 			if (ImGui::DragInt("Players controlling", &tmp, 1.0f, 1, 4))
 			{
-				player_controlling = tmp;
+				players_controlling = tmp;
 				reorganize_grid = true;
+			}
+			
+			for (int i = 0; i < players_controlling; i++)
+			{
+				str = std::string("Object :"+ focus_objects.at(i)->name + "##" + std::to_string(i));
+				ImGui::Text(str.c_str());
+				ImGui::SameLine();
+				if (ImGui::BeginMenu(std::string("##"+ std::to_string(i)).data()))
+				{
+						std::vector<GameObject*> childs = *game_object->GetChilds();
+						int j = 0;
+						for (std::vector<GameObject*>::const_iterator it = childs.begin(); it != childs.end(); ++it)
+						{
+							if (ImGui::MenuItem((*it)->name.data()))
+							{
+								focus_objects.at(i) = (*it);
+								child_focus_index[i] = j;
+							}
+							j++;
+						}
+					ImGui::EndMenu();
+				}
+
 			}
 		}
 		
@@ -126,11 +176,77 @@ void ComponentGrid::OnFocus()
 			}
 		}
 	}
+
+	for (int i = 0; i < players_controlling; i++)
+	{
+		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP)  == KEY_DOWN)
+		{
+			if (rows > 1 && num_elements > 1)
+			{
+				focus_index_player[i] -= elements_x_row;
+				if (focus_index_player[i] < 0)
+					focus_index_player[i] = 0;
+				UpdateFocusObjectsPosition();
+			}
+		}
+
+		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		{
+			if (rows > 1 && num_elements > 1 )
+			{
+				focus_index_player[i] += elements_x_row;
+				if (focus_index_player[i] > num_elements)
+					focus_index_player[i] = num_elements;
+				UpdateFocusObjectsPosition();
+			}
+		}
+
+		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT)  == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		{
+			if (num_elements > 1 && focus_index_player[i] < num_elements)
+			{
+				focus_index_player[i]++;
+
+				if (focus_index_player[i] > num_elements)
+					focus_index_player[i] = num_elements;
+
+				UpdateFocusObjectsPosition();
+			}
+		}
+
+		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		{
+			if (num_elements > 1)
+			{
+				focus_index_player[i]--;
+				if (focus_index_player[i] < 0)
+					focus_index_player[i] = 0;
+				UpdateFocusObjectsPosition();
+
+			}
+		}
+
+		if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (num_elements > 1)
+			{
+				ComponentUiButton* but = (ComponentUiButton*)focus_objects.at(i)->GetComponent(C_UI_BUTTON);
+				if (but != nullptr)
+				{
+					but->OnPress();
+				}
+			}
+		}
+
+	}
+	
+
+
 }
 
 void ComponentGrid::OrganizeGrid()
 {
-	int elements_x_row = num_elements / rows;
+	elements_x_row = num_elements / rows;
 	ComponentRectTransform* r_trans = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
 	r_trans->SetSize(float2(elements_x_row*(element_width + space_between_x + margin) , rows*(element_height + space_between_y + margin)));
 	int i_position_x = -margin;
@@ -169,7 +285,7 @@ void ComponentGrid::Save(Data & file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
-	data.AppendBool("player_controlling", player_controlling);
+	data.AppendInt("players_controlling", players_controlling);
 	data.AppendInt("num_elements", num_elements);
 	data.AppendInt("grid_enabled", grid_enabled);
 	data.AppendInt("element_width", element_width);
@@ -178,6 +294,8 @@ void ComponentGrid::Save(Data & file) const
 	data.AppendInt("space_between_x", space_between_x);
 	data.AppendInt("space_between_y", space_between_y);
 	data.AppendInt("rows", rows);
+	data.AppendBool("grid_enabled", grid_enabled);
+	data.AppendFloat4("child_focus_index", child_focus_index.ptr());
 	file.AppendArrayValue(data);
 }
 
@@ -185,7 +303,7 @@ void ComponentGrid::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-	player_controlling = conf.GetInt("player_controlling");
+	players_controlling = conf.GetInt("players_controlling");
 	num_elements = conf.GetInt("num_elements");
 	grid_enabled = conf.GetBool("grid_enabled");
 	element_width = conf.GetInt("element_width");
@@ -194,6 +312,9 @@ void ComponentGrid::Load(Data & conf)
 	space_between_x = conf.GetInt("space_between_x");
 	space_between_y = conf.GetInt("space_between_y");
 	rows = conf.GetInt("rows");
+	grid_enabled = conf.GetBool("grid_enabled");
+	child_focus_index = conf.GetFloat4("child_focus_index");
+	after_load = true;
 	reorganize_grid = true;
 }
 
@@ -206,4 +327,21 @@ void ComponentGrid::SetNumElements(uint num)
 uint ComponentGrid::GetNumElements() const
 {
 	return num_elements;
+}
+
+void ComponentGrid::UpdateFocusObjectsPosition()
+{
+	std::vector<GameObject*> childs = *game_object->GetChilds();
+	for (int i = 0; i < players_controlling; i++)
+	{
+		GameObject* obj_focus = focus_objects.at(i);
+		GameObject* obj_in_grid = childs.at(int(focus_index_player[i]));
+		ComponentRectTransform* r_tran_focus = (ComponentRectTransform*)obj_focus->GetComponent(C_RECT_TRANSFORM);
+		ComponentRectTransform* r_tran_grid = (ComponentRectTransform*)obj_in_grid->GetComponent(C_RECT_TRANSFORM);
+		if (r_tran_focus && r_tran_grid)
+		{
+			r_tran_focus->SetLocalPos(r_tran_grid->GetLocalPos());
+		}
+			
+	}
 }

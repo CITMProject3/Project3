@@ -41,7 +41,7 @@ public:
 
 	// Setters / Getters
 	const float2 GetGlobalPos() const;
-	const vec &GetLocalPos() const;
+	const float2 GetLocalPos() const;
 
 	void SetLocalPos(const float2 &local_pos);
 	void SetSize(const float2 &size);

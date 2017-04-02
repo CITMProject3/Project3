@@ -3,6 +3,9 @@
 
 #include "Globals.h"
 #include "Component.h"
+#include "MathGeoLib\include\MathGeoLib.h"
+#include <vector>
+class GameObject;
 
 class ComponentGrid : public Component
 {
@@ -11,7 +14,7 @@ public:
 
 	ComponentGrid(ComponentType type, GameObject* game_object);
 	~ComponentGrid();
-
+	
 	void Update();
 	void CleanUp();
 
@@ -25,12 +28,13 @@ public:
 
 	void SetNumElements(uint num);
 	uint GetNumElements() const;
-
+	void UpdateFocusObjectsPosition();
 private:
-	int player_controlling = 1;
+	int players_controlling = 1;
 	int num_elements = 0;
 	GameObject* grid_focus = nullptr;
 	bool grid_enabled = false;
+	int elements_x_row = 0;
 	int element_width = 0;
 	int element_height = 0;
 	int margin = 0;
@@ -38,6 +42,11 @@ private:
 	int space_between_y = 0;
 	int rows = 1;
 	bool reorganize_grid = false;
+	std::vector<GameObject*> focus_objects;
+	float4 players_order = float4(1, 2, 3, 4);
+	float4 focus_index_player = float4(1, 1, 1, 1);
+	float4 child_focus_index = float4(0, 0, 0, 0);
+	bool after_load = false;
 };
 
 #endif __COMPONENTGRID_H__

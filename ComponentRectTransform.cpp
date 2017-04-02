@@ -181,9 +181,9 @@ bool ComponentRectTransform::ContainsPoint(const math::float2 &point) const
 }
 
 
-const math::vec &ComponentRectTransform::GetLocalPos() const
+const math::float2 ComponentRectTransform::GetLocalPos() const
 {
-	return local_position;
+	return float2(local_middle_position.x, local_middle_position.y);
 }
 
 void ComponentRectTransform::SetLocalPos(const float2 & local_pos)

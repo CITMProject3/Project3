@@ -36,6 +36,8 @@ void ComponentCanvas::Update()
 
 void ComponentCanvas::OnPlay()
 {
+	
+
 }
 
 void ComponentCanvas::OnInspector(bool debug)
@@ -96,7 +98,9 @@ vector<GameObject*> ComponentCanvas::GetUI()
 	vector<GameObject*> tmp_childs;
 	for (vector<GameObject*>::const_iterator obj = (*GetGameObject()->GetChilds()).begin(); obj != (*GetGameObject()->GetChilds()).end(); ++obj)
 	{
-		
+		Component* c = (*obj)->GetComponent(C_GRID);
+		if (c)
+			go_focus = (*obj);
 		if ((*obj)->IsActive())
 		{
 			tmp_childs.push_back(*obj);
