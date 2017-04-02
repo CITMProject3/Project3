@@ -802,6 +802,32 @@ void ModulePhysics3D::DeleteIndices()
 	numIndices = 0;
 }
 
+void ModulePhysics3D::AddIndexToChunk(uint index, float x, int z)
+{
+	int chunkX = floor(x / CHUNK_W);
+	int chunkZ = floor(z / CHUNK_H);
+
+	//Checking if the correspondant Z chunk exists. Creating it otherwise
+	std::map<int, std::map<int, chunk>>::iterator it_z = chunks.find(chunkZ);
+	if (it_z == chunks.end())
+	{
+		//Inserting a value returns a pair<iterator, bool>
+		//The iterator is what we're interessted in
+		//The bool shows if the value has been inserted or it already existed
+		//It shouldn't be relevant, since we already checked if it existed
+		it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(chunkZ, std::map<int, chunk>())).first;
+	}
+
+	//Same process for the correspondant X coordinate
+	std::map<int, chunk>::iterator it_x = it_z->second.find(chunkX);
+	if (it_x == it_z->second.end())
+	{
+		it_x = it_z->second.insert(std::pair<int, chunk>(chunkX, chunk())).first;
+	}
+
+	it_x->second.AddIndex(index);
+}
+
 void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
@@ -1011,8 +1037,14 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		//Index buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-		glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, (void*)0);
+		for (int y = 0; y < chunks.size(); y++)
+		{
+			for (int x = 0; x < chunks[y].size(); x++)
+			{
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunks[y][x].GetBuffer());
+				glDrawElements(GL_TRIANGLES, chunks[y][x].GetNIndices(), GL_UNSIGNED_INT, (void*)0);
+			}
+		}
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
@@ -1578,4 +1610,57 @@ void DebugDrawer::setDebugMode(int debugMode)
 int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
+}
+
+///// CHUNK ======================================
+
+chunk::chunk()
+{
+}
+
+chunk::~chunk()
+{
+	if (indices_bufferID == 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&indices_bufferID);
+	}
+}
+
+void chunk::GenBuffer()
+{
+	if (indices.empty() == false)
+	{
+		if (indices_bufferID == 0)
+		{
+			glGenBuffers(1, (GLuint*) &(indices_bufferID));
+		}
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_bufferID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), indices.data(), GL_STATIC_DRAW);
+	}
+}
+
+int chunk::GetBuffer()
+{
+	return indices_bufferID;
+}
+
+int chunk::GetNIndices()
+{
+	return indices.size();
+}
+
+void chunk::AddIndex(uint i)
+{
+	indices.push_back(i);
+	aabb.Enclose(App->physics->vertices[i]);
+}
+
+void chunk::CleanIndices()
+{
+	indices.clear();
+}
+
+void chunk::Render()
+{
+	App->renderer3D->DrawAABB(aabb.minPoint, aabb.maxPoint, float4(0.674, 0.784, 0.886, 1.0f));
 }

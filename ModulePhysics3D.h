@@ -9,6 +9,7 @@
 
 #include <list>
 #include <string>
+#include <map>
 
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
@@ -17,6 +18,9 @@
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
 #define MAX_TERRAIN_TEXTURES 10
+
+#define CHUNK_W 32
+#define CHUNK_H 32
 
 class PhysBody3D;
 struct PhysVehicle3D;
@@ -31,8 +35,29 @@ class ComponentCamera;
 
 class btHeightfieldTerrainShape;
 
+class chunk
+{
+public:
+	chunk();
+	~chunk();
+
+	int GetBuffer();
+	int GetNIndices();
+	void GenBuffer();
+	void AddIndex(uint i);
+	void CleanIndices();
+
+	void Render();
+
+private:
+	math::AABB aabb;
+	std::vector<uint> indices;
+	int indices_bufferID = 0;
+};
+
 class ModulePhysics3D : public Module
 {
+	friend class chunk;
 public:
 	ModulePhysics3D(const char* name, bool start_enabled = true);
 	~ModulePhysics3D();
@@ -103,6 +128,11 @@ private:
 	void GenerateIndices();
 	void DeleteIndices();
 
+	void AddIndexToChunk(uint index, float x, int z);
+
+	int GetNChunksW() { return chunks[0].size(); }
+	int GetNChunksH() { return chunks.size(); }
+
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
 public:
 
@@ -127,6 +157,9 @@ private:
 	std::list<PhysVehicle3D*> vehicles;
 
 #pragma region Terrain
+	//Ordering chunks. First map contains Y coordinate, second one X. Chunks[y][x]
+	std::map<int, std::map<int, chunk>> chunks;
+
 	uint* indices = nullptr;
 	float3* vertices = nullptr;
 	float* terrainData = nullptr;
