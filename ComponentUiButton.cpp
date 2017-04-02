@@ -11,6 +11,11 @@
 #include "ComponentCanvas.h"
 #include "imgui\imgui.h"
 
+// Only for Vertical Slice 3
+#include "SDL\include\SDL_scancode.h"
+#include "ComponentAudio.h"
+#include "ModuleAudio.h"
+
 ComponentUiButton::ComponentUiButton(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
@@ -25,8 +30,12 @@ void ComponentUiButton::Update()
 {
 	if (game_object->IsActive())
 	{
-		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN)
+		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_G) == KEY_STATE::KEY_DOWN)
 		{
+			// Only for Vertical Slice 3 --> Launching Double Drum sound
+			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
+			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
+
 			if (UImaterial->texture_ids.size() >= 2)
 			{
 				uint tmp = UImaterial->texture_ids.at("0");
@@ -50,7 +59,7 @@ void ComponentUiButton::CleanUp()
 
 void ComponentUiButton::OnInspector(bool debug)
 {
-	std::string str = (std::string("UI Image") + std::string("##") + std::to_string(uuid));
+	std::string str = (std::string("UI Button") + std::string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
 		if (ImGui::IsItemClicked(1))
@@ -107,4 +116,14 @@ void ComponentUiButton::Load(Data & conf)
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
+}
+
+void ComponentUiButton::Reset()
+{
+	if (UImaterial->texture_ids.size() >= 2)
+	{
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+		UImaterial->texture_ids.at("1") = tmp;
+	}
 }

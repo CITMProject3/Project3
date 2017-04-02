@@ -6,9 +6,14 @@
 #include "imgui\imgui.h"
 #include "ModuleInput.h"
 #include "ComponentUiText.h"
+#include "ComponentUiButton.h"
 #include "RaceTimer.h"
 #include "ComponentCar.h"
 #include "PhysVehicle3D.h"
+
+// Only for Vertical Slice 3
+#include "ComponentAudio.h"
+#include "ModuleAudio.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
@@ -26,13 +31,21 @@ void ComponentCanvas::Update()
 {
 	if (scene_to_change != current_scene)
 		OnChangeScene();
-	GameObject* obj;
+
+	GameObject* obj = nullptr;
 	switch (current_scene)
 	{
 		//Main menu
 	case 0:
 		if (player_1_ready && player_2_ready)
+		{
 			scene_to_change = 1;
+
+			// Only for Vertical Slice 3
+			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
+			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
+		}
+			
 		break;
 		//GamePlayMenu
 	case 1:
@@ -43,16 +56,30 @@ void ComponentCanvas::Update()
 			if (play_timer != nullptr)
 			{
 				int min, sec, milsec = 0;
-				if (current_car->lap != r_timer->GetCurrentLap())
+				if ((current_car->lap+1) != r_timer->GetCurrentLap())
 					r_timer->AddLap();
-				r_timer->GetLapTime(current_car->lap, min, sec, milsec);
-				string str = to_string(min) + ":" + to_string(sec) + ":" + to_string(milsec);
+				r_timer->GetCurrentLapTime(min, sec, milsec);
+				string min_te = to_string(min);
+				string sec_te = to_string(sec);
+				string mil_te = to_string(milsec);
+				if (min < 10)
+					min_te = "0" + min_te;
+				if (sec < 10)
+					sec_te = "0" + sec_te;
+				if (milsec < 100)
+					mil_te = "0" + mil_te;
+				string str = min_te + ":" + sec_te + ":" + mil_te;
 				play_timer->SetDisplayText(str);
 			}
 
 			if (kmh_text != nullptr)
 			{
-				string str = to_string(int(current_car->GetVelocity())) + "k";
+				int vel = current_car->GetVelocity();
+				string str;
+				if(vel < 10)
+					str = "0" + to_string(vel) + "k";
+				else
+					str = to_string(vel) + "k";
 				kmh_text->SetDisplayText(str);
 			}
 		}
@@ -77,6 +104,21 @@ void ComponentCanvas::Update()
 
 void ComponentCanvas::OnPlay()
 {
+	GameObject* obj_b = (*game_object->GetChilds()).at(0);
+	if (obj_b != nullptr)
+	{
+		GameObject* obj_child_b1 = (*obj_b->GetChilds()).at(3);
+		if (obj_child_b1 != nullptr)
+		{
+			button1 = (ComponentUiButton*)obj_child_b1->GetComponent(C_UI_BUTTON);
+		}
+
+		GameObject* obj_child_b2 = (*obj_b->GetChilds()).at(4);
+		if (obj_child_b2 != nullptr)
+		{
+			button2 = (ComponentUiButton*)obj_child_b2->GetComponent(C_UI_BUTTON);
+		}
+	}
 	GameObject* obj = (*game_object->GetChilds()).at(1);
 	if (obj != nullptr)
 	{
@@ -98,6 +140,36 @@ void ComponentCanvas::OnPlay()
 
 		}
 	}
+
+	GameObject* obji = (*game_object->GetChilds()).at(2);
+	if (obji != nullptr)
+	{
+		GameObject* obj_child_time = (*game_object->GetChilds()).at(2)->GetChilds()->at(0);
+		if (obj_child_time != nullptr)
+		{
+			win_timer = (ComponentUiText*)obj_child_time->GetComponent(C_UI_TEXT);
+
+			
+		}
+
+		GameObject* obj_child_time1 = (*game_object->GetChilds()).at(2)->GetChilds()->at(1);
+		if (obj_child_time1 != nullptr)
+		{
+			lap1 = (ComponentUiText*)obj_child_time1->GetComponent(C_UI_TEXT);
+		}
+
+		GameObject* obj_child_time2 = (*game_object->GetChilds()).at(2)->GetChilds()->at(2);
+		if (obj_child_time2 != nullptr)
+		{
+			lap2 = (ComponentUiText*)obj_child_time2->GetComponent(C_UI_TEXT);
+		}
+		GameObject* obj_child_time3 = (*game_object->GetChilds()).at(2)->GetChilds()->at(3);
+		if (obj_child_time3 != nullptr)
+		{
+			lap3 = (ComponentUiText*)obj_child_time3->GetComponent(C_UI_TEXT);
+		}
+	}
+
 	vector<GameObject*> all_objects;
 	App->go_manager->root->CollectAllChilds(all_objects);
 	for (vector<GameObject*>::const_iterator obj = all_objects.begin(); obj != all_objects.end(); ++obj)
@@ -219,10 +291,17 @@ void ComponentCanvas::OnChangeScene()
 				tmp_childs.at(1)->SetActive(true);
 				tmp_childs.at(2)->SetActive(false);	
 			}
+
+			if (button1 != nullptr)
+				button1->Reset();
+
+			if (button2 != nullptr)
+				button2->Reset();
+
 			player_1_ready = false;
 			player_2_ready = false;
 			r_timer->Start();
-			r_timer->AddLap();
+			//r_timer->AddLap();
 		}
 		current_scene = scene_to_change;
 		
@@ -242,6 +321,91 @@ void ComponentCanvas::OnChangeScene()
 
 		if (scene_to_change == 2)
 		{
+			if (current_car != nullptr)
+			{
+				if (win_timer != nullptr)
+				{
+					r_timer->AddLap();
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetAllLapsTime(min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						win_timer->SetDisplayText(str);
+					}
+				}
+
+				if (lap1 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if (r_timer->GetLapTime(2,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap1->SetDisplayText(str);
+					}
+				}
+
+				if (lap2 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetLapTime(3,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap2->SetDisplayText(str);
+					}
+				}
+
+				if (lap3 != nullptr)
+				{
+					int min, sec, milsec = 0;
+					if ((current_car->lap + 1) != r_timer->GetCurrentLap())
+						r_timer->AddLap();
+					if (r_timer->GetLapTime(4,min, sec, milsec))
+					{
+						string min_te = to_string(min);
+						string sec_te = to_string(sec);
+						string mil_te = to_string(milsec);
+						if (min < 10)
+							min_te = "0" + min_te;
+						if (sec < 10)
+							sec_te = "0" + sec_te;
+						if (milsec < 100)
+							mil_te = "0" + mil_te;
+						string str = min_te + ":" + sec_te + ":" + mil_te;
+						lap3->SetDisplayText(str);
+					}
+				}
+			}
 			vector<GameObject*> tmp_childs = (*game_object->GetChilds());
 			if (tmp_childs.size() > 2)
 			{
@@ -249,6 +413,7 @@ void ComponentCanvas::OnChangeScene()
 				tmp_childs.at(1)->SetActive(false);
 				tmp_childs.at(2)->SetActive(true);
 			}
+			
 		}
 		current_scene = scene_to_change;
 		break;

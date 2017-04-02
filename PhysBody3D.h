@@ -40,6 +40,7 @@ public:
 	void SetPos(float x, float y, float z);
 	void Stop();
 	void SetRotation(float x, float y, float z);
+	void SetRotation(Quat rot);
 	void SetAngularSpeed(float x, float y, float z);
 	void SetLinearSpeed(float x, float y, float z);
 	void SetModularSpeed(float s);

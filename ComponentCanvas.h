@@ -6,6 +6,7 @@ class GameObject;
 class RaceTimer;
 class ComponentCar;
 class ComponentUiText;
+class ComponentUiButton;
 
 class ComponentCanvas : public Component
 {
@@ -26,7 +27,9 @@ public:
 	void SetPlayerReady(int num_player, bool ready);
 	void SetWin(bool win);
 	vector<GameObject*> GetUI();
+
 private:
+
 	void OnChangeScene();
 	vector<GameObject*> GetGameObjectChilds(GameObject* go);
 	GameObject* go_focus = nullptr;
@@ -42,6 +45,11 @@ private:
 	ComponentUiText* play_timer = nullptr;
 	ComponentUiText* win_timer = nullptr;
 	ComponentUiText* kmh_text = nullptr;
+	ComponentUiText* lap1 = nullptr;
+	ComponentUiText* lap2 = nullptr;
+	ComponentUiText* lap3 = nullptr;
+	ComponentUiButton* button1 = nullptr;
+	ComponentUiButton* button2 = nullptr;
 };
 
 #endif __COMPONENTCANVAS_H__

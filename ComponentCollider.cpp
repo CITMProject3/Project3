@@ -43,7 +43,10 @@ void ComponentCollider::Update()
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
 
-			primitive->Render();
+			if (App->StartInGame() == false)
+			{
+				primitive->Render();
+			}
 		}
 	}
 	else
@@ -57,7 +60,10 @@ void ComponentCollider::Update()
 			body->GetTransform().Transposed().Decompose(translate, rotation, scale);
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
-			primitive->Render();
+			if (App->StartInGame() == false)
+			{
+				primitive->Render();
+			}
 			float3 real_offset = rotation.Transform(offset_pos);
 			game_object->transform->Set(float4x4::FromTRS(translate - real_offset, rotation, game_object->transform->GetScale()));
 		}
@@ -176,14 +182,22 @@ void ComponentCollider::OnInspector(bool debug)
 				}
 				if (a)
 				{
-					ImGui::InputInt("Checkpoint number", &n, 1);
-					if (n > 8) { n = 8; }
+					ImGui::Text("Checkpoint number:");
+					ImGui::InputInt("##Cp_number", &n, 1);
+					if (n > 200) { n = 200; }
 					if (n < 0) { n = 0; }
 				}
 
 				a = ReadFlag(collision_flags, PhysBody3D::co_isFinishLane);
 				if (ImGui::Checkbox("Is finish Lane", &a)) {
 					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
+				}
+				if (a)
+				{
+					ImGui::Text("Checkpoint number:\n(Finish lane must be the last checkpoint)");
+					ImGui::InputInt("##Cp_number_last", &n, 1);
+					if (n > 200) { n = 200; }
+					if (n < 0) { n = 0; }
 				}
 
 				a = ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds);
@@ -213,6 +227,7 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendBool("active", active);
 
 	data.AppendUInt("flags", (uint)collision_flags);
+	data.AppendInt("CheckpointN", n);
 
 	data.AppendInt("shape", shape);
 	data.AppendBool("static", Static);
@@ -253,6 +268,7 @@ void ComponentCollider::Load(Data & conf)
 		break;
 	}
 	collision_flags = (unsigned char)conf.GetUInt("flags");
+	n = conf.GetInt("CheckpointN");
 }
 
 void ComponentCollider::SetShape(Collider_Shapes new_shape)

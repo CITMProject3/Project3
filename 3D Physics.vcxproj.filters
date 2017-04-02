@@ -618,6 +618,12 @@
     <ClInclude Include="RaceTimer.h">
       <Filter>Sources\VerticalSlice3</Filter>
     </ClInclude>
+    <ClInclude Include="BtTriProcessor.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="OpenGLDebug.h">
+      <Filter>Sources\Tools</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1033,6 +1039,12 @@
     </ClCompile>
     <ClCompile Include="RaceTimer.cpp">
       <Filter>Sources\VerticalSlice3</Filter>
+    </ClCompile>
+    <ClCompile Include="BtTriProcessor.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="OpenGLDebug.cpp">
+      <Filter>Sources\Tools</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

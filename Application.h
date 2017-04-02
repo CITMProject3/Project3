@@ -89,7 +89,6 @@ private:
 	int fps = 60;
 	int capped_ms = -1;
 
-
 	bool start_in_game = false;
 	GameStates game_state = GAME_STOP;
 

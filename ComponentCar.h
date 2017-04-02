@@ -97,6 +97,7 @@ public:
 	//Input handler during Game (import in the future to scripting)
 	void HandlePlayerInput();
 	void GameLoopCheck();
+	void TurnOver();
 	void Reset();
 	void TrueReset();
 	void LimitSpeed();
@@ -115,6 +116,7 @@ private:
 
 	//Controls methods (to use in different parts)
 	void Brake(float* accel, float* brake);
+	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void Accelerate(float* accel);
@@ -122,7 +124,9 @@ private:
 	bool Push(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+public:
 	void PickItem();
+private:
 	void UseItem(); //provisional
 	void ReleaseItem();
 	void IdleTurn();
@@ -131,6 +135,8 @@ private:
 	void StartDrift();
 	void CalcDriftForces();
 	void EndDrift();
+
+	void UpdateTurnOver();
 
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
@@ -174,6 +180,9 @@ private:
 	ComponentAnimation* p1_animation = nullptr;
 	ComponentAnimation* p2_animation = nullptr;
 
+	//Turn over
+	float turn_over_reset_time = 5.0f;
+
 	//Turn direction
 	float turn_max = 0.7f;
 	float turn_speed = 0.1f;
@@ -183,7 +192,6 @@ private:
 	float decel_brake = 100.0f;
 	float max_velocity = 80.0f;
 	float min_velocity = -20.0f;
-
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
@@ -205,10 +213,13 @@ private:
 	float brake_force = 20.0f;
 	float back_force = 500.0f;
 
+	//Full brake
+	float full_brake_force = 300.0f;
+
 	//Reset
 	float lose_height = 0.0f;
 	float3 reset_pos;
-	float3 reset_rot;
+	Quat reset_rot;
 
 	//Turbos
 	Turbo mini_turbo;
@@ -226,6 +237,10 @@ private:
 
 	//Car mechanics variables --------
 	float top_velocity = 0.0f;
+
+	//Turn over
+	bool turned = false;
+	float timer_start_turned = 0.0f;
 
 	//Boosts
 	float accel_boost = 0.0f;
@@ -290,9 +305,9 @@ private:
 	public:
 	void WentThroughCheckpoint(ComponentCollider* checkpoint);
 	void WentThroughEnd(ComponentCollider* end);
-	unsigned char checkpoints = 0;
+	unsigned char checkpoints = 255;
 	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 1;
+	unsigned int lap = 0;
 
 };
 

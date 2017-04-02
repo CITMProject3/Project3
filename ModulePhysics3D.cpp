@@ -109,11 +109,6 @@ update_status ModulePhysics3D::PreUpdate()
 
 				if (pbodyA && pbodyB)
 				{
-					bool aIsCar = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar);
-					bool bIsCar = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar);
-					bool aIsTrigger = ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger);
-					bool bIsTrigger = ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger);
-
 					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar) &&
 						ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
 					{
@@ -142,13 +137,14 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	RenderTerrain();
+	
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModulePhysics3D::PostUpdate()
 {
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -188,11 +184,10 @@ void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
 		{
-			//Do something
+			car->PickItem();
 		}
 		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
 		{
-			//Do something
 			car->Reset();
 		}
 	}
@@ -271,7 +266,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
 	bool ret = false;
 	//Loading Heightmap Image
-	if (resLibPath != GetHeightmapPath())
+	if (resLibPath != GetHeightmapPath() && resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
@@ -704,6 +699,7 @@ void ModulePhysics3D::RenderTerrain()
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
+		glDisableVertexAttribArray(2);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -953,14 +949,14 @@ void ModulePhysics3D::SetTerrainHeightScale(float scale)
 			}
 		}
 		terrainHeightScaling = scale;
+		GenerateTerrainMesh();
 	}
-	GenerateTerrainMesh();
 }
 
 void ModulePhysics3D::LoadTexture(string resLibPath)
 {
 	//Loading Heightmap Image
-	if (resLibPath != GetTexturePath())
+	if (resLibPath != GetTexturePath() && resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)

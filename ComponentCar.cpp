@@ -18,6 +18,9 @@
 #include "EventLinkGos.h"
 #include "AutoProfile.h"
 
+#include "ModuleGOManager.h"
+#include "ComponentCanvas.h"
+
 #include "ComponentCollider.h"
 
 #include "Time.h"
@@ -43,7 +46,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
-	reset_rot = { 0.0f, 0.0f, 0.0f };
+	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
 
 	for (uint i = 0; i < 4; i++)
 		wheels_go.push_back(nullptr);
@@ -78,7 +81,10 @@ void ComponentCar::Update()
 		if (vehicle)
 		{		
 			HandlePlayerInput();
-			vehicle->Render();
+			if (App->StartInGame() == false)
+			{
+				vehicle->Render();
+			}
 			UpdateGO();
 			GameLoopCheck();
 
@@ -114,6 +120,14 @@ void ComponentCar::OnInspector(bool debug)
 		}
 		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
+		if (lastCheckpoint != nullptr)
+		{
+			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
+		}
+		else
+		{
+			ImGui::Text("Last checkpoint: NULL");
+		}
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
@@ -135,7 +149,11 @@ void ComponentCar::OnInspector(bool debug)
 
 				bool on_t = current_turbo != T_IDLE;
 				ImGui::Checkbox("On turbo", &on_t);
-
+				
+				if (on_t)
+				{
+					ImGui::Text("Time left: %f", (applied_turbo->time - applied_turbo->timer));
+				}
 				bool hasItem = has_item;
 				if (ImGui::Checkbox("Has item", &hasItem))
 				{
@@ -143,6 +161,11 @@ void ComponentCar::OnInspector(bool debug)
 					{
 						PickItem();
 					}
+				}
+
+				if (turned)
+				{
+					ImGui::Text("Time to reset: %f", (turn_over_reset_time - timer_start_turned));
 				}
 
 				ImGui::Text("");
@@ -159,20 +182,20 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::SameLine();
 				ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
 
-				ImGui::Text("Pos");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Rpoint", reset_pos.ptr());
-
-				ImGui::Text("Rot");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Rrot", reset_rot.ptr());
-
 				ImGui::Text("");
 				ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Control settings"))
 			{
+				if (ImGui::TreeNode("Turn over settings"))
+				{
+					ImGui::Text("Time to reset");
+					ImGui::SameLine();
+					if (ImGui::DragFloat("##rt_time", &turn_over_reset_time, 0.1f, 0.5f, 10.0f)) {}
+
+					ImGui::TreePop();
+				}
 				if (ImGui::TreeNode("Acceleration settings"))
 				{
 					ImGui::Text("");
@@ -187,6 +210,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Accel");
 					ImGui::SameLine();
 					if(ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)){}
+
+					ImGui::Text("Deceleration");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##DecelForce", &decel_brake, 1.0f, 0.0f)){}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -220,6 +247,10 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Back force");
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Back_force", &back_force, 1.0f, 0.0f)) {}
+
+					ImGui::Text("Full brake force");
+					ImGui::SameLine();
+					if(ImGui::DragFloat("##full_br_force", &full_brake_force, 1.0f, 0.0f)){}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -458,16 +489,17 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::SameLine();
 					ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
 
-ImGui::Text("Damping");
-ImGui::SameLine();
-ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Damping");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
 
-ImGui::Text("Max force");
-ImGui::SameLine();
-ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
+					ImGui::Text("Max force");
+					ImGui::SameLine();
+					ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
 
-ImGui::TreePop();
+					ImGui::TreePop();
 				}
+
 				if (ImGui::TreeNode("Wheel settings"))
 				{
 					ImGui::Text("Connection height");
@@ -580,8 +612,9 @@ void ComponentCar::OnPlay()
 	if (trs)
 	{
 		reset_pos = trs->GetPosition();
-		reset_rot = trs->GetRotationEuler();
+		reset_rot = trs->GetRotation();
 	}
+	checkpoints = 255;
 }
 
 float ComponentCar::GetVelocity() const
@@ -717,9 +750,17 @@ void ComponentCar::HandlePlayerInput()
 		vehicle->ApplyEngineForce(accel);
 		vehicle->Brake(brake);
 
-		
+		if (!accel && !brake)
+		{
+			vehicle->Brake(decel_brake);
+		}
+
 		LimitSpeed();
 	}
+
+
+
+	UpdateTurnOver();
 }
 
 void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
@@ -795,7 +836,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		{
 			StartDrift();
 		}
-		else if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
+		else if ( drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
 		{
 			EndDrift();
 		}
@@ -817,6 +858,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
 		StartPush();
+		LOG("Key push down");
 //		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
@@ -837,6 +879,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		//current_turbo = T_MINI;
 		ReleaseItem();
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+	{
+		FullBrake(brake);
+	}
+
 
 	//Front player
 	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
@@ -897,8 +945,7 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 	else if (left == false)
 		t_speed = -t_speed;
 
-	//Modified this *10
-	turn_current += t_speed * time->DeltaTime() * 10;
+	turn_current += t_speed * time->DeltaTime();
 
 	if (drifting == false)
 	{
@@ -927,9 +974,24 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.1f)
 	{
-		turn_current = turn_speed * -x_joy_input;
+		if (drifting == false)
+			turn_current = turn_max * -x_joy_input;
+		else
+		{
+			//Normalizing x_joy_input to 0-1 vlaue
+			x_joy_input += 1;
+			x_joy_input /= 2;
 
-		//TODO: adjust this with drifting
+			if (drift_dir_left == true)
+			{
+				
+				turn_current = turn_max * x_joy_input;
+			}
+			else
+			{
+				turn_current = -turn_max * x_joy_input;
+			}
+		}
 		return true;
 	}
 	return false;
@@ -944,6 +1006,11 @@ void ComponentCar::Brake(float* accel, float* brake)
 		*brake = brake_force;
 }
 
+void ComponentCar::FullBrake(float* brake)
+{
+	if (vehicle->GetKmh() > 0)
+		*brake = full_brake_force;
+}
 void ComponentCar::Accelerate(float* accel)
 {
 	*accel += accel_force;
@@ -968,7 +1035,7 @@ bool ComponentCar::Push(float* accel)
 
 void ComponentCar::Leaning(float accel)
 {
-	if (vehicle->GetKmh() > 0.0f)
+	if (vehicle->GetKmh() > 0.0f && current_turbo == T_IDLE)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
@@ -1072,18 +1139,15 @@ void ComponentCar::UseItem()
 
 	if (applied_turbo && current_turbo)
 	{
-
-
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
+			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
 			if (item != nullptr)
 				item->SetActive(false);
 		}
-
 	}
-
 }
 
 void ComponentCar::ReleaseItem()
@@ -1226,6 +1290,7 @@ void ComponentCar::ApplyTurbo()
 
 void ComponentCar::StartDrift()
 {
+	/*
 	if (GetVelocity() >= drift_min_speed)
 	{
 		drifting = true;
@@ -1233,6 +1298,7 @@ void ComponentCar::StartDrift()
 		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
 		vehicle->SetFriction(0);
 	}
+	*/
 }
 
 void ComponentCar::CalcDriftForces()
@@ -1321,6 +1387,38 @@ void ComponentCar::EndDrift()
 	turn_current = 0;
 	vehicle->SetFriction(car->frictionSlip);
 	*/
+}
+
+void ComponentCar::UpdateTurnOver()
+{
+	float4x4 matrix;
+	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	float3 up_vector = matrix.WorldY();
+
+	if (up_vector.y < 0 && turned == false)
+	{
+		turned = true;
+	}
+	else if (turned = true)
+	{
+		if (up_vector.y < 0)
+		{
+			timer_start_turned += time->DeltaTime();
+		}
+		else if (up_vector.y > 0)
+		{
+			turned = false;
+			timer_start_turned = 0.0f;
+		}
+		
+		if (timer_start_turned >= turn_over_reset_time)
+		{
+			TurnOver();
+			timer_start_turned = 0.0f;
+			turned = false;
+		}
+	}
+		
 }
 
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
@@ -1450,39 +1548,16 @@ void ComponentCar::UpdateP2Animation()
 
 void ComponentCar::WentThroughCheckpoint(ComponentCollider* checkpoint)
 {
-	lastCheckpoint = checkpoint->GetGameObject();
-	switch (checkpoint->n)
+	if (checkpoint->n == checkpoints + 1)
 	{
-	case 0:
-		checkpoints |= 0x01;
-		break;
-	case 1:
-		checkpoints |= 0x02;
-		break;
-	case 2:
-		checkpoints |= 0x04;
-		break;
-	case 3:
-		checkpoints |= 0x08;
-		break;
-	case 4:
-		checkpoints |= 0x010;
-		break;
-	case 5:
-		checkpoints |= 0x20;
-		break;
-	case 6:
-		checkpoints |= 0x40;
-		break;
-	case 7:
-		checkpoints |= 0x80;
-		break;
+		lastCheckpoint = checkpoint->GetGameObject();
+		checkpoints = checkpoint->n;
 	}
 }
 
 void ComponentCar::WentThroughEnd(ComponentCollider * end)
 {
-	if (checkpoints >= 255)
+	if (checkpoints + 1 >= end->n)
 	{
 		checkpoints = 0;
 		lap++;
@@ -1498,7 +1573,17 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 void ComponentCar::GameLoopCheck()
 {
 	if (game_object->transform->GetPosition().y <= lose_height)
-		Reset();
+		TurnOver();
+}
+
+void ComponentCar::TurnOver()
+{
+	Reset();
+	/*float3 current_pos = vehicle->GetPos();
+	current_pos.y += 2;
+	float4x4 matrix = float4x4::identity;
+	matrix.Translate(current_pos);
+	vehicle->SetTransform(matrix.ptr());*/
 }
 
 void ComponentCar::Reset()
@@ -1511,16 +1596,22 @@ void ComponentCar::Reset()
 	else
 	{
 		ComponentTransform* trs = (ComponentTransform*)lastCheckpoint->GetComponent(C_TRANSFORM);
-		float3 tmp = trs->GetPosition();
-		vehicle->SetPos(tmp.x, tmp.y, tmp.z);
-		tmp = trs->GetRotationEuler();
-		vehicle->SetRotation(tmp.x, tmp.y, tmp.z);
+		float3 pos = trs->GetPosition();
+		vehicle->SetPos(pos.x, pos.y, pos.z);
+		Quat rot = trs->GetRotation();
+		vehicle->SetRotation(rot);
 	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
 }
 
 void ComponentCar::TrueReset()
 {
+	if (App->go_manager->current_scene_canvas != nullptr)
+	{
+		App->go_manager->current_scene_canvas->SetWin(true);
+	}
+
 	lastCheckpoint = nullptr;
 	lap = 1;
 	Reset();
@@ -1641,7 +1732,7 @@ void ComponentCar::UpdateGO()
 	}
 
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
-
+	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
 	{
 		if (wheels_go[i] != nullptr)
@@ -1656,7 +1747,7 @@ void ComponentCar::UpdateGO()
 			w_trs->SetScale(scale);
 		}
 	}
-
+	*/
 	//Updating turn animation
 	if (p1_animation != nullptr)
 	{
@@ -1679,7 +1770,6 @@ void ComponentCar::UpdateGO()
 		{
 			p1_animation->PlayAnimation((uint)0, 0.5f);
 			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
-			LOG("ratio: %f", ratio);
 			p1_animation->LockAnimationRatio(ratio);
 		}
 	}
@@ -1744,18 +1834,20 @@ void ComponentCar::Save(Data& file) const
 
 	//Game loop settings
 	data.AppendFloat("lose_height", lose_height);
-	data.AppendFloat3("reset_pos", reset_pos.ptr());
-	data.AppendFloat3("reset_rot", reset_rot.ptr());
 
 	//Chassis settings
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
 	//Controls settings --------------
+	//Turn over
+	data.AppendFloat("turn_over_reset_time", turn_over_reset_time);
+
 	//Acceleration
 	data.AppendFloat("acceleration", accel_force);
 	data.AppendFloat("max_speed", max_velocity);
 	data.AppendFloat("min_speed", min_velocity);
+	data.AppendFloat("fake_break", decel_brake);
 
 	//Turn 
 	data.AppendFloat("turn_max", turn_max);
@@ -1768,6 +1860,7 @@ void ComponentCar::Save(Data& file) const
 	//Brake
 	data.AppendFloat("brakeForce", brake_force);
 	data.AppendFloat("backForce", back_force);
+	data.AppendFloat("full_brake_force", full_brake_force);
 
 	//Leaning
 	data.AppendFloat("lean_accel_boost", lean_top_acc);
@@ -1873,18 +1966,24 @@ void ComponentCar::Load(Data& conf)
 
 	//Game loop settings
 	lose_height = conf.GetFloat("lose_height");
-	reset_pos = conf.GetFloat3("reset_pos");
-	reset_rot = conf.GetFloat3("reset_rot");
 
 	//Chassis settings
 	chasis_size = conf.GetFloat3("chasis_size");
 	chasis_offset = conf.GetFloat3("chasis_offset");
 
 	//Gameplay settings-----------------
+	//Turn over
+	turn_over_reset_time = conf.GetFloat("turn_over_reset_time");
+	if(turn_over_reset_time < 0.2f)
+	{
+		turn_over_reset_time = 4.0f;
+	}
+
 	//Acceleration
 	accel_force = conf.GetFloat("acceleration"); 
 	max_velocity = conf.GetFloat("max_speed"); 
 	min_velocity = conf.GetFloat("min_speed");
+	decel_brake = conf.GetFloat("fake_break");
 
 	//Turn 
 	turn_max = conf.GetFloat("turn_max"); 
@@ -1897,6 +1996,7 @@ void ComponentCar::Load(Data& conf)
 	//Brake
 	brake_force = conf.GetFloat("brakeForce"); 
 	back_force = conf.GetFloat("backForce"); 
+	full_brake_force = conf.GetFloat("full_brake_force");
 
 	//Leaning
 	lean_top_acc = conf.GetFloat("lean_accel_boost");  

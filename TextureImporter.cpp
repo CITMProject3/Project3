@@ -58,7 +58,7 @@ bool TextureImporter::Load(ResourceFileTexture * res)
 		ilGenImages(1, &id);
 		ilBindImage(id);
 		if (ilLoadL(IL_DDS, (const void*)buffer, size))
-		{
+		{		
 			ILinfo info;
 			iluGetImageInfo(&info);
 			
@@ -104,4 +104,9 @@ int TextureImporter::LoadSimpleFile(const char * name)
 	delete[] buffer;
 
 	return ret;
+}
+
+void TextureImporter::Unload(unsigned int id)
+{
+	ilDeleteImages(1, &id);
 }
