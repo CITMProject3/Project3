@@ -27,6 +27,7 @@ public:
 	uint GetNumElements() const;
 
 private:
+	int player_controlling = 1;
 	int num_elements = 0;
 	GameObject* grid_focus = nullptr;
 	bool grid_enabled = false;
