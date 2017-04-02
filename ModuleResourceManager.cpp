@@ -24,6 +24,7 @@
 #include "ResourceFileMesh.h"
 #include "ResourceFileTexture.h"
 #include "ResourceFilePrefab.h"
+#include "ResourceScriptsLibrary.h"
 
 #include "Assimp/include/cimport.h"
 #include "Assimp/include/scene.h"
@@ -65,7 +66,8 @@ bool ModuleResourceManager::Start()
 {
 	default_shader = ShaderCompiler::LoadDefaultShader();
 	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
-	if(App->StartInGame() == false)
+	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
+	if (App->StartInGame() == false)
 		UpdateAssetsAuto();
 	return true;
 }
@@ -84,7 +86,7 @@ update_status ModuleResourceManager::Update()
 		}
 	}
 
-	
+
 	return UPDATE_CONTINUE;
 }
 
@@ -95,7 +97,7 @@ bool ModuleResourceManager::CleanUp()
 	return true;
 }
 
-void ModuleResourceManager::UpdateAssetsAuto() 
+void ModuleResourceManager::UpdateAssetsAuto()
 {
 	vector<tmp_mesh_file> mesh_files;
 	UpdateAssetsAutoRecursive(ASSETS_FOLDER, LIBRARY_FOLDER, mesh_files);
@@ -114,7 +116,7 @@ void ModuleResourceManager::UpdateAssetsAuto()
 	mesh_files.clear();
 }
 
-void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files) 
+void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, const string& library_dir, vector<tmp_mesh_file>& mesh_files)
 {
 	//Get All files and folders
 	vector<string> files, folders;
@@ -126,8 +128,6 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 	{
 		if (GetFileExtension((*file).c_str()) != FileType::NONE)
 		{
-			string file_name = (*file).substr(0, (*file).find_first_of("."));
-
 			bool meta_found = false;
 			//Search for the meta
 			for (vector<string>::const_iterator meta = files.begin(); meta != files.end(); ++meta)
@@ -136,14 +136,14 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 				if (strcmp((*meta).substr((*meta).find_last_of(".") + 1, 4).c_str(), meta_ext) == 0)
 				{
 					string meta_name = (*meta).substr(0, (*meta).find_last_of("."));
-					if (file_name.compare(meta_name) == 0)
+					if ((*file).compare(meta_name) == 0)
 					{
 						meta_found = true;
 						string meta_complete_path = assets_dir + *meta;
 						UpdateFileWithMeta(meta_complete_path, assets_dir, library_dir);
 						break;
 					}
-				}	
+				}
 			}
 
 			if (!meta_found)
@@ -189,7 +189,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 			}
 		}
 
-		
+
 		if (!meta_found)
 		{
 			library_path = library_dir;
@@ -202,7 +202,7 @@ void ModuleResourceManager::UpdateAssetsAutoRecursive(const string& assets_dir, 
 
 }
 
-void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir) 
+void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const string& base_assets_dir, const string& base_lib_dir)
 {
 	unsigned int type, uuid;
 	double time_mod;
@@ -213,8 +213,8 @@ void ModuleResourceManager::UpdateFileWithMeta(const string& meta_file, const st
 	if (App->file_system->Exists(library_path.data()))
 	{
 		//Check file modification
-		double lib_mod_time = App->file_system->GetLastModificationTime(library_path.data());
-		if (time_mod > lib_mod_time)
+		double lib_mod_time = App->file_system->GetLastModificationTime(assets_path.data());
+		if (time_mod < lib_mod_time)
 		{
 			ImportFileWithMeta(type, uuid, library_path, assets_path, base_assets_dir, base_lib_dir, meta_file); //Is the same method. It will create the folder in library again. NP
 		}
@@ -235,54 +235,57 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 
 	switch (type)
 	{
-		case IMAGE:
-			ImportFile(assets_path.data(), base_assets_dir, base_lib_dir, uuid);
-			break;
-		case MESH:
-		{
-			tmp_mesh_file_uuid tmp;
-			tmp.mesh_path = assets_path.data();
-			tmp.assets_folder = base_assets_dir.data();
-			tmp.library_folder = base_lib_dir.data();
-			tmp.uuid = uuid;
-			tmp.meta_path = meta_path.data();
+	case IMAGE:
+		TextureImporter::Import(library_path.data(), assets_path.data());
+		break;
+	case MESH:
+	{
+		tmp_mesh_file_uuid tmp;
+		tmp.mesh_path = assets_path.data();
+		tmp.assets_folder = base_assets_dir.data();
+		tmp.library_folder = base_lib_dir.data();
+		tmp.uuid = uuid;
+		tmp.meta_path = meta_path.data();
 
-			tmp_mesh_uuid_files.push_back(tmp);
-		}
-			break;
+		tmp_mesh_uuid_files.push_back(tmp);
+	}
+	break;
 
-		case PREFAB:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
-		case SCENE:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
-		case VERTEX:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
-		case FRAGMENT:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
-		case MATERIAL:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
-		case SOUNDBANK:
-		{
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data()); // Soundbank
+	case PREFAB:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case SCENE:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case VERTEX:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case FRAGMENT:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case MATERIAL:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case SOUNDBANK:
+	{
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data()); // Soundbank
 
-			string json_file_path = assets_path.substr(0, assets_path.find_last_of('.')) + ".json";
-			string lib_json_path = library_path.substr(0, library_path.find_last_of('/') + 1);	
-			lib_json_path += std::to_string(uuid) + ".json";
-			App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data()); // JSON
-			break;
-		}			
-		case RENDER_TEXTURE:
-			App->file_system->DuplicateFile(assets_path.data(), library_path.data());
-			break;
+		string json_file_path = assets_path.substr(0, assets_path.find_last_of('.')) + ".json";
+		string lib_json_path = library_path.substr(0, library_path.find_last_of('/') + 1);
+		lib_json_path += std::to_string(uuid) + ".json";
+		App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data()); // JSON
+		break;
+	}
+	case RENDER_TEXTURE:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	case SCRIPTS_LIBRARY:
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
 	}
 }
 
-void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const string& base_dir, const string& base_library_dir, unsigned int id, const string& meta_path) 
+void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const string& base_dir, const string& base_library_dir, unsigned int id, const string& meta_path)
 {
 	uint uuid = id;
 
@@ -306,7 +309,7 @@ void ModuleResourceManager::ImportMeshFileWithMeta(const char* path, const strin
 	if (App->file_system->Load(meta_path.data(), &buffer) > 0)
 	{
 		Data meta(buffer);
-		
+
 		int size_meshes = meta.GetArraySize("meshes");
 		for (int i = size_meshes - 1; i >= 0; i--)
 		{
@@ -466,8 +469,12 @@ ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceF
 			rc_file->Load();
 			break;
 		case RES_PREFAB:
-			rc_file = new ResourceFilePrefab(type, path, uuid); 
+			rc_file = new ResourceFilePrefab(type, path, uuid);
 			rc_file->Load(); //This load doesn't actually do his job. Needs to call another load method after this.
+			break;
+		case RES_SCRIPTS_LIBRARY:
+			rc_file = new ResourceScriptsLibrary(type, path, uuid);
+			rc_file->Load();
 			break;
 		}
 
@@ -539,29 +546,30 @@ ResourceFile * ModuleResourceManager::FindResourceByLibraryPath(const string & l
 void ModuleResourceManager::SaveScene(const char * file_name, string base_library_path)
 {
 	string name_to_save = file_name;
-
-	Data root_node;
-	root_node.AppendArray("GameObjects");
-
-	App->go_manager->root->Save(root_node);
-
-	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-	root_node.AppendString("terrain_texture", App->physics->GetTexturePath());
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	
-	char* buf;
-	size_t size = root_node.Serialize(&buf);
-
 	//Add extension if doesn't have it yet
 	if (name_to_save.find(".ezx", name_to_save.length() - 4) == string::npos)
 		name_to_save += ".ezx";
 
-	App->go_manager->SetCurrentScenePath(name_to_save.c_str());
+	// Saving SCENE information
+	Data root_node;
+	root_node.AppendArray("GameObjects");
+	App->go_manager->root->Save(root_node);
 
-	App->file_system->Save(name_to_save.data(), buf, size);
-	
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 
-	string meta_file = name_to_save.substr(0, name_to_save.length() - 4) + ".meta";
+	root_node.AppendArray("terrain_textures");
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		Data texture;
+		texture.AppendString("path", App->physics->GetTexturePath(n));
+		root_node.AppendArrayValue(texture);
+	}
+
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
+	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
+
+	string library_scene_path;
+	string meta_file = name_to_save + ".meta";
 	if (App->file_system->Exists(meta_file.data()))
 	{
 		char* meta_buf;
@@ -570,12 +578,13 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		if (meta_size > 0)
 		{
 			Data meta_data(meta_buf);
-			string library_path = meta_data.GetString("library_path");
-			App->file_system->Save(library_path.data(), buf, size);
+			library_scene_path = meta_data.GetString("library_path");
+			//App->file_system->Save(library_path.data(), buf, size);
 		}
 		else
 		{
-			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			LOG("[ERROR] While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name_to_save.data());
 		}
 
 		delete[] meta_buf;
@@ -585,16 +594,31 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 		unsigned int uuid = App->rnd->RandomInt();
 		string library_dir = base_library_path + "/" + std::to_string(uuid) + "/";
 		App->file_system->GenerateDirectory(library_dir.data());
-		string library_filename = library_dir + std::to_string(uuid) + ".ezx";
-		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_filename.data());
-		App->file_system->Save(library_filename.data(), buf, size); //Duplicate the file in library
+		library_scene_path = library_dir + std::to_string(uuid) + ".ezx";
+		GenerateMetaFile(name_to_save.data(), FileType::SCENE, uuid, library_scene_path.data());
+		//App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
 	}
 
+	root_node.AppendString("current_assets_scene_path", name_to_save.c_str());
+	App->go_manager->SetCurrentAssetsScenePath(name_to_save.c_str());
+	root_node.AppendString("current_library_scene_path", library_scene_path.c_str());
+	App->go_manager->SetCurrentLibraryScenePath(library_scene_path.c_str());
+
+	char* buf;
+	size_t size = root_node.Serialize(&buf);
+	App->file_system->Save(name_to_save.data(), buf, size);
+	App->file_system->Save(library_scene_path.data(), buf, size); //Duplicate the file in library
+
 	delete[] buf;
+
+	std::string textureMapPath = library_scene_path.substr(0, library_scene_path.length() - 3);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 	App->editor->RefreshAssets();
 }
 
-bool ModuleResourceManager::LoadScene(const char * file_name)
+bool ModuleResourceManager::LoadScene(const char *file_name)
 {
 	bool ret = false;
 	//TODO: Now the current scene is destroyed. Ask the user if wants to save the changes.
@@ -603,13 +627,20 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 	uint size = App->file_system->Load(file_name, &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading Scene: %s", file_name);
+		LOG("[ERROR] While loading Scene %s", file_name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading scene %s", file_name);
+
 		if (buffer)
 			delete[] buffer;
 		return false;
 	}
 
 	Data scene(buffer);
+	const char *scene_path = scene.GetString("current_assets_scene_path");
+	if (scene_path) App->go_manager->SetCurrentAssetsScenePath(scene_path);
+	scene_path = scene.GetString("current_library_scene_path");
+	if (scene_path) App->go_manager->SetCurrentLibraryScenePath(scene_path);
+
 	Data root_objects;
 	root_objects = scene.GetArray("GameObjects", 0);
 
@@ -625,30 +656,53 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 			else
 				App->go_manager->LoadGameObject(scene.GetArray("GameObjects", i));
 		}
-		App->go_manager->SetCurrentScenePath(file_name);
+
+		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
 		const char* terrain = scene.GetString("terrain");
-		const char*  terrain_texture = scene.GetString("terrain_texture");
-		float scaling = scene.GetFloat("terrain_scaling");
-
 		if (terrain)
 		{
 			App->physics->GenerateHeightmap(terrain);
 		}
 
-		if (terrain_texture)
+		while (App->physics->GetNTextures() > 0)
 		{
-			App->physics->LoadTexture(terrain_texture);
+			App->physics->DeleteTexture(0);
+		}
+		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
+		{
+			Data tex = scene.GetArray("terrain_textures", i);
+			App->physics->LoadTexture(tex.GetString("path"));
 		}
 
-		App->physics->SetTerrainHeightScale(scaling);
+		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
+		App->physics->SetTextureScaling(scene.GetFloat("terrain_tex_scaling"));
 
-
+		std::string textureMapPath;
+		int len = 0;
+		if (scene_path != nullptr)
+		{
+			textureMapPath = scene_path;			
+		}
+		else
+		{
+			textureMapPath = file_name;
+		}
+		len = textureMapPath.find(".ezx");
+		if (len == string::npos)
+		{
+			len = textureMapPath.find(".json");
+		}
+		len++;
+		textureMapPath = textureMapPath.substr(0, len);
+		textureMapPath += "txmp";
+		App->physics->LoadTextureMap(textureMapPath.data());
 		ret = true;
 	}
 	else
 	{
-		LOG("The scene %s is not a valid scene file", file_name);
+		LOG("[WARNING] The scene %s is not a valid scene file", file_name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "The scene %s is not a valid scene file", file_name);
 	}
 
 	delete[] buffer;
@@ -660,7 +714,7 @@ bool ModuleResourceManager::LoadScene(const char * file_name)
 
 void ModuleResourceManager::ReloadScene()
 {
-	string current_scene = App->go_manager->GetCurrentScenePath();
+	string current_scene = App->go_manager->GetCurrentLibraryScenePath();
 	if (current_scene.size() > 0)
 	{
 		LoadScene(current_scene.data());
@@ -686,7 +740,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	name += ".pfb";
 	App->file_system->Save(name.data(), buf, size);
 
-	string meta_file = name.substr(0, name.length() - 4) + ".meta";
+	string meta_file = name + ".meta";
 	string library_path;
 	if (App->file_system->Exists(meta_file.data()))
 	{
@@ -702,6 +756,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		else
 		{
 			LOG("Error while opening the meta file(%s) of %s", meta_file.data(), name.data());
+			App->editor->DisplayWarning(WarningType::W_ERROR, "While opening the meta file(%s) of %s", meta_file.data(), name.data());
 		}
 
 		delete[] meta_buf;
@@ -713,7 +768,7 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 		App->file_system->GenerateDirectory(library_dir.data());
 		library_path = library_dir + std::to_string(uuid) + ".pfb";
 		GenerateMetaFile(name.data(), FileType::PREFAB, uuid, library_path.data());
-		App->file_system->Save(library_path.data(), buf, size); 
+		App->file_system->Save(library_path.data(), buf, size);
 	}
 
 	delete[] buf;
@@ -727,9 +782,9 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 
 	gameobject->SetParent(parent);
 	gameobject->prefab_path = library_path.data();
-	
-	
-	
+
+
+
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
@@ -737,7 +792,7 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 	material.Save(path);
 	uint uuid = (_uuid == 0) ? App->rnd->RandomInt() : _uuid;
 	string assets_folder = path;
-	assets_folder = assets_folder.substr(0, assets_folder.find_last_of("/\\")+1);
+	assets_folder = assets_folder.substr(0, assets_folder.find_last_of("/\\") + 1);
 	string library_path = App->editor->assets->FindLibraryDirectory(assets_folder);
 	library_path = library_path + "/" + std::to_string(uuid) + "/";
 	App->file_system->GenerateDirectory(library_path.data());
@@ -756,11 +811,16 @@ unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
 	return default_anim_shader;
 }
 
+unsigned int ModuleResourceManager::GetDefaultTerrainShaderId() const
+{
+	return default_terrain_shader;
+}
+
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
 
-	string meta = assets_file_path.substr(0, assets_file_path.length() - 4);
+	string meta = assets_file_path;
 	meta += ".meta";
 
 	char* buffer = nullptr;
@@ -772,7 +832,8 @@ string ModuleResourceManager::FindFile(const string & assets_file_path) const
 	}
 	else
 	{
-		LOG("Could not find file %s", assets_file_path.data());
+		LOG("[ERROR] Could not find file %s", assets_file_path.c_str());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Could not find file %s", assets_file_path.c_str());
 	}
 	delete[] buffer;
 
@@ -851,7 +912,7 @@ void ModuleResourceManager::CreateRenderTexture(const string & assets_path, cons
 	data.AppendString("library_path", library_name.data());
 
 	int size = data.Serialize(&buffer);
-	
+
 	App->file_system->Save(assets_name.data(), buffer, size);
 	GenerateMetaFile(assets_name.data(), FileType::RENDER_TEXTURE, uuid, library_name);
 	App->file_system->Save(library_name.data(), buffer, size);
@@ -885,13 +946,14 @@ void ModuleResourceManager::SaveRenderTexture(const string & assets_path, const 
 FileType ModuleResourceManager::GetFileExtension(const char * path) const
 {
 	// Extensions must always contain 3 letters!
-	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ", "dae"};
-	char* image_extensions[] = {"png", "PNG", "tga", "TGA", "jpg", "JPG"};
+	char* mesh_extensions[] = { "fbx", "FBX", "obj", "OBJ", "dae" };
+	char* image_extensions[] = { "png", "PNG", "tga", "TGA", "jpg", "JPG" };
 	char* scene_extension = "ezx";
 	char* vertex_extension = "ver";
 	char* fragment_extension = "fra";
 	char* render_texture_extension = "rtx";
 	char* soundbank_extension = "bnk";
+	char* script_library_extension = "dll";
 	char* prefab_extension = "pfb";
 
 	string name = path;
@@ -920,9 +982,12 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	if (extension.compare(soundbank_extension) == 0)
 		return FileType::SOUNDBANK;
 
+	if (extension.compare(script_library_extension) == 0)
+		return FileType::SCRIPTS_LIBRARY;
+
 	if (extension.compare(prefab_extension) == 0)
 		return FileType::PREFAB;
-	
+
 	return NONE;
 }
 
@@ -951,8 +1016,7 @@ void ModuleResourceManager::GenerateMetaFile(const char *path, FileType type, ui
 	size_t size = root.Serialize(&buf);
 
 	string final_path = path;
-	if(is_file)
-		final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+
 	final_path += ".meta";
 
 	App->file_system->Save(final_path.data(), buf, size);
@@ -998,7 +1062,7 @@ void ModuleResourceManager::GenerateMetaFileMesh(const char * path, uint uuid, s
 	size_t size = root.Serialize(&buf);
 
 	string final_path = path;
-	final_path = final_path.substr(0, final_path.length() - 4); //Substract extension. Note: known is: ".png" ".fbx", etc. (4 char)
+
 	final_path += ".meta";
 
 	App->file_system->Save(final_path.data(), buf, size);
@@ -1081,7 +1145,7 @@ void ModuleResourceManager::CreateFolder(const char* assets_path, string& base_l
 	App->file_system->GenerateDirectory(library_path.data());
 
 	GenerateMetaFile(assets_path, FOLDER, uuid, library_path, false);
-	
+
 	base_library_path = library_path;
 }
 
@@ -1091,20 +1155,73 @@ void ModuleResourceManager::NameFolderUpdate(const string &meta_file, const stri
 	if (App->file_system->Load((meta_path + meta_file).c_str(), &buf) > 0)
 	{
 		// Once loaded, deleting meta file associated by older folder
-		App->file_system->Delete((meta_path + meta_file).c_str());	
+		App->file_system->Delete((meta_path + meta_file).c_str());
 
 		Data meta(buf);
 		unsigned int type = meta.GetUInt("Type");
 		unsigned int uuid = meta.GetUInt("UUID");
 		double time_mod = meta.GetDouble("time_mod");
 		const char *lib_path = meta.GetString("library_path");
-		
+
 		string original_path = meta.GetString("original_file");
 		size_t pos = original_path.find(old_folder_name);
 		original_path.replace(pos, old_folder_name.length(), new_folder_name);
 
 		// Generating new meta folder file with new path
-		GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		if ((FileType)type != FileType::MESH)
+			GenerateMetaFile(original_path.c_str(), (FileType)type, uuid, lib_path, is_file);
+		else
+		{
+			vector<unsigned int> meshes_uuids, animations_uuids, bones_uuids;
+
+			if (meta.GetArray("meshes", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("meshes"); i++)
+				{
+					Data mesh_info = meta.GetArray("meshes", i);
+					meshes_uuids.push_back(mesh_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find meshes uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+
+
+			if (meta.GetArray("animations", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("animations"); i++)
+				{
+					Data animation_info = meta.GetArray("animations", i);
+					animations_uuids.push_back(animation_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find animations uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+
+
+			if (meta.GetArray("bones", 0).IsNull() == false)
+			{
+				for (int i = 0; i < meta.GetArraySize("bones"); i++)
+				{
+					Data bones_info = meta.GetArray("bones", i);
+					bones_uuids.push_back(bones_info.GetUInt("uuid"));
+				}
+			}
+			else
+			{
+				LOG("[WARNING] Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+				App->editor->DisplayWarning(WarningType::W_WARNING, "Couldn't find bones uuids in the meta file %s when renaming the folder", meta_path.data());
+			}
+
+			GenerateMetaFileMesh(original_path.c_str(), uuid, lib_path, meshes_uuids, animations_uuids, bones_uuids);
+
+		}
+
 		delete[] buf;
 	}
 }
@@ -1154,6 +1271,8 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 	case SOUNDBANK:
 		SoundbankDropped(path, base_dir, base_library_dir, uuid);
 		break;
+	case SCRIPTS_LIBRARY:
+		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
 	case SCENE:
 		SceneDropped(path, base_dir, base_library_dir, uuid);
 		break;
@@ -1216,7 +1335,7 @@ void ModuleResourceManager::MeshDropped(const char * path, string base_dir, stri
 	vector<unsigned int> bones;
 	MeshImporter::Import(final_mesh_path.data(), file_assets_path.data(), library_dir.data(), meshes_uuids, animations, bones);
 	GenerateMetaFileMesh(file_assets_path.data(), uuid, final_mesh_path, meshes_uuids, animations, bones);
-	
+
 }
 
 void ModuleResourceManager::VertexDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
@@ -1236,7 +1355,7 @@ void ModuleResourceManager::VertexDropped(const char * path, string base_dir, st
 	final_fragment_path += std::to_string(uuid) + ".ver";
 
 	GenerateMetaFile(file_assets_path.data(), FileType::VERTEX, uuid, final_fragment_path);
-	App->file_system->DuplicateFile(file_assets_path.data(), final_fragment_path.data()); 
+	App->file_system->DuplicateFile(file_assets_path.data(), final_fragment_path.data());
 	bool success = ShaderCompiler::TryCompileVertex(final_fragment_path.data());
 	if (success)
 		LOG("Vertex shader %s compiled correctly.", path);
@@ -1259,7 +1378,7 @@ void ModuleResourceManager::FragmentDropped(const char * path, string base_dir, 
 	final_fragment_path += std::to_string(uuid) + ".fra";
 
 	GenerateMetaFile(file_assets_path.data(), FileType::FRAGMENT, uuid, final_fragment_path);
-	App->file_system->DuplicateFile(file_assets_path.data(), final_fragment_path.data()); 
+	App->file_system->DuplicateFile(file_assets_path.data(), final_fragment_path.data());
 	bool success = ShaderCompiler::TryCompileVertex(final_fragment_path.data());
 	if (success)
 		LOG("Fragment shader %s compiled correctly.", path);
@@ -1289,6 +1408,25 @@ void ModuleResourceManager::SoundbankDropped(const char * path, string base_dir,
 	string json_file_path = file_assets_path.substr(0, file_assets_path.find_last_of('.')) + ".json";
 	lib_json_path += std::to_string(uuid) + ".json";
 	App->file_system->DuplicateFile(json_file_path.data(), lib_json_path.data());
+}
+
+void ModuleResourceManager::ScriptLibraryDropped(const char * path, string base_dir, string base_library_dir, unsigned int id) const
+{
+	string file_assets_path;
+	if (App->file_system->Exists(path) == false)
+		file_assets_path = CopyOutsideFileToAssetsCurrentDir(path, base_dir);
+	else
+		file_assets_path = path;
+
+	uint uuid = (id == 0) ? App->rnd->RandomInt() : id;
+	string script_library_path = base_library_dir;
+	script_library_path += std::to_string(uuid) + "/";
+	App->file_system->GenerateDirectory(script_library_path.data());
+
+	// ScriptLibrary metainfo	
+	script_library_path += std::to_string(uuid) + ".dll";
+	GenerateMetaFile(file_assets_path.data(), FileType::SCRIPTS_LIBRARY, uuid, script_library_path);
+	App->file_system->DuplicateFile(file_assets_path.data(), script_library_path.data());
 }
 
 void ModuleResourceManager::SceneDropped(const char * path, std::string base_dir, std::string base_library_dir, unsigned int id) const
@@ -1337,7 +1475,8 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	uint size = App->file_system->Load(library_path.data(), &buffer);
 	if (size == 0)
 	{
-		LOG("Error while loading: %s", library_path.data());
+		LOG("[ERROR] While loading prefab file %s", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab file %s", library_path.data());
 		if (buffer)
 			delete[] buffer;
 		return;
@@ -1357,6 +1496,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	else
 	{
 		LOG("The %s is not a valid mesh/prefab file", library_path.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The %s is not a valid mesh / prefab file", library_path.data());
 	}
 
 	delete[] buffer;
@@ -1379,25 +1519,25 @@ void ModuleResourceManager::CheckDirectoryModification(Directory * directory)
 		{
 			switch ((*file)->type)
 			{
-				case FileType::IMAGE:
-					files_to_replace.push_back((*file)->original_file);
-					files_to_remove.push_back(*file);
-					uuids.push_back((*file)->uuid);
+			case FileType::IMAGE:
+				files_to_replace.push_back((*file)->original_file);
+				files_to_remove.push_back(*file);
+				uuids.push_back((*file)->uuid);
 				break;
-				case FileType::VERTEX:
-					files_to_replace.push_back((*file)->original_file);
-					files_to_remove.push_back(*file);
-					uuids.push_back((*file)->uuid);
-					vertex_to_replace.push_back((*file)->original_file);
+			case FileType::VERTEX:
+				files_to_replace.push_back((*file)->original_file);
+				files_to_remove.push_back(*file);
+				uuids.push_back((*file)->uuid);
+				vertex_to_replace.push_back((*file)->original_file);
 				break;
-				case FileType::FRAGMENT:
-					files_to_replace.push_back((*file)->original_file);
-					files_to_remove.push_back(*file);
-					uuids.push_back((*file)->uuid);
-					fragment_to_replace.push_back((*file)->original_file);
+			case FileType::FRAGMENT:
+				files_to_replace.push_back((*file)->original_file);
+				files_to_remove.push_back(*file);
+				uuids.push_back((*file)->uuid);
+				fragment_to_replace.push_back((*file)->original_file);
 				break;
-			} 
-			
+			}
+
 		}
 	}
 
@@ -1435,7 +1575,7 @@ void ModuleResourceManager::CheckDirectoryModification(Directory * directory)
 			mat->Reload();
 		}
 	}
-	
+
 	for (vector<Directory*>::iterator dir = directory->directories.begin(); dir != directory->directories.end(); ++dir)
 	{
 		CheckDirectoryModification(*dir);

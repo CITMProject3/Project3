@@ -20,7 +20,11 @@ PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
 // ---------------------------------------------------------
 PhysBody3D::~PhysBody3D()
 {
-	delete body;
+	if (body != nullptr)
+	{
+		delete body;
+		body = nullptr;
+	}
 }
 
 // ---------------------------------------------------------

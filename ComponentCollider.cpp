@@ -226,7 +226,14 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
-	data.AppendUInt("flags", (uint)collision_flags);
+	data.AppendBool("flag_isCar", ReadFlag(collision_flags, PhysBody3D::co_isCar));
+	data.AppendBool("flag_isCheckpoint", ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint));
+	data.AppendBool("flag_isFinishLane", ReadFlag(collision_flags, PhysBody3D::co_isFinishLane));
+	data.AppendBool("flag_isItem", ReadFlag(collision_flags, PhysBody3D::co_isItem));
+	data.AppendBool("flag_isOutOfBounds", ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds));
+	data.AppendBool("flag_isTransparent", ReadFlag(collision_flags, PhysBody3D::co_isTransparent));
+	data.AppendBool("flag_isTrigger", ReadFlag(collision_flags, PhysBody3D::co_isTrigger));
+
 	data.AppendInt("CheckpointN", n);
 
 	data.AppendInt("shape", shape);
@@ -267,7 +274,16 @@ void ComponentCollider::Load(Data & conf)
 		((Sphere_P*)primitive)->radius = conf.GetFloat("radius");
 		break;
 	}
-	collision_flags = (unsigned char)conf.GetUInt("flags");
+	
+	collision_flags = 0;
+	SetFlag(collision_flags, PhysBody3D::co_isCar, conf.GetBool("flag_isCar"));
+	SetFlag(collision_flags, PhysBody3D::co_isCheckpoint, conf.GetBool("flag_isCheckpoint"));
+	SetFlag(collision_flags, PhysBody3D::co_isFinishLane, conf.GetBool("flag_isFinishLane"));
+	SetFlag(collision_flags, PhysBody3D::co_isItem, conf.GetBool("flag_isItem"));
+	SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds, conf.GetBool("flag_isOutOfBounds"));
+	SetFlag(collision_flags, PhysBody3D::co_isTransparent, conf.GetBool("flag_isTransparent"));
+	SetFlag(collision_flags, PhysBody3D::co_isTrigger, conf.GetBool("flag_isTrigger"));
+
 	n = conf.GetInt("CheckpointN");
 }
 

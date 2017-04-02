@@ -1,5 +1,6 @@
 #include "ComponentMesh.h"
 #include "Application.h"
+#include "ModuleEditor.h"
 #include "MeshImporter.h"
 #include "imgui\imgui.h"
 #include "GameObject.h"
@@ -14,6 +15,8 @@
 
 #include "ModuleRenderer3D.h"
 #include "ModuleResourceManager.h"
+
+#include "Brofiler/include/Brofiler.h"
 
 ComponentMesh::ComponentMesh(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
@@ -180,9 +183,9 @@ void ComponentMesh::Load(Data & conf)
 	}
 	else
 	{
-		LOG("The go %s component mesh, can't find the path %s to load", game_object->name.data(), path);
-	}
-		
+		LOG("[ERROR] Mesh path (%s) for %s cannot be loaded",path, game_object->name.data());
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Mesh path (%s) for %s cannot be loaded", path, game_object->name.data());
+	}		
 }
 
 void ComponentMesh::Remove()
@@ -224,6 +227,8 @@ void ComponentMesh::AddBone(ComponentBone* bone)
 
 void ComponentMesh::DeformAnimMesh()
 {
+	BROFILER_CATEGORY("ComponentMesh::DeformAnimMesh", Profiler::Color::Maroon)
+
 	bones_trans.clear();
 
 	for (uint i = 0; i < bones_reference.size(); i++)
@@ -248,7 +253,8 @@ void ComponentMesh::InitAnimBuffers()
 
 			if (bones_vertex[i].weights.size() != bones_vertex[i].bone_index.size())
 			{
-				LOG("Error: GameObject(%s) has different number of weights and index in the animation", game_object->name); //Just in case
+				LOG("[WARNING] %s has different number of weights and index in the animation", game_object->name); //Just in case
+				App->editor->DisplayWarning(WarningType::W_WARNING, "%s has different number of weights and index in the animation", game_object->name);
 				return;
 			}
 
@@ -275,7 +281,8 @@ void ComponentMesh::InitAnimBuffers()
 	}
 	else
 	{
-		LOG("Warning: trying to init animation buffers from GameObject '%s' without a mesh", game_object->name);
+		LOG("[WARNING] Trying to init animation buffers from '%s' without a mesh", game_object->name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Trying to init animation buffers from '%s' without a mesh", game_object->name);
 	}
 
 }

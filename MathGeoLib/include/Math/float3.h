@@ -32,7 +32,7 @@
 #include <OgreVector3.h>
 #endif
 #ifdef MATH_BULLET_INTEROP
-#include <LinearMath/btVector3.h>
+#include <../../LinearMath/btVector3.h>
 #endif
 #ifdef MATH_URHO3D_INTEROP
 #include <Urho3D/Math/Vector3.h>

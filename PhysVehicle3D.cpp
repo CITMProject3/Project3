@@ -17,7 +17,11 @@ PhysVehicle3D::PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const
 // ----------------------------------------------------------------------------
 PhysVehicle3D::~PhysVehicle3D()
 {
-	delete vehicle;
+	if (vehicle)
+	{
+		delete vehicle;
+		vehicle = nullptr;
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -134,5 +138,21 @@ vec PhysVehicle3D::GetPos()const
 	ret.x = vehicle->getChassisWorldTransform().getOrigin().getX();
 	ret.y = vehicle->getChassisWorldTransform().getOrigin().getY();
 	ret.z = vehicle->getChassisWorldTransform().getOrigin().getZ();
+	return ret;
+}
+
+bool PhysVehicle3D::IsVehicleInContact() const
+{
+	bool ret = false;
+
+	int num_wheels = vehicle->getNumWheels();
+
+	for (int i = 0; i < num_wheels && ret == false; i++)
+	{
+		btWheelInfo wheel_info = vehicle->getWheelInfo(i);
+
+		ret = wheel_info.m_raycastInfo.m_isInContact;
+	}
+
 	return ret;
 }

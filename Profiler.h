@@ -53,6 +53,6 @@ private:
 	ProfilerSortType sort_type = NAME;
 };
 
-extern Profiler g_Profiler;
+//extern Profiler g_Profiler;
 
 #endif

@@ -7,7 +7,7 @@
 
 class btRaycastVehicle;
 class btVector;
-struct PhysBody3D;
+class PhysBody3D;
 class ComponentCar;
 
 using namespace math;
@@ -62,6 +62,9 @@ public:
 	void SetVelocity(float x, float y, float z, float v);
 	float GetKmh() const;
 	vec GetPos()const;
+
+
+	bool IsVehicleInContact() const;
 public:
 
 	VehicleInfo info;

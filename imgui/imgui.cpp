@@ -610,6 +610,7 @@
 #define IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_PLACEMENT_NEW
 #include "imgui_internal.h"
+#include "../Brofiler/include/Brofiler.h"
 
 #include <ctype.h>      // toupper, isprint
 #include <stdlib.h>     // NULL, malloc, free, qsort, atoi
@@ -2634,6 +2635,7 @@ void ImGui::EndFrame()
 
 void ImGui::Render()
 {
+	BROFILER_CATEGORY("ImGui::Render", Profiler::Color::Magenta);
     ImGuiContext& g = *GImGui;
     IM_ASSERT(g.Initialized);   // Forgot to call ImGui::NewFrame()
 
