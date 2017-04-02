@@ -87,6 +87,7 @@ bool ModulePhysics3D::Start()
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 	CreateGround();
+	GetShaderLocations();
 	return true;
 }
 
@@ -237,6 +238,36 @@ bool ModulePhysics3D::CleanUp()
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics3D::GetShaderLocations()
+{
+	shader_id = App->resource_manager->GetDefaultTerrainShaderId();
+
+	model_location = glGetUniformLocation(shader_id, "model");
+	projection_location = glGetUniformLocation(shader_id, "projection");
+	view_location = glGetUniformLocation(shader_id, "view");
+	n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
+	tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
+	texture_location_0 = glGetUniformLocation(shader_id, "_Texture_0");
+	texture_location_1 = glGetUniformLocation(shader_id, "_Texture_1");
+	texture_location_2 = glGetUniformLocation(shader_id, "_Texture_2");
+	texture_location_3 = glGetUniformLocation(shader_id, "_Texture_3");
+	texture_location_4 = glGetUniformLocation(shader_id, "_Texture_4");
+	texture_location_5 = glGetUniformLocation(shader_id, "_Texture_5");
+	texture_location_6 = glGetUniformLocation(shader_id, "_Texture_6");
+	texture_location_7 = glGetUniformLocation(shader_id, "_Texture_7");
+	texture_location_8 = glGetUniformLocation(shader_id, "_Texture_8");
+	texture_location_9 = glGetUniformLocation(shader_id, "_Texture_9");
+	has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+	texture_location = glGetUniformLocation(shader_id, "_Texture");
+	colorLoc = glGetUniformLocation(shader_id, "material_color");
+	ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+	ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+	has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+	directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+	directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 }
 
 void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
@@ -822,14 +853,17 @@ void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& 
 	it_x->second.AddIndex(i3);
 }
 
-std::vector<chunk> ModulePhysics3D::GetVisibleChunks()
+std::vector<chunk> ModulePhysics3D::GetVisibleChunks(ComponentCamera* camera)
 {
 	std::vector<chunk> ret;
 	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 	{
 		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
 		{
-			ret.push_back(it_x->second);
+			if (it_x->second.GetAABB().Intersects(camera->GetFrustum()))
+			{
+				ret.push_back(it_x->second);
+			}
 		}
 	}
 	return ret;
@@ -872,17 +906,12 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		//Set uniforms
 
 		//Matrices
-		GLint model_location = glGetUniformLocation(shader_id, "model");
 		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
-		GLint projection_location = glGetUniformLocation(shader_id, "projection");
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
-		GLint view_location = glGetUniformLocation(shader_id, "view");
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
-		GLint n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
 		glUniform1i(n_texs_location, textures.size());
 
-		GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 		glUniform1i(tex_distributor_location, 0);
@@ -891,105 +920,146 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		if (textures.size() > 0 && renderWiredTerrain == false)
 		{		
 			uint nTextures = textures.size();
-			GLint texture_location = 0;
 			//TEXTURE 0
 			if (0 < nTextures)
 			{
-				GLint texture_location = glGetUniformLocation(shader_id, "_Texture_0");
-				glUniform1i(texture_location, 1);
+				glUniform1i(texture_location_0, 1);
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 1			
 			if (1 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_1");
-				glUniform1i(texture_location, 2);
+				glUniform1i(texture_location_1, 2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture(GL_TEXTURE_2D, textures[1]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 2
 			if (2 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_2");
-				glUniform1i(texture_location, 3);
+				glUniform1i(texture_location_2, 3);
 				glActiveTexture(GL_TEXTURE3);
 				glBindTexture(GL_TEXTURE_2D, textures[2]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE3);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 3
 			if (3 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_3");
-				glUniform1i(texture_location, 4);
+				glUniform1i(texture_location_3, 4);
 				glActiveTexture(GL_TEXTURE4);
 				glBindTexture(GL_TEXTURE_2D, textures[3]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE4);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 4
 			if (4 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_4");
-				glUniform1i(texture_location, 5);
+				glUniform1i(texture_location_4, 5);
 				glActiveTexture(GL_TEXTURE5);
 				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
 			//TEXTURE 5
 			if (5 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_5");
-				glUniform1i(texture_location, 6);
+				glUniform1i(texture_location_5, 6);
 				glActiveTexture(GL_TEXTURE6);
 				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
 			//TEXTURE 6
 			if (6 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
-				glUniform1i(texture_location, 7);
+				glUniform1i(texture_location_6, 7);
 				glActiveTexture(GL_TEXTURE7);
 				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 7
 			if (7 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
-				glUniform1i(texture_location, 8);
+				glUniform1i(texture_location_7, 8);
 				glActiveTexture(GL_TEXTURE8);
 				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE8);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
 			//TEXTURE 8
 			if (8 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_8");
-				glUniform1i(texture_location, 9);
+				glUniform1i(texture_location_8, 9);
 				glActiveTexture(GL_TEXTURE9);
 				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE9);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
 			//TEXTURE 9
 			if (9 < nTextures)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_9");
-				glUniform1i(texture_location, 10);
+				glUniform1i(texture_location_9, 10);
 				glActiveTexture(GL_TEXTURE10);
 				glBindTexture(GL_TEXTURE_2D, textures[9]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE10);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 			
 		}
 		else
 		{
-			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			glUniform1i(has_tex_location, 1);
-			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
+
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 			glUniform1i(texture_location, 0);
 		}
 
-		GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
 		if (colorLoc != -1)
 		{
 			float4 color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -1000,26 +1070,20 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
 		//Ambient
-		GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
 		if (ambient_intensity_location != -1)
 			glUniform1f(ambient_intensity_location, light.ambient_intensity);
-		GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
 		if (ambient_color_location != -1)
 			glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
 		//Directional
-		GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
 		glUniform1i(has_directional_location, light.has_directional);
 
 		if (light.has_directional)
 		{
-			GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
 			if (directional_intensity_location != -1)
 				glUniform1f(directional_intensity_location, light.directional_intensity);
-			GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
 			if (directional_color_location != -1)
 				glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-			GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 			if (directional_direction_location != -1)
 				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 		}
@@ -1046,7 +1110,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		//Index buffer
-		std::vector<chunk> visibleChunks = GetVisibleChunks();
+		std::vector<chunk> visibleChunks = GetVisibleChunks(camera);
 		for(std::vector<chunk>::iterator it = visibleChunks.begin(); it != visibleChunks.end(); it++)
 		{
 				if (renderChunks)
@@ -1065,29 +1129,6 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(3);
-
-		glActiveTexture(GL_TEXTURE10);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE9);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE8);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE7);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE6);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}

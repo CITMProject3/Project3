@@ -52,6 +52,8 @@ public:
 
 	void Render();
 
+	AABB GetAABB() { return aabb; }
+
 private:
 	math::AABB aabb;
 	std::vector<uint> indices;
@@ -71,6 +73,8 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
+
+	void GetShaderLocations();
 
 	void OnCollision(PhysBody3D* car, PhysBody3D* body);
 
@@ -134,7 +138,7 @@ private:
 	void UpdateChunksAABBs();
 	void AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, float x, int z);
 
-	std::vector<chunk> GetVisibleChunks();
+	std::vector<chunk> GetVisibleChunks(ComponentCamera* camera);
 
 	int GetNChunksW() { return chunks[0].size(); }
 	int GetNChunksH() { return chunks.size(); }
@@ -181,6 +185,40 @@ private:
 	int terrainNormalBuffer = 0;
 
 	int terrainSmoothLevels = 1;
+
+	//Shader locations. Saving all of this avoids having to find all them each frame
+	uint shader_id = 0;
+
+	int model_location = 0;
+	int projection_location = 0;
+	int view_location = 0;
+	int n_texs_location = 0;
+	int tex_distributor_location = 0;
+
+	int texture_location_0 = 0;
+	int texture_location_1 = 0;
+	int texture_location_2 = 0;
+	int texture_location_3 = 0;
+	int texture_location_4 = 0;
+	int texture_location_5 = 0;
+	int texture_location_6 = 0;
+	int texture_location_7 = 0;
+	int texture_location_8 = 0;
+	int texture_location_9 = 0;
+
+	int has_tex_location = 0;
+	int texture_location = 0;
+
+	int colorLoc = 0;
+	int ambient_intensity_location = 0;
+	int ambient_color_location = 0;
+	int has_directional_location = 0;
+
+	int directional_intensity_location = 0;
+	int directional_color_location = 0;
+	int directional_direction_location = 0;
+
+
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
