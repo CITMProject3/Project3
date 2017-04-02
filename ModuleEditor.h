@@ -152,7 +152,7 @@ private:
 	bool save_scene_win = false;
 	string scene_name_to_save;
 
-	float heightMapScaling = 1.0f;
+	float heightmapMaxHeight = 1.0f;
 
 	bool save_quit = false;
 	bool quit = false;
