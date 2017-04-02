@@ -306,3 +306,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 Game/Configuration.json
+*.meta
