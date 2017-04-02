@@ -19,7 +19,7 @@
 #define MAX_TERRAIN_TEXTURES 10
 
 class PhysBody3D;
-struct PhysVehicle3D;
+class PhysVehicle3D;
 struct VehicleInfo;
 
 class DebugDrawer;
@@ -44,7 +44,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	void OnCollision(PhysBody3D* car, PhysBody3D* body);
+	//void OnCollision(PhysBody3D* car, PhysBody3D* body);
 
 	void OnPlay();
 	void OnStop();

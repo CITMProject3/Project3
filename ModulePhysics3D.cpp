@@ -115,41 +115,42 @@ update_status ModulePhysics3D::PreUpdate()
 
 				if (pbodyA && pbodyB)
 				{
-					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar) &&
-						ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
+
+
+
+					/*if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar) && ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isTrigger))
 					{
 						App->physics->OnCollision(pbodyA, pbodyB);
 					}
 
-					if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar) &&
-						ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger))
+					if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar) &&	ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isTrigger))
 					{
 						App->physics->OnCollision(pbodyB, pbodyA);
-					}
+					}*/
 
-					//Scripting
-					ComponentScript* tmp_script = nullptr;
-					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
-						tmp_script = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
-					else
-						tmp_script = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+					////Scripting
+					//ComponentScript* tmp_script = nullptr;
+					//if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
+					//	tmp_script = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+					//else
+					//	tmp_script = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
-					if (tmp_script != nullptr)
-					{
-						tmp_script->OnCollision(pbodyB);
-					}
-					else
-					{
-						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
-							tmp_script = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
-						else
-							tmp_script = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+					//if (tmp_script != nullptr)
+					//{
+					//	tmp_script->OnCollision(pbodyB);
+					//}
+					//else
+					//{
+					//	if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
+					//		tmp_script = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+					//	else
+					//		tmp_script = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
-						if (tmp_script != nullptr)
-						{
-							tmp_script->OnCollision(pbodyA);
-						}
-					}
+					//	if (tmp_script != nullptr)
+					//	{
+					//		tmp_script->OnCollision(pbodyA);
+					//	}
+					//}
 				}
 			}
 		}
@@ -240,30 +241,30 @@ bool ModulePhysics3D::CleanUp()
 	return true;
 }
 
-void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
-{
-	ComponentCar* car = physCar->GetCar();
-	ComponentCollider* trigger = body->GetCollider();
-	if (car != nullptr && trigger != nullptr)
-	{
-		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
-		{
-			car->WentThroughCheckpoint(trigger);
-		}
-		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
-		{
-			car->WentThroughEnd(trigger);
-		}
-		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
-		{
-			car->PickItem();
-		}
-		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
-		{
-			car->Reset();
-		}
-	}
-}
+//void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
+//{
+//	ComponentCar* car = physCar->GetCar();
+//	ComponentCollider* trigger = body->GetCollider();
+//	if (car != nullptr && trigger != nullptr)
+//	{
+//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
+//		{
+//			car->WentThroughCheckpoint(trigger);
+//		}
+//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
+//		{
+//			car->WentThroughEnd(trigger);
+//		}
+//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
+//		{
+//			car->PickItem();
+//		}
+//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
+//		{
+//			car->Reset();
+//		}
+//	}
+//}
 
 void ModulePhysics3D::OnPlay()
 {
@@ -509,12 +510,12 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* 
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
-	pbody->collisionOptions = flags;
+	/*pbody->collisionOptions = flags;
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
 	{
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-	}
+	}*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -541,10 +542,10 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col,
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
-	pbody->collisionOptions = flags;
+	/*pbody->collisionOptions = flags;
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -571,10 +572,11 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollid
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
-	pbody->collisionOptions = flags;
+
+	/*pbody->collisionOptions = flags;
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -622,10 +624,10 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollide
 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
-	pbody->collisionOptions = flags;
+	/*pbody->collisionOptions = flags;
 
 	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	delete hull;
 	delete colShape;
@@ -636,7 +638,6 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollide
 
 	return pbody;
 }
-
 
 // ---------------------------------------------------------
 PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar* col)
@@ -706,7 +707,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 
 	pvehicle->SetTransform(info.transform.Transposed().ptr());
 
-	pvehicle->collisionOptions = SetFlag(pvehicle->collisionOptions, PhysVehicle3D::co_isCar, true);
+	//pvehicle->collisionOptions = SetFlag(pvehicle->collisionOptions, PhysVehicle3D::co_isCar, true);
 
 	return pvehicle;
 }

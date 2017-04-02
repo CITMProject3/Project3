@@ -1,6 +1,6 @@
-#include "Globals.h"
-
 #include "PhysBody3D.h"
+
+#include "Globals.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 
 // =================================================
@@ -13,7 +13,7 @@ PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCollider* col) : body(body)
 PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
 {
 	car = col;
-	collisionOptions = SetFlag(collisionOptions, co_isCar, true);
+	//collisionOptions = SetFlag(collisionOptions, co_isCar, true);
 	body->setUserPointer(this);
 }
 

@@ -1,5 +1,4 @@
 // ScriptingProject.cpp : Defines the exported functions for the DLL application.
-//
 
 #include "stdafx.h"
 
@@ -33,6 +32,9 @@ extern "C"
 			script_names->push_back("Player_Camera");
 
 			script_names->push_back("Scene_Manager");
+			
+			// Audio related...
+			script_names->push_back("Audio_PlaySound");
 		}
 	}
 

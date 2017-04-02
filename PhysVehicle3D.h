@@ -48,7 +48,7 @@ struct VehicleInfo
 };
 
 
-struct PhysVehicle3D : public PhysBody3D
+class PhysVehicle3D : public PhysBody3D
 {
 public:
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info, ComponentCar* car);
