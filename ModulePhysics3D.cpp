@@ -21,7 +21,6 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-
 #include "Assets.h"
 #include "RaycastHit.h"
 #include "Time.h"
@@ -339,7 +338,8 @@ bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 	RaycastHit hit_info;
 	bool ret = false;
 
-	uint u1, u2, u3;
+	//TODO
+	/*uint u1, u2, u3;
 	float distance;
 	vec hit_point;
 	Triangle triangle;
@@ -366,7 +366,7 @@ bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 			hit_OUT.normal.Normalize();
 		}
 	}
-
+	*/
 	return ret;
 }
 
@@ -742,38 +742,29 @@ void ModulePhysics3D::GenerateIndices()
 		//Interior vertices all need 6 indices
 		//limit vertices all need 3 indices
 		//Except corner ones. Two need 1 and two need 2
-		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
-		indices = new uint[numIndices];
+		//numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
+		//indices = new uint[numIndices];
 
 		float2* originalUvs = new float2[w*h];
 
-		int n = 0;
 		for (int z = 0; z < h - 1; z++)
 		{
 			for (int x = 0; x < w - 1; x++)
 			{
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = z * w + x;
-				n++;
-
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = (z + 1) * w + x + 1;
-				n++;
+				AddTriToChunk(	((z + 1) * w + x),		(z * w + x + 1),		(z * w + x),				x, z);
+				AddTriToChunk(	(z * w + x + 1),		((z + 1) * w + x),		((z + 1) * w + x + 1),		x, z);
 
 				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
 			}
 		}
 
-		//Load indices buffer to VRAM
-		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				it_x->second.GenBuffer();
+			}
+		}
 
 		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
 		if (terrainOriginalUvBuffer == 0)
@@ -789,20 +780,21 @@ void ModulePhysics3D::GenerateIndices()
 
 void ModulePhysics3D::DeleteIndices()
 {
-	if (terrainIndicesBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-		terrainIndicesBuffer = 0;
-	}
-	if (indices != nullptr)
-	{
-		delete[] indices;
-		indices = nullptr;
-	}
-	numIndices = 0;
+	chunks.clear();
 }
 
-void ModulePhysics3D::AddIndexToChunk(uint index, float x, int z)
+void ModulePhysics3D::UpdateChunksAABBs()
+{
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	{
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{
+			it_x->second.UpdateAABB();
+		}
+	}
+}
+
+void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, float x, int z)
 {
 	int chunkX = floor(x / CHUNK_W);
 	int chunkZ = floor(z / CHUNK_H);
@@ -825,15 +817,32 @@ void ModulePhysics3D::AddIndexToChunk(uint index, float x, int z)
 		it_x = it_z->second.insert(std::pair<int, chunk>(chunkX, chunk())).first;
 	}
 
-	it_x->second.AddIndex(index);
+	it_x->second.AddIndex(i1);
+	it_x->second.AddIndex(i2);
+	it_x->second.AddIndex(i3);
+}
+
+std::vector<chunk> ModulePhysics3D::GetVisibleChunks()
+{
+	std::vector<chunk> ret;
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	{
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{
+			ret.push_back(it_x->second);
+		}
+	}
+	return ret;
 }
 
 void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
+	
 
-	if (numIndices != 0 && terrainData != nullptr)
+	if (GetNChunksW() >= 0 && terrainData != nullptr)
 	{
+
 		if (paintMode && renderWiredTerrain == false)
 		{
 			if (renderWiredTerrain == false)
@@ -1037,13 +1046,19 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		//Index buffer
-		for (int y = 0; y < chunks.size(); y++)
+		std::vector<chunk> visibleChunks = GetVisibleChunks();
+		for(std::vector<chunk>::iterator it = visibleChunks.begin(); it != visibleChunks.end(); it++)
 		{
-			for (int x = 0; x < chunks[y].size(); x++)
-			{
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, chunks[y][x].GetBuffer());
-				glDrawElements(GL_TRIANGLES, chunks[y][x].GetNIndices(), GL_UNSIGNED_INT, (void*)0);
-			}
+				if (renderChunks)
+				{
+					it->Render();
+					if (renderWiredTerrain)
+					{
+						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+					}
+				}				
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, it->GetBuffer());
+				glDrawElements(GL_TRIANGLES, it->GetNIndices(), GL_UNSIGNED_INT, (void*)0);
 		}
 
 		glDisableVertexAttribArray(0);
@@ -1365,7 +1380,8 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 			}
 		}
 		terrainMaxHeight = height;
-		GenerateTerrainMesh();
+		GenerateVertices();
+		UpdateChunksAABBs();
 	}
 }
 
@@ -1616,6 +1632,7 @@ int	 DebugDrawer::getDebugMode() const
 
 chunk::chunk()
 {
+	aabb.SetNegativeInfinity();
 }
 
 chunk::~chunk()
@@ -1653,6 +1670,15 @@ void chunk::AddIndex(uint i)
 {
 	indices.push_back(i);
 	aabb.Enclose(App->physics->vertices[i]);
+}
+
+void chunk::UpdateAABB()
+{
+	aabb.SetNegativeInfinity();
+	for (std::vector<uint>::iterator it = indices.begin(); it != indices.end(); it++)
+	{
+		aabb.Enclose(App->physics->vertices[(*it)]);
+	}
 }
 
 void chunk::CleanIndices()

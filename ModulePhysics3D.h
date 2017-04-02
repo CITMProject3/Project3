@@ -43,8 +43,11 @@ public:
 
 	int GetBuffer();
 	int GetNIndices();
+
 	void GenBuffer();
 	void AddIndex(uint i);
+
+	void UpdateAABB();
 	void CleanIndices();
 
 	void Render();
@@ -128,7 +131,10 @@ private:
 	void GenerateIndices();
 	void DeleteIndices();
 
-	void AddIndexToChunk(uint index, float x, int z);
+	void UpdateChunksAABBs();
+	void AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, float x, int z);
+
+	std::vector<chunk> GetVisibleChunks();
 
 	int GetNChunksW() { return chunks[0].size(); }
 	int GetNChunksH() { return chunks.size(); }
@@ -160,7 +166,6 @@ private:
 	//Ordering chunks. First map contains Y coordinate, second one X. Chunks[y][x]
 	std::map<int, std::map<int, chunk>> chunks;
 
-	uint* indices = nullptr;
 	float3* vertices = nullptr;
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
@@ -171,18 +176,17 @@ private:
 	float terrainMaxHeight = 100.0f;
 
 	int terrainVerticesBuffer = 0;
-	int terrainIndicesBuffer = 0;
 	int terrainUvBuffer = 0;
 	int terrainOriginalUvBuffer = 0;
 	int terrainNormalBuffer = 0;
 
 	int terrainSmoothLevels = 1;
-	uint numIndices = 0;
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
 	float* textureMap = nullptr;
 	
+	bool renderChunks = true;
 	bool paintMode = false;
 	int paintTexture = 0;
 	int brushSize = 5;

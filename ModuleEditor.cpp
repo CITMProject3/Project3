@@ -66,6 +66,8 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
+	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
+
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
@@ -805,13 +807,14 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	float tmp = App->physics->GetTerrainHeightScale();
 	ImGui::Text("Terrain Max Height:");
-	if (ImGui::DragFloat("##TerrainHeightScaling", &tmp, 1.0f, 0.1f, 10000.0f))
+	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
+	ImGui::SameLine();
+	if(ImGui::Button("Set height"))
 	{
-		App->physics->SetTerrainMaxHeight(tmp);
+		App->physics->SetTerrainMaxHeight(heightmapMaxHeight);
 	}
-	tmp = App->physics->GetTextureScaling();
+	float tmp = App->physics->GetTextureScaling();
 	ImGui::Text("Terrain Texture Scaling:");
 	if (ImGui::DragFloat("##TerrainTextureScaling", &tmp, 0.001f, 0.001f, 1.0f))
 	{
