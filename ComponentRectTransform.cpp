@@ -90,6 +90,29 @@ void ComponentRectTransform::OnInspector(bool debug)
 		{
 			apply_transformation = true;
 		}
+
+		if (ImGui::BeginMenu("Order: "))
+		{
+
+			if (ImGui::MenuItem("7 Background", NULL))
+				order = 0;
+			if (ImGui::MenuItem("6 Layer", NULL))
+				order = 1;
+			if (ImGui::MenuItem("5 Layer", NULL))
+				order = 2;
+			if (ImGui::MenuItem("4 Middle Layer", NULL))
+				order = 3;
+			if (ImGui::MenuItem("3 Middle Layer", NULL))
+				order = 4;
+			if (ImGui::MenuItem("2 Layer", NULL))
+				order = 5;
+			if (ImGui::MenuItem("1 Layer", NULL))
+				order = 6;
+			if (ImGui::MenuItem("0 Foreground", NULL))
+				order = 7;
+
+			ImGui::EndMenu();
+		}		
 	}
 }
 
@@ -248,6 +271,7 @@ void ComponentRectTransform::Save(Data & file) const
 	data.AppendBool("active", active);
 	data.AppendFloat2("rect_size", rect_size.ptr());
 	data.AppendMatrix("matrix", transform_matrix);
+	data.AppendInt("Order", order);
 
 	file.AppendArrayValue(data);
 }
@@ -259,6 +283,7 @@ void ComponentRectTransform::Load(Data & conf)
 
 	transform_matrix = conf.GetMatrix("matrix");
 	rect_size = conf.GetFloat2("rect_size");
+	order = conf.GetInt("Order");
 	local_position = transform_matrix.TranslatePart();
 	local_middle_position.Set(local_position.x + (rect_size.x / 2), local_position.y,0.0f);
 	size = transform_matrix.GetScale();

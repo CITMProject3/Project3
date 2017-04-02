@@ -94,16 +94,35 @@ void ComponentCanvas::Remove()
 vector<GameObject*> ComponentCanvas::GetUI()
 {
 	vector<GameObject*> tmp_childs;
-	for (vector<GameObject*>::const_iterator obj = (*GetGameObject()->GetChilds()).begin(); obj != (*GetGameObject()->GetChilds()).end(); ++obj)
+	vector<GameObject*> tmp_unorganized;
+
+	tmp_unorganized = tmp_childs = *GetGameObject()->GetChilds();
+
+	for (vector<GameObject*>::const_iterator obj = tmp_childs.begin(); obj != tmp_childs.end(); ++obj)
 	{
-		
-		if ((*obj)->IsActive())
+		vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
+		tmp_unorganized.insert(tmp_unorganized.end(), obj_childs.begin(), obj_childs.end());
+	}
+
+	tmp_childs.clear();
+
+	for (int i = 7; i >= 0; i--)
+	{
+		for (vector<GameObject*>::const_iterator obj = tmp_unorganized.begin(); obj != tmp_unorganized.end(); ++obj)
 		{
-			tmp_childs.push_back(*obj);
-			vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
-			tmp_childs.insert(tmp_childs.end(), obj_childs.begin(), obj_childs.end());
+			ComponentRectTransform* lol = (ComponentRectTransform*)(*obj)->GetComponent(C_RECT_TRANSFORM);
+
+			if (lol != nullptr)
+			{
+				if (lol->order == i)
+				{
+					if ((*obj)->IsActive())
+					{
+						tmp_childs.push_back(*obj);
+					}
+				}
+			}
 		}
-		
 	}
 
 	return tmp_childs;
