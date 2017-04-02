@@ -52,6 +52,9 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 	void Remove();
+
+	int order = 0; // Range 0 to 7
+
 private:
 	ResourceFileMesh* plane = nullptr;
 
