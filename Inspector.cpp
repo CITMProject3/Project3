@@ -160,6 +160,7 @@ void Inspector::Draw()
 			if (ImGui::Selectable("Add Rect Transform"))
 			{
 				selected_GO->AddComponent(C_RECT_TRANSFORM);
+				selected_GO->layer = 1;
 			}
 
 			if (ImGui::Selectable("Add UI Grid"))
