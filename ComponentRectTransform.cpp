@@ -260,6 +260,7 @@ void ComponentRectTransform::Load(Data & conf)
 	transform_matrix = conf.GetMatrix("matrix");
 	rect_size = conf.GetFloat2("rect_size");
 	local_position = transform_matrix.TranslatePart();
+	local_middle_position.Set(local_position.x + (rect_size.x / 2), local_position.y,0.0f);
 	size = transform_matrix.GetScale();
 	ResizePlane();
 	CalculateFinalTransform();

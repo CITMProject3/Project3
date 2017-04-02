@@ -50,7 +50,7 @@ void ComponentGrid::OnInspector(bool debug)
 		if (grid_enabled)
 		{
 			int tmp = player_controlling;
-			if (ImGui::DragInt("Number of elements", &tmp, 1.0f, 1, 4))
+			if (ImGui::DragInt("Players controlling", &tmp, 1.0f, 1, 4))
 			{
 				player_controlling = tmp;
 				reorganize_grid = true;
@@ -132,7 +132,8 @@ void ComponentGrid::OrganizeGrid()
 {
 	int elements_x_row = num_elements / rows;
 	ComponentRectTransform* r_trans = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
-	int i_position_x = -(r_trans->GetRectSize().x/2) + margin;
+	r_trans->SetSize(float2(elements_x_row*(element_width + space_between_x + margin) , rows*(element_height + space_between_y + margin)));
+	int i_position_x = -margin;
 	int i_pos_x_reset = i_position_x;
 	int i_position_y = margin;
 	
@@ -148,9 +149,9 @@ void ComponentGrid::OrganizeGrid()
 
 				if (obj != nullptr)
 				{
-					ComponentRectTransform* r_trans = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
+					ComponentRectTransform* r_trans_e = (ComponentRectTransform*)obj->GetComponent(C_RECT_TRANSFORM);
 
-					r_trans->SetLocalPos(float2(i_position_x, i_position_y));
+					r_trans_e->SetLocalPos(float2(i_position_x, i_position_y));
 					i_position_x += space_between_x + element_width;
 				}
 			}	
