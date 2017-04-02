@@ -820,6 +820,7 @@ void ModuleEditor::PhysicsMenu()
 	{
 		App->physics->SetTextureScaling(tmp);
 	}
+	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 

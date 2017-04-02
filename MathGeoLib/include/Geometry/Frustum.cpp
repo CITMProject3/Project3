@@ -1054,7 +1054,29 @@ bool Frustum::Intersects(const LineSegment &lineSegment) const
 
 bool Frustum::Intersects(const AABB &aabb) const
 {
-	return GJKIntersect(*this, aabb);
+	//Made by David! This should be faster than the original method
+	float3 points[8];
+	aabb.GetCornerPoints(points);
+
+	Plane planes[6];
+	GetPlanes(planes);
+
+	// Discard boxes with all points outside
+	int out;
+	for (int i = 0; i < 6; ++i)
+	{
+		out = 0;
+		for (int k = 0; k < 8; ++k)
+			out += planes[i].IsOnPositiveSide(points[k]);
+
+		if (out == 8)
+			return false;
+	}
+
+	return true;
+
+	//This is the original method
+	//return GJKIntersect(*this, aabb);
 }
 
 bool Frustum::Intersects(const OBB &obb) const

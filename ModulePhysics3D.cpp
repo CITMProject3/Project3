@@ -855,6 +855,8 @@ void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& 
 
 std::vector<chunk> ModulePhysics3D::GetVisibleChunks(ComponentCamera* camera)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain::Getting visible chunks", Profiler::Color::HoneyDew);
+
 	std::vector<chunk> ret;
 	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 	{

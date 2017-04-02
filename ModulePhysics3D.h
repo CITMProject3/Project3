@@ -224,7 +224,7 @@ public:
 	uint textureMapBufferID = 0;
 	float* textureMap = nullptr;
 	
-	bool renderChunks = true;
+	bool renderChunks = false;
 	bool paintMode = false;
 	int paintTexture = 0;
 	int brushSize = 5;
