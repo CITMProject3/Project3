@@ -111,7 +111,7 @@ vector<GameObject*> ComponentCanvas::GetUI()
 
 	tmp_childs.clear();
 
-	for (int i = 7; i >= 0; i--)
+	for (int i = 0; i <= 7; i++)
 	{
 		for (vector<GameObject*>::const_iterator obj = tmp_unorganized.begin(); obj != tmp_unorganized.end(); ++obj)
 		{
@@ -119,12 +119,9 @@ vector<GameObject*> ComponentCanvas::GetUI()
 
 			if (lol != nullptr)
 			{
-				if (lol->order == i)
+				if (lol->order == i && (*obj)->IsActive())
 				{
-					if ((*obj)->IsActive())
-					{
-						tmp_childs.push_back(*obj);
-					}
+					tmp_childs.push_back(*obj);
 				}
 			}
 		}

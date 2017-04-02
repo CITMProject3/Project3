@@ -91,25 +91,26 @@ void ComponentRectTransform::OnInspector(bool debug)
 			apply_transformation = true;
 		}
 
-		if (ImGui::BeginMenu("Order: "))
+		std::string order_name = "Order: " + std::to_string(order) + " Layer";
+		if (ImGui::BeginMenu(order_name.data()))
 		{
 
 			if (ImGui::MenuItem("7 Background", NULL))
-				order = 0;
-			if (ImGui::MenuItem("6 Layer", NULL))
-				order = 1;
-			if (ImGui::MenuItem("5 Layer", NULL))
-				order = 2;
-			if (ImGui::MenuItem("4 Middle Layer", NULL))
-				order = 3;
-			if (ImGui::MenuItem("3 Middle Layer", NULL))
-				order = 4;
-			if (ImGui::MenuItem("2 Layer", NULL))
-				order = 5;
-			if (ImGui::MenuItem("1 Layer", NULL))
-				order = 6;
-			if (ImGui::MenuItem("0 Foreground", NULL))
 				order = 7;
+			if (ImGui::MenuItem("6 Layer", NULL))
+				order = 6;
+			if (ImGui::MenuItem("5 Layer", NULL))
+				order = 5;
+			if (ImGui::MenuItem("4 Middle Layer", NULL))
+				order = 4;
+			if (ImGui::MenuItem("3 Middle Layer", NULL))
+				order = 3;
+			if (ImGui::MenuItem("2 Layer", NULL))
+				order = 2;
+			if (ImGui::MenuItem("1 Layer", NULL))
+				order = 1;
+			if (ImGui::MenuItem("0 Foreground", NULL))
+				order = 0;
 
 			ImGui::EndMenu();
 		}		
