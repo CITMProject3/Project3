@@ -51,6 +51,7 @@ struct VehicleInfo
 class PhysVehicle3D : public PhysBody3D
 {
 public:
+
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info, ComponentCar* car);
 	~PhysVehicle3D();
 
@@ -62,6 +63,7 @@ public:
 	void SetVelocity(float x, float y, float z, float v);
 	float GetKmh() const;
 	vec GetPos()const;
+
 public:
 
 	VehicleInfo info;

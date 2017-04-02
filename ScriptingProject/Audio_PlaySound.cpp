@@ -1,20 +1,10 @@
 #include "stdafx.h"
 
-#include <string>
-#include <map>
-#include <vector>
-
-#include "../Application.h"
-#include "../ModuleScripting.h"
-#include "../ModuleInput.h"
-#include "../ModuleWindow.h"
-#include "../GameObject.h"
-#include "../ComponentScript.h"
-#include "../ComponentTransform.h"
-#include "../SDL/include/SDL_scancode.h"
 #include "../PhysBody3D.h"
+
+#include "../GameObject.h"
+#include "../ComponentAudio.h"
 #include "../ComponentCollider.h"
-#include "../Globals.h"
 
 namespace Audio_PlaySound
 {
@@ -34,13 +24,7 @@ namespace Audio_PlaySound
 
 	void Audio_PlaySound_OnCollision(PhysBody3D* col)
 	{
-		if (ReadFlag(col->collisionOptions, col->co_isItem))
-		{
-			ComponentCollider* Hitodama_col = col->GetCollider();
-			if (Hitodama_col->GetGameObject()->name.compare("Hitodama"))
-			{
-				//Do something
-			}
-		}
+		ComponentAudio *audio = (ComponentAudio*)col->GetCollider()->GetGameObject()->GetComponent(ComponentType::C_AUDIO);
+		if(audio) audio->PlayEvent();
 	}
 }

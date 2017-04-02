@@ -34,13 +34,13 @@ namespace Player_Car
 	}
 	void Player_Car_OnCollision(PhysBody3D* col)
 	{
-		if (ReadFlag(col->collisionOptions, col->co_isItem))
-		{
-			ComponentCollider* Hitodama_col = col->GetCollider();
-			if (Hitodama_col->GetGameObject()->name.compare("Hitodama"))
-			{
-				//Do something
-			}
-		}
+		//if (ReadFlag(col->collisionOptions, col->co_isItem))
+		//{
+		//	ComponentCollider* Hitodama_col = col->GetCollider();
+		//	if (Hitodama_col->GetGameObject()->name.compare("Hitodama"))
+		//	{
+		//		//Do something
+		//	}
+		//}
 	}
 }

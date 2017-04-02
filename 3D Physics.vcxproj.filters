@@ -555,9 +555,6 @@
     <ClInclude Include="ResourceFilePrefab.h">
       <Filter>Sources\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="ComponentAudio.h">
-      <Filter>Sources\GameObjects\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Wwise_Library.h">
       <Filter>3rd Party Tools\Wwise</Filter>
     </ClInclude>
@@ -629,6 +626,9 @@
     </ClInclude>
     <ClInclude Include="Profiler.h">
       <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentAudioSource.h">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -989,9 +989,6 @@
     <ClCompile Include="ResourceFilePrefab.cpp">
       <Filter>Sources\Resources</Filter>
     </ClCompile>
-    <ClCompile Include="ComponentAudio.cpp">
-      <Filter>Sources\GameObjects\Components</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleScripting.cpp">
       <Filter>Sources\Modules</Filter>
     </ClCompile>
@@ -1057,6 +1054,9 @@
     </ClCompile>
     <ClCompile Include="Profiler.cpp">
       <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudioSource.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

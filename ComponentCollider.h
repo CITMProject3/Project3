@@ -16,7 +16,6 @@ enum Collider_Shapes
 	S_CONVEX
 };
 
-
 class ComponentCollider : public Component
 {
 public:
@@ -40,6 +39,7 @@ public:
 private:
 
 	bool isTrigger = false;
+	bool isTransparent = false;
 
 	void LoadShape();
 

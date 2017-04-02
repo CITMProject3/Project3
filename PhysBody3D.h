@@ -10,6 +10,7 @@ class btRigidBody;
 class btTransform;
 class btVector3;
 class Module;
+
 class ComponentCollider;
 class ComponentCar;
 
@@ -56,24 +57,30 @@ public:
 	ComponentCollider* GetCollider() { return collider; }
 	ComponentCar* GetCar() { return car; }
 
-	void SetAsCar()
-	{ 
-		isCar = true;
-	}
-
-	bool *SetTrigger()
+	void SetTrigger(bool value)
 	{
-		return &isTrigger;
+		isTrigger = value;
 	}
 
-	/*bool IsTrigger() const
-	{ 
-		return IsTrigger;
-	}*/
+	void SetCar(bool value)
+	{
+		isCar = value;
+	}
+
+	bool IsCar() const
+	{
+		return isCar;
+	}
+
+	bool IsTrigger() const
+	{
+		return isTrigger;
+	}
 
 private:
 
 	btRigidBody* body = nullptr;
+	
 	ComponentCollider* collider = nullptr;
 	ComponentCar* car = nullptr;
 

@@ -147,7 +147,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="ComponentAnimation.h" />
     <ClInclude Include="ComponentBone.h" />
-    <ClInclude Include="ComponentAudio.h" />
+    <ClInclude Include="ComponentAudioSource.h" />
     <ClInclude Include="ComponentCamera.h" />
     <ClInclude Include="ComponentCanvas.h" />
     <ClInclude Include="ComponentCar.h" />
@@ -325,7 +325,7 @@
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ComponentAnimation.cpp" />
     <ClCompile Include="ComponentBone.cpp" />
-    <ClCompile Include="ComponentAudio.cpp" />
+    <ClCompile Include="ComponentAudioSource.cpp" />
     <ClCompile Include="ComponentCamera.cpp" />
     <ClCompile Include="ComponentCanvas.cpp" />
     <ClCompile Include="ComponentCar.cpp" />

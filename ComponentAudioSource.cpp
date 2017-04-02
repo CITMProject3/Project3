@@ -1,4 +1,4 @@
-#include "ComponentAudio.h"
+#include "ComponentAudioSource.h"
 
 #include "ModuleAudio.h"
 #include "ModuleResourceManager.h"
@@ -10,20 +10,20 @@
 
 #include "imgui\imgui.h"
 
-ComponentAudio::ComponentAudio(ComponentType type, GameObject* game_object) : Component(type, game_object)
+ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	wwise_id_go = App->rnd->RandomInt();
 	App->audio->RegisterGameObject(wwise_id_go);
 }
 
-ComponentAudio::~ComponentAudio()
+ComponentAudioSource::~ComponentAudioSource()
 { 
 	App->audio->StopEvent(current_event, wwise_id_go);
 	App->audio->UnregisterGameObject(wwise_id_go);
 	if(current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
 }
 
-void ComponentAudio::Update()
+void ComponentAudioSource::Update()
 { 
 	math::float3 pos = game_object->transform->GetPosition();
 	AkListenerPosition ak_pos;
@@ -39,7 +39,7 @@ void ComponentAudio::Update()
 	}
 }
 
-void ComponentAudio::OnInspector(bool debug)
+void ComponentAudioSource::OnInspector(bool debug)
 {
 	std::string str = (std::string("Audio Source") + std::string("##") + std::to_string(uuid));
 	if (ImGui::CollapsingHeader(str.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
@@ -95,35 +95,45 @@ void ComponentAudio::OnInspector(bool debug)
 		}
 		
 		if (ImGui::Button("PLAY"))
-			App->audio->PostEvent(current_event, wwise_id_go);
+			PlayEvent();
 		ImGui::SameLine();
 		if (ImGui::Button("STOP"))
-			App->audio->StopEvent(current_event, wwise_id_go);
+			StopEvent();
 
 	}
 }
 
-void ComponentAudio::OnPlay()
+void ComponentAudioSource::PlayEvent() const
 {
-	//App->audio->PostEvent(current_event, wwise_id_go);
+	App->audio->PostEvent(current_event, wwise_id_go);
 }
 
-void ComponentAudio::OnStop()
+void ComponentAudioSource::StopEvent() const
 {
 	App->audio->StopEvent(current_event, wwise_id_go);
 }
 
-const AudioEvent *ComponentAudio::GetEvent() const
+void ComponentAudioSource::OnPlay()
+{
+	//PlayEvent();
+}
+
+void ComponentAudioSource::OnStop()
+{
+	StopEvent();
+}
+
+const AudioEvent *ComponentAudioSource::GetEvent() const
 {
 	return current_event;
 }
 
-long unsigned ComponentAudio::GetWiseID() const
+long unsigned ComponentAudioSource::GetWiseID() const
 {
 	return wwise_id_go;
 }
 
-void ComponentAudio::Save(Data & file)const
+void ComponentAudioSource::Save(Data & file)const
 {
 	Data data;
 	data.AppendInt("type", type);
@@ -144,7 +154,7 @@ void ComponentAudio::Save(Data & file)const
 	file.AppendArrayValue(data);
 }
 
-void ComponentAudio::Load(Data & conf)
+void ComponentAudioSource::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
@@ -167,7 +177,7 @@ void ComponentAudio::Load(Data & conf)
 		
 }
 
-void ComponentAudio::Remove()
+void ComponentAudioSource::Remove()
 {
 	game_object->RemoveComponent(this);
 }

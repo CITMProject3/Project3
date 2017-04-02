@@ -10,7 +10,7 @@ enum ComponentType
 	C_LIGHT = 4,
 	C_ANIMATION = 5,
 	C_BONE = 6,
-	C_AUDIO = 7,
+	C_AUDIO_SOURCE = 7,
 	C_COLLIDER = 8,
 	C_CAR = 9,
 	C_SCRIPT = 10,

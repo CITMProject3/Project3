@@ -44,7 +44,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	//void OnCollision(PhysBody3D* car, PhysBody3D* body);
+	void OnCollision(PhysBody3D* bodyA, PhysBody3D* bodyB);
 
 	void OnPlay();
 	void OnStop();
@@ -54,10 +54,10 @@ public:
 
 	bool RayCast(Ray ray, RaycastHit& hit);
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, unsigned char flags = 0, btConvexHullShape** OUT_shape = nullptr);
+	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false );
+	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	bool GenerateHeightmap(std::string resLibPath);

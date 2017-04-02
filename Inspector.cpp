@@ -144,7 +144,7 @@ void Inspector::Draw()
 
 			if (ImGui::Selectable("Add Audio"))
 			{
-				selected_GO->AddComponent(C_AUDIO);
+				selected_GO->AddComponent(C_AUDIO_SOURCE);
 			}
 
 			if (ImGui::Selectable("Add Script"))
