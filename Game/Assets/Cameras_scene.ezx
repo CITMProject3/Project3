@@ -110,7 +110,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.849084,
+                    "aspect_ratio": 3.852869,
                     "color": [
                         0,
                         0,
@@ -119,8 +119,6 @@
                     "layer_mask": -1,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
-                    "is_player1_camera": true,
-                    "is_player2_camera": false,
                     "viewport_rel_pos_x": 0,
                     "viewport_rel_pos_y": 0.510000,
                     "viewport_rel_size_x": 1,
@@ -204,7 +202,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.849084,
+                    "aspect_ratio": 3.852869,
                     "color": [
                         0,
                         0,
@@ -213,8 +211,6 @@
                     "layer_mask": -1,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
-                    "is_player1_camera": false,
-                    "is_player2_camera": true,
                     "viewport_rel_pos_x": 0,
                     "viewport_rel_pos_y": 0,
                     "viewport_rel_size_x": 1,
@@ -399,6 +395,173 @@
                         },
                         {
                             "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 1661046754,
+            "local_UUID": 0,
+            "parent": 2620229837,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3475694177,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3079176436,
+                    "active": true,
+                    "rect_size": [
+                        1920,
+                        1017
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        960,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 12,
+                    "UUID": 3761243824,
+                    "active": true
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 1808772278,
+            "local_UUID": 0,
+            "parent": 1661046754,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2626699879,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 2827414407,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 2949134203,
+                    "active": true,
+                    "text": "20:20:20",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3856135469,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 0,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": ""
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
                         }
                     ]
                 }

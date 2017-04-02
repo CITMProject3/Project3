@@ -6,7 +6,6 @@
 #include "imgui\imgui.h"
 #include "ComponentRectTransform.h"
 #include "ModuleWindow.h"
-#include "ComponentGrid.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
@@ -23,10 +22,14 @@ void ComponentCanvas::Update()
 {
 	if (go_focus != nullptr)
 	{
-		ComponentGrid* grid = (ComponentGrid*)go_focus->GetComponent(C_GRID);
-		if (grid != nullptr)
+		vector<Component*> focus_components = *go_focus->GetComponents();
+
+		for (vector<Component*>::const_iterator comp = focus_components.begin(); comp != focus_components.end(); ++comp)
 		{
-			grid->OnFocus();
+			if ((*comp) != nullptr)
+			{
+				(*comp)->OnFocus();
+			}
 		}
 	}
 }

@@ -71,6 +71,12 @@ void ComponentUiButton::OnFocus()
 
 void ComponentUiButton::OnPress()
 {
+	if (UImaterial->texture_ids.size() >= 2)
+	{
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+		UImaterial->texture_ids.at("1") = tmp;
+	}
 }
 
 void ComponentUiButton::ChangeState()
