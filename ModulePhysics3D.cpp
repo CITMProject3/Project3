@@ -857,15 +857,32 @@ std::vector<chunk> ModulePhysics3D::GetVisibleChunks(ComponentCamera* camera)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain::Getting visible chunks", Profiler::Color::HoneyDew);
 
-	std::vector<chunk> ret;
+	Frustum frust = camera->GetFrustum();
+	vec corners[8];
+	frust.GetCornerPoints(corners);
+	AABB frust_box;
+	frust_box.SetNegativeInfinity();
+	frust_box.SetFrom(corners, 8);
+
+	std::vector<chunk> firstPass;
 	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 	{
 		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
 		{
-			if (it_x->second.GetAABB().Intersects(camera->GetFrustum()))
+			if (it_x->second.GetAABB().Intersects(frust_box))
 			{
-				ret.push_back(it_x->second);
+				firstPass.push_back(it_x->second);
 			}
+		}
+	}
+
+
+	std::vector<chunk> ret;
+	for (std::vector<chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
+	{
+		if (it->GetAABB().Intersects(frust))
+		{
+			ret.push_back(*it);
 		}
 	}
 	return ret;
@@ -1112,7 +1129,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		//Index buffer
-		std::vector<chunk> visibleChunks = GetVisibleChunks(camera);
+		/*std::vector<chunk> visibleChunks = GetVisibleChunks(camera);
 		for(std::vector<chunk>::iterator it = visibleChunks.begin(); it != visibleChunks.end(); it++)
 		{
 				if (renderChunks)
@@ -1125,6 +1142,23 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 				}				
 				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, it->GetBuffer());
 				glDrawElements(GL_TRIANGLES, it->GetNIndices(), GL_UNSIGNED_INT, (void*)0);
+		}*/
+
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				if (renderChunks)
+				{
+					it_x->second.Render();
+					if (renderWiredTerrain)
+					{
+						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+					}
+				}
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, it_x->second.GetBuffer());
+				glDrawElements(GL_TRIANGLES, it_x->second.GetNIndices(), GL_UNSIGNED_INT, (void*)0);
+			}
 		}
 
 		glDisableVertexAttribArray(0);
