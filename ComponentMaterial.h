@@ -29,6 +29,8 @@ private:
 	void ChangeTexture(std::string tex_num, Uniform* &value);
 	void RefreshTextures();
 	bool AddTexture();
+	//Name in "texture_ids" map
+	void RemoveTexture(std::string name);
 	void CleanUp();
 
 public:
@@ -50,5 +52,7 @@ private:
 	std::vector<ResourceFile*> tex_resources;
 	bool change_material_enabled = false;
 	bool texture_changed = false;
+	std::string delete_texture_name;
+
 };
 #endif // !__COMPONENT_MATERIAL_H__

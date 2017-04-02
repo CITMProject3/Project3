@@ -20,6 +20,8 @@ enum PLAYER
 {
 	PLAYER_1,
 	PLAYER_2,
+	PLAYER_3,
+	PLAYER_4,
 };
 
 enum Player2_State
@@ -40,6 +42,12 @@ enum TURBO
 	T_DRIFT_MACH_2,
 	T_DRIFT_MACH_3,
 	T_ROCKET,
+};
+
+enum MAX_TURN_CHANGE_MODE
+{
+	M_SPEED,
+	M_INTERPOLATION,
 };
 
 struct Turbo
@@ -91,6 +99,9 @@ public:
 
 	void OnPlay();
 
+	void SetFrontPlayer(PLAYER player);
+	void SetBackPlayer(PLAYER player);
+
 	//Getters
 	float GetVelocity()const;
 
@@ -103,7 +114,12 @@ public:
 	void LimitSpeed();
 
 	float GetVelocity();
+	float GetMaxVelocity()const;
+	float GetMinVelocity()const;
+	float GetMaxTurnByCurrentVelocity(float sp);
 
+
+	TURBO GetCurrentTurbo()const;
 
 private:
 	void CreateCar();
@@ -184,8 +200,25 @@ private:
 	float turn_over_reset_time = 5.0f;
 
 	//Turn direction
-	float turn_max = 0.7f;
+	float base_turn_max = 0.7f;
 	float turn_speed = 0.1f;
+	
+	//----Max turn change 
+	float velocity_to_begin_change = 10.0f;
+	float turn_max_limit = 0.0f;
+
+	//By speed
+	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_accel = -0.1f;
+	bool limit_to_a_turn_max = false;
+	bool accelerated_change = false;
+
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
+
+	//Graph
+	bool show_graph = false;
+	//----
+
 
 	//Acceleration
 	float accel_force = 1000.0f;
@@ -251,6 +284,7 @@ private:
 	float accel = 0.0f;
 
 	//Turn
+	float turn_max;
 	float turn_current = 0.0f;
 	bool turning_left = false;
 

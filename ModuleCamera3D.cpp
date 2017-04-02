@@ -21,12 +21,17 @@ ModuleCamera3D::~ModuleCamera3D()
 bool ModuleCamera3D::Init(Data & config)
 {
 	camera = new ComponentCamera(C_CAMERA, nullptr);
+	RemoveSceneCamera(camera); //Editor cam is not a scene camera
 	camera->frustum.SetPos(vec(0, 3, -10));
+	camera->viewport_rel_position.x = 0.0f;
+	camera->viewport_rel_position.y = 0.0f;
+	camera->viewport_rel_size.x = 1.0f;
+	camera->viewport_rel_size.y = 1.0f;
 
 	reference = float3(0, 0, 0);
 	camera->LookAt(reference);	
 
-	App->renderer3D->camera = camera;
+	App->renderer3D->SetCamera(camera);
 
 	// Camera acts as the audio listener
 	App->audio->SetListener(camera);
@@ -53,10 +58,16 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::OnPlay()
 {
-	if (playCamera != nullptr)
+
+	//Removing current camera
+	App->renderer3D->SetCamera(nullptr);
+
+	if (scene_cameras.size() > 0)
+		App->audio->SetListener(*scene_cameras.begin());
+
+	for (vector<ComponentCamera*>::iterator it = scene_cameras.begin(); it != scene_cameras.end(); ++it)
 	{
-		App->renderer3D->SetCamera(playCamera);
-		App->audio->SetListener(playCamera);
+		App->renderer3D->AddCamera((*it));	
 	}
 }
 
@@ -98,6 +109,11 @@ float ModuleCamera3D::GetFOV() const
 	return camera->GetFOV();
 }
 
+float ModuleCamera3D::GetAspectRatio() const
+{
+	return camera->aspect_ratio;
+}
+
 void ModuleCamera3D::SetNearPlane(const float & near_plane)
 {
 	camera->SetNearPlane(near_plane);
@@ -117,6 +133,11 @@ void ModuleCamera3D::SetBackgroundColor(const math::float3 & color)
 {
 	camera->SetBackgroundColor(color);
 	App->renderer3D->SetClearColor(color);
+}
+
+void ModuleCamera3D::SetAspectRatio(float ar)
+{
+	camera->SetAspectRatio(ar);
 }
 
 bool ModuleCamera3D::MoveArrows(float dt)
@@ -228,6 +249,18 @@ math::float3 ModuleCamera3D::GetBackgroundColor() const
 ComponentCamera * ModuleCamera3D::GetEditorCamera() const
 {
 	return camera;
+}
+
+void ModuleCamera3D::AddSceneCamera(ComponentCamera * cam)
+{
+	scene_cameras.push_back(cam);
+}
+
+void ModuleCamera3D::RemoveSceneCamera(ComponentCamera * cam)
+{
+	vector<ComponentCamera*>::iterator f_cam = std::find(scene_cameras.begin(), scene_cameras.end(), cam);
+	if(f_cam != scene_cameras.end())
+		scene_cameras.erase(f_cam);
 }
 
 void ModuleCamera3D::EditorCameraMovement(float dt)

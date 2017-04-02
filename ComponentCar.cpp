@@ -16,7 +16,6 @@
 #include "PhysVehicle3D.h"
 #include "EventQueue.h"
 #include "EventLinkGos.h"
-#include "AutoProfile.h"
 
 #include "ModuleGOManager.h"
 #include "ComponentCanvas.h"
@@ -43,6 +42,8 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	car->num_wheels = 4;
 	car->wheels = new Wheel[4];
+
+	turn_max = base_turn_max;
 
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
@@ -78,6 +79,7 @@ void ComponentCar::Update()
 {
 	if (App->IsGameRunning())
 	{
+		int vel = GetVelocity();
 		if (vehicle)
 		{		
 			HandlePlayerInput();
@@ -118,6 +120,19 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+		int player_f = (int)front_player;
+		if (ImGui::InputInt("Front player joystick", &player_f, 1))
+		{
+			math::Clamp(player_f, 0, 3);
+			front_player = (PLAYER)player_f;
+		}
+		int player_b = (int)back_player;
+		if (ImGui::InputInt("Front player joystick", &player_b, 1))
+		{
+			math::Clamp(player_b, 0, 3);
+			back_player = (PLAYER)player_b;
+		}
+
 		ImGui::Text("Bool pushing: %i", (int)pushing);
 		ImGui::Text("Current lap: %i", lap);
 		if (lastCheckpoint != nullptr)
@@ -144,6 +159,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("");
 
 				ImGui::Text("Current turn: %f", turn_current);
+				ImGui::Text("Current turn max: %f", turn_max);
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
 
@@ -160,7 +176,7 @@ void ComponentCar::OnInspector(bool debug)
 					if (hasItem == true)
 					{
 						PickItem();
-					}
+					}    
 				}
 
 				if (turned)
@@ -223,9 +239,9 @@ void ComponentCar::OnInspector(bool debug)
 				{
 					ImGui::Text("");
 
-					ImGui::Text("Turn max");
+					ImGui::Text("Base turn max");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Turnmax", &turn_max, 0.1f, 0.0f, 2.0f)) {}
+					if (ImGui::DragFloat("##Turnmax", &base_turn_max, 0.1f, 0.0f, 2.0f)) {}
 
 
 					ImGui::Text("Turn speed");
@@ -234,6 +250,58 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("");
 					ImGui::TreePop();
+				}
+
+				if (ImGui::TreeNode("Max turn change settings"))
+				{
+					ImGui::Text("Velocity to begin change");
+					ImGui::DragFloat("##v_to_change", &velocity_to_begin_change, 0.1f, 0.0f);
+
+					ImGui::Text("Limit max turn");
+					ImGui::DragFloat("##l_max_turn", &turn_max_limit, 1.0f, 0.0f);
+
+					bool by_interpolation = (current_max_turn_change_mode == M_INTERPOLATION);
+					bool by_speed = (current_max_turn_change_mode == M_SPEED);
+					if (ImGui::Checkbox("By interpolation", &by_interpolation))
+						current_max_turn_change_mode = M_INTERPOLATION;
+					ImGui::SameLine();
+					if (ImGui::Checkbox("By speed", &by_speed))
+						current_max_turn_change_mode = M_SPEED;
+
+					if (by_speed)
+					{
+						ImGui::Text("Base speed of max turn change");
+						ImGui::DragFloat("##s_mx_tn_change", &base_max_turn_change_speed, 0.1f);
+						
+						ImGui::Checkbox("Limit to a certain turn max", &limit_to_a_turn_max);
+
+						ImGui::Checkbox("Accelerate the change", &accelerated_change);
+						if (accelerated_change)
+						{
+							ImGui::Text("Base accel of max turn change speed");
+							ImGui::DragFloat("##a_mx_tn_change", &base_max_turn_change_accel, 0.01f);
+						}
+					}
+
+					
+					ImGui::Checkbox("Show max turn/ velocity graph", &show_graph);
+
+					if (show_graph)
+					{
+						float values[14];
+
+						for (int i = 0; i < 14; i ++)
+						{
+							values[i] = GetMaxTurnByCurrentVelocity(float(i)* 10.0f);
+						}
+
+						ImGui::PlotLines("Max turn / Velocity", values, 14);
+					}
+
+					//NOTE: put a graph so the designers know how it  will affect turn max change over time
+					ImGui::TreePop();
+
+
 				}
 
 				if (ImGui::TreeNode("Brake settings"))
@@ -608,6 +676,9 @@ void ComponentCar::OnInspector(bool debug)
 
 void ComponentCar::OnPlay()
 {
+	if (vehicle == nullptr)
+		CreateCar();
+
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	if (trs)
 	{
@@ -617,6 +688,22 @@ void ComponentCar::OnPlay()
 	checkpoints = 255;
 }
 
+void ComponentCar::SetFrontPlayer(PLAYER player)
+{
+	if (player > 0 && player < App->input->GetNumberJoysticks())
+	{
+		front_player = player;
+	}
+}
+
+void ComponentCar::SetBackPlayer(PLAYER player)
+{
+	if (player > 0 && player < App->input->GetNumberJoysticks())
+	{
+		back_player = player;
+	}
+}
+
 float ComponentCar::GetVelocity() const
 {
 	return vehicle->GetKmh();
@@ -624,6 +711,8 @@ float ComponentCar::GetVelocity() const
 
 void ComponentCar::HandlePlayerInput()
 {
+	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
+
 	float brake;
 	bool turning = false;
 	leaning = false;
@@ -661,55 +750,7 @@ void ComponentCar::HandlePlayerInput()
 	
 	KeyboardControls(&accel, &brake, &turning);
 
-	//  JOYSTICK CONTROLS__P1  //////////////////////////////////////////////////////////////////////////////////
-	/*if (App->input->GetNumberJoysticks() > 0)
-	{
-		//Kick to accelerate
-		if (kickTimer >= kickCooldown)
-		{
-			if (App->input->GetJoystickButton(0, JOY_BUTTON::A) == KEY_DOWN)
-			{
-				accel = force;
-				kickTimer = 0.0f;
-			}
-		}
-		//Brake
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::B))
-		{
-			brake = brake_force;
-		}
-		//Turn
-		float X_joy_input = App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X);
-		if (math::Abs(X_joy_input) > 0.1f)
-		{
-			turn_current = turn_max * -X_joy_input;
-		}
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_RIGHT))
-		{
-			turning = true;
-
-			turn_current -= turn_speed;
-			if (turn_current < -turn_max)
-				turn_current = -turn_max;
-		}
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::DPAD_LEFT))
-		{
-			turning = true;
-
-			turn_current += turn_speed;
-			if (turn_current > turn_max)
-				turn_current = turn_max;
-		}
-
-
-		if (App->input->GetJoystickButton(0, JOY_BUTTON::SELECT))
-		{
-			Reset();
-		}
-	}*/
 	JoystickControls(&accel, &brake, &turning);
-
-	
 
 	ApplyTurbo();
 
@@ -887,19 +928,19 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 
 
 	//Front player
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_W : SDL_SCANCODE_UP) == KEY_REPEAT)
 	{
 		Accelerate(accel);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 	{
 		*turning = Turn(&turning_left, false);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
 	{
 		*turning = Turn(&turning_left, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
 	{
 		Brake(accel, brake);
 	}
@@ -1642,6 +1683,65 @@ float ComponentCar::GetVelocity()
 	return vehicle->GetKmh();
 }
 
+float ComponentCar::GetMaxVelocity() const
+{
+	return max_velocity;
+}
+
+float ComponentCar::GetMinVelocity() const
+{
+	return min_velocity;
+}
+
+float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
+{
+	float max_t = base_turn_max;
+
+
+	if (sp <= velocity_to_begin_change)
+	{
+		return max_t;
+	}
+	else
+	{
+		if (current_max_turn_change_mode == M_SPEED)
+		{
+			float velocity_dif = sp - velocity_to_begin_change;
+			
+			max_t += (velocity_dif * base_max_turn_change_speed);
+
+			if (accelerated_change)
+			{
+				max_t += ((base_max_turn_change_accel / 2) * velocity_dif * velocity_dif);
+			}
+
+			if (max_t < turn_max_limit)
+			{
+				max_t = turn_max_limit;
+			}
+
+		}
+
+		else if (current_max_turn_change_mode == M_INTERPOLATION)
+		{
+			float turn_max_change_dif = turn_max_limit - base_turn_max;
+			float velocity_dif = max_velocity - velocity_to_begin_change;
+
+			max_t += (turn_max_change_dif / velocity_dif) * (sp - velocity_to_begin_change);
+		}
+
+		
+	}
+
+
+	return max_t;
+}
+
+TURBO ComponentCar::GetCurrentTurbo() const
+{
+	return current_turbo;
+}
+
 void ComponentCar::CreateCar()
 {
 	std::vector<Component*> components;
@@ -1850,8 +1950,20 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("fake_break", decel_brake);
 
 	//Turn 
-	data.AppendFloat("turn_max", turn_max);
+	data.AppendFloat("base_turn_max", base_turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
+
+	//Max turn change
+	data.AppendFloat("velocity_to_change", velocity_to_begin_change);
+	data.AppendFloat("turn_max_limit", turn_max_limit);
+
+	data.AppendFloat("base_max_turn_change_speed", base_max_turn_change_speed);
+	data.AppendFloat("base_max_turn_change_accel", base_max_turn_change_accel);
+	data.AppendBool("limit_to_a_turn_max", limit_to_a_turn_max);
+	data.AppendBool("accelerated_change", accelerated_change);
+
+	data.AppendInt("current_max_turn_change_mode", current_max_turn_change_mode);
+	
 
 	//Push
 	data.AppendFloat("push_force", push_force);
@@ -1986,8 +2098,19 @@ void ComponentCar::Load(Data& conf)
 	decel_brake = conf.GetFloat("fake_break");
 
 	//Turn 
-	turn_max = conf.GetFloat("turn_max"); 
+	base_turn_max = conf.GetFloat("base_turn_max"); 
 	turn_speed = conf.GetFloat("turn_speed");
+
+	//Max turn change
+	velocity_to_begin_change = conf.GetFloat("velocity_to_change"); 
+	turn_max_limit = conf.GetFloat("turn_max_limit"); 
+
+	base_max_turn_change_speed = conf.GetFloat("base_max_turn_change_speed");
+	base_max_turn_change_accel = conf.GetFloat("base_max_turn_change_accel"); 
+	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
+	accelerated_change = conf.GetBool("accelerated_change");
+
+	current_max_turn_change_mode = MAX_TURN_CHANGE_MODE(conf.GetInt("current_max_turn_change_mode"));
 
 	//Push
 	push_force = conf.GetFloat("push_force"); 

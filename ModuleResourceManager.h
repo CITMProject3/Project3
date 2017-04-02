@@ -25,7 +25,8 @@ enum FileType
 	FRAGMENT,
 	MATERIAL,
 	RENDER_TEXTURE,
-	SOUNDBANK
+	SOUNDBANK,
+	SCRIPTS_LIBRARY
 };
 
 struct tmp_mesh_file
@@ -77,6 +78,7 @@ public:
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;
 	unsigned int GetDefaultAnimShaderId()const;
+	unsigned int GetDefaultTerrainShaderId()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -114,6 +116,7 @@ private:
 	void VertexDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void FragmentDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void SoundbankDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
+	void ScriptLibraryDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void SceneDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void PrefabDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
@@ -129,7 +132,7 @@ private:
 	void UpdateAssetsAutoRecursive(const std::string& assets_dir, const std::string& library_dir, std::vector<tmp_mesh_file>& mesh_files);
 	void UpdateFileWithMeta(const std::string& meta_file, const std::string& base_assets_dir, const std::string& base_lib_dir);
 	void ImportFileWithMeta(unsigned int type, unsigned int uuid, std::string library_path, std::string assets_path, const std::string& base_assets_dir, const std::string& base_lib_dir, const std::string& meta_path);
-	void ImportMeshFileWithMeta(const char* path,const std::string& base_dir,const std::string& base_library_dir, unsigned int uuid, const std::string& meta_path);
+	void ImportMeshFileWithMeta(const char* path, const std::string& base_dir, const std::string& base_library_dir, unsigned int uuid, const std::string& meta_path);
 	std::string UpdateFolderWithMeta(const std::string& meta_path);
 
 private:
@@ -144,6 +147,7 @@ private:
 
 	unsigned int default_shader = 0;
 	unsigned int default_anim_shader = 0;
+	unsigned int default_terrain_shader = 0;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

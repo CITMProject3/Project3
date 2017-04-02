@@ -7,18 +7,20 @@
 #include "ModuleFileSystem.h"
 #include "ModuleInput.h"
 #include "ModuleLighting.h"
+#include "ModuleCamera3D.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
 #include "ComponentCamera.h"
+#include "ComponentCar.h"
+#include "ComponentCollider.h"
+#include "ComponentScript.h"
 
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-#include "ComponentCar.h"
-#include "ComponentCollider.h"
 
 #include "Assets.h"
 #include "RaycastHit.h"
@@ -33,6 +35,8 @@
 #include "ResourceFileTexture.h"
 
 #include "SDL\include\SDL_scancode.h"
+
+#include "Brofiler/include/Brofiler.h"
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -89,6 +93,8 @@ bool ModulePhysics3D::Start()
 
 update_status ModulePhysics3D::PreUpdate()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::PreUpdate", Profiler::Color::YellowGreen)
+
 	float dt = time->DeltaTime();
 	if (App->IsGameRunning())
 	{
@@ -120,6 +126,30 @@ update_status ModulePhysics3D::PreUpdate()
 					{
 						App->physics->OnCollision(pbodyB, pbodyA);
 					}
+
+					//Scripting
+					ComponentScript* tmp_script = nullptr;
+					if(ReadFlag(pbodyA->collisionOptions, PhysBody3D::co_isCar))
+						tmp_script = (ComponentScript*)pbodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+					else
+						tmp_script = (ComponentScript*)pbodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+					if (tmp_script != nullptr)
+					{
+						tmp_script->OnCollision(pbodyB);
+					}
+					else
+					{
+						if (ReadFlag(pbodyB->collisionOptions, PhysBody3D::co_isCar))
+							tmp_script = (ComponentScript*)pbodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT);
+						else
+							tmp_script = (ComponentScript*)pbodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+						if (tmp_script != nullptr)
+						{
+							tmp_script->OnCollision(pbodyA);
+						}
+					}
 				}
 			}
 		}
@@ -129,6 +159,8 @@ update_status ModulePhysics3D::PreUpdate()
 
 update_status ModulePhysics3D::Update()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Update", Profiler::Color::LimeGreen)
+
 	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 		debug = !debug;
 
@@ -137,14 +169,41 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	
+	if (paintMode && heightMapImg)
+	{
+		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+		{
+			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+			RaycastHit hit;
+			if (RayCast(ray, hit))
+			{
+				CAP(paintTexture, 0, 10);
+
+				int x = ceil(hit.point.x) - 1;
+				int y = ceil(hit.point.z);
+				x += heightMapImg->GetWidth() / 2;
+				y += heightMapImg->GetHeight() / 2;
+				for (int _y = -brushSize; _y <= brushSize; _y++)
+				{
+					for (int _x = -brushSize; _x <= brushSize; _x++)
+					{
+						if (_x + x >= 0 && _y + y >= 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						{
+							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+						}
+					}
+				}
+				ReinterpretTextureMap();
+			}
+		}
+	}
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModulePhysics3D::PostUpdate()
 {
-	
+	BROFILER_CATEGORY("ModulePhysics3D::PostUpdate", Profiler::Color::Green)
 	return UPDATE_CONTINUE;
 }
 
@@ -155,12 +214,25 @@ bool ModulePhysics3D::CleanUp()
 	CleanWorld();
 
 	DeleteHeightmap();
+	for (uint n = 0; n < GetNTextures(); n++)
+	{
+		DeleteTexture(n);
+	}
 
 	if (heightMapImg)
 	{
 		heightMapImg->Unload();
 	}
-	DeleteTexture();
+	for (uint n = 0; n < GetNTextures(); n++)
+	{
+		DeleteTexture(n);
+	}
+
+	if (terrainOriginalUvBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainOriginalUvBuffer);
+		terrainOriginalUvBuffer = 0;
+	}
 
 	delete vehicle_raycaster;
 	delete world;
@@ -262,6 +334,42 @@ void ModulePhysics3D::CreateGround()
 	world->addRigidBody(body);
 }
 
+bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
+{
+	RaycastHit hit_info;
+	bool ret = false;
+
+	uint u1, u2, u3;
+	float distance;
+	vec hit_point;
+	Triangle triangle;
+	for (unsigned int i = 0; i < numIndices - 100; i += 3)
+	{
+		u1 = indices[i];
+		u2 = indices[i + 1];
+		u3 = indices[i + 2];
+		triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+		if (raycast.Intersects(triangle, &distance, &hit_point))
+		{
+			ret = true;
+			if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+			{
+				hit_OUT.distance = distance;
+				hit_OUT.point = hit_point;
+				hit_OUT.normal = triangle.NormalCCW();
+			}
+		}
+
+		if (ret == true)
+		{
+			hit_OUT.object = nullptr;
+			hit_OUT.normal.Normalize();
+		}
+	}
+
+	return ret;
+}
+
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
 	bool ret = false;
@@ -271,10 +379,6 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
 		{
-			if (heightMapImg != nullptr)
-			{
-				heightMapImg->Unload();
-			}
 			DeleteHeightmap();
 			
 
@@ -296,6 +400,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 					int height = ilGetInteger(IL_IMAGE_HEIGHT);
 					BYTE* tmp = new BYTE[width * height * 3];
 					//Copying all RGB data of each pixel into a uchar (BYTE) array. We need to transform it into float numbers
+					realTerrainData = new float[width * height];
 					terrainData = new float[width * height];
 					ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
 
@@ -340,13 +445,43 @@ void ModulePhysics3D::DeleteHeightmap()
 		delete[] terrainData;
 		terrainData = nullptr;
 	}
+	if (realTerrainData != nullptr)
+	{
+		delete[] realTerrainData;
+		realTerrainData = nullptr;
+	}
 	if (heightMapImg != nullptr)
 	{
 		heightMapImg->Unload();
 		heightMapImg = nullptr;
 	}
-	DeleteTexture();
 	DeleteTerrainMesh();
+}
+
+bool ModulePhysics3D::SaveTextureMap(const char * path)
+{	
+	if (heightMapImg)
+	{
+		return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+	}
+}
+
+void ModulePhysics3D::LoadTextureMap(const char * path)
+{
+	if (heightMapImg)
+	{
+		char* tmp = nullptr;		
+		uint size = App->file_system->Load(path, &tmp);		
+		if (size > 0)
+		{
+			if (textureMap != nullptr)
+			{
+				delete[] textureMap;
+			}
+			textureMap = (float*)tmp;
+		}
+		ReinterpretTextureMap();
+	}
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -595,17 +730,107 @@ void ModulePhysics3D::AddTerrain()
 	}
 }
 
-void ModulePhysics3D::RenderTerrain()
+void ModulePhysics3D::GenerateIndices()
 {
+	if (heightMapImg)
+	{
+		DeleteIndices();
+
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+
+		//Interior vertices all need 6 indices
+		//limit vertices all need 3 indices
+		//Except corner ones. Two need 1 and two need 2
+		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
+		indices = new uint[numIndices];
+
+		float2* originalUvs = new float2[w*h];
+
+		int n = 0;
+		for (int z = 0; z < h - 1; z++)
+		{
+			for (int x = 0; x < w - 1; x++)
+			{
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = z * w + x;
+				n++;
+
+				indices[n] = z * w + x + 1;
+				n++;
+				indices[n] = (z + 1) * w + x;
+				n++;
+				indices[n] = (z + 1) * w + x + 1;
+				n++;
+
+				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+			}
+		}
+
+		//Load indices buffer to VRAM
+		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+
+		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
+		if (terrainOriginalUvBuffer == 0)
+		{
+			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
+
+		delete[] originalUvs;
+	}
+}
+
+void ModulePhysics3D::DeleteIndices()
+{
+	if (terrainIndicesBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
+		terrainIndicesBuffer = 0;
+	}
+	if (indices != nullptr)
+	{
+		delete[] indices;
+		indices = nullptr;
+	}
+	numIndices = 0;
+}
+
+void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
+{
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
+
 	if (numIndices != 0 && terrainData != nullptr)
 	{
+		if (paintMode && renderWiredTerrain == false)
+		{
+			if (renderWiredTerrain == false)
+			{
+				renderWiredTerrain = true;
+				RenderTerrain(camera);
+				renderWiredTerrain = false;
+			}
+		}
 		if (renderWiredTerrain)
 		{
-			glLineWidth(1.0f);
+			if (paintMode)
+			{
+				glLineWidth(2.0f);
+			}
+			else
+			{
+				glLineWidth(1.0f);
+			}
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
-		uint shader_id = App->resource_manager->GetDefaultShaderId();
+		uint shader_id = App->resource_manager->GetDefaultTerrainShaderId();
 		//Use shader
 		glUseProgram(shader_id);
 
@@ -615,26 +840,119 @@ void ModulePhysics3D::RenderTerrain()
 		GLint model_location = glGetUniformLocation(shader_id, "model");
 		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
 		GLint projection_location = glGetUniformLocation(shader_id, "projection");
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *App->renderer3D->camera->GetProjectionMatrix().v);
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
 		GLint view_location = glGetUniformLocation(shader_id, "view");
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *App->renderer3D->camera->GetViewMatrix().v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
+
+		GLint n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
+		glUniform1i(n_texs_location, textures.size());
+
+		GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
+		glUniform1i(tex_distributor_location, 0);
 
 		int count = 0;
-		if (texture != nullptr)
+		if (textures.size() > 0 && renderWiredTerrain == false)
+		{		
+			uint nTextures = textures.size();
+			GLint texture_location = 0;
+			//TEXTURE 0
+			if (0 < nTextures)
+			{
+				GLint texture_location = glGetUniformLocation(shader_id, "_Texture_0");
+				glUniform1i(texture_location, 1);
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
+			}
+
+			//TEXTURE 1			
+			if (1 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_1");
+				glUniform1i(texture_location, 2);
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, textures[1]->GetTexture());
+			}
+
+			//TEXTURE 2
+			if (2 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_2");
+				glUniform1i(texture_location, 3);
+				glActiveTexture(GL_TEXTURE3);
+				glBindTexture(GL_TEXTURE_2D, textures[2]->GetTexture());
+			}
+
+			//TEXTURE 3
+			if (3 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_3");
+				glUniform1i(texture_location, 4);
+				glActiveTexture(GL_TEXTURE4);
+				glBindTexture(GL_TEXTURE_2D, textures[3]->GetTexture());
+			}
+
+			//TEXTURE 4
+			if (4 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_4");
+				glUniform1i(texture_location, 5);
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
+			}
+			//TEXTURE 5
+			if (5 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_5");
+				glUniform1i(texture_location, 6);
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
+			}
+			//TEXTURE 6
+			if (6 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
+				glUniform1i(texture_location, 7);
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+			}
+
+			//TEXTURE 7
+			if (7 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
+				glUniform1i(texture_location, 8);
+				glActiveTexture(GL_TEXTURE8);
+				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+			}
+			//TEXTURE 8
+			if (8 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_8");
+				glUniform1i(texture_location, 9);
+				glActiveTexture(GL_TEXTURE9);
+				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
+			}
+			//TEXTURE 9
+			if (9 < nTextures)
+			{
+				texture_location = glGetUniformLocation(shader_id, "_Texture_9");
+				glUniform1i(texture_location, 10);
+				glActiveTexture(GL_TEXTURE10);
+				glBindTexture(GL_TEXTURE_2D, textures[9]->GetTexture());
+			}
+			
+		}
+		else
 		{
 			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			glUniform1i(has_tex_location, 1);
 			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, texture->GetTexture());
+			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 			glUniform1i(texture_location, 0);
 		}
-		else
-		{
-			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-			glUniform1i(has_tex_location, 0);
-		}
-
 
 		GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
 		if (colorLoc != -1)
@@ -670,8 +988,7 @@ void ModulePhysics3D::RenderTerrain()
 			if (directional_direction_location != -1)
 				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 		}
-
-
+		
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
@@ -687,11 +1004,11 @@ void ModulePhysics3D::RenderTerrain()
 		glEnableVertexAttribArray(2);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
-/*
-		//Buffer tangents == 3
-		glEnableVertexAttribArray(3);
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);*/
+
+		//Buffer terrainUVs == 4
+		glEnableVertexAttribArray(4);
+		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
+		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
@@ -700,6 +1017,29 @@ void ModulePhysics3D::RenderTerrain()
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
+		glDisableVertexAttribArray(3);
+
+		glActiveTexture(GL_TEXTURE10);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE7);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE6);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE4);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -708,33 +1048,123 @@ void ModulePhysics3D::RenderTerrain()
 
 void ModulePhysics3D::GenerateTerrainMesh()
 {
-	if (terrainIndicesBuffer != 0)
+	GenerateVertices();
+	GenerateIndices();
+	GenerateUVs();
+	AutoGenerateTextureMap();
+}
+
+void ModulePhysics3D::DeleteNormals()
+{
+	if (terrainNormalBuffer != 0)
 	{
-		DeleteTerrainMesh();
+		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
+		terrainNormalBuffer = 0;
 	}
+}
+
+void ModulePhysics3D::GenerateUVs()
+{
 	if (heightMapImg)
 	{
 		int w = heightMapImg->GetWidth();
 		int h = heightMapImg->GetHeight();
-		uint numVertices = w * h;
-		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 * 3) + (h * 2 * 3) - 2 - 1 - 2 - 1;
 
-		uint* indices = new uint[numIndices];
+		DeleteUVs();
 
-		float3* vertices = new float3[numVertices];
-		float3* normals = new float3[numVertices];
-		float2* uvs = new float2[numVertices];
+		float2* uvs = new float2[w*h];
 
 		for (int z = 0; z < h; z++)
 		{
 			for (int x = 0; x < w; x++)
 			{
-				vertices[z * w + x] = float3(x - w / 2, terrainData[z * w + x], z - h / 2);
-				float uv_x = (float)x / (float)w;
-				float uv_y = 1 - ((float)z / (float)h);
+				float uv_x = ((float)x / (float)w) / textureScaling;
+				float uv_y = 1 - (((float)z / (float)h) / textureScaling);
 				uvs[z * w + x] = float2(uv_x, uv_y);
+				
 			}
 		}
+
+		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, uvs, GL_STATIC_DRAW);
+
+		delete[] uvs;
+	}
+}
+
+void ModulePhysics3D::DeleteUVs()
+{
+	if (terrainUvBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
+		terrainUvBuffer = 0;
+	}
+}
+
+void ModulePhysics3D::DeleteTerrainMesh()
+{
+	DeleteVertices();
+	DeleteNormals();
+	DeleteUVs();
+	DeleteIndices();
+}
+
+void ModulePhysics3D::GenerateVertices()
+{
+	if (heightMapImg)
+	{
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		uint numVertices = w * h;
+
+		DeleteVertices();
+
+		vertices = new float3[numVertices];
+
+		for (int z = 0; z < h; z++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+				vertices[z * w + x] = float3(x - w / 2, realTerrainData[z * w + x] * terrainMaxHeight, z - h / 2);
+			}
+		}
+
+		//Load vertices buffer to VRAM
+		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
+		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
+
+		GenerateNormals();
+	}
+}
+
+void ModulePhysics3D::DeleteVertices()
+{
+	if (terrainVerticesBuffer != 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
+		terrainVerticesBuffer = 0;
+	}
+	if (vertices != nullptr)
+	{
+		delete[] vertices;
+		vertices = nullptr;
+	}
+}
+
+void ModulePhysics3D::GenerateNormals()
+{
+	if (heightMapImg && vertices)
+	{
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		uint numVertices = w * h;
+
+		DeleteNormals();
+
+		float3* normals = new float3[numVertices];
 
 		for (int z = 0; z < h; z++)
 		{
@@ -780,199 +1210,193 @@ void ModulePhysics3D::GenerateTerrainMesh()
 			}
 		}
 
-		int n = 0;
-		for (int z = 0; z < h - 1; z++)
-		{
-			for (int x = 0; x < w - 1; x++)
-			{
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = z * w + x;
-				n++;
-
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = (z + 1) * w + x + 1;
-				n++;
-			}
-		}
-
-		//Load vertices buffer to VRAM
-		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
-
-		//Load UVs -----------------------------------------------------------------------------------------------------------------------
-		glGenBuffers(1, (GLuint*)&(terrainUvBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainUvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * numVertices, uvs, GL_STATIC_DRAW);
-
-		//Load UVs -----------------------------------------------------------------------------------------------------------------------
+		//Load Normalss -----------------------------------------------------------------------------------------------------------------------
 		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
 
-		//Load indices buffer to VRAM
-		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
-
-
-		delete[] indices;
-		delete[] vertices;
 		delete[] normals;
-		delete[] uvs;
-	}
-}
-
-void ModulePhysics3D::DeleteTerrainMesh()
-{
-	if (terrainVerticesBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
-		terrainVerticesBuffer = 0;
-	}
-	if (terrainIndicesBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-		terrainIndicesBuffer = 0;
-	}
-	if (terrainUvBuffer != 0)
-	{
-		glDeleteBuffers(1, (GLuint*)&terrainUvBuffer);
-		terrainUvBuffer = 0;
-	}
-	if (terrainNormalBuffer != 0)
-	{
-		//glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
-		terrainNormalBuffer = 0;
 	}
 }
 
 void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 {
-	int w = heightMapImg->GetWidth();
-	int h = heightMapImg->GetHeight();
-
-	float* Rbuf = new float[w*h];
-	float* Gbuf = new float[w*h];
-	float* Bbuf = new float[w*h];
-
-	//Iterating all image pixels
-	for (int y = 0; y < h; y++)
+	if (heightMapImg)
 	{
-		for (int x = 0; x < w; x++)
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+
+		float* edgeH = new float[(w*h) * 3];
+		float* edgeV = new float[(w*h) * 3];
+
+		if (textureMap != nullptr)
 		{
-			float value = 0.0f;
-			int n = 0;
-			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
-			{
-				if (_y > 0 && _y < h)
-				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
-					{
-						if (_x > 0 && _x < w)
-						{
-							n++;
-							value += R[_y * w + _x];
-						}
-					}
-				}
-			}
-			value /= n;
-			Rbuf[y*w + x] = value;
-
-			value = 0.0f;
-			//Iterating all nearby pixels and checking they actually exist in the image
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
-			{
-				if (_y > 0 && _y < h)
-				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
-					{
-						if (_x > 0 && _x < w)
-						{
-							value += G[_y * w + _x];
-						}
-					}
-				}
-			}
-			value /= n;
-			Gbuf[y*w + x] = value;
-
-			value = 0.0f;
-			for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
-			{
-				if (_y > 0 && _y < h)
-				{
-					for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
-					{
-						if (_x > 0 && _x < w)
-						{
-							value += B[_y * w + _x];
-						}
-					}
-				}
-			}
-			value /= n;
-			Bbuf[y*w + x] = value;
+			delete[] textureMap;
 		}
-	}
+		textureMap = new float[w*h];
 
-	for (int y = 0; y < h; y++)
-	{
-		for (int x = 0; x < w; x++)
+		float* buf = new float[w*h];
+		float maxVal = 0;
+
+		//Setting the buffer content to the max value of RGB, to get a single matrix instead of three (R, G, B)
+		for (int y = 0; y < h; y++)
 		{
-			terrainData[y*w + x] = (max(max(Rbuf[y*w + x], Gbuf[y*w + x]), Bbuf[y*w + x]) / 3.0) * terrainHeightScaling;
+			for (int x = 0; x < w; x++)
+			{
+				buf[y*w + x] = (max(max(R[y*w + x], G[y*w + x]), B[y*w + x]));
+			}
 		}
-	}
 
-	delete[] Rbuf;
-	delete[] Gbuf;
-	delete[] Bbuf;
+		float value = 0.0f;
+		int n = 0;
+		//Iterating all image pixels
+		for (int y = 0; y < h; y++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+#pragma region GaussianBlur
+				value = 0.0f;
+				n = 0;
+				//Iterating all nearby pixels and checking they actually exist in the image
+				for (int _y = y - terrainSmoothLevels; _y <= y + terrainSmoothLevels; _y++)
+				{
+					if (_y > 0 && _y < h)
+					{
+						for (int _x = x - terrainSmoothLevels; _x <= x + terrainSmoothLevels; _x++)
+						{
+							if (_x > 0 && _x < w)
+							{
+								n++;
+								value += buf[_y * w + _x];
+							}
+						}
+					}
+				}
+				value /= n;
+				value /= 255;
+				realTerrainData[y*w + x] = value;
+				terrainData[y*w + x] = value * terrainMaxHeight;
+#pragma endregion
+
+#pragma region Edge detection
+				int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
+				int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
+				edgeH[y * w + x] = 0;
+				edgeV[y * w + x] = 0;
+				if (x - 1 >= 0 && x + 1 < w && y - 1 >= 0 && y + 1 < h)
+				{
+					for (int _y = -1; _y <= 1; _y++)
+					{
+						for (int _x = -1; _x <= 1; _x++)
+						{
+							edgeH[y * w + x] += buf[(y + _y) * w + x + _x] * hk[_y + 1][_x + 1];
+
+							edgeV[y * w + x] += buf[(y + _y) * w + x + _x] * vk[_y + 1][_x + 1];
+						}
+					}
+				}
+
+				textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+				if (textureMap[(h - y - 1) * w + x] > maxVal)
+				{
+					maxVal = textureMap[(h - y - 1) * w + x];
+				}
+#pragma endregion
+			}
+		}
+
+		for (int y = 0; y < h; y++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+				textureMap[y * w + x] /= maxVal;
+			}
+		}
+
+		ReinterpretTextureMap();
+
+		delete[] edgeH;
+		delete[] edgeV;
+		delete[] buf;
+	}
 }
 
-void ModulePhysics3D::SetTerrainHeightScale(float scale)
+void ModulePhysics3D::SetTerrainMaxHeight(float height)
 {
-	if (scale > 0.001f)
+	if (height > 0.1f)
 	{
 		if (heightMapImg)
 		{
 			for (unsigned int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
 			{
-				terrainData[n] = (terrainData[n] / terrainHeightScaling) * scale;
+				terrainData[n] = realTerrainData[n]  * height;
 			}
 		}
-		terrainHeightScaling = scale;
+		terrainMaxHeight = height;
 		GenerateTerrainMesh();
 	}
 }
 
-void ModulePhysics3D::LoadTexture(string resLibPath)
+void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
+{
+	if (scale > 0)
+	{
+		float tmp = 0.0f;
+		if (doNotUse) { tmp = textureScaling; }
+		textureScaling = scale;
+		GenerateUVs();
+		if (doNotUse) { textureScaling = tmp; }
+	}
+}
+
+void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 {
 	//Loading Heightmap Image
-	if (resLibPath != GetTexturePath() && resLibPath != "" && resLibPath != " ")
+	if (resLibPath != "" && resLibPath != " ")
 	{
-		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
-		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+		if ((pos == -1) || (pos >= 0 && pos < GetNTextures()))
 		{
-			DeleteTexture();
-			texture = (ResourceFileTexture*)res;
+			ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
+			if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
+			{
+				if (pos == -1)
+				{
+					textures.push_back((ResourceFileTexture*)res);
+				}
+				else
+				{
+					textures[pos]->Unload();
+					textures[pos] = (ResourceFileTexture*)res;
+				}
+				if (textures.size() == 1)
+				{
+					GenerateUVs();
+				}
+			}
 		}
 	}
 }
 
-void ModulePhysics3D::DeleteTexture()
+void ModulePhysics3D::DeleteTexture(uint n)
 {
-	if (texture != nullptr)
+	if (n >= 0 && n < textures.size())
 	{
-		texture->Unload();
-		texture = nullptr;
+		int x = 0;
+		for (std::vector<ResourceFileTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
+		{
+			if (x == n)
+			{
+				textures[n]->Unload();
+				textures.erase(it);
+				break;
+			}
+			x++;
+		}
+	}
+
+	if (textures.size() == 0)
+	{
+		SetTextureScaling(1.0f, true);
 	}
 }
 
@@ -1004,32 +1428,37 @@ int ModulePhysics3D::GetHeightmap()
 	return 0;
 }
 
-int ModulePhysics3D::GetTexture()
+int ModulePhysics3D::GetTexture(uint n)
 {
-	if (texture != nullptr)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetTexture();
+		return textures[n]->GetTexture();
 	}
 	return 0;
 }
 
-uint ModulePhysics3D::GetTextureUUID()
+uint ModulePhysics3D::GetTextureUUID(uint n)
 {
-	if (texture)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetUUID();
+		return textures[n]->GetUUID();
 	}
 	return 0;
 }
 
-const char * ModulePhysics3D::GetTexturePath()
+const char * ModulePhysics3D::GetTexturePath(uint n)
 {
-	if (texture)
+	if (n >= 0 && n < textures.size())
 	{
-		return texture->GetFile();
+		return textures[n]->GetFile();
 	}
 	char ret[5] = " ";
 	return ret;
+}
+
+uint ModulePhysics3D::GetNTextures()
+{
+	return textures.size();
 }
 
 float2 ModulePhysics3D::GetHeightmapSize()
@@ -1039,6 +1468,50 @@ float2 ModulePhysics3D::GetHeightmapSize()
 		return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
 	}
 	return float2::zero;
+}
+
+void ModulePhysics3D::AutoGenerateTextureMap()
+{
+	if (heightMapImg)
+	{
+		int w = heightMapImg->GetWidth();
+		int h = heightMapImg->GetHeight();
+		for (int y = 0; y < h; y++)
+		{
+			for (int x = 0; x < w; x++)
+			{
+				if (textureMap[y * w + x] > 0.15)
+				{
+					textureMap[y * w + x] = 0.15f;
+				}
+				else
+				{
+					textureMap[y * w + x] = 0.05f;
+				}
+			}
+		}
+		ReinterpretTextureMap();
+	}
+}
+
+void ModulePhysics3D::ReinterpretTextureMap()
+{
+	if (heightMapImg)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glActiveTexture(GL_TEXTURE0);
+		if (textureMapBufferID == 0)
+		{
+			glGenTextures(1, &textureMapBufferID);
+		}
+		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, heightMapImg->GetWidth(), heightMapImg->GetHeight(), 0, GL_RED, GL_FLOAT, textureMap);
+	}
 }
 
 

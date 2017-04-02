@@ -16,10 +16,11 @@
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
-#include "AutoProfile.h"
 #include "Random.h"
 
 #include "ResourceFilePrefab.h"
+
+#include "Brofiler\include\Brofiler.h"
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -35,25 +36,12 @@ ModuleGOManager::~ModuleGOManager()
 
 bool ModuleGOManager::Init(Data & config)
 {
-	//Load last open scene
-	const char* path = config.GetString("current_scene_path");
-	bool scene_success = false;
-	if (path)
-	{
-		if (strcmp(path, "") != 0)
-		{
-			current_scene_path = path; //The scene is loaded at start because OpenGL needs to be init at ModuleRender
-			scene_success = true;
-		}
-	}
-
-	if (!scene_success)
-	{
-		LoadEmptyScene();
-	}
-
+	LoadEmptyScene();
 	layer_system = new LayerSystem();
 	layer_system->Load(config);
+
+	// Whether exists one scene on Configuration.json, load it on Start()!
+	current_library_scene_path = config.GetString("current_library_scene_path");
 	
 	return true;
 }
@@ -61,20 +49,16 @@ bool ModuleGOManager::Init(Data & config)
 bool ModuleGOManager::Start()
 {
 	octree.Create(OCTREE_SIZE);
-	//Load last scene 
-	if (root == nullptr)
-	{
-		if (App->resource_manager->LoadScene(current_scene_path.data()) == false)
-		{
-			LoadEmptyScene();
-		}
-	}
+
+	if (!current_library_scene_path.empty() && App->IsGameRunning())
+		App->resource_manager->LoadScene(current_library_scene_path.data());	
 
 	return true;
 }
 
 update_status ModuleGOManager::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleGOManager::PreUpdate", Profiler::Color::Aquamarine)
 	//Remove all GameObjects that needs to be erased
 	for (vector<GameObject*>::iterator go = go_to_remove.begin(); go != go_to_remove.end(); ++go)
 	{
@@ -100,6 +84,7 @@ update_status ModuleGOManager::PreUpdate()
 
 update_status ModuleGOManager::Update()
 {
+	BROFILER_CATEGORY("ModuleGOManager::Update", Profiler::Color::SkyBlue)
 	//Update GameObjects
 	if(root)
 		UpdateGameObjects(root);
@@ -112,7 +97,8 @@ update_status ModuleGOManager::Update()
 
 void ModuleGOManager::SaveBeforeClosing(Data& data) const
 {
-	data.AppendString("current_scene_path", current_scene_path.data());
+	data.AppendString("current_assets_scene_path", current_assets_scene_path.data());
+	data.AppendString("current_library_scene_path", current_library_scene_path.data());
 	data.AppendArray("layers");
 	layer_system->Save(data);
 }
@@ -160,7 +146,7 @@ GameObject* ModuleGOManager::CreatePrimitive(PrimitiveType type)
 	
 	string prim_path = "Resources/Primitives/";
 
-	std::map<PrimitiveType, long unsigned> prim_codes;
+	std::map<PrimitiveType, unsigned> prim_codes;
 	prim_codes[P_CUBE] = 2147000001;
 	prim_codes[P_CYLINDER] = 2147000002;
 	prim_codes[P_PLANE] = 2147000003;
@@ -277,7 +263,10 @@ void ModuleGOManager::LoadEmptyScene()
 	//Empty scene
 	root = new GameObject();
 	root->name = "Root";
-	current_scene_path = "";
+
+	current_assets_scene_path = "";
+	current_library_scene_path = "";
+
 	App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 }
 
@@ -300,19 +289,38 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
-	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+
+	root_node.AppendArray("terrain_textures");
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		Data texture;
+		texture.AppendString("path", App->physics->GetTexturePath(n));
+		root_node.AppendArrayValue(texture);
+	}
+
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
+	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 
-	App->file_system->Save("Library/current_scene.json", buf, size); //TODO: Find the right place to save the scene.
+	App->file_system->Save(TEMPORAL_SCENE, buf, size); //TODO: Find the right place to save the scene.
 
 	delete[] buf;
+
+	std::string textureMapPath  = TEMPORAL_SCENE;
+	textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 4);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 }
 
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
-	App->resource_manager->LoadScene("Library/current_scene.json");
+	App->resource_manager->LoadScene(TEMPORAL_SCENE);
+	App->file_system->Delete(TEMPORAL_SCENE);
 }
 
 bool ModuleGOManager::InsertGameObjectInOctree(GameObject * go)
@@ -400,8 +408,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		}
 	}
 	else
-	{	
-		//Prefab
+	{	//Prefab
 		ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)App->resource_manager->LoadResource(prefab_path, ResourceFileType::RES_PREFAB);
 		if (rc_prefab)
 		{
@@ -410,7 +417,8 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 				go->rc_prefab = rc_prefab;
 			else
 			{
-				LOG("Warning: error when loading prefab '%s'", prefab_path.c_str());
+				LOG("[ERROR] When loading prefab '%s'", prefab_path.c_str());
+				App->editor->DisplayWarning(WarningType::W_ERROR, "When loading prefab '%s'", prefab_path.c_str());
 			}
 		}
 	}
@@ -424,19 +432,27 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 			dynamic_gameobjects.push_back(go);
 	}
 
-
 	return go;
 }
 
-void ModuleGOManager::SetCurrentScenePath(const char * scene_path)
+void ModuleGOManager::SetCurrentAssetsScenePath(const char* scene_path)
 {
-	current_scene_path = scene_path;
+	current_assets_scene_path = scene_path;
 }
 
-
-const char* ModuleGOManager::GetCurrentScenePath()
+const char* ModuleGOManager::GetCurrentAssetsScenePath() const
 {
-	return current_scene_path.c_str();
+	return current_assets_scene_path.c_str();
+}
+
+void ModuleGOManager::SetCurrentLibraryScenePath(const char* scene_path)
+{
+	current_library_scene_path = scene_path;
+}
+
+const char* ModuleGOManager::GetCurrentLibraryScenePath() const
+{
+	return current_library_scene_path.c_str();
 }
 
 GameObject* ModuleGOManager::LoadPrefabGameObject(const Data & go_data, map<unsigned int, unsigned int>& uuids)
@@ -695,8 +711,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
-	PROFILE("ModuleGOManager::UpdateGameObjects");
-
 	if(root != object && object->IsActive() == true)
 		object->Update();
 

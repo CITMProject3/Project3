@@ -10,10 +10,12 @@
 #include "ComponentBone.h"
 #include "ResourceFileMesh.h"
 #include "ResourceFileBone.h"
-#include "AutoProfile.h"
 #include "ModuleFileSystem.h"
 
+#include "ModuleEditor.h"
+
 #include "Time.h"
+#include "Brofiler\include\Brofiler.h"
 
 bool Animation::Advance(float dt)
 {
@@ -289,7 +291,6 @@ void ComponentAnimation::PlayAnimation(const char* name, float blendTime, bool k
 
 void ComponentAnimation::LockAnimationRatio(float ratio)
 {
-	PROFILE("Animation Lock ratio");
 	if (current_animation != nullptr)
 	{
 		current_animation->SetFrameRatio(ratio);
@@ -361,7 +362,8 @@ bool ComponentAnimation::StartAnimation()
 {
 	if (linked == false)
 	{
-		LOG("ERROR: The animation of %s is not linked and is trying to be played.", game_object->name);
+		LOG("[ERROR] The animation of %s is not linked and is trying to be played.", game_object->name);
+		App->editor->DisplayWarning(WarningType::W_ERROR, "The animation of %s is not linked and is trying to be played", game_object->name);
 	}
 
 	if (current_animation != nullptr)
@@ -371,7 +373,8 @@ bool ComponentAnimation::StartAnimation()
 
 void ComponentAnimation::Update()
 {
-	
+	BROFILER_CATEGORY("ComponentAnimation::Update", Profiler::Color::Red)
+
 	if (App->IsGameRunning())
 	{
 		if (playing == true)
@@ -401,11 +404,12 @@ void ComponentAnimation::Update()
 			{
 				playing = false;
 			}
-			PROFILE("Animation Update");
+			BROFILER_CATEGORY("ComponentAnimation::UpdateBonesTransform", Profiler::Color::BlueViolet)
 			UpdateBonesTransform(current_animation, blend_animation, blend_ratio);
 		}
 	}
 
+	BROFILER_CATEGORY("ComponentAnimation::UpdateMeshAnimation", Profiler::Color::Cyan)
 	UpdateMeshAnimation(game_object); //Do it always
 }
 
