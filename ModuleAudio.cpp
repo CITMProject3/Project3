@@ -91,9 +91,6 @@ bool ModuleAudio::CleanUp()
 
 update_status ModuleAudio::Update()
 {
-	if (listener)
-		UpdateListenerPos();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -110,16 +107,16 @@ void ModuleAudio::SetListener(const ComponentCamera *listener)
 	this->listener = listener;
 }
 
-void ModuleAudio::UpdateListenerPos()
+void ModuleAudio::UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id)
 {
-	math::float3 front = listener->GetFront();  // Orientation of the listener
-	math::float3 up = listener->GetUp();		// Top orientation of the listener
-	math::float3 pos = listener->GetPos();	    // Position of the listener
+	math::float3 front = cam->GetFront();  // Orientation of the listener
+	math::float3 up = cam->GetUp();		// Top orientation of the listener
+	math::float3 pos = cam->GetPos();	    // Position of the listener
 
 	AkListenerPosition ak_pos;
 	ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
 
-	AK::SoundEngine::SetListenerPosition(ak_pos);
+	AK::SoundEngine::SetListenerPosition(ak_pos, listener_id);
 }
 
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)

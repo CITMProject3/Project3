@@ -48,9 +48,10 @@ struct VehicleInfo
 };
 
 
-struct PhysVehicle3D : public PhysBody3D
+class PhysVehicle3D : public PhysBody3D
 {
 public:
+
 	PhysVehicle3D(btRigidBody* body, btRaycastVehicle* vehicle, const VehicleInfo& info, ComponentCar* car);
 	~PhysVehicle3D();
 
@@ -63,8 +64,8 @@ public:
 	float GetKmh() const;
 	vec GetPos()const;
 
-
 	bool IsVehicleInContact() const;
+
 public:
 
 	VehicleInfo info;

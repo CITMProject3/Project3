@@ -13,7 +13,7 @@
 
 // Only for Vertical Slice 3
 #include "SDL\include\SDL_scancode.h"
-#include "ComponentAudio.h"
+#include "ComponentAudioSource.h"
 #include "ModuleAudio.h"
 
 ComponentUiButton::ComponentUiButton(ComponentType type, GameObject * game_object) : Component(type, game_object)
@@ -33,8 +33,8 @@ void ComponentUiButton::Update()
 		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_G) == KEY_STATE::KEY_DOWN)
 		{
 			// Only for Vertical Slice 3 --> Launching Double Drum sound
-			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
-			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
+			/*ComponentAudioSource *a = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());*/
 
 			if (UImaterial->texture_ids.size() >= 2)
 			{

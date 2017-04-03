@@ -171,27 +171,27 @@ namespace Player_Car
 	{
 		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 
-		if (ReadFlag(col->collisionOptions, col->co_isItem))
-		{
-			ComponentCollider* item_col = col->GetCollider();
-			if (item_col->GetGameObject()->name.compare("Hitodama"))
-			{
-				//Do something
-			}
-			else if (item_col->GetGameObject()->name.compare("Firecracker"))
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				App->go_manager->RemoveGameObject(item_col->GetGameObject());
-			}
-			else if (item_col->GetGameObject()->name.compare("Koma"))
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				App->go_manager->RemoveGameObject(item_col->GetGameObject());
-			}
-			else//item box
-			{
-				have_item = true;
-			}
-		}
+		//if (ReadFlag(col->collisionOptions, col->co_isItem))
+		//{
+		//	ComponentCollider* item_col = col->GetCollider();
+		//	if (item_col->GetGameObject()->name.compare("Hitodama"))
+		//	{
+		//		//Do something
+		//	}
+		//	else if (item_col->GetGameObject()->name.compare("Firecracker"))
+		//	{
+		//		Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+		//		App->go_manager->RemoveGameObject(item_col->GetGameObject());
+		//	}
+		//	else if (item_col->GetGameObject()->name.compare("Koma"))
+		//	{
+		//		Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+		//		App->go_manager->RemoveGameObject(item_col->GetGameObject());
+		//	}
+		//	else//item box
+		//	{
+		//		have_item = true;
+		//	}
+		//}
 	}
 }

@@ -8,4 +8,7 @@ unsigned char SetFlag(unsigned char container, uint flag, bool value)
 	return container &= ~flag;
 }
 
-bool ReadFlag(unsigned char container, uint flag) { return (bool)(container & flag); }
+bool ReadFlag(unsigned char container, uint flag)
+{ 
+	return container & flag;
+}
