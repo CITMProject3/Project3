@@ -16,10 +16,11 @@
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
-#include "AutoProfile.h"
 #include "Random.h"
 
 #include "ResourceFilePrefab.h"
+
+#include "Brofiler\include\Brofiler.h"
 
 ModuleGOManager::ModuleGOManager(const char* name, bool start_enabled) : Module(name, start_enabled)
 {}
@@ -57,6 +58,7 @@ bool ModuleGOManager::Start()
 
 update_status ModuleGOManager::PreUpdate()
 {
+	BROFILER_CATEGORY("ModuleGOManager::PreUpdate", Profiler::Color::Aquamarine)
 	//Remove all GameObjects that needs to be erased
 	for (vector<GameObject*>::iterator go = go_to_remove.begin(); go != go_to_remove.end(); ++go)
 	{
@@ -82,6 +84,7 @@ update_status ModuleGOManager::PreUpdate()
 
 update_status ModuleGOManager::Update()
 {
+	BROFILER_CATEGORY("ModuleGOManager::Update", Profiler::Color::SkyBlue)
 	//Update GameObjects
 	if(root)
 		UpdateGameObjects(root);
@@ -286,7 +289,19 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
-	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
+
+	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+
+	root_node.AppendArray("terrain_textures");
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		Data texture;
+		texture.AppendString("path", App->physics->GetTexturePath(n));
+		root_node.AppendArrayValue(texture);
+	}
+
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
+	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -294,6 +309,12 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	App->file_system->Save(TEMPORAL_SCENE, buf, size); //TODO: Find the right place to save the scene.
 
 	delete[] buf;
+
+	std::string textureMapPath  = TEMPORAL_SCENE;
+	textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 4);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 }
 
 void ModuleGOManager::LoadSceneBeforeRunning()
@@ -690,8 +711,6 @@ void ModuleGOManager::LinkAnimation(GameObject* root) const
 
 void ModuleGOManager::UpdateGameObjects(GameObject* object)
 {
-	PROFILE("ModuleGOManager::UpdateGameObjects");
-
 	if(root != object && object->IsActive() == true)
 		object->Update();
 

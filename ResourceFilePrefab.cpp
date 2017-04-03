@@ -4,6 +4,8 @@
 #include "ModuleGOManager.h"
 #include "ModuleEditor.h"
 
+#include "Assets.h"
+
 #include "GameObject.h"
 #include "Component.h"
 #include "ComponentTransform.h"
@@ -180,10 +182,6 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	return game_object;
 }
 
-void ResourceFilePrefab::Save()
-{
-}
-
 void ResourceFilePrefab::UnloadInstance(GameObject * instance)
 {
 	instances.remove(instance);
@@ -308,8 +306,16 @@ void ResourceFilePrefab::SaveNewChanges(GameObject * gameobject) const
 	size_t size = root_node.Serialize(&buf);
 
 	App->file_system->Save(file_path.data(), buf, size);
+	string assets_file = App->editor->assets->FindAssetFileFromLibrary(file_path);
+	if (assets_file.size() > 0)
+		App->file_system->Save(assets_file.data(), buf, size);
+	else
+		LOG("Error while applying changes to prefab. Couldn't find assets path");
 
 	delete[] buf;
+	
+	unsigned int pref_uuid = App->resource_manager->GetUUIDFromLib(file_path);
+	App->resource_manager->GenerateMetaFile(assets_file.data(), FileType::PREFAB, pref_uuid, file_path);
 
 	gameobject->SetParent(parent);
 }

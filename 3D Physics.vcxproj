@@ -71,7 +71,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories />
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -90,7 +90,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>
       </AdditionalIncludeDirectories>
@@ -112,7 +112,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>false</SDLCheck>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories />
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -193,10 +193,12 @@
     <ClInclude Include="LinearAllocator.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
+    <ClInclude Include="md5.h" />
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="ModuleLighting.h" />
     <ClInclude Include="ModuleScripting.h" />
     <ClInclude Include="OpenGLFunc.h" />
+    <ClInclude Include="Profiler.h" />
     <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
     <ClInclude Include="ResourceFileAnimation.h" />
@@ -293,7 +295,6 @@
     <ClInclude Include="PhysVehicle3D.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="Primitive.h" />
-    <ClInclude Include="Profiler.h" />
     <ClInclude Include="Random.h" />
     <ClInclude Include="RaycastHit.h" />
     <ClInclude Include="ResourceFile.h" />
@@ -372,6 +373,7 @@
     <ClCompile Include="ModuleLighting.cpp" />
     <ClCompile Include="ModuleScripting.cpp" />
     <ClCompile Include="OpenGLFunc.cpp" />
+    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="RaceTimer.cpp" />
     <ClCompile Include="RenderTexEditorWindow.cpp" />
     <ClCompile Include="ResourceFileAnimation.cpp" />
@@ -438,7 +440,6 @@
     <ClCompile Include="PhysVehicle3D.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Primitive.cpp" />
-    <ClCompile Include="Profiler.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="RaycastHit.cpp" />
     <ClCompile Include="ResourceFile.cpp" />

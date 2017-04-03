@@ -27,11 +27,13 @@ public:
 	float GetNearPlane()const;
 	float GetFarPlane()const;
 	float GetFOV()const;
+	float GetAspectRatio() const;
 
 	void SetNearPlane(const float& near_plane);
 	void SetFarPlane(const float& far_plane);
 	void SetFOV(const float& fov);
 	void SetBackgroundColor(const math::float3& color);
+	void SetAspectRatio(float ar);
 
 	//Movement---------------------
 	bool MoveArrows(float dt);
@@ -44,16 +46,16 @@ public:
 	math::float3 GetBackgroundColor()const;
 	ComponentCamera* GetEditorCamera() const;
 
+	void AddSceneCamera(ComponentCamera* cam);
+	void RemoveSceneCamera(ComponentCamera* cam);
+
 private:
 
 	float3 reference;
 	ComponentCamera* camera = nullptr;
 
 	void EditorCameraMovement(float dt);	
-
-public:
-
-	ComponentCamera* playCamera = nullptr;
+	std::vector<ComponentCamera*> scene_cameras; //Cameras in the current scene
 };
 
 #endif // !__MODULECAMERA3D_H__

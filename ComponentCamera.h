@@ -20,6 +20,7 @@ public:
 	void OnInspector(bool debug);
 	void OnTransformModified();
 	void OnNotify(void* entity, Event event);
+	void UpdateViewportDimensions();
 
 	float GetNearPlane()const;
 	float GetFarPlane()const;
@@ -63,6 +64,12 @@ public:
 
 	bool properties_modified = false;
 	ResourceFileRenderTexture* render_texture = nullptr;
+
+	float2 viewport_rel_position;
+	float2 viewport_rel_size;
+
+	float2 viewport_position;
+	float2 viewport_size;
 
 protected:
 	math::Frustum frustum;

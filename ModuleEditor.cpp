@@ -16,7 +16,6 @@
 
 #include "Time.h"
 
-#include "AutoProfile.h"
 #include "FPSGraph.h"
 #include "WindowOptions.h"
 #include "HardwareInfo.h"
@@ -24,7 +23,6 @@
 #include "Assets.h"
 #include "Hierarchy.h"
 #include "Inspector.h"
-#include "Profiler.h"
 
 #include "CameraWindow.h"
 #include "ResourcesWindow.h"
@@ -68,10 +66,11 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
+	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
+
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
-		windows.push_back(&g_Profiler);
 		windows.push_back(fps_graph_win = new FPSGraph());
 		windows.push_back(winoptions_win = new WindowOptions());
 		windows.push_back(hardware_win = new HardwareInfo());
@@ -98,8 +97,6 @@ bool ModuleEditor::Start()
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
-
-	heightMapScaling = App->physics->GetTerrainHeightScale();
 
 	return ret;
 }
@@ -266,11 +263,7 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	PROFILE("Editor::Update()");
-
 	update_status ret = UPDATE_CONTINUE;
-
-	//ImGui::ShowTestWindow();	
 
 	if (App->StartInGame() == false)
 	{
@@ -362,7 +355,10 @@ void ModuleEditor::GameOptions() const
 {
 	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth()/2, 30));
 	bool open = true;
-	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.3f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::Begin("##GameOptions", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.3, 0.3, 0.3, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.4, 0.4, 0.4, 1));
+	ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.1, 0.1, 0.1, 1));
 
 	if (App->IsGameRunning() == false || App->IsGamePaused())
 	{
@@ -385,6 +381,9 @@ void ModuleEditor::GameOptions() const
 	ImGui::SameLine();
 	int time_game_running = time->TimeSinceGameStartup();
 	ImGui::Text("Game time: %i", time_game_running);
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
+	ImGui::PopStyleColor();
 	ImGui::End();
 }
 
@@ -437,7 +436,6 @@ update_status ModuleEditor::EditorWindows()
 	vector<Window*>::iterator win = windows.begin();
 	while (win != windows.end())
 	{
-		PROFILE("Editor::Update-PaintWindows");
 		(*win)->Draw();
 		++win;
 	}
@@ -534,11 +532,6 @@ void ModuleEditor::WindowsMenu()
 	if (ImGui::MenuItem("Warnings"))
 	{
 		warning_window->SetActive(true);
-	}
-	
-	if (ImGui::MenuItem("Profiler"))
-	{
-		g_Profiler.SetActive(true);
 	}
 
 	if (ImGui::MenuItem("Assets"))
@@ -646,45 +639,9 @@ void ModuleEditor::GameObjectMenu()
 
 void ModuleEditor::PhysicsMenu()
 {	
-	if (ImGui::BeginMenu("Select a heightmap:"))
+	if(ImGui::BeginMenu("Heightmap"))
 	{
-		vector<string> textures_list;
-		App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
-		App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
-
-		for (size_t i = 0; i < textures_list.size(); ++i)
-		{
-			if (ImGui::MenuItem(textures_list[i].data()))
-			{
-				string lib_file = App->resource_manager->FindFile(textures_list[i]);
-				App->physics->GenerateHeightmap(lib_file);
-			}
-		}
-		ImGui::EndMenu();
-	}
-	int tex = App->physics->GetHeightmap();
-	if (tex != 0)
-	{
-		if (ImGui::Button("Delete heightmap"))
-		{
-			App->physics->DeleteHeightmap();
-		}
-	}
-	tex = App->physics->GetHeightmap();
-	if (tex != 0)
-	{
-		float2 size = App->physics->GetHeightmapSize();
-		float maxSize = max(size.x, size.y);
-		if (maxSize > 200)
-		{
-			float scale = 200.0f / maxSize;
-			size.x *= scale;
-			size.y *= scale;
-		}
-		ImGui::Image((void*)tex, ImVec2(size.x, size.y));
-
-
-		if (ImGui::BeginMenu("Select a texture:"))
+		if (ImGui::BeginMenu("Select a heightmap:"))
 		{
 			vector<string> textures_list;
 			App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
@@ -695,21 +652,148 @@ void ModuleEditor::PhysicsMenu()
 				if (ImGui::MenuItem(textures_list[i].data()))
 				{
 					string lib_file = App->resource_manager->FindFile(textures_list[i]);
-					App->physics->LoadTexture(lib_file);
+					App->physics->GenerateHeightmap(lib_file);
 				}
 			}
 			ImGui::EndMenu();
 		}
-		int tex2 = App->physics->GetTexture();
-		if (tex2 != 0)
+		int tex = App->physics->GetHeightmap();
+		if (tex != 0)
 		{
-			if (ImGui::Button("Delete texture"))
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 500)
 			{
-				App->physics->DeleteTexture();
+				float scale = 500.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)tex, ImVec2(size.x, size.y));
+		}
+		if (tex != 0)
+		{
+			if (ImGui::Button("Delete heightmap"))
+			{
+				App->physics->DeleteHeightmap();
 			}
 		}
-		tex2 = App->physics->GetTexture();
-		if (tex2 != 0)
+		ImGui::EndMenu();
+	}	
+
+	ImGui::NewLine();
+	ImGui::Separator();
+	if (ImGui::BeginMenu("Diffuse Textures"))
+	{
+		if (App->physics->GetHeightmap() != 0)
+		{
+			if (ImGui::BeginMenu("Load a new texture:"))
+			{
+				vector<string> textures_list;
+				App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+				App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+				for (size_t i = 0; i < textures_list.size(); ++i)
+				{
+					if (ImGui::MenuItem(textures_list[i].data()))
+					{
+						string lib_file = App->resource_manager->FindFile(textures_list[i]);
+						App->physics->LoadTexture(lib_file);
+					}
+				}
+				ImGui::EndMenu();
+			}
+
+			if (App->physics->GetNTextures() > 0)
+			{
+				for (uint n = 0; n < App->physics->GetNTextures(); n++)
+				{
+					ImGui::NewLine();
+					char menuName[64] = " ";
+					sprintf(menuName, "Replace texture:##texn%u", n);
+					if (ImGui::BeginMenu(menuName))
+					{
+						vector<string> textures_list;
+						App->editor->assets->GetAllFilesByType(FileType::IMAGE, textures_list);
+						App->editor->assets->GetAllFilesByType(FileType::RENDER_TEXTURE, textures_list);
+
+						for (size_t i = 0; i < textures_list.size(); ++i)
+						{
+							if (ImGui::MenuItem(textures_list[i].data()))
+							{
+								string lib_file = App->resource_manager->FindFile(textures_list[i]);
+								App->physics->LoadTexture(lib_file, n);
+							}
+						}
+						ImGui::EndMenu();
+					}
+					float2 size = App->physics->GetHeightmapSize();
+					float maxSize = max(size.x, size.y);
+					if (maxSize > 200)
+					{
+						float scale = 200.0f / maxSize;
+						size.x *= scale;
+						size.y *= scale;
+					}
+					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
+					char buttonName[64] = "";
+					sprintf(buttonName, "Delete texture##delText%u", n);
+					if (ImGui::Button(buttonName))
+					{
+						App->physics->DeleteTexture(n);
+					}
+					ImGui::Separator();
+					ImGui::NewLine();
+				}
+			}
+		}
+		ImGui::EndMenu();
+	}
+
+	if (ImGui::BeginMenu("Debug Images: "))
+	{
+		ImGui::Text("Texture map:");
+		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 400)
+			{
+				float scale = 400.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)App->physics->textureMapBufferID, ImVec2(size.x, size.y));
+		}
+		else
+		{
+			ImGui::Text("\nNot Loaded\n");
+		}
+		ImGui::EndMenu();
+	}
+	ImGui::NewLine();
+	ImGui::Separator();
+	bool terrainExists = App->physics->TerrainIsGenerated();
+	ImGui::NewLine();
+	ImGui::Checkbox("Terrain is generated", &terrainExists);
+	ImGui::NewLine();
+	ImGui::Separator();
+	ImGui::NewLine();
+	ImGui::Checkbox("Texture paint mode", &App->physics->paintMode);
+	if (App->physics->paintMode)
+	{
+		ImGui::Text("Brush");
+		char button[64] = " ";
+		for (int n = 0; n < App->physics->GetNTextures(); n++)
+		{
+			sprintf(button, "%i##paintTextureButton", n + 1);
+			ImGui::SameLine();
+			if (ImGui::Button(button))
+			{
+				App->physics->paintTexture = n;
+			}
+		}
+		ImGui::InputInt("Brush Size", &App->physics->brushSize);
+		if (App->physics->paintTexture < App->physics->GetNTextures())
 		{
 			float2 size = App->physics->GetHeightmapSize();
 			float maxSize = max(size.x, size.y);
@@ -719,32 +803,30 @@ void ModuleEditor::PhysicsMenu()
 				size.x *= scale;
 				size.y *= scale;
 			}
-			ImGui::Image((void*)tex2, ImVec2(size.x, size.y));
+			ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
 		}
-
 	}
 
-
-	bool tmp = App->physics->TerrainIsGenerated();
-	ImGui::Checkbox("Terrain is generated", &tmp);
 	ImGui::NewLine();
-	/*if (ImGui::MenuItem("Save Terrain"))
-	{
-		App->physics->SaveTerrain();
-	}
-	if (ImGui::MenuItem("Delete Terrain"))
-	{
-		App->physics->DeleteTerrain();
-	}
-	ImGui::NewLine();*/
 	ImGui::Separator();
 
-	ImGui::DragFloat("##TerrainHeightScaling", &heightMapScaling, 0.01f, 0.001f, 2.0f);
+	ImGui::Text("Terrain Max Height:");
+	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
 	ImGui::SameLine();
-	if(ImGui::Button("Set terrain height scaling"))
+	if(ImGui::Button("Set height"))
 	{
-		App->physics->SetTerrainHeightScale(heightMapScaling);
+		App->physics->SetTerrainMaxHeight(heightmapMaxHeight);
 	}
+	float tmp = App->physics->GetTextureScaling();
+	ImGui::Text("Terrain Texture Scaling:");
+	if (ImGui::DragFloat("##TerrainTextureScaling", &tmp, 0.001f, 0.001f, 1.0f))
+	{
+		App->physics->SetTextureScaling(tmp);
+	}
+	ImGui::NewLine();
+	ImGui::Separator();
+	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
+	ImGui::Checkbox("Render terrain", &App->physics->renderFilledTerrain);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 
@@ -897,9 +979,9 @@ void ModuleEditor::SaveSceneWindow()
 				save_scene_win = false;
 				App->input->ResetQuit();
 			}
-			ImGui::End();
+			
 		}
-		
+		ImGui::End();
 		if(!save_scene_win)
 			App->input->ResetQuit();
 	}

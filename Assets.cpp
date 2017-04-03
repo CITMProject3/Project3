@@ -97,6 +97,7 @@ void Assets::Draw()
 				if (ImGui::Selectable((*file)->name.data()))
 				{
 					file_selected = (*file);
+					ImGui::OpenPopup("FileImageOptions");
 					//imgui open popup fileimageoptions TODO
 				}
 				break;
@@ -183,6 +184,7 @@ void Assets::Draw()
 
 	DirectoryOptions();
 	MeshFileOptions();
+	ImageFileOptions();
 	SceneFileOptions();
 	PrefabFileOptions();
 	MaterialFileOptions();
@@ -277,8 +279,8 @@ void Assets::FillDirectoriesRecursive(Directory* root_dir)
 			a_file->file_path = root_dir->path + (*file);
 			a_file->uuid = meta.GetUInt("UUID");
 			a_file->content_path = meta.GetString("library_path");
-			a_file->time_mod = meta.GetInt("time_mod");
 			a_file->original_file = meta.GetString("original_file");
+			a_file->time_mod = App->file_system->GetLastModificationTime(a_file->original_file.data());
 			a_file->directory = root_dir;
 			root_dir->files.push_back(a_file);
 		}
@@ -419,6 +421,40 @@ AssetFile* Assets::FindAssetFile(const string & file)
 	return FindAssetFileRecursive(file, root);
 }
 
+string Assets::FindAssetFileFromLibrary(const string & lib_path) const
+{
+	string ret;
+
+	if (root != nullptr)
+	{
+		stack<Directory*> stack;
+		stack.push(root);
+		Directory* item = nullptr;
+		bool found = false;
+		while (!found && !stack.empty())
+		{
+			item = stack.top();
+			stack.pop();
+
+			for (vector<AssetFile*>::const_iterator it = item->files.begin(); it != item->files.end(); ++it)
+			{
+				if ((*it)->content_path.compare(lib_path) == 0)
+				{
+					found = true;
+					ret = (*it)->original_file;
+					break;
+				}
+			}
+
+			if (!found)
+				for (vector<Directory*>::const_iterator it = item->directories.begin(); it != item->directories.end(); ++it)
+					stack.push((*it));
+		}
+	}
+
+	return ret;
+}
+
 AssetFile* Assets::FindAssetFileRecursive(const string& file, Directory* directory)
 {
 	for (vector<AssetFile*>::iterator asset = directory->files.begin(); asset != directory->files.end(); ++asset)
@@ -549,6 +585,17 @@ void Assets::MeshFileOptions()
 	}
 }
 
+void Assets::ImageFileOptions()
+{
+	if (ImGui::BeginPopup("FileImageOptions"))
+	{
+		if (ImGui::Selectable("Remove"))
+		{
+			DeleteAssetFile(file_selected);
+		}
+		ImGui::EndPopup();
+	}
+}
 void Assets::SceneFileOptions()
 {
 	if (ImGui::BeginPopup("FileSceneOptions"))

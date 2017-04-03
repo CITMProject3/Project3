@@ -28,6 +28,12 @@ extern "C"
 
 			script_names->push_back("Test");
 			script_names->push_back("Test2");
+
+			script_names->push_back("Player_Car");
+			script_names->push_back("Player_Camera");
+
+			script_names->push_back("Scene_Manager");
+			script_names->push_back("Kmh_Counter");
 		}
 	}
 
@@ -53,10 +59,10 @@ extern "C"
 
 		void Test_UpdatePublics(GameObject* game_object)
 		{
-			ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+			ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-			test_title = script->public_chars.at("Title");
-			test_go = script->public_gos.at("Test_go");
+			test_title = test_script->public_chars.at("Title");
+			test_go = test_script->public_gos.at("Test_go");
 		}
 
 		void Test_Start(GameObject* game_object)
@@ -80,7 +86,16 @@ extern "C"
 				}
 			}
 		}
-		void Test_OnCollision(PhysBody3D* col)
+		
+		void Test_ActualizePublics(GameObject* game_object)
+		{
+			ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+			test_script->public_chars.at("Title") = test_title;
+			test_script->public_gos.at("Test_go") = test_go;
+		}
+
+		void Test_OnCollision(GameObject* game_object, PhysBody3D* col)
 		{
 			if (!col->GetCollider()->Static)
 			{

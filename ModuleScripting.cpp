@@ -8,11 +8,6 @@
 
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
-	scripts_lib = NULL;
-	resource_created = false;
-	scripts_loaded = false;
-	setting_go_var = false;
-	set_go_var_now = nullptr;
 }
 
 ModuleScripting::~ModuleScripting()
@@ -51,10 +46,11 @@ DWORD ModuleScripting::GetError()
 
 void ModuleScripting::LoadScriptsLibrary()
 {
-	if(_DEBUG)
+	#ifdef _DEBUG
 		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
-	else
+	#else
 		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+	#endif
 
 	if (scripts_lib != nullptr)
 	{

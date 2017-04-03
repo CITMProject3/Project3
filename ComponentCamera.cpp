@@ -43,8 +43,10 @@ ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : 
 
 	color = float3(0, 0, 0); //Black to clear the screen by default
 
+	OnTransformModified();
 	App->renderer3D->AddObserver(this);
 
+	App->camera->AddSceneCamera(this);
 }
 
 ComponentCamera::~ComponentCamera()
@@ -52,11 +54,7 @@ ComponentCamera::~ComponentCamera()
 	App->renderer3D->RemoveObserver(this);
 	if(render_texture)
 		render_texture->Unload();
-
-	if (App->camera->playCamera == this)
-	{
-		App->camera->playCamera = nullptr;
-	}
+	App->camera->RemoveSceneCamera(this);
 }
 
 void ComponentCamera::PreUpdate()
@@ -89,18 +87,6 @@ void ComponentCamera::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 
-		bool isPlayCam = (App->camera->playCamera == this);
-		if (ImGui::Checkbox("Set as Game camera", &isPlayCam))
-		{
-			if (isPlayCam == false)
-			{
-				App->camera->playCamera = nullptr;
-			}
-			else
-			{
-				App->camera->playCamera = this;
-			}
-		}
 
 		ImGui::Checkbox("Smooth follow", &smoothFollow);
 		if (smoothFollow)
@@ -110,7 +96,34 @@ void ComponentCamera::OnInspector(bool debug)
 			ImGui::Text("Rotation follow speed:");
 			ImGui::DragFloat("##smoothFollowRot", &followRotateSpeed, 0.01f, 0.01f, 0.99f);
 		}
+		ImGui::Separator();
+		ImGui::Text("Viewport (relative to screen)");
+		//ImGui::PushStyleColor(ImGuiCol_Text)
+		ImGui::Text("0 to 1 values");
+		if (ImGui::InputFloat("Position x", &viewport_rel_position.x, 0.0f, 1.0f))
+		{
+			math::Clamp(viewport_rel_position.x, 0.0f, 1.0f);
+			UpdateViewportDimensions();
+		}
+		if (ImGui::InputFloat("Position y", &viewport_rel_position.y, 0.0f, 1.0f))
+		{
+			math::Clamp(viewport_rel_position.y, 0.0f, 1.0f);
+			UpdateViewportDimensions();
+		}
+		if (ImGui::InputFloat("Size x ", &viewport_rel_size.x, 0.0f, 1.0f))
+		{
+			math::Clamp(viewport_rel_size.x, 0.0f, 1.0f);
+			UpdateViewportDimensions();
+		}
+		if (ImGui::InputFloat("Size y", &viewport_rel_size.y, 0.0f, 1.0f))
+		{
+			math::Clamp(viewport_rel_size.y, 0.0f, 1.0f);
+			UpdateViewportDimensions();
+		}
 
+
+		ImGui::Separator();
+		ImGui::Text("Frustum");
 		//Near plane
 		ImGui::Text("Near Plane: ");
 		float near_value = near_plane;
@@ -128,8 +141,6 @@ void ComponentCamera::OnInspector(bool debug)
 		float fov_value = fov;
 		if (ImGui::SliderFloat("##fov", &fov_value, 0, 180))
 			SetFOV(fov_value);
-
-		ImGui::Text("Aspect ratio: "); ImGui::SameLine(); ImGui::TextColored(ImVec4(0, 0, 1, 1), "&0.2f", aspect_ratio);
 
 		ImGui::Text("Background color: "); ImGui::SameLine();
 		float3 color = this->color;
@@ -187,9 +198,20 @@ void ComponentCamera::OnNotify(void * entity, Event event)
 {
 	if (event == Event::WINDOW_RESIZE)
 	{
-		aspect_ratio = (float)App->window->GetScreenWidth() / (float)App->window->GetScreenHeight();
-		frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
+		UpdateViewportDimensions();
 	}
+}
+
+void ComponentCamera::UpdateViewportDimensions()
+{
+	viewport_position.x = (float)App->window->GetScreenWidth() * viewport_rel_position.x;
+	viewport_position.y = (float)App->window->GetScreenHeight() * viewport_rel_position.y;
+
+	viewport_size.x = (float)App->window->GetScreenWidth() * viewport_rel_size.x;
+	viewport_size.y = (float)App->window->GetScreenHeight() * viewport_rel_size.y;
+
+	aspect_ratio = viewport_size.x / viewport_size.y;
+	frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
 }
 
 float ComponentCamera::GetNearPlane() const
@@ -270,9 +292,11 @@ void ComponentCamera::SetFOV(float value)
 
 void ComponentCamera::SetAspectRatio(float value)
 {
-	float horizontalFov = frustum.HorizontalFov();
-	frustum.SetHorizontalFovAndAspectRatio(horizontalFov, value);
-	properties_modified = true;
+	aspect_ratio = value;
+	SetFOV(fov);
+	//float horizontalFov = frustum.HorizontalFov();
+	//frustum.SetHorizontalFovAndAspectRatio(horizontalFov, value);
+	//properties_modified = true;
 }
 
 void ComponentCamera::LookAt(const math::float3 & point)
@@ -358,7 +382,11 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendString("render_texture_path", render_texture_path.data());
 	data.AppendString("render_texture_path_lib", render_texture_path_lib.data());
 
-	data.AppendBool("is_game_camera", (App->camera->playCamera == this));
+	data.AppendFloat("viewport_rel_pos_x", viewport_rel_position.x);
+	data.AppendFloat("viewport_rel_pos_y", viewport_rel_position.y);
+
+	data.AppendFloat("viewport_rel_size_x", viewport_rel_size.x);
+	data.AppendFloat("viewport_rel_size_y", viewport_rel_size.y);
 
 	data.AppendBool("followSmooth", smoothFollow);
 	data.AppendFloat("followMovSpeed", followMoveSpeed);
@@ -381,10 +409,11 @@ void ComponentCamera::Load(Data & conf)
 	render_texture_path = conf.GetString("render_texture_path");
 	render_texture_path_lib = conf.GetString("render_texture_path_lib");
 
-	if (conf.GetBool("is_game_camera"))
-	{
-		App->camera->playCamera = this;
-	}
+	viewport_rel_position.x = conf.GetFloat("viewport_rel_pos_x");
+	viewport_rel_position.y = conf.GetFloat("viewport_rel_pos_y");
+
+	viewport_rel_size.x = conf.GetFloat("viewport_rel_size_x");
+	viewport_rel_size.y = conf.GetFloat("viewport_rel_size_y");
 
 	smoothFollow = conf.GetBool("followSmooth");
 	followMoveSpeed = conf.GetFloat("followMovSpeed");
@@ -401,6 +430,7 @@ void ComponentCamera::Load(Data & conf)
 	frustum.SetUp(float3::unitY);
 	frustum.SetViewPlaneDistances(near_plane, far_plane);
 	frustum.SetVerticalFovAndAspectRatio(DegToRad(fov), aspect_ratio);
+	UpdateViewportDimensions();
 
 	OnTransformModified();
 

@@ -7,6 +7,7 @@
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 #include "ComponentCar.h"
+#include "ComponentScript.h"
 
 #include "ModuleGOManager.h"
 #include "LayerSystem.h"
@@ -43,26 +44,6 @@ void Hierarchy::Draw()
 		if (ImGui::IsMouseClicked(1))
 		{
 			ImGui::OpenPopup("HierarchyOptions");
-		}
-		if (ImGui::IsMouseClicked(0))// && been_selected == false)
-		{
-			if (setting_parent == true)
-			{
-				if (App->editor->selected.size() > 0)
-				{
-					parent_to_set = App->go_manager->root;
-					child_to_set = App->editor->selected.back();
-					set_parent_now = true;
-					App->editor->UnselectAll();
-				}
-			}
-			if (App->scripting->setting_go_var == true)
-			{
-				if (App->editor->selected.size() > 0)
-				{
-					App->scripting->set_go_var_now = App->editor->selected.back();
-				}
-			}
 		}
 	}
 
@@ -144,8 +125,27 @@ void Hierarchy::Draw()
 	ImGui::SetCursorPosX(0);
 	if (ImGui::InvisibleButton("test: unselect GO", ImVec2(size_x, size_y)))
 	{
-		App->editor->UnselectAll();
+		if (setting_parent == true)
+		{
+			setting_parent = false;
+			if (App->editor->selected.empty() == false)
+			{
+				child_to_set = App->editor->selected.back();
+				child_to_set->SetParent(App->go_manager->root);
+			}
+			parent_to_set = child_to_set = nullptr;
+		}
+		else if (App->scripting->setting_go_var_name != "")
+		{
+			if (App->scripting->to_set_var != nullptr)
+				App->scripting->to_set_var->SetGOVar(nullptr);
+		}
+		else
+		{
+			App->editor->UnselectAll();
+		}
 	}
+
 	if (set_parent_now == true)
 	{
 		set_parent_now = false;
@@ -153,7 +153,6 @@ void Hierarchy::Draw()
 		child_to_set->SetParent(parent_to_set);
 		parent_to_set = child_to_set = nullptr;
 	}
-
 	
 	ImGui::End();
 }
@@ -191,26 +190,20 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 				}
 				setting_parent = false;
 			}
-			else if (App->scripting->setting_go_var == true)
+			else if (App->scripting->setting_go_var_name != "")
 			{
-				if (App->editor->selected.size() > 0)
+				if (App->scripting->to_set_var != nullptr)
 				{
-					App->scripting->set_go_var_now = *object;
-					App->scripting->setting_go_var = false;
-					App->editor->UnselectAll();
-					break;
+					App->scripting->to_set_var->SetGOVar(*object);
 				}
-				App->scripting->setting_go_var = false;
+				else
+				{
+					App->scripting->setting_go_var_name = "";
+				}
 			}
 			else if (App->editor->assign_wheel != -1)
 			{
 				App->editor->wheel_assign = *object;
-			}
-			else if (App->editor->assign_item == true)
-			{
-				App->editor->to_assign_item->item = *object;
-				App->editor->assign_item = false;
-				App->editor->to_assign_item = nullptr;
 			}
 			else
 			{

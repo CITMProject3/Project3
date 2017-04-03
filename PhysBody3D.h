@@ -14,7 +14,7 @@ class ComponentCollider;
 class ComponentCar;
 
 // =================================================
-struct PhysBody3D
+class PhysBody3D
 {
 	friend class ModulePhysics3D;
 public:
