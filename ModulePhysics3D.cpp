@@ -789,8 +789,6 @@ void ModulePhysics3D::GenerateIndices()
 	{
 		DeleteIndices();
 
-		GenerateChunks();
-
 		int w = heightMapImg->GetWidth();
 		int h = heightMapImg->GetHeight();
 
@@ -839,21 +837,6 @@ void ModulePhysics3D::DeleteIndices()
 	chunks.clear();
 }
 
-void ModulePhysics3D::GenerateChunks()
-{
-	chunks.clear();
-
-	int chunkX = floor(heightMapImg->GetWidth() / CHUNK_W);
-	int chunkZ = floor(heightMapImg->GetWidth() / CHUNK_H);
-	for (int z = 0; z < chunkZ; z++)
-	{
-		std::map<int, std::map<int, chunk>>::iterator it = chunks.insert(std::pair<int, std::map<int, chunk>>(z - chunkZ / 2, std::map<int, chunk>())).first;
-		for (int x = 0; x < chunkX; x++)
-		{
-			it->second.insert(std::pair<int, chunk>(x - chunkX / 2, chunk()));
-		}
-	}
-}
 
 void ModulePhysics3D::UpdateChunksAABBs()
 {

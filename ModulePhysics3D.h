@@ -137,7 +137,6 @@ private:
 	void GenerateIndices();
 	void DeleteIndices();
 
-	void GenerateChunks();
 	void UpdateChunksAABBs();
 	void AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, int& x, int& z);
 
