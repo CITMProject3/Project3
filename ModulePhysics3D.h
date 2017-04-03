@@ -19,8 +19,8 @@
 
 #define MAX_TERRAIN_TEXTURES 10
 
-#define CHUNK_W 32
-#define CHUNK_H 32
+#define CHUNK_W 64
+#define CHUNK_H 64
 
 class PhysBody3D;
 struct PhysVehicle3D;
