@@ -45,6 +45,9 @@
     <ClCompile Include="Scene_Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Kmh_Counter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptingProject.def">

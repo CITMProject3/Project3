@@ -140,3 +140,19 @@ vec PhysVehicle3D::GetPos()const
 	ret.z = vehicle->getChassisWorldTransform().getOrigin().getZ();
 	return ret;
 }
+
+bool PhysVehicle3D::IsVehicleInContact() const
+{
+	bool ret = false;
+
+	int num_wheels = vehicle->getNumWheels();
+
+	for (int i = 0; i < num_wheels && ret == false; i++)
+	{
+		btWheelInfo wheel_info = vehicle->getWheelInfo(i);
+
+		ret = wheel_info.m_raycastInfo.m_isInContact;
+	}
+
+	return ret;
+}

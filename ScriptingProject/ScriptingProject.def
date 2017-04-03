@@ -15,6 +15,7 @@ EXPORTS
 	Player_Car_Start
 	Player_Car_Update
 	Player_Car_UpdatePublics
+	Player_Car_ActualizePublics
 	Player_Car_OnCollision
 
 	Player_Camera_GetPublics
@@ -26,3 +27,11 @@ EXPORTS
 	Scene_Manager_UpdatePublics
 	Scene_Manager_Start
 	Scene_Manager_Update
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
+
+	Kmh_Counter_GetPublics
+	Kmh_Counter_UpdatePublics
+	Kmh_Counter_Start
+	Kmh_Counter_Update
+	Kmh_Counter_ActualizePublics
