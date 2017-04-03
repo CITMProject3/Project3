@@ -279,8 +279,8 @@ void Assets::FillDirectoriesRecursive(Directory* root_dir)
 			a_file->file_path = root_dir->path + (*file);
 			a_file->uuid = meta.GetUInt("UUID");
 			a_file->content_path = meta.GetString("library_path");
-			a_file->time_mod = meta.GetInt("time_mod");
 			a_file->original_file = meta.GetString("original_file");
+			a_file->time_mod = App->file_system->GetLastModificationTime(a_file->original_file.data());
 			a_file->directory = root_dir;
 			root_dir->files.push_back(a_file);
 		}

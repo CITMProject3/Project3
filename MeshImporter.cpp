@@ -833,9 +833,9 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 					normal_complete_path.erase(0, 1);
 				}
 
-				c_material->list_textures_paths.push_back(complete_path);
+				c_material->list_textures_paths[0] = complete_path;
 				if (normal_path.length > 0)
-					c_material->list_textures_paths.push_back(normal_complete_path);
+					c_material->list_textures_paths[1] = normal_complete_path;
 			}
 		}
 	}
