@@ -314,7 +314,6 @@ void ResourceFilePrefab::SaveNewChanges(GameObject * gameobject) const
 
 	delete[] buf;
 	
-	assets_file += ".meta";
 	unsigned int pref_uuid = App->resource_manager->GetUUIDFromLib(file_path);
 	App->resource_manager->GenerateMetaFile(assets_file.data(), FileType::PREFAB, pref_uuid, file_path);
 
