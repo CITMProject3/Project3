@@ -599,11 +599,11 @@ void ComponentCar::PickItem()
 
 void ComponentCar::UseItem()
 {
-	if (has_item)
-	{
+	//if (has_item)
+	//{
 		current_turbo = T_ROCKET;
 		has_item = false;
-	}
+	//}
 
 	if (applied_turbo && current_turbo)
 	{
