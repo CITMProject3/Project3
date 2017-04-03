@@ -680,6 +680,8 @@ void ModuleEditor::PhysicsMenu()
 		ImGui::EndMenu();
 	}	
 
+	ImGui::NewLine();
+	ImGui::Separator();
 	if (ImGui::BeginMenu("Diffuse Textures"))
 	{
 		if (App->physics->GetHeightmap() != 0)
@@ -749,7 +751,7 @@ void ModuleEditor::PhysicsMenu()
 
 	if (ImGui::BeginMenu("Debug Images: "))
 	{
-		ImGui::Text("Slopes detection result:");
+		ImGui::Text("Texture map:");
 		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
 		{
 			float2 size = App->physics->GetHeightmapSize();
@@ -768,7 +770,8 @@ void ModuleEditor::PhysicsMenu()
 		}
 		ImGui::EndMenu();
 	}
-
+	ImGui::NewLine();
+	ImGui::Separator();
 	bool terrainExists = App->physics->TerrainIsGenerated();
 	ImGui::NewLine();
 	ImGui::Checkbox("Terrain is generated", &terrainExists);
@@ -820,7 +823,10 @@ void ModuleEditor::PhysicsMenu()
 	{
 		App->physics->SetTextureScaling(tmp);
 	}
+	ImGui::NewLine();
+	ImGui::Separator();
 	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
+	ImGui::Checkbox("Render terrain", &App->physics->renderFilledTerrain);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 

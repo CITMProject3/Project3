@@ -54,9 +54,9 @@ public:
 
 	AABB GetAABB() { return aabb; }
 
-private:
-	math::AABB aabb;
 	std::vector<uint> indices;
+private:
+	math::AABB aabb;	
 	int indices_bufferID = 0;
 };
 
@@ -121,6 +121,8 @@ public:
 
 	void RenderTerrain(ComponentCamera* camera);
 private:
+	void RealRenderTerrain(ComponentCamera* camera, bool wired = false);
+
 	void AddTerrain();
 	
 	void GenerateTerrainMesh();
@@ -230,6 +232,7 @@ public:
 	int brushSize = 5;
 
 	bool renderWiredTerrain = false;
+	bool renderFilledTerrain = true;
 };
 
 class DebugDrawer : public btIDebugDraw
