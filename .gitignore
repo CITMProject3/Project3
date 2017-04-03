@@ -11,12 +11,14 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+/[Dd]ebug/
 [Dd]ebug Library/
-[Dd]ebugPublic/
-[Rr]elease/
+#[Dd]ebugPublic/
+/[Rr]elease/
 [Rr]elease Library/
-[Rr]eleases/
+#[Rr]eleases/
+ScriptingProject/Debug/
+ScriptingProject/Release/
 x64/
 x86/
 bld/
@@ -27,8 +29,6 @@ bld/
 Game/Library/
 Game/imgui.ini
 Game/Configuration.json
-
-!AK/*/ # Don't ignore AudioKinetic Wwise directories
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -308,4 +308,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-Game/Configuration.json
