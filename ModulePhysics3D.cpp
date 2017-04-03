@@ -789,6 +789,8 @@ void ModulePhysics3D::GenerateIndices()
 	{
 		DeleteIndices();
 
+		GenerateChunks();
+
 		int w = heightMapImg->GetWidth();
 		int h = heightMapImg->GetHeight();
 
@@ -839,9 +841,11 @@ void ModulePhysics3D::DeleteIndices()
 
 void ModulePhysics3D::GenerateChunks()
 {
+	chunks.clear();
+
 	int chunkX = floor(heightMapImg->GetWidth() / CHUNK_W);
 	int chunkZ = floor(heightMapImg->GetWidth() / CHUNK_H);
-	for (int z = 0; z <= chunkZ; z++)
+	for (int z = 0; z < chunkZ; z++)
 	{
 		std::map<int, std::map<int, chunk>>::iterator it = chunks.insert(std::pair<int, std::map<int, chunk>>(z - chunkZ / 2, std::map<int, chunk>())).first;
 		for (int x = 0; x < chunkX; x++)
@@ -1724,7 +1728,7 @@ int	 DebugDrawer::getDebugMode() const
 
 ///// CHUNK ======================================
 
-chunk::chunk(): indices(CHUNK_H * CHUNK_W * 6)
+chunk::chunk(): indices()
 {
 	aabb.SetNegativeInfinity();
 }
@@ -1772,6 +1776,7 @@ void chunk::UpdateAABB()
 	aabb.SetNegativeInfinity();
 	for (std::vector<uint>::iterator it = indices.begin(); it != indices.end(); it++)
 	{
+		uint a = (*it);
 		aabb.Enclose(App->physics->vertices[(*it)]);
 	}
 }
