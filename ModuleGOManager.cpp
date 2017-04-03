@@ -350,6 +350,11 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 
 void ModuleGOManager::ClearScene()
 {
+	if (App->IsGameRunning())
+	{
+		App->OnStop();
+	}
+
 	RemoveGameObject(root);
 	current_scene_canvas = nullptr;
 	//TODO: modules should have remove GameObject events and load scene events

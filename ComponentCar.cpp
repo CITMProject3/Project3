@@ -79,7 +79,6 @@ void ComponentCar::Update()
 {
 	if (App->IsGameRunning())
 	{
-		int vel = GetVelocity();
 		if (vehicle)
 		{		
 			HandlePlayerInput();
@@ -134,7 +133,8 @@ void ComponentCar::OnInspector(bool debug)
 		}
 
 		ImGui::Text("Bool pushing: %i", (int)pushing);
-		ImGui::Text("Current lap: %i", lap);
+		int lap = this->lap;
+		if (ImGui::InputInt("Current lap", &lap)) this->lap = lap;
 		if (lastCheckpoint != nullptr)
 		{
 			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
