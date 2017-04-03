@@ -46,10 +46,10 @@ void ComponentAudioSource::OnInspector(bool debug)
 	{
 		if (ImGui::IsItemClicked(1))
 		{
-			ImGui::OpenPopup("delete##audio");
+			ImGui::OpenPopup("delete##audio_source");
 		}
 
-		if (ImGui::BeginPopup("delete##audio"))
+		if (ImGui::BeginPopup("delete##audio_source"))
 		{
 			if (ImGui::MenuItem("Delete"))
 			{

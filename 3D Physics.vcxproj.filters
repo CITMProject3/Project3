@@ -630,6 +630,9 @@
     <ClInclude Include="ComponentAudioSource.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentAudioListener.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1056,6 +1059,9 @@
       <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
     </ClCompile>
     <ClCompile Include="ComponentAudioSource.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>

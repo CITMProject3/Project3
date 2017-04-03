@@ -10,6 +10,7 @@
 #include "ComponentCamera.h"
 #include "ComponentLight.h"
 #include "ComponentAudioSource.h"
+#include "ComponentAudioListener.h"
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
 #include "ComponentRectTransform.h"
@@ -391,6 +392,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_AUDIO_SOURCE:
 		if (transform)
 			item = new ComponentAudioSource(type, this);
+		break;
+	case C_AUDIO_LISTENER:
+		if (transform)
+			item = new ComponentAudioListener(type, this);
 		break;
 	case C_SCRIPT:
 		item = new ComponentScript(type, this);

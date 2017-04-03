@@ -295,6 +295,12 @@
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
                     "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 16,
+                    "UUID": 297716442,
+                    "active": true,
+                    "listener ID": 0
                 }
             ]
         }
