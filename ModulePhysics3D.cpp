@@ -800,23 +800,29 @@ void ModulePhysics3D::GenerateIndices()
 
 		float2* originalUvs = new float2[w*h];
 
-		for (int z = 0; z < h - 1; z++)
 		{
-			for (int x = 0; x < w - 1; x++)
+			BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices::AddingTris", Profiler::Color::HoneyDew);
+			for (int z = 0; z < h - 1; z++)
 			{
-				AddTriToChunk(	((z + 1) * w + x),		(z * w + x + 1),		(z * w + x),				x, z);
-				AddTriToChunk(	(z * w + x + 1),		((z + 1) * w + x),		((z + 1) * w + x + 1),		x, z);
+				for (int x = 0; x < w - 1; x++)
+				{
+					AddTriToChunk(((z + 1) * w + x), (z * w + x + 1), (z * w + x), x, z);
+					AddTriToChunk((z * w + x + 1), ((z + 1) * w + x), ((z + 1) * w + x + 1), x, z);
 
-				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+					originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+				}
 			}
 		}
 
-		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 		{
-			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices::UpdatingAABB_GenChunkBuffers", Profiler::Color::HoneyDew);
+			for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 			{
-				it_x->second.UpdateAABB();
-				it_x->second.GenBuffer();
+				for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+				{
+					it_x->second.UpdateAABB();
+					it_x->second.GenBuffer();
+				}
 			}
 		}
 
