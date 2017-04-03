@@ -412,7 +412,7 @@ void ComponentScript::OnCollision(PhysBody3D* col)
 			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
 			{
 				if (App->IsGameRunning() && !App->IsGamePaused())
-					onCollision(col);
+					onCollision(GetGameObject(), col);
 			}
 			else
 			{

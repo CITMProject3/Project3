@@ -50,6 +50,14 @@ enum MAX_TURN_CHANGE_MODE
 	M_INTERPOLATION,
 };
 
+enum GROUND_CONTACT
+{
+	G_NONE,
+	G_BEGIN,
+	G_REPEAT,
+	G_EXIT,
+};
+
 struct Turbo
 {
 	string name;
@@ -102,10 +110,17 @@ public:
 	void SetFrontPlayer(PLAYER player);
 	void SetBackPlayer(PLAYER player);
 
+	void BlockInput(bool block);
+	void TestFunction();
+
 	//Getters
 	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
+private:
+	void CheckGroundCollision();
+	void OnGroundCollision(GROUND_CONTACT state);
+public:
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void TurnOver();
@@ -117,9 +132,12 @@ public:
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
 	float GetMaxTurnByCurrentVelocity(float sp);
-
+	unsigned int GetFrontPlayer();
+	unsigned int GetBackPlayer();
+	PhysVehicle3D* GetVehicle();
 
 	TURBO GetCurrentTurbo()const;
+	Turbo* GetAppliedTurbo()const;
 
 private:
 	void CreateCar();
@@ -142,9 +160,9 @@ private:
 	void Acrobatics(PLAYER p);
 public:
 	void PickItem();
-private:
 	void UseItem(); //provisional
 	void ReleaseItem();
+private:
 	void IdleTurn();
 	void ApplyTurbo();
 
@@ -170,8 +188,8 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
-	//TODO: provisional
-	GameObject* item = nullptr;
+	bool lock_input = false;
+
 private:
 	float kickTimer = 0.0f;
 public:
@@ -201,19 +219,21 @@ private:
 
 	//Turn direction
 	float base_turn_max = 0.7f;
-	float turn_speed = 0.1f;
+	float turn_speed = 1.5f;
+	float time_to_idle = 0.1f;
+	bool idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.0f;
+	float turn_max_limit = 0.01f;
 
 	//By speed
-	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_speed = -0.01f;
 	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
 
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
 
 	//Graph
 	bool show_graph = false;
@@ -305,6 +325,7 @@ private:
 	bool acro_front = false;
 	bool acro_back = false;
 	bool acro_on = false;
+	bool acro_done = false;
 	float acro_timer = 0.0f;
 	
 	//Turbo
@@ -331,6 +352,11 @@ private:
 
 	//Items! - provisional
 	bool has_item = false;
+
+	//Ground contact
+
+	bool ground_contact_state = false;
+
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
