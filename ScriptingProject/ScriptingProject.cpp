@@ -94,6 +94,10 @@ extern "C"
 			test_script->public_gos.at("Test_go") = test_go;
 		}
 
+		void Test_OnFocus(GameObject* game_object)
+		{
+		}
+
 		void Test_OnCollision(PhysBody3D* col)
 		{
 			if (!col->GetCollider()->Static)
