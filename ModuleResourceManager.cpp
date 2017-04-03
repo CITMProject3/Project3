@@ -76,14 +76,14 @@ update_status ModuleResourceManager::Update()
 {
 	if (App->StartInGame() == false && App->IsGameRunning() == false)
 	{
-		/*modification_timer += time->RealDeltaTime();
+		modification_timer += time->RealDeltaTime();
 
 		if (modification_timer >= CHECK_MOD_TIME)
 		{
 			CheckDirectoryModification(App->editor->assets->root);
 			modification_timer = 0.0f;
 			App->editor->assets->Refresh();
-		}*/
+		}
 	}
 
 
@@ -388,10 +388,6 @@ void ModuleResourceManager::InputFileDropped(list<string>& files)
 
 void ModuleResourceManager::FileDropped(const char * file_path)
 {
-	//Files extensions accepted
-	//Images: PNG TGA
-	//Meshes: FBX / OBJ
-	//Audio: BNK
 
 	if (App->file_system->IsDirectoryOutside(file_path))
 	{
