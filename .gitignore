@@ -26,6 +26,9 @@ bld/
 [Li]brary/
 Game/Library/
 Game/imgui.ini
+Game/Configuration.json
+
+!AK/*/ # Don't ignore AudioKinetic Wwise directories
 
 # Visual Studio 2015 cache/options directory
 .vs/
