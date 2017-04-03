@@ -2709,6 +2709,51 @@
                     "local_uuid": 445183770
                 }
             ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 2760245210,
+            "local_UUID": 0,
+            "parent": 1923137877,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 986904522,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1129164906,
+                    "active": true,
+                    "script_path": "Scene_Manager",
+                    "script_num": 0,
+                    "Car1": 1734204203
+                }
+            ]
         }
     ],
     "terrain": "\/Library\/208666514\/\/4048193061\/4048193061.dds",
@@ -2723,5 +2768,5 @@
     "terrain_scaling": 100,
     "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/test_scene.ezx",
-    "current_library_scene_path": "\/Library\/\/3099726501\/3099726501.ezx"
+    "current_library_scene_path": "\/Library\/3909003934\/3909003934.ezx"
 } 
