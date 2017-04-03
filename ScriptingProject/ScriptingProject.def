@@ -1,4 +1,5 @@
 EXPORTS
+
 	GetScriptNames					
 	
 	Test_GetPublics
@@ -26,3 +27,8 @@ EXPORTS
 	Scene_Manager_UpdatePublics
 	Scene_Manager_Start
 	Scene_Manager_Update
+
+	; Audio related scripts
+	Audio_PlaySound_Start
+	Audio_PlaySound_Update
+	Audio_PlaySound_OnCollision

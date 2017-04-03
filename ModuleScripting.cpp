@@ -4,8 +4,6 @@
 #include "ModuleResourceManager.h"
 #include "ModuleEditor.h"
 
-//#include "Globals.h"
-
 ModuleScripting::ModuleScripting(const char* name, bool start_enabled) : Module(name, start_enabled)
 {
 }

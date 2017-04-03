@@ -1,0 +1,305 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 4091988484,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1103572344,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Camera",
+            "UUID": 4118623779,
+            "local_UUID": 0,
+            "parent": 4091988484,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3968861084,
+                    "active": true,
+                    "matrix": [
+                        -0.017454,
+                        0,
+                        -0.999848,
+                        12.325871,
+                        0,
+                        1,
+                        0,
+                        2.820989,
+                        0.999848,
+                        0,
+                        -0.017454,
+                        0.177033,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 3664946015,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.917603,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": -431602080,
+                    "viewport_rel_pos_y": -431602080,
+                    "viewport_rel_size_x": -431602080,
+                    "viewport_rel_size_y": -431602080,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 16,
+                    "UUID": 297716442,
+                    "active": true,
+                    "listener ID": 0
+                }
+            ]
+        },
+        {
+            "name": "CubeB",
+            "UUID": 3701435301,
+            "local_UUID": 0,
+            "parent": 4091988484,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2473148885,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        2.026030,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1877268222,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 1,
+                    "is_transparent": true,
+                    "size": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CubeA",
+            "UUID": 2568582592,
+            "local_UUID": 0,
+            "parent": 4091988484,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 917832702,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        3.834332,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1012358086,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 417083175,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 1,
+                    "is_transparent": false,
+                    "size": [
+                        1,
+                        1,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 2692645476,
+            "local_UUID": 0,
+            "parent": 4091988484,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1162303250,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 2266814463,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        }
+    ],
+    "terrain_textures": [],
+    "terrain_scaling": 100,
+    "terrain_tex_scaling": 0.030000,
+    "current_assets_scene_path": "\/Assets\/Testing_trigge.ezx",
+    "current_library_scene_path": "\/Library\/\/312900842\/312900842.ezx"
+} 

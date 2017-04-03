@@ -12,7 +12,7 @@
 #include "PhysVehicle3D.h"
 
 // Only for Vertical Slice 3
-#include "ComponentAudio.h"
+#include "ComponentAudioSource.h"
 #include "ModuleAudio.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
@@ -43,7 +43,7 @@ void ComponentCanvas::Update()
 			scene_to_change = 1;
 
 			// Only for Vertical Slice 3
-			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO);
+			ComponentAudio *a = (ComponentAudio*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());
 		}
 			

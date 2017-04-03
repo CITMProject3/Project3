@@ -37,6 +37,7 @@ ComponentScript::~ComponentScript()
 void ComponentScript::Update()
 {
 	BROFILER_CATEGORY("ComponentScript::Update", Profiler::Color::LawnGreen);
+	
 	if (public_gos_to_set)
 	{
 		if (!public_gos.empty())
