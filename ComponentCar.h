@@ -110,6 +110,9 @@ public:
 	void SetFrontPlayer(PLAYER player);
 	void SetBackPlayer(PLAYER player);
 
+	void BlockInput(bool block);
+	void TestFunction();
+
 	//Getters
 	float GetVelocity()const;
 
@@ -182,8 +185,7 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
-	//TODO: provisional
-	GameObject* item = nullptr;
+	bool lock_input = false;
 private:
 	float kickTimer = 0.0f;
 public:

@@ -80,6 +80,7 @@ void ComponentCar::Update()
 	if (App->IsGameRunning())
 	{
 		int vel = GetVelocity();
+		LOG("Component_Car vel: %i", vel);
 		if (vehicle)
 		{		
 			CheckGroundCollision();
@@ -135,6 +136,17 @@ void ComponentCar::SetBackPlayer(PLAYER player)
 	}
 }
 
+void ComponentCar::BlockInput(bool block)
+{
+	lock_input = block;
+}
+
+void ComponentCar::TestFunction()
+{
+	LOG("Test function");
+	return;
+}
+
 float ComponentCar::GetVelocity() const
 {
 	return vehicle->GetKmh();
@@ -156,6 +168,7 @@ void ComponentCar::HandlePlayerInput()
 		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
 			pushing = false;
 	}
+
 	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
 	
 	//Previous kick turbo (now usedd to test how tiles would work)
@@ -179,9 +192,12 @@ void ComponentCar::HandlePlayerInput()
 		turn_boost += drift_turn_boost;
 	}
 	
-	KeyboardControls(&accel, &brake, &turning);
+	if (lock_input == false)
+	{
+		KeyboardControls(&accel, &brake, &turning);
 
-	JoystickControls(&accel, &brake, &turning);
+		JoystickControls(&accel, &brake, &turning);
+	}
 
 	ApplyTurbo();
 
@@ -579,6 +595,7 @@ void ComponentCar::Acrobatics(PLAYER p)
 void ComponentCar::PickItem()
 {
 	has_item = true;
+	/*
 	if (item != nullptr)
 	{
 		item->SetActive(true);
@@ -592,6 +609,7 @@ void ComponentCar::PickItem()
 			go->SetActive(false);
 		}
 	}
+	*/
 }
 
 void ComponentCar::UseItem()
@@ -602,6 +620,7 @@ void ComponentCar::UseItem()
 		has_item = false;
 	}
 
+	/*
 	//Rotating yellow cubes
 	if (item != nullptr)
 	{
@@ -618,7 +637,7 @@ void ComponentCar::UseItem()
 			trans->SetRotation(rotation);
 		}
 	}
-
+	*/
 	if (applied_turbo && current_turbo)
 	{
 		if (applied_turbo->timer >= applied_turbo->time)
@@ -626,8 +645,8 @@ void ComponentCar::UseItem()
 			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
-			if (item != nullptr)
-				item->SetActive(false);
+			//if (item != nullptr)
+			//	item->SetActive(false);
 		}
 	}
 }
@@ -637,10 +656,10 @@ void ComponentCar::ReleaseItem()
 	if (current_turbo = T_ROCKET)
 	{
 		current_turbo = T_IDLE;
-		if (item != nullptr)
+		/*if (item != nullptr)
 		{
-			item->SetActive(false);
-		}
+			item->setactive(false);
+		}*/
 	}
 }
 void ComponentCar::IdleTurn()
@@ -1541,7 +1560,6 @@ void ComponentCar::Save(Data& file) const
 	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
 	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
 	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
-	if (item) data.AppendUInt("Item", item->GetUUID());
 
 	//Car physics settings
 	data.AppendFloat("mass", car->mass);
@@ -1693,12 +1711,6 @@ void ComponentCar::Load(Data& conf)
 	if (conf.GetUInt("Wheel Back Right") != 0)
 	{
 		EventLinkGos *ev = new EventLinkGos((GameObject**)&wheels_go[3], conf.GetUInt("Wheel Back Right"));
-		App->event_queue->PostEvent(ev);
-	}
-
-	if (conf.GetUInt("Item") != 0)
-	{
-		EventLinkGos *ev = new EventLinkGos((GameObject**)&item, conf.GetUInt("Item"));
 		App->event_queue->PostEvent(ev);
 	}
 
@@ -2286,13 +2298,6 @@ void ComponentCar::OnInspector(bool debug)
 				App->editor->wheel_assign = nullptr;
 			}
 			ImGui::TreePop();
-		}
-		//TODO: provisional
-		ImGui::Separator();
-		if (item != nullptr)
-		{
-			ImGui::Text(item->name.c_str());
-			ImGui::SameLine();
 		}
 
 		if (ImGui::Button("Assign Item"))

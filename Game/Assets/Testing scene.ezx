@@ -153,11 +153,11 @@
                         1,
                         0,
                         0,
-                        300,
+                        753.000061,
                         0,
                         1,
                         0,
-                        100,
+                        21.000002,
                         0,
                         0,
                         1,
@@ -232,7 +232,7 @@
             ]
         },
         {
-            "name": "Kmh_Text",
+            "name": "Kmh_Text_1",
             "UUID": 3873586651,
             "local_UUID": 0,
             "parent": 1172945599,
@@ -278,11 +278,11 @@
                         1,
                         0,
                         0,
-                        300,
+                        1216,
                         0,
                         1,
                         0,
-                        300,
+                        326.000031,
                         0,
                         0,
                         1,
@@ -356,43 +356,14 @@
                             ]
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "name": "Lap_Text",
-            "UUID": 390732257,
-            "local_UUID": 0,
-            "parent": 1172945599,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 1,
-            "static": false,
-            "components": [
+                },
                 {
-                    "type": 0,
-                    "UUID": 2109454216,
+                    "type": 10,
+                    "UUID": 1242240017,
                     "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
+                    "script_path": "Kmh_Counter",
+                    "script_num": 0,
+                    "Car": 1804320022
                 }
             ]
         },
@@ -447,7 +418,7 @@
                         0,
                         1,
                         0,
-                        435.000031,
+                        300,
                         0,
                         0,
                         1,
@@ -536,17 +507,17 @@
                     "active": true,
                     "rect_size": [
                         100,
-                        100
+                        100.000008
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        535,
+                        525,
                         0,
                         1,
                         0,
-                        432.000031,
+                        300,
                         0,
                         0,
                         1,
@@ -618,6 +589,462 @@
             ]
         },
         {
+            "name": "Start_Race_Timer",
+            "UUID": 35501050,
+            "local_UUID": 0,
+            "parent": 1172945599,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 735688932,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1810163537,
+                    "active": true,
+                    "rect_size": [
+                        100.000008,
+                        100
+                    ],
+                    "matrix": [
+                        5,
+                        0,
+                        0,
+                        700,
+                        0,
+                        5,
+                        0,
+                        200,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 3377797873,
+                    "active": true,
+                    "text": "3",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 531071907,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/2973258377\/\/463092857\/463092857.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2593123816\/2593123816.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/4060174745\/4060174745.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/969998698\/969998698.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kmh_Text2",
+            "UUID": 1028845849,
+            "local_UUID": 0,
+            "parent": 1172945599,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1427307935,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 637006165,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100.000008
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        1214,
+                        0,
+                        1,
+                        0,
+                        700,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 1568823431,
+                    "active": true,
+                    "text": "20k",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2655497581,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/2973258377\/\/463092857\/463092857.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2593123816\/2593123816.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/969998698\/969998698.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/376886778\/376886778.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/4060174745\/4060174745.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/969998698\/969998698.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/163265206\/163265206.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2310750165\/2310750165.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2310750165\/2310750165.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/163265206\/163265206.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/144037715\/144037715.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2446655178\/2446655178.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2026965267\/2026965267.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/376886778\/376886778.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/724206581\/724206581.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_T_Image2",
+            "UUID": 3645779103,
+            "local_UUID": 0,
+            "parent": 1172945599,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3548574626,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1438636166,
+                    "active": true,
+                    "rect_size": [
+                        183,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        321,
+                        0,
+                        1,
+                        0,
+                        700,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 13,
+                    "UUID": 1924481632,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 588745864,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/2286250399\/\/3153793661\/3153793661.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_T_Number2",
+            "UUID": 954252472,
+            "local_UUID": 0,
+            "parent": 1172945599,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 427101249,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3264973701,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        525,
+                        0,
+                        1,
+                        0,
+                        700,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 14,
+                    "UUID": 3933432050,
+                    "active": true,
+                    "text": "0",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2731460097,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/2973258377\/\/463092857\/463092857.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2593123816\/2593123816.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/4060174745\/4060174745.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/969998698\/969998698.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/4290632547\/4290632547.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/163265206\/163265206.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2310750165\/2310750165.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/144037715\/144037715.dds"
+                                },
+                                {
+                                    "path": "\/Library\/2973258377\/\/2026965267\/2026965267.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Scene Manager",
             "UUID": 1039918690,
             "local_UUID": 0,
@@ -659,9 +1086,10 @@
                     "script_path": "Scene_Manager",
                     "script_num": 0,
                     "Car1": 1804320022,
+                    "Car2": 2604072693,
                     "Timer_Text": 2599494296,
-                    "Kmh_Text": 3873586651,
-                    "Lap_Text": 3296988991
+                    "Lap_Text": 3296988991,
+                    "Start_Timer_Text": 35501050
                 }
             ]
         },
@@ -684,16 +1112,16 @@
                     "matrix": [
                         0.061448,
                         0,
-                        0.998112,
-                        0,
+                        0.998110,
+                        -89.222588,
                         0,
                         1,
                         0,
-                        28.328941,
-                        -0.998112,
+                        84.579735,
+                        -0.998110,
                         0,
                         0.061448,
-                        -132.107071,
+                        33.910542,
                         0,
                         0,
                         0,
@@ -2019,7 +2447,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.849084,
+                    "aspect_ratio": 3.852869,
                     "color": [
                         0,
                         0,
@@ -2098,18 +2526,18 @@
                     "UUID": 2254243868,
                     "active": true,
                     "matrix": [
-                        1,
-                        0,
-                        0,
-                        -14.215124,
-                        0,
-                        1,
-                        0,
-                        27.768665,
                         0,
                         0,
                         1,
-                        -133.172195,
+                        -90.668274,
+                        0,
+                        1,
+                        0,
+                        84.610710,
+                        -1,
+                        0,
+                        0,
+                        37.512798,
                         0,
                         0,
                         0,
@@ -3419,7 +3847,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.849084,
+                    "aspect_ratio": 3.852869,
                     "color": [
                         0,
                         0,
@@ -3496,7 +3924,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.886051,
+                    "aspect_ratio": 1.887906,
                     "color": [
                         0,
                         0,
@@ -3516,8 +3944,13 @@
             ]
         }
     ],
-    "terrain_textures": [],
-    "terrain_scaling": 0.500000,
+    "terrain": "\/Library\/\/2007548400\/2007548400.dds",
+    "terrain_textures": [
+        {
+            "path": "\/Library\/\/2007548400\/2007548400.dds"
+        }
+    ],
+    "terrain_scaling": 100,
     "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/Testing scene.ezx",
     "current_library_scene_path": "\/Library\/\/3722201106\/3722201106.ezx"
