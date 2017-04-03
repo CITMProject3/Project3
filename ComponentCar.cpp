@@ -274,7 +274,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(back_player);
 		}
 		//Power Up
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
+		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
 			UseItem();
 		}
@@ -282,7 +282,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
 		{
 			ReleaseItem();
-		}
+		}*/
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
@@ -357,7 +357,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Acrobatics(back_player);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		//current_turbo = T_MINI;
 		UseItem();
@@ -366,7 +366,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		//current_turbo = T_MINI;
 		ReleaseItem();
-	}
+	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
 	{
@@ -595,21 +595,6 @@ void ComponentCar::Acrobatics(PLAYER p)
 void ComponentCar::PickItem()
 {
 	has_item = true;
-	/*
-	if (item != nullptr)
-	{
-		item->SetActive(true);
-		for (std::vector<GameObject*>::const_iterator it = item->GetChilds()->begin(); it != item->GetChilds()->end(); it++)
-		{
-			GameObject* go = (*it)->GetChilds()->front();
-			ComponentTransform* trans = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
-			float3 rotation = trans->GetRotationEuler();
-			rotation.z = 0;
-			trans->SetRotation(rotation);
-			go->SetActive(false);
-		}
-	}
-	*/
 }
 
 void ComponentCar::UseItem()
@@ -620,24 +605,6 @@ void ComponentCar::UseItem()
 		has_item = false;
 	}
 
-	/*
-	//Rotating yellow cubes
-	if (item != nullptr)
-	{
-		for (std::vector<GameObject*>::const_iterator it = item->GetChilds()->begin(); it != item->GetChilds()->end(); it++)
-		{
-			GameObject* go = (*it)->GetChilds()->front();
-			if (go->IsActive() == false) go->SetActive(true);
-			ComponentTransform* trans = (ComponentTransform*)go->GetComponent(C_TRANSFORM);
-			float3 rotation = trans->GetRotationEuler();
-			rotation.z += 1000 * time->DeltaTime();
-			while (rotation.z > 360)
-				rotation.z -= 360;
-
-			trans->SetRotation(rotation);
-		}
-	}
-	*/
 	if (applied_turbo && current_turbo)
 	{
 		if (applied_turbo->timer >= applied_turbo->time)
@@ -645,8 +612,6 @@ void ComponentCar::UseItem()
 			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo == T_IDLE;
-			//if (item != nullptr)
-			//	item->SetActive(false);
 		}
 	}
 }
@@ -656,10 +621,6 @@ void ComponentCar::ReleaseItem()
 	if (current_turbo = T_ROCKET)
 	{
 		current_turbo = T_IDLE;
-		/*if (item != nullptr)
-		{
-			item->setactive(false);
-		}*/
 	}
 }
 void ComponentCar::IdleTurn()
@@ -1204,9 +1165,29 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 	return max_t;
 }
 
+unsigned int ComponentCar::GetFrontPlayer()
+{
+	return front_player;
+}
+
+unsigned int ComponentCar::GetBackPlayer()
+{
+	return back_player;
+}
+
+PhysVehicle3D* ComponentCar::GetVehicle()
+{
+	return vehicle;
+}
+
 TURBO ComponentCar::GetCurrentTurbo() const
 {
 	return current_turbo;
+}
+
+Turbo* ComponentCar::GetAppliedTurbo() const
+{
+	return applied_turbo;
 }
 
 void ComponentCar::CheckGroundCollision()
