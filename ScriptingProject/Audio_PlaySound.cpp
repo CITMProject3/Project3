@@ -1,12 +1,15 @@
 #include "stdafx.h"
 
+#include "../Application.h"
+
 #include "../PhysBody3D.h"
 
 #include "../GameObject.h"
-#include "../ComponentAudioSource.h"
 #include "../ComponentCollider.h"
+#include "../ComponentAudioSource.h"
 
-//#include "../Wwise_Library.h"
+#include "../EventQueue.h"
+#include "../EventPlaySound.h"
 
 namespace Audio_PlaySound
 {
@@ -25,6 +28,6 @@ namespace Audio_PlaySound
 	void Audio_PlaySound_OnCollision(PhysBody3D* col)
 	{
 		ComponentAudioSource *audio = (ComponentAudioSource*)col->GetCollider()->GetGameObject()->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if(audio) audio->PlayEvent();
+		App->event_queue->PostEvent(new EventPlaySound(audio));
 	}
 }

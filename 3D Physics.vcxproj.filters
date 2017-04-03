@@ -88,6 +88,9 @@
     <Filter Include="Sources\MemoryManagement\Profiler_Guillem">
       <UniqueIdentifier>{84165a18-33d7-46fd-af59-3ef7675602c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\Wwise\Wwise_files">
+      <UniqueIdentifier>{e34f7f81-76e9-4000-91ab-87571abdf576}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -633,6 +636,72 @@
     <ClInclude Include="ComponentAudioListener.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkArray.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkAssert.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkAutoLock.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkBankReadHelpers.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkDynaBlkPool.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkFNVHash.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyArray.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyDef.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkListBare.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkListBareLight.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkLock.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkMonitorError.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkObject.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkPlatformFuncs.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkSmartPtr.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkSyncCaller.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkVectors.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\POSIX\AkLock.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\POSIX\AkPlatformFuncs.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Win32\AkLock.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h">
+      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPlaySound.h">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1063,6 +1132,9 @@
     </ClCompile>
     <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPlaySound.cpp">
+      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

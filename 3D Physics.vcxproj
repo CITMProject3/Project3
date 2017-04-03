@@ -74,7 +74,7 @@
       <ExceptionHandling>Sync</ExceptionHandling>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories />
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WIN32;_DEBUG;_WINDOWS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;ENGINE_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -129,6 +129,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AK\include\AK\Tools\Common\AkArray.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkAssert.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkAutoLock.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkBankReadHelpers.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkDynaBlkPool.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkFNVHash.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyArray.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyDef.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkListBare.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkListBareLight.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkLock.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkMonitorError.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkObject.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkPlatformFuncs.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkSmartPtr.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkSyncCaller.h" />
+    <ClInclude Include="AK\include\AK\Tools\Common\AkVectors.h" />
+    <ClInclude Include="AK\include\AK\Tools\POSIX\AkLock.h" />
+    <ClInclude Include="AK\include\AK\Tools\POSIX\AkPlatformFuncs.h" />
+    <ClInclude Include="AK\include\AK\Tools\Win32\AkLock.h" />
+    <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h" />
@@ -169,6 +190,7 @@
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="EventLinkGos.h" />
+    <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
@@ -347,6 +369,7 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="EventLinkGos.cpp" />
+    <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="flags.cpp" />
     <ClCompile Include="FPSGraph.cpp" />

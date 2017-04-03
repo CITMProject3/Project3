@@ -379,7 +379,9 @@ void ModulePhysics3D::CleanWorld()
 	shapes.clear();
 
 	for (list<PhysBody3D*>::iterator item = bodies.begin(); item != bodies.end(); item++)
+	{
 		delete *item;
+	}		
 
 	bodies.clear();
 
@@ -390,6 +392,14 @@ void ModulePhysics3D::CleanWorld()
 	}
 
 	vehicles.clear();
+
+	for (list<TriggerState*>::iterator item = triggers.begin(); item != triggers.end(); item++)
+	{
+		delete *item;
+	}
+
+	triggers.clear();
+	
 	CreateGround();
 	world->clearForces();
 }

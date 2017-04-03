@@ -44,6 +44,7 @@
 
 // Custom alloc/free functions. These are declared as "extern" in AkMemoryMgr.h
 // and MUST be defined by the game developer.
+
 namespace AK
 {
 #ifdef WIN32

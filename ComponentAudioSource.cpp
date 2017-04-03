@@ -99,7 +99,6 @@ void ComponentAudioSource::OnInspector(bool debug)
 		ImGui::SameLine();
 		if (ImGui::Button("STOP"))
 			StopEvent();
-
 	}
 }
 
