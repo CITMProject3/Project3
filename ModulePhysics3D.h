@@ -60,7 +60,7 @@ public:
 private:
 	math::AABB aabb;
 	int indices_bufferID = 0;
-}
+};
 
 enum TriggerType
 {
