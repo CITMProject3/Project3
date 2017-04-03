@@ -21,12 +21,12 @@
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
 	SetShape(S_CUBE);
+	trigger_type = TriggerType::T_NONE;
+	GetTriggerTypeName();
 }
 
 ComponentCollider::~ComponentCollider()
-{
-	
-}
+{ }
 
 void ComponentCollider::Update()
 {
@@ -167,15 +167,44 @@ void ComponentCollider::OnInspector(bool debug)
 		}
 		ImGui::Separator();
 
-		ImGui::Checkbox("Trigger", &isTrigger);
-		ImGui::SameLine();
 		ImGui::Checkbox("Transparent", &isTransparent);
+		ImGui::SameLine();
+
+		ImGui::Checkbox("Trigger", &isTrigger);
+
+		if (isTrigger)
+		{
+			if (ImGui::BeginMenu(trigger_type_name.c_str()))
+			{
+				if (ImGui::MenuItem("On Trigger"))
+					trigger_type = TriggerType::T_ON_TRIGGER;
+				if (ImGui::MenuItem("On Enter"))
+					trigger_type = TriggerType::T_ON_ENTER;
+				if (ImGui::MenuItem("On Exit"))
+					trigger_type = TriggerType::T_ON_EXIT;
+				GetTriggerTypeName();
+				ImGui::EndMenu();
+			}
+		}
+		
+		
 
 		ImGui::Separator();
 		if (ImGui::Button("Remove ###col_rem"))
 		{
 			Remove();
 		}
+	}
+}
+
+void ComponentCollider::GetTriggerTypeName()
+{
+	switch (trigger_type)
+	{
+	case(TriggerType::T_NONE): trigger_type_name = "No Trigger Type assigned"; break;
+	case(TriggerType::T_ON_TRIGGER): trigger_type_name = "On Trigger"; break;
+	case(TriggerType::T_ON_ENTER): trigger_type_name = "On Enter"; break;
+	case(TriggerType::T_ON_EXIT): trigger_type_name = "On Exit"; break;
 	}
 }
 
@@ -190,14 +219,6 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
-	/*data.AppendBool("flag_isCar", ReadFlag(collision_flags, PhysBody3D::co_isCar));
-	data.AppendBool("flag_isCheckpoint", ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint));
-	data.AppendBool("flag_isFinishLane", ReadFlag(collision_flags, PhysBody3D::co_isFinishLane));
-	data.AppendBool("flag_isItem", ReadFlag(collision_flags, PhysBody3D::co_isItem));
-	data.AppendBool("flag_isOutOfBounds", ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds));
-	data.AppendBool("flag_isTransparent", ReadFlag(collision_flags, PhysBody3D::co_isTransparent));
-	data.AppendBool("flag_isTrigger", ReadFlag(collision_flags, PhysBody3D::co_isTrigger));*/
-
 	data.AppendInt("CheckpointN", n);
 
 	data.AppendInt("shape", shape);
@@ -206,6 +227,7 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendFloat3("offset_pos", offset_pos.ptr());
 
 	data.AppendBool("is_trigger", isTrigger);
+	data.AppendInt("trigger_type", trigger_type);
 	data.AppendBool("is_transparent", isTransparent);
 
 	switch (shape)
@@ -233,6 +255,8 @@ void ComponentCollider::Load(Data & conf)
 	
 	SetShape(shape);
 	isTrigger = conf.GetBool("is_trigger");
+	trigger_type = (TriggerType)conf.GetInt("trigger_type");
+	GetTriggerTypeName();
 	isTransparent = conf.GetBool("is_transparent");
 
 	switch (shape)
@@ -245,15 +269,6 @@ void ComponentCollider::Load(Data & conf)
 		break;
 	}
 	
-	/*collision_flags = 0;
-	SetFlag(collision_flags, PhysBody3D::co_isCar, conf.GetBool("flag_isCar"));
-	SetFlag(collision_flags, PhysBody3D::co_isCheckpoint, conf.GetBool("flag_isCheckpoint"));
-	SetFlag(collision_flags, PhysBody3D::co_isFinishLane, conf.GetBool("flag_isFinishLane"));
-	SetFlag(collision_flags, PhysBody3D::co_isItem, conf.GetBool("flag_isItem"));
-	SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds, conf.GetBool("flag_isOutOfBounds"));
-	SetFlag(collision_flags, PhysBody3D::co_isTransparent, conf.GetBool("flag_isTransparent"));
-	SetFlag(collision_flags, PhysBody3D::co_isTrigger, conf.GetBool("flag_isTrigger"));*/
-
 	n = conf.GetInt("CheckpointN");
 }
 

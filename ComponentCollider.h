@@ -8,6 +8,8 @@ class btConvexHullShape;
 class PhysBody3D;
 class Primitive;
 
+enum TriggerType;
+
 enum Collider_Shapes
 {
 	S_NONE = 0,
@@ -19,6 +21,7 @@ enum Collider_Shapes
 class ComponentCollider : public Component
 {
 public:
+
 	ComponentCollider(GameObject* game_object);
 	~ComponentCollider();
 
@@ -39,6 +42,8 @@ public:
 private:
 
 	bool isTrigger = false;
+	TriggerType trigger_type;
+	std::string trigger_type_name;
 	bool isTransparent = false;
 
 	void LoadShape();
@@ -55,7 +60,8 @@ public:
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
 
-	//unsigned char collision_flags = 0;
 	int n = 0;
+
+	void GetTriggerTypeName();
 };
 #endif // !__COMPONENT_COLLIDER_H__

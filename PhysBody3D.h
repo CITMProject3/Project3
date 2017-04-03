@@ -14,22 +14,20 @@ class Module;
 class ComponentCollider;
 class ComponentCar;
 
+enum TriggerType
+{
+	T_ON_TRIGGER,
+	T_ON_ENTER,
+	T_ON_EXIT,
+
+	T_NONE
+};
+
 // =================================================
 class PhysBody3D
 {
 	friend class ModulePhysics3D;
 public:
-
-	//enum E_collisionOptions {//Flags for collision options. 8 bools stored in one byte
-	//	co_isTrigger = 0x01,		//00000001
-	//	co_isTransparent = 0x02,	//00000010
-	//	co_isCar = 0x04,			//00000100
-	//	co_isItem = 0x08,			//00001000
-	//	co_isOutOfBounds = 0x10,	//00010000
-	//	co_isCheckpoint = 0x20,		//00100000
-	//	co_isFinishLane = 0x40,		//01000000
-	//	co_none = 0x80				//10000000
-	//};
 
 	PhysBody3D(btRigidBody* body, ComponentCollider* col);
 	PhysBody3D(btRigidBody* body, ComponentCar* car);
@@ -87,9 +85,6 @@ private:
 	bool isTrigger = false;
 	bool isCar = false;
 
-//public:
-
-	//unsigned char collisionOptions = 0;
 };
 
 #endif // __PhysBody3D_H__

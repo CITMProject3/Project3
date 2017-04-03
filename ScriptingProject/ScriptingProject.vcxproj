@@ -73,6 +73,7 @@
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(Configuration)_Game</TargetName>
     <OutDir>$(SolutionDir)\Game\Assets\Scripts</OutDir>
+    <IncludePath>$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
