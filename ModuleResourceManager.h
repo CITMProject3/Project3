@@ -50,6 +50,7 @@ class ResourceFileMaterial;
 
 class ModuleResourceManager : public Module
 {
+	friend class ResourceFilePrefab;
 public:
 	ModuleResourceManager(const char* name, bool start_enabled = true);
 	~ModuleResourceManager();
@@ -100,6 +101,9 @@ public:
 	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, std::string& md5, std::string& md5_lib, std::string& library_path, std::string& assets_path)const;
 
 	FileType GetFileExtension(const char* path)const;
+
+	//Utilities
+	unsigned int GetUUIDFromLib(const std::string& library_path)const;
 
 private:
 

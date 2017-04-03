@@ -1006,6 +1006,17 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	return NONE;
 }
 
+unsigned int ModuleResourceManager::GetUUIDFromLib(const string & library_path)const
+{
+	string path = library_path;
+	string name = path.substr(path.find_last_of("/\\") + 1);
+	name = name.substr(0, name.find_last_of('.'));
+	if (name.length() == 0)
+		return 0;
+
+	return std::stoul(name);
+}
+
 string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * path, string base_dir) const
 {
 	string current_dir;
