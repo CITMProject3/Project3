@@ -281,7 +281,9 @@ private:
 
 	//Rocket item
 	//WARNING: THIS WILL HAVE TO be in a better structure, provisional for vertical slice
+public:
 	Turbo rocket_turbo;
+private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
 
