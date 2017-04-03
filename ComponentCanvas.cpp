@@ -58,7 +58,10 @@ void ComponentCanvas::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+
 	}
+	if(go_focus != nullptr)
+		ImGui::Text(string("Current Focus: " + go_focus->name).data());
 }
 
 void ComponentCanvas::OnTransformModified()
@@ -102,9 +105,6 @@ vector<GameObject*> ComponentCanvas::GetUI()
 
 	for (vector<GameObject*>::const_iterator obj = tmp_childs.begin(); obj != tmp_childs.end(); ++obj)
 	{
-		Component* c = (*obj)->GetComponent(C_GRID);
-		if (c)
-			go_focus = (*obj);
 		vector<GameObject*> obj_childs = GetGameObjectChilds(*obj);
 		tmp_unorganized.insert(tmp_unorganized.end(), obj_childs.begin(), obj_childs.end());
 	}
@@ -135,9 +135,9 @@ GameObject * ComponentCanvas::GetGoFocus() const
 	return go_focus;
 }
 
-void ComponentCanvas::SetGoFocus(GameObject * new_focus)
+void ComponentCanvas::SetGoFocus(GameObject* new_focus)
 {
-	if (new_focus != nullptr)
+	if ((new_focus) != nullptr)
 		go_focus = new_focus;
 }
 

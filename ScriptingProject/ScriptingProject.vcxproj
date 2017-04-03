@@ -179,6 +179,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />
@@ -191,6 +192,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="ScriptingProject.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

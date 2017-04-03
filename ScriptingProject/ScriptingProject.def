@@ -27,3 +27,8 @@ EXPORTS
 	Scene_Manager_UpdatePublics
 	Scene_Manager_Start
 	Scene_Manager_Update
+
+	Main_Menu_UI_GetPublics
+	Main_Menu_UI_UpdatePublics
+	Main_Menu_UI_Start
+	Main_Menu_UI_Update
