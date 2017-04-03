@@ -187,7 +187,7 @@ update_status ModulePhysics3D::Update()
 				{
 					for (int _x = -brushSize; _x <= brushSize; _x++)
 					{
-						if (_x + x >= 0 && _y + y >= 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
 						{
 							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
 						}
@@ -366,43 +366,64 @@ void ModulePhysics3D::CreateGround()
 
 bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Terrain_Raycast", Profiler::Color::HoneyDew);
+
 	RaycastHit hit_info;
 	bool ret = false;
 
-	//TODO
-	/*uint u1, u2, u3;
+	std::map<float, chunk> firstPass;
+	float dNear = 0;
+	float dFar = 0;
+
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	{
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{			
+			if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
+			{
+				firstPass.insert(std::pair<float, chunk>(dNear,it_x->second));
+			}
+		}
+	}
+
+	uint u1, u2, u3;
 	float distance;
 	vec hit_point;
 	Triangle triangle;
-	for (unsigned int i = 0; i < numIndices - 100; i += 3)
+
+	for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
 	{
-		u1 = indices[i];
-		u2 = indices[i + 1];
-		u3 = indices[i + 2];
-		triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
-		if (raycast.Intersects(triangle, &distance, &hit_point))
+		for (uint n = 0; n < it->second.GetNIndices(); n += 3)
 		{
-			ret = true;
-			if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+			u1 = it->second.indices[n];
+			u2 = it->second.indices[n + 1];
+			u3 = it->second.indices[n + 2];
+			triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+
+			if (raycast.Intersects(triangle, &distance, &hit_point))
 			{
-				hit_OUT.distance = distance;
-				hit_OUT.point = hit_point;
-				hit_OUT.normal = triangle.NormalCCW();
+				ret = true;
+				if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+				{
+					hit_OUT.distance = distance;
+					hit_OUT.point = hit_point;
+					hit_OUT.normal = triangle.NormalCCW();
+				}
 			}
 		}
-
 		if (ret == true)
 		{
 			hit_OUT.object = nullptr;
 			hit_OUT.normal.Normalize();
+			return true;
 		}
-	}
-	*/
-	return ret;
+	}	
+	return false;
 }
 
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
+	BROFILER_CATEGORY("ModulePhysics3D::Generate_Heightmap", Profiler::Color::HoneyDew);
 	bool ret = false;
 	//Loading Heightmap Image
 	if (resLibPath != GetHeightmapPath() && resLibPath != "" && resLibPath != " ")
@@ -763,6 +784,7 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::GenerateIndices()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices", Profiler::Color::HoneyDew);
 	if (heightMapImg)
 	{
 		DeleteIndices();
@@ -892,29 +914,25 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
 	
+	if (renderFilledTerrain)
+	{
+		RealRenderTerrain(camera, false);
+	}
+	if (renderWiredTerrain)
+	{
+		RealRenderTerrain(camera, true);
+	}
+}
+
+void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
+{
+
 
 	if (GetNChunksW() >= 0 && terrainData != nullptr)
 	{
-
-		if (paintMode && renderWiredTerrain == false)
+		if (wired)
 		{
-			if (renderWiredTerrain == false)
-			{
-				renderWiredTerrain = true;
-				RenderTerrain(camera);
-				renderWiredTerrain = false;
-			}
-		}
-		if (renderWiredTerrain)
-		{
-			if (paintMode)
-			{
-				glLineWidth(2.0f);
-			}
-			else
-			{
-				glLineWidth(1.0f);
-			}
+			glLineWidth(1.5f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
@@ -936,11 +954,11 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glUniform1i(tex_distributor_location, 0);
 
 		int count = 0;
-		if (textures.size() > 0 && renderWiredTerrain == false)
-		{		
+		if (textures.size() > 0)
+		{
 			uint nTextures = textures.size();
 			//TEXTURE 0
-			if (0 < nTextures)
+			if (0 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_0, 1);
 				glActiveTexture(GL_TEXTURE1);
@@ -953,7 +971,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 1			
-			if (1 < nTextures)
+			if (1 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_1, 2);
 				glActiveTexture(GL_TEXTURE2);
@@ -966,7 +984,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 2
-			if (2 < nTextures)
+			if (2 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_2, 3);
 				glActiveTexture(GL_TEXTURE3);
@@ -979,7 +997,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 3
-			if (3 < nTextures)
+			if (3 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_3, 4);
 				glActiveTexture(GL_TEXTURE4);
@@ -992,7 +1010,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 4
-			if (4 < nTextures)
+			if (4 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_4, 5);
 				glActiveTexture(GL_TEXTURE5);
@@ -1005,7 +1023,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 5
-			if (5 < nTextures)
+			if (5 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_5, 6);
 				glActiveTexture(GL_TEXTURE6);
@@ -1018,11 +1036,11 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 6
-			if (6 < nTextures)
+			if (6 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_6, 7);
 				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[6]->GetTexture());
 			}
 			else
 			{
@@ -1031,7 +1049,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 7
-			if (7 < nTextures)
+			if (7 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_7, 8);
 				glActiveTexture(GL_TEXTURE8);
@@ -1044,7 +1062,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 8
-			if (8 < nTextures)
+			if (8 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_8, 9);
 				glActiveTexture(GL_TEXTURE9);
@@ -1057,7 +1075,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			}
 
 			//TEXTURE 9
-			if (9 < nTextures)
+			if (9 < nTextures && wired == false)
 			{
 				glUniform1i(texture_location_9, 10);
 				glActiveTexture(GL_TEXTURE10);
@@ -1068,7 +1086,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 				glActiveTexture(GL_TEXTURE10);
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
-			
+
 		}
 		else
 		{
@@ -1106,7 +1124,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 			if (directional_direction_location != -1)
 				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 		}
-		
+
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
@@ -1128,22 +1146,6 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
-		//Index buffer
-		/*std::vector<chunk> visibleChunks = GetVisibleChunks(camera);
-		for(std::vector<chunk>::iterator it = visibleChunks.begin(); it != visibleChunks.end(); it++)
-		{
-				if (renderChunks)
-				{
-					it->Render();
-					if (renderWiredTerrain)
-					{
-						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-					}
-				}				
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, it->GetBuffer());
-				glDrawElements(GL_TRIANGLES, it->GetNIndices(), GL_UNSIGNED_INT, (void*)0);
-		}*/
-
 		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 		{
 			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
@@ -1151,7 +1153,7 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 				if (renderChunks)
 				{
 					it_x->second.Render();
-					if (renderWiredTerrain)
+					if (wired)
 					{
 						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 					}
@@ -1477,7 +1479,7 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 {
 	//Loading Heightmap Image
-	if (resLibPath != "" && resLibPath != " ")
+	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 10)
 	{
 		if ((pos == -1) || (pos >= 0 && pos < GetNTextures()))
 		{
