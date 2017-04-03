@@ -41,7 +41,7 @@ public:
 
 private:
 
-	bool isTrigger = false;
+	bool is_trigger = false;
 	TriggerType trigger_type;
 	std::string trigger_type_name;
 	bool isTransparent = false;

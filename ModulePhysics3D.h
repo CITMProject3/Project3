@@ -13,6 +13,8 @@
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
+#include "PhysBody3D.h"
+
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
@@ -30,6 +32,24 @@ class ComponentCar;
 class ComponentCamera;
 
 class btHeightfieldTerrainShape;
+
+enum TriggerType
+{
+	T_ON_TRIGGER,
+	T_ON_ENTER,
+	T_ON_EXIT
+};
+
+struct TriggerState
+{
+	TriggerState(PhysBody3D *body)
+	{
+		this->body = body;
+	}
+
+	PhysBody3D *body = nullptr;
+	bool		last_frame_check = true;
+};
 
 class ModulePhysics3D : public Module
 {
@@ -54,10 +74,10 @@ public:
 
 	bool RayCast(Ray ray, RaycastHit& hit);
 
-	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false );
-	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false);
-	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false);
-	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool isTransparent = false, bool isTrigger = false, btConvexHullShape** OUT_shape = nullptr);
+	PhysBody3D* AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER );
+	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
+	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
+	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	bool GenerateHeightmap(std::string resLibPath);
@@ -88,7 +108,9 @@ public:
 	float GetTextureScaling() { return textureScaling; }
 
 	void RenderTerrain(ComponentCamera* camera);
+
 private:
+
 	void AddTerrain();
 	
 	void GenerateTerrainMesh();
@@ -104,12 +126,17 @@ private:
 	void DeleteIndices();
 
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
+
+	bool CheckTriggerType(PhysBody3D *body);
+	void UpdateTriggerList();
+
 public:
 
 	void AddConstraintP2P(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB);
 	void AddConstraintHinge(PhysBody3D& bodyA, PhysBody3D& bodyB, const vec& anchorA, const vec& anchorB, const vec& axisS, const vec& axisB, bool disable_collision = false);
 
 private:
+
 	bool debug = false;
 
 	btDefaultCollisionConfiguration*	collision_conf;
@@ -125,6 +152,9 @@ private:
 	std::list<btDefaultMotionState*> motions;
 	std::list<btTypedConstraint*> constraints;
 	std::list<PhysVehicle3D*> vehicles;
+
+	std::list<TriggerState*> triggers;
+	
 
 #pragma region Terrain
 	uint* indices = nullptr;

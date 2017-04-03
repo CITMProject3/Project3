@@ -56,7 +56,7 @@ ModulePhysics3D::ModulePhysics3D(const char* name, bool start_enabled) : Module(
 	dispatcher = new btCollisionDispatcher(collision_conf);
 	broad_phase = new btDbvtBroadphase();
 	solver = new btSequentialImpulseConstraintSolver();
-	debug_draw = new DebugDrawer(); //DEBUG DISABLED
+	debug_draw = new DebugDrawer(); // DEBUG DISABLED
 }
 
 // Destructor
@@ -95,6 +95,8 @@ update_status ModulePhysics3D::PreUpdate()
 {
 	BROFILER_CATEGORY("ModulePhysics3D::PreUpdate", Profiler::Color::YellowGreen)
 
+	UpdateTriggerList();
+
 	float dt = time->DeltaTime();
 	if (App->IsGameRunning())
 	{
@@ -125,10 +127,10 @@ update_status ModulePhysics3D::Update()
 {
 	BROFILER_CATEGORY("ModulePhysics3D::Update", Profiler::Color::LimeGreen)
 
-	if(App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
-		debug = !debug;
+		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
+			debug = !debug;
 
-	if(debug == true)
+	if (debug == true)
 	{
 		world->debugDrawWorld();
 	}
@@ -168,7 +170,7 @@ update_status ModulePhysics3D::Update()
 update_status ModulePhysics3D::PostUpdate()
 {
 	BROFILER_CATEGORY("ModulePhysics3D::PostUpdate", Profiler::Color::Green)
-	return UPDATE_CONTINUE;
+		return UPDATE_CONTINUE;
 }
 
 bool ModulePhysics3D::CleanUp()
@@ -204,12 +206,118 @@ bool ModulePhysics3D::CleanUp()
 	return true;
 }
 
+void ModulePhysics3D::UpdateTriggerList()
+{
+	ComponentScript *script = nullptr;
+
+	for (std::list<TriggerState*>::iterator it = triggers.begin(); it != triggers.end();)
+	{
+		PhysBody3D *body = (*it)->body;
+		switch (body->trigger_type)
+		{
+			// Trigger with T_ON_ENTER flag will be erased from list when 
+			case(TriggerType::T_ON_ENTER):
+			{
+				if (!(*it)->last_frame_check)
+				{
+					delete (*it);
+					it = triggers.erase(it);
+				}
+				else
+					++it;
+
+				break;
+			}
+			case(TriggerType::T_ON_EXIT):
+			{
+				if (!(*it)->last_frame_check)
+				{
+					script = body->IsCar() ?
+						(ComponentScript*)body->GetCar()->GetGameObject()->GetComponent(C_SCRIPT) :
+						(ComponentScript*)body->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
+
+					// Call script
+					if (script) script->OnCollision(body);
+
+					delete (*it);
+					it = triggers.erase(it);
+				}
+				else
+					++it;
+
+				break;
+			}
+		}
+	}
+
+	// Resetting values for all triggers
+	for (std::list<TriggerState*>::iterator it = triggers.begin(); it != triggers.end(); ++it)
+	{
+		(*it)->last_frame_check = false;
+	}		
+}
+
+bool ModulePhysics3D::CheckTriggerType(PhysBody3D *body)
+{
+	bool launch_trigger = false;
+
+	switch (body->trigger_type)
+	{
+	case(TriggerType::T_ON_TRIGGER):
+	{
+		launch_trigger = true;
+		break;
+	}
+	case(TriggerType::T_ON_ENTER):
+	{
+		bool on_list = false;
+		for (std::list<TriggerState*>::iterator it = triggers.begin(); it != triggers.end(); ++it)
+		{
+			if (body == (*it)->body)
+			{
+				on_list = true;
+				(*it)->last_frame_check = true;
+			}			
+		}
+
+		// First time entering, so trigger will be called for ON_ENTER triggers
+		if (!on_list)
+		{
+			triggers.push_back(new TriggerState(body));
+			launch_trigger = true;
+		}
+
+		break;
+	}
+	case(TriggerType::T_ON_EXIT):
+	{
+		bool on_list = false;
+		for (std::list<TriggerState*>::iterator it = triggers.begin(); it != triggers.end(); ++it)
+		{
+			if (body == (*it)->body)
+			{
+				on_list = true;
+				(*it)->last_frame_check = true;
+			}
+		}
+
+		// First time entering, so trigger will added and check on UpdateTriggersList()
+		if (!on_list)
+			triggers.push_back(new TriggerState(body));
+
+		break;
+	}
+	}
+
+	return launch_trigger;
+}
+
 void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 {
 	ComponentScript* script = nullptr;
 
 	// BodyA
-	if (bodyA->IsTrigger())
+	if (bodyA->IsTrigger() && CheckTriggerType(bodyA))
 	{
 		script = bodyA->IsCar() ?
 			(ComponentScript*)bodyA->GetCar()->GetGameObject()->GetComponent(C_SCRIPT) :
@@ -220,7 +328,7 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 	}
 
 	// BodyB
-	if (bodyB->IsTrigger())
+	if (bodyB->IsTrigger() && CheckTriggerType(bodyB))
 	{
 		script = bodyB->IsCar() ?
 			(ComponentScript*)bodyB->GetCar()->GetGameObject()->GetComponent(C_SCRIPT) :
@@ -230,31 +338,6 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 		if (script) script->OnCollision(bodyB);
 	}
 }
-
-//void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
-//{
-//	ComponentCar* car = physCar->GetCar();
-//	ComponentCollider* trigger = body->GetCollider();
-//	if (car != nullptr && trigger != nullptr)
-//	{
-//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isCheckpoint))
-//		{
-//			car->WentThroughCheckpoint(trigger);
-//		}
-//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isFinishLane))
-//		{
-//			car->WentThroughEnd(trigger);
-//		}
-//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isItem))
-//		{
-//			car->PickItem();
-//		}
-//		if (ReadFlag(body->collisionOptions, PhysBody3D::co_isOutOfBounds))
-//		{
-//			car->Reset();
-//		}
-//	}
-//}
 
 void ModulePhysics3D::OnPlay()
 {
@@ -481,7 +564,7 @@ bool ModulePhysics3D::TerrainIsGenerated()
 }
 
 // ---------------------------------------------------------
-PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass, bool isTransparent, bool isTrigger)
+PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* col, float mass, bool isTransparent, bool is_trigger, TriggerType t_type)
 {
 	btCollisionShape* colShape = new btSphereShape(sphere.radius);
 	shapes.push_back(colShape);
@@ -500,15 +583,9 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* 
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
-	pbody->SetTrigger(isTrigger);
+	pbody->SetTrigger(is_trigger, t_type);
 	if(isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
-	/*pbody->collisionOptions = flags;
-
-	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-	{
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-	}*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -517,7 +594,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* 
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col, float mass, bool isTransparent, bool isTrigger)
+PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col, float mass, bool isTransparent, bool is_trigger, TriggerType t_type)
 {
 	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
 	shapes.push_back(colShape);
@@ -536,13 +613,8 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col,
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
-	pbody->SetTrigger(isTrigger);
+	pbody->SetTrigger(is_trigger, t_type);
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-
-	/*pbody->collisionOptions = flags;
-
-	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -551,7 +623,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col,
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass, bool isTransparent, bool isTrigger)
+PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass, bool isTransparent, bool is_trigger, TriggerType t_type)
 {
 	btCollisionShape* colShape = new btCylinderShapeX(btVector3(cylinder.height*0.5f, cylinder.radius, 0.0f));
 	shapes.push_back(colShape);
@@ -570,12 +642,8 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollid
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
-	pbody->SetTrigger(isTrigger);
+	pbody->SetTrigger(is_trigger, t_type);
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-	/*pbody->collisionOptions = flags;
-
-	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	body->setUserPointer(pbody);
 	world->addRigidBody(body);
@@ -584,7 +652,7 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollid
 	return pbody;
 }
 
-PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass, bool isTransparent, bool isTrigger, btConvexHullShape** out_shape)
+PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass, bool isTransparent, bool is_trigger, TriggerType t_type, btConvexHullShape** out_shape)
 {
 	btConvexHullShape* colShape = new btConvexHullShape();
 
@@ -622,12 +690,8 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollide
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
-	pbody->SetTrigger(isTrigger);
+	pbody->SetTrigger(is_trigger, t_type);
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
-	/*pbody->collisionOptions = flags;
-
-	if (ReadFlag(flags, PhysBody3D::co_isTransparent))
-		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);*/
 
 	delete hull;
 	delete colShape;
@@ -705,11 +769,9 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 	world->addVehicle(vehicle);
 	vehicles.push_back(pvehicle);
 
-	pvehicle->SetTrigger(true);
+	pvehicle->SetTrigger(true, TriggerType::T_ON_ENTER);
 	pvehicle->SetCar(true);
 	pvehicle->SetTransform(info.transform.Transposed().ptr());
-
-	//pvehicle->collisionOptions = SetFlag(pvehicle->collisionOptions, PhysVehicle3D::co_isCar, true);
 
 	return pvehicle;
 }

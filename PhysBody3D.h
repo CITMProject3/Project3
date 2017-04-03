@@ -14,14 +14,7 @@ class Module;
 class ComponentCollider;
 class ComponentCar;
 
-enum TriggerType
-{
-	T_ON_TRIGGER,
-	T_ON_ENTER,
-	T_ON_EXIT,
-
-	T_NONE
-};
+enum TriggerType;
 
 // =================================================
 class PhysBody3D
@@ -55,25 +48,10 @@ public:
 	ComponentCollider* GetCollider() { return collider; }
 	ComponentCar* GetCar() { return car; }
 
-	void SetTrigger(bool value)
-	{
-		isTrigger = value;
-	}
-
-	void SetCar(bool value)
-	{
-		isCar = value;
-	}
-
-	bool IsCar() const
-	{
-		return isCar;
-	}
-
-	bool IsTrigger() const
-	{
-		return isTrigger;
-	}
+	void SetTrigger(bool value, TriggerType t_type);
+	void SetCar(bool value);
+	bool IsCar() const;
+	bool IsTrigger() const;
 
 private:
 
@@ -82,8 +60,9 @@ private:
 	ComponentCollider* collider = nullptr;
 	ComponentCar* car = nullptr;
 
-	bool isTrigger = false;
-	bool isCar = false;
+	bool is_trigger = false;
+	TriggerType trigger_type;
+	bool is_car = false;
 
 };
 

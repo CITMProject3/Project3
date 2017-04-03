@@ -21,7 +21,7 @@
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
 	SetShape(S_CUBE);
-	trigger_type = TriggerType::T_NONE;
+	trigger_type = TriggerType::T_ON_TRIGGER;
 	GetTriggerTypeName();
 }
 
@@ -170,9 +170,9 @@ void ComponentCollider::OnInspector(bool debug)
 		ImGui::Checkbox("Transparent", &isTransparent);
 		ImGui::SameLine();
 
-		ImGui::Checkbox("Trigger", &isTrigger);
+		ImGui::Checkbox("Trigger", &is_trigger);
 
-		if (isTrigger)
+		if (is_trigger)
 		{
 			if (ImGui::BeginMenu(trigger_type_name.c_str()))
 			{
@@ -201,7 +201,6 @@ void ComponentCollider::GetTriggerTypeName()
 {
 	switch (trigger_type)
 	{
-	case(TriggerType::T_NONE): trigger_type_name = "No Trigger Type assigned"; break;
 	case(TriggerType::T_ON_TRIGGER): trigger_type_name = "On Trigger"; break;
 	case(TriggerType::T_ON_ENTER): trigger_type_name = "On Enter"; break;
 	case(TriggerType::T_ON_EXIT): trigger_type_name = "On Exit"; break;
@@ -226,7 +225,7 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendFloat("mass", mass);
 	data.AppendFloat3("offset_pos", offset_pos.ptr());
 
-	data.AppendBool("is_trigger", isTrigger);
+	data.AppendBool("is_trigger", is_trigger);
 	data.AppendInt("trigger_type", trigger_type);
 	data.AppendBool("is_transparent", isTransparent);
 
@@ -254,7 +253,7 @@ void ComponentCollider::Load(Data & conf)
 	offset_pos = conf.GetFloat3("offset_pos");
 	
 	SetShape(shape);
-	isTrigger = conf.GetBool("is_trigger");
+	is_trigger = conf.GetBool("is_trigger");
 	trigger_type = (TriggerType)conf.GetInt("trigger_type");
 	GetTriggerTypeName();
 	isTransparent = conf.GetBool("is_transparent");
@@ -340,20 +339,20 @@ void ComponentCollider::LoadShape()
 		{
 		case S_CUBE:
 		{
-			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, isTransparent, isTrigger);
+			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, isTransparent, is_trigger, trigger_type);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_SPHERE:
 		{
-			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, isTransparent, isTrigger);
+			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, isTransparent, is_trigger, trigger_type);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			body = App->physics->AddBody(*msh, this, _mass, isTransparent, isTrigger, &convexShape);
+			body = App->physics->AddBody(*msh, this, _mass, isTransparent, is_trigger, trigger_type, &convexShape);
 			break;
 		}
 		}
