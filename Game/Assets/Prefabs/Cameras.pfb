@@ -1,0 +1,256 @@
+{
+    "GameObjects": [
+        {
+            "name": "Cameras",
+            "UUID": 3229337653,
+            "local_UUID": 3229337653,
+            "parent": 0,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3229337653,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 237573699,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Camera 2",
+            "UUID": 3059340122,
+            "local_UUID": 3059340122,
+            "parent": 3229337653,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3229337653,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 628396743,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 4109664542,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 0.941140,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0.502000,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 0.499000,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 10,
+                    "UUID": 280122435,
+                    "active": true,
+                    "script_path": "Player_Camera",
+                    "script_num": 0,
+                    "dist_y": 10,
+                    "dist_z": -10,
+                    "camera_y": 2,
+                    "inclination y max min": 1,
+                    "inclination z max min": 1,
+                    "y change boost": 0.500000,
+                    "z change boost": 0.500000,
+                    "fov change boost": 5,
+                    "target": 2410571804
+                }
+            ]
+        },
+        {
+            "name": "Camera 1",
+            "UUID": 2348518756,
+            "local_UUID": 2348518756,
+            "parent": 3229337653,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3229337653,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3622627573,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 3945223846,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 0.933595,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 0.495000,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 10,
+                    "UUID": 2109144714,
+                    "active": true,
+                    "script_path": "Player_Camera",
+                    "script_num": 0,
+                    "dist_y": 10,
+                    "dist_z": -10,
+                    "camera_y": 2,
+                    "inclination y max min": 1,
+                    "inclination z max min": 1,
+                    "y change boost": 0.500000,
+                    "z change boost": 0.500000,
+                    "fov change boost": 5,
+                    "target": 1734204203
+                }
+            ]
+        },
+        {
+            "name": "Camera UI",
+            "UUID": 445183770,
+            "local_UUID": 445183770,
+            "parent": 3229337653,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3229337653,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2928046698,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 3971520427,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.886051,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 1,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                }
+            ]
+        }
+    ]
+} 
