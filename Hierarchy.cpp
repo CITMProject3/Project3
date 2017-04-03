@@ -205,12 +205,6 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			{
 				App->editor->wheel_assign = *object;
 			}
-			else if (App->editor->assign_item == true)
-			{
-				App->editor->to_assign_item->item = *object;
-				App->editor->assign_item = false;
-				App->editor->to_assign_item = nullptr;
-			}
 			else
 			{
 				OnClickSelect(*object);

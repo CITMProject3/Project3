@@ -50,6 +50,7 @@ class ResourceFileMaterial;
 
 class ModuleResourceManager : public Module
 {
+	friend class ResourceFilePrefab;
 public:
 	ModuleResourceManager(const char* name, bool start_enabled = true);
 	~ModuleResourceManager();
@@ -97,16 +98,21 @@ public:
 	void CreateFolder(const char* assets_path, std::string& base_library_path) const;
 	void NameFolderUpdate(const std::string &meta_file, const std::string &meta_path, const std::string &old_folder_name, const std::string &new_folder_name, bool is_file = false) const;
 
-	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, double& time_mod, std::string& library_path, std::string& assets_path)const;
+	bool ReadMetaFile(const char* path, unsigned int& type, unsigned int& uuid, std::string& md5, std::string& md5_lib, std::string& library_path, std::string& assets_path)const;
 
 	FileType GetFileExtension(const char* path)const;
+
+	//Utilities
+	unsigned int GetUUIDFromLib(const std::string& library_path)const;
 
 private:
 
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
+	//Meta Files
 	void GenerateMetaFile(const char* path, FileType type, uint uuid, std::string library_path, bool is_file = true)const;
 	void GenerateMetaFileMesh(const char* path, uint uuid, std::string library_path, const std::vector<unsigned int>& meshes_uuids, const std::vector<uint>& animations_uuids, const std::vector<uint>& bones_uuids)const;
+	void ChangeAssetsMD5MetaFile(const char* meta_path, const std::string& md5)const;
 
 	void ImportFolder(const char* path, std::vector<tmp_mesh_file>& list_meshes, std::string base_dir = std::string(), std::string base_library_dir = std::string())const;
 	void ImportFile(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;

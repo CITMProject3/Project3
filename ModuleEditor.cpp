@@ -66,6 +66,8 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
+	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
+
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
@@ -678,6 +680,8 @@ void ModuleEditor::PhysicsMenu()
 		ImGui::EndMenu();
 	}	
 
+	ImGui::NewLine();
+	ImGui::Separator();
 	if (ImGui::BeginMenu("Diffuse Textures"))
 	{
 		if (App->physics->GetHeightmap() != 0)
@@ -747,7 +751,7 @@ void ModuleEditor::PhysicsMenu()
 
 	if (ImGui::BeginMenu("Debug Images: "))
 	{
-		ImGui::Text("Slopes detection result:");
+		ImGui::Text("Texture map:");
 		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
 		{
 			float2 size = App->physics->GetHeightmapSize();
@@ -766,7 +770,8 @@ void ModuleEditor::PhysicsMenu()
 		}
 		ImGui::EndMenu();
 	}
-
+	ImGui::NewLine();
+	ImGui::Separator();
 	bool terrainExists = App->physics->TerrainIsGenerated();
 	ImGui::NewLine();
 	ImGui::Checkbox("Terrain is generated", &terrainExists);
@@ -805,18 +810,23 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	float tmp = App->physics->GetTerrainHeightScale();
 	ImGui::Text("Terrain Max Height:");
-	if (ImGui::DragFloat("##TerrainHeightScaling", &tmp, 1.0f, 0.1f, 10000.0f))
+	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
+	ImGui::SameLine();
+	if(ImGui::Button("Set height"))
 	{
-		App->physics->SetTerrainMaxHeight(tmp);
+		App->physics->SetTerrainMaxHeight(heightmapMaxHeight);
 	}
-	tmp = App->physics->GetTextureScaling();
+	float tmp = App->physics->GetTextureScaling();
 	ImGui::Text("Terrain Texture Scaling:");
 	if (ImGui::DragFloat("##TerrainTextureScaling", &tmp, 0.001f, 0.001f, 1.0f))
 	{
 		App->physics->SetTextureScaling(tmp);
 	}
+	ImGui::NewLine();
+	ImGui::Separator();
+	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
+	ImGui::Checkbox("Render terrain", &App->physics->renderFilledTerrain);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
 }
 
