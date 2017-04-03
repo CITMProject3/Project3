@@ -55,6 +55,10 @@ public:
 	bool IsGamePaused()const;
 
 	bool StartInGame()const;
+	void LoadScene(char* path);
+
+	void OnStop();
+	void OnPlay();
 
 private:
 
@@ -95,6 +99,9 @@ private:
 
 	bool start_in_game = false;
 	GameStates game_state = GAME_STOP;
+
+	bool want_to_load = false;
+	char* scene_to_load = "";
 
 };
 

@@ -72,6 +72,7 @@ public:
 	ResourceFile* FindResourceByLibraryPath(const std::string& library);
 
 	void SaveScene(const char* file_name, std::string base_library_path);
+	bool LoadSceneFromAssets(const char* file_name);
 	bool LoadScene(const char* file_name);
 	void ReloadScene();
 	void SavePrefab(GameObject* gameobject);

@@ -627,6 +627,15 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	App->editor->RefreshAssets();
 }
 
+bool ModuleResourceManager::LoadSceneFromAssets(const char* file_name)
+{
+	std::string lib_path = FindFile(file_name);
+	if (lib_path != "" && lib_path != " ")
+	{
+		return LoadScene(lib_path.c_str());
+	}
+}
+
 bool ModuleResourceManager::LoadScene(const char *file_name)
 {
 	bool ret = false;
@@ -706,6 +715,11 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		textureMapPath = textureMapPath.substr(0, len);
 		textureMapPath += "txmp";
 		App->physics->LoadTextureMap(textureMapPath.data());
+
+		if (App->IsGameRunning())
+		{
+			App->OnPlay();
+		}
 		ret = true;
 	}
 	else
