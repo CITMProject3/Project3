@@ -88,6 +88,9 @@
     <Filter Include="Sources\MemoryManagement\Profiler_Guillem">
       <UniqueIdentifier>{84165a18-33d7-46fd-af59-3ef7675602c2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rd Party Tools\MD5">
+      <UniqueIdentifier>{16cf8ea8-7058-4ef8-9f21-3fc4cfe8fa7e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -629,6 +632,9 @@
     </ClInclude>
     <ClInclude Include="Profiler.h">
       <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>
+    </ClInclude>
+    <ClInclude Include="md5.h">
+      <Filter>3rd Party Tools\MD5</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

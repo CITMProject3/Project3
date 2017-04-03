@@ -26,6 +26,7 @@ bld/
 [Li]brary/
 Game/Library/
 Game/imgui.ini
+Game/Configuration.json
 
 # Visual Studio 2015 cache/options directory
 .vs/

@@ -21,15 +21,15 @@
 namespace Player_Camera
 {
 	//Public
-	float Player_Camera_distrance_y = 0.0;
-	float Player_Camera_distrance_z = 0.0;
-	float Player_Camera_direction_y = 0.0;
+	float Player_Camera_distrance_y = 4.0;
+	float Player_Camera_distrance_z = -5.0;
+	float Player_Camera_direction_y = 2.0;
 	GameObject* Player_Camera_target = nullptr;
-	float Player_Camera_inclination_separation_y = 0.0;
-	float Player_Camera_inclination_separation_z = 0.0;
-	float Player_Camera_relation_vel_y = 0.0;
-	float Player_Camera_relation_vel_z = 0.0;
-	float Player_Camera_relation_vel_fov = 0.0;
+	float Player_Camera_inclination_separation_y = 1.0;
+	float Player_Camera_inclination_separation_z = 1.0;
+	float Player_Camera_relation_vel_y = 0.5;
+	float Player_Camera_relation_vel_z = 0.5;
+	float Player_Camera_relation_vel_fov = 5.0;
 
 	//Private
 	float Player_Camera_last_fov = 0.0;

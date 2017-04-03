@@ -22,20 +22,25 @@
 namespace Player_Car
 {
 	bool have_item = false;
-	bool have_koma = false;
-	bool have_triple_koma = false;
+	//bool have_koma = false;
+	//bool have_triple_koma = false;
 	bool have_firecracker = false;
 	bool using_firecracker = false;
+	//bool have_makibishi = false;
 	GameObject* firecracker = nullptr;
+	GameObject* other_car = nullptr;
 
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_bools->insert(pair<const char*, bool>("have_item", have_item));
-		public_bools->insert(pair<const char*, bool>("have_koma", have_koma));
-		public_bools->insert(pair<const char*, bool>("have_triple_koma", have_triple_koma));
+		//public_bools->insert(pair<const char*, bool>("have_koma", have_koma));
+		//public_bools->insert(pair<const char*, bool>("have_triple_koma", have_triple_koma));
 		public_bools->insert(pair<const char*, bool>("have_firecracker", have_firecracker));
+		public_bools->insert(pair<const char*, bool>("using_firecracker", using_firecracker));
+		//public_bools->insert(pair<const char*, bool>("have_makibishi", have_makibishi));
 
 		public_gos->insert(pair<const char*, GameObject*>("firecracker", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
 	}
 
 	void Player_Car_UpdatePublics(GameObject* game_object)
@@ -43,11 +48,14 @@ namespace Player_Car
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		have_item = test_script->public_bools.at("have_item");
-		have_koma = test_script->public_bools.at("have_koma");
-		have_triple_koma = test_script->public_bools.at("have_triple_koma");
+		//have_koma = test_script->public_bools.at("have_koma");
+		//have_triple_koma = test_script->public_bools.at("have_triple_koma");
 		have_firecracker = test_script->public_bools.at("have_firecracker");
+		using_firecracker = test_script->public_bools.at("using_firecracker");
+		//have_makibishi = test_script->public_bools.at("have_makibishi");
 
 		firecracker = test_script->public_gos.at("firecracker");
+		other_car = test_script->public_gos.at("other_car");
 	}
 
 	void Player_Car_ActualizePublics(GameObject* game_object)
@@ -55,11 +63,14 @@ namespace Player_Car
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		test_script->public_bools.at("have_item") = have_item;
-		test_script->public_bools.at("have_koma") = have_koma;
-		test_script->public_bools.at("have_triple_koma") = have_triple_koma;
+		//test_script->public_bools.at("have_koma") = have_koma;
+		//test_script->public_bools.at("have_triple_koma") = have_triple_koma;
 		test_script->public_bools.at("have_firecracker") = have_firecracker;
+		test_script->public_bools.at("using_firecracker") = using_firecracker;
+		//test_script->public_bools.at("have_makibishi") = have_makibishi;
 
 		test_script->public_gos.at("firecracker") = firecracker;
+		test_script->public_gos.at("other_car") = other_car;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -73,36 +84,32 @@ namespace Player_Car
 		{
 			if (have_item)
 			{
-				switch (App->rnd->RandomInt(0, 2))
+				if (have_firecracker/* || have_koma || have_triple_koma || have_makibishi*/)
+					have_item = false;
+				else
 				{
-				case 0:
+					unsigned int percentage = App->rnd->RandomInt(0, 99);
+
+					if (other_car != nullptr)
+					{
+						//int Player_car_distance = game_object->GetComponent(ComponentType::C_CAR) check distance between cars
+					}
 					have_item = false;
 					have_firecracker = true;
-					break;
-				case 1:
-					have_item = false;
-					have_koma = true;
-					break;
-				case 2:
-					have_item = false;
-					have_triple_koma = true;
-					break;
-				default:
-					break;
 				}
 			}
 
-			if (have_koma)
+			/*if (have_koma)
 			{
 
 			}
 			if (have_triple_koma)
 			{
 
-			}
+			}*/
 			if (have_firecracker)
 			{
-				if (firecracker)
+				if (firecracker != nullptr)
 				{
 					firecracker->SetActive(true);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
@@ -145,17 +152,21 @@ namespace Player_Car
 				{
 					have_firecracker = false;
 					using_firecracker = false;
-					firecracker->SetActive(false);
-					GameObject* new_firecracker = App->go_manager->CreateGameObject(App->go_manager->root);
-					new_firecracker = firecracker;
-					new_firecracker->SetActive(true);
-					new_firecracker->transform->SetPosition(new_firecracker->transform->GetPosition() + float3(0.0, 0.0, 2.0));
-					new_firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+					if (firecracker != nullptr)
+					{
+						firecracker->SetActive(false);
+						//GameObject* new_firecracker = App->go_manager->CreateGameObject(App->go_manager->root);
+						//new_firecracker = firecracker;
+						//new_firecracker->SetActive(true);
+						//new_firecracker->transform->SetPosition(new_firecracker->transform->GetPosition() + float3(0.0, 0.0, 2.0));
+						//new_firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+					}
 					Player_car->ReleaseItem();
 				}
 			}
 		}
 	}
+
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
 	{
 		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
