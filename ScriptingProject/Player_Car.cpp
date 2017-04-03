@@ -199,7 +199,7 @@ namespace Player_Car
 	{
 		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 
-		if (ReadFlag(col->collisionOptions, col->co_isItem))
+		if (col->IsTrigger())
 		{
 			ComponentCollider* item_col = col->GetCollider();
 			if (item_col->GetGameObject()->name.compare("Hitodama"))

@@ -1,4 +1,5 @@
 EXPORTS
+
 	GetScriptNames					
 	
 	Test_GetPublics
@@ -35,3 +36,8 @@ EXPORTS
 	Kmh_Counter_Start
 	Kmh_Counter_Update
 	Kmh_Counter_ActualizePublics
+
+	; Audio related scripts
+	Audio_PlaySound_Start
+	Audio_PlaySound_Update
+	Audio_PlaySound_OnCollision
