@@ -815,6 +815,7 @@ void ModulePhysics3D::GenerateIndices()
 		{
 			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
 			{
+				it_x->second.UpdateAABB();
 				it_x->second.GenBuffer();
 			}
 		}
@@ -836,6 +837,20 @@ void ModulePhysics3D::DeleteIndices()
 	chunks.clear();
 }
 
+void ModulePhysics3D::GenerateChunks()
+{
+	int chunkX = floor(heightMapImg->GetWidth() / CHUNK_W);
+	int chunkZ = floor(heightMapImg->GetWidth() / CHUNK_H);
+	for (int z = 0; z <= chunkZ; z++)
+	{
+		std::map<int, std::map<int, chunk>>::iterator it = chunks.insert(std::pair<int, std::map<int, chunk>>(z - chunkZ / 2, std::map<int, chunk>())).first;
+		for (int x = 0; x < chunkX; x++)
+		{
+			it->second.insert(std::pair<int, chunk>(x - chunkX / 2, chunk()));
+		}
+	}
+}
+
 void ModulePhysics3D::UpdateChunksAABBs()
 {
 	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
@@ -847,7 +862,7 @@ void ModulePhysics3D::UpdateChunksAABBs()
 	}
 }
 
-void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, float x, int z)
+void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, int& x, int& z)
 {
 	int chunkX = floor(x / CHUNK_W);
 	int chunkZ = floor(z / CHUNK_H);
@@ -869,7 +884,7 @@ void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& 
 	{
 		it_x = it_z->second.insert(std::pair<int, chunk>(chunkX, chunk())).first;
 	}
-
+	
 	it_x->second.AddIndex(i1);
 	it_x->second.AddIndex(i2);
 	it_x->second.AddIndex(i3);
@@ -1709,7 +1724,7 @@ int	 DebugDrawer::getDebugMode() const
 
 ///// CHUNK ======================================
 
-chunk::chunk()
+chunk::chunk(): indices(CHUNK_H * CHUNK_W * 6)
 {
 	aabb.SetNegativeInfinity();
 }
@@ -1732,6 +1747,8 @@ void chunk::GenBuffer()
 		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_bufferID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), indices.data(), GL_STATIC_DRAW);
+
+		indices.shrink_to_fit();
 	}
 }
 
@@ -1745,10 +1762,9 @@ int chunk::GetNIndices()
 	return indices.size();
 }
 
-void chunk::AddIndex(uint i)
+void chunk::AddIndex(const uint& i)
 {
 	indices.push_back(i);
-	aabb.Enclose(App->physics->vertices[i]);
 }
 
 void chunk::UpdateAABB()

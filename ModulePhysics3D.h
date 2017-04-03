@@ -45,7 +45,7 @@ public:
 	int GetNIndices();
 
 	void GenBuffer();
-	void AddIndex(uint i);
+	void AddIndex(const uint& i);
 
 	void UpdateAABB();
 	void CleanIndices();
@@ -137,8 +137,9 @@ private:
 	void GenerateIndices();
 	void DeleteIndices();
 
+	void GenerateChunks();
 	void UpdateChunksAABBs();
-	void AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, float x, int z);
+	void AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, int& x, int& z);
 
 	std::vector<chunk> GetVisibleChunks(ComponentCamera* camera);
 
