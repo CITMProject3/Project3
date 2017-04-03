@@ -73,18 +73,18 @@ namespace Player_Camera
 
 	void Player_Camera_Update(GameObject* game_object)
 	{
-		float3 Player_Camera_euler_rot = game_object->transform->GetRotationEuler();
+		float3 Player_Camera_euler_rot = game_object->transform->GetForward();
 		game_object->transform->SetRotation(float3(0.0, Player_Camera_euler_rot.y, 0.0));
 
 		if (Player_Camera_target != nullptr)
 		{
-			game_object->transform->SetRotation(float3(0.0, Player_Camera_target->transform->GetRotationEuler().y, 0.0));
+			game_object->transform->Set(Player_Camera_target->GetGlobalMatrix());
 
-			float rotation_x = Player_Camera_target->transform->GetRotationEuler().x;
+			float rotation_x = 0;/* Player_Camera_target->transform->GetForward().x;
 			if (rotation_x > 90)
 				rotation_x = 90;
 			else if (rotation_x < -90)
-				rotation_x = -90;
+				rotation_x = -90;*/
 
 			float total_dist_z = Player_Camera_distrance_z + rotation_x / 90 * Player_Camera_inclination_separation_z;
 			float total_dist_y = Player_Camera_distrance_y + rotation_x / 90 * Player_Camera_inclination_separation_y;

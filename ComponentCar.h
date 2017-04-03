@@ -12,7 +12,7 @@
 using namespace std;
 
 struct VehicleInfo;
-struct PhysVehicle3D;
+class PhysVehicle3D;
 class ComponentAnimation;
 class ComponentCollider;
 
@@ -281,7 +281,9 @@ private:
 
 	//Rocket item
 	//WARNING: THIS WILL HAVE TO be in a better structure, provisional for vertical slice
+public:
 	Turbo rocket_turbo;
+private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
 

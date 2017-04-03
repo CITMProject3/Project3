@@ -21,12 +21,12 @@
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
 {
 	SetShape(S_CUBE);
+	trigger_type = TriggerType::T_ON_TRIGGER;
+	GetTriggerTypeName();
 }
 
 ComponentCollider::~ComponentCollider()
-{
-	
-}
+{ }
 
 void ComponentCollider::Update()
 {
@@ -89,8 +89,6 @@ void ComponentCollider::Update()
 			}
 		}
 	}
-
-
 
 	return;
 }
@@ -168,50 +166,44 @@ void ComponentCollider::OnInspector(bool debug)
 			}
 		}
 		ImGui::Separator();
-		if (ImGui::TreeNode("Trigger options"))
+
+		ImGui::Checkbox("Transparent", &isTransparent);
+		ImGui::SameLine();
+
+		ImGui::Checkbox("Trigger", &is_trigger);
+
+		if (is_trigger)
 		{
-			bool a;
-				a = ReadFlag(collision_flags, PhysBody3D::co_isItem);
-				if (ImGui::Checkbox("Is item", &a)) {
-						collision_flags = SetFlag(collision_flags, PhysBody3D::co_isItem | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
-				}
-
-				a = ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint);
-				if (ImGui::Checkbox("Is checkpoint", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isCheckpoint | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
-				}
-				if (a)
-				{
-					ImGui::Text("Checkpoint number:");
-					ImGui::InputInt("##Cp_number", &n, 1);
-					if (n > 200) { n = 200; }
-					if (n < 0) { n = 0; }
-				}
-
-				a = ReadFlag(collision_flags, PhysBody3D::co_isFinishLane);
-				if (ImGui::Checkbox("Is finish Lane", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isFinishLane | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
-				}
-				if (a)
-				{
-					ImGui::Text("Checkpoint number:\n(Finish lane must be the last checkpoint)");
-					ImGui::InputInt("##Cp_number_last", &n, 1);
-					if (n > 200) { n = 200; }
-					if (n < 0) { n = 0; }
-				}
-
-				a = ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds);
-				if (ImGui::Checkbox("Is out of bounds", &a)) {
-					collision_flags = SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds | PhysBody3D::co_isTrigger | PhysBody3D::co_isTransparent, a);
-				}
-
-			ImGui::TreePop();
+			if (ImGui::BeginMenu(trigger_type_name.c_str()))
+			{
+				if (ImGui::MenuItem("On Trigger"))
+					trigger_type = TriggerType::T_ON_TRIGGER;
+				if (ImGui::MenuItem("On Enter"))
+					trigger_type = TriggerType::T_ON_ENTER;
+				if (ImGui::MenuItem("On Exit"))
+					trigger_type = TriggerType::T_ON_EXIT;
+				GetTriggerTypeName();
+				ImGui::EndMenu();
+			}
 		}
+		
+		
+
 		ImGui::Separator();
 		if (ImGui::Button("Remove ###col_rem"))
 		{
 			Remove();
 		}
+	}
+}
+
+void ComponentCollider::GetTriggerTypeName()
+{
+	switch (trigger_type)
+	{
+	case(TriggerType::T_ON_TRIGGER): trigger_type_name = "On Trigger"; break;
+	case(TriggerType::T_ON_ENTER): trigger_type_name = "On Enter"; break;
+	case(TriggerType::T_ON_EXIT): trigger_type_name = "On Exit"; break;
 	}
 }
 
@@ -226,20 +218,16 @@ void ComponentCollider::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
-	data.AppendBool("flag_isCar", ReadFlag(collision_flags, PhysBody3D::co_isCar));
-	data.AppendBool("flag_isCheckpoint", ReadFlag(collision_flags, PhysBody3D::co_isCheckpoint));
-	data.AppendBool("flag_isFinishLane", ReadFlag(collision_flags, PhysBody3D::co_isFinishLane));
-	data.AppendBool("flag_isItem", ReadFlag(collision_flags, PhysBody3D::co_isItem));
-	data.AppendBool("flag_isOutOfBounds", ReadFlag(collision_flags, PhysBody3D::co_isOutOfBounds));
-	data.AppendBool("flag_isTransparent", ReadFlag(collision_flags, PhysBody3D::co_isTransparent));
-	data.AppendBool("flag_isTrigger", ReadFlag(collision_flags, PhysBody3D::co_isTrigger));
-
 	data.AppendInt("CheckpointN", n);
 
 	data.AppendInt("shape", shape);
 	data.AppendBool("static", Static);
 	data.AppendFloat("mass", mass);
 	data.AppendFloat3("offset_pos", offset_pos.ptr());
+
+	data.AppendBool("is_trigger", is_trigger);
+	data.AppendInt("trigger_type", trigger_type);
+	data.AppendBool("is_transparent", isTransparent);
 
 	switch (shape)
 	{
@@ -263,7 +251,12 @@ void ComponentCollider::Load(Data & conf)
 	Static = conf.GetBool("static");
 	mass = conf.GetFloat("mass");
 	offset_pos = conf.GetFloat3("offset_pos");
+	
 	SetShape(shape);
+	is_trigger = conf.GetBool("is_trigger");
+	trigger_type = (TriggerType)conf.GetInt("trigger_type");
+	GetTriggerTypeName();
+	isTransparent = conf.GetBool("is_transparent");
 
 	switch (shape)
 	{
@@ -275,15 +268,6 @@ void ComponentCollider::Load(Data & conf)
 		break;
 	}
 	
-	collision_flags = 0;
-	SetFlag(collision_flags, PhysBody3D::co_isCar, conf.GetBool("flag_isCar"));
-	SetFlag(collision_flags, PhysBody3D::co_isCheckpoint, conf.GetBool("flag_isCheckpoint"));
-	SetFlag(collision_flags, PhysBody3D::co_isFinishLane, conf.GetBool("flag_isFinishLane"));
-	SetFlag(collision_flags, PhysBody3D::co_isItem, conf.GetBool("flag_isItem"));
-	SetFlag(collision_flags, PhysBody3D::co_isOutOfBounds, conf.GetBool("flag_isOutOfBounds"));
-	SetFlag(collision_flags, PhysBody3D::co_isTransparent, conf.GetBool("flag_isTransparent"));
-	SetFlag(collision_flags, PhysBody3D::co_isTrigger, conf.GetBool("flag_isTrigger"));
-
 	n = conf.GetInt("CheckpointN");
 }
 
@@ -355,20 +339,20 @@ void ComponentCollider::LoadShape()
 		{
 		case S_CUBE:
 		{
-			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, collision_flags);
+			body = App->physics->AddBody(*((Cube_P*)primitive), this, _mass, isTransparent, is_trigger, trigger_type);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_SPHERE:
 		{
-			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, collision_flags);
+			body = App->physics->AddBody(*((Sphere_P*)primitive), this, _mass, isTransparent, is_trigger, trigger_type);
 			body->SetTransform(primitive->transform.ptr());
 			break;
 		}
 		case S_CONVEX:
 		{
 			ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-			body = App->physics->AddBody(*msh, this, _mass, collision_flags, &convexShape);
+			body = App->physics->AddBody(*msh, this, _mass, isTransparent, is_trigger, trigger_type, &convexShape);
 			break;
 		}
 		}
