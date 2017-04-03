@@ -16,7 +16,6 @@ public:
 
 	void LoadPrefabAsCopy(); //Loads a new prefab instance loaded from the Assets(library actually) file
 	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent); //Loads a prefab from a scene file
-	void Save(); //Applies new changes
 
 	void UnloadInstance(GameObject* instance);
 	void ApplyChanges(GameObject* gameobject);

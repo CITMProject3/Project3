@@ -21,7 +21,6 @@
 #include "PhysVehicle3D.h"
 #include "Primitive.h"
 
-
 #include "Assets.h"
 #include "RaycastHit.h"
 #include "Time.h"
@@ -88,6 +87,7 @@ bool ModulePhysics3D::Start()
 	world->setGravity(GRAVITY);
 	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 	CreateGround();
+	GetShaderLocations();
 	return true;
 }
 
@@ -187,7 +187,7 @@ update_status ModulePhysics3D::Update()
 				{
 					for (int _x = -brushSize; _x <= brushSize; _x++)
 					{
-						if (_x + x >= 0 && _y + y >= 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
 						{
 							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
 						}
@@ -238,6 +238,36 @@ bool ModulePhysics3D::CleanUp()
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics3D::GetShaderLocations()
+{
+	shader_id = App->resource_manager->GetDefaultTerrainShaderId();
+
+	model_location = glGetUniformLocation(shader_id, "model");
+	projection_location = glGetUniformLocation(shader_id, "projection");
+	view_location = glGetUniformLocation(shader_id, "view");
+	n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
+	tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
+	texture_location_0 = glGetUniformLocation(shader_id, "_Texture_0");
+	texture_location_1 = glGetUniformLocation(shader_id, "_Texture_1");
+	texture_location_2 = glGetUniformLocation(shader_id, "_Texture_2");
+	texture_location_3 = glGetUniformLocation(shader_id, "_Texture_3");
+	texture_location_4 = glGetUniformLocation(shader_id, "_Texture_4");
+	texture_location_5 = glGetUniformLocation(shader_id, "_Texture_5");
+	texture_location_6 = glGetUniformLocation(shader_id, "_Texture_6");
+	texture_location_7 = glGetUniformLocation(shader_id, "_Texture_7");
+	texture_location_8 = glGetUniformLocation(shader_id, "_Texture_8");
+	texture_location_9 = glGetUniformLocation(shader_id, "_Texture_9");
+	has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
+	texture_location = glGetUniformLocation(shader_id, "_Texture");
+	colorLoc = glGetUniformLocation(shader_id, "material_color");
+	ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+	ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+	has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
+	directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+	directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+	directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 }
 
 void ModulePhysics3D::OnCollision(PhysBody3D * physCar, PhysBody3D * body)
@@ -336,42 +366,64 @@ void ModulePhysics3D::CreateGround()
 
 bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Terrain_Raycast", Profiler::Color::HoneyDew);
+
 	RaycastHit hit_info;
 	bool ret = false;
+
+	std::map<float, chunk> firstPass;
+	float dNear = 0;
+	float dFar = 0;
+
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	{
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{			
+			if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
+			{
+				firstPass.insert(std::pair<float, chunk>(dNear,it_x->second));
+			}
+		}
+	}
 
 	uint u1, u2, u3;
 	float distance;
 	vec hit_point;
 	Triangle triangle;
-	for (unsigned int i = 0; i < numIndices - 100; i += 3)
+
+	for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
 	{
-		u1 = indices[i];
-		u2 = indices[i + 1];
-		u3 = indices[i + 2];
-		triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
-		if (raycast.Intersects(triangle, &distance, &hit_point))
+		for (uint n = 0; n < it->second.GetNIndices(); n += 3)
 		{
-			ret = true;
-			if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+			u1 = it->second.indices[n];
+			u2 = it->second.indices[n + 1];
+			u3 = it->second.indices[n + 2];
+			triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+
+			if (raycast.Intersects(triangle, &distance, &hit_point))
 			{
-				hit_OUT.distance = distance;
-				hit_OUT.point = hit_point;
-				hit_OUT.normal = triangle.NormalCCW();
+				ret = true;
+				if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+				{
+					hit_OUT.distance = distance;
+					hit_OUT.point = hit_point;
+					hit_OUT.normal = triangle.NormalCCW();
+				}
 			}
 		}
-
 		if (ret == true)
 		{
 			hit_OUT.object = nullptr;
 			hit_OUT.normal.Normalize();
+			return true;
 		}
-	}
-
-	return ret;
+	}	
+	return false;
 }
 
 bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 {	
+	BROFILER_CATEGORY("ModulePhysics3D::Generate_Heightmap", Profiler::Color::HoneyDew);
 	bool ret = false;
 	//Loading Heightmap Image
 	if (resLibPath != GetHeightmapPath() && resLibPath != "" && resLibPath != " ")
@@ -732,6 +784,7 @@ void ModulePhysics3D::AddTerrain()
 
 void ModulePhysics3D::GenerateIndices()
 {
+	BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices", Profiler::Color::HoneyDew);
 	if (heightMapImg)
 	{
 		DeleteIndices();
@@ -742,38 +795,30 @@ void ModulePhysics3D::GenerateIndices()
 		//Interior vertices all need 6 indices
 		//limit vertices all need 3 indices
 		//Except corner ones. Two need 1 and two need 2
-		numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
-		indices = new uint[numIndices];
+		//numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
+		//indices = new uint[numIndices];
 
 		float2* originalUvs = new float2[w*h];
 
-		int n = 0;
 		for (int z = 0; z < h - 1; z++)
 		{
 			for (int x = 0; x < w - 1; x++)
 			{
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = z * w + x;
-				n++;
-
-				indices[n] = z * w + x + 1;
-				n++;
-				indices[n] = (z + 1) * w + x;
-				n++;
-				indices[n] = (z + 1) * w + x + 1;
-				n++;
+				AddTriToChunk(	((z + 1) * w + x),		(z * w + x + 1),		(z * w + x),				x, z);
+				AddTriToChunk(	(z * w + x + 1),		((z + 1) * w + x),		((z + 1) * w + x + 1),		x, z);
 
 				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
 			}
 		}
 
-		//Load indices buffer to VRAM
-		glGenBuffers(1, (GLuint*) &(terrainIndicesBuffer));
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * numIndices, indices, GL_STATIC_DRAW);
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				it_x->second.UpdateAABB();
+				it_x->second.GenBuffer();
+			}
+		}
 
 		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
 		if (terrainOriginalUvBuffer == 0)
@@ -789,44 +834,107 @@ void ModulePhysics3D::GenerateIndices()
 
 void ModulePhysics3D::DeleteIndices()
 {
-	if (terrainIndicesBuffer != 0)
+	chunks.clear();
+}
+
+
+void ModulePhysics3D::UpdateChunksAABBs()
+{
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 	{
-		glDeleteBuffers(1, (GLuint*)&terrainIndicesBuffer);
-		terrainIndicesBuffer = 0;
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{
+			it_x->second.UpdateAABB();
+		}
 	}
-	if (indices != nullptr)
+}
+
+void ModulePhysics3D::AddTriToChunk(const uint& i1, const uint& i2, const uint& i3, int& x, int& z)
+{
+	int chunkX = floor(x / CHUNK_W);
+	int chunkZ = floor(z / CHUNK_H);
+
+	//Checking if the correspondant Z chunk exists. Creating it otherwise
+	std::map<int, std::map<int, chunk>>::iterator it_z = chunks.find(chunkZ);
+	if (it_z == chunks.end())
 	{
-		delete[] indices;
-		indices = nullptr;
+		//Inserting a value returns a pair<iterator, bool>
+		//The iterator is what we're interessted in
+		//The bool shows if the value has been inserted or it already existed
+		//It shouldn't be relevant, since we already checked if it existed
+		it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(chunkZ, std::map<int, chunk>())).first;
 	}
-	numIndices = 0;
+
+	//Same process for the correspondant X coordinate
+	std::map<int, chunk>::iterator it_x = it_z->second.find(chunkX);
+	if (it_x == it_z->second.end())
+	{
+		it_x = it_z->second.insert(std::pair<int, chunk>(chunkX, chunk())).first;
+	}
+	
+	it_x->second.AddIndex(i1);
+	it_x->second.AddIndex(i2);
+	it_x->second.AddIndex(i3);
+}
+
+std::vector<chunk> ModulePhysics3D::GetVisibleChunks(ComponentCamera* camera)
+{
+	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain::Getting visible chunks", Profiler::Color::HoneyDew);
+
+	Frustum frust = camera->GetFrustum();
+	vec corners[8];
+	frust.GetCornerPoints(corners);
+	AABB frust_box;
+	frust_box.SetNegativeInfinity();
+	frust_box.SetFrom(corners, 8);
+
+	std::vector<chunk> firstPass;
+	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	{
+		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+		{
+			if (it_x->second.GetAABB().Intersects(frust_box))
+			{
+				firstPass.push_back(it_x->second);
+			}
+		}
+	}
+
+
+	std::vector<chunk> ret;
+	for (std::vector<chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
+	{
+		if (it->GetAABB().Intersects(frust))
+		{
+			ret.push_back(*it);
+		}
+	}
+	return ret;
 }
 
 void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::RenderTerrain", Profiler::Color::HoneyDew);
-
-	if (numIndices != 0 && terrainData != nullptr)
+	
+	if (renderFilledTerrain)
 	{
-		if (paintMode && renderWiredTerrain == false)
+		RealRenderTerrain(camera, false);
+	}
+	if (renderWiredTerrain)
+	{
+		RealRenderTerrain(camera, true);
+	}
+}
+
+void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
+{
+
+
+	if (GetNChunksW() >= 0 && terrainData != nullptr)
+	{
+		if (wired)
 		{
-			if (renderWiredTerrain == false)
-			{
-				renderWiredTerrain = true;
-				RenderTerrain(camera);
-				renderWiredTerrain = false;
-			}
-		}
-		if (renderWiredTerrain)
-		{
-			if (paintMode)
-			{
-				glLineWidth(2.0f);
-			}
-			else
-			{
-				glLineWidth(1.0f);
-			}
+			glLineWidth(1.5f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
@@ -837,124 +945,160 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		//Set uniforms
 
 		//Matrices
-		GLint model_location = glGetUniformLocation(shader_id, "model");
 		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
-		GLint projection_location = glGetUniformLocation(shader_id, "projection");
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
-		GLint view_location = glGetUniformLocation(shader_id, "view");
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
-		GLint n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
 		glUniform1i(n_texs_location, textures.size());
 
-		GLint tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 		glUniform1i(tex_distributor_location, 0);
 
 		int count = 0;
-		if (textures.size() > 0 && renderWiredTerrain == false)
-		{		
+		if (textures.size() > 0)
+		{
 			uint nTextures = textures.size();
-			GLint texture_location = 0;
 			//TEXTURE 0
-			if (0 < nTextures)
+			if (0 < nTextures && wired == false)
 			{
-				GLint texture_location = glGetUniformLocation(shader_id, "_Texture_0");
-				glUniform1i(texture_location, 1);
+				glUniform1i(texture_location_0, 1);
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 
 			//TEXTURE 1			
-			if (1 < nTextures)
+			if (1 < nTextures && wired == false)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_1");
-				glUniform1i(texture_location, 2);
+				glUniform1i(texture_location_1, 2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture(GL_TEXTURE_2D, textures[1]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE2);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 
 			//TEXTURE 2
-			if (2 < nTextures)
+			if (2 < nTextures && wired == false)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_2");
-				glUniform1i(texture_location, 3);
+				glUniform1i(texture_location_2, 3);
 				glActiveTexture(GL_TEXTURE3);
 				glBindTexture(GL_TEXTURE_2D, textures[2]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE3);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 
 			//TEXTURE 3
-			if (3 < nTextures)
+			if (3 < nTextures && wired == false)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_3");
-				glUniform1i(texture_location, 4);
+				glUniform1i(texture_location_3, 4);
 				glActiveTexture(GL_TEXTURE4);
 				glBindTexture(GL_TEXTURE_2D, textures[3]->GetTexture());
 			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE4);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
 
 			//TEXTURE 4
-			if (4 < nTextures)
+			if (4 < nTextures && wired == false)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_4");
-				glUniform1i(texture_location, 5);
+				glUniform1i(texture_location_4, 5);
 				glActiveTexture(GL_TEXTURE5);
 				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
 			}
-			//TEXTURE 5
-			if (5 < nTextures)
+			else
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_5");
-				glUniform1i(texture_location, 6);
+				glActiveTexture(GL_TEXTURE5);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
+			//TEXTURE 5
+			if (5 < nTextures && wired == false)
+			{
+				glUniform1i(texture_location_5, 6);
 				glActiveTexture(GL_TEXTURE6);
 				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
 			}
-			//TEXTURE 6
-			if (6 < nTextures)
+			else
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
-				glUniform1i(texture_location, 7);
+				glActiveTexture(GL_TEXTURE6);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
+			//TEXTURE 6
+			if (6 < nTextures && wired == false)
+			{
+				glUniform1i(texture_location_6, 7);
 				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[6]->GetTexture());
+			}
+			else
+			{
+				glActiveTexture(GL_TEXTURE7);
+				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
 			//TEXTURE 7
-			if (7 < nTextures)
+			if (7 < nTextures && wired == false)
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_7");
-				glUniform1i(texture_location, 8);
+				glUniform1i(texture_location_7, 8);
 				glActiveTexture(GL_TEXTURE8);
 				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
 			}
-			//TEXTURE 8
-			if (8 < nTextures)
+			else
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_8");
-				glUniform1i(texture_location, 9);
+				glActiveTexture(GL_TEXTURE8);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
+			//TEXTURE 8
+			if (8 < nTextures && wired == false)
+			{
+				glUniform1i(texture_location_8, 9);
 				glActiveTexture(GL_TEXTURE9);
 				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
 			}
-			//TEXTURE 9
-			if (9 < nTextures)
+			else
 			{
-				texture_location = glGetUniformLocation(shader_id, "_Texture_9");
-				glUniform1i(texture_location, 10);
+				glActiveTexture(GL_TEXTURE9);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
+			//TEXTURE 9
+			if (9 < nTextures && wired == false)
+			{
+				glUniform1i(texture_location_9, 10);
 				glActiveTexture(GL_TEXTURE10);
 				glBindTexture(GL_TEXTURE_2D, textures[9]->GetTexture());
 			}
-			
+			else
+			{
+				glActiveTexture(GL_TEXTURE10);
+				glBindTexture(GL_TEXTURE_2D, 0);
+			}
+
 		}
 		else
 		{
-			GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 			glUniform1i(has_tex_location, 1);
-			GLint texture_location = glGetUniformLocation(shader_id, "_Texture");
+
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
 			glUniform1i(texture_location, 0);
 		}
 
-		GLint colorLoc = glGetUniformLocation(shader_id, "material_color");
 		if (colorLoc != -1)
 		{
 			float4 color(1.0f, 1.0f, 1.0f, 1.0f);
@@ -965,30 +1109,24 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
 		//Ambient
-		GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
 		if (ambient_intensity_location != -1)
 			glUniform1f(ambient_intensity_location, light.ambient_intensity);
-		GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
 		if (ambient_color_location != -1)
 			glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
 		//Directional
-		GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
 		glUniform1i(has_directional_location, light.has_directional);
 
 		if (light.has_directional)
 		{
-			GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
 			if (directional_intensity_location != -1)
 				glUniform1f(directional_intensity_location, light.directional_intensity);
-			GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
 			if (directional_color_location != -1)
 				glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-			GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 			if (directional_direction_location != -1)
 				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 		}
-		
+
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
@@ -1010,37 +1148,27 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
 		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
-		//Index buffer
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, terrainIndicesBuffer);
-		glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, (void*)0);
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				if (renderChunks)
+				{
+					it_x->second.Render();
+					if (wired)
+					{
+						glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+					}
+				}
+				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, it_x->second.GetBuffer());
+				glDrawElements(GL_TRIANGLES, it_x->second.GetNIndices(), GL_UNSIGNED_INT, (void*)0);
+			}
+		}
 
 		glDisableVertexAttribArray(0);
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(3);
-
-		glActiveTexture(GL_TEXTURE10);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE9);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE8);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE7);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE6);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE5);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE4);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE3);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, 0);
 
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
@@ -1333,7 +1461,8 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 			}
 		}
 		terrainMaxHeight = height;
-		GenerateTerrainMesh();
+		GenerateVertices();
+		UpdateChunksAABBs();
 	}
 }
 
@@ -1352,7 +1481,7 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 {
 	//Loading Heightmap Image
-	if (resLibPath != "" && resLibPath != " ")
+	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 10)
 	{
 		if ((pos == -1) || (pos >= 0 && pos < GetNTextures()))
 		{
@@ -1578,4 +1707,69 @@ void DebugDrawer::setDebugMode(int debugMode)
 int	 DebugDrawer::getDebugMode() const
 {
 	return mode;
+}
+
+///// CHUNK ======================================
+
+chunk::chunk(): indices()
+{
+	aabb.SetNegativeInfinity();
+}
+
+chunk::~chunk()
+{
+	if (indices_bufferID == 0)
+	{
+		glDeleteBuffers(1, (GLuint*)&indices_bufferID);
+	}
+}
+
+void chunk::GenBuffer()
+{
+	if (indices.empty() == false)
+	{
+		if (indices_bufferID == 0)
+		{
+			glGenBuffers(1, (GLuint*) &(indices_bufferID));
+		}
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_bufferID);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), indices.data(), GL_STATIC_DRAW);
+
+		indices.shrink_to_fit();
+	}
+}
+
+int chunk::GetBuffer()
+{
+	return indices_bufferID;
+}
+
+int chunk::GetNIndices()
+{
+	return indices.size();
+}
+
+void chunk::AddIndex(const uint& i)
+{
+	indices.push_back(i);
+}
+
+void chunk::UpdateAABB()
+{
+	aabb.SetNegativeInfinity();
+	for (std::vector<uint>::iterator it = indices.begin(); it != indices.end(); it++)
+	{
+		uint a = (*it);
+		aabb.Enclose(App->physics->vertices[(*it)]);
+	}
+}
+
+void chunk::CleanIndices()
+{
+	indices.clear();
+}
+
+void chunk::Render()
+{
+	App->renderer3D->DrawAABB(aabb.minPoint, aabb.maxPoint, float4(0.674, 0.784, 0.886, 1.0f));
 }
