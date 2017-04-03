@@ -54,10 +54,10 @@ namespace Player_Car
 	{
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		test_script->public_chars.at("have_item") = have_item;
-		test_script->public_chars.at("have_koma") = have_koma;
-		test_script->public_chars.at("have_triple_koma") = have_triple_koma;
-		test_script->public_chars.at("have_firecracker") = have_firecracker;
+		test_script->public_bools.at("have_item") = have_item;
+		test_script->public_bools.at("have_koma") = have_koma;
+		test_script->public_bools.at("have_triple_koma") = have_triple_koma;
+		test_script->public_bools.at("have_firecracker") = have_firecracker;
 
 		test_script->public_gos.at("firecracker") = firecracker;
 	}
