@@ -30,5 +30,6 @@ EXPORTS
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics
+	Main_Menu_UI_ActualizePublics
 	Main_Menu_UI_Start
 	Main_Menu_UI_Update

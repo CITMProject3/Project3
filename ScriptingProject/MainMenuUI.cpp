@@ -34,17 +34,33 @@ namespace Main_Menu_UI
 
 	void Main_Menu_UI_UpdatePublics(GameObject* game_object)
 	{
-		canvas = (ComponentCanvas*)game_object->GetComponent(C_CANVAS);
+		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+		start_menu = test_script->public_gos.at("Start Menu");
+		select_menu = test_script->public_gos.at("Select character Menu");
+		select_vehicle = test_script->public_gos.at("Select vehicle Menu");
+		select_level = test_script->public_gos.at("Select level Menu");
+		canvas = (ComponentCanvas*)game_object->GetComponent(ComponentType::C_CANVAS);
+	}
+
+	void Main_Menu_UI_ActualizePublics(GameObject* game_object)
+	{
+		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+		test_script->public_gos.at("Start Menu") = start_menu;
+		test_script->public_gos.at("Select character Menu") = select_menu;
+		test_script->public_gos.at("Select vehicle Menu") = select_vehicle;
+		test_script->public_gos.at("Select level Menu") = select_level;
+		canvas = (ComponentCanvas*)game_object->GetComponent(ComponentType::C_CANVAS);
 	}
 
 	void Main_Menu_UI_UpdatePublics(GameObject* game_object);
 
 	void Main_Menu_UI_Start(GameObject* game_object)
 	{
-		Main_Menu_UI_UpdatePublics(game_object);
-		canvas->GetUUID();
-		if(start_menu != nullptr)
-			canvas->go_focus = start_menu;
+		if (start_menu != nullptr)
+			canvas->SetGoFocus(start_menu);
+			//canvas->go_focus = start_menu;
 	}
 
 	void Main_Menu_UI_Update(GameObject* game_object)
