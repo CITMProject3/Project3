@@ -67,7 +67,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	turbos.push_back(drift_turbo_3);
 
 	//Item
-	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 10.0f);
+	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
 }
 
 ComponentCar::~ComponentCar()
