@@ -8,7 +8,7 @@
 
 class Application;
 class GameObject;
-struct PhysBody3D;
+class PhysBody3D;
 
 using namespace std;
 

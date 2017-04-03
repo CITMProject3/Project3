@@ -61,6 +61,9 @@ public:
 
 	AudioEvent *FindEventById(unsigned event_id);
 
+	// Update position and orientation of listener, using camera frustum for positions and orientations
+	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id);
+
 
 private:
 
@@ -89,9 +92,6 @@ private:
 	bool StopSoundEngine();
 	bool StopMusicEngine();
 	bool StopCommunicationModule();
-
-	// Update position and orientation of listener
-	void UpdateListenerPos();
 
 	bool IsSoundBank(const std::string &file_to_check) const;
 

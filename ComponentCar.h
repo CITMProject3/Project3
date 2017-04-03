@@ -12,7 +12,7 @@
 using namespace std;
 
 struct VehicleInfo;
-struct PhysVehicle3D;
+class PhysVehicle3D;
 class ComponentAnimation;
 class ComponentCollider;
 

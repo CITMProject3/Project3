@@ -1,5 +1,5 @@
-#ifndef __COMPONENTAUDIO_H__
-#define __COMPONENTAUDIO_H__
+#ifndef __COMPONENTAUDIOSOURCE_H__
+#define __COMPONENTAUDIOSOURCE_H__
 
 #include "Component.h"
 #include <string>
@@ -7,12 +7,12 @@
 class ResourceFileAudio;
 struct AudioEvent;
 
-class ComponentAudio : public Component
+class ComponentAudioSource : public Component
 {
 public:
 
-	ComponentAudio(ComponentType type, GameObject* game_object);
-	~ComponentAudio();
+	ComponentAudioSource(ComponentType type, GameObject* game_object);
+	~ComponentAudioSource();
 
 	void Update();
 
@@ -29,17 +29,20 @@ public:
 	const AudioEvent *GetEvent() const;
 	long unsigned GetWiseID() const;
 
+	void PlayEvent() const;
+	void StopEvent() const;
+
 private:
 
 	ResourceFileAudio *rc_audio = nullptr;
 	AudioEvent *current_event = nullptr;
 
 	std::string event_selected;
-	unsigned int event_id = 0;				// only used when loading components from a saved scene.
+	unsigned int event_id = 0;			// only used when loading components from a saved scene.
 
-	unsigned wwise_id_go;
+	unsigned int wwise_id_go;
 
 };
 
 
-#endif // !__COMPONENTAUDIO_H__
+#endif // !__COMPONENTAUDIOSOURCE_H__
