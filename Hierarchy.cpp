@@ -207,7 +207,7 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			}
 			else if (App->editor->assign_item == true)
 			{
-				App->editor->to_assign_item->item = *object;
+				//App->editor->to_assign_item->item = *object;
 				App->editor->assign_item = false;
 				App->editor->to_assign_item = nullptr;
 			}

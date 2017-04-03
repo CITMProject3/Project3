@@ -258,7 +258,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			Acrobatics(back_player);
 		}
 		//Power Up
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
+		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
 			UseItem();
 		}
@@ -266,7 +266,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
 		{
 			ReleaseItem();
-		}
+		}*/
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
@@ -341,7 +341,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Acrobatics(back_player);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
 		//current_turbo = T_MINI;
 		UseItem();
@@ -350,7 +350,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		//current_turbo = T_MINI;
 		ReleaseItem();
-	}
+	}*/
 
 	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
 	{
@@ -578,7 +578,7 @@ void ComponentCar::Acrobatics(PLAYER p)
 
 void ComponentCar::PickItem()
 {
-	has_item = true;
+	/*has_item = true;
 	if (item != nullptr)
 	{
 		item->SetActive(true);
@@ -591,7 +591,7 @@ void ComponentCar::PickItem()
 			trans->SetRotation(rotation);
 			go->SetActive(false);
 		}
-	}
+	}*/
 }
 
 void ComponentCar::UseItem()
@@ -603,7 +603,7 @@ void ComponentCar::UseItem()
 	}
 
 	//Rotating yellow cubes
-	if (item != nullptr)
+	/*if (item != nullptr)
 	{
 		for (std::vector<GameObject*>::const_iterator it = item->GetChilds()->begin(); it != item->GetChilds()->end(); it++)
 		{
@@ -617,9 +617,9 @@ void ComponentCar::UseItem()
 
 			trans->SetRotation(rotation);
 		}
-	}
+	}*/
 
-	if (applied_turbo && current_turbo)
+	/*if (applied_turbo && current_turbo)
 	{
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
@@ -629,7 +629,7 @@ void ComponentCar::UseItem()
 			if (item != nullptr)
 				item->SetActive(false);
 		}
-	}
+	}*/
 }
 
 void ComponentCar::ReleaseItem()
@@ -637,10 +637,10 @@ void ComponentCar::ReleaseItem()
 	if (current_turbo = T_ROCKET)
 	{
 		current_turbo = T_IDLE;
-		if (item != nullptr)
+		/*if (item != nullptr)
 		{
 			item->SetActive(false);
-		}
+		}*/
 	}
 }
 void ComponentCar::IdleTurn()
@@ -1185,9 +1185,29 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 	return max_t;
 }
 
+unsigned int ComponentCar::GetFrontPlayer()
+{
+	return front_player;
+}
+
+unsigned int ComponentCar::GetBackPlayer()
+{
+	return back_player;
+}
+
+PhysVehicle3D* ComponentCar::GetVehicle()
+{
+	return vehicle;
+}
+
 TURBO ComponentCar::GetCurrentTurbo() const
 {
 	return current_turbo;
+}
+
+Turbo* ComponentCar::GetAppliedTurbo() const
+{
+	return applied_turbo;
 }
 
 void ComponentCar::CheckGroundCollision()
@@ -1541,7 +1561,7 @@ void ComponentCar::Save(Data& file) const
 	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
 	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
 	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
-	if (item) data.AppendUInt("Item", item->GetUUID());
+	//if (item) data.AppendUInt("Item", item->GetUUID());
 
 	//Car physics settings
 	data.AppendFloat("mass", car->mass);
@@ -1696,11 +1716,11 @@ void ComponentCar::Load(Data& conf)
 		App->event_queue->PostEvent(ev);
 	}
 
-	if (conf.GetUInt("Item") != 0)
+	/*if (conf.GetUInt("Item") != 0)
 	{
 		EventLinkGos *ev = new EventLinkGos((GameObject**)&item, conf.GetUInt("Item"));
 		App->event_queue->PostEvent(ev);
-	}
+	}*/
 
 	//Car settings
 	car->mass = conf.GetFloat("mass");
@@ -2286,13 +2306,6 @@ void ComponentCar::OnInspector(bool debug)
 				App->editor->wheel_assign = nullptr;
 			}
 			ImGui::TreePop();
-		}
-		//TODO: provisional
-		ImGui::Separator();
-		if (item != nullptr)
-		{
-			ImGui::Text(item->name.c_str());
-			ImGui::SameLine();
 		}
 
 		if (ImGui::Button("Assign Item"))

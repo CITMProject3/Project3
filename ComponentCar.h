@@ -129,9 +129,12 @@ public:
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
 	float GetMaxTurnByCurrentVelocity(float sp);
-
+	unsigned int GetFrontPlayer();
+	unsigned int GetBackPlayer();
+	PhysVehicle3D* GetVehicle();
 
 	TURBO GetCurrentTurbo()const;
+	Turbo* GetAppliedTurbo()const;
 
 private:
 	void CreateCar();
@@ -154,9 +157,9 @@ private:
 	void Acrobatics(PLAYER p);
 public:
 	void PickItem();
-private:
 	void UseItem(); //provisional
 	void ReleaseItem();
+private:
 	void IdleTurn();
 	void ApplyTurbo();
 
@@ -182,8 +185,6 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
-	//TODO: provisional
-	GameObject* item = nullptr;
 private:
 	float kickTimer = 0.0f;
 public:
