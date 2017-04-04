@@ -647,28 +647,30 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			}
 		}
 
-		//Getting ready to store chunks. Uint stores the length of chunkData
-		uint size_totalChunkSize = 0;
+		//Getting ready to store chunks. Uint stores the amount of indices
+		uint size_totalChunkSize = 0; //byte size of all chunks together
 		std::vector<std::pair<uint, char*>> chunkData;
 		for (std::vector<pos_chunk>::iterator it_chunk = toSave.begin(); it_chunk != toSave.end(); it_chunk++)
 		{
 			std::pair<uint, char*> data;
-			data.first = 0;
+			uint totalSize = 0; //Total size of this chunk
 			//Coordinates
-			data.first += sizeof(uint) * 2;
+			totalSize += sizeof(int) * 2;
 			//AABB
-			data.first += sizeof(float) * 6;
+			totalSize += sizeof(float3) * 2;
 			//Indices
-			data.first += sizeof(uint) * it_chunk->Chunk.indices.size();
+			totalSize += sizeof(uint) * it_chunk->Chunk.indices.size();
+
+			data.first = it_chunk->Chunk.indices.size();
 
 			//Size of the chunk data + the uint that stores the length
-			size_totalChunkSize += data.first + sizeof(uint);
-
-			data.first = sizeof(uint) * it_chunk->Chunk.indices.size();
+			size_totalChunkSize += totalSize + sizeof(uint);
 
 			//Generating the buffer to save this chunk data
-			data.second = new char[data.first];
+			data.second = new char[totalSize];
 			char* buf_it = data.second;
+
+			
 
 			//Coordinate X, Z
 			uint bytes = sizeof(int);
@@ -686,10 +688,12 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 
 			bytes = sizeof(uint) * data.first;
 			memcpy(buf_it, it_chunk->Chunk.indices.data(), bytes);
+
+			chunkData.push_back(data);
 		}
 
-		//Terrain size (heightmap width, heightmap height, n chunks)
-		uint size_generalData = sizeof(uint) * 3;
+		//Terrain size (heightmap width, heightmap height, n chunks, max height)
+		uint size_generalData = sizeof(uint) * 3 + sizeof(float);
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
@@ -709,6 +713,11 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		it += bytes;
 		//Terrain height
 		memcpy(it, &h, bytes);
+		it += bytes;
+
+		//Max height
+		bytes = sizeof(float);
+		memcpy(it, &terrainMaxHeight, bytes);
 		it += bytes;
 
 		//Vertices
@@ -744,7 +753,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			memcpy(it, &it_data->first, bytes);
 			it += bytes;
 
-			bytes = it_data->first;
+			bytes = it_data->first * sizeof(uint) + sizeof(int) * 2 + sizeof(float3) * 2;
 			memcpy(it, it_data->second, bytes);
 			it += bytes;
 
@@ -766,12 +775,19 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 		{
 			char* it = tmp;
 
+			//Terrain w
 			uint bytes = sizeof(uint);
 			memcpy(&terrainW, it, bytes);
 			it += bytes;
-
+			//Terrain H
 			memcpy(&terrainH, it, bytes);
 			it += bytes;
+
+			//Terrain max height
+			bytes = sizeof(float);
+			memcpy(&terrainMaxHeight, it, bytes);
+			it += bytes;
+
 
 			RELEASE_ARRAY(vertices);
 			vertices = new float3[terrainW * terrainH];
@@ -823,19 +839,27 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 				memcpy(&maxP, it, bytes);
 				it += bytes;
 
-				bytes = sizeof(uint) * size;
-				memcpy(indices, it, bytes);
-				it += bytes;
-
 				chunks.clear();
 
 				std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
 				std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
 
 
-				//TODO
-				//WORKING HERE
+				it_x->second.SetAABB(minP, maxP);
+				it_x->second.indices.reserve(size);
+
+				bytes = sizeof(uint) * size;
+				memcpy(indices, it, bytes);
+				it += bytes;
+
+				for (int n = 0; n < size; n++)
+				{
+					it_x->second.indices.push_back(indices[n]);
+				}
+				RELEASE_ARRAY(indices);
 			}
+
+			RELEASE_ARRAY(tmp);
 
 			ReinterpretMesh();
 			ReinterpretHeightmapImg();
@@ -2097,4 +2121,10 @@ void chunk::CleanIndices()
 void chunk::Render()
 {
 	App->renderer3D->DrawAABB(aabb.minPoint, aabb.maxPoint, float4(0.674, 0.784, 0.886, 1.0f));
+}
+
+void chunk::SetAABB(float3 minPoint, float3 MaxPoint)
+{
+	aabb.minPoint = minPoint;
+	aabb.maxPoint = MaxPoint;
 }

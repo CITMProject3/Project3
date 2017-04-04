@@ -55,6 +55,7 @@ public:
 	void Render();
 
 	AABB GetAABB() { return aabb; }
+	void SetAABB(float3 minPoint, float3 MaxPoint);
 
 	std::vector<uint> indices;
 private:
