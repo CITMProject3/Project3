@@ -135,58 +135,83 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	//TESTING TMP
-	if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+	if ((paintMode || sculptMode) && terrainData != nullptr)
 	{
 		Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 		RaycastHit hit;
-		if (RayCast(ray, hit))
+		bool ray_contact = RayCast(ray, hit);
+		if (ray_contact)
 		{
 			int x = ceil(hit.point.x) - 1;
 			int y = ceil(hit.point.z);
 			x += terrainW / 2;
 			y += terrainH / 2;
-			for (int _y = -brushSize; _y <= brushSize; _y++)
+#pragma region paintBrush
+			glLineWidth(4.0f);
+			for (int _y = y - brushSize - 1; _y < y + brushSize; _y++)
 			{
-				for (int _x = -brushSize; _x <= brushSize; _x++)
+				int x1 = x + brushSize + 1;
+				int x2 = x - brushSize;
+				if (_y > 1 && _y < terrainH - 1)
 				{
-					if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
+					if (x1 > 1 && x1 < terrainW - 1)
 					{
-						vertices[((_y + y) * terrainW + _x + x)].y += 1.0f;
+						App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1]);
+					}
+					if (x2 > 1 && x2 < terrainW - 1)
+					{
+						App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2]);
 					}
 				}
 			}
-			ReinterpretMesh();
-			ReinterpretHeightmapImg();
-		}
-	}
 
-	if (paintMode && terrainData != nullptr)
-	{
-		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
-		{
-			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
-			RaycastHit hit;
-			if (RayCast(ray, hit))
+			for (int _x = x - brushSize; _x < x + brushSize + 1; _x++)
 			{
-				CAP(paintTexture, 0, 10);
-
-				int x = ceil(hit.point.x) - 1;
-				int y = ceil(hit.point.z);
-				x += terrainW / 2;
-				y += terrainH / 2;
-				for (int _y = -brushSize; _y <= brushSize; _y++)
+				int y1 = y + brushSize;
+				int y2 = y - brushSize - 1;
+				if (_x > 1 && _x < terrainW - 1)
 				{
-					for (int _x = -brushSize; _x <= brushSize; _x++)
+					if (y1 > 0 && y1 < terrainH)
 					{
-						if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
+						App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1]);
+					}
+					if (y2 > 0 && y2 < terrainH)
+					{
+						App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1]);
+					}
+				}
+			}
+			glLineWidth(1.0f);
+#pragma endregion
+
+#pragma region sculptMode
+			if (sculptMode)
+			{
+
+			}
+#pragma endregion
+
+#pragma region paintMode
+			if (paintMode)
+			{
+				if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+				{
+					CAP(paintTexture, 0, 10);
+
+					for (int _y = -brushSize; _y <= brushSize; _y++)
+					{
+						for (int _x = -brushSize; _x <= brushSize; _x++)
 						{
-							textureMap[((terrainH - (_y + y)) * terrainW + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+							if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
+							{
+								textureMap[((terrainH - (_y + y)) * terrainW + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+							}
 						}
 					}
+					ReinterpretTextureMap();
 				}
-				ReinterpretTextureMap();
 			}
+#pragma endregion
 		}
 	}
 

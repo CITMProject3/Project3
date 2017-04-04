@@ -264,6 +264,7 @@ public:
 	
 	bool renderChunks = false;
 	bool paintMode = false;
+	bool sculptMode = false;
 	int paintTexture = 0;
 	int brushSize = 5;
 
