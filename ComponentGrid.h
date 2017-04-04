@@ -29,6 +29,7 @@ public:
 	void SetNumElements(uint num);
 	uint GetNumElements() const;
 	void UpdateFocusObjectsPosition();
+	void SetPlayerOrder(int one, int two, int three, int four);
 private:
 	int players_controlling = 1;
 	int num_elements = 0;
@@ -43,7 +44,7 @@ private:
 	int rows = 1;
 	bool reorganize_grid = false;
 	std::vector<GameObject*> focus_objects;
-	float4 players_order = float4(1, 2, 3, 4);
+	float4 players_order = float4(0, 1, 2, 3);
 	float4 focus_index_player = float4(1, 1, 1, 1);
 	float4 child_focus_index = float4(0, 0, 0, 0);
 	bool after_load = false;

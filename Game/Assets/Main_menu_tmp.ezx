@@ -111,11 +111,11 @@
                     "active": true,
                     "script_path": "Main_Menu_UI",
                     "script_num": 0,
-                    "current_menu": 1,
                     "Player1": 1,
                     "Player2": 3,
                     "Player3": 0,
                     "Player4": 2,
+                    "current_menu": 1,
                     "Start Menu": 883161430,
                     "Select character Menu": 2721492452,
                     "Select level Menu": 2197591081
@@ -1276,7 +1276,12 @@
                     "UUID": 2907719171,
                     "active": true,
                     "script_path": "Character_Selection_UI",
-                    "script_num": 0
+                    "script_num": 0,
+                    "Player1": 0,
+                    "Player2": 0,
+                    "Player3": 0,
+                    "Player4": 0,
+                    "Drivers grid": 2214064140
                 }
             ]
         },
@@ -1895,8 +1900,8 @@
                     "space_between_y": 0,
                     "rows": 1,
                     "child_focus_index": [
+                        2,
                         3,
-                        4,
                         0,
                         0
                     ]
@@ -3727,7 +3732,7 @@
             "UUID": 2197591081,
             "local_UUID": 0,
             "parent": 3411878640,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",

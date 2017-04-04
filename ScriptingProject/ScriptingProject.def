@@ -46,6 +46,7 @@ EXPORTS
 	Character_Selection_UI_ActualizePublics
 	Character_Selection_UI_Start
 	Character_Selection_UI_Update
+	Character_Selection_UI_OnFocus
 
 	MapSelectUI_GetPublics
 	MapSelectUI_UpdatePublics

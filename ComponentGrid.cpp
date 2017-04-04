@@ -179,58 +179,59 @@ void ComponentGrid::OnFocus()
 
 	for (int i = 0; i < players_controlling; i++)
 	{
-		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP)  == KEY_DOWN)
+		int id = players_order[i];
+		if (App->input->GetJoystickButton(id, JOY_BUTTON::DPAD_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP)  == KEY_DOWN)
 		{
 			if (rows > 1 && num_elements > 1)
 			{
-				focus_index_player[i] -= elements_x_row;
-				if (focus_index_player[i] < 0)
-					focus_index_player[i] = 0;
+				focus_index_player[id] -= elements_x_row;
+				if (focus_index_player[id]< 0)
+					focus_index_player[id]= 0;
 				UpdateFocusObjectsPosition();
 			}
 		}
 
-		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		if (App->input->GetJoystickButton(id, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		{
 			if (rows > 1 && num_elements > 1 )
 			{
-				focus_index_player[i] += elements_x_row;
-				if (focus_index_player[i] > num_elements)
-					focus_index_player[i] = num_elements;
+				focus_index_player[id]+= elements_x_row;
+				if (focus_index_player[id]> num_elements)
+					focus_index_player[id]= num_elements;
 				UpdateFocusObjectsPosition();
 			}
 		}
 
-		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT)  == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		if (App->input->GetJoystickButton(id, JOY_BUTTON::DPAD_RIGHT)  == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
-			if (num_elements > 1 && focus_index_player[i] < num_elements)
+			if (num_elements > 1 && focus_index_player[id]< num_elements)
 			{
-				focus_index_player[i]++;
+				focus_index_player[id]++;
 
-				if (focus_index_player[i] > num_elements)
-					focus_index_player[i] = num_elements;
+				if (focus_index_player[id]> num_elements)
+					focus_index_player[id]= num_elements;
 
 				UpdateFocusObjectsPosition();
 			}
 		}
 
-		if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		{
-			if (num_elements > 1)
-			{
-				focus_index_player[i]--;
-				if (focus_index_player[i] < 0)
-					focus_index_player[i] = 0;
-				UpdateFocusObjectsPosition();
-
-			}
-		}
-
-		if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		if (App->input->GetJoystickButton(id, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 		{
 			if (num_elements > 1)
 			{
-				ComponentUiButton* but = (ComponentUiButton*)focus_objects.at(i)->GetComponent(C_UI_BUTTON);
+				focus_index_player[id]--;
+				if (focus_index_player[id]< 0)
+					focus_index_player[id]= 0;
+				UpdateFocusObjectsPosition();
+
+			}
+		}
+
+		if (App->input->GetJoystickButton(id, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (num_elements > 1)
+			{
+				ComponentUiButton* but = (ComponentUiButton*)focus_objects.at(id)->GetComponent(C_UI_BUTTON);
 				if (but != nullptr)
 				{
 					but->OnPress();
@@ -344,4 +345,9 @@ void ComponentGrid::UpdateFocusObjectsPosition()
 		}
 			
 	}
+}
+
+void ComponentGrid::SetPlayerOrder(int one, int two, int three, int four)
+{
+	players_order = float4(one, two, three, four);
 }

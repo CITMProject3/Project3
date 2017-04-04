@@ -63,8 +63,14 @@ void ComponentCanvas::OnInspector(bool debug)
 		}
 
 	}
-	if(go_focus.size() > 0)
-		ImGui::Text(string("Current Focus: " + (*go_focus.begin())->name).data());
+	if (go_focus.size() > 0)
+	{
+		for (vector<GameObject*>::const_iterator obj = go_focus.begin(); obj != go_focus.end(); ++obj)
+		{
+			ImGui::Text(string("Current Focus: " + (*obj)->name).data());
+		}
+	}
+		
 }
 
 void ComponentCanvas::OnTransformModified()
