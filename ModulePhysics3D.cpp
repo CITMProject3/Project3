@@ -1960,7 +1960,7 @@ void ModulePhysics3D::ReinterpretTextureMap()
 
 void ModulePhysics3D::ReinterpretHeightmapImg()
 {
-	if (terrainData && false)
+	if (terrainData)
 	{
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
