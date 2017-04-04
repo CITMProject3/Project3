@@ -28,6 +28,7 @@ namespace Player_Car
 	bool have_firecracker = false;
 	bool using_firecracker = false;
 	bool throwing_firecracker = false;
+	float velocity_firecracker = 25.0f;
 	float time_trowing_firecracker = 0.0f;
 	//bool have_makibishi = false;
 	GameObject* firecracker = nullptr;
@@ -41,6 +42,7 @@ namespace Player_Car
 		public_bools->insert(pair<const char*, bool>("have_firecracker", have_firecracker));
 		public_bools->insert(pair<const char*, bool>("using_firecracker", using_firecracker));
 		public_bools->insert(pair<const char*, bool>("throwing_firecracker", throwing_firecracker));
+		public_float->insert(pair<const char*, float>("velocity_firecracker", velocity_firecracker));
 		public_float->insert(pair<const char*, float>("time_trowing_firecracker", time_trowing_firecracker));
 		//public_bools->insert(pair<const char*, bool>("have_makibishi", have_makibishi));
 
@@ -58,6 +60,7 @@ namespace Player_Car
 		have_firecracker = test_script->public_bools.at("have_firecracker");
 		using_firecracker = test_script->public_bools.at("using_firecracker");
 		throwing_firecracker = test_script->public_bools.at("throwing_firecracker");
+		velocity_firecracker = test_script->public_floats.at("velocity_firecracker");
 		time_trowing_firecracker = test_script->public_floats.at("time_trowing_firecracker");
 		//have_makibishi = test_script->public_bools.at("have_makibishi");
 
@@ -75,6 +78,7 @@ namespace Player_Car
 		test_script->public_bools.at("have_firecracker") = have_firecracker;
 		test_script->public_bools.at("using_firecracker") = using_firecracker;
 		test_script->public_bools.at("throwing_firecracker") = throwing_firecracker;
+		test_script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		test_script->public_floats.at("time_trowing_firecracker") = time_trowing_firecracker;
 		//test_script->public_bools.at("have_makibishi") = have_makibishi;
 
@@ -125,7 +129,9 @@ namespace Player_Car
 				}
 				else
 				{
-					firecracker->transform->SetPosition(firecracker->transform->GetPosition() + (firecracker->transform->GetForward().Normalized().z * float3(0.0, 0.0, 5.0) * time->DeltaTime()));
+					float3 new_pos = firecracker->transform->GetPosition();
+					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
+					firecracker->transform->SetPosition(new_pos);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
 					{
@@ -171,7 +177,9 @@ namespace Player_Car
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
-							firecracker->transform->SetPosition(firecracker->transform->GetPosition() + firecracker->transform->GetForward().Normalized().z * float3(0.0, 0.0, 2.0));
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -190,7 +198,9 @@ namespace Player_Car
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
-							firecracker->transform->SetPosition(firecracker->transform->GetPosition() + game_object->transform->GetForward().Normalized().z * float3(0.0, 0.0, 2.0));
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
