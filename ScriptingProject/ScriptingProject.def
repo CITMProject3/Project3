@@ -40,8 +40,16 @@ EXPORTS
 	Start_Menu_UI_Start
 	Start_Menu_UI_Update
 
+
 	Character_Selection_UI_GetPublics
 	Character_Selection_UI_UpdatePublics
 	Character_Selection_UI_ActualizePublics
 	Character_Selection_UI_Start
 	Character_Selection_UI_Update
+
+	MapSelectUI_GetPublics
+	MapSelectUI_UpdatePublics
+	MapSelectUI_ActualizePublics
+	MapSelectUI_Start
+	MapSelectUI_Update
+

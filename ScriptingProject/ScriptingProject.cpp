@@ -35,8 +35,8 @@ extern "C"
 			script_names->push_back("Scene_Manager");
 			script_names->push_back("Main_Menu_UI");
 			script_names->push_back("Start_Menu_UI");
-
 			script_names->push_back("Character_Selection_UI");
+			script_names->push_back("MapSelectUI");
 		}
 	}
 
