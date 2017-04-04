@@ -180,6 +180,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="MainMenuUI.cpp" />
+    <ClCompile Include="MapSelectUI.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />
