@@ -37,6 +37,13 @@ void ComponentAudioSource::Update()
 		current_event = App->audio->FindEventById(event_id);
 		event_selected = current_event != nullptr ? current_event->name : "";
 	}
+
+	// Scripting needs this to properly trigger audio! What the fuck!
+	if (play_event)
+	{
+		PlayEvent();
+		play_event = false;
+	}
 }
 
 void ComponentAudioSource::OnInspector(bool debug)

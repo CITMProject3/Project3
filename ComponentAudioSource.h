@@ -32,7 +32,9 @@ public:
 	void PlayEvent() const;
 	void StopEvent() const;
 
-private:
+	bool play_event = false;
+
+private:	
 
 	ResourceFileAudio *rc_audio = nullptr;
 	AudioEvent *current_event = nullptr;

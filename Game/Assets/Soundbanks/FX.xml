@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="120">
+	<RootPaths>
+		<ProjectRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\Carlos\Documents\GitHub\Project3\Game\Assets\Soundbanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<SoundBanks>
+		<SoundBank Id="1802970371" GUID="{6751123E-E154-46B9-81C7-E9859874D9E5}" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\FX</ObjectPath>
+			<ShortName>FX</ShortName>
+			<Path>FX.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3189471825" Name="Double_Drum" ObjectPath="\Events\Default Work Unit\Double_Drum" GUID="{BC62B95B-B5A1-4B8F-913C-905896E6627F}"/>
+				<Event Id="2674414691" Name="Water_Mill" ObjectPath="\Events\Default Work Unit\Water_Mill" GUID="{9919E716-C21E-449E-B8AC-2313AFE12436}"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="809942810" Language="SFX">
+					<ShortName>Double_Drum.wav</ShortName>
+					<Path>SFX\Double_Drum_9E69E797.wem</Path>
+				</File>
+				<File Id="896299035" Language="SFX">
+					<ShortName>water_mill.wav</ShortName>
+					<Path>SFX\water_mill_4B8CC0C5.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

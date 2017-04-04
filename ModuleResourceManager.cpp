@@ -985,12 +985,16 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	string extension = name.substr(name.find_last_of(".") + 1);
 
 	for (int i = 0; i < 5; i++)
+	{
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
+	}		
 
 	for (int i = 0; i < 6; i++)
+	{
 		if (extension.compare(image_extensions[i]) == 0)
 			return FileType::IMAGE;
+	}		
 
 	if (extension.compare(scene_extension) == 0)
 		return FileType::SCENE;
@@ -1353,6 +1357,7 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 		break;
 	case SCRIPTS_LIBRARY:
 		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
+		break; 
 	case SCENE:
 		SceneDropped(path, base_dir, base_library_dir, uuid);
 		break;
