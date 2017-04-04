@@ -9,7 +9,6 @@
 #include "../ComponentAudioSource.h"
 
 #include "../EventQueue.h"
-#include "../EventPlaySound.h"
 
 namespace Audio_PlaySound
 {
