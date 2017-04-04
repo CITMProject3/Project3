@@ -248,6 +248,7 @@ private:
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
+	float drift_turn_max = 0.7;
 	float drift_min_speed = 20.0f;
 
 	//Push

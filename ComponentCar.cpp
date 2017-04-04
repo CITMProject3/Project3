@@ -167,27 +167,9 @@ void ComponentCar::HandlePlayerInput()
 			pushing = false;
 	}
 
-	//  KEYBOARD CONTROLS__P1  ///////////////////////////////////////////////////////////////////////////////
-	
-	//Previous kick turbo (now usedd to test how tiles would work)
-	/*if (kickTimer < kickCooldown) { kickTimer += time->DeltaTime(); }
-	if (kickTimer >= kickCooldown)
-	{
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
-	{
-	//accel = force;
-	on_kick = true;
-	kickTimer = 0.0f;
-	}
-	}
-
-	if (on_kick && kickTimer < kick_force_time)
-	{
-	accel = force;
-	}*/
 	if (drifting == true)
 	{
-		turn_boost += drift_turn_boost;
+		turn_max = drift_turn_max;
 	}
 	
 	if (lock_input == false)
@@ -757,7 +739,7 @@ void ComponentCar::ApplyTurbo()
 
 void ComponentCar::StartDrift()
 {
-	/*
+	
 	if (GetVelocity() >= drift_min_speed)
 	{
 		drifting = true;
@@ -765,7 +747,7 @@ void ComponentCar::StartDrift()
 		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
 		vehicle->SetFriction(0);
 	}
-	*/
+	
 }
 
 void ComponentCar::CalcDriftForces()
@@ -1467,6 +1449,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
 	data.AppendFloat("driftMinSpeed", drift_min_speed);
+	data.AppendFloat("drift_turn_max", drift_turn_max); 
 
 	//Turbos-------
 	//Mini turbo
@@ -1708,6 +1691,7 @@ void ComponentCar::Load(Data& conf)
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
 	drift_min_speed = conf.GetFloat("driftMinSpeed");
+	drift_turn_max = conf.GetFloat("drift_turn_max");
 }
 
 void ComponentCar::OnInspector(bool debug)
@@ -2216,8 +2200,9 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::Text("Drifting settings");
 			ImGui::NewLine();
 			ImGui::InputFloat("Drift exit boost", &drift_boost);
-			ImGui::InputFloat("Drift turn boost", &drift_turn_boost);
+			ImGui::InputFloat("Drift turn max", &drift_turn_max);
 			ImGui::InputFloat("Drift min speed", &drift_min_speed);
+			
 			ImGui::TreePop();
 
 		} //Endof Car settings
