@@ -111,8 +111,6 @@ namespace Start_Menu_UI
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			
-
 			if (lb_pressed == false)
 			{
 				if (App->input->GetJoystickButton(i, JOY_BUTTON::LB) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
@@ -255,6 +253,10 @@ namespace Start_Menu_UI
 						ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
 
 						main_canvas_script->public_ints.at("current_menu") = 1;
+						main_canvas_script->public_ints.at("Player1") = player_order[0];
+						main_canvas_script->public_ints.at("Player2") = player_order[1];
+						main_canvas_script->public_ints.at("Player3") = player_order[2];
+						main_canvas_script->public_ints.at("Player4") = player_order[3];
 					}
 				}
 			}

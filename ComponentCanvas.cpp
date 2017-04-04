@@ -20,15 +20,18 @@ ComponentCanvas::~ComponentCanvas()
 
 void ComponentCanvas::Update()
 {
-	if (go_focus != nullptr)
+	if (go_focus.size() > 0)
 	{
-		vector<Component*> focus_components = *go_focus->GetComponents();
-
-		for (vector<Component*>::const_iterator comp = focus_components.begin(); comp != focus_components.end(); ++comp)
+		for (vector<GameObject*>::const_iterator obj = go_focus.begin(); obj != go_focus.end(); ++obj)
 		{
-			if ((*comp) != nullptr)
+			vector<Component*> focus_components = *(*obj)->GetComponents();
+
+			for (vector<Component*>::const_iterator comp = focus_components.begin(); comp != focus_components.end(); ++comp)
 			{
-				(*comp)->OnFocus();
+				if ((*comp) != nullptr)
+				{
+					(*comp)->OnFocus();
+				}
 			}
 		}
 	}
@@ -60,8 +63,8 @@ void ComponentCanvas::OnInspector(bool debug)
 		}
 
 	}
-	if(go_focus != nullptr)
-		ImGui::Text(string("Current Focus: " + go_focus->name).data());
+	if(go_focus.size() > 0)
+		ImGui::Text(string("Current Focus: " + (*go_focus.begin())->name).data());
 }
 
 void ComponentCanvas::OnTransformModified()
@@ -130,15 +133,25 @@ vector<GameObject*> ComponentCanvas::GetUI()
 	return tmp_childs;
 }
 
-GameObject * ComponentCanvas::GetGoFocus() const
+vector<GameObject *> ComponentCanvas::GetGoFocus() const
 {
 	return go_focus;
 }
 
-void ComponentCanvas::SetGoFocus(GameObject* new_focus)
+void ComponentCanvas::RemoveGoFocus(GameObject * new_focus)
+{
+	go_focus.erase(std::remove(go_focus.begin(), go_focus.end(), new_focus), go_focus.end());
+}
+
+void ComponentCanvas::ClearFocus()
+{
+	go_focus.clear();
+}
+
+void ComponentCanvas::AddGoFocus(GameObject* new_focus)
 {
 	if ((new_focus) != nullptr)
-		go_focus = new_focus;
+		go_focus.push_back(new_focus);
 }
 
 vector<GameObject*> ComponentCanvas::GetGameObjectChilds(GameObject * go)
