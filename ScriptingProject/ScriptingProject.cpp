@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "../Application.h"
+#include "../Time.h"
 #include "../ModuleScripting.h"
 #include "../ModuleInput.h"
 #include "../ModuleWindow.h"
@@ -21,9 +22,10 @@ extern "C"
 {
 	namespace ScriptNames
 	{
-		void GetScriptNames(Application* engine_app, vector<const char*>* script_names)
+		void GetScriptNames(Application* engine_app, vector<const char*>* script_names, Time* engine_time)
 		{
 			App = engine_app;
+			time = engine_time;
 
 			script_names->push_back("Test");
 			script_names->push_back("Test2");

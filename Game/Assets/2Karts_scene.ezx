@@ -539,11 +539,12 @@
                     "active": true,
                     "script_path": "Player_Camera",
                     "script_num": 0,
+                    "camera_y": 2,
+                    "inclination z max min": 1,
                     "dist_y": 2.500000,
                     "dist_z": -6,
-                    "camera_y": 2,
+                    "min_dist_z": 0,
                     "inclination y max min": 1,
-                    "inclination z max min": 1,
                     "y change boost": 0.500000,
                     "z change boost": 0.500000,
                     "fov change boost": 5,
@@ -552,17 +553,17 @@
             ]
         }
     ],
-    "terrain": "\/Library\/3954143527\/\/\/976735484\/976735484.dds",
+    "terrain": "\/Library\/2431007132\/\/\/3104932992\/3104932992.dds",
     "terrain_textures": [
         {
-            "path": "\/Library\/3954143527\/\/2274369089\/2274369089.dds"
+            "path": "\/Library\/2431007132\/\/3102449478\/3102449478.dds"
         },
         {
-            "path": "\/Library\/3954143527\/\/898595692\/898595692.dds"
+            "path": "\/Library\/2431007132\/\/1950075827\/1950075827.dds"
         }
     ],
     "terrain_scaling": 30,
     "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/2Karts_scene.ezx",
-    "current_library_scene_path": "\/Library\/\/1607148658\/1607148658.ezx"
+    "current_library_scene_path": "\/Library\/2533480024\/2533480024.ezx"
 } 

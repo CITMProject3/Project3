@@ -354,7 +354,7 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 			(ComponentScript*)bodyA->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
 		// Call script
-		if(script) script->OnCollision(bodyA);
+		if(script) script->OnCollision(bodyB);
 	}
 
 	// BodyB
@@ -365,7 +365,7 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 			(ComponentScript*)bodyB->GetCollider()->GetGameObject()->GetComponent(C_SCRIPT);
 
 		// Call script
-		if (script) script->OnCollision(bodyB);
+		if (script) script->OnCollision(bodyA);
 	}
 }
 
