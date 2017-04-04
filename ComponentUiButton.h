@@ -19,12 +19,14 @@ public:
 	void OnInspector(bool debug);
 	void OnFocus();
 	void OnPress();
+	void OnPressId(int i);
 	void ChangeState();
 
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
 	void Reset();
+	void ResetId(int i);
 	
 public:
 	ComponentMaterial* UImaterial = nullptr;

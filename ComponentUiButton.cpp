@@ -79,6 +79,17 @@ void ComponentUiButton::OnPress()
 	}
 }
 
+void ComponentUiButton::OnPressId(int i)
+{
+	if (UImaterial->texture_ids.size() >= i+1)
+	{
+		string str = to_string(i+1);
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
+		UImaterial->texture_ids.at(str) = tmp;
+	}
+}
+
 void ComponentUiButton::ChangeState()
 {
 	pressed = !pressed;
@@ -112,5 +123,16 @@ void ComponentUiButton::Reset()
 		uint tmp = UImaterial->texture_ids.at("0");
 		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
 		UImaterial->texture_ids.at("1") = tmp;
+	}
+}
+
+void ComponentUiButton::ResetId(int i)
+{
+	if (UImaterial->texture_ids.size() >= i+1)
+	{
+		string str = to_string(i+1);
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
+		UImaterial->texture_ids.at(str) = tmp;
 	}
 }

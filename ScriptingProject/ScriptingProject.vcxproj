@@ -184,6 +184,7 @@
     <ClCompile Include="Player_Car.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />
     <ClCompile Include="ScriptingProject.cpp" />
+    <ClCompile Include="Start_Menu_UI.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

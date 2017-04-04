@@ -48,6 +48,9 @@
     <ClCompile Include="MainMenuUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Start_Menu_UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptingProject.def">
