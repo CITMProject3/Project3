@@ -790,10 +790,22 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 
 
 			RELEASE_ARRAY(vertices);
+			RELEASE_ARRAY(terrainData);
+			RELEASE_ARRAY(realTerrainData);
+
 			vertices = new float3[terrainW * terrainH];
+			terrainData = new float[terrainW * terrainH];
+			realTerrainData = new float[terrainW * terrainH];
+
 			bytes = sizeof(float3) * terrainW * terrainH;
 			memcpy(vertices, it, bytes);
 			it += bytes;
+
+			for (int n = 0; n < terrainW * terrainH; n++)
+			{
+				terrainData[n] = vertices[n].y;
+				realTerrainData[n] = terrainData[n] / terrainMaxHeight;
+			}
 
 			RELEASE_ARRAY(normals);
 			normals = new float3[terrainW * terrainH];
@@ -815,6 +827,8 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 			bytes = sizeof(uint);
 			memcpy(&nChunks, it, bytes);
 			it += bytes;
+
+			chunks.clear();
 
 			for (int n = 0; n < nChunks; n++)
 			{
@@ -839,7 +853,6 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 				memcpy(&maxP, it, bytes);
 				it += bytes;
 
-				chunks.clear();
 
 				std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
 				std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
@@ -856,6 +869,7 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 				{
 					it_x->second.indices.push_back(indices[n]);
 				}
+				it_x->second.GenBuffer();
 				RELEASE_ARRAY(indices);
 			}
 
@@ -864,6 +878,7 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 			ReinterpretMesh();
 			ReinterpretHeightmapImg();
 			ReinterpretTextureMap();
+			GenerateUVs();
 		}
 		
 }
@@ -1121,8 +1136,6 @@ void ModulePhysics3D::GenerateIndices()
 		//numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
 		//indices = new uint[numIndices];
 
-		float2* originalUvs = new float2[w*h];
-
 		{
 			BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices::AddingTris", Profiler::Color::HoneyDew);
 			for (int z = 0; z < h - 1; z++)
@@ -1131,8 +1144,6 @@ void ModulePhysics3D::GenerateIndices()
 				{
 					AddTriToChunk(((z + 1) * w + x), (z * w + x + 1), (z * w + x), x, z);
 					AddTriToChunk((z * w + x + 1), ((z + 1) * w + x), ((z + 1) * w + x + 1), x, z);
-
-					originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
 				}
 			}
 		}
@@ -1148,16 +1159,6 @@ void ModulePhysics3D::GenerateIndices()
 				}
 			}
 		}
-
-		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
-		if (terrainOriginalUvBuffer == 0)
-		{
-			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
-
-		delete[] originalUvs;
 	}
 }
 
@@ -1539,7 +1540,7 @@ void ModulePhysics3D::GenerateUVs()
 				float uv_x = ((float)x / (float)w) / textureScaling;
 				float uv_y = 1 - (((float)z / (float)h) / textureScaling);
 				uvs[z * w + x] = float2(uv_x, uv_y);
-				
+
 			}
 		}
 
@@ -1549,6 +1550,27 @@ void ModulePhysics3D::GenerateUVs()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, uvs, GL_STATIC_DRAW);
 
 		delete[] uvs;
+
+
+		float2* originalUvs = new float2[w*h];
+
+		for (int z = 0; z < h - 1; z++)
+		{
+			for (int x = 0; x < w - 1; x++)
+			{
+				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+			}
+		}
+
+		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
+		if (terrainOriginalUvBuffer == 0)
+		{
+			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
+
+		delete[] originalUvs;
 	}
 }
 
@@ -1938,7 +1960,7 @@ void ModulePhysics3D::ReinterpretTextureMap()
 
 void ModulePhysics3D::ReinterpretHeightmapImg()
 {
-	if (terrainData)
+	if (terrainData && false)
 	{
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
