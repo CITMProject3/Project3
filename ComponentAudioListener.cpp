@@ -15,10 +15,12 @@ unsigned int ComponentAudioListener::num_listeners = 0;
 ComponentAudioListener::ComponentAudioListener(ComponentType type, GameObject* game_object) : Component(type, game_object)
 { 
 	listener_id = num_listeners++;
+	App->audio->AddListener(listener_id);
 }
 
 ComponentAudioListener::~ComponentAudioListener()
 { 
+	App->audio->RemoveListener(listener_id);
 	--num_listeners;
 }
 
@@ -56,6 +58,9 @@ void ComponentAudioListener::OnInspector(bool debug)
 		if (ImGui::Checkbox("###activeAudioListener", &is_active))
 		{
 			SetActive(is_active);
+
+			if (is_active) App->audio->AddListener(listener_id);
+			else App->audio->RemoveListener(listener_id);
 		}
 
 		ImGui::Text("Listener ID: %u", listener_id);
@@ -79,7 +84,10 @@ void ComponentAudioListener::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 
+	// Setting listener configuration for saved listener_id
+	App->audio->RemoveListener(listener_id);
 	listener_id = conf.GetUInt("listener ID");
+	if(active) App->audio->AddListener(listener_id);
 }
 
 void ComponentAudioListener::Remove()

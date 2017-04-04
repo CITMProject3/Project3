@@ -69,8 +69,8 @@ void CameraWindow::Draw()
 
 	if (ImGui::BeginMenu(text.c_str()))
 	{
-		vector<ComponentCamera*> cameras;
-		App->go_manager->GetAllCameras(cameras);
+		vector<Component*> cameras;
+		App->go_manager->GetAllComponents(cameras, ComponentType::C_CAMERA);
 
 		//Camera editor as option too
 		if (ImGui::MenuItem("Editor Camera"))
@@ -78,10 +78,10 @@ void CameraWindow::Draw()
 			App->renderer3D->SetCamera(App->camera->GetEditorCamera());
 		}
 
-		for (vector<ComponentCamera*>::iterator cam_it = cameras.begin(); cam_it != cameras.end(); cam_it++)
+		for (vector<Component*>::iterator cam_it = cameras.begin(); cam_it != cameras.end(); cam_it++)
 			if (ImGui::MenuItem((*cam_it)->GetGameObject()->name.data()))
 			{
-				App->renderer3D->SetCamera((*cam_it));
+				App->renderer3D->SetCamera((ComponentCamera*)(*cam_it));
 			}
 
 		ImGui::EndMenu();

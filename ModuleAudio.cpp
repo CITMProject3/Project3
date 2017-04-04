@@ -2,7 +2,9 @@
 
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
 
+#include "ComponentAudioSource.h"
 #include "ComponentCamera.h"
 
 #include "Wwise_Library.h"
@@ -102,21 +104,58 @@ update_status ModuleAudio::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleAudio::SetListener(const ComponentCamera *listener)
-{
-	this->listener = listener;
-}
-
 void ModuleAudio::UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id)
 {
-	math::float3 front = cam->GetFront();  // Orientation of the listener
-	math::float3 up = cam->GetUp();		// Top orientation of the listener
+	math::float3 front = cam->GetFront();   // Orientation of the listener
+	math::float3 up = cam->GetUp();			// Top orientation of the listener
 	math::float3 pos = cam->GetPos();	    // Position of the listener
 
 	AkListenerPosition ak_pos;
 	ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
 
 	AK::SoundEngine::SetListenerPosition(ak_pos, listener_id);
+}
+
+void ModuleAudio::SetListeners(unsigned int wwise_go_id) const
+{
+	AK::SoundEngine::SetActiveListeners(wwise_go_id, active_listeners);
+}
+
+void ModuleAudio::AddListener(unsigned char listener_id)
+{
+	assert(listener_id < MAX_LISTENERS);
+
+	//if (active_listeners == 0)
+	//	active_listeners = 1;		// If there is no listener yet...
+
+	unsigned char new_listener = (1 << listener_id);	 // Obtaining bit position for new listener. I.e. Listener_id --> 3 , new_listener = 00001000
+	active_listeners |= new_listener;					 // One audio listener more to the current active listeners!
+
+	// Adapting all sources to the new listener configuration
+	std::vector<Component*> audio_sources;
+	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
+
+	for (size_t i = 0; i < audio_sources.size(); ++i)
+	{
+		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
+		SetListeners(audio->GetWiseID());
+	}
+}
+
+void ModuleAudio::RemoveListener(unsigned char listener_id)
+{
+	unsigned char listener_to_remove = ~(1 << listener_id);		// Obtaining bit position for listener to remove. I.e I.e. Listener_id --> 3 , new_listener = 11110111
+	active_listeners &= listener_to_remove;						// Deleting listener from the current active listeners!
+
+	// Adapting all sources to the new listener configuration
+	std::vector<Component*> audio_sources;
+	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
+
+	for (size_t i = 0; i < audio_sources.size(); ++i)
+	{
+		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
+		SetListeners(audio->GetWiseID());
+	}
 }
 
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)

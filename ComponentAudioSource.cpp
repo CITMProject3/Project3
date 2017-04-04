@@ -14,6 +14,7 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 {
 	wwise_id_go = App->rnd->RandomInt();
 	App->audio->RegisterGameObject(wwise_id_go);
+	App->audio->SetListeners(wwise_id_go);
 }
 
 ComponentAudioSource::~ComponentAudioSource()

@@ -57,7 +57,7 @@
                         1,
                         0,
                         0,
-                        0,
+                        24.130756,
                         0,
                         0.970296,
                         -0.241922,
@@ -98,8 +98,8 @@
                 },
                 {
                     "type": 16,
-                    "UUID": 3100129937,
-                    "active": true,
+                    "UUID": 2204031598,
+                    "active": false,
                     "listener ID": 0
                 }
             ]
@@ -299,9 +299,76 @@
                     "UUID": 2504175002,
                     "active": true,
                     "init_soundbank_lib_path": "\/Library\/25328520\/3387709041\/3387709041.bnk",
-                    "event_id": 3189471825,
-                    "event_name": "Double_Drum",
-                    "soundbank_lib_path": "\/Library\/25328520\/1122876640\/1122876640.bnk"
+                    "event_id": 2932040671,
+                    "event_name": "Play_Music",
+                    "soundbank_lib_path": "\/Library\/25328520\/3962561061\/3962561061.bnk"
+                }
+            ]
+        },
+        {
+            "name": "Camera2",
+            "UUID": 2794531927,
+            "local_UUID": 0,
+            "parent": 3243581974,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1501022098,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -23.287209,
+                        0,
+                        0.970296,
+                        -0.241922,
+                        3.110487,
+                        0,
+                        0.241922,
+                        0.970296,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 2494489451,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.917603,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -1,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": -431602080,
+                    "viewport_rel_pos_y": -431602080,
+                    "viewport_rel_size_x": -431602080,
+                    "viewport_rel_size_y": -431602080,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 16,
+                    "UUID": 1574167135,
+                    "active": false,
+                    "listener ID": 1
                 }
             ]
         }

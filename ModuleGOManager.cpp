@@ -220,17 +220,16 @@ bool ModuleGOManager::FastRemoveGameObject(GameObject * object)
 	return ret;
 }
 
-void ModuleGOManager::GetAllCameras(std::vector<ComponentCamera*>& list, GameObject* from) const
+void ModuleGOManager::GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from) const 
 {
 	GameObject* go = (from) ? from : root;
-	
-	ComponentCamera* cam = (ComponentCamera*)go->GetComponent(C_CAMERA);
-	if (cam)
-		list.push_back(cam);
-	
+
+	Component* component = go->GetComponent(type);
+	if (component) list.push_back(component);
+
 	const vector<GameObject*>* childs = go->GetChilds();
 	for (vector<GameObject*>::const_iterator child = childs->begin(); child != childs->end(); ++child)
-		GetAllCameras(list, (*child));
+		GetAllComponents(list, type,(*child));
 }
 
 ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
