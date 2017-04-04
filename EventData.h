@@ -3,8 +3,7 @@
 
 enum EventType
 {
-	E_LINK_GOS,
-	E_PLAY_SOUND
+	E_LINK_GOS
 };
 
 class EventData

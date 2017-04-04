@@ -77,6 +77,12 @@ void ComponentScript::Update()
 						start(GetGameObject());
 						started = true;
 					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
 				}
 				else
 				{
