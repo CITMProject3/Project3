@@ -599,13 +599,16 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 	if (heightMapImg)
 	{
 		// -------- Collecting all chunks and its data into a single array -------------------------------------------------
-		/*struct pos_chunk
+		struct pos_chunk
 		{
 			pos_chunk(chunk a, uint b, uint c) : Chunk(a), posX(b), posZ(c) {}
 			chunk Chunk;
 			uint posX;
 			uint posZ;
 		};
+
+		uint w = heightMapImg->GetWidth();
+		uint h = heightMapImg->GetHeight();
 
 		std::vector<pos_chunk> toSave;
 
@@ -618,7 +621,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		}
 
 		//Getting ready to store chunks. Uint stores the length of chunkData
-		uint totalChunkSize = 0;
+		uint size_totalChunkSize = 0;
 		std::vector<std::pair<uint, char*>> chunkData;
 		for (std::vector<pos_chunk>::iterator it_chunk = toSave.begin(); it_chunk != toSave.end(); it_chunk++)
 		{
@@ -632,7 +635,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			data.first += sizeof(uint) * it_chunk->Chunk.indices.size();
 
 			//Size of the chunk data + the uint that stores the length
-			totalChunkSize += data.first + sizeof(uint);
+			size_totalChunkSize += data.first + sizeof(uint);
 
 			//Generating the buffer to save this chunk data
 			data.second = new char[data.first];
@@ -656,29 +659,70 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			memcpy(buf_it, it_chunk->Chunk.indices.data(), bytes);
 		}
 
-		uint nVertices = sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight();
-		uint textureMapSize = sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight();
+		//Terrain size (heightmap width, heightmap height)
+		uint size_generalData = sizeof(uint) * 2;
+		//Number of vertices
+		uint size_vertices = sizeof(float3) * w * h;
+		//Normals
+		uint size_normals = sizeof(float3) * w * h;
+		//Texture map
+		uint size_textureMap = sizeof(float) * w * h + sizeof(uint);
 
+		//We're not saving UVs, we can regenerate them fastly
 
-
-		uint nIndices = 0;
-
-		char* chunks;
-
-
-		char* buf = new char[sizeof(uint) * 2 + heightMapSize + textureMapSize];
+		uint size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		char* buf = new char[size_total];
 		char* it = buf;
 
+		//Terrain width
 		uint bytes = sizeof(uint);
-		memcpy(it, &heightMapSize, bytes);
+		memcpy(it, &w, bytes);
+		it += bytes;
+		//Terrain height
+		memcpy(it, &h, bytes);
 		it += bytes;
 
+		//Vertices
+		bytes = sizeof(float3) * w * h;
+		memcpy(it, vertices, bytes);
+		it += bytes;
+
+		float3* normals = new float3[w*h];
+		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
+		glGetBufferSubData(GL_ARRAY_BUFFER, 0, w*h * sizeof(float3), normals);
+
+		//Normals
+		bytes = sizeof(float3) * w * h;
+		memcpy(it, normals, bytes);
+		it += bytes;
+
+		delete[] normals;
+
+		//Texture map
+		uint textureMapSize = w*h;
+		bytes = sizeof(uint);
 		memcpy(it, &textureMapSize, bytes);
 		it += bytes;
 
-		memcpy(it, vertices)*/
+		bytes = sizeof(float) * w * h;
+		memcpy(it, textureMap, bytes);
+		it += bytes;
 
-		return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+		for (std::vector<std::pair<uint, char*>>::iterator it_data = chunkData.begin(); it_data != chunkData.end(); it_data++)
+		{
+			//Chunks
+			bytes = sizeof(uint);
+			memcpy(it, &it_data->first, bytes);
+			it += bytes;
+
+			bytes = it_data->first;
+			memcpy(it, it_data->second, bytes);
+			it += bytes;
+
+			delete[] it_data->second;
+		}
+
+		return App->file_system->Save(path, buf, size_total);
 	}
 	return false;
 }
