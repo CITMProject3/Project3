@@ -167,8 +167,14 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 
 		if ((*object)->ChildCount() == 0)
 			flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		if ((*object)->IsActive() == false)
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5, 0.5, 0.5, 0.4));
+
 		ImGui::PushID((*object)->GetUUID());
 		bool open = ImGui::TreeNodeEx((*object)->name.data(), flags);
+		if ((*object)->IsActive() == false)
+			ImGui::PopStyleColor();
 		bool hasChilds = (*object)->ChildCount() > 0;
 		ImGui::PopID();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
