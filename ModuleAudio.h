@@ -12,6 +12,10 @@ struct AudioEvent
 {
 	std::string name;
 	unsigned int id = 0;
+
+	bool sound_3D = false;
+	float max_attenuation = 0.0f;
+
 	SoundBank *parent_soundbank = nullptr;
 };
 
@@ -28,7 +32,7 @@ class ComponentCamera;
 // Wwise docuemntation:
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
-#define MAX_LISTENERS 8
+#define MAX_LISTENERS 2
 
 class ModuleAudio : public Module
 {
@@ -62,10 +66,13 @@ public:
 
 	AudioEvent *FindEventById(unsigned event_id);
 
+	// Attenuation
+	void ModifyAttenuationFactor(float factor, unsigned int wwise_go_id);
+
 	// Listeners
-	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id); //Update pos and orientation
+	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id); // Update pos and orientation
 	void SetListeners(unsigned int wwise_go_id) const;
-	void AddListener(unsigned char listener_id);
+	unsigned int AddListener();
 	void RemoveListener(unsigned char listener_id);
 
 private:
@@ -96,8 +103,7 @@ private:
 
 	bool IsSoundBank(const std::string &file_to_check) const;
 
-	// Listeners
-	unsigned char active_listeners = 0;
+	unsigned char active_listeners = 0; // Listeners
 
 };
 

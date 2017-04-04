@@ -10,11 +10,11 @@
 #include "Wwise_Library.h"
 
 ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled)
-{}
+{ }
 
 // Destructor
 ModuleAudio::~ModuleAudio()
-{}
+{ }
 
 // Called before render is available
 bool ModuleAudio::Init(Data& config)
@@ -121,15 +121,20 @@ void ModuleAudio::SetListeners(unsigned int wwise_go_id) const
 	AK::SoundEngine::SetActiveListeners(wwise_go_id, active_listeners);
 }
 
-void ModuleAudio::AddListener(unsigned char listener_id)
+unsigned int ModuleAudio::AddListener()
 {
-	assert(listener_id < MAX_LISTENERS);
+	// Find free listener:
+	unsigned char new_listener = 1;
+	unsigned int listener_id = 0;
 
-	//if (active_listeners == 0)
-	//	active_listeners = 1;		// If there is no listener yet...
-
-	unsigned char new_listener = (1 << listener_id);	 // Obtaining bit position for new listener. I.e. Listener_id --> 3 , new_listener = 00001000
-	active_listeners |= new_listener;					 // One audio listener more to the current active listeners!
+	while (active_listeners & new_listener)
+	{
+		new_listener = new_listener << 1;
+		++listener_id;
+		assert(listener_id < MAX_LISTENERS);
+	}	
+	
+	active_listeners |= new_listener;	// One audio listener more to the current active listeners!
 
 	// Adapting all sources to the new listener configuration
 	std::vector<Component*> audio_sources;
@@ -140,6 +145,8 @@ void ModuleAudio::AddListener(unsigned char listener_id)
 		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
 		SetListeners(audio->GetWiseID());
 	}
+
+	return listener_id;
 }
 
 void ModuleAudio::RemoveListener(unsigned char listener_id)
@@ -156,6 +163,11 @@ void ModuleAudio::RemoveListener(unsigned char listener_id)
 		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
 		SetListeners(audio->GetWiseID());
 	}
+}
+
+void ModuleAudio::ModifyAttenuationFactor(float factor, unsigned int wwise_go_id)
+{
+	AK::SoundEngine::SetAttenuationScalingFactor(wwise_go_id, factor);
 }
 
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
@@ -193,6 +205,13 @@ unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 
 			a_event->id = std::stoul(events_info.GetString("Id"));
 			a_event->name = events_info.GetString("Name");
+
+			const char *attenuation = events_info.GetString("MaxAttenuation");
+			if (attenuation != nullptr)
+			{
+				a_event->max_attenuation = std::stof(attenuation);
+				a_event->sound_3D = true;
+			}			
 		}
 		
 		delete buf; // Freeing memory

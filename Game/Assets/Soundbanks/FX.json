@@ -24,13 +24,18 @@
       "Id": "3189471825",
       "Name": "Double_Drum",
       "ObjectPath": "\\Events\\Default Work Unit\\Double_Drum",
-      "GUID": "{BC62B95B-B5A1-4B8F-913C-905896E6627F}"
+      "GUID": "{BC62B95B-B5A1-4B8F-913C-905896E6627F}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.584604",
+      "DurationMax": "1.584604"
      },
      {
       "Id": "2674414691",
       "Name": "Water_Mill",
       "ObjectPath": "\\Events\\Default Work Unit\\Water_Mill",
-      "GUID": "{9919E716-C21E-449E-B8AC-2313AFE12436}"
+      "GUID": "{9919E716-C21E-449E-B8AC-2313AFE12436}",
+      "MaxAttenuation": "15.000000",
+      "DurationType": "Infinite"
      }
     ],
     "IncludedMemoryFiles": [

@@ -24,7 +24,9 @@
       "Id": "2932040671",
       "Name": "Play_Music",
       "ObjectPath": "\\Events\\Default Work Unit\\Play_Music",
-      "GUID": "{E1EA6A83-4CF3-43E8-8C61-8D985CC28522}"
+      "GUID": "{E1EA6A83-4CF3-43E8-8C61-8D985CC28522}",
+      "MaxAttenuation": "100.000000",
+      "DurationType": "Infinite"
      }
     ],
     "IncludedMemoryFiles": [

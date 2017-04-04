@@ -4,6 +4,7 @@
 #include "Component.h"
 #include <string>
 
+class Primitive;
 class ResourceFileAudio;
 struct AudioEvent;
 
@@ -37,13 +38,21 @@ public:
 private:	
 
 	ResourceFileAudio *rc_audio = nullptr;
-	AudioEvent *current_event = nullptr;
+	const AudioEvent *current_event = nullptr;
 
 	std::string event_selected;
 	unsigned int event_id = 0;			// only used when loading components from a saved scene.
 
 	unsigned int wwise_id_go;
 
+	float scale_factor_attenuation = 1.0f;
+	Primitive *attenuation_sphere = nullptr;
+
+	void UpdateEventSelected(const AudioEvent *new_event);
+	void CreateAttenuationShpere(const AudioEvent *event);
+	void DeleteAttenuationShpere();
+	void UpdateAttenuationSpherePos();
+	void ModifyAttenuationFactor();
 };
 
 
