@@ -794,6 +794,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 
 void ModulePhysics3D::LoadTextureMap(const char * path)
 {
+	BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
 		char* tmp = nullptr;		
 		uint size = App->file_system->Load(path, &tmp);		
 		if (size > 0)
@@ -854,56 +855,60 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 			it += bytes;
 
 			chunks.clear();
-
-			for (int n = 0; n < nChunks; n++)
 			{
-				uint size;
-				bytes = sizeof(uint);
-				memcpy(&size, it, bytes);
-				it += bytes;
-
-				int coordX, coordZ;
-				float3 minP, maxP;
-				uint* indices = new uint[size];
-
-				bytes = sizeof(int);
-				memcpy(&coordX, it, bytes);
-				it += bytes;
-				memcpy(&coordZ, it, bytes);
-				it += bytes;
-
-				bytes = sizeof(float3);
-				memcpy(&minP, it, bytes);
-				it += bytes;
-				memcpy(&maxP, it, bytes);
-				it += bytes;
-
-
-				std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
-				std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
-
-
-				it_x->second.SetAABB(minP, maxP);
-				it_x->second.indices.reserve(size);
-
-				bytes = sizeof(uint) * size;
-				memcpy(indices, it, bytes);
-				it += bytes;
-
-				for (int n = 0; n < size; n++)
+				BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap::GeneratingChunks", Profiler::Color::HoneyDew);
+				for (int n = 0; n < nChunks; n++)
 				{
-					it_x->second.indices.push_back(indices[n]);
-				}
-				it_x->second.GenBuffer();
-				RELEASE_ARRAY(indices);
-			}
+					uint size;
+					bytes = sizeof(uint);
+					memcpy(&size, it, bytes);
+					it += bytes;
 
+					int coordX, coordZ;
+					float3 minP, maxP;
+					uint* indices = new uint[size];
+
+					bytes = sizeof(int);
+					memcpy(&coordX, it, bytes);
+					it += bytes;
+					memcpy(&coordZ, it, bytes);
+					it += bytes;
+
+					bytes = sizeof(float3);
+					memcpy(&minP, it, bytes);
+					it += bytes;
+					memcpy(&maxP, it, bytes);
+					it += bytes;
+
+
+					std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
+					std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
+
+
+					it_x->second.SetAABB(minP, maxP);
+					it_x->second.indices.reserve(size);
+
+					bytes = sizeof(uint) * size;
+					memcpy(indices, it, bytes);
+					it += bytes;
+
+					for (int n = 0; n < size; n++)
+					{
+						it_x->second.indices.push_back(indices[n]);
+					}
+					it_x->second.GenBuffer();
+					RELEASE_ARRAY(indices);
+				}
+			}
 			RELEASE_ARRAY(tmp);
 
-			ReinterpretMesh();
-			ReinterpretHeightmapImg();
-			ReinterpretTextureMap();
-			GenerateUVs();
+			{
+				BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap::GenerateBuffers", Profiler::Color::HoneyDew);
+				ReinterpretMesh();
+				ReinterpretHeightmapImg();
+				ReinterpretTextureMap();
+				GenerateUVs();
+			}
 		}
 		
 }
