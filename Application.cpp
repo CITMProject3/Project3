@@ -63,10 +63,10 @@ Application::Application()
 	AddModule(input);
 	AddModule(g_Debug);
 	AddModule(scripting);
+	AddModule(physics);
 	AddModule(go_manager);
 	AddModule(camera);
 	AddModule(audio);
-	AddModule(physics);
 	AddModule(lighting);
 	
 	// Scenes
