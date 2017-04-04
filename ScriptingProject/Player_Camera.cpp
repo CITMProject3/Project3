@@ -23,7 +23,6 @@ namespace Player_Camera
 	//Public
 	float Player_Camera_distrance_y = 4.0;
 	float Player_Camera_distrance_z = -5.0;
-	float Player_Camera_min_distrance_z = -2.0;
 	float Player_Camera_direction_y = 2.0;
 	GameObject* Player_Camera_target = nullptr;
 	float Player_Camera_inclination_separation_y = 1.0;
@@ -39,7 +38,6 @@ namespace Player_Camera
 	{
 		public_float->insert(pair<const char*, float>("dist_y", Player_Camera_distrance_y));
 		public_float->insert(pair<const char*, float>("dist_z", Player_Camera_distrance_z));
-		public_float->insert(pair<const char*, float>("min_dist_z", Player_Camera_min_distrance_z));
 		public_float->insert(pair<const char*, float>("camera_y", Player_Camera_direction_y));
 		public_gos->insert(pair<const char*, GameObject*>("target", nullptr));
 		public_float->insert(pair<const char*, float>("inclination y max min", Player_Camera_inclination_separation_y));
@@ -55,7 +53,6 @@ namespace Player_Camera
 
 		Player_Camera_distrance_y = Player_Camera_script->public_floats.at("dist_y");
 		Player_Camera_distrance_z = Player_Camera_script->public_floats.at("dist_z");
-		Player_Camera_min_distrance_z = Player_Camera_script->public_floats.at("min_dist_z");
 		Player_Camera_direction_y = Player_Camera_script->public_floats.at("camera_y");
 		Player_Camera_target = Player_Camera_script->public_gos.at("target");
 		Player_Camera_inclination_separation_y = Player_Camera_script->public_floats.at("inclination y max min");
@@ -105,10 +102,7 @@ namespace Player_Camera
 			}
 
 			float3 Player_Camera_target_pos = float3::zero;
-			float z_relation = Player_Camera_distrance_z / Player_Camera_min_distrance_z; //minimum relation
-			if (game_object->transform->GetForward().Normalized().z > z_relation)
-				z_relation = game_object->transform->GetForward().Normalized().z;
-			Player_Camera_target_pos += (float3(game_object->transform->GetForward().Normalized().x, 0.0, z_relation) * total_dist_z);
+			Player_Camera_target_pos += (float3(game_object->transform->GetForward().Normalized().x, 0.0, game_object->transform->GetForward().Normalized().z) * total_dist_z);
 			Player_Camera_target_pos += (float3(0.0, total_dist_y, 0.0));
 
 			Player_Camera_target_pos += Player_Camera_target->transform->GetPosition();
