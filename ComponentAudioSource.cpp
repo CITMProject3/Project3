@@ -32,13 +32,7 @@ void ComponentAudioSource::Update()
 	math::float3 pos = game_object->transform->GetPosition();
 	AkListenerPosition ak_pos;
 	ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
-	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);
-
-	if (attenuation_sphere)
-	{
-		UpdateAttenuationSpherePos();
-		attenuation_sphere->Render();
-	}		
+	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);	
 
 	// Scripting needs THIS to properly trigger audio! What the fuck!
 	if (play_event)
@@ -120,6 +114,12 @@ void ComponentAudioSource::OnInspector(bool debug)
 			else
 				ImGui::Text("3D Sound disabled");			
 		}
+	}
+
+	if (debug && attenuation_sphere)
+	{
+		UpdateAttenuationSpherePos();
+		attenuation_sphere->Render();
 	}
 }
 

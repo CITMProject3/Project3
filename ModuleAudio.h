@@ -32,7 +32,7 @@ class ComponentCamera;
 // Wwise docuemntation:
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
-#define MAX_LISTENERS 2
+#define MAX_LISTENERS 8
 
 class ModuleAudio : public Module
 {
