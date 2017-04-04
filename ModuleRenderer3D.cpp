@@ -202,13 +202,15 @@ update_status ModuleRenderer3D::PostUpdate()
 
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
-	vector<ComponentCamera*> scene_cameras;
-	App->go_manager->GetAllCameras(scene_cameras);
+	vector<Component*> scene_cameras;
+	App->go_manager->GetAllComponents(scene_cameras, ComponentType::C_CAMERA);
+
 	for (size_t i = 0; i < scene_cameras.size(); ++i)
 	{
-		if (scene_cameras[i]->render_texture)
+		ComponentCamera *cam = (ComponentCamera*)scene_cameras[i];
+		if (cam->render_texture)
 		{
-			DrawScene(scene_cameras[i], true);
+			DrawScene(cam, true);
 		}
 	}
 

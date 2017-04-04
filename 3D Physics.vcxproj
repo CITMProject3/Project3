@@ -190,7 +190,6 @@
     <ClInclude Include="DebugDraw.h" />
     <ClInclude Include="EventData.h" />
     <ClInclude Include="EventLinkGos.h" />
-    <ClInclude Include="EventPlaySound.h" />
     <ClInclude Include="EventQueue.h" />
     <ClInclude Include="Events.h" />
     <ClInclude Include="FPSGraph.h" />
@@ -370,7 +369,6 @@
     <ClCompile Include="Data.cpp" />
     <ClCompile Include="DebugDraw.cpp" />
     <ClCompile Include="EventLinkGos.cpp" />
-    <ClCompile Include="EventPlaySound.cpp" />
     <ClCompile Include="EventQueue.cpp" />
     <ClCompile Include="flags.cpp" />
     <ClCompile Include="FPSGraph.cpp" />

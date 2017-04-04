@@ -3,7 +3,9 @@
 
 #include "Component.h"
 #include <string>
+#include <vector>
 
+class Primitive;
 class ResourceFileAudio;
 struct AudioEvent;
 
@@ -26,22 +28,36 @@ public:
 	void OnPlay();
 	void OnStop();
 
-	const AudioEvent *GetEvent() const;
 	long unsigned GetWiseID() const;
 
-	void PlayEvent() const;
-	void StopEvent() const;
+	void PlayEvent(unsigned index) const;
+	void StopEvent(unsigned index) const;
 
-private:
+	bool play_event_pending = false;
+	unsigned play_event_pending_index = 0;
 
-	ResourceFileAudio *rc_audio = nullptr;
-	AudioEvent *current_event = nullptr;
+private:	
 
-	std::string event_selected;
-	unsigned int event_id = 0;			// only used when loading components from a saved scene.
+	std::vector<const AudioEvent*> list_of_events;	
+	const AudioEvent *empty_event = nullptr;
 
 	unsigned int wwise_id_go;
 
+	float scale_factor_attenuation = 1.0f;
+	Primitive *attenuation_sphere = nullptr;
+
+	void UpdateEventSelected(unsigned int pos, const AudioEvent *new_event);
+	void CreateAttenuationShpere(const AudioEvent *event);
+	void DeleteAttenuationShpere();
+	void UpdateAttenuationSpherePos();
+	void ModifyAttenuationFactor();
+
+	void RemoveAllEvents();
+
+	// Inspector options
+	void ShowAddRemoveButtons();
+	void ShowListOfEvents();
+	void ShowPlayStopButtons(unsigned index);
 };
 
 

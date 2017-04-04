@@ -9,13 +9,16 @@
 #include <map>
 
 class GameObject;
+class Component;
 class ComponentCamera;
 class ComponentLight;
-class LayerSystem;
-class RaycastHit;
 class ComponentCanvas;
 
+class LayerSystem;
+class RaycastHit;
+
 enum LightType;
+enum ComponentType;
 
 #define OCTREE_SIZE 800
 #define TEMPORAL_SCENE "Library/temporal_scene.json"
@@ -48,7 +51,7 @@ public:
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); // Doesn't remove the GameObject from the parent list.
 
-	void GetAllCameras(std::vector<ComponentCamera*>& list, GameObject* from = nullptr) const;
+	void GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from = nullptr) const;
 	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;
 
 	void LoadEmptyScene();
