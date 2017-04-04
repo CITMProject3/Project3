@@ -684,9 +684,9 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			//AABB
 			totalSize += sizeof(float3) * 2;
 			//Indices
-			totalSize += sizeof(uint) * it_chunk->Chunk.indices.size();
+			totalSize += sizeof(uint) * it_chunk->Chunk.GetNIndices();
 
-			data.first = it_chunk->Chunk.indices.size();
+			data.first = it_chunk->Chunk.GetNIndices();
 
 			//Size of the chunk data + the uint that stores the length
 			size_totalChunkSize += totalSize + sizeof(uint);
@@ -712,7 +712,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			buf_it += bytes;
 
 			bytes = sizeof(uint) * data.first;
-			memcpy(buf_it, it_chunk->Chunk.indices.data(), bytes);
+			memcpy(buf_it, it_chunk->Chunk.indices, bytes);
 
 			chunkData.push_back(data);
 		}
@@ -866,7 +866,6 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 
 					int coordX, coordZ;
 					float3 minP, maxP;
-					uint* indices = new uint[size];
 
 					bytes = sizeof(int);
 					memcpy(&coordX, it, bytes);
@@ -884,20 +883,15 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 					std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
 					std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
 
-
+					it_x->second.indices = new uint[size];
+					it_x->second.nIndices = size;
 					it_x->second.SetAABB(minP, maxP);
-					it_x->second.indices.reserve(size);
 
 					bytes = sizeof(uint) * size;
-					memcpy(indices, it, bytes);
+					memcpy(it_x->second.indices, it, bytes);
 					it += bytes;
 
-					for (int n = 0; n < size; n++)
-					{
-						it_x->second.indices.push_back(indices[n]);
-					}
 					it_x->second.GenBuffer();
-					RELEASE_ARRAY(indices);
 				}
 			}
 			RELEASE_ARRAY(tmp);
@@ -2145,16 +2139,14 @@ chunk::~chunk()
 
 void chunk::GenBuffer()
 {
-	if (indices.empty() == false)
+	if (nIndices > 0)
 	{
 		if (indices_bufferID == 0)
 		{
 			glGenBuffers(1, (GLuint*) &(indices_bufferID));
 		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_bufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), indices.data(), GL_STATIC_DRAW);
-
-		indices.shrink_to_fit();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * nIndices, indices, GL_STATIC_DRAW);
 	}
 }
 
@@ -2165,27 +2157,41 @@ int chunk::GetBuffer()
 
 int chunk::GetNIndices()
 {
-	return indices.size();
+	return nIndices;
+}
+
+const uint * chunk::GetIndices()
+{
+	return indices;
 }
 
 void chunk::AddIndex(const uint& i)
 {
-	indices.push_back(i);
+	if (nIndices + 1 >= avaliableSpace)
+	{
+		avaliableSpace = nIndices + 64;
+		uint* tmp = new uint[avaliableSpace];
+		memcpy(tmp, indices, sizeof(uint) * nIndices);
+		RELEASE_ARRAY(indices);
+		indices = tmp;
+	}
+	indices[nIndices] = i;
+	nIndices++;
 }
 
 void chunk::UpdateAABB()
 {
 	aabb.SetNegativeInfinity();
-	for (std::vector<uint>::iterator it = indices.begin(); it != indices.end(); it++)
+	for (int n = 0; n < nIndices; n++)
 	{
-		uint a = (*it);
-		aabb.Enclose(App->physics->vertices[(*it)]);
+		aabb.Enclose(App->physics->vertices[indices[n]]);
 	}
 }
 
 void chunk::CleanIndices()
 {
-	indices.clear();
+	RELEASE_ARRAY(indices);
+	nIndices = 0;
 }
 
 void chunk::Render()

@@ -45,6 +45,7 @@ public:
 
 	int GetBuffer();
 	int GetNIndices();
+	const uint* GetIndices();
 
 	void GenBuffer();
 	void AddIndex(const uint& i);
@@ -57,8 +58,10 @@ public:
 	AABB GetAABB() { return aabb; }
 	void SetAABB(float3 minPoint, float3 MaxPoint);
 
-	std::vector<uint> indices;
+	uint* indices = nullptr;
+	uint nIndices = 0;
 private:
+	uint avaliableSpace = 0;
 	math::AABB aabb;
 	int indices_bufferID = 0;
 };
