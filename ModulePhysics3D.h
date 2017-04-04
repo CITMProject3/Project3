@@ -125,13 +125,15 @@ public:
 
 	bool TerrainIsGenerated();
 	float GetTerrainHeightScale() { return terrainMaxHeight; }
-	uint GetCurrentTerrainUUID();
-	const char* GetHeightmapPath();
 	int GetHeightmap();
 	float2 GetHeightmapSize();
 
 	void AutoGenerateTextureMap();
 	void ReinterpretTextureMap();
+
+	void ReinterpretHeightmapImg();
+
+	void ReinterpretMesh();
 
 	int GetTexture(uint n);
 	uint GetTextureUUID(uint n);
@@ -201,12 +203,15 @@ private:
 #pragma region Terrain
 	//Ordering chunks. First map contains Y coordinate, second one X. Chunks[y][x]
 	std::map<int, std::map<int, chunk>> chunks;
+	int terrainW = 0;
+	int terrainH = 0;
+	uint heightmap_bufferID = 0;
 
 	float3* vertices = nullptr;
+	float3* normals = nullptr;
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	ResourceFileTexture* heightMapImg = nullptr;
 	std::vector<ResourceFileTexture*> textures;
 	float textureScaling = 0.03f;
 	float terrainMaxHeight = 100.0f;

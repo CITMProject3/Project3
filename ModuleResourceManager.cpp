@@ -563,7 +563,7 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 	App->go_manager->root->Save(root_node);
 
-	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 
 	root_node.AppendArray("terrain_textures");
 	for (uint n = 0; n < App->physics->GetNTextures(); n++)
