@@ -2,17 +2,19 @@
 
 #include "Application.h"
 #include "ModuleFileSystem.h"
+#include "ModuleGOManager.h"
 
+#include "ComponentAudioSource.h"
 #include "ComponentCamera.h"
 
 #include "Wwise_Library.h"
 
 ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled)
-{}
+{ }
 
 // Destructor
 ModuleAudio::~ModuleAudio()
-{}
+{ }
 
 // Called before render is available
 bool ModuleAudio::Init(Data& config)
@@ -102,21 +104,70 @@ update_status ModuleAudio::PostUpdate()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleAudio::SetListener(const ComponentCamera *listener)
-{
-	this->listener = listener;
-}
-
 void ModuleAudio::UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id)
 {
-	math::float3 front = cam->GetFront();  // Orientation of the listener
-	math::float3 up = cam->GetUp();		// Top orientation of the listener
+	math::float3 front = cam->GetFront();   // Orientation of the listener
+	math::float3 up = cam->GetUp();			// Top orientation of the listener
 	math::float3 pos = cam->GetPos();	    // Position of the listener
 
 	AkListenerPosition ak_pos;
 	ak_pos.Set(pos.x, pos.z, pos.y, front.x, front.z, front.y, up.x, up.z, up.y);
 
 	AK::SoundEngine::SetListenerPosition(ak_pos, listener_id);
+}
+
+void ModuleAudio::SetListeners(unsigned int wwise_go_id) const
+{
+	AK::SoundEngine::SetActiveListeners(wwise_go_id, active_listeners);
+}
+
+unsigned int ModuleAudio::AddListener()
+{
+	// Find free listener:
+	unsigned char new_listener = 1;
+	unsigned int listener_id = 0;
+
+	while (active_listeners & new_listener)
+	{
+		new_listener = new_listener << 1;
+		++listener_id;
+		assert(listener_id < MAX_LISTENERS);
+	}	
+	
+	active_listeners |= new_listener;	// One audio listener more to the current active listeners!
+
+	// Adapting all sources to the new listener configuration
+	std::vector<Component*> audio_sources;
+	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
+
+	for (size_t i = 0; i < audio_sources.size(); ++i)
+	{
+		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
+		SetListeners(audio->GetWiseID());
+	}
+
+	return listener_id;
+}
+
+void ModuleAudio::RemoveListener(unsigned char listener_id)
+{
+	unsigned char listener_to_remove = ~(1 << listener_id);		// Obtaining bit position for listener to remove. I.e I.e. Listener_id --> 3 , new_listener = 11110111
+	active_listeners &= listener_to_remove;						// Deleting listener from the current active listeners!
+
+	// Adapting all sources to the new listener configuration
+	std::vector<Component*> audio_sources;
+	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
+
+	for (size_t i = 0; i < audio_sources.size(); ++i)
+	{
+		ComponentAudioSource *audio = (ComponentAudioSource*)audio_sources[i];
+		SetListeners(audio->GetWiseID());
+	}
+}
+
+void ModuleAudio::ModifyAttenuationFactor(float factor, unsigned int wwise_go_id)
+{
+	AK::SoundEngine::SetAttenuationScalingFactor(wwise_go_id, factor);
 }
 
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
@@ -154,6 +205,13 @@ unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 
 			a_event->id = std::stoul(events_info.GetString("Id"));
 			a_event->name = events_info.GetString("Name");
+
+			const char *attenuation = events_info.GetString("MaxAttenuation");
+			if (attenuation != nullptr)
+			{
+				a_event->max_attenuation = std::stof(attenuation);
+				a_event->sound_3D = true;
+			}			
 		}
 		
 		delete buf; // Freeing memory

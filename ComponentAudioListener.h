@@ -21,9 +21,7 @@ public:
 
 private:
 
-	static unsigned int num_listeners;
 	unsigned int listener_id;			 // 0 (first listener) - 7 (last listener)
-
 };
 
 

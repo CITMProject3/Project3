@@ -12,6 +12,10 @@ struct AudioEvent
 {
 	std::string name;
 	unsigned int id = 0;
+
+	bool sound_3D = false;
+	float max_attenuation = 0.0f;
+
 	SoundBank *parent_soundbank = nullptr;
 };
 
@@ -28,6 +32,8 @@ class ComponentCamera;
 // Wwise docuemntation:
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
+#define MAX_LISTENERS 8
+
 class ModuleAudio : public Module
 {
 public:
@@ -42,7 +48,6 @@ public:
 	bool Start();
 	bool CleanUp();
 
-	void SetListener(const ComponentCamera *listener);
 	void SetLibrarySoundbankPath(const char *lib_path);
 	const char *GetInitLibrarySoundbankPath() const;
 	unsigned int ExtractSoundBankInfo(std::string soundbank_path);
@@ -61,17 +66,20 @@ public:
 
 	AudioEvent *FindEventById(unsigned event_id);
 
-	// Update position and orientation of listener, using camera frustum for positions and orientations
-	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id);
+	// Attenuation
+	void ModifyAttenuationFactor(float factor, unsigned int wwise_go_id);
 
+	// Listeners
+	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id); // Update pos and orientation
+	void SetListeners(unsigned int wwise_go_id) const;
+	unsigned int AddListener();
+	void RemoveListener(unsigned char listener_id);
 
 private:
 
 	// We're using the default Low-Level I/O implementation that's part
 	// of the SDK's sample code, with the file package extension
 	CAkFilePackageLowLevelIOBlocking g_lowLevelIO;	
-	
-	const ComponentCamera *listener = nullptr;	// Component camera that incorporates the audio listener
 
 	// Soundbank related variables
 	std::string lib_base_path;
@@ -94,6 +102,8 @@ private:
 	bool StopCommunicationModule();
 
 	bool IsSoundBank(const std::string &file_to_check) const;
+
+	unsigned char active_listeners = 0; // Listeners
 
 };
 

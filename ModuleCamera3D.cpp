@@ -73,7 +73,6 @@ void ModuleCamera3D::OnPlay()
 void ModuleCamera3D::OnStop()
 {
 	App->renderer3D->SetCamera(GetEditorCamera());
-	App->audio->SetListener(GetEditorCamera());
 }
 
 update_status ModuleCamera3D::Update()

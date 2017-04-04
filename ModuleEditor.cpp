@@ -255,6 +255,8 @@ void ModuleEditor::DisplayWarning(WarningType type, const char *format, ...)
 
 update_status ModuleEditor::PreUpdate()
 {
+	//ImGui::ShowTestWindow();
+
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
 	using_mouse = ImGui::GetIO().WantCaptureMouse;
 

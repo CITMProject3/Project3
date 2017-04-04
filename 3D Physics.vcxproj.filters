@@ -90,7 +90,7 @@
     </Filter>
     <Filter Include="3rd Party Tools\MD5">
       <UniqueIdentifier>{16cf8ea8-7058-4ef8-9f21-3fc4cfe8fa7e}</UniqueIdentifier>
-      </Filter>
+    </Filter>
     <Filter Include="3rd Party Tools\Wwise\Wwise_files">
       <UniqueIdentifier>{e34f7f81-76e9-4000-91ab-87571abdf576}</UniqueIdentifier>
     </Filter>
@@ -705,9 +705,6 @@
     <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h">
       <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
     </ClInclude>
-    <ClInclude Include="EventPlaySound.h">
-      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1138,9 +1135,6 @@
     </ClCompile>
     <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="EventPlaySound.cpp">
-      <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
