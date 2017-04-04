@@ -1860,16 +1860,18 @@ void ModulePhysics3D::ReinterpretHeightmapImg()
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		float3* tmp = new float3[terrainW * terrainH];
 		memcpy(tmp, vertices, sizeof(float3) * terrainW * terrainH);
-		float maxHeight = 0.0f;
+		float newTerrainMaxHeight = 0.0f;
 		for (uint n = 0; n < terrainW * terrainH; n++)
 		{
-			maxHeight = Max(maxHeight, tmp[n].y);			
+			newTerrainMaxHeight = Max(newTerrainMaxHeight, tmp[n].y);
 		}
 		for (uint n = 0; n < terrainW * terrainH; n++)
 		{
-			tmp[n].y = tmp[n].y / maxHeight;
+			tmp[n].y = tmp[n].y / newTerrainMaxHeight;
 			tmp[n].x = tmp[n].z = tmp[n].y;
 		}
+
+		terrainMaxHeight = newTerrainMaxHeight;
 
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, terrainW, terrainH, 0, GL_RGB, GL_FLOAT, tmp);
 
