@@ -15,7 +15,7 @@ EventPlaySound::EventPlaySound(ComponentAudioSource *audio)
 
 bool EventPlaySound::Process()
 {
-	audio->PlayEvent();
+	//audio->PlayEvent();
 	return true;
 }
 

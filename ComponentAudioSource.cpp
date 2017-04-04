@@ -21,10 +21,9 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 
 ComponentAudioSource::~ComponentAudioSource()
 { 
-	App->audio->StopEvent(current_event, wwise_id_go);
 	App->audio->UnregisterGameObject(wwise_id_go);
-	if(current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
 	if (attenuation_sphere != nullptr) delete attenuation_sphere;
+	RemoveAllEvents();
 }
 
 void ComponentAudioSource::Update()
@@ -37,7 +36,7 @@ void ComponentAudioSource::Update()
 	// Scripting needs THIS to properly trigger audio! What the fuck!
 	if (play_event)
 	{
-		PlayEvent();
+		//PlayEvent();
 		play_event = false;
 	}
 }
@@ -67,42 +66,12 @@ void ComponentAudioSource::OnInspector(bool debug)
 		{
 			SetActive(is_active);
 		}
-
-		// Event selection
-		ImGui::Text("Event: ");
-		ImGui::SameLine();		
-
-		std::vector<AudioEvent*> events;
-		App->audio->ObtainEvents(events);
 		
-		if (ImGui::BeginMenu(event_selected.c_str()))
-		{
-			for (std::vector<AudioEvent*>::iterator it = events.begin(); it != events.end(); ++it)
-			{
-				if (ImGui::MenuItem((*it)->name.c_str()))
-				{
-					// Unloading unused Soundbank.
-					if (current_event != nullptr) App->resource_manager->UnloadResource(current_event->parent_soundbank->path);
-					// Loading new bank: first Init bank if it has been not loaded and then, the other one
-					if (!App->audio->IsInitSoundbankLoaded())
-						if (App->resource_manager->LoadResource(App->audio->GetInitLibrarySoundbankPath(), ResourceFileType::RES_SOUNDBANK) != nullptr)  // Init SB
-							App->audio->InitSoundbankLoaded();
-					rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
-
-					UpdateEventSelected(*it);
-				}				
-			}
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::Button("PLAY"))
-			PlayEvent();
-		ImGui::SameLine();
-		if (ImGui::Button("STOP"))
-			StopEvent();
+		ShowAddRemoveButtons();
+		ShowListOfEvents();		
 
 		ImGui::Separator();
-		if (current_event)
+	/*	if (current_event)
 		{
 			if (current_event->sound_3D)
 			{
@@ -113,7 +82,7 @@ void ComponentAudioSource::OnInspector(bool debug)
 			} 
 			else
 				ImGui::Text("3D Sound disabled");			
-		}
+		}*/
 	}
 
 	if (debug && attenuation_sphere)
@@ -123,14 +92,14 @@ void ComponentAudioSource::OnInspector(bool debug)
 	}
 }
 
-void ComponentAudioSource::PlayEvent() const
+void ComponentAudioSource::PlayEvent(unsigned index) const
 {
-	App->audio->PostEvent(current_event, wwise_id_go);
+	App->audio->PostEvent(list_of_events[index], wwise_id_go);
 }
 
-void ComponentAudioSource::StopEvent() const
+void ComponentAudioSource::StopEvent(unsigned index) const
 {
-	App->audio->StopEvent(current_event, wwise_id_go);
+	App->audio->StopEvent(list_of_events[index], wwise_id_go);
 }
 
 void ComponentAudioSource::OnPlay()
@@ -140,12 +109,10 @@ void ComponentAudioSource::OnPlay()
 
 void ComponentAudioSource::OnStop()
 {
-	StopEvent();
-}
-
-const AudioEvent *ComponentAudioSource::GetEvent() const
-{
-	return current_event;
+	for (size_t i = 0; i < list_of_events.size(); ++i)
+	{
+		StopEvent(i);
+	}
 }
 
 long unsigned ComponentAudioSource::GetWiseID() const
@@ -164,13 +131,13 @@ void ComponentAudioSource::Save(Data & file)const
 	data.AppendString("init_soundbank_lib_path", App->audio->GetInitLibrarySoundbankPath());
 
 	// Current event on this component Audio
-	if (current_event)
+	/*if (current_event)
 	{
 		data.AppendUInt("event_id", current_event->id);
 		data.AppendString("event_name", current_event->name.c_str());
 		data.AppendBool("3D_sound", current_event->sound_3D);
 		data.AppendString("soundbank_lib_path", current_event->parent_soundbank->path.c_str());
-	}	
+	}*/	
 
 	data.AppendFloat("scale_factor_attenuation", scale_factor_attenuation);
 
@@ -192,15 +159,15 @@ void ComponentAudioSource::Load(Data & conf)
 	scale_factor_attenuation = conf.GetFloat("scale_factor_attenuation");
 
 	// There are some events and the corresponding Soundbanks to load?
-	event_id = conf.GetUInt("event_id");
+	//event_id = conf.GetUInt("event_id");
 
-	if (event_id)
-	{
-		current_event = App->audio->FindEventById(event_id);
-		event_selected = current_event->name; // Name to show on Inspector
-		if (current_event->sound_3D) CreateAttenuationShpere(current_event);
-		rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
-	}
+	//if (event_id)
+	//{
+	//	current_event = App->audio->FindEventById(event_id);
+	//	event_selected = current_event->name; // Name to show on Inspector
+	//	if (current_event->sound_3D) CreateAttenuationShpere(current_event);
+	//	rc_audio = (ResourceFileAudio*)App->resource_manager->LoadResource(conf.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
+	//}
 }
 
 void ComponentAudioSource::Remove()
@@ -210,15 +177,18 @@ void ComponentAudioSource::Remove()
 
 // Attenuation related
 
-void ComponentAudioSource::UpdateEventSelected(const AudioEvent *new_event)
+void ComponentAudioSource::UpdateEventSelected(unsigned int index, const AudioEvent *new_event)
 {
-	event_selected = new_event->name; // Name to show on Inspector
-	current_event = new_event;		  // Variable that handles the new event
+	//event_selected = new_event->name; // Name to show on Inspector
 
-	if (new_event->sound_3D)
+	list_of_events[index] = new_event;
+
+	//current_event = new_event;		  // Variable that handles the new event
+
+	/*if (new_event->sound_3D)
 		CreateAttenuationShpere(new_event);
 	else
-		DeleteAttenuationShpere();
+		DeleteAttenuationShpere();*/
 }
 
 void ComponentAudioSource::CreateAttenuationShpere(const AudioEvent *event)
@@ -246,6 +216,90 @@ void ComponentAudioSource::UpdateAttenuationSpherePos()
 
 void ComponentAudioSource::ModifyAttenuationFactor()
 {
-	CreateAttenuationShpere(current_event);
+	//CreateAttenuationShpere(current_event);
 	App->audio->ModifyAttenuationFactor(scale_factor_attenuation, wwise_id_go);
+}
+
+void ComponentAudioSource::RemoveAllEvents()
+{
+	for (std::vector<const AudioEvent*>::iterator it = list_of_events.begin(); it != list_of_events.end(); ++it)
+	{
+		App->resource_manager->UnloadResource((*it)->parent_soundbank->path);  // Resource
+	}
+
+	list_of_events.clear();
+}
+
+// Inspector options
+void ComponentAudioSource::ShowAddRemoveButtons()
+{
+	// Add new audio source
+	if (ImGui::Button("+"))
+	{
+		list_of_events.push_back(empty_event);
+	}
+
+	ImGui::SameLine();
+
+	// Remove last audio source added
+	if (ImGui::Button("-") && !list_of_events.empty())
+	{
+		App->resource_manager->UnloadResource(list_of_events.back()->parent_soundbank->path);  // Resource
+		list_of_events.pop_back(); // Event
+	}
+}
+
+void ComponentAudioSource::ShowListOfEvents()
+{
+	std::vector<AudioEvent*> events;
+	App->audio->ObtainEvents(events);
+
+	// List of different events
+	unsigned index = 0;
+	for (std::vector<const AudioEvent*>::iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	{
+		ImGui::Text("ID %u", index);
+		ImGui::Text("Event: "); ImGui::SameLine();
+
+		// Name of the event with ## ID to separate the diferent fields
+		std::string event_name = (*curr_event != nullptr ? (*curr_event)->name.c_str() : "");
+		event_name += "##" + to_string(index);
+
+		// Showing available event options
+		if (ImGui::BeginMenu(event_name.c_str()))
+		{
+			for (std::vector<AudioEvent*>::iterator it = events.begin(); it != events.end(); ++it)
+			{
+				if (ImGui::MenuItem((*it)->name.c_str()))
+				{
+					// Unloading unused Soundbank.
+					if ((*curr_event) != nullptr) App->resource_manager->UnloadResource((*curr_event)->parent_soundbank->path);
+					// Loading new bank: first Init bank if it has been not loaded and then, the other one
+					if (!App->audio->IsInitSoundbankLoaded())
+						if (App->resource_manager->LoadResource(App->audio->GetInitLibrarySoundbankPath(), ResourceFileType::RES_SOUNDBANK) != nullptr)  // Init SB
+							App->audio->InitSoundbankLoaded();
+					App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
+
+					UpdateEventSelected(index, *it);
+				}
+			}
+			ImGui::EndMenu();
+		}
+
+		ShowPlayStopButtons(index);
+		++index;
+	}
+}
+
+void ComponentAudioSource::ShowPlayStopButtons(unsigned index)
+{
+	// Play and stop buttons for each event entry on Component
+	std::string play_button = "PLAY##" + std::to_string(index);
+	std::string stop_button = "STOP##" + std::to_string(index);
+
+	if (ImGui::Button(play_button.c_str()))
+		PlayEvent(index);
+	ImGui::SameLine();
+	if (ImGui::Button(stop_button.c_str()))
+		StopEvent(index);
 }
