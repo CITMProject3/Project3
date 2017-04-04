@@ -135,6 +135,10 @@ public:
 	void ReinterpretHeightmapImg();
 
 	void ReinterpretMesh();
+	void ReinterpretVertices();
+	void ReinterpretNormals();
+
+	void RegenerateNormals(int x0, int y0, int x1, int y1);
 
 	int GetTexture(uint n);
 	uint GetTextureUUID(uint n);

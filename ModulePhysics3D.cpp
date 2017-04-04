@@ -1664,49 +1664,7 @@ void ModulePhysics3D::GenerateNormals()
 
 		normals = new float3[numVertices];
 
-		for (int z = 0; z < h; z++)
-		{
-			for (int x = 0; x < w; x++)
-			{
-				Triangle t;
-				float3 norm = float3::zero;
-
-				//Top left
-				if (x - 1 > 0 && z - 1 > 0)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z - 1)* w + x];
-					t.c = vertices[(z)* w + x - 1];
-					norm += t.NormalCCW();
-				}
-				//Top right
-				if (x + 1 < w && z - 1 > 0)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z)* w + x + 1];
-					t.c = vertices[(z - 1)* w + x];
-					norm += t.NormalCCW();
-				}
-				//Bottom left
-				if (x - 1 > 0 && z + 1 < h)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z)* w + x - 1];
-					t.c = vertices[(z + 1)* w + x];
-					norm += t.NormalCCW();
-				}
-				//Bottom right
-				if (x + 1 < w && z + 1 < h)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z + 1)* w + x];
-					t.c = vertices[(z)* w + x + 1];
-					norm += t.NormalCCW();
-				}
-				norm.Normalize();
-				normals[z * w + x] = norm;
-			}
-		}
+		RegenerateNormals(0, 0, w, h);
 	}
 }
 
@@ -2022,6 +1980,12 @@ void ModulePhysics3D::ReinterpretHeightmapImg()
 
 void ModulePhysics3D::ReinterpretMesh()
 {
+	ReinterpretVertices();
+	ReinterpretNormals();
+}
+
+void ModulePhysics3D::ReinterpretVertices()
+{
 	//Load vertices buffer to VRAM
 	if (terrainVerticesBuffer == 0)
 	{
@@ -2029,7 +1993,10 @@ void ModulePhysics3D::ReinterpretMesh()
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * terrainW * terrainH, vertices, GL_STATIC_DRAW);
+}
 
+void ModulePhysics3D::ReinterpretNormals()
+{
 	//Load Normals -----------------------------------------------------------------------------------------------------------------------
 	if (terrainNormalBuffer == 0)
 	{
@@ -2037,6 +2004,57 @@ void ModulePhysics3D::ReinterpretMesh()
 	}
 	glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * terrainW * terrainH, normals, GL_STATIC_DRAW);
+}
+
+void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
+{
+	int w = terrainW;
+	int h = terrainH;
+	for (int z = y0; z < y1; z++)
+	{
+		for (int x = x0; x < x1; x++)
+		{
+			Triangle t;
+			float3 norm = float3::zero;
+
+			//Top left
+			if (x - 1 > x0 && z - 1 > y0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z - 1)* w + x];
+				t.c = vertices[(z)* w + x - 1];
+				norm += t.NormalCCW();
+			}
+			//Top right
+			if (x + 1 < x1 && z - 1 > y0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x + 1];
+				t.c = vertices[(z - 1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom left
+			if (x - 1 > x0 && z + 1 < y1)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x - 1];
+				t.c = vertices[(z + 1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom right
+			if (x + 1 < x1 && z + 1 < y1)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z + 1)* w + x];
+				t.c = vertices[(z)* w + x + 1];
+				norm += t.NormalCCW();
+			}
+			norm.Normalize();
+			normals[z * w + x] = norm;
+		}
+	}
+
+	ReinterpretNormals();
 }
 
 
