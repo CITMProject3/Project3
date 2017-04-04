@@ -182,6 +182,7 @@
       </PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Kmh_Counter.cpp" />
+    <ClCompile Include="PlayerObjectSelector.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />

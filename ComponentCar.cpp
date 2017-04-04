@@ -79,8 +79,6 @@ void ComponentCar::Update()
 {
 	if (App->IsGameRunning())
 	{
-		int vel = GetVelocity();
-		LOG("Component_Car vel: %i", vel);
 		if (vehicle)
 		{		
 			CheckGroundCollision();
@@ -122,7 +120,7 @@ void ComponentCar::OnPlay()
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
 {
-	if (player > 0 && player < App->input->GetNumberJoysticks())
+	if (player >= 0 && player < 4)
 	{
 		front_player = player;
 	}
@@ -130,7 +128,7 @@ void ComponentCar::SetFrontPlayer(PLAYER player)
 
 void ComponentCar::SetBackPlayer(PLAYER player)
 {
-	if (player > 0 && player < App->input->GetNumberJoysticks())
+	if (player >= 0 && player < 4)
 	{
 		back_player = player;
 	}

@@ -37,7 +37,13 @@ EXPORTS
 	Kmh_Counter_Update
 	Kmh_Counter_ActualizePublics
 
+	PlayerObjectSelector_GetPublics
+	PlayerObjectSelector_UpdatePublics
+	PlayerObjectSelector_Start
+
 	; Audio related scripts
 	Audio_PlaySound_Start
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
+
+

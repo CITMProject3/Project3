@@ -1396,11 +1396,11 @@
                         0.075000,
                         0,
                         0,
-                        0.467743,
+                        0.467999,
                         0,
                         0.075000,
                         0,
-                        -0.330170,
+                        -0.348259,
                         0,
                         0,
                         0.075000,
@@ -1452,7 +1452,7 @@
                     "type": 1,
                     "UUID": 3543868189,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3353965334.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3353965334.msh"
                 },
                 {
                     "type": 2,
@@ -1520,7 +1520,7 @@
                     "type": 1,
                     "UUID": 1414952903,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/1512535225.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/1512535225.msh"
                 },
                 {
                     "type": 2,
@@ -1588,7 +1588,7 @@
                     "type": 1,
                     "UUID": 496623300,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3088257181.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3088257181.msh"
                 },
                 {
                     "type": 2,
@@ -1656,7 +1656,7 @@
                     "type": 1,
                     "UUID": 3926067055,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/2825861926.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/2825861926.msh"
                 },
                 {
                     "type": 2,
@@ -1724,7 +1724,7 @@
                     "type": 1,
                     "UUID": 4271864779,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/2534374264.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/2534374264.msh"
                 },
                 {
                     "type": 2,
@@ -1792,7 +1792,7 @@
                     "type": 1,
                     "UUID": 1194508465,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/958095369.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/958095369.msh"
                 },
                 {
                     "type": 2,
@@ -1860,7 +1860,7 @@
                     "type": 1,
                     "UUID": 3415229198,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/187706019.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/187706019.msh"
                 },
                 {
                     "type": 2,
@@ -1928,7 +1928,7 @@
                     "type": 1,
                     "UUID": 2296027441,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3794396904.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3794396904.msh"
                 },
                 {
                     "type": 2,
@@ -1996,7 +1996,7 @@
                     "type": 1,
                     "UUID": 1987526087,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3354179034.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3354179034.msh"
                 },
                 {
                     "type": 2,
@@ -2064,7 +2064,7 @@
                     "type": 1,
                     "UUID": 2099949251,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/674923225.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/674923225.msh"
                 },
                 {
                     "type": 2,
@@ -2132,7 +2132,7 @@
                     "type": 1,
                     "UUID": 648260380,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3086603208.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3086603208.msh"
                 },
                 {
                     "type": 2,
@@ -2200,7 +2200,7 @@
                     "type": 1,
                     "UUID": 6566152,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/2782830991.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/2782830991.msh"
                 },
                 {
                     "type": 2,
@@ -2268,7 +2268,7 @@
                     "type": 1,
                     "UUID": 1486871380,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/3758662278.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/3758662278.msh"
                 },
                 {
                     "type": 2,
@@ -2373,7 +2373,7 @@
                     "type": 1,
                     "UUID": 2640462693,
                     "active": true,
-                    "path": "\/Library\/4226844473\/4244081050\/1699309632.msh"
+                    "path": "\/Library\/4226844473\/\/4244081050\/1699309632.msh"
                 },
                 {
                     "type": 2,
@@ -2458,13 +2458,13 @@
                     "matrix": [
                         0,
                         0,
-                        1.000001,
+                        0.999993,
                         -75.959808,
                         0,
                         1,
                         0,
-                        84.579323,
-                        -1.000001,
+                        84.188484,
+                        -0.999993,
                         0,
                         0,
                         37.859596,
@@ -3736,6 +3736,1069 @@
             ]
         },
         {
+            "name": "kart2",
+            "UUID": 2083649235,
+            "local_UUID": 0,
+            "parent": 3832415544,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4150864497,
+                    "active": true,
+                    "matrix": [
+                        0.075000,
+                        0,
+                        0,
+                        0.468000,
+                        0,
+                        0.075000,
+                        0,
+                        -0.348000,
+                        0,
+                        0,
+                        0.075000,
+                        -0.009000,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Steering_wheel",
+            "UUID": 3450974202,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4120049281,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -0.206397,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4171095167,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3353965334.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 593732077,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Front_Wheels",
+            "UUID": 3163036759,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1494058327,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2322389169,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/1512535225.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 999144175,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface4",
+            "UUID": 3077261702,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2207094568,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3289710808,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3088257181.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3950817904,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rope",
+            "UUID": 2877441723,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2654232868,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3210220263,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/2825861926.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1113840021,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Base_Structure",
+            "UUID": 151912386,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2735513727,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2285791090,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/2534374264.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1917542182,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Chair",
+            "UUID": 4068096048,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 655880447,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 4084849187,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/958095369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2379835799,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bumper",
+            "UUID": 667504835,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3911131025,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2341394837,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/187706019.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1859936026,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface2",
+            "UUID": 2738995884,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2722137933,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3789008679,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3794396904.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 302000021,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Protectors",
+            "UUID": 4260653489,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2384734065,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3549888979,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3354179034.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4261294730,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Back_Wheels",
+            "UUID": 3148944205,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1642522388,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3433492553,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/674923225.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1190433070,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Emblem2:Mesh",
+            "UUID": 1566260131,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2138568692,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2164228379,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3086603208.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1574820742,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface11",
+            "UUID": 2784029031,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3073909213,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2114421939,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/2782830991.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 38518699,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface15",
+            "UUID": 1960262050,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 369616224,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2226837865,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/3758662278.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3954948806,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Horns2:Mesh",
+            "UUID": 1811227693,
+            "local_UUID": 0,
+            "parent": 2083649235,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3591429731,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0.241377,
+                        0,
+                        1,
+                        0,
+                        1.125989,
+                        0,
+                        0,
+                        1,
+                        -1.073860,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Horns2:polySurface1",
+            "UUID": 3104154901,
+            "local_UUID": 0,
+            "parent": 1811227693,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1266425446,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2932415521,
+                    "active": true,
+                    "path": "\/Library\/4226844473\/\/4244081050\/1699309632.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2376135189,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Horns2:transform1",
+            "UUID": 1581891724,
+            "local_UUID": 0,
+            "parent": 1811227693,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3149619621,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Cameras",
             "UUID": 2030306015,
             "local_UUID": 2030306015,
@@ -3770,6 +4833,56 @@
                 {
                     "uuid": 3338027922,
                     "local_uuid": 3338027922
+                }
+            ]
+        },
+        {
+            "name": "PlayerObjectSelector",
+            "UUID": 26276029,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3495010794,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1118875142,
+                    "active": true,
+                    "script_path": "PlayerObjectSelector",
+                    "script_num": 0,
+                    "team1 component car": 3082689746,
+                    "team2 component car": 3832415544,
+                    "team1_car1": 1007469419,
+                    "team1_car2": 3810077895,
+                    "team2_car1": 2523031156,
+                    "team2_car2": 2083649235
                 }
             ]
         }
