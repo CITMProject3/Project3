@@ -598,8 +598,89 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 {	
 	if (heightMapImg)
 	{
+		// -------- Collecting all chunks and its data into a single array -------------------------------------------------
+		/*struct pos_chunk
+		{
+			pos_chunk(chunk a, uint b, uint c) : Chunk(a), posX(b), posZ(c) {}
+			chunk Chunk;
+			uint posX;
+			uint posZ;
+		};
+
+		std::vector<pos_chunk> toSave;
+
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				toSave.push_back(pos_chunk(it_x->second, it_x->first, it_z->first));
+			}
+		}
+
+		//Getting ready to store chunks. Uint stores the length of chunkData
+		uint totalChunkSize = 0;
+		std::vector<std::pair<uint, char*>> chunkData;
+		for (std::vector<pos_chunk>::iterator it_chunk = toSave.begin(); it_chunk != toSave.end(); it_chunk++)
+		{
+			std::pair<uint, char*> data;
+			data.first = 0;
+			//Coordinates
+			data.first += sizeof(uint) * 2;
+			//AABB
+			data.first += sizeof(float) * 6;
+			//Indices
+			data.first += sizeof(uint) * it_chunk->Chunk.indices.size();
+
+			//Size of the chunk data + the uint that stores the length
+			totalChunkSize += data.first + sizeof(uint);
+
+			//Generating the buffer to save this chunk data
+			data.second = new char[data.first];
+			char* buf_it = data.second;
+
+			//Coordinate X, Z
+			uint bytes = sizeof(uint);
+			memcpy(buf_it, &it_chunk->posX, bytes);
+			buf_it += bytes;
+			memcpy(buf_it, &it_chunk->posZ, bytes);
+			buf_it += bytes;
+
+			//AABB
+			bytes = sizeof(float3);
+			memcpy(buf_it, it_chunk->Chunk.GetAABB().minPoint.ptr(), bytes);
+			buf_it += bytes;
+			memcpy(buf_it, it_chunk->Chunk.GetAABB().maxPoint.ptr(), bytes);
+			buf_it += bytes;
+
+			bytes = sizeof(uint) * it_chunk->Chunk.indices.size();
+			memcpy(buf_it, it_chunk->Chunk.indices.data(), bytes);
+		}
+
+		uint nVertices = sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight();
+		uint textureMapSize = sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight();
+
+
+
+		uint nIndices = 0;
+
+		char* chunks;
+
+
+		char* buf = new char[sizeof(uint) * 2 + heightMapSize + textureMapSize];
+		char* it = buf;
+
+		uint bytes = sizeof(uint);
+		memcpy(it, &heightMapSize, bytes);
+		it += bytes;
+
+		memcpy(it, &textureMapSize, bytes);
+		it += bytes;
+
+		memcpy(it, vertices)*/
+
 		return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
 	}
+	return false;
 }
 
 void ModulePhysics3D::LoadTextureMap(const char * path)
