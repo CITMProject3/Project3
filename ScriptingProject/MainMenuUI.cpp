@@ -73,6 +73,8 @@ namespace Main_Menu_UI
 
 	void Main_Menu_UI_Start(GameObject* game_object)
 	{
+		current_scene = 0;
+		Main_Menu_UI_ActualizePublics(game_object);
 		if (start_menu != nullptr)
 		{
 			canvas->AddGoFocus(start_menu);

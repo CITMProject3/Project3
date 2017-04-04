@@ -100,7 +100,7 @@ namespace Start_Menu_UI
 		player_order[1] = -1;
 		player_order[2] = -1;
 		player_order[3] = -1;
-
+		Start_Menu_UI_ActualizePublics(game_object);
 		rb_pressed = false;
 		rt_pressed = false;
 		lb_pressed = false;
