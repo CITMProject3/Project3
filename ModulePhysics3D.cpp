@@ -144,6 +144,11 @@ update_status ModulePhysics3D::Update()
 			{
 				sculptTimer = 0.0f;
 				sculpted = false;
+				for (int n = 0; n < terrainW * terrainH; n++)
+				{
+					terrainData[n] = vertices[n].y;
+					realTerrainData[n] = terrainData[n] / terrainMaxHeight;
+				}
 				ReinterpretNormals();
 				ReinterpretHeightmapImg();
 			}
@@ -1157,6 +1162,53 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 		{
 		case sculpt_smooth:
 		{
+			if (brushSize > 0 && x - brushSize > 0 && y - brushSize > 0 && x + brushSize + 1 < terrainW && y + brushSize + 1 < terrainH)
+			{
+				float* result = new float[(brushSize * 2 + 1) * (brushSize * 2 + 1)];
+				float value = 0.0f;
+				int n = 0;
+				int a = 0;
+				int b = 0;
+
+				//Iterating all image pixels
+				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+				{
+					b = 0;
+					for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+					{
+#pragma region GaussianBlur
+						value = 0.0f;
+						n = 0;
+						//Iterating all nearby pixels and checking they actually exist in the image
+						for (int _y2 = _y - brushSize; _y2 <= _y + brushSize; _y2++)
+						{
+							for (int _x2 = _x - brushSize; _x2 <= _x + brushSize; _x2++)
+							{
+								n++;
+								value += vertices[_y2 * (brushSize * 2 + 1) + _x2].y;
+							}
+						}
+						value /= n;
+						result[a * (brushSize * 2 + 1) + b] = value;
+						b++;
+					}
+					a++;
+				}
+
+				a = 0;
+				b = 0;
+				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+				{
+					b = 0;
+					for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+					{
+						vertices[_y * terrainW + _x].y = result[a * (brushSize * 2 + 1) + b];
+						b++;
+					}
+					a++;
+				}
+				RELEASE_ARRAY(result);
+			}
 			break;
 		}
 		case sculpt_raise:
@@ -2112,7 +2164,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 			float3 norm = float3::zero;
 
 			//Top left
-			if (x - 1 > x0 && z - 1 > y0)
+			if (x - 1 > 0 && z - 1 > 0)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z - 1)* w + x];
@@ -2120,7 +2172,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				norm += t.NormalCCW();
 			}
 			//Top right
-			if (x + 1 < x1 && z - 1 > y0)
+			if (x + 1 < terrainW && z - 1 > 0)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x + 1];
@@ -2128,7 +2180,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				norm += t.NormalCCW();
 			}
 			//Bottom left
-			if (x - 1 > x0 && z + 1 < y1)
+			if (x - 1 > 0 && z + 1 < terrainH)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x - 1];
@@ -2136,7 +2188,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				norm += t.NormalCCW();
 			}
 			//Bottom right
-			if (x + 1 < x1 && z + 1 < y1)
+			if (x + 1 < terrainW && z + 1 < terrainH)
 			{
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z + 1)* w + x];
