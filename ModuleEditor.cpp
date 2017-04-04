@@ -778,7 +778,10 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 	ImGui::NewLine();
-	ImGui::Checkbox("Texture paint mode", &App->physics->paintMode);
+	if (ImGui::Checkbox("Texture paint mode", &App->physics->paintMode))
+	{
+		App->physics->sculptMode = false;
+	}
 	if (App->physics->paintMode)
 	{
 		ImGui::Text("Brush");
@@ -805,6 +808,22 @@ void ModuleEditor::PhysicsMenu()
 			}
 			ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
 		}
+	}
+
+	ImGui::NewLine();
+	ImGui::Separator();
+
+	if (ImGui::Checkbox("Sculpt mode", &App->physics->sculptMode))
+	{
+		App->physics->paintMode = false;
+	}
+	if (App->physics->sculptMode)
+	{
+		ImGui::InputInt("Brush Size", &App->physics->brushSize);
+		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
+		ImGui::RadioButton("Flatten", (int*)&App->physics->tool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
+		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->tool, SculptModeTools::sculpt_raise); ImGui::SameLine();
+		ImGui::RadioButton("Smooth", (int*)&App->physics->tool, SculptModeTools::sculpt_smooth);
 	}
 
 	ImGui::NewLine();

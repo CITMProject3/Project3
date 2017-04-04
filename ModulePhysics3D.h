@@ -73,6 +73,13 @@ enum TriggerType
 	T_ON_EXIT
 };
 
+enum SculptModeTools
+{
+	sculpt_smooth,
+	sculpt_raise,
+	sculpt_flatten
+};
+
 struct TriggerState
 {
 	TriggerState(PhysBody3D *body)
@@ -115,6 +122,8 @@ public:
 	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
 	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
+
+	void Sculpt(int x, int y, bool inverse = false);
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
@@ -263,7 +272,8 @@ private:
 	int directional_color_location = 0;
 	int directional_direction_location = 0;
 
-
+	bool sculpted = false;
+	float sculptTimer = 0.0f;
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
@@ -274,6 +284,8 @@ public:
 	bool sculptMode = false;
 	int paintTexture = 0;
 	int brushSize = 5;
+	float sculptStrength = 1.0f;
+	SculptModeTools tool = SculptModeTools::sculpt_smooth;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;
