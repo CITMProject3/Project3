@@ -33,7 +33,8 @@ public:
 	void PlayEvent(unsigned index) const;
 	void StopEvent(unsigned index) const;
 
-	bool play_event = false;
+	bool play_event_pending = false;
+	unsigned play_event_pending_index = 0;
 
 private:	
 

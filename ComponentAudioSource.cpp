@@ -34,10 +34,10 @@ void ComponentAudioSource::Update()
 	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);	
 
 	// Scripting needs THIS to properly trigger audio! What the fuck!
-	if (play_event)
+	if (play_event_pending)
 	{
 		//PlayEvent();
-		play_event = false;
+		play_event_pending = false;
 	}
 }
 
@@ -130,21 +130,31 @@ void ComponentAudioSource::Save(Data & file)const
 	// Saving Init Soundbank information. Must be loaded first when loading new scenes.
 	data.AppendString("init_soundbank_lib_path", App->audio->GetInitLibrarySoundbankPath());
 
-	// Current event on this component Audio
-	/*if (current_event)
-	{
-		data.AppendUInt("event_id", current_event->id);
-		data.AppendString("event_name", current_event->name.c_str());
-		data.AppendBool("3D_sound", current_event->sound_3D);
-		data.AppendString("soundbank_lib_path", current_event->parent_soundbank->path.c_str());
-	}*/	
-
+	// Scale factor for attenuation
 	data.AppendFloat("scale_factor_attenuation", scale_factor_attenuation);
+
+	// List of events
+	data.AppendArray("audio_events");
+	for (std::vector<const AudioEvent*>::const_iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	{
+		Data sound_event;
+		if ((*curr_event)) // Maybe the user hasn't selected any audio event...
+		{
+			sound_event.AppendUInt("event_id", (*curr_event)->id);
+			sound_event.AppendString("event_name", (*curr_event)->name.c_str());
+			sound_event.AppendBool("sound_3D", (*curr_event)->sound_3D);
+			sound_event.AppendString("soundbank_lib_path", (*curr_event)->parent_soundbank->path.c_str());
+		}
+		else
+			sound_event.AppendUInt("event_id", 0);
+
+		data.AppendArrayValue(sound_event);
+	}
 
 	file.AppendArrayValue(data);
 }
 
-void ComponentAudioSource::Load(Data & conf)
+void ComponentAudioSource::Load(Data &conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
@@ -157,6 +167,20 @@ void ComponentAudioSource::Load(Data & conf)
 	}		
 
 	scale_factor_attenuation = conf.GetFloat("scale_factor_attenuation");
+
+	for (size_t i = 0; i < conf.GetArraySize("audio_events"); ++i)
+	{
+		Data audio_event = conf.GetArray("audio_events", i);
+
+		const AudioEvent *a_event = App->audio->FindEventById(audio_event.GetUInt("event_id"));
+		if (a_event)
+		{
+			App->resource_manager->LoadResource(audio_event.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
+			list_of_events.push_back(a_event);
+		}			
+		else
+			list_of_events.push_back(empty_event);
+	}
 
 	// There are some events and the corresponding Soundbanks to load?
 	//event_id = conf.GetUInt("event_id");
@@ -224,7 +248,8 @@ void ComponentAudioSource::RemoveAllEvents()
 {
 	for (std::vector<const AudioEvent*>::iterator it = list_of_events.begin(); it != list_of_events.end(); ++it)
 	{
-		App->resource_manager->UnloadResource((*it)->parent_soundbank->path);  // Resource
+		if((*it) != nullptr)
+			App->resource_manager->UnloadResource((*it)->parent_soundbank->path);  // Resource
 	}
 
 	list_of_events.clear();
@@ -244,7 +269,8 @@ void ComponentAudioSource::ShowAddRemoveButtons()
 	// Remove last audio source added
 	if (ImGui::Button("-") && !list_of_events.empty())
 	{
-		App->resource_manager->UnloadResource(list_of_events.back()->parent_soundbank->path);  // Resource
+		if(list_of_events.back() != nullptr) // Unload Resource
+			App->resource_manager->UnloadResource(list_of_events.back()->parent_soundbank->path);
 		list_of_events.pop_back(); // Event
 	}
 }
