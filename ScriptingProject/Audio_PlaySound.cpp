@@ -28,6 +28,7 @@ namespace Audio_PlaySound
 	void Audio_PlaySound_OnCollision(PhysBody3D* col)
 	{
 		ComponentAudioSource *audio = (ComponentAudioSource*)col->GetCollider()->GetGameObject()->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		audio->play_event = true;
+		audio->play_event_pending = true;
+		audio->play_event_pending_index = 0;
 	}
 }
