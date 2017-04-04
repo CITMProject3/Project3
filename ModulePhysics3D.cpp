@@ -628,10 +628,10 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		// -------- Collecting all chunks and its data into a single array -------------------------------------------------
 		struct pos_chunk
 		{
-			pos_chunk(chunk a, uint b, uint c) : Chunk(a), posX(b), posZ(c) {}
+			pos_chunk(chunk a, int b, int c) : Chunk(a), posX(b), posZ(c) {}
 			chunk Chunk;
-			uint posX;
-			uint posZ;
+			int posX;
+			int posZ;
 		};
 
 		uint w = terrainW;
@@ -664,12 +664,14 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			//Size of the chunk data + the uint that stores the length
 			size_totalChunkSize += data.first + sizeof(uint);
 
+			data.first = sizeof(uint) * it_chunk->Chunk.indices.size();
+
 			//Generating the buffer to save this chunk data
 			data.second = new char[data.first];
 			char* buf_it = data.second;
 
 			//Coordinate X, Z
-			uint bytes = sizeof(uint);
+			uint bytes = sizeof(int);
 			memcpy(buf_it, &it_chunk->posX, bytes);
 			buf_it += bytes;
 			memcpy(buf_it, &it_chunk->posZ, bytes);
@@ -682,12 +684,12 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			memcpy(buf_it, it_chunk->Chunk.GetAABB().maxPoint.ptr(), bytes);
 			buf_it += bytes;
 
-			bytes = sizeof(uint) * it_chunk->Chunk.indices.size();
+			bytes = sizeof(uint) * data.first;
 			memcpy(buf_it, it_chunk->Chunk.indices.data(), bytes);
 		}
 
-		//Terrain size (heightmap width, heightmap height)
-		uint size_generalData = sizeof(uint) * 2;
+		//Terrain size (heightmap width, heightmap height, n chunks)
+		uint size_generalData = sizeof(uint) * 3;
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
@@ -714,25 +716,25 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, vertices, bytes);
 		it += bytes;
 
-		float3* normals = new float3[w*h];
-		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
-		glGetBufferSubData(GL_ARRAY_BUFFER, 0, w*h * sizeof(float3), normals);
-
 		//Normals
 		bytes = sizeof(float3) * w * h;
 		memcpy(it, normals, bytes);
 		it += bytes;
 
-		delete[] normals;
-
 		//Texture map
-		uint textureMapSize = w*h;
+		uint textureMapScale = 1;
 		bytes = sizeof(uint);
-		memcpy(it, &textureMapSize, bytes);
+		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(float) * w * h;
+		bytes = sizeof(float) * w * h * textureMapScale;
 		memcpy(it, textureMap, bytes);
+		it += bytes;
+
+		//Number of chunks
+		bytes = sizeof(uint);
+		uint nChunks = chunkData.size();
+		memcpy(it, &nChunks, bytes);
 		it += bytes;
 
 		for (std::vector<std::pair<uint, char*>>::iterator it_data = chunkData.begin(); it_data != chunkData.end(); it_data++)
@@ -750,6 +752,8 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		}
 
 		return App->file_system->Save(path, buf, size_total);
+
+		RELEASE_ARRAY(buf);
 	}
 	return false;
 }
@@ -760,15 +764,81 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 		uint size = App->file_system->Load(path, &tmp);		
 		if (size > 0)
 		{
+			char* it = tmp;
 
+			uint bytes = sizeof(uint);
+			memcpy(&terrainW, it, bytes);
+			it += bytes;
 
+			memcpy(&terrainH, it, bytes);
+			it += bytes;
 
+			RELEASE_ARRAY(vertices);
+			vertices = new float3[terrainW * terrainH];
+			bytes = sizeof(float3) * terrainW * terrainH;
+			memcpy(vertices, it, bytes);
+			it += bytes;
 
-			if (textureMap != nullptr)
+			RELEASE_ARRAY(normals);
+			normals = new float3[terrainW * terrainH];
+			memcpy(normals, it, bytes);
+			it += bytes;
+
+			bytes = sizeof(uint);
+			uint textureMapScale;
+			memcpy(&textureMapScale, it, bytes);
+			it += bytes;
+
+			RELEASE_ARRAY(textureMap);
+			textureMap = new float[terrainW * terrainH * textureMapScale];
+			bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
+			memcpy(textureMap, it, bytes);
+			it += bytes;
+
+			uint nChunks;
+			bytes = sizeof(uint);
+			memcpy(&nChunks, it, bytes);
+			it += bytes;
+
+			for (int n = 0; n < nChunks; n++)
 			{
-				delete[] textureMap;
+				uint size;
+				bytes = sizeof(uint);
+				memcpy(&size, it, bytes);
+				it += bytes;
+
+				int coordX, coordZ;
+				float3 minP, maxP;
+				uint* indices = new uint[size];
+
+				bytes = sizeof(int);
+				memcpy(&coordX, it, bytes);
+				it += bytes;
+				memcpy(&coordZ, it, bytes);
+				it += bytes;
+
+				bytes = sizeof(float3);
+				memcpy(&minP, it, bytes);
+				it += bytes;
+				memcpy(&maxP, it, bytes);
+				it += bytes;
+
+				bytes = sizeof(uint) * size;
+				memcpy(indices, it, bytes);
+				it += bytes;
+
+				chunks.clear();
+
+				std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
+				std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
+
+
+				//TODO
+				//WORKING HERE
 			}
-			textureMap = (float*)tmp;
+
+			ReinterpretMesh();
+			ReinterpretHeightmapImg();
 			ReinterpretTextureMap();
 		}
 		
