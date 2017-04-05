@@ -30,7 +30,7 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
-	if (App->IsGameRunning() == false || Static == true)
+	if (App->IsGameRunning() == false || Static == false)
 	{
 		if (primitive != nullptr)
 		{

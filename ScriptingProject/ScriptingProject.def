@@ -24,6 +24,7 @@ EXPORTS
 	Player_Camera_Start
 	Player_Camera_Update
 	Player_Camera_UpdatePublics
+	Player_Camera_ActualizePublics
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics
