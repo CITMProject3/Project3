@@ -1,0 +1,2904 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 965909917,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4221402420,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 265535805,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2663299906,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        -0.783867,
+                        -0.620962,
+                        0,
+                        0,
+                        0.620962,
+                        -0.783867,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 328043340,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Kart 1",
+            "UUID": 3082689746,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1604246270,
+                    "active": true,
+                    "matrix": [
+                        -0.013726,
+                        0,
+                        0.999906,
+                        18.111927,
+                        0,
+                        1,
+                        0,
+                        0.901065,
+                        -0.999906,
+                        0,
+                        -0.013726,
+                        -25.626162,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 9,
+                    "UUID": 3162055570,
+                    "active": true,
+                    "lose_height": 0,
+                    "chasis_size": [
+                        1,
+                        0.200000,
+                        2
+                    ],
+                    "chasis_offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "turn_over_reset_time": 5,
+                    "acceleration": 1000,
+                    "max_speed": 80,
+                    "min_speed": -20,
+                    "fake_break": 100,
+                    "base_turn_max": 0.700000,
+                    "turn_speed": 1.500000,
+                    "time_to_idle": 0.100000,
+                    "idle_turn_by_interpolation": true,
+                    "velocity_to_change": 10,
+                    "turn_max_limit": 0.010000,
+                    "base_max_turn_change_speed": -0.010000,
+                    "base_max_turn_change_accel": -0.100000,
+                    "limit_to_a_turn_max": false,
+                    "accelerated_change": false,
+                    "current_max_turn_change_mode": 1,
+                    "push_force": 10000,
+                    "push_speed_per": 60,
+                    "brakeForce": 20,
+                    "backForce": 500,
+                    "full_brake_force": 300,
+                    "lean_accel_boost": 25,
+                    "lean_speed_boost": 25,
+                    "lean_turn_strict": 25,
+                    "driftRatio": 0.500000,
+                    "driftMult": 1.800000,
+                    "driftBoost": 1,
+                    "driftMinSpeed": 20,
+                    "miniturbo_accel_boost": 300,
+                    "miniturbo_speed_boost": 25,
+                    "miniturbo_turbo_speed": -431602080,
+                    "miniturbo_deceleration": 1,
+                    "miniturbo_time": 1,
+                    "miniturbo_accel_per": false,
+                    "miniturbo_speed_per": false,
+                    "miniturbo_speed_direct": false,
+                    "miniturbo_speed_decrease": false,
+                    "drift_turbo_2_accel_boost": 300,
+                    "drift_turbo_2_speed_boost": 35,
+                    "drift_turbo_2_turbo_speed": -431602080,
+                    "drift_turbo_2_deceleration": 1,
+                    "drift_turbo_2_time": 1,
+                    "drift_turbo_2_accel_per": false,
+                    "drift_turbo_2_speed_per": false,
+                    "drift_turbo_2_speed_direct": false,
+                    "drift_turbo_2_speed_decrease": false,
+                    "drift_turbo_3_accel_boost": 300,
+                    "drift_turbo_3_speed_boost": 45,
+                    "drift_turbo_3_turbo_speed": -431602080,
+                    "drift_turbo_3_deceleration": 1,
+                    "drift_turbo_3_time": 2,
+                    "drift_turbo_3_accel_per": false,
+                    "drift_turbo_3_speed_per": false,
+                    "drift_turbo_3_speed_direct": false,
+                    "drift_turbo_3_speed_decrease": false,
+                    "rocket_turbo_accel_boost": 0,
+                    "rocket_turbo_speed_boost": 50,
+                    "rocket_turbo_turbo_speed": -431602080,
+                    "rocket_turbo_deceleration": 1,
+                    "rocket_turbo_time": 5,
+                    "rocket_turbo_accel_per": false,
+                    "rocket_turbo_speed_per": false,
+                    "rocket_turbo_speed_direct": false,
+                    "rocket_turbo_speed_decrease": false,
+                    "connection_height": 0.100000,
+                    "wheel_radius": 0.300000,
+                    "wheel_width": 0.200000,
+                    "mass": 400,
+                    "suspensionStiffness": 100,
+                    "suspensionCompression": 0.830000,
+                    "suspensionDamping": 20,
+                    "suspensionRestLength": 0.300000,
+                    "maxSuspensionTravelCm": 1000,
+                    "frictionSlip": 50.500000,
+                    "maxSuspensionForce": 6000
+                }
+            ]
+        },
+        {
+            "name": "tmp_kart_mesh",
+            "UUID": 1007469419,
+            "local_UUID": 0,
+            "parent": 3082689746,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2619352752,
+                    "active": true,
+                    "matrix": [
+                        0.075000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.075000,
+                        0,
+                        -0.329681,
+                        0,
+                        0,
+                        0.075000,
+                        0.201130,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "LOW",
+            "UUID": 2668298504,
+            "local_UUID": 0,
+            "parent": 1007469419,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1023186913,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        17.611542,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ornament2",
+            "UUID": 2553900630,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2566292884,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3801463371,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2081494206.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3120299324,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ornament",
+            "UUID": 1924896121,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1715229144,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 647743774,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/33601684.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2360620937,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Panel",
+            "UUID": 4205806582,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3985265961,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2528631039,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/456516197.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1409260345,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Seat",
+            "UUID": 606420428,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2940032814,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 795509758,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/4073421960.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1292343209,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tires",
+            "UUID": 4245189279,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2664230124,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        1.738173,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_r",
+            "UUID": 333748280,
+            "local_UUID": 0,
+            "parent": 4245189279,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 260715896,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2440119714,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1710656107.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1751040109,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_l",
+            "UUID": 249436661,
+            "local_UUID": 0,
+            "parent": 4245189279,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2026256407,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2196877115,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1729273789.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3966316601,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_r_l",
+            "UUID": 2935901144,
+            "local_UUID": 0,
+            "parent": 4245189279,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 200766098,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 843277664,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/3530069254.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4046069662,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_r_r",
+            "UUID": 2160454773,
+            "local_UUID": 0,
+            "parent": 4245189279,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2992501986,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3485240145,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1901027870.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 858007454,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "wheel",
+            "UUID": 993576941,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 596816059,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3208134488,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/497756904.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1467513894,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Body",
+            "UUID": 1318324584,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 945926862,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2768039193,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/703862061.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3813005811,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Head",
+            "UUID": 2966125229,
+            "local_UUID": 0,
+            "parent": 2668298504,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1924017400,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "UpTeeth",
+            "UUID": 1309513738,
+            "local_UUID": 0,
+            "parent": 2966125229,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1936741345,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1968480612,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2968176032.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 777685984,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "LowTeeth",
+            "UUID": 448797952,
+            "local_UUID": 0,
+            "parent": 2966125229,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 298802959,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2788896895,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2200162712.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 919824630,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Teeth",
+            "UUID": 1212547383,
+            "local_UUID": 0,
+            "parent": 2966125229,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 872647829,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3271418501,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1652321417.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3423818280,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tongue",
+            "UUID": 2989965148,
+            "local_UUID": 0,
+            "parent": 2966125229,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 525461912,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3500301536,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1226138805.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4279634990,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Head2",
+            "UUID": 2389732626,
+            "local_UUID": 0,
+            "parent": 2966125229,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1401664624,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1745794002,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/123276981.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 523915860,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Kart 2",
+            "UUID": 3832415544,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 47594509,
+                    "active": true,
+                    "matrix": [
+                        0.071025,
+                        0,
+                        0.997474,
+                        14.378477,
+                        0,
+                        1,
+                        0,
+                        0.369237,
+                        -0.997474,
+                        0,
+                        0.071025,
+                        -21.359079,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 9,
+                    "UUID": 1556886816,
+                    "active": true,
+                    "lose_height": 0,
+                    "chasis_size": [
+                        1,
+                        0.200000,
+                        2
+                    ],
+                    "chasis_offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "turn_over_reset_time": 5,
+                    "acceleration": 1000,
+                    "max_speed": 80,
+                    "min_speed": -20,
+                    "fake_break": 100,
+                    "base_turn_max": 0.700000,
+                    "turn_speed": 1.500000,
+                    "time_to_idle": 0.100000,
+                    "idle_turn_by_interpolation": true,
+                    "velocity_to_change": 10,
+                    "turn_max_limit": 0.010000,
+                    "base_max_turn_change_speed": -0.010000,
+                    "base_max_turn_change_accel": -0.100000,
+                    "limit_to_a_turn_max": false,
+                    "accelerated_change": false,
+                    "current_max_turn_change_mode": 1,
+                    "push_force": 10000,
+                    "push_speed_per": 60,
+                    "brakeForce": 20,
+                    "backForce": 500,
+                    "full_brake_force": 300,
+                    "lean_accel_boost": 25,
+                    "lean_speed_boost": 25,
+                    "lean_turn_strict": 25,
+                    "driftRatio": 0.500000,
+                    "driftMult": 1.800000,
+                    "driftBoost": 1,
+                    "driftMinSpeed": 20,
+                    "miniturbo_accel_boost": 300,
+                    "miniturbo_speed_boost": 25,
+                    "miniturbo_turbo_speed": -431602080,
+                    "miniturbo_deceleration": 1,
+                    "miniturbo_time": 1,
+                    "miniturbo_accel_per": false,
+                    "miniturbo_speed_per": false,
+                    "miniturbo_speed_direct": false,
+                    "miniturbo_speed_decrease": false,
+                    "drift_turbo_2_accel_boost": 300,
+                    "drift_turbo_2_speed_boost": 35,
+                    "drift_turbo_2_turbo_speed": -431602080,
+                    "drift_turbo_2_deceleration": 1,
+                    "drift_turbo_2_time": 1,
+                    "drift_turbo_2_accel_per": false,
+                    "drift_turbo_2_speed_per": false,
+                    "drift_turbo_2_speed_direct": false,
+                    "drift_turbo_2_speed_decrease": false,
+                    "drift_turbo_3_accel_boost": 300,
+                    "drift_turbo_3_speed_boost": 45,
+                    "drift_turbo_3_turbo_speed": -431602080,
+                    "drift_turbo_3_deceleration": 1,
+                    "drift_turbo_3_time": 2,
+                    "drift_turbo_3_accel_per": false,
+                    "drift_turbo_3_speed_per": false,
+                    "drift_turbo_3_speed_direct": false,
+                    "drift_turbo_3_speed_decrease": false,
+                    "rocket_turbo_accel_boost": 0,
+                    "rocket_turbo_speed_boost": 50,
+                    "rocket_turbo_turbo_speed": -431602080,
+                    "rocket_turbo_deceleration": 1,
+                    "rocket_turbo_time": 5,
+                    "rocket_turbo_accel_per": false,
+                    "rocket_turbo_speed_per": false,
+                    "rocket_turbo_speed_direct": false,
+                    "rocket_turbo_speed_decrease": false,
+                    "connection_height": 0.100000,
+                    "wheel_radius": 0.300000,
+                    "wheel_width": 0.200000,
+                    "mass": 400,
+                    "suspensionStiffness": 100,
+                    "suspensionCompression": 0.830000,
+                    "suspensionDamping": 20,
+                    "suspensionRestLength": 0.300000,
+                    "maxSuspensionTravelCm": 1000,
+                    "frictionSlip": 50.500000,
+                    "maxSuspensionForce": 6000
+                }
+            ]
+        },
+        {
+            "name": "tmp_kart_mesh",
+            "UUID": 2523031156,
+            "local_UUID": 0,
+            "parent": 3832415544,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2619352752,
+                    "active": true,
+                    "matrix": [
+                        0.075000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.075000,
+                        0,
+                        -0.322296,
+                        0,
+                        0,
+                        0.075000,
+                        0.188519,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "LOW",
+            "UUID": 718274664,
+            "local_UUID": 0,
+            "parent": 2523031156,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1023186913,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        17.611542,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ornament2",
+            "UUID": 1145985170,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2566292884,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3801463371,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2081494206.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3120299324,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Ornament",
+            "UUID": 2845063681,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1715229144,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 647743774,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/33601684.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2360620937,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Panel",
+            "UUID": 2647268695,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3985265961,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2528631039,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/456516197.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1409260345,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Seat",
+            "UUID": 655390101,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2940032814,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 795509758,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/4073421960.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1292343209,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tires",
+            "UUID": 3947626075,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2664230124,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        1.738173,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_r",
+            "UUID": 2396876176,
+            "local_UUID": 0,
+            "parent": 3947626075,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 260715896,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2440119714,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1710656107.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1751040109,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_f_l",
+            "UUID": 737026160,
+            "local_UUID": 0,
+            "parent": 3947626075,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2026256407,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2196877115,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1729273789.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3966316601,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_r_l",
+            "UUID": 1708302843,
+            "local_UUID": 0,
+            "parent": 3947626075,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 200766098,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 843277664,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/3530069254.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4046069662,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tire_r_r",
+            "UUID": 292384115,
+            "local_UUID": 0,
+            "parent": 3947626075,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2992501986,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.401633,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3485240145,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1901027870.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 858007454,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "wheel",
+            "UUID": 54884625,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 596816059,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3208134488,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/497756904.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1467513894,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Body",
+            "UUID": 2653372054,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 945926862,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2768039193,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/703862061.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3813005811,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        0,
+                        1,
+                        0.815686
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/2353458490\/2353458490.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Head",
+            "UUID": 4021546971,
+            "local_UUID": 0,
+            "parent": 718274664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1924017400,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "UpTeeth",
+            "UUID": 2019881664,
+            "local_UUID": 0,
+            "parent": 4021546971,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1936741345,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1968480612,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2968176032.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 777685984,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "LowTeeth",
+            "UUID": 638093013,
+            "local_UUID": 0,
+            "parent": 4021546971,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 298802959,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2788896895,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/2200162712.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 919824630,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Teeth",
+            "UUID": 993829808,
+            "local_UUID": 0,
+            "parent": 4021546971,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 872647829,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3271418501,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1652321417.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3423818280,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Tongue",
+            "UUID": 2392436142,
+            "local_UUID": 0,
+            "parent": 4021546971,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 525461912,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3500301536,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/1226138805.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4279634990,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Head2",
+            "UUID": 2252210364,
+            "local_UUID": 0,
+            "parent": 4021546971,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1401664624,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1745794002,
+                    "active": true,
+                    "path": "\/Library\/1170214677\/\/2509426862\/123276981.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 523915860,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1170214677\/\/574670496\/574670496.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Camera 1",
+            "UUID": 919851984,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3340626909,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 214756153,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 0.934513,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -3,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 0.495000,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 10,
+                    "UUID": 3991982533,
+                    "active": true,
+                    "script_path": "Player_Camera",
+                    "script_num": 0,
+                    "dist_y": 4,
+                    "dist_z": -5,
+                    "camera_y": 2,
+                    "inclination y max min": 1,
+                    "inclination z max min": 1,
+                    "y change boost": 0.500000,
+                    "z change boost": 0.500000,
+                    "fov change boost": 5,
+                    "target": 3082689746
+                }
+            ]
+        },
+        {
+            "name": "Camera 2",
+            "UUID": 3223094229,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 557031826,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 3601715822,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 0.934513,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -3,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0.505000,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 0.495000,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                },
+                {
+                    "type": 10,
+                    "UUID": 2851470002,
+                    "active": true,
+                    "script_path": "Player_Camera",
+                    "script_num": 0,
+                    "dist_y": 4,
+                    "dist_z": -5,
+                    "camera_y": 2,
+                    "inclination y max min": 1,
+                    "inclination z max min": 1,
+                    "y change boost": 0.500000,
+                    "z change boost": 0.500000,
+                    "fov change boost": 5,
+                    "target": 3832415544
+                }
+            ]
+        },
+        {
+            "name": "Camera UI",
+            "UUID": 3338027922,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 394459363,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 3,
+                    "UUID": 292307308,
+                    "active": true,
+                    "near_plane": 0.300000,
+                    "far_plane": 1000,
+                    "fov": 60,
+                    "aspect_ratio": 1.887906,
+                    "color": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "layer_mask": -2,
+                    "render_texture_path": "",
+                    "render_texture_path_lib": "",
+                    "viewport_rel_pos_x": 0,
+                    "viewport_rel_pos_y": 0,
+                    "viewport_rel_size_x": 1,
+                    "viewport_rel_size_y": 1,
+                    "followSmooth": false,
+                    "followMovSpeed": 0.100000,
+                    "followRotSpeed": 0.100000
+                }
+            ]
+        }
+    ],
+    "terrain": "\/Library\/2431007132\/\/2262142902\/2262142902.dds",
+    "terrain_textures": [
+        {
+            "path": "\/Library\/2431007132\/\/2286225671\/2286225671.dds"
+        },
+        {
+            "path": "\/Library\/2431007132\/\/1950075827\/1950075827.dds"
+        }
+    ],
+    "terrain_scaling": 100,
+    "terrain_tex_scaling": 0.030000,
+    "current_assets_scene_path": "\/Assets\/test_scene2.ezx",
+    "current_library_scene_path": "\/Library\/\/1503132355\/1503132355.ezx"
+} 
