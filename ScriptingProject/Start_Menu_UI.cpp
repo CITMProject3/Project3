@@ -24,7 +24,7 @@ namespace Start_Menu_UI
 	GameObject* rt_button = nullptr;
 	GameObject* lb_button = nullptr;
 	GameObject* lt_button = nullptr;
-
+	GameObject* start_but = nullptr;
 	ComponentUiButton* c_rb = nullptr;
 	ComponentUiButton* c_rt = nullptr;
 	ComponentUiButton* c_lb = nullptr;
@@ -43,7 +43,7 @@ namespace Start_Menu_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("LT Button", lt_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("RB Button", rb_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("RT Button", rt_button));
-
+		public_gos->insert(std::pair<const char*, GameObject*>("Start Button", start_but));
 		public_ints->insert(std::pair<const char*, int>("Player1", player_order[0]));
 		public_ints->insert(std::pair<const char*, int>("Player2", player_order[1]));
 		public_ints->insert(std::pair<const char*, int>("Player3", player_order[2]));
@@ -58,7 +58,7 @@ namespace Start_Menu_UI
 		rt_button = test_script->public_gos.at("RT Button");
 		lb_button = test_script->public_gos.at("LB Button");
 		lt_button = test_script->public_gos.at("LT Button");
-
+		start_but = test_script->public_gos.at("Start Button");
 		player_order[0] = test_script->public_ints.at("Player1");
 		player_order[1] = test_script->public_ints.at("Player2");
 		player_order[2] = test_script->public_ints.at("Player3");
@@ -80,7 +80,7 @@ namespace Start_Menu_UI
 		test_script->public_gos.at("RT Button") = rt_button;
 		test_script->public_gos.at("LB Button") = lb_button;
 		test_script->public_gos.at("LT Button") = lt_button;
-
+		test_script->public_gos.at("Start Button") = start_but;
 		test_script->public_ints.at("Player1") = player_order[0];
 		test_script->public_ints.at("Player2") = player_order[1];
 		test_script->public_ints.at("Player3") = player_order[2];
@@ -100,6 +100,7 @@ namespace Start_Menu_UI
 		player_order[1] = -1;
 		player_order[2] = -1;
 		player_order[3] = -1;
+		start_but->SetActive(false);
 		Start_Menu_UI_ActualizePublics(game_object);
 		rb_pressed = false;
 		rt_pressed = false;
@@ -248,6 +249,7 @@ namespace Start_Menu_UI
 
 				if (total == 6)
 				{
+					start_but->SetActive(true);
 					if (App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 					{
 						ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
