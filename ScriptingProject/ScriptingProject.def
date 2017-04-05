@@ -70,7 +70,9 @@ EXPORTS
 	PlayerObjectSelector_Start
 
 	; Audio related scripts
+	Audio_PlaySound_GetPublics
+	Audio_PlaySound_UpdatePublics
+	Audio_PlaySound_ActualizePublics
 	Audio_PlaySound_Start
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
-
