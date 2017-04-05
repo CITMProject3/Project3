@@ -64,8 +64,8 @@ void ComponentCamera::PreUpdate()
 
 void ComponentCamera::Update()
 {
-	if (App->StartInGame() == false)
-		g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
+	if (App->StartInGame() == false && App->IsGameRunning() == false)
+			g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
 void ComponentCamera::OnInspector(bool debug)
