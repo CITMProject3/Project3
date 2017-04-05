@@ -87,7 +87,7 @@ void ComponentCamera::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 
-
+		ImGui::Checkbox("Render terrain", &renderTerrain);
 		ImGui::Checkbox("Smooth follow", &smoothFollow);
 		if (smoothFollow)
 		{
@@ -392,6 +392,8 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendFloat("followMovSpeed", followMoveSpeed);
 	data.AppendFloat("followRotSpeed", followRotateSpeed);
 
+	data.AppendBool("render_terrain", renderTerrain);
+
 	file.AppendArrayValue(data);
 }
 
@@ -418,6 +420,8 @@ void ComponentCamera::Load(Data & conf)
 	smoothFollow = conf.GetBool("followSmooth");
 	followMoveSpeed = conf.GetFloat("followMovSpeed");
 	followRotateSpeed = conf.GetFloat("followRotSpeed");
+
+	renderTerrain = conf.GetBool("render_terrain");
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);
