@@ -1166,7 +1166,6 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 			{
 				float value = 0.0f;
 				int n = 0;
-
 				//Iterating all image pixels
 				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
 				{
@@ -1178,12 +1177,14 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 							{
 								value = 0.0f;
 								n = 0;
+								//The 6 used in the for is a magic number. It's the kernel size
+
 								//Iterating all nearby pixels and checking they actually exist in the image
-								for (int _y2 = _y - ceil(sculptStrength); _y2 <= _y + ceil(sculptStrength); _y2++)
+								for (int _y2 = _y - 6; _y2 <= _y + 6; _y2++)
 								{
 									if (_y2 >= 0 && _y2 < terrainH)
 									{
-										for (int _x2 = _x - ceil(sculptStrength); _x2 <= _x + ceil(sculptStrength); _x2++)
+										for (int _x2 = _x - 6; _x2 <= _x + 6; _x2++)
 										{
 											if (_x2 >= 0 && _x2 < terrainW)
 											{
@@ -1194,7 +1195,19 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 									}
 								}
 								value /= n;
-								vertices[_y * terrainW + _x].y = value;
+
+								if (math::Abs(vertices[_y * terrainW + _x].y - value) < sculptStrength* time->RealDeltaTime())
+								{
+									vertices[_y * terrainW + _x].y = value;
+								}
+								else if (vertices[_y * terrainW + _x].y > value)
+								{
+									vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+								}
+								else
+								{
+									vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+								}
 							}
 						}
 					}
@@ -1210,11 +1223,11 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						float displacement = sculptStrength;
+						float displacement = sculptStrength* time->RealDeltaTime();
 						if (brushSize > 0)
 						{
 							float a = Max(math::Abs(x - _x), math::Abs(y - _y));
-							displacement = sculptStrength * (1.0f - (a / (float)brushSize));
+							displacement = sculptStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
 						}
 						if (inverse) { displacement *= -1; }
 						vertices[_y * terrainW + _x].y += displacement;
@@ -1236,17 +1249,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						if (math::Abs(vertices[_y * terrainW + _x].y - h) < sculptStrength)
+						if (math::Abs(vertices[_y * terrainW + _x].y - h) < sculptStrength* time->RealDeltaTime())
 						{
 							vertices[_y * terrainW + _x].y = h;
 						}
 						else if (vertices[_y * terrainW + _x].y > h)
 						{
-							vertices[_y * terrainW + _x].y -= sculptStrength;
+							vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
 						}
 						else
 						{
-							vertices[_y * terrainW + _x].y += sculptStrength;
+							vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
 						}
 					}
 				}
