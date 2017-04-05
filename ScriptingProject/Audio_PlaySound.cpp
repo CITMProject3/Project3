@@ -8,8 +8,6 @@
 #include "../ComponentCollider.h"
 #include "../ComponentAudioSource.h"
 
-#include "../EventQueue.h"
-
 namespace Audio_PlaySound
 {
 	/*void Audio_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
@@ -24,7 +22,7 @@ namespace Audio_PlaySound
 	void Audio_PlaySound_Update(GameObject* game_object)
 	{ }
 
-	void Audio_PlaySound_OnCollision(PhysBody3D* col)
+	void Audio_PlaySound_OnCollision(GameObject* game_object, PhysBody3D* col)
 	{
 		ComponentAudioSource *audio = (ComponentAudioSource*)col->GetCollider()->GetGameObject()->GetComponent(ComponentType::C_AUDIO_SOURCE);
 		audio->play_event_pending = true;
