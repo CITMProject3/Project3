@@ -163,8 +163,7 @@ void ComponentCar::HandlePlayerInput()
 
 	if (pushing)
 	{
-		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
-			pushing = false;
+		PushUpdate(&accel_boost);
 	}
 
 	if (drifting == true)
@@ -206,7 +205,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 		if (p2_animation->current_animation->index == 5)
 		{
-			Push(&accel);
+			//PushUpdate(&accel);
 		}
 	}
 
@@ -266,8 +265,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			StartPush();
-			//Push(accel);
+			//StartPush();
+			Push(accel);
 		}
 
 		//Slide attack
@@ -325,9 +324,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		StartPush();
-		LOG("Key push down");
-//		Push(accel);
+		//StartPush();
+		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
@@ -495,10 +493,22 @@ bool ComponentCar::Push(float* accel)
 	bool ret = false;
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
-		*accel += push_force;
+		pushing = true;
 	}
+	pushStartTime = time->TimeSinceGameStartup();
 
 	return ret;
+}
+
+void ComponentCar::PushUpdate(float* accel)
+{
+	if (time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+		pushing = false;
+
+	if (pushing)
+	{
+		*accel += push_force;
+	}
 }
 
 void ComponentCar::Leaning(float accel)

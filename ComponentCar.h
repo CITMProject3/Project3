@@ -155,6 +155,7 @@ private:
 	void Accelerate(float* accel);
 	void StartPush();
 	bool Push(float* accel);
+	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
 public:
