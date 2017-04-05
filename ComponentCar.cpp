@@ -195,6 +195,8 @@ void ComponentCar::HandlePlayerInput()
 	}
 	
 	//---------------------
+	LimitTurn();
+
 	if (!turning)
 		IdleTurn();
 
@@ -438,10 +440,10 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
-	if (math::Abs(x_joy_input) > 0.1f)
+	if (math::Abs(x_joy_input) > 0.2f)
 	{
 		if (drifting == false)
-			turn_current = turn_max * -x_joy_input;
+			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
@@ -450,7 +452,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 
 			if (drift_dir_left == true)
 			{
-				
 				turn_current = turn_max * x_joy_input;
 			}
 			else
@@ -461,6 +462,17 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 		return true;
 	}
 	return false;
+}
+
+void ComponentCar::LimitTurn()
+{
+	float top_turn = turn_max + turn_boost;
+
+	if (turn_current > top_turn)
+		turn_current = top_turn;
+
+	else if (turn_current < -top_turn)
+		turn_current = -top_turn;
 }
 
 void ComponentCar::Brake(float* accel, float* brake)
@@ -1845,6 +1857,9 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Turn speed");
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
+
+					ImGui::Text("Joystick turn speed");
+					if (ImGui::DragFloat("##joystick_turn_speed", &turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
 
 					ImGui::Checkbox("Idle turn by interpolation", &idle_turn_by_interpolation);
 					if (idle_turn_by_interpolation)

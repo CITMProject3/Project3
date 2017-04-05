@@ -698,9 +698,22 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		std::string textureMapPath;
 		int len = 0;
 		bool loadedTerrain = false;
-		if (scene_path != nullptr)
+
+		textureMapPath = file_name;
+
+		len = textureMapPath.find(".ezx");
+		if (len == string::npos)
 		{
-			textureMapPath = scene_path;	
+			len = textureMapPath.find(".json");
+		}
+		len++;
+		textureMapPath = textureMapPath.substr(0, len);
+		textureMapPath += "txmp";
+		loadedTerrain = App->physics->LoadTextureMap(textureMapPath.data());
+
+		if (scene_path != nullptr && loadedTerrain == false)
+		{
+			textureMapPath = scene_path;
 
 			len = textureMapPath.find(".ezx");
 			if (len == string::npos)
@@ -712,22 +725,6 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 			textureMapPath += "txmp";
 			loadedTerrain = App->physics->LoadTextureMap(textureMapPath.data());
 		}
-		
-		if(loadedTerrain == false)
-		{
-			textureMapPath = file_name;
-
-			len = textureMapPath.find(".ezx");
-			if (len == string::npos)
-			{
-				len = textureMapPath.find(".json");
-			}
-			len++;
-			textureMapPath = textureMapPath.substr(0, len);
-			textureMapPath += "txmp";
-			loadedTerrain = App->physics->LoadTextureMap(textureMapPath.data());
-		}
-		
 
 		if (App->IsGameRunning())
 		{
