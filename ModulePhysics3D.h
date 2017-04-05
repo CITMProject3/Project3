@@ -134,7 +134,7 @@ public:
 	void DeleteTexture(uint n);
 
 	bool SaveTextureMap(const char* path);
-	void LoadTextureMap(const char* path);
+	bool LoadTextureMap(const char* path);
 
 	bool TerrainIsGenerated();
 	float GetTerrainHeightScale() { return terrainMaxHeight; }
