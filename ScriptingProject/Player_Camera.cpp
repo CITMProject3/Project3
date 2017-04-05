@@ -102,7 +102,7 @@ namespace Player_Camera
 			}
 
 			float3 Player_Camera_target_pos = float3::zero;
-			Player_Camera_target_pos += (float3(game_object->transform->GetForward().Normalized().x, 0.0, game_object->transform->GetForward().Normalized().z) * total_dist_z);
+			Player_Camera_target_pos += (float3(game_object->transform->GetForward().Normalized().x, game_object->transform->GetForward().Normalized().y, game_object->transform->GetForward().Normalized().z) * total_dist_z);
 			Player_Camera_target_pos += (float3(0.0, total_dist_y, 0.0));
 
 			Player_Camera_target_pos += Player_Camera_target->transform->GetPosition();
