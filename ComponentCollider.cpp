@@ -39,9 +39,14 @@ void ComponentCollider::Update()
 			Quat rotation;
 			float3 scale;
 			game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
-			translate += offset_pos;
+			float3 real_offset = rotation.Transform(offset_pos);
+			translate -= real_offset;
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
+			if (Static && App->IsGameRunning() == true && body != nullptr)
+			{
+				body->SetTransform(primitive->transform.ptr());
+			}
 
 			if (App->StartInGame() == false)
 			{

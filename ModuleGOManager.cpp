@@ -330,6 +330,17 @@ void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
 	App->file_system->Delete(TEMPORAL_SCENE);
+
+	string terrain = TEMPORAL_SCENE;
+	uint len = terrain.find(".ezx");
+	if (len == string::npos)
+	{
+		len = terrain.find(".json");
+	}
+	len++;
+	terrain = terrain.substr(0, len);
+	terrain += "txmp";
+	App->file_system->Delete(terrain.data());
 }
 
 bool ModuleGOManager::InsertGameObjectInOctree(GameObject * go)
