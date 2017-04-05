@@ -223,7 +223,7 @@ private:
 	float turn_speed = 1.5f;
 	float turn_speed_joystick = 1.5f;
 	float time_to_idle = 0.2f;
-	bool idle_turn_by_interpolation =	true;
+	bool  idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
