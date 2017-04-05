@@ -72,4 +72,10 @@ EXPORTS
 	Audio_PlaySound_Start
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
+<<<<<<< HEAD
 
+=======
+	Audio_PlaySound_GetPublics
+	Audio_PlaySound_UpdatePublics
+	Audio_PlaySound_ActualizePublics
+>>>>>>> refs/remotes/origin/Engine
