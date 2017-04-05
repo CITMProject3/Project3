@@ -77,14 +77,14 @@
                     "UUID": 2471300271,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        837
+                        1920,
+                        1017
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        960,
                         0,
                         1,
                         0,
@@ -127,7 +127,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.911589,
+                    "aspect_ratio": 1.887906,
                     "color": [
                         0,
                         0,
@@ -142,7 +142,8 @@
                     "viewport_rel_size_y": -431602080,
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
-                    "followRotSpeed": 0.100000
+                    "followRotSpeed": 0.100000,
+                    "render_terrain": false
                 }
             ]
         },
@@ -1594,14 +1595,14 @@
                     "active": true,
                     "script_path": "Character_Selection_UI",
                     "script_num": 0,
-                    "Drivers port 1": 3154961925,
-                    "Support port 1": 126547133,
-                    "Drivers port 2": 1700512315,
-                    "Support port 2": 3129169457,
                     "Drivers 1": 929290665,
                     "Support 1": 864259672,
                     "Drivers 2": 840549808,
                     "Support 2": 2370293141,
+                    "Drivers port 1": 3154961925,
+                    "Support port 1": 126547133,
+                    "Drivers port 2": 1700512315,
+                    "Support port 2": 3129169457,
                     "Player 1": 166413418,
                     "Player 2": 1499351069,
                     "Player 3": 3552039009,
