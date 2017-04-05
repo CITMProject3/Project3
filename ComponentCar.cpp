@@ -276,9 +276,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		//Front player------------------
 		//Acceleration
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
+		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER))
 		{
-			Accelerate(accel);
+			float rt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
+			Accelerate(accel, true, rt_joy_axis);
 		}
 
 		//Brake/Backwards
@@ -489,9 +490,22 @@ void ComponentCar::FullBrake(float* brake)
 	if (vehicle->GetKmh() > 0)
 		*brake = full_brake_force;
 }
-void ComponentCar::Accelerate(float* accel)
+void ComponentCar::Accelerate(float* accel, bool with_trigger, float rt_joy_axis)
 {
-	*accel += accel_force;
+	if (with_trigger)
+	{
+		rt_joy_axis++;
+		rt_joy_axis /= 2;
+
+		if (math::Abs(rt_joy_axis) > 0.2f)
+		{
+			*accel += accel_force * rt_joy_axis;
+		}
+	}
+	else
+	{
+		*accel += accel_force;
+	}
 }
 
 void ComponentCar::StartPush()

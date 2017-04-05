@@ -153,7 +153,7 @@ private:
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
 	void LimitTurn();
-	void Accelerate(float* accel);
+	void Accelerate(float* accel, bool with_trigger = false, float rt_joy_axis = 0);
 	void StartPush();
 	bool Push(float* accel);
 	void PushUpdate(float* accel);
