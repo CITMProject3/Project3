@@ -86,7 +86,7 @@ void ComponentBone::Update()
 float4x4 ComponentBone::GetSystemTransform()
 {
 	float4x4 transform = game_object->transform->GetGlobalMatrix();
-	return GetRoot()->game_object->GetParent()->GetParent()->transform->GetGlobalMatrix().Transposed() * transform;
+	return GetRoot()->game_object->GetParent()->GetParent()->transform->GetGlobalMatrix().Inverted() * transform;
 
 }
 
