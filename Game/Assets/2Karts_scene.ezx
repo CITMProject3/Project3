@@ -189,6 +189,7 @@
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
+                    "drift_turn_max": 0,
                     "miniturbo_accel_boost": 300,
                     "miniturbo_speed_boost": 25,
                     "miniturbo_turbo_speed": -431602080,
@@ -236,6 +237,20 @@
                     "maxSuspensionTravelCm": 1000,
                     "frictionSlip": 50,
                     "maxSuspensionForce": 6000
+                },
+                {
+                    "type": 10,
+                    "UUID": 3413768311,
+                    "active": true,
+                    "script_path": "Player_Car",
+                    "script_num": 0,
+                    "velocity_firecracker": 40,
+                    "time_trowing_firecracker": 0,
+                    "have_item": false,
+                    "have_firecracker": false,
+                    "using_firecracker": false,
+                    "throwing_firecracker": false,
+                    "firecracker": 3314629487
                 }
             ]
         },
@@ -516,7 +531,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.377309,
+                    "aspect_ratio": 3.835206,
                     "color": [
                         0,
                         0,
@@ -539,16 +554,105 @@
                     "active": true,
                     "script_path": "Player_Camera",
                     "script_num": 0,
-                    "camera_y": 2,
-                    "inclination z max min": 1,
                     "dist_y": 2.500000,
                     "dist_z": -6,
-                    "min_dist_z": 0,
+                    "camera_y": 2,
                     "inclination y max min": 1,
+                    "inclination z max min": 1,
                     "y change boost": 0.500000,
                     "z change boost": 0.500000,
                     "fov change boost": 5,
                     "target": 1107583234
+                }
+            ]
+        },
+        {
+            "name": "Firecracker",
+            "UUID": 3314629487,
+            "local_UUID": 0,
+            "parent": 2799842641,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2597266557,
+                    "active": true,
+                    "matrix": [
+                        1.675552,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.403482,
+                        0,
+                        0,
+                        0,
+                        0,
+                        2.654555,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 414394138,
+                    "active": true,
+                    "path": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3141209060,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        1.800000,
+                        1.200000,
+                        3.100000
+                    ]
                 }
             ]
         }

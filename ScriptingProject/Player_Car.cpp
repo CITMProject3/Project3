@@ -219,24 +219,27 @@ namespace Player_Car
 		if (col->IsTrigger())
 		{
 			ComponentCollider* item_col = col->GetCollider();
-			if (item_col->GetGameObject()->name == "Hitodama")
+			if (item_col->IsActive())
 			{
-				//Do something
-			}
-			else if (item_col->GetGameObject()->name == "Firecracker")
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				item_col->GetGameObject()->SetActive(false);
-				item_col->SetActive(false);
-			}
-			else if (item_col->GetGameObject()->name == "Koma")
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				App->go_manager->RemoveGameObject(item_col->GetGameObject());
-			}
-			else//item box
-			{
-				have_item = true;
+				if (item_col->GetGameObject()->name == "Hitodama")
+				{
+					//Do something
+				}
+				else if (item_col->GetGameObject()->name == "Firecracker")
+				{
+					Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+					item_col->GetGameObject()->SetActive(false);
+					item_col->SetActive(false);
+				}
+				else if (item_col->GetGameObject()->name == "Koma")
+				{
+					Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+					App->go_manager->RemoveGameObject(item_col->GetGameObject());
+				}
+				else//item box
+				{
+					have_item = true;
+				}
 			}
 		}
 	}
