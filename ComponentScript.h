@@ -33,6 +33,7 @@ public:
 	void SetPath(const char* path);
 	void SetGOVar(GameObject* game_object);
 
+	void OnFocus();
 	void OnCollision(PhysBody3D* col);
 
 private:

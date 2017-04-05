@@ -28,6 +28,7 @@ namespace Player_Car
 	bool have_firecracker = false;
 	bool using_firecracker = false;
 	bool throwing_firecracker = false;
+	float velocity_firecracker = 25.0f;
 	float time_trowing_firecracker = 0.0f;
 	//bool have_makibishi = false;
 	GameObject* firecracker = nullptr;
@@ -41,6 +42,7 @@ namespace Player_Car
 		public_bools->insert(pair<const char*, bool>("have_firecracker", have_firecracker));
 		public_bools->insert(pair<const char*, bool>("using_firecracker", using_firecracker));
 		public_bools->insert(pair<const char*, bool>("throwing_firecracker", throwing_firecracker));
+		public_float->insert(pair<const char*, float>("velocity_firecracker", velocity_firecracker));
 		public_float->insert(pair<const char*, float>("time_trowing_firecracker", time_trowing_firecracker));
 		//public_bools->insert(pair<const char*, bool>("have_makibishi", have_makibishi));
 
@@ -58,6 +60,7 @@ namespace Player_Car
 		have_firecracker = test_script->public_bools.at("have_firecracker");
 		using_firecracker = test_script->public_bools.at("using_firecracker");
 		throwing_firecracker = test_script->public_bools.at("throwing_firecracker");
+		velocity_firecracker = test_script->public_floats.at("velocity_firecracker");
 		time_trowing_firecracker = test_script->public_floats.at("time_trowing_firecracker");
 		//have_makibishi = test_script->public_bools.at("have_makibishi");
 
@@ -75,6 +78,7 @@ namespace Player_Car
 		test_script->public_bools.at("have_firecracker") = have_firecracker;
 		test_script->public_bools.at("using_firecracker") = using_firecracker;
 		test_script->public_bools.at("throwing_firecracker") = throwing_firecracker;
+		test_script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		test_script->public_floats.at("time_trowing_firecracker") = time_trowing_firecracker;
 		//test_script->public_bools.at("have_makibishi") = have_makibishi;
 
@@ -125,12 +129,14 @@ namespace Player_Car
 				}
 				else
 				{
+					float3 new_pos = firecracker->transform->GetPosition();
+					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
+					firecracker->transform->SetPosition(new_pos);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
 					{
 						throwing_firecracker = false;
 						time_trowing_firecracker = 0.0f;
-						firecracker->transform->SetPosition(firecracker->GetParent()->transform->GetPosition());
 						firecracker->SetActive(false);
 						firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 					}
@@ -142,54 +148,65 @@ namespace Player_Car
 				{
 					firecracker->SetActive(true);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+					float3 last_scale = firecracker->transform->GetScale();
+					firecracker->transform->Set(game_object->GetGlobalMatrix());
+					firecracker->transform->SetScale(last_scale);
 				}
 				if (Player_car->GetCurrentTurbo() == T_ROCKET)
 				{
 					if (Player_car->GetAppliedTurbo()->timer >= Player_car->GetAppliedTurbo()->time)
 					{
 						have_firecracker = false;
+						using_firecracker = false;
 						firecracker->SetActive(false);
 						Player_car->ReleaseItem();
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 					}
 				}
-				if (!using_firecracker && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_REPEAT)
+				if (have_firecracker)
 				{
-					Player_car->UseItem();
-					using_firecracker = true;
-				}
-
-				if (using_firecracker && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP)
-				{
-					have_firecracker = false;
-					using_firecracker = false;
-					if (firecracker != nullptr)
+					if (!using_firecracker && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_REPEAT)
 					{
-						firecracker->transform->SetPosition(firecracker->transform->GetPosition() + game_object->transform->GetForward().Normalized().z * float3(0.0, 0.0, 2.0));
-						firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-						throwing_firecracker = true;
-						time_trowing_firecracker = Player_car->GetAppliedTurbo()->time;
+						Player_car->UseItem();
+						using_firecracker = true;
 					}
-					Player_car->ReleaseItem();
-				}
 
-				if (!using_firecracker && App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-				{
-					Player_car->UseItem();
-					using_firecracker = true;
-				}
-				if (using_firecracker && App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-				{
-					have_firecracker = false;
-					using_firecracker = false;
-					if (firecracker != nullptr)
+					if (using_firecracker && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP)
 					{
-						firecracker->transform->SetPosition(firecracker->transform->GetPosition() + game_object->transform->GetForward().Normalized().z * float3(0.0, 0.0, 2.0));
-						firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-						throwing_firecracker = true;
-						time_trowing_firecracker = Player_car->GetAppliedTurbo()->time;
+						have_firecracker = false;
+						using_firecracker = false;
+						if (firecracker != nullptr)
+						{
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
+							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+							throwing_firecracker = true;
+							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
+						}
+						Player_car->ReleaseItem();
 					}
-					Player_car->ReleaseItem();
+
+					if (!using_firecracker && App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+					{
+						Player_car->UseItem();
+						using_firecracker = true;
+					}
+					if (using_firecracker && App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+					{
+						have_firecracker = false;
+						using_firecracker = false;
+						if (firecracker != nullptr)
+						{
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
+							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+							throwing_firecracker = true;
+							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
+						}
+						Player_car->ReleaseItem();
+					}
 				}
 			}
 		}
@@ -202,25 +219,27 @@ namespace Player_Car
 		if (col->IsTrigger())
 		{
 			ComponentCollider* item_col = col->GetCollider();
-			if (item_col->GetGameObject()->name.compare("Hitodama"))
+			if (item_col->IsActive())
 			{
-				//Do something
-			}
-			else if (item_col->GetGameObject()->name.compare("Firecracker"))
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				item_col->GetGameObject()->transform->SetPosition(item_col->GetGameObject()->GetParent()->transform->GetPosition());
-				item_col->GetGameObject()->SetActive(false);
-				item_col->SetActive(false);
-			}
-			else if (item_col->GetGameObject()->name.compare("Koma"))
-			{
-				Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-				App->go_manager->RemoveGameObject(item_col->GetGameObject());
-			}
-			else//item box
-			{
-				have_item = true;
+				if (item_col->GetGameObject()->name == "Hitodama")
+				{
+					//Do something
+				}
+				else if (item_col->GetGameObject()->name == "Firecracker")
+				{
+					Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+					item_col->GetGameObject()->SetActive(false);
+					item_col->SetActive(false);
+				}
+				else if (item_col->GetGameObject()->name == "Koma")
+				{
+					Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+					App->go_manager->RemoveGameObject(item_col->GetGameObject());
+				}
+				else//item box
+				{
+					have_item = true;
+				}
 			}
 		}
 	}

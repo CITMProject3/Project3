@@ -7,6 +7,7 @@ EXPORTS
 	Test_Update
 	Test_UpdatePublics
 	Test_ActualizePublics
+	Test_OnFocus
 	Test_OnCollision
 
 	Test2_Start
@@ -28,6 +29,32 @@ EXPORTS
 	Scene_Manager_UpdatePublics
 	Scene_Manager_Start
 	Scene_Manager_Update
+
+	Main_Menu_UI_GetPublics
+	Main_Menu_UI_UpdatePublics
+	Main_Menu_UI_ActualizePublics
+	Main_Menu_UI_Start
+	Main_Menu_UI_Update
+
+	Start_Menu_UI_GetPublics
+	Start_Menu_UI_UpdatePublics
+	Start_Menu_UI_ActualizePublics
+	Start_Menu_UI_Start
+	Start_Menu_UI_Update
+
+	Character_Selection_UI_GetPublics
+	Character_Selection_UI_UpdatePublics
+	Character_Selection_UI_ActualizePublics
+	Character_Selection_UI_Start
+	Character_Selection_UI_Update
+	Character_Selection_UI_OnFocus
+
+	MapSelectUI_GetPublics
+	MapSelectUI_UpdatePublics
+	MapSelectUI_ActualizePublics
+	MapSelectUI_Start
+	MapSelectUI_Update
+
 	Scene_Manager_SetStartTimerText
 	Scene_Manager_StartRace
 
@@ -37,10 +64,18 @@ EXPORTS
 	Kmh_Counter_Update
 	Kmh_Counter_ActualizePublics
 
+	PlayerObjectSelector_GetPublics
+	PlayerObjectSelector_UpdatePublics
+	PlayerObjectSelector_Start
+
 	; Audio related scripts
 	Audio_PlaySound_Start
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
+<<<<<<< HEAD
+
+=======
 	Audio_PlaySound_GetPublics
 	Audio_PlaySound_UpdatePublics
 	Audio_PlaySound_ActualizePublics
+>>>>>>> refs/remotes/origin/Engine

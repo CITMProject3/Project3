@@ -13,6 +13,7 @@
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
+#include "ComponentCar.h"
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
@@ -45,6 +46,11 @@ bool ModuleGOManager::Init(Data & config)
 	else
 		current_library_scene_path = "";
 	
+	team1_front = PLAYER_1;
+	team1_back = PLAYER_2;
+	team2_front = PLAYER_3;
+	team2_back = PLAYER_4;
+
 	return true;
 }
 
@@ -324,6 +330,17 @@ void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
 	App->file_system->Delete(TEMPORAL_SCENE);
+
+	string terrain = TEMPORAL_SCENE;
+	uint len = terrain.find(".ezx");
+	if (len == string::npos)
+	{
+		len = terrain.find(".json");
+	}
+	len++;
+	terrain = terrain.substr(0, len);
+	terrain += "txmp";
+	App->file_system->Delete(terrain.data());
 }
 
 bool ModuleGOManager::InsertGameObjectInOctree(GameObject * go)

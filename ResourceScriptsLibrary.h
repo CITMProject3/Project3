@@ -8,10 +8,7 @@
 #include <vector>
 
 using namespace std;
-class Application;
 class GameObject;
-typedef void(*f_GetScriptNames)(Application* engine_app, vector<const char*>* script_names);
-typedef void(*f_GetPublics)(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos);
 
 class ResourceScriptsLibrary : public ResourceFile
 {

@@ -25,6 +25,7 @@ class Random;
 class EventQueue;
 
 using namespace std; 
+enum PLAYER;
 
 enum GameStates
 {

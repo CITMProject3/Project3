@@ -22,6 +22,8 @@
 
 #include "Brofiler/include/Brofiler.h"
 
+#include "ComponentCar.h"
+
 using namespace std;
 
 Application::Application()

@@ -18,6 +18,7 @@ class LayerSystem;
 class RaycastHit;
 
 enum LightType;
+enum PLAYER;
 enum ComponentType;
 
 #define OCTREE_SIZE 800
@@ -117,6 +118,23 @@ public:
 	GameObject* root = nullptr;
 	ComponentCanvas* current_scene_canvas = nullptr;
 	float3 lastRayData[3];
+
+	//Sorry to put this here... we will need
+	//a place to store global variables through scenes
+	//To change for the next sprint
+	uint team1_car = 1;
+	uint team2_car = 1;
+
+	uint team1_p1_c = 0;
+	uint team1_p2_c = 2;
+
+	uint team2_p1_c = 1;
+	uint team2_p2_c = 3;
+
+	PLAYER team1_front;
+	PLAYER team1_back;
+	PLAYER team2_front;
+	PLAYER team2_back;
 };
 
 #endif // !__MODULE_GO_MANAGER_H__
