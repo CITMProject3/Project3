@@ -22,6 +22,8 @@
 
 #include "Brofiler/include/Brofiler.h"
 
+#include "ComponentCar.h"
+
 using namespace std;
 
 Application::Application()
@@ -63,10 +65,10 @@ Application::Application()
 	AddModule(input);
 	AddModule(g_Debug);
 	AddModule(scripting);
+	AddModule(physics);
 	AddModule(go_manager);
 	AddModule(camera);
 	AddModule(audio);
-	AddModule(physics);
 	AddModule(lighting);
 	
 	// Scenes
@@ -174,13 +176,34 @@ void Application::PrepareUpdate()
 void Application::FinishUpdate()
 {
 	event_queue->ProcessEvents();
-
-	//TODO:limit FPS
-	/*if (capped_ms > 0 && Time::DeltaTime() < capped_ms)
+	if (want_to_load == true)
 	{
-		SDL_Delay(capped_ms - last_frame_ms);
+		want_to_load = false;
+		resource_manager->LoadSceneFromAssets(scene_to_load);
 	}
-	*/
+}
+
+void Application::LoadScene(char* path)
+{
+	if (want_to_load == false)
+	{
+		scene_to_load = path;
+		want_to_load = true;
+	}
+}
+
+void Application::OnStop()
+{
+	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+	{
+		(*it)->OnStop();
+	}
+}
+
+void Application::OnPlay()
+{
+	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
+		(*it)->OnPlay();
 }
 
 void Application::RunGame() 
@@ -192,8 +215,7 @@ void Application::RunGame()
 	game_state = GAME_RUNNING;
 	time->Play();
 
-	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-		(*it)->OnPlay();
+	OnPlay();
 }
 
 void Application::PauseGame()
@@ -212,11 +234,7 @@ void Application::StopGame()
 	game_state = GAME_STOP;
 	go_manager->LoadSceneBeforeRunning();
 	time->Stop();
-
-	for (std::vector<Module*>::iterator it = list_modules.begin(); it != list_modules.end(); it++)
-	{
-		(*it)->OnStop();
-	}
+	OnStop();
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

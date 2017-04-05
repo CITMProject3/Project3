@@ -37,6 +37,7 @@ ComponentScript::~ComponentScript()
 void ComponentScript::Update()
 {
 	BROFILER_CATEGORY("ComponentScript::Update", Profiler::Color::LawnGreen);
+	
 	if (public_gos_to_set)
 	{
 		if (!public_gos.empty())
@@ -75,6 +76,12 @@ void ComponentScript::Update()
 					{
 						start(GetGameObject());
 						started = true;
+					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
 					}
 				}
 				else
@@ -451,7 +458,7 @@ void ComponentScript::OnCollision(PhysBody3D* col)
 			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
 			{
 				if (App->IsGameRunning() && !App->IsGamePaused())
-					onCollision(col);
+					onCollision(GetGameObject(), col);
 			}
 			else
 			{

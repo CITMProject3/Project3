@@ -12,7 +12,7 @@
 using namespace std;
 
 struct VehicleInfo;
-struct PhysVehicle3D;
+class PhysVehicle3D;
 class ComponentAnimation;
 class ComponentCollider;
 
@@ -48,6 +48,14 @@ enum MAX_TURN_CHANGE_MODE
 {
 	M_SPEED,
 	M_INTERPOLATION,
+};
+
+enum GROUND_CONTACT
+{
+	G_NONE,
+	G_BEGIN,
+	G_REPEAT,
+	G_EXIT,
 };
 
 struct Turbo
@@ -102,24 +110,33 @@ public:
 	void SetFrontPlayer(PLAYER player);
 	void SetBackPlayer(PLAYER player);
 
+	void BlockInput(bool block);
+	void TestFunction();
+
 	//Getters
 	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
+private:
+	void CheckGroundCollision();
+	void OnGroundCollision(GROUND_CONTACT state);
+public:
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void TurnOver();
 	void Reset();
-	void TrueReset();
 	void LimitSpeed();
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
 	float GetMaxTurnByCurrentVelocity(float sp);
-
+	unsigned int GetFrontPlayer();
+	unsigned int GetBackPlayer();
+	PhysVehicle3D* GetVehicle();
 
 	TURBO GetCurrentTurbo()const;
+	Turbo* GetAppliedTurbo()const;
 
 private:
 	void CreateCar();
@@ -142,9 +159,9 @@ private:
 	void Acrobatics(PLAYER p);
 public:
 	void PickItem();
-private:
 	void UseItem(); //provisional
 	void ReleaseItem();
+private:
 	void IdleTurn();
 	void ApplyTurbo();
 
@@ -170,8 +187,8 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
-	//TODO: provisional
-	GameObject* item = nullptr;
+	bool lock_input = false;
+
 private:
 	float kickTimer = 0.0f;
 public:
@@ -200,18 +217,25 @@ private:
 	float turn_over_reset_time = 5.0f;
 
 	//Turn direction
-	float turn_max = 0.7f;
-	float turn_speed = 0.1f;
+	float base_turn_max = 0.7f;
+	float turn_speed = 1.5f;
+	float time_to_idle = 0.1f;
+	bool idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.0f;
+	float turn_max_limit = 0.01f;
 
 	//By speed
-	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_speed = -0.01f;
 	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
+
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
+
+	//Graph
+	bool show_graph = false;
 	//----
 
 
@@ -223,6 +247,7 @@ private:
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
+	float drift_turn_max = 0.7;
 	float drift_min_speed = 20.0f;
 
 	//Push
@@ -256,7 +281,9 @@ private:
 
 	//Rocket item
 	//WARNING: THIS WILL HAVE TO be in a better structure, provisional for vertical slice
+public:
 	Turbo rocket_turbo;
+private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
 
@@ -279,12 +306,9 @@ private:
 	float accel = 0.0f;
 
 	//Turn
+	float turn_max;
 	float turn_current = 0.0f;
 	bool turning_left = false;
-
-	//Max turn change 
-
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
 
 	//Drift
 	bool drifting = false;
@@ -303,6 +327,7 @@ private:
 	bool acro_front = false;
 	bool acro_back = false;
 	bool acro_on = false;
+	bool acro_done = false;
 	float acro_timer = 0.0f;
 	
 	//Turbo
@@ -329,6 +354,11 @@ private:
 
 	//Items! - provisional
 	bool has_item = false;
+
+	//Ground contact
+
+	bool ground_contact_state = false;
+
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;

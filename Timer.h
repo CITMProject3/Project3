@@ -13,6 +13,7 @@ public:
 
 	void Start();
 	void Stop();
+	bool IsRunning();
 
 	Uint32 Read();
 	float ReadSec()const;

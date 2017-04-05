@@ -34,7 +34,7 @@ bool ModuleCamera3D::Init(Data & config)
 	App->renderer3D->SetCamera(camera);
 
 	// Camera acts as the audio listener
-	App->audio->SetListener(camera);
+	//App->audio->SetListener(camera);
 
 	return true;
 }
@@ -58,12 +58,11 @@ bool ModuleCamera3D::CleanUp()
 
 void ModuleCamera3D::OnPlay()
 {
-
 	//Removing current camera
 	App->renderer3D->SetCamera(nullptr);
 
-	if (scene_cameras.size() > 0)
-		App->audio->SetListener(*scene_cameras.begin());
+	/*if (scene_cameras.size() > 0)
+		App->audio->SetListener(*scene_cameras.begin());*/
 
 	for (vector<ComponentCamera*>::iterator it = scene_cameras.begin(); it != scene_cameras.end(); ++it)
 	{
@@ -74,7 +73,6 @@ void ModuleCamera3D::OnPlay()
 void ModuleCamera3D::OnStop()
 {
 	App->renderer3D->SetCamera(GetEditorCamera());
-	App->audio->SetListener(GetEditorCamera());
 }
 
 update_status ModuleCamera3D::Update()

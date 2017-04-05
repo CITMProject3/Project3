@@ -128,7 +128,11 @@ void Hierarchy::Draw()
 		if (setting_parent == true)
 		{
 			setting_parent = false;
-			child_to_set->SetParent(App->go_manager->root);
+			if (App->editor->selected.empty() == false)
+			{
+				child_to_set = App->editor->selected.back();
+				child_to_set->SetParent(App->go_manager->root);
+			}
 			parent_to_set = child_to_set = nullptr;
 		}
 		else if (App->scripting->setting_go_var_name != "")
@@ -163,8 +167,14 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 
 		if ((*object)->ChildCount() == 0)
 			flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen;
+
+		if ((*object)->IsActive() == false)
+			ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5, 0.5, 0.5, 0.4));
+
 		ImGui::PushID((*object)->GetUUID());
 		bool open = ImGui::TreeNodeEx((*object)->name.data(), flags);
+		if ((*object)->IsActive() == false)
+			ImGui::PopStyleColor();
 		bool hasChilds = (*object)->ChildCount() > 0;
 		ImGui::PopID();
 		if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
@@ -200,12 +210,6 @@ void Hierarchy::DisplayGameObjectsChilds(const std::vector<GameObject*>* childs)
 			else if (App->editor->assign_wheel != -1)
 			{
 				App->editor->wheel_assign = *object;
-			}
-			else if (App->editor->assign_item == true)
-			{
-				App->editor->to_assign_item->item = *object;
-				App->editor->assign_item = false;
-				App->editor->to_assign_item = nullptr;
 			}
 			else
 			{

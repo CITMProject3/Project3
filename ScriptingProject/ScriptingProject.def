@@ -1,4 +1,5 @@
 EXPORTS
+
 	GetScriptNames					
 	
 	Test_GetPublics
@@ -16,6 +17,7 @@ EXPORTS
 	Player_Car_Start
 	Player_Car_Update
 	Player_Car_UpdatePublics
+	Player_Car_ActualizePublics
 	Player_Car_OnCollision
 
 	Player_Camera_GetPublics
@@ -40,7 +42,6 @@ EXPORTS
 	Start_Menu_UI_Start
 	Start_Menu_UI_Update
 
-
 	Character_Selection_UI_GetPublics
 	Character_Selection_UI_UpdatePublics
 	Character_Selection_UI_ActualizePublics
@@ -53,4 +54,22 @@ EXPORTS
 	MapSelectUI_ActualizePublics
 	MapSelectUI_Start
 	MapSelectUI_Update
+
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
+
+	Kmh_Counter_GetPublics
+	Kmh_Counter_UpdatePublics
+	Kmh_Counter_Start
+	Kmh_Counter_Update
+	Kmh_Counter_ActualizePublics
+
+	PlayerObjectSelector_GetPublics
+	PlayerObjectSelector_UpdatePublics
+	PlayerObjectSelector_Start
+
+	; Audio related scripts
+	Audio_PlaySound_Start
+	Audio_PlaySound_Update
+	Audio_PlaySound_OnCollision
 

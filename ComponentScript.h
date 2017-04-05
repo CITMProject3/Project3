@@ -8,13 +8,13 @@
 
 class Application;
 class GameObject;
-struct PhysBody3D;
+class PhysBody3D;
 
 using namespace std;
 
 typedef void(*f_Start)(GameObject* game_object);
 typedef void(*f_Update)(GameObject* game_object);
-typedef void(*f_OnCollision)(PhysBody3D* col);
+typedef void(*f_OnCollision)(GameObject* game_object, PhysBody3D* col);
 
 class ComponentScript : public Component
 {

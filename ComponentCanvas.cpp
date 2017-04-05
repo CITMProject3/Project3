@@ -4,8 +4,16 @@
 #include "ModuleGOManager.h"
 #include "GameObject.h"
 #include "imgui\imgui.h"
+
 #include "ComponentRectTransform.h"
 #include "ModuleWindow.h"
+
+#include "ModuleInput.h"
+#include "ComponentUiText.h"
+#include "ComponentUiButton.h"
+#include "RaceTimer.h"
+#include "ComponentCar.h"
+#include "PhysVehicle3D.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {

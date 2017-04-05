@@ -202,13 +202,15 @@ update_status ModuleRenderer3D::PostUpdate()
 
 	glEnable(GL_CLIP_DISTANCE0);
 	//RenderTextures
-	vector<ComponentCamera*> scene_cameras;
-	App->go_manager->GetAllCameras(scene_cameras);
+	vector<Component*> scene_cameras;
+	App->go_manager->GetAllComponents(scene_cameras, ComponentType::C_CAMERA);
+
 	for (size_t i = 0; i < scene_cameras.size(); ++i)
 	{
-		if (scene_cameras[i]->render_texture)
+		ComponentCamera *cam = (ComponentCamera*)scene_cameras[i];
+		if (cam->render_texture)
 		{
-			DrawScene(scene_cameras[i], true);
+			DrawScene(cam, true);
 		}
 	}
 
@@ -1032,9 +1034,10 @@ void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
 
 void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
 {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glLineWidth(1.5f);
 	glColor4fv(color.ptr());
 	glBegin(GL_QUADS);
-
 
 	glNormal3f(0.0f, 0.0f, 1.0f);
 	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
@@ -1073,4 +1076,5 @@ void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
 	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
 
 	glEnd();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }

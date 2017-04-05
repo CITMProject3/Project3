@@ -21,15 +21,15 @@
 namespace Player_Camera
 {
 	//Public
-	float Player_Camera_distrance_y = 0.0;
-	float Player_Camera_distrance_z = 0.0;
-	float Player_Camera_direction_y = 0.0;
+	float Player_Camera_distrance_y = 4.0;
+	float Player_Camera_distrance_z = -5.0;
+	float Player_Camera_direction_y = 2.0;
 	GameObject* Player_Camera_target = nullptr;
-	float Player_Camera_inclination_separation_y = 0.0;
-	float Player_Camera_inclination_separation_z = 0.0;
-	float Player_Camera_relation_vel_y = 0.0;
-	float Player_Camera_relation_vel_z = 0.0;
-	float Player_Camera_relation_vel_fov = 0.0;
+	float Player_Camera_inclination_separation_y = 1.0;
+	float Player_Camera_inclination_separation_z = 1.0;
+	float Player_Camera_relation_vel_y = 0.5;
+	float Player_Camera_relation_vel_z = 0.5;
+	float Player_Camera_relation_vel_fov = 5.0;
 
 	//Private
 	float Player_Camera_last_fov = 0.0;
@@ -73,21 +73,21 @@ namespace Player_Camera
 
 	void Player_Camera_Update(GameObject* game_object)
 	{
-		float3 Player_Camera_euler_rot = game_object->transform->GetRotationEuler();
+		float3 Player_Camera_euler_rot = game_object->transform->GetForward();
 		game_object->transform->SetRotation(float3(0.0, Player_Camera_euler_rot.y, 0.0));
 
 		if (Player_Camera_target != nullptr)
 		{
-			game_object->transform->SetRotation(float3(0.0, Player_Camera_target->transform->GetRotationEuler().y, 0.0));
+			game_object->transform->Set(Player_Camera_target->GetGlobalMatrix());
 
-			float rotation_x = Player_Camera_target->transform->GetRotationEuler().x;
-			if (rotation_x > 90)
-				rotation_x = 90;
-			else if (rotation_x < -90)
-				rotation_x = -90;
+			float rotation_x = Player_Camera_target->transform->GetForward().y / (pi/2);
+			if (rotation_x > 1)
+				rotation_x = 1;
+			else if (rotation_x < -1)
+				rotation_x = -1;
 
-			float total_dist_z = Player_Camera_distrance_z + rotation_x / 90 * Player_Camera_inclination_separation_z;
-			float total_dist_y = Player_Camera_distrance_y + rotation_x / 90 * Player_Camera_inclination_separation_y;
+			float total_dist_z = Player_Camera_distrance_z - rotation_x * Player_Camera_inclination_separation_z;
+			float total_dist_y = Player_Camera_distrance_y - rotation_x * Player_Camera_inclination_separation_y;
 			float new_fov = Player_Camera_last_fov;
 
 			ComponentCar* Player_Camera_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);

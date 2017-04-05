@@ -5,8 +5,10 @@
 #include "MathGeoLib\include\MathGeoLib.h"
 
 class btConvexHullShape;
-struct PhysBody3D;
+class PhysBody3D;
 class Primitive;
+
+enum TriggerType;
 
 enum Collider_Shapes
 {
@@ -16,10 +18,10 @@ enum Collider_Shapes
 	S_CONVEX
 };
 
-
 class ComponentCollider : public Component
 {
 public:
+
 	ComponentCollider(GameObject* game_object);
 	~ComponentCollider();
 
@@ -38,8 +40,16 @@ public:
 	void SetShape(Collider_Shapes new_shape);
 
 private:
+
+	bool is_trigger = false;
+	TriggerType trigger_type;
+	std::string trigger_type_name;
+	bool isTransparent = false;
+
 	void LoadShape();
+
 public:
+
 	bool Static = true;
 	float mass = 10.0f;
 
@@ -50,7 +60,8 @@ public:
 	Primitive* primitive = nullptr;
 	btConvexHullShape* convexShape = nullptr;
 
-	unsigned char collision_flags = 0;
 	int n = 0;
+
+	void GetTriggerTypeName();
 };
 #endif // !__COMPONENT_COLLIDER_H__
