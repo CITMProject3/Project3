@@ -100,6 +100,18 @@ void ComponentCollider::Update()
 
 void ComponentCollider::OnPlay()
 {
+	if (primitive != nullptr)
+	{
+		//Setting the primitive pos
+		float3 translate;
+		Quat rotation;
+		float3 scale;
+		game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
+		float3 real_offset = rotation.Transform(offset_pos);
+		translate -= real_offset;
+		primitive->SetPos(translate.x, translate.y, translate.z);
+		primitive->SetRotation(rotation.Inverted());
+	}
 	LoadShape();
 }
 

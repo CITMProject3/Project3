@@ -162,7 +162,7 @@ void MeshImporter::ImportNode(aiNode * node, const aiScene * scene, GameObject* 
 
 		if (node->mNumMeshes > 1)
 		{
-			GameObject* child = new GameObject(go_root);
+			child = new GameObject(go_root);
 			go_root->AddChild(child);
 
 			created_go.push_back(child);
