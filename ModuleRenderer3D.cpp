@@ -341,7 +341,10 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
-	App->physics->RenderTerrain(cam);
+	if (cam->renderTerrain)
+	{
+		App->physics->RenderTerrain(cam);
+	}
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();

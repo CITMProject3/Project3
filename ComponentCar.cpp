@@ -163,8 +163,7 @@ void ComponentCar::HandlePlayerInput()
 
 	if (pushing)
 	{
-		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
-			pushing = false;
+		PushUpdate(&accel_boost);
 	}
 
 	if (drifting == true)
@@ -196,6 +195,8 @@ void ComponentCar::HandlePlayerInput()
 	}
 	
 	//---------------------
+	LimitTurn();
+
 	if (!turning)
 		IdleTurn();
 
@@ -206,7 +207,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 		if (p2_animation->current_animation->index == 5)
 		{
-			Push(&accel);
+			//PushUpdate(&accel);
 		}
 	}
 
@@ -245,7 +246,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Leaning
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
 		{
-			Leaning(*accel);
+			//Leaning(*accel);
 		}
 
 		//Acrobatics
@@ -266,8 +267,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			StartPush();
-			//Push(accel);
+			//StartPush();
+			Push(accel);
 		}
 
 		//Slide attack
@@ -275,15 +276,17 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		//Front player------------------
 		//Acceleration
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::A) == KEY_REPEAT)
+		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER))
 		{
-			Accelerate(accel);
+			float rt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
+			Accelerate(accel, true, rt_joy_axis);
 		}
 
 		//Brake/Backwards
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::B) == KEY_REPEAT)
+		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER))
 		{
-			Brake(accel, brake);
+			float lt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
+			Brake(accel, brake, true, lt_joy_axis);
 		}
 		
 		//Direction
@@ -325,13 +328,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		StartPush();
-		LOG("Key push down");
-//		Push(accel);
+		//StartPush();
+		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
-		Leaning(*accel);
+		//Leaning(*accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
@@ -440,10 +442,10 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
-	if (math::Abs(x_joy_input) > 0.1f)
+	if (math::Abs(x_joy_input) > 0.2f)
 	{
 		if (drifting == false)
-			turn_current = turn_max * -x_joy_input;
+			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
@@ -452,7 +454,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 
 			if (drift_dir_left == true)
 			{
-				
 				turn_current = turn_max * x_joy_input;
 			}
 			else
@@ -465,13 +466,48 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 	return false;
 }
 
-void ComponentCar::Brake(float* accel, float* brake)
+void ComponentCar::LimitTurn()
 {
-	if (vehicle->GetKmh() <= 0)
-		*accel = -back_force;
+	float top_turn = turn_max + turn_boost;
+
+	if (turn_current > top_turn)
+		turn_current = top_turn;
+
+	else if (turn_current < -top_turn)
+		turn_current = -top_turn;
+}
+
+void ComponentCar::Brake(float* accel, float* brake, bool with_trigger, float lt_joy_axis)
+{
+	float ba_force = back_force;
+	float br_force = brake_force;
+
+	if (with_trigger)
+	{
+		lt_joy_axis++;
+		lt_joy_axis /= 2;
+		if (math::Abs(lt_joy_axis) > 0.2f)
+		{
+			ba_force *= lt_joy_axis;
+			br_force *= lt_joy_axis;
+
+			if (vehicle->GetKmh() <= 0)
+				*accel = -ba_force;
+
+			else
+				*brake = br_force;
+		}
+
+	}
 
 	else
-		*brake = brake_force;
+	{
+		if (vehicle->GetKmh() <= 0)
+			*accel = -ba_force;
+
+		else
+			*brake = br_force;
+	}
 }
 
 void ComponentCar::FullBrake(float* brake)
@@ -479,9 +515,22 @@ void ComponentCar::FullBrake(float* brake)
 	if (vehicle->GetKmh() > 0)
 		*brake = full_brake_force;
 }
-void ComponentCar::Accelerate(float* accel)
+void ComponentCar::Accelerate(float* accel, bool with_trigger, float rt_joy_axis)
 {
-	*accel += accel_force;
+	if (with_trigger)
+	{
+		rt_joy_axis++;
+		rt_joy_axis /= 2;
+
+		if (math::Abs(rt_joy_axis) > 0.2f)
+		{
+			*accel += accel_force * rt_joy_axis;
+		}
+	}
+	else
+	{
+		*accel += accel_force;
+	}
 }
 
 void ComponentCar::StartPush()
@@ -495,10 +544,22 @@ bool ComponentCar::Push(float* accel)
 	bool ret = false;
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
-		*accel += push_force;
+		pushing = true;
 	}
+	pushStartTime = time->TimeSinceGameStartup();
 
 	return ret;
+}
+
+void ComponentCar::PushUpdate(float* accel)
+{
+	if (time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+		pushing = false;
+
+	if (pushing)
+	{
+		*accel += push_force;
+	}
 }
 
 void ComponentCar::Leaning(float accel)
@@ -1835,6 +1896,9 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Turn speed");
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
+
+					ImGui::Text("Joystick turn speed");
+					if (ImGui::DragFloat("##joystick_turn_speed", &turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
 
 					ImGui::Checkbox("Idle turn by interpolation", &idle_turn_by_interpolation);
 					if (idle_turn_by_interpolation)

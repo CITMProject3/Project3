@@ -142,7 +142,8 @@
                     "viewport_rel_size_y": -431602080,
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
-                    "followRotSpeed": 0.100000
+                    "followRotSpeed": 0.100000,
+                    "render_terrain": false
                 }
             ]
         },
@@ -3875,9 +3876,9 @@
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
-                                1,
-                                1,
-                                1
+                                0.400000,
+                                0.400000,
+                                0.400000
                             ],
                             "specular": 0,
                             "texture_changed": false,
@@ -3972,9 +3973,9 @@
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
-                                1,
-                                1,
-                                1
+                                0.400000,
+                                0.400000,
+                                0.400000
                             ],
                             "specular": 0,
                             "texture_changed": false,
@@ -4069,9 +4070,9 @@
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
-                                1,
-                                1,
-                                1
+                                0.400000,
+                                0.400000,
+                                0.400000
                             ],
                             "specular": 0,
                             "texture_changed": false,
@@ -4166,9 +4167,9 @@
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
-                                1,
-                                1,
-                                1
+                                0.400000,
+                                0.400000,
+                                0.400000
                             ],
                             "specular": 0,
                             "texture_changed": false,

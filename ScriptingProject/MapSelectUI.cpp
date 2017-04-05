@@ -16,6 +16,9 @@
 #include "../Globals.h"
 #include "../ComponentUiButton.h"
 #include "../ComponentCanvas.h"
+#include "../ModuleResourceManager.h"
+#include "../Random.h"
+#include "../Time.h"
 
 namespace MapSelectUI
 {
@@ -33,15 +36,19 @@ namespace MapSelectUI
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
 
-	bool players_ready[4] = { false };
+	string path_map1 = "";
+	string path_map2 = "";
+	string path_map3 = "";
+
+	bool players_ready[4] = { false, false, false, false };
 
 	bool a_pressed = false;
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
 
-	int current_map = 1;
-	// 1 -   , 2 -   , 3 -   ,
+	int current_map = 1; // 1 -   , 2 -   , 3 -   ,
+	int votes[4] = { 0, 0, 0, 0 };
 
 	void MapSelectUI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -113,16 +120,16 @@ namespace MapSelectUI
 		{
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				c_players_vote[playerID]->OnPressId(current_map - 1);
-				a_pressed = true;
+				c_players_vote[playerID]->OnPressId(current_map - 1); // TO BE TESTED
+				
 
+				votes[playerID] = current_map;
 				players_ready[playerID] = true;
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
-				c_players_vote[playerID]->OnPressId(current_map - 1);
-				b_pressed = true;
+				c_players_vote[playerID]->OnPressId(0); // TO BE TESTED
 
 				players_ready[playerID] = false;
 			}
@@ -135,7 +142,6 @@ namespace MapSelectUI
 					current_map--;
 
 				c_map_mainportrait->OnPressId(current_map - 2);
-
 				dpad_left_pressed = true;
 			}
 
@@ -146,13 +152,10 @@ namespace MapSelectUI
 				else
 					current_map++;
 
-				c_map_mainportrait->OnPressId(current_map - 2);
+				c_map_mainportrait->OnPressId(current_map - 1); // TO BE TESTED
 
-				if (dpad_right_pressed == false)
-				{
-					c_right_arrow->OnPressId(1);
-					dpad_right_pressed = true;
-				}
+				c_right_arrow->OnPressId(1);
+				dpad_right_pressed = true;
 			}
 		}
 
@@ -172,7 +175,7 @@ namespace MapSelectUI
 			}
 			if (!dpad_left_pressed)
 			{
-				c_right_arrow->OnPressId(1);
+				c_right_arrow->OnPressId(1); // Return to original state
 			}
 		}
 
@@ -188,7 +191,7 @@ namespace MapSelectUI
 			}
 			if (!dpad_right_pressed)
 			{
-				c_right_arrow->OnPressId(1);
+				c_right_arrow->OnPressId(1);  // Return to original state
 			}
 		}
 
@@ -200,8 +203,28 @@ namespace MapSelectUI
 
 			if (total == 4)
 			{
-				// move to next scene
+				unsigned int k = App->rnd->RandomInt(1, 4);
+
+				switch (votes[k])
+				{
+				case 1:
+					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					break;
+				case 2:
+					App->resource_manager->LoadSceneFromAssets(path_map2.data());
+					break;
+				case 3:
+					App->resource_manager->LoadSceneFromAssets(path_map3.data());
+					break;
+				default:
+					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
+					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					break;
+
+				}
 			}
+			else
+				total = 0; // Redundancy
 		}
 	}
 }
