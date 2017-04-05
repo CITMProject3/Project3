@@ -39,6 +39,7 @@ private:
 
 	void PlayEvent(unsigned index) const;
 	void StopEvent(unsigned index) const;
+	void StopAllEvents() const;
 
 	std::vector<const AudioEvent*> list_of_events;	
 	const AudioEvent *empty_event = nullptr;
