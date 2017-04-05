@@ -125,7 +125,6 @@ public:
 	void GameLoopCheck();
 	void TurnOver();
 	void Reset();
-	void TrueReset();
 	void LimitSpeed();
 
 	float GetVelocity();

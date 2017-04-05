@@ -114,8 +114,7 @@ void Inspector::Draw()
 			if (ImGui::Selectable("Add Collider"))			selected_GO->AddComponent(C_COLLIDER);
 			if (ImGui::Selectable("Add Car"))				selected_GO->AddComponent(C_CAR);
 			if (ImGui::Selectable("Add Light"))				selected_GO->AddComponent(C_LIGHT);
-			if (ImGui::Selectable("Add Audio Source"))		selected_GO->AddComponent(C_AUDIO_SOURCE);
-			if (ImGui::Selectable("Add Audio Listener"))	selected_GO->AddComponent(C_AUDIO_LISTENER);
+
 			if (ImGui::Selectable("Add Script"))			selected_GO->AddComponent(C_SCRIPT);
 
 			// UI
@@ -124,6 +123,10 @@ void Inspector::Draw()
 			if (ImGui::Selectable("Add UI Image"))			selected_GO->AddComponent(C_UI_IMAGE);
 			if (ImGui::Selectable("Add UI Text"))			selected_GO->AddComponent(C_UI_TEXT);
 			if (ImGui::Selectable("Add Button"))			selected_GO->AddComponent(C_UI_BUTTON);
+			if (ImGui::Selectable("Add UI Grid"))			selected_GO->AddComponent(C_GRID);
+
+			if (ImGui::Selectable("Add Audio Source"))		selected_GO->AddComponent(C_AUDIO_SOURCE);
+			if (ImGui::Selectable("Add Audio Listener"))	selected_GO->AddComponent(C_AUDIO_LISTENER);
 			ImGui::EndPopup();
 		}
 	}

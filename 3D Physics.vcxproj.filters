@@ -624,6 +624,9 @@
     <ClInclude Include="WarningWindow.h">
       <Filter>Sources\Editor\Windows</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentGrid.h">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
+    </ClInclude>
     <ClInclude Include="MemLeaks.h">
       <Filter>Sources\MemoryManagement</Filter>
     </ClInclude>
@@ -1123,6 +1126,9 @@
     </ClCompile>
     <ClCompile Include="WarningWindow.cpp">
       <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentGrid.cpp">
+      <Filter>Sources\GameObjects\Components\UI Components</Filter>
     </ClCompile>
     <ClCompile Include="AutoProfile.cpp">
       <Filter>Sources\MemoryManagement\Profiler_Guillem</Filter>

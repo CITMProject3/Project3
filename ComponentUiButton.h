@@ -8,7 +8,6 @@ class ComponentMaterial;
 
 class ComponentUiButton : public Component
 {
-
 public:
 
 	ComponentUiButton(ComponentType type, GameObject* game_object);
@@ -18,16 +17,22 @@ public:
 	void CleanUp();
 
 	void OnInspector(bool debug);
+	void OnFocus();
+	void OnPress();
+	void OnPressId(int i);
+	void ChangeState();
 
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
 	void Reset();
+	void ResetId(int i);
+	
 public:
 	ComponentMaterial* UImaterial = nullptr;
 private:
-	uint player_num = 1;
-	bool ready = false;
+
+	bool pressed = false;
 };
 
 #endif __COMPONENTUIBUTTON_H__

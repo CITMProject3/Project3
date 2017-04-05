@@ -1014,7 +1014,7 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 	}
 	if (lap >= 4)
 	{
-		TrueReset();
+	//	TrueReset();
 	}
 }
 //--------------------------------------
@@ -1052,18 +1052,6 @@ void ComponentCar::Reset()
 	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
-}
-
-void ComponentCar::TrueReset()
-{
-	if (App->go_manager->current_scene_canvas != nullptr)
-	{
-		App->go_manager->current_scene_canvas->SetWin(true);
-	}
-
-	lastCheckpoint = nullptr;
-	lap = 1;
-	Reset();
 }
 
 void ComponentCar::LimitSpeed()

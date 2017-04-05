@@ -188,7 +188,6 @@ void ComponentUiText::SetDisplayText(string text)
 void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
-	//OnChangeTexture();
 }
 
 bool ComponentUiText::OnChangeTexture()
