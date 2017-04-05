@@ -1162,52 +1162,43 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 		{
 		case sculpt_smooth:
 		{
-			if (brushSize > 0 && x - brushSize > 0 && y - brushSize > 0 && x + brushSize + 1 < terrainW && y + brushSize + 1 < terrainH)
+			if (brushSize > 0 && x >= 0 && y >= 0 && x < terrainW && y < terrainH)
 			{
-				float* result = new float[(brushSize * 2 + 1) * (brushSize * 2 + 1)];
 				float value = 0.0f;
 				int n = 0;
-				int a = 0;
-				int b = 0;
 
 				//Iterating all image pixels
 				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
 				{
-					b = 0;
-					for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+					if (_y >= 0 && _y < terrainH)
 					{
-#pragma region GaussianBlur
-						value = 0.0f;
-						n = 0;
-						//Iterating all nearby pixels and checking they actually exist in the image
-						for (int _y2 = _y - brushSize; _y2 <= _y + brushSize; _y2++)
+						for (int _x = x - brushSize; _x <= x + brushSize; _x++)
 						{
-							for (int _x2 = _x - brushSize; _x2 <= _x + brushSize; _x2++)
+							if (_x >= 0 && _x < terrainW)
 							{
-								n++;
-								value += vertices[_y2 * (brushSize * 2 + 1) + _x2].y;
+								value = 0.0f;
+								n = 0;
+								//Iterating all nearby pixels and checking they actually exist in the image
+								for (int _y2 = _y - ceil(sculptStrength); _y2 <= _y + ceil(sculptStrength); _y2++)
+								{
+									if (_y2 >= 0 && _y2 < terrainH)
+									{
+										for (int _x2 = _x - ceil(sculptStrength); _x2 <= _x + ceil(sculptStrength); _x2++)
+										{
+											if (_x2 >= 0 && _x2 < terrainW)
+											{
+												n++;
+												value += terrainData[_y2 * terrainW + _x2];
+											}
+										}
+									}
+								}
+								value /= n;
+								vertices[_y * terrainW + _x].y = value;
 							}
 						}
-						value /= n;
-						result[a * (brushSize * 2 + 1) + b] = value;
-						b++;
 					}
-					a++;
 				}
-
-				a = 0;
-				b = 0;
-				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
-				{
-					b = 0;
-					for (int _x = x - brushSize; _x <= x + brushSize; _x++)
-					{
-						vertices[_y * terrainW + _x].y = result[a * (brushSize * 2 + 1) + b];
-						b++;
-					}
-					a++;
-				}
-				RELEASE_ARRAY(result);
 			}
 			break;
 		}
@@ -1435,7 +1426,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 	{
 		if (wired)
 		{
-			glLineWidth(1.5f);
+			glLineWidth(0.5f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
@@ -2156,6 +2147,10 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 {
 	int w = terrainW;
 	int h = terrainH;
+	CAP(x0, 0, terrainW - 1);
+	CAP(x1, 0, terrainW - 1);
+	CAP(y0, 0, terrainH - 1);
+	CAP(y1, 0, terrainH - 1);
 	for (int z = y0; z < y1; z++)
 	{
 		for (int x = x0; x < x1; x++)
