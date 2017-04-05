@@ -36,7 +36,7 @@ void ComponentAudioSource::Update()
 	// Scripting needs THIS to properly trigger audio! What the fuck!
 	if (play_event_pending)
 	{
-		//PlayEvent();
+		PlayEvent(play_event_pending_index);
 		play_event_pending = false;
 	}
 }
@@ -100,6 +100,15 @@ void ComponentAudioSource::PlayEvent(unsigned index) const
 void ComponentAudioSource::StopEvent(unsigned index) const
 {
 	App->audio->StopEvent(list_of_events[index], wwise_id_go);
+}
+
+void ComponentAudioSource::PlayAudio(unsigned id_audio)
+{
+	if (id_audio < list_of_events.size())
+	{
+		play_event_pending = true;
+		play_event_pending_index = id_audio;
+	}
 }
 
 void ComponentAudioSource::OnPlay()
