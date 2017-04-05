@@ -24,6 +24,7 @@ EXPORTS
 	Player_Camera_Start
 	Player_Camera_Update
 	Player_Camera_UpdatePublics
+	Player_Camera_ActualizePublics
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics
@@ -69,6 +70,7 @@ EXPORTS
 	PlayerObjectSelector_Start
 
 	; Audio related scripts
+<<<<<<< HEAD
 	Audio_PlaySound_Start
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
@@ -79,3 +81,11 @@ EXPORTS
 	Audio_PlaySound_UpdatePublics
 	Audio_PlaySound_ActualizePublics
 >>>>>>> refs/remotes/origin/Engine
+=======
+	Audio_PlaySound_GetPublics
+	Audio_PlaySound_UpdatePublics
+	Audio_PlaySound_ActualizePublics
+	Audio_PlaySound_Start
+	Audio_PlaySound_Update
+	Audio_PlaySound_OnCollision
+>>>>>>> refs/remotes/origin/Gameplay
