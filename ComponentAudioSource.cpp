@@ -21,9 +21,10 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 
 ComponentAudioSource::~ComponentAudioSource()
 { 
-	App->audio->UnregisterGameObject(wwise_id_go);
 	if (attenuation_sphere != nullptr) delete attenuation_sphere;
+	StopAllEvents();
 	RemoveAllEvents();
+	App->audio->UnregisterGameObject(wwise_id_go);
 }
 
 void ComponentAudioSource::Update()
@@ -102,6 +103,12 @@ void ComponentAudioSource::StopEvent(unsigned index) const
 	App->audio->StopEvent(list_of_events[index], wwise_id_go);
 }
 
+void ComponentAudioSource::StopAllEvents() const
+{
+	for (size_t i = 0; i < list_of_events.size(); ++i)
+		StopEvent(i);
+}
+
 void ComponentAudioSource::PlayAudio(unsigned id_audio)
 {
 	if (id_audio < list_of_events.size())
@@ -118,10 +125,7 @@ void ComponentAudioSource::OnPlay()
 
 void ComponentAudioSource::OnStop()
 {
-	for (size_t i = 0; i < list_of_events.size(); ++i)
-	{
-		StopEvent(i);
-	}
+	StopAllEvents();
 }
 
 long unsigned ComponentAudioSource::GetWiseID() const
