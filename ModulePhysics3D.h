@@ -45,6 +45,7 @@ public:
 
 	int GetBuffer();
 	int GetNIndices();
+	const uint* GetIndices();
 
 	void GenBuffer();
 	void AddIndex(const uint& i);
@@ -55,9 +56,12 @@ public:
 	void Render();
 
 	AABB GetAABB() { return aabb; }
+	void SetAABB(float3 minPoint, float3 MaxPoint);
 
-	std::vector<uint> indices;
+	uint* indices = nullptr;
+	uint nIndices = 0;
 private:
+	uint avaliableSpace = 0;
 	math::AABB aabb;
 	int indices_bufferID = 0;
 };
@@ -67,6 +71,13 @@ enum TriggerType
 	T_ON_TRIGGER,
 	T_ON_ENTER,
 	T_ON_EXIT
+};
+
+enum SculptModeTools
+{
+	sculpt_smooth,
+	sculpt_raise,
+	sculpt_flatten
 };
 
 struct TriggerState
@@ -112,6 +123,8 @@ public:
 	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER, btConvexHullShape** OUT_shape = nullptr);
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
+	void Sculpt(int x, int y, bool inverse = false);
+
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainMaxHeight(float height);
@@ -125,13 +138,19 @@ public:
 
 	bool TerrainIsGenerated();
 	float GetTerrainHeightScale() { return terrainMaxHeight; }
-	uint GetCurrentTerrainUUID();
-	const char* GetHeightmapPath();
 	int GetHeightmap();
 	float2 GetHeightmapSize();
 
 	void AutoGenerateTextureMap();
 	void ReinterpretTextureMap();
+
+	void ReinterpretHeightmapImg();
+
+	void ReinterpretMesh();
+	void ReinterpretVertices();
+	void ReinterpretNormals();
+
+	void RegenerateNormals(int x0, int y0, int x1, int y1);
 
 	int GetTexture(uint n);
 	uint GetTextureUUID(uint n);
@@ -201,12 +220,15 @@ private:
 #pragma region Terrain
 	//Ordering chunks. First map contains Y coordinate, second one X. Chunks[y][x]
 	std::map<int, std::map<int, chunk>> chunks;
+	int terrainW = 0;
+	int terrainH = 0;
+	uint heightmap_bufferID = 0;
 
 	float3* vertices = nullptr;
+	float3* normals = nullptr;
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	ResourceFileTexture* heightMapImg = nullptr;
 	std::vector<ResourceFileTexture*> textures;
 	float textureScaling = 0.03f;
 	float terrainMaxHeight = 100.0f;
@@ -250,7 +272,8 @@ private:
 	int directional_color_location = 0;
 	int directional_direction_location = 0;
 
-
+	bool sculpted = false;
+	float sculptTimer = 0.0f;
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
@@ -258,8 +281,11 @@ public:
 	
 	bool renderChunks = false;
 	bool paintMode = false;
+	bool sculptMode = false;
 	int paintTexture = 0;
 	int brushSize = 5;
+	float sculptStrength = 1.0f;
+	SculptModeTools tool = SculptModeTools::sculpt_smooth;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;
