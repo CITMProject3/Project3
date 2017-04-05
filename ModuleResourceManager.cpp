@@ -620,9 +620,14 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 
 	delete[] buf;
 
-	std::string textureMapPath = library_scene_path.substr(0, library_scene_path.length() - 3);
+	std::string library_textureMapPath = library_scene_path.substr(0, library_scene_path.length() - 3);
+	library_textureMapPath += "txmp";
+	App->physics->SaveTextureMap(library_textureMapPath.data());
+
+	std::string textureMapPath = name_to_save.substr(0, name_to_save.length() - 3);
 	textureMapPath += "txmp";
 	App->physics->SaveTextureMap(textureMapPath.data());
+	GenerateMetaFile(textureMapPath.data(), FileType::TERRAIN, 0, library_textureMapPath.data());
 
 	App->editor->RefreshAssets();
 }
@@ -677,12 +682,6 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 
 		/*App->go_manager->SetCurrentScenePath(file_name);*/
 
-		const char* terrain = scene.GetString("terrain");
-		if (terrain)
-		{
-			App->physics->GenerateHeightmap(terrain);
-		}
-
 		while (App->physics->GetNTextures() > 0)
 		{
 			App->physics->DeleteTexture(0);
@@ -698,23 +697,37 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 
 		std::string textureMapPath;
 		int len = 0;
+		bool loadedTerrain = false;
 		if (scene_path != nullptr)
 		{
-			textureMapPath = scene_path;			
+			textureMapPath = scene_path;	
+
+			len = textureMapPath.find(".ezx");
+			if (len == string::npos)
+			{
+				len = textureMapPath.find(".json");
+			}
+			len++;
+			textureMapPath = textureMapPath.substr(0, len);
+			textureMapPath += "txmp";
+			loadedTerrain = App->physics->LoadTextureMap(textureMapPath.data());
 		}
-		else
+		
+		if(loadedTerrain == false)
 		{
 			textureMapPath = file_name;
+
+			len = textureMapPath.find(".ezx");
+			if (len == string::npos)
+			{
+				len = textureMapPath.find(".json");
+			}
+			len++;
+			textureMapPath = textureMapPath.substr(0, len);
+			textureMapPath += "txmp";
+			loadedTerrain = App->physics->LoadTextureMap(textureMapPath.data());
 		}
-		len = textureMapPath.find(".ezx");
-		if (len == string::npos)
-		{
-			len = textureMapPath.find(".json");
-		}
-		len++;
-		textureMapPath = textureMapPath.substr(0, len);
-		textureMapPath += "txmp";
-		App->physics->LoadTextureMap(textureMapPath.data());
+		
 
 		if (App->IsGameRunning())
 		{

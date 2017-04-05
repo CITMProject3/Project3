@@ -821,11 +821,13 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 	return false;
 }
 
-void ModulePhysics3D::LoadTextureMap(const char * path)
+bool ModulePhysics3D::LoadTextureMap(const char * path)
 {
-	BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
-		char* tmp = nullptr;		
-		uint size = App->file_system->Load(path, &tmp);		
+	if (path != nullptr && path != "" && path != " ")
+	{
+		BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
+		char* tmp = nullptr;
+		uint size = App->file_system->Load(path, &tmp);
 		if (size > 0)
 		{
 			char* it = tmp;
@@ -932,8 +934,10 @@ void ModulePhysics3D::LoadTextureMap(const char * path)
 				ReinterpretTextureMap();
 				GenerateUVs();
 			}
+			return true;
 		}
-		
+	}
+	return false;
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
