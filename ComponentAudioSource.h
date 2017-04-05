@@ -30,13 +30,15 @@ public:
 
 	long unsigned GetWiseID() const;
 
-	void PlayEvent(unsigned index) const;
-	void StopEvent(unsigned index) const;
+	void PlayAudio(unsigned id_audio);
+
+private:	
 
 	bool play_event_pending = false;
 	unsigned play_event_pending_index = 0;
 
-private:	
+	void PlayEvent(unsigned index) const;
+	void StopEvent(unsigned index) const;
 
 	std::vector<const AudioEvent*> list_of_events;	
 	const AudioEvent *empty_event = nullptr;
