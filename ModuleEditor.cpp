@@ -653,6 +653,8 @@ void ModuleEditor::PhysicsMenu()
 				{
 					string lib_file = App->resource_manager->FindFile(textures_list[i]);
 					App->physics->GenerateHeightmap(lib_file);
+					App->physics->SetTerrainMaxHeight(100.0f);
+					heightmapMaxHeight = 100.0f;
 				}
 			}
 			ImGui::EndMenu();
