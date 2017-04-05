@@ -152,6 +152,7 @@ private:
 	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
+	void LimitTurn();
 	void Accelerate(float* accel);
 	void StartPush();
 	bool Push(float* accel);
@@ -220,6 +221,7 @@ private:
 	//Turn direction
 	float base_turn_max = 0.7f;
 	float turn_speed = 1.5f;
+	float turn_speed_joystick = 1.5f;
 	float time_to_idle = 0.1f;
 	bool idle_turn_by_interpolation =	true;
 	
