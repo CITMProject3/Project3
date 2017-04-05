@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 289496566,
+                    "UUID": 1283246035,
                     "active": true,
                     "matrix": [
                         1,
@@ -79,7 +79,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.813951,
+                    "aspect_ratio": 3.861796,
                     "color": [
                         0,
                         0,
@@ -94,8 +94,7 @@
                     "viewport_rel_size_y": 0.495000,
                     "followSmooth": true,
                     "followMovSpeed": 0.100000,
-                    "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "followRotSpeed": 0.100000
                 },
                 {
                     "type": 10,
@@ -157,7 +156,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.813951,
+                    "aspect_ratio": 3.861796,
                     "color": [
                         0,
                         0,
@@ -172,8 +171,7 @@
                     "viewport_rel_size_y": 0.495000,
                     "followSmooth": true,
                     "followMovSpeed": 0.100000,
-                    "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "followRotSpeed": 0.100000
                 },
                 {
                     "type": 10,
@@ -235,7 +233,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.887906,
+                    "aspect_ratio": 1.911589,
                     "color": [
                         0,
                         0,
@@ -250,8 +248,7 @@
                     "viewport_rel_size_y": 1,
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
-                    "followRotSpeed": 0.100000,
-                    "render_terrain": false
+                    "followRotSpeed": 0.100000
                 }
             ]
         }
