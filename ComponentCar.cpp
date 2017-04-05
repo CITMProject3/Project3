@@ -283,9 +283,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Brake/Backwards
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::B) == KEY_REPEAT)
+		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER))
 		{
-			Brake(accel, brake);
+			float lt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
+			Brake(accel, brake, true, lt_joy_axis);
 		}
 		
 		//Direction
@@ -476,13 +477,37 @@ void ComponentCar::LimitTurn()
 		turn_current = -top_turn;
 }
 
-void ComponentCar::Brake(float* accel, float* brake)
+void ComponentCar::Brake(float* accel, float* brake, bool with_trigger, float lt_joy_axis)
 {
-	if (vehicle->GetKmh() <= 0)
-		*accel = -back_force;
+	float ba_force = back_force;
+	float br_force = brake_force;
+
+	if (with_trigger)
+	{
+		lt_joy_axis++;
+		lt_joy_axis /= 2;
+		if (math::Abs(lt_joy_axis) > 0.2f)
+		{
+			ba_force *= lt_joy_axis;
+			br_force *= lt_joy_axis;
+
+			if (vehicle->GetKmh() <= 0)
+				*accel = -ba_force;
+
+			else
+				*brake = br_force;
+		}
+
+	}
 
 	else
-		*brake = brake_force;
+	{
+		if (vehicle->GetKmh() <= 0)
+			*accel = -ba_force;
+
+		else
+			*brake = br_force;
+	}
 }
 
 void ComponentCar::FullBrake(float* brake)

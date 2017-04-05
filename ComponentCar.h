@@ -148,7 +148,7 @@ private:
 	void RenderWithoutCar();
 
 	//Controls methods (to use in different parts)
-	void Brake(float* accel, float* brake);
+	void Brake(float* accel, float* brake, bool with_trigger = false, float lt_joy_axis = 0);
 	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
