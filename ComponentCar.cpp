@@ -1247,7 +1247,10 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	else if (state == G_BEGIN)
 	{
 		if (acro_done)
+		{
 			current_turbo = T_MINI;
+			acro_done = false;
+		}
 		else if (acro_on)
 			acro_on = false;
 		//Changes when entres ground contact
