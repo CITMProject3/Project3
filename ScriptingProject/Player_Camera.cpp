@@ -105,11 +105,7 @@ namespace Player_Camera
 		{
 			game_object->transform->Set(Player_Camera_target->GetGlobalMatrix());
 
-			float rotation_x = Player_Camera_target->transform->GetForward().y / (pi/2);
-			if (rotation_x > 1)
-				rotation_x = 1;
-			else if (rotation_x < -1)
-				rotation_x = -1;
+			float rotation_x = Player_Camera_target->transform->GetForward().Normalized().y;
 
 			float total_dist_z = Player_Camera_distrance_z - rotation_x * Player_Camera_inclination_separation_z;
 			float total_dist_y = Player_Camera_distrance_y - rotation_x * Player_Camera_inclination_separation_y;
