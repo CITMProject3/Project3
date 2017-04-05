@@ -22,21 +22,18 @@ namespace MapSelectUI
 
 	GameObject* map_mainportrait = nullptr;
 	GameObject* map_name = nullptr;
-	GameObject* player1r_vote = nullptr;
-	GameObject* player2r_vote = nullptr;
-	GameObject* player1b_vote = nullptr;
-	GameObject* player2b_vote = nullptr;
+	GameObject* players_vote[4];
 	GameObject* right_arrow = nullptr;
 	GameObject* left_arrow = nullptr;
 
 	ComponentUiButton* c_map_mainportrait = nullptr;
 	ComponentUiButton* c_map_name = nullptr;
-	ComponentUiButton* c_player1r_vote = nullptr;
-	ComponentUiButton* c_player2r_vote = nullptr;
-	ComponentUiButton* c_player1b_vote = nullptr;
-	ComponentUiButton* c_player2b_vote = nullptr;
+	ComponentUiButton* c_players_vote[4];
+	// 0 - P1 Red, 1 - P2 Red, 2 - P1 Blue, 2 - P2 Blue,
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
+
+	bool players_ready[4] = { false };
 
 	bool a_pressed = false;
 	bool b_pressed = false;
@@ -50,10 +47,10 @@ namespace MapSelectUI
 	{
 		public_gos->insert(std::pair<const char*, GameObject*>("MapPortrait", map_mainportrait));
 		public_gos->insert(std::pair<const char*, GameObject*>("MapName", map_mainportrait));
-		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", player1r_vote));
-		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", player2r_vote));
-		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", player1b_vote));
-		public_gos->insert(std::pair<const char*, GameObject*>("P2-Blue Vote", player2b_vote));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[0]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[1]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[2]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Blue Vote", players_vote[3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("R-Arrow", right_arrow));
 		public_gos->insert(std::pair<const char*, GameObject*>("L-Arrow", left_arrow));
 	}
@@ -64,19 +61,19 @@ namespace MapSelectUI
 
 		map_mainportrait = test_script->public_gos.at("MapPortrait");
 		map_name = test_script->public_gos.at("MapName");
-		player1r_vote = test_script->public_gos.at("P1-Red Vote");
-		player2r_vote = test_script->public_gos.at("P2-Red Vote");
-		player1b_vote = test_script->public_gos.at("P1-Blue Vote");
-		player2b_vote = test_script->public_gos.at("P2-Blue Vote");
+		players_vote[0] = test_script->public_gos.at("P1-Red Vote");
+		players_vote[1] = test_script->public_gos.at("P2-Red Vote");
+		players_vote[2] = test_script->public_gos.at("P1-Blue Vote");
+		players_vote[3] = test_script->public_gos.at("P2-Blue Vote");
 		right_arrow = test_script->public_gos.at("R-Arrow");
 		left_arrow = test_script->public_gos.at("L-Arrow");
 
 		c_map_mainportrait = (ComponentUiButton*)map_mainportrait->GetComponent(C_UI_BUTTON);
 		c_map_name = (ComponentUiButton*)map_name->GetComponent(C_UI_BUTTON);
-		c_player1r_vote = (ComponentUiButton*)player1r_vote->GetComponent(C_UI_BUTTON);
-		c_player2r_vote = (ComponentUiButton*)player2r_vote->GetComponent(C_UI_BUTTON);
-		c_player1b_vote = (ComponentUiButton*)player1b_vote->GetComponent(C_UI_BUTTON);
-		c_player2b_vote = (ComponentUiButton*)player2b_vote->GetComponent(C_UI_BUTTON);
+		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
+		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
+		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
+		c_players_vote[3] = (ComponentUiButton*)players_vote[3]->GetComponent(C_UI_BUTTON);
 		c_right_arrow = (ComponentUiButton*)right_arrow->GetComponent(C_UI_BUTTON);
 		c_left_arrow = (ComponentUiButton*)left_arrow->GetComponent(C_UI_BUTTON);
 	}
@@ -87,19 +84,19 @@ namespace MapSelectUI
 
 		this_script->public_gos.at("MapPortrait") = map_mainportrait;
 		this_script->public_gos.at("MapName") = map_name;
-		this_script->public_gos.at("P1-Red Vote") = player1r_vote;
-		this_script->public_gos.at("P2-Red Vote") = player2r_vote;
-		this_script->public_gos.at("P1-Blue Vote") = player1b_vote;
-		this_script->public_gos.at("P2-Blue Vote") = player2b_vote;
+		this_script->public_gos.at("P1-Red Vote") = players_vote[0];
+		this_script->public_gos.at("P2-Red Vote") = players_vote[1];
+		this_script->public_gos.at("P1-Blue Vote") = players_vote[2];
+		this_script->public_gos.at("P2-Blue Vote") = players_vote[3];
 		this_script->public_gos.at("R-Arrow") = right_arrow;
 		this_script->public_gos.at("L-Arrow") = left_arrow;
 
 		c_map_mainportrait = (ComponentUiButton*)map_mainportrait->GetComponent(C_UI_BUTTON);
 		c_map_name = (ComponentUiButton*)map_name->GetComponent(C_UI_BUTTON);
-		c_player1r_vote = (ComponentUiButton*)player1r_vote->GetComponent(C_UI_BUTTON);
-		c_player2r_vote = (ComponentUiButton*)player2r_vote->GetComponent(C_UI_BUTTON);
-		c_player1b_vote = (ComponentUiButton*)player1b_vote->GetComponent(C_UI_BUTTON);
-		c_player2b_vote = (ComponentUiButton*)player2b_vote->GetComponent(C_UI_BUTTON);
+		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
+		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
+		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
+		c_players_vote[3] = (ComponentUiButton*)players_vote[3]->GetComponent(C_UI_BUTTON);
 		c_right_arrow = (ComponentUiButton*)right_arrow->GetComponent(C_UI_BUTTON);
 		c_left_arrow = (ComponentUiButton*)left_arrow->GetComponent(C_UI_BUTTON);
 	}
@@ -114,48 +111,97 @@ namespace MapSelectUI
 	{
 		for (int playerID = 0; playerID < 4; playerID++)
 		{
-			if (a_pressed == false)
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
-				{
+				c_players_vote[playerID]->OnPressId(current_map - 1);
+				a_pressed = true;
 
-				}
+				players_ready[playerID] = true;
 			}
 
-			if (b_pressed == false)
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-				{
+				c_players_vote[playerID]->OnPressId(current_map - 1);
+				b_pressed = true;
 
-				}
+				players_ready[playerID] = false;
 			}
 
-			if (dpad_left_pressed == false || dpad_right_pressed == false)
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-				{
-					if (current_map <= 1)
-						current_map = 3;
-					else
-						current_map--;
-					if(!dpad_left_pressed)
-						c_map_mainportrait->OnPressId(current_map-2);
-					dpad_left_pressed = true;
-				}
+				if (current_map <= 1)
+					current_map = 3;
+				else
+					current_map--;
 
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+				c_map_mainportrait->OnPressId(current_map - 2);
+
+				dpad_left_pressed = true;
+			}
+
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			{
+				if (current_map >= 3)
+					current_map = 1;
+				else
+					current_map++;
+
+				c_map_mainportrait->OnPressId(current_map - 2);
+
+				if (dpad_right_pressed == false)
 				{
-					if (current_map >= 3)
-						current_map = 1;
-					else
-						current_map++;
-					if (!dpad_right_pressed)
-						c_map_mainportrait->OnPressId(current_map-2);
+					c_right_arrow->OnPressId(1);
 					dpad_right_pressed = true;
 				}
 			}
 		}
-		dpad_left_pressed = false;
-		dpad_right_pressed = false;
+
+
+
+
+
+		if (dpad_left_pressed)
+		{
+			dpad_left_pressed = false;
+			for (int playerID = 0; playerID < 4; playerID++)
+			{
+				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+				{
+					dpad_left_pressed = true;
+				}
+			}
+			if (!dpad_left_pressed)
+			{
+				c_right_arrow->OnPressId(1);
+			}
+		}
+
+		if (dpad_right_pressed)
+		{
+			dpad_right_pressed = false;
+			for (int playerID = 0; playerID < 4; playerID++)
+			{
+				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+				{
+					dpad_right_pressed = true;
+				}
+			}
+			if (!dpad_right_pressed)
+			{
+				c_right_arrow->OnPressId(1);
+			}
+		}
+
+		int total = 0;
+		for (int j = 0; j < 4; j++)
+		{
+			if (players_ready[j])
+				total++;
+
+			if (total == 4)
+			{
+				// move to next scene
+			}
+		}
 	}
 }
