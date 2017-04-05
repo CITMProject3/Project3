@@ -156,6 +156,8 @@ update_status ModulePhysics3D::Update()
 
 		if ((paintMode || sculptMode) && terrainData != nullptr)
 		{
+			CAP(brushSize, 0, 1000);
+
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			RaycastHit hit;
 			bool ray_contact = RayCast(ray, hit);
