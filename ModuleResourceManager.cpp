@@ -627,6 +627,15 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	App->editor->RefreshAssets();
 }
 
+bool ModuleResourceManager::LoadSceneFromAssets(const char* file_name)
+{
+	std::string lib_path = FindFile(file_name);
+	if (lib_path != "" && lib_path != " ")
+	{
+		return LoadScene(lib_path.c_str());
+	}
+}
+
 bool ModuleResourceManager::LoadScene(const char *file_name)
 {
 	bool ret = false;
@@ -706,6 +715,11 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		textureMapPath = textureMapPath.substr(0, len);
 		textureMapPath += "txmp";
 		App->physics->LoadTextureMap(textureMapPath.data());
+
+		if (App->IsGameRunning())
+		{
+			App->OnPlay();
+		}
 		ret = true;
 	}
 	else
@@ -971,12 +985,16 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	string extension = name.substr(name.find_last_of(".") + 1);
 
 	for (int i = 0; i < 5; i++)
+	{
 		if (extension.compare(mesh_extensions[i]) == 0)
 			return FileType::MESH;
+	}		
 
 	for (int i = 0; i < 6; i++)
+	{
 		if (extension.compare(image_extensions[i]) == 0)
 			return FileType::IMAGE;
+	}		
 
 	if (extension.compare(scene_extension) == 0)
 		return FileType::SCENE;
@@ -1339,6 +1357,7 @@ void ModuleResourceManager::ImportFile(const char * path, string base_dir, strin
 		break;
 	case SCRIPTS_LIBRARY:
 		ScriptLibraryDropped(path, base_dir, base_library_dir, uuid);
+		break; 
 	case SCENE:
 		SceneDropped(path, base_dir, base_library_dir, uuid);
 		break;

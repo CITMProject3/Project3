@@ -139,6 +139,8 @@ namespace Scene_Manager
 		{
 			if (car_1->lap + 1 != timer.GetCurrentLap())
 			{
+				if (car_1->lap >= 3)
+					App->LoadScene("Assets/test_scene2.ezx");
 				timer.AddLap();
 				//Update lap text
 				if (lap_text != nullptr)
