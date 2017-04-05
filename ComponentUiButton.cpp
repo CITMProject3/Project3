@@ -28,29 +28,6 @@ ComponentUiButton::~ComponentUiButton()
 
 void ComponentUiButton::Update()
 {
-	if (game_object->IsActive())
-	{
-		if (App->input->GetJoystickButton(player_num, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_G) == KEY_STATE::KEY_DOWN)
-		{
-			// Only for Vertical Slice 3 --> Launching Double Drum sound
-			/*ComponentAudioSource *a = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a) App->audio->PostEvent(a->GetEvent(), a->GetWiseID());*/
-
-			if (UImaterial->texture_ids.size() >= 2)
-			{
-				uint tmp = UImaterial->texture_ids.at("0");
-				UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
-				UImaterial->texture_ids.at("1") = tmp;
-				ready = !ready;
-				if (App->go_manager->current_scene_canvas != nullptr)
-				{
-					App->go_manager->current_scene_canvas->SetPlayerReady(player_num, ready);
-				}
-			}
-		}
-	}
-	else
-		ready = false;
 }
 
 void ComponentUiButton::CleanUp()
@@ -75,14 +52,7 @@ void ComponentUiButton::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-		int tmp_num = player_num + 1;
-		if(ImGui::InputInt("Player Number", &tmp_num, 1, 1))
-		{
-			if (tmp_num >= 2)
-				player_num = 1;
-			else
-				player_num = 0;
-		}
+
 		UImaterial->DefaultMaterialInspector();
 		if (ImGui::Button("Set Size"))
 		{
@@ -95,6 +65,36 @@ void ComponentUiButton::OnInspector(bool debug)
 	}
 }
 
+void ComponentUiButton::OnFocus()
+{
+}
+
+void ComponentUiButton::OnPress()
+{
+	if (UImaterial->texture_ids.size() >= 2)
+	{
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
+		UImaterial->texture_ids.at("1") = tmp;
+	}
+}
+
+void ComponentUiButton::OnPressId(int i)
+{
+	if (UImaterial->texture_ids.size() >= i+1)
+	{
+		string str = to_string(i+1);
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
+		UImaterial->texture_ids.at(str) = tmp;
+	}
+}
+
+void ComponentUiButton::ChangeState()
+{
+	pressed = !pressed;
+}
+
 void ComponentUiButton::Save(Data & file) const
 {
 	Data data;
@@ -102,7 +102,6 @@ void ComponentUiButton::Save(Data & file) const
 	data.AppendInt("type", type);
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
-	data.AppendUInt("player_num", player_num);
 	data.AppendArray("Material");
 	UImaterial->Save(data);
 	file.AppendArrayValue(data);
@@ -112,7 +111,6 @@ void ComponentUiButton::Load(Data & conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-	player_num = conf.GetUInt("player_num");
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
@@ -125,5 +123,16 @@ void ComponentUiButton::Reset()
 		uint tmp = UImaterial->texture_ids.at("0");
 		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
 		UImaterial->texture_ids.at("1") = tmp;
+	}
+}
+
+void ComponentUiButton::ResetId(int i)
+{
+	if (UImaterial->texture_ids.size() >= i+1)
+	{
+		string str = to_string(i+1);
+		uint tmp = UImaterial->texture_ids.at("0");
+		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
+		UImaterial->texture_ids.at(str) = tmp;
 	}
 }

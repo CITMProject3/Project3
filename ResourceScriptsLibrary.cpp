@@ -1,12 +1,17 @@
 #include "ResourceScriptsLibrary.h"
 
 #include "Application.h"
+#include "Time.h"
 #include "ModuleEditor.h"
 
 #include "GameObject.h"
 #include <string>
 
+class Application;
 class GameObject;
+typedef void(*f_GetScriptNames)(Application* engine_app, vector<const char*>* script_names, Time* engine_time);
+typedef void(*f_GetPublics)(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos);
+
 
 ResourceScriptsLibrary::ResourceScriptsLibrary(ResourceFileType type, const std::string& file_path, unsigned int uuid) : ResourceFile(type, file_path, uuid)
 {
@@ -39,7 +44,7 @@ void ResourceScriptsLibrary::LoadScriptNames()
 	if (f_GetScriptNames get_script_names = (f_GetScriptNames)GetProcAddress(lib, "GetScriptNames"))
 	{
 		finded_script_names = true;
-		get_script_names(App, &script_names);
+		get_script_names(App, &script_names, time);
 		LoadScriptPublicVars();
 	}
 	else

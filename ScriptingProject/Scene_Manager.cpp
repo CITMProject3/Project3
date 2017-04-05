@@ -78,6 +78,9 @@ namespace Scene_Manager
 			car_1->BlockInput(false);
 		if (car_2 != nullptr)
 			car_2->BlockInput(false);
+		if (car_1 == nullptr || car_2 == nullptr)
+			LOG("Error: Could not find the cars in the scene!");
+
 		if (start_timer_text != nullptr)
 			start_timer_text->GetGameObject()->SetActive(false);
 	}

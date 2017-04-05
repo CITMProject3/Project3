@@ -13,6 +13,7 @@
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
+#include "ComponentCar.h"
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
@@ -45,6 +46,11 @@ bool ModuleGOManager::Init(Data & config)
 	else
 		current_library_scene_path = "";
 	
+	team1_front = PLAYER_1;
+	team1_back = PLAYER_2;
+	team2_front = PLAYER_3;
+	team2_back = PLAYER_4;
+
 	return true;
 }
 
