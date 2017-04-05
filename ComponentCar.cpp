@@ -591,7 +591,7 @@ void ComponentCar::UseItem()
 		{
 			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-			current_turbo == T_IDLE;
+			current_turbo = T_IDLE;
 		}
 	}
 }

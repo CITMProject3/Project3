@@ -299,7 +299,7 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 
 	root->Save(root_node);
 
-	root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
 
 	root_node.AppendArray("terrain_textures");
 	for (uint n = 0; n < App->physics->GetNTextures(); n++)
