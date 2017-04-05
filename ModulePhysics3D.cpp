@@ -1244,7 +1244,7 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 						{
 							vertices[_y * terrainW + _x].y -= sculptStrength;
 						}
-						else 
+						else
 						{
 							vertices[_y * terrainW + _x].y += sculptStrength;
 						}
@@ -1256,10 +1256,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 		}
 		ReinterpretVertices();
 		RegenerateNormals(x - brushSize - 1, y - brushSize - 1, x + brushSize + 1, y + brushSize + 1);
-		int chunkX = floor(x / CHUNK_W);
-		int chunkY = floor(y / CHUNK_H);
-		chunks[chunkY][chunkX].UpdateAABB();
-		sculpted = true;
+
+		for (int _y = y - brushSize; _y <= y + brushSize; _y += min(CHUNK_H, brushSize))
+		{
+			for (int _x = x - brushSize; _x <= x + brushSize; _x += min(CHUNK_W, brushSize))
+			{
+				int chunkX = floor(_x / CHUNK_W);
+				int chunkY = floor(_y / CHUNK_H);
+				chunks[chunkY][chunkX].UpdateAABB();
+				sculpted = true;
+			}
+		}
 	}
 }
 
