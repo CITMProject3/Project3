@@ -163,8 +163,7 @@ void ComponentCar::HandlePlayerInput()
 
 	if (pushing)
 	{
-		if ( time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
-			pushing = false;
+		PushUpdate(&accel_boost);
 	}
 
 	if (drifting == true)
@@ -196,6 +195,8 @@ void ComponentCar::HandlePlayerInput()
 	}
 	
 	//---------------------
+	LimitTurn();
+
 	if (!turning)
 		IdleTurn();
 
@@ -206,7 +207,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 		if (p2_animation->current_animation->index == 5)
 		{
-			Push(&accel);
+			//PushUpdate(&accel);
 		}
 	}
 
@@ -245,7 +246,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Leaning
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
 		{
-			Leaning(*accel);
+			//Leaning(*accel);
 		}
 
 		//Acrobatics
@@ -266,8 +267,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			StartPush();
-			//Push(accel);
+			//StartPush();
+			Push(accel);
 		}
 
 		//Slide attack
@@ -325,13 +326,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
-		StartPush();
-		LOG("Key push down");
-//		Push(accel);
+		//StartPush();
+		Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
-		Leaning(*accel);
+		//Leaning(*accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
@@ -440,10 +440,10 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
-	if (math::Abs(x_joy_input) > 0.1f)
+	if (math::Abs(x_joy_input) > 0.2f)
 	{
 		if (drifting == false)
-			turn_current = turn_max * -x_joy_input;
+			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
@@ -452,7 +452,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 
 			if (drift_dir_left == true)
 			{
-				
 				turn_current = turn_max * x_joy_input;
 			}
 			else
@@ -463,6 +462,17 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 		return true;
 	}
 	return false;
+}
+
+void ComponentCar::LimitTurn()
+{
+	float top_turn = turn_max + turn_boost;
+
+	if (turn_current > top_turn)
+		turn_current = top_turn;
+
+	else if (turn_current < -top_turn)
+		turn_current = -top_turn;
 }
 
 void ComponentCar::Brake(float* accel, float* brake)
@@ -495,10 +505,22 @@ bool ComponentCar::Push(float* accel)
 	bool ret = false;
 	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
 	{
-		*accel += push_force;
+		pushing = true;
 	}
+	pushStartTime = time->TimeSinceGameStartup();
 
 	return ret;
+}
+
+void ComponentCar::PushUpdate(float* accel)
+{
+	if (time->TimeSinceGameStartup() - pushStartTime >= 0.5f)
+		pushing = false;
+
+	if (pushing)
+	{
+		*accel += push_force;
+	}
 }
 
 void ComponentCar::Leaning(float accel)
@@ -591,7 +613,7 @@ void ComponentCar::UseItem()
 		{
 			ReleaseItem();
 			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-			current_turbo == T_IDLE;
+			current_turbo = T_IDLE;
 		}
 	}
 }
@@ -1014,7 +1036,7 @@ void ComponentCar::WentThroughEnd(ComponentCollider * end)
 	}
 	if (lap >= 4)
 	{
-		TrueReset();
+	//	TrueReset();
 	}
 }
 //--------------------------------------
@@ -1052,18 +1074,6 @@ void ComponentCar::Reset()
 	}	
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
-}
-
-void ComponentCar::TrueReset()
-{
-	if (App->go_manager->current_scene_canvas != nullptr)
-	{
-		App->go_manager->current_scene_canvas->SetWin(true);
-	}
-
-	lastCheckpoint = nullptr;
-	lap = 1;
-	Reset();
 }
 
 void ComponentCar::LimitSpeed()
@@ -1847,6 +1857,9 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("Turn speed");
 					ImGui::SameLine();
 					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
+
+					ImGui::Text("Joystick turn speed");
+					if (ImGui::DragFloat("##joystick_turn_speed", &turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
 
 					ImGui::Checkbox("Idle turn by interpolation", &idle_turn_by_interpolation);
 					if (idle_turn_by_interpolation)

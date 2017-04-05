@@ -1,6 +1,5 @@
 #include "ResourceFileAnimation.h"
 #include "AnimationImporter.h"
-#include "Brofiler/include/Brofiler.h"
 
 bool Channel::HasPosKey() const
 {
@@ -9,15 +8,25 @@ bool Channel::HasPosKey() const
 
 std::map<double, float3>::iterator Channel::GetPrevPosKey(double currentKey)
 {
-	std::map<double, float3>::iterator ret = positionKeys.lower_bound(currentKey);
-	if (ret != positionKeys.begin())
-		ret--;
+	std::map<double, float3>::iterator ret = positionKeys.begin();
+	std::map<double, float3>::iterator it = ret;
+	it++;
+
+	while (it != positionKeys.end() && it->first <= currentKey)
+	{
+		ret = it;
+		it++;
+	}
 	return ret;
 }
 
 std::map<double, float3>::iterator Channel::GetNextPosKey(double currentKey)
 {
-	std::map<double, float3>::iterator ret = positionKeys.upper_bound(currentKey);
+	std::map<double, float3>::iterator ret = positionKeys.begin();
+	while (ret != positionKeys.end() && ret->first < currentKey)
+	{
+		ret++;
+	}
 	return ret;
 }
 
@@ -28,19 +37,26 @@ bool Channel::HasRotKey() const
 
 std::map<double, Quat>::iterator Channel::GetPrevRotKey(double currentKey)
 {
-	BROFILER_CATEGORY("Channel::GetPrevRotKey", Profiler::Color::LightGoldenRodYellow)
 	//Looping through keys
-	std::map<double, Quat>::iterator ret = rotationKeys.lower_bound(currentKey);
-	if (ret != rotationKeys.begin())
-		ret--;
+	std::map<double, Quat>::iterator ret = rotationKeys.begin();
+	std::map<double, Quat>::iterator it = ret;
+	it++;
+
+	while (it != rotationKeys.end() && it->first <= currentKey)
+	{
+		ret = it;
+		it++;
+	}
 	return ret;
 }
 
 std::map<double, Quat>::iterator Channel::GetNextRotKey(double currentKey)
 {
-	BROFILER_CATEGORY("Channel::GetNextRotKey", Profiler::Color::DarkMagenta)
-
-	std::map<double, Quat>::iterator ret = rotationKeys.upper_bound(currentKey);
+	std::map<double, Quat>::iterator ret = rotationKeys.begin();
+	while (ret != rotationKeys.end() && ret->first < currentKey)
+	{
+		ret++;
+	}
 	return ret;
 }
 
@@ -52,15 +68,25 @@ bool Channel::HasScaleKey() const
 std::map<double, float3>::iterator Channel::GetPrevScaleKey(double currentKey)
 {
 	//Looping through keys
-	std::map<double, float3>::iterator ret = scaleKeys.lower_bound(currentKey);
-	if (ret != scaleKeys.begin())
-		ret--;
+	std::map<double, float3>::iterator ret = scaleKeys.begin();
+	std::map<double, float3>::iterator it = ret;
+	it++;
+
+	while (it != scaleKeys.end() && it->first <= currentKey)
+	{
+		ret = it;
+		it++;
+	}
 	return ret;
 }
 
 std::map<double, float3>::iterator Channel::GetNextScaleKey(double currentKey)
 {
-	std::map<double, float3>::iterator ret = scaleKeys.upper_bound(currentKey);
+	std::map<double, float3>::iterator ret = scaleKeys.begin();
+	while (ret != scaleKeys.end() && ret->first < currentKey)
+	{
+		ret++;
+	}
 	return ret;
 }
 

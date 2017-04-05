@@ -408,6 +408,45 @@ void ComponentScript::SetGOVar(GameObject* game_object)
 	App->scripting->setting_go_var_name = "";
 }
 
+void ComponentScript::OnFocus()
+{
+	if (App->scripting->scripts_loaded)
+	{
+		if (App->IsGameRunning() && !App->IsGamePaused())
+		{
+			if (started)
+			{
+				string update_path = path.c_str();
+				update_path.append("_Update");
+				if (f_Update on_focus = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
+				{
+					finded_update = true;
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						on_focus(GetGameObject());
+					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
+				}
+				else
+				{
+					error = GetLastError();
+				}
+			}
+		}
+	}
+}
+
 void ComponentScript::OnCollision(PhysBody3D* col)
 {
 	if (App->scripting->scripts_loaded)

@@ -135,35 +135,117 @@ update_status ModulePhysics3D::Update()
 		world->debugDrawWorld();
 	}
 
-	if (paintMode && heightMapImg)
+	if (App->IsGameRunning() == false)
 	{
-		if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+		if (sculpted)
 		{
+			sculptTimer += time->RealDeltaTime();
+			if (sculptTimer > 6.0f)
+			{
+				sculptTimer = 0.0f;
+				sculpted = false;
+				for (int n = 0; n < terrainW * terrainH; n++)
+				{
+					terrainData[n] = vertices[n].y;
+					realTerrainData[n] = terrainData[n] / terrainMaxHeight;
+				}
+				ReinterpretNormals();
+				ReinterpretHeightmapImg();
+			}
+		}
+
+		if ((paintMode || sculptMode) && terrainData != nullptr)
+		{
+			CAP(brushSize, 0, 1000);
+
 			Ray ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
 			RaycastHit hit;
-			if (RayCast(ray, hit))
+			bool ray_contact = RayCast(ray, hit);
+			if (ray_contact)
 			{
-				CAP(paintTexture, 0, 10);
-
 				int x = ceil(hit.point.x) - 1;
 				int y = ceil(hit.point.z);
-				x += heightMapImg->GetWidth() / 2;
-				y += heightMapImg->GetHeight() / 2;
-				for (int _y = -brushSize; _y <= brushSize; _y++)
+				x += terrainW / 2;
+				y += terrainH / 2;
+#pragma region paintBrush
+				glLineWidth(4.0f);
+				for (int _y = y - brushSize - 1; _y < y + brushSize; _y++)
 				{
-					for (int _x = -brushSize; _x <= brushSize; _x++)
+					int x1 = x + brushSize + 1;
+					int x2 = x - brushSize;
+					if (_y > 1 && _y < terrainH - 1)
 					{
-						if (_x + x > 0 && _y + y > 0 && _x + x < heightMapImg->GetWidth() && _y + y < heightMapImg->GetHeight())
+						if (x1 > 1 && x1 < terrainW - 1)
 						{
-							textureMap[((heightMapImg->GetHeight() - (_y + y)) * heightMapImg->GetWidth() + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1]);
+						}
+						if (x2 > 1 && x2 < terrainW - 1)
+						{
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2]);
 						}
 					}
 				}
-				ReinterpretTextureMap();
+
+				for (int _x = x - brushSize; _x < x + brushSize + 1; _x++)
+				{
+					int y1 = y + brushSize;
+					int y2 = y - brushSize - 1;
+					if (_x > 1 && _x < terrainW - 1)
+					{
+						if (y1 > 0 && y1 < terrainH)
+						{
+							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1]);
+						}
+						if (y2 > 0 && y2 < terrainH)
+						{
+							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1]);
+						}
+					}
+				}
+				glLineWidth(1.0f);
+#pragma endregion
+
+#pragma region sculptMode
+				if (sculptMode)
+				{
+					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+					{
+						if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+						{
+							Sculpt(x, y, true);
+						}
+						else
+						{
+							Sculpt(x, y);
+						}
+					}
+				}
+#pragma endregion
+
+#pragma region paintMode
+				if (paintMode)
+				{
+					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
+					{
+						CAP(paintTexture, 0, 10);
+
+						for (int _y = -brushSize; _y <= brushSize; _y++)
+						{
+							for (int _x = -brushSize; _x <= brushSize; _x++)
+							{
+								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
+								{
+									textureMap[((terrainH - (_y + y)) * terrainW + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+								}
+							}
+						}
+						ReinterpretTextureMap();
+					}
+				}
+#pragma endregion
 			}
 		}
 	}
-
 	return UPDATE_CONTINUE;
 }
 
@@ -185,10 +267,6 @@ bool ModulePhysics3D::CleanUp()
 		DeleteTexture(n);
 	}
 
-	if (heightMapImg)
-	{
-		heightMapImg->Unload();
-	}
 	for (uint n = 0; n < GetNTextures(); n++)
 	{
 		DeleteTexture(n);
@@ -510,7 +588,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 	BROFILER_CATEGORY("ModulePhysics3D::Generate_Heightmap", Profiler::Color::HoneyDew);
 	bool ret = false;
 	//Loading Heightmap Image
-	if (resLibPath != GetHeightmapPath() && resLibPath != "" && resLibPath != " ")
+	if (resLibPath != "" && resLibPath != " ")
 	{
 		ResourceFile* res = App->resource_manager->LoadResource(resLibPath, ResourceFileType::RES_TEXTURE);
 		if (res != nullptr && res->GetType() == ResourceFileType::RES_TEXTURE)
@@ -525,7 +603,7 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 			unsigned int size = App->file_system->Load(res->GetFile(), &buffer);
 			if (size > 0)
 			{
-				heightMapImg = (ResourceFileTexture*)res;
+				ResourceFileTexture* heightMapImg = (ResourceFileTexture*)res;
 
 				ILuint id;
 				ilGenImages(1, &id);
@@ -539,6 +617,9 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 					realTerrainData = new float[width * height];
 					terrainData = new float[width * height];
 					ilCopyPixels(0, 0, 0, width, height, 1, IL_RGB, IL_UNSIGNED_BYTE, tmp);
+
+					terrainW = heightMapImg->GetWidth();
+					terrainH = heightMapImg->GetHeight();
 
 					float* R = new float[width * height];
 					float* G = new float[width * height];
@@ -563,6 +644,12 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 
 					delete[] tmp;
 					GenerateTerrainMesh();
+
+					if (heightMapImg != nullptr)
+					{
+
+						heightMapImg->Unload();
+					}
 				}
 			}
 			if (buffer != nullptr)
@@ -586,38 +673,273 @@ void ModulePhysics3D::DeleteHeightmap()
 		delete[] realTerrainData;
 		realTerrainData = nullptr;
 	}
-	if (heightMapImg != nullptr)
-	{
-		heightMapImg->Unload();
-		heightMapImg = nullptr;
-	}
 	DeleteTerrainMesh();
+	terrainW = terrainH = 0;
 }
 
 bool ModulePhysics3D::SaveTextureMap(const char * path)
 {	
-	if (heightMapImg)
+	if (terrainData)
 	{
-		return App->file_system->Save(path, textureMap, sizeof(float) * heightMapImg->GetWidth() * heightMapImg->GetHeight());
+		// -------- Collecting all chunks and its data into a single array -------------------------------------------------
+		struct pos_chunk
+		{
+			pos_chunk(chunk a, int b, int c) : Chunk(a), posX(b), posZ(c) {}
+			chunk Chunk;
+			int posX;
+			int posZ;
+		};
+
+		uint w = terrainW;
+		uint h = terrainH;
+
+		std::vector<pos_chunk> toSave;
+
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			{
+				toSave.push_back(pos_chunk(it_x->second, it_x->first, it_z->first));
+			}
+		}
+
+		//Getting ready to store chunks. Uint stores the amount of indices
+		uint size_totalChunkSize = 0; //byte size of all chunks together
+		std::vector<std::pair<uint, char*>> chunkData;
+		for (std::vector<pos_chunk>::iterator it_chunk = toSave.begin(); it_chunk != toSave.end(); it_chunk++)
+		{
+			std::pair<uint, char*> data;
+			uint totalSize = 0; //Total size of this chunk
+			//Coordinates
+			totalSize += sizeof(int) * 2;
+			//AABB
+			totalSize += sizeof(float3) * 2;
+			//Indices
+			totalSize += sizeof(uint) * it_chunk->Chunk.GetNIndices();
+
+			data.first = it_chunk->Chunk.GetNIndices();
+
+			//Size of the chunk data + the uint that stores the length
+			size_totalChunkSize += totalSize + sizeof(uint);
+
+			//Generating the buffer to save this chunk data
+			data.second = new char[totalSize];
+			char* buf_it = data.second;
+
+			
+
+			//Coordinate X, Z
+			uint bytes = sizeof(int);
+			memcpy(buf_it, &it_chunk->posX, bytes);
+			buf_it += bytes;
+			memcpy(buf_it, &it_chunk->posZ, bytes);
+			buf_it += bytes;
+
+			//AABB
+			bytes = sizeof(float3);
+			memcpy(buf_it, it_chunk->Chunk.GetAABB().minPoint.ptr(), bytes);
+			buf_it += bytes;
+			memcpy(buf_it, it_chunk->Chunk.GetAABB().maxPoint.ptr(), bytes);
+			buf_it += bytes;
+
+			bytes = sizeof(uint) * data.first;
+			memcpy(buf_it, it_chunk->Chunk.indices, bytes);
+
+			chunkData.push_back(data);
+		}
+
+		//Terrain size (heightmap width, heightmap height, n chunks, max height)
+		uint size_generalData = sizeof(uint) * 3 + sizeof(float);
+		//Number of vertices
+		uint size_vertices = sizeof(float3) * w * h;
+		//Normals
+		uint size_normals = sizeof(float3) * w * h;
+		//Texture map
+		uint size_textureMap = sizeof(float) * w * h + sizeof(uint);
+
+		//We're not saving UVs, we can regenerate them fastly
+
+		uint size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		char* buf = new char[size_total];
+		char* it = buf;
+
+		//Terrain width
+		uint bytes = sizeof(uint);
+		memcpy(it, &w, bytes);
+		it += bytes;
+		//Terrain height
+		memcpy(it, &h, bytes);
+		it += bytes;
+
+		//Max height
+		bytes = sizeof(float);
+		memcpy(it, &terrainMaxHeight, bytes);
+		it += bytes;
+
+		//Vertices
+		bytes = sizeof(float3) * w * h;
+		memcpy(it, vertices, bytes);
+		it += bytes;
+
+		//Normals
+		bytes = sizeof(float3) * w * h;
+		memcpy(it, normals, bytes);
+		it += bytes;
+
+		//Texture map
+		uint textureMapScale = 1;
+		bytes = sizeof(uint);
+		memcpy(it, &textureMapScale, bytes);
+		it += bytes;
+
+		bytes = sizeof(float) * w * h * textureMapScale;
+		memcpy(it, textureMap, bytes);
+		it += bytes;
+
+		//Number of chunks
+		bytes = sizeof(uint);
+		uint nChunks = chunkData.size();
+		memcpy(it, &nChunks, bytes);
+		it += bytes;
+
+		for (std::vector<std::pair<uint, char*>>::iterator it_data = chunkData.begin(); it_data != chunkData.end(); it_data++)
+		{
+			//Chunks
+			bytes = sizeof(uint);
+			memcpy(it, &it_data->first, bytes);
+			it += bytes;
+
+			bytes = it_data->first * sizeof(uint) + sizeof(int) * 2 + sizeof(float3) * 2;
+			memcpy(it, it_data->second, bytes);
+			it += bytes;
+
+			delete[] it_data->second;
+		}
+
+		return App->file_system->Save(path, buf, size_total);
+
+		RELEASE_ARRAY(buf);
 	}
+	return false;
 }
 
-void ModulePhysics3D::LoadTextureMap(const char * path)
+bool ModulePhysics3D::LoadTextureMap(const char * path)
 {
-	if (heightMapImg)
+	if (path != nullptr && path != "" && path != " ")
 	{
-		char* tmp = nullptr;		
-		uint size = App->file_system->Load(path, &tmp);		
+		BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
+		char* tmp = nullptr;
+		uint size = App->file_system->Load(path, &tmp);
 		if (size > 0)
 		{
-			if (textureMap != nullptr)
+			char* it = tmp;
+
+			//Terrain w
+			uint bytes = sizeof(uint);
+			memcpy(&terrainW, it, bytes);
+			it += bytes;
+			//Terrain H
+			memcpy(&terrainH, it, bytes);
+			it += bytes;
+
+			//Terrain max height
+			bytes = sizeof(float);
+			memcpy(&terrainMaxHeight, it, bytes);
+			it += bytes;
+
+
+			RELEASE_ARRAY(vertices);
+			RELEASE_ARRAY(terrainData);
+			RELEASE_ARRAY(realTerrainData);
+
+			vertices = new float3[terrainW * terrainH];
+			terrainData = new float[terrainW * terrainH];
+			realTerrainData = new float[terrainW * terrainH];
+
+			bytes = sizeof(float3) * terrainW * terrainH;
+			memcpy(vertices, it, bytes);
+			it += bytes;
+
+			for (int n = 0; n < terrainW * terrainH; n++)
 			{
-				delete[] textureMap;
+				terrainData[n] = vertices[n].y;
+				realTerrainData[n] = terrainData[n] / terrainMaxHeight;
 			}
-			textureMap = (float*)tmp;
+
+			RELEASE_ARRAY(normals);
+			normals = new float3[terrainW * terrainH];
+			memcpy(normals, it, bytes);
+			it += bytes;
+
+			bytes = sizeof(uint);
+			uint textureMapScale;
+			memcpy(&textureMapScale, it, bytes);
+			it += bytes;
+
+			RELEASE_ARRAY(textureMap);
+			textureMap = new float[terrainW * terrainH * textureMapScale];
+			bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
+			memcpy(textureMap, it, bytes);
+			it += bytes;
+
+			uint nChunks;
+			bytes = sizeof(uint);
+			memcpy(&nChunks, it, bytes);
+			it += bytes;
+
+			chunks.clear();
+			{
+				BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap::GeneratingChunks", Profiler::Color::HoneyDew);
+				for (int n = 0; n < nChunks; n++)
+				{
+					uint size;
+					bytes = sizeof(uint);
+					memcpy(&size, it, bytes);
+					it += bytes;
+
+					int coordX, coordZ;
+					float3 minP, maxP;
+
+					bytes = sizeof(int);
+					memcpy(&coordX, it, bytes);
+					it += bytes;
+					memcpy(&coordZ, it, bytes);
+					it += bytes;
+
+					bytes = sizeof(float3);
+					memcpy(&minP, it, bytes);
+					it += bytes;
+					memcpy(&maxP, it, bytes);
+					it += bytes;
+
+
+					std::map<int, std::map<int, chunk>>::iterator it_z = chunks.insert(std::pair<int, std::map<int, chunk>>(coordZ, std::map<int, chunk>())).first;
+					std::map<int, chunk>::iterator it_x = it_z->second.insert(std::pair<int, chunk>(coordX, chunk())).first;
+
+					it_x->second.indices = new uint[size];
+					it_x->second.nIndices = size;
+					it_x->second.SetAABB(minP, maxP);
+
+					bytes = sizeof(uint) * size;
+					memcpy(it_x->second.indices, it, bytes);
+					it += bytes;
+
+					it_x->second.GenBuffer();
+				}
+			}
+			RELEASE_ARRAY(tmp);
+
+			{
+				BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap::GenerateBuffers", Profiler::Color::HoneyDew);
+				ReinterpretMesh();
+				ReinterpretHeightmapImg();
+				ReinterpretTextureMap();
+				GenerateUVs();
+			}
+			return true;
 		}
-		ReinterpretTextureMap();
 	}
+	return false;
 }
 
 bool ModulePhysics3D::TerrainIsGenerated()
@@ -838,13 +1160,142 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 	return pvehicle;
 }
 
+void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
+{
+	if (x >= 0 && y >= 0 && x < terrainW && y < terrainH)
+	{
+		switch (tool)
+		{
+		case sculpt_smooth:
+		{
+			if (brushSize > 0 && x >= 0 && y >= 0 && x < terrainW && y < terrainH)
+			{
+				float value = 0.0f;
+				int n = 0;
+				//Iterating all image pixels
+				for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+				{
+					if (_y >= 0 && _y < terrainH)
+					{
+						for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+						{
+							if (_x >= 0 && _x < terrainW)
+							{
+								value = 0.0f;
+								n = 0;
+								//The 6 used in the for is a magic number. It's the kernel size
+
+								//Iterating all nearby pixels and checking they actually exist in the image
+								for (int _y2 = _y - 6; _y2 <= _y + 6; _y2++)
+								{
+									if (_y2 >= 0 && _y2 < terrainH)
+									{
+										for (int _x2 = _x - 6; _x2 <= _x + 6; _x2++)
+										{
+											if (_x2 >= 0 && _x2 < terrainW)
+											{
+												n++;
+												value += terrainData[_y2 * terrainW + _x2];
+											}
+										}
+									}
+								}
+								value /= n;
+
+								if (math::Abs(vertices[_y * terrainW + _x].y - value) < sculptStrength* time->RealDeltaTime())
+								{
+									vertices[_y * terrainW + _x].y = value;
+								}
+								else if (vertices[_y * terrainW + _x].y > value)
+								{
+									vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+								}
+								else
+								{
+									vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+		}
+		case sculpt_raise:
+		{
+			for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+			{
+				for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+				{
+					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
+					{
+						float displacement = sculptStrength* time->RealDeltaTime();
+						if (brushSize > 0)
+						{
+							float a = Max(math::Abs(x - _x), math::Abs(y - _y));
+							displacement = sculptStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
+						}
+						if (inverse) { displacement *= -1; }
+						vertices[_y * terrainW + _x].y += displacement;
+						if (vertices[_y * terrainW + _x].y < 0)
+						{
+							vertices[_y * terrainW + _x].y = 0;
+						}
+					}
+				}
+			}
+			break;
+		}
+		case sculpt_flatten:
+		{
+			float h = vertices[y * terrainW + x].y;
+			for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+			{
+				for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+				{
+					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
+					{
+						if (math::Abs(vertices[_y * terrainW + _x].y - h) < sculptStrength* time->RealDeltaTime())
+						{
+							vertices[_y * terrainW + _x].y = h;
+						}
+						else if (vertices[_y * terrainW + _x].y > h)
+						{
+							vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+						}
+						else
+						{
+							vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+						}
+					}
+				}
+			}
+			break;
+		}
+		}
+		ReinterpretVertices();
+		RegenerateNormals(x - brushSize - 1, y - brushSize - 1, x + brushSize + 1, y + brushSize + 1);
+
+		for (int _y = y - brushSize; _y <= y + brushSize; _y += min(CHUNK_H, brushSize))
+		{
+			for (int _x = x - brushSize; _x <= x + brushSize; _x += min(CHUNK_W, brushSize))
+			{
+				int chunkX = floor(_x / CHUNK_W);
+				int chunkY = floor(_y / CHUNK_H);
+				chunks[chunkY][chunkX].UpdateAABB();
+				sculpted = true;
+			}
+		}
+	}
+}
+
 
 // ---------------------------------------------------------
 void ModulePhysics3D::AddTerrain()
 {
-	if (heightMapImg != nullptr)
+	if (terrainData)
 	{
-		terrain = new btHeightfieldTerrainShape(heightMapImg->GetWidth(), heightMapImg->GetHeight(), terrainData, 1.0f, -300, 300, 1, PHY_ScalarType::PHY_FLOAT, false);
+		terrain = new btHeightfieldTerrainShape(terrainW, terrainH, terrainData, 1.0f, -terrainMaxHeight - 1, terrainMaxHeight + 1, 1, PHY_ScalarType::PHY_FLOAT, false);
 		shapes.push_back(terrain);
 
 		btDefaultMotionState* myMotionState = new btDefaultMotionState();
@@ -860,12 +1311,12 @@ void ModulePhysics3D::AddTerrain()
 void ModulePhysics3D::GenerateIndices()
 {
 	BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices", Profiler::Color::HoneyDew);
-	if (heightMapImg)
+	if (terrainData)
 	{
 		DeleteIndices();
 
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 
 		//Interior vertices all need 6 indices
 		//limit vertices all need 3 indices
@@ -873,37 +1324,29 @@ void ModulePhysics3D::GenerateIndices()
 		//numIndices = ((w - 2) * (h - 2)) * 6 + (w * 2 + h * 2) * 3 - 2 - 1 - 2 - 1;
 		//indices = new uint[numIndices];
 
-		float2* originalUvs = new float2[w*h];
-
-		for (int z = 0; z < h - 1; z++)
 		{
-			for (int x = 0; x < w - 1; x++)
+			BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices::AddingTris", Profiler::Color::HoneyDew);
+			for (int z = 0; z < h - 1; z++)
 			{
-				AddTriToChunk(	((z + 1) * w + x),		(z * w + x + 1),		(z * w + x),				x, z);
-				AddTriToChunk(	(z * w + x + 1),		((z + 1) * w + x),		((z + 1) * w + x + 1),		x, z);
-
-				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+				for (int x = 0; x < w - 1; x++)
+				{
+					AddTriToChunk(((z + 1) * w + x), (z * w + x + 1), (z * w + x), x, z);
+					AddTriToChunk((z * w + x + 1), ((z + 1) * w + x), ((z + 1) * w + x + 1), x, z);
+				}
 			}
 		}
 
-		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 		{
-			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+			BROFILER_CATEGORY("ModulePhysics3D::Generate_Indices::UpdatingAABB_GenChunkBuffers", Profiler::Color::HoneyDew);
+			for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 			{
-				it_x->second.UpdateAABB();
-				it_x->second.GenBuffer();
+				for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
+				{
+					it_x->second.UpdateAABB();
+					it_x->second.GenBuffer();
+				}
 			}
 		}
-
-		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
-		if (terrainOriginalUvBuffer == 0)
-		{
-			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
-		}
-		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
-
-		delete[] originalUvs;
 	}
 }
 
@@ -1009,7 +1452,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 	{
 		if (wired)
 		{
-			glLineWidth(1.5f);
+			glLineWidth(0.5f);
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
@@ -1259,6 +1702,7 @@ void ModulePhysics3D::GenerateTerrainMesh()
 
 void ModulePhysics3D::DeleteNormals()
 {
+	RELEASE_ARRAY(normals);
 	if (terrainNormalBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainNormalBuffer);
@@ -1268,10 +1712,10 @@ void ModulePhysics3D::DeleteNormals()
 
 void ModulePhysics3D::GenerateUVs()
 {
-	if (heightMapImg)
+	if (terrainData)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 
 		DeleteUVs();
 
@@ -1284,7 +1728,7 @@ void ModulePhysics3D::GenerateUVs()
 				float uv_x = ((float)x / (float)w) / textureScaling;
 				float uv_y = 1 - (((float)z / (float)h) / textureScaling);
 				uvs[z * w + x] = float2(uv_x, uv_y);
-				
+
 			}
 		}
 
@@ -1294,6 +1738,27 @@ void ModulePhysics3D::GenerateUVs()
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, uvs, GL_STATIC_DRAW);
 
 		delete[] uvs;
+
+
+		float2* originalUvs = new float2[w*h];
+
+		for (int z = 0; z < h - 1; z++)
+		{
+			for (int x = 0; x < w - 1; x++)
+			{
+				originalUvs[z * w + x] = float2(((float)x / (float)w), (1 - ((float)z / (float)h)));
+			}
+		}
+
+		//Load Original UVs -----------------------------------------------------------------------------------------------------------------------
+		if (terrainOriginalUvBuffer == 0)
+		{
+			glGenBuffers(1, (GLuint*)&(terrainOriginalUvBuffer));
+		}
+		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(float2) * w*h, originalUvs, GL_STATIC_DRAW);
+
+		delete[] originalUvs;
 	}
 }
 
@@ -1316,13 +1781,13 @@ void ModulePhysics3D::DeleteTerrainMesh()
 
 void ModulePhysics3D::GenerateVertices()
 {
-	if (heightMapImg)
+	if (terrainData)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 		uint numVertices = w * h;
 
-		DeleteVertices();
+		RELEASE_ARRAY(vertices);
 
 		vertices = new float3[numVertices];
 
@@ -1333,101 +1798,45 @@ void ModulePhysics3D::GenerateVertices()
 				vertices[z * w + x] = float3(x - w / 2, realTerrainData[z * w + x] * terrainMaxHeight, z - h / 2);
 			}
 		}
-
-		//Load vertices buffer to VRAM
-		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, vertices, GL_STATIC_DRAW);
-
 		GenerateNormals();
+
+		ReinterpretMesh();
+		ReinterpretHeightmapImg();
 	}
 }
 
 void ModulePhysics3D::DeleteVertices()
 {
+	RELEASE_ARRAY(vertices);
 	if (terrainVerticesBuffer != 0)
 	{
 		glDeleteBuffers(1, (GLuint*)&terrainVerticesBuffer);
 		terrainVerticesBuffer = 0;
 	}
-	if (vertices != nullptr)
-	{
-		delete[] vertices;
-		vertices = nullptr;
-	}
 }
 
 void ModulePhysics3D::GenerateNormals()
 {
-	if (heightMapImg && vertices)
+	if (terrainData && vertices)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 		uint numVertices = w * h;
 
-		DeleteNormals();
+		RELEASE_ARRAY(normals);
 
-		float3* normals = new float3[numVertices];
+		normals = new float3[numVertices];
 
-		for (int z = 0; z < h; z++)
-		{
-			for (int x = 0; x < w; x++)
-			{
-				Triangle t;
-				float3 norm = float3::zero;
-
-				//Top left
-				if (x - 1 > 0 && z - 1 > 0)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z - 1)* w + x];
-					t.c = vertices[(z)* w + x - 1];
-					norm += t.NormalCCW();
-				}
-				//Top right
-				if (x + 1 < w && z - 1 > 0)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z)* w + x + 1];
-					t.c = vertices[(z - 1)* w + x];
-					norm += t.NormalCCW();
-				}
-				//Bottom left
-				if (x - 1 > 0 && z + 1 < h)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z)* w + x - 1];
-					t.c = vertices[(z + 1)* w + x];
-					norm += t.NormalCCW();
-				}
-				//Bottom right
-				if (x + 1 < w && z + 1 < h)
-				{
-					t.a = vertices[(z)* w + x];
-					t.b = vertices[(z + 1)* w + x];
-					t.c = vertices[(z)* w + x + 1];
-					norm += t.NormalCCW();
-				}
-				norm.Normalize();
-				normals[z * w + x] = norm;
-			}
-		}
-
-		//Load Normalss -----------------------------------------------------------------------------------------------------------------------
-		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
-		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * numVertices, normals, GL_STATIC_DRAW);
-
-		delete[] normals;
+		RegenerateNormals(0, 0, w, h);
 	}
 }
 
 void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 {
-	if (heightMapImg)
+	if (terrainData)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 
 		float* edgeH = new float[(w*h) * 3];
 		float* edgeV = new float[(w*h) * 3];
@@ -1528,9 +1937,9 @@ void ModulePhysics3D::SetTerrainMaxHeight(float height)
 {
 	if (height > 0.1f)
 	{
-		if (heightMapImg)
+		if (terrainData && realTerrainData)
 		{
-			for (unsigned int n = 0; n < heightMapImg->GetWidth() * heightMapImg->GetHeight(); n++)
+			for (unsigned int n = 0; n < terrainW * terrainH; n++)
 			{
 				terrainData[n] = realTerrainData[n]  * height;
 			}
@@ -1604,30 +2013,11 @@ void ModulePhysics3D::DeleteTexture(uint n)
 	}
 }
 
-uint ModulePhysics3D::GetCurrentTerrainUUID()
-{
-	if (heightMapImg)
-	{
-		return heightMapImg->GetUUID();
-	}
-	return 0;
-}
-
-const char *ModulePhysics3D::GetHeightmapPath()
-{
-	if (heightMapImg)
-	{
-		return heightMapImg->GetFile();
-	}
-	char ret[5] = " ";
-	return ret;
-}
-
 int ModulePhysics3D::GetHeightmap()
 {
-	if (heightMapImg != nullptr)
+	if (terrainData != nullptr)
 	{
-		return heightMapImg->GetTexture();
+		return heightmap_bufferID;
 	}
 	return 0;
 }
@@ -1667,19 +2057,15 @@ uint ModulePhysics3D::GetNTextures()
 
 float2 ModulePhysics3D::GetHeightmapSize()
 {
-	if (heightMapImg)
-	{
-		return float2(heightMapImg->GetWidth(), heightMapImg->GetHeight());
-	}
-	return float2::zero;
+	return float2(terrainW, terrainH);
 }
 
 void ModulePhysics3D::AutoGenerateTextureMap()
 {
-	if (heightMapImg)
+	if (terrainData)
 	{
-		int w = heightMapImg->GetWidth();
-		int h = heightMapImg->GetHeight();
+		int w = terrainW;
+		int h = terrainH;
 		for (int y = 0; y < h; y++)
 		{
 			for (int x = 0; x < w; x++)
@@ -1700,7 +2086,7 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 
 void ModulePhysics3D::ReinterpretTextureMap()
 {
-	if (heightMapImg)
+	if (terrainData)
 	{
 		glEnable(GL_TEXTURE_2D);
 		glActiveTexture(GL_TEXTURE0);
@@ -1714,8 +2100,128 @@ void ModulePhysics3D::ReinterpretTextureMap()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, heightMapImg->GetWidth(), heightMapImg->GetHeight(), 0, GL_RED, GL_FLOAT, textureMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, terrainW, terrainH, 0, GL_RED, GL_FLOAT, textureMap);
 	}
+}
+
+void ModulePhysics3D::ReinterpretHeightmapImg()
+{
+	if (terrainData)
+	{
+		glEnable(GL_TEXTURE_2D);
+		glActiveTexture(GL_TEXTURE0);
+		if (heightmap_bufferID == 0)
+		{
+			glGenTextures(1, &heightmap_bufferID);
+		}
+		glBindTexture(GL_TEXTURE_2D, heightmap_bufferID);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		float3* tmp = new float3[terrainW * terrainH];
+		memcpy(tmp, vertices, sizeof(float3) * terrainW * terrainH);
+		float newTerrainMaxHeight = 0.0f;
+		for (uint n = 0; n < terrainW * terrainH; n++)
+		{
+			newTerrainMaxHeight = Max(newTerrainMaxHeight, tmp[n].y);
+		}
+		for (uint n = 0; n < terrainW * terrainH; n++)
+		{
+			tmp[n].y = tmp[n].y / newTerrainMaxHeight;
+			tmp[n].x = tmp[n].z = tmp[n].y;
+		}
+
+		terrainMaxHeight = newTerrainMaxHeight;
+
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, terrainW, terrainH, 0, GL_RGB, GL_FLOAT, tmp);
+
+		delete[] tmp;
+	}
+}
+
+void ModulePhysics3D::ReinterpretMesh()
+{
+	ReinterpretVertices();
+	ReinterpretNormals();
+}
+
+void ModulePhysics3D::ReinterpretVertices()
+{
+	//Load vertices buffer to VRAM
+	if (terrainVerticesBuffer == 0)
+	{
+		glGenBuffers(1, (GLuint*)&(terrainVerticesBuffer));
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * terrainW * terrainH, vertices, GL_STATIC_DRAW);
+}
+
+void ModulePhysics3D::ReinterpretNormals()
+{
+	//Load Normals -----------------------------------------------------------------------------------------------------------------------
+	if (terrainNormalBuffer == 0)
+	{
+		glGenBuffers(1, (GLuint*)&(terrainNormalBuffer));
+	}
+	glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float3) * terrainW * terrainH, normals, GL_STATIC_DRAW);
+}
+
+void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
+{
+	int w = terrainW;
+	int h = terrainH;
+	CAP(x0, 0, terrainW - 1);
+	CAP(x1, 0, terrainW - 1);
+	CAP(y0, 0, terrainH - 1);
+	CAP(y1, 0, terrainH - 1);
+	for (int z = y0; z < y1; z++)
+	{
+		for (int x = x0; x < x1; x++)
+		{
+			Triangle t;
+			float3 norm = float3::zero;
+
+			//Top left
+			if (x - 1 > 0 && z - 1 > 0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z - 1)* w + x];
+				t.c = vertices[(z)* w + x - 1];
+				norm += t.NormalCCW();
+			}
+			//Top right
+			if (x + 1 < terrainW && z - 1 > 0)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x + 1];
+				t.c = vertices[(z - 1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom left
+			if (x - 1 > 0 && z + 1 < terrainH)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z)* w + x - 1];
+				t.c = vertices[(z + 1)* w + x];
+				norm += t.NormalCCW();
+			}
+			//Bottom right
+			if (x + 1 < terrainW && z + 1 < terrainH)
+			{
+				t.a = vertices[(z)* w + x];
+				t.b = vertices[(z + 1)* w + x];
+				t.c = vertices[(z)* w + x + 1];
+				norm += t.NormalCCW();
+			}
+			norm.Normalize();
+			normals[z * w + x] = norm;
+		}
+	}
+
+	ReinterpretNormals();
 }
 
 
@@ -1801,16 +2307,14 @@ chunk::~chunk()
 
 void chunk::GenBuffer()
 {
-	if (indices.empty() == false)
+	if (nIndices > 0)
 	{
 		if (indices_bufferID == 0)
 		{
 			glGenBuffers(1, (GLuint*) &(indices_bufferID));
 		}
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indices_bufferID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * indices.size(), indices.data(), GL_STATIC_DRAW);
-
-		indices.shrink_to_fit();
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint) * nIndices, indices, GL_STATIC_DRAW);
 	}
 }
 
@@ -1821,30 +2325,50 @@ int chunk::GetBuffer()
 
 int chunk::GetNIndices()
 {
-	return indices.size();
+	return nIndices;
+}
+
+const uint * chunk::GetIndices()
+{
+	return indices;
 }
 
 void chunk::AddIndex(const uint& i)
 {
-	indices.push_back(i);
+	if (nIndices + 1 >= avaliableSpace)
+	{
+		avaliableSpace = nIndices + 64;
+		uint* tmp = new uint[avaliableSpace];
+		memcpy(tmp, indices, sizeof(uint) * nIndices);
+		RELEASE_ARRAY(indices);
+		indices = tmp;
+	}
+	indices[nIndices] = i;
+	nIndices++;
 }
 
 void chunk::UpdateAABB()
 {
 	aabb.SetNegativeInfinity();
-	for (std::vector<uint>::iterator it = indices.begin(); it != indices.end(); it++)
+	for (int n = 0; n < nIndices; n++)
 	{
-		uint a = (*it);
-		aabb.Enclose(App->physics->vertices[(*it)]);
+		aabb.Enclose(App->physics->vertices[indices[n]]);
 	}
 }
 
 void chunk::CleanIndices()
 {
-	indices.clear();
+	RELEASE_ARRAY(indices);
+	nIndices = 0;
 }
 
 void chunk::Render()
 {
 	App->renderer3D->DrawAABB(aabb.minPoint, aabb.maxPoint, float4(0.674, 0.784, 0.886, 1.0f));
+}
+
+void chunk::SetAABB(float3 minPoint, float3 MaxPoint)
+{
+	aabb.minPoint = minPoint;
+	aabb.maxPoint = MaxPoint;
 }

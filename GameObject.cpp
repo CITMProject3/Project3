@@ -18,6 +18,7 @@
 #include "ComponentUiText.h"
 #include "ComponentCanvas.h"
 #include "ComponentUiButton.h"
+#include "ComponentGrid.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -435,6 +436,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_UI_BUTTON:
 		if (GetComponent(C_RECT_TRANSFORM))
 			item = new ComponentUiButton(type, this);
+		break;
+	case C_GRID:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentGrid(type, this);
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);

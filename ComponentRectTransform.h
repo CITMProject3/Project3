@@ -13,6 +13,7 @@ private:
 
 	float3 global_position;				// World position representation
 	float3 local_position;					// Position representation;
+	float3 local_middle_position;
 	float2 rect_size;					// RectTransform;
 	float3 size;							// Size representation;
 
@@ -40,9 +41,9 @@ public:
 
 	// Setters / Getters
 	const float2 GetGlobalPos() const;
-	const vec &GetLocalPos() const;
+	const float2 GetLocalPos() const;
 
-	void SetLocalPos(const vec &local_pos);
+	void SetLocalPos(const float2 &local_pos);
 	void SetSize(const float2 &size);
 	float2 GetRectSize()const;
 	void ResizePlane();
@@ -51,6 +52,9 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 	void Remove();
+
+	int order = 0; // Range 0 to 7
+
 private:
 	ResourceFileMesh* plane = nullptr;
 

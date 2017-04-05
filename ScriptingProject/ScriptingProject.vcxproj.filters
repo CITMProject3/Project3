@@ -48,6 +48,18 @@
     <ClCompile Include="Scene_Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MainMenuUI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Start_Menu_UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Character_Selection_UI.cpp">
+		<Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSelectUI.cpp">
+    <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Kmh_Counter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,5 +74,6 @@
     <None Include="ScriptingProject.def">
       <Filter>Source Files</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

@@ -94,6 +94,17 @@ bool Data::AppendFloat3(const char * name,const float * value)
 	return json_object_set_value(root, name, j_value) == JSONSuccess;
 }
 
+bool Data::AppendFloat4(const char * name, const float * value)
+{
+	JSON_Value* j_value = json_value_init_array();
+	JSON_Array* array = json_value_get_array(j_value);
+
+	for (int i = 0; i < 4; i++)
+		json_array_append_number(array, value[i]);
+
+	return json_object_set_value(root, name, j_value) == JSONSuccess;
+}
+
 bool Data::AppendDouble(const char * name, double value)
 {
 	return json_object_set_number(root, name, value) == JSONSuccess;
@@ -209,6 +220,21 @@ float3 Data::GetFloat3(const char * name) const
 		return ret;
 	}
 	return float3::zero;
+}
+
+float4 Data::GetFloat4(const char * name) const
+{
+	JSON_Array* j_array = json_object_get_array(root, name);
+	if (j_array)
+	{
+		float4 ret((float)json_array_get_number(j_array, 0),
+			(float)json_array_get_number(j_array, 1),
+			(float)json_array_get_number(j_array, 2),
+			(float)json_array_get_number(j_array, 3));
+
+		return ret;
+	}
+	return float4::zero;
 }
 
 double Data::GetDouble(const char * name) const

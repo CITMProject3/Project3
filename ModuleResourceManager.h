@@ -26,7 +26,8 @@ enum FileType
 	MATERIAL,
 	RENDER_TEXTURE,
 	SOUNDBANK,
-	SCRIPTS_LIBRARY
+	SCRIPTS_LIBRARY,
+	TERRAIN
 };
 
 struct tmp_mesh_file
