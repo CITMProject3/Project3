@@ -13,7 +13,7 @@
 namespace Finish_lane
 {
 	//Public
-	int Checkpoint_N = 4.0;
+	int Checkpoint_N = 1;
 
 	void Finish_lane_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
