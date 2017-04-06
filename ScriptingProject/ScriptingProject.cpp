@@ -46,6 +46,10 @@ extern "C"
 			
 			// Audio related...
 			script_names->push_back("Audio_PlaySound");
+
+			//Game loop related
+			script_names->push_back("Checkpoint");
+			script_names->push_back("Finish_lane");
 		}
 	}
 

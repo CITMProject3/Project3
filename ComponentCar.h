@@ -373,7 +373,7 @@ private:
 	public:
 		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
 		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
-		uint checkpoints = MAXUINT;
+		uint checkpoints = MAXUINT - 10;
 		float3 last_check_pos = float3::zero;
 		Quat last_check_rot = Quat::identity;
 		unsigned int lap = 0;
