@@ -65,7 +65,7 @@ namespace Scene_Manager
 	GameObject* player1_finish = nullptr;
 	GameObject* player2_finish = nullptr;
 
-	string main_menu_scene = "";
+	string main_menu_scene = "Insert scene path here";
 
 	//"Private" variables
 	double start_timer;
@@ -109,7 +109,7 @@ namespace Scene_Manager
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		main_menu_scene = script->public_chars["Main_Menu_Scene"];
+		main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
 
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];
@@ -235,9 +235,7 @@ namespace Scene_Manager
 			{
 				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::B) == KEY_DOWN)
 				{
-					//TODO
-					//App->LoadScene(main_menu_scene.c_str());
-					App->LoadScene("Assets/Main_Menu.ezx");
+					App->LoadScene(main_menu_scene.c_str());
 					return;
 				}
 			}

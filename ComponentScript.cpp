@@ -182,7 +182,7 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				str = "##";
 				str += (*it).first;
-				ImGui::InputText(str.c_str(), (*it).second._Myptr(), (*it).second.size());
+				ImGui::InputText(str.c_str(), (*it).second._Myptr(), 30);
 			}
 		}
 		if (!public_ints.empty())
