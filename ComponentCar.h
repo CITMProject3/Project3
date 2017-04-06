@@ -306,6 +306,8 @@ private:
 	bool turned = false;
 	float timer_start_turned = 0.0f;
 
+	//Brake
+	float brake = 0.0f;
 	//Boosts
 	float accel_boost = 0.0f;
 	float speed_boost = 0.0f;

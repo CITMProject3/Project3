@@ -162,7 +162,6 @@ void ComponentCar::HandlePlayerInput()
 	BROFILER_CATEGORY("ComponentCar::HandlePlayerInput", Profiler::Color::HoneyDew)
 	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
 
-	float brake;
 	bool turning = false;
 	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
@@ -832,44 +831,51 @@ void ComponentCar::CalcDriftForces()
 {
 	if (ground_contact_state)
 	{
+		if (!accel || brake)
+		{
+			EndDrift();
+		}
+		else
+		{
+			vehicle->vehicle->getRigidBody()->clearForces();
 
-		vehicle->vehicle->getRigidBody()->clearForces();
+			float4x4 matrix;
+			vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+			matrix.Transpose();
 
-		float4x4 matrix;
-		vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-		matrix.Transpose();
-
-		float3 front = matrix.WorldZ();
-		float3 left = matrix.WorldX();
-		float3 final_dir;
-		if (drift_dir_left == true)
-			left = -left;
+			float3 front = matrix.WorldZ();
+			float3 left = matrix.WorldX();
+			float3 final_dir;
+			if (drift_dir_left == true)
+				left = -left;
 
 
-		final_dir = left.Lerp(front, drift_ratio);
+			final_dir = left.Lerp(front, drift_ratio);
 
-		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
-		float l = startDriftSpeed.length();
-		btVector3 final_vector = vector * l * drift_mult;
-		btVector3 zero = { 0,0,0 };
+			btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
+			float l = startDriftSpeed.length();
+			btVector3 final_vector = vector * l * drift_mult;
+			btVector3 zero = { 0,0,0 };
 
-		final_vector.setY(0.0f);
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
-		//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
-		/*final_vector.setY(0);
-		vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
+			final_vector.setY(0.0f);
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+			//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
+			/*final_vector.setY(0);
+			vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
 
-		//Debugging lines
-		//Front vector
-		/*float3 start_line = matrix.TranslatePart();
-		float3 end_line = start_line + front;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
-		//Left vector
-		end_line = start_line + left;
-		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
-		//Force vector
-		end_line = start_line + final_dir;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
+			//Debugging lines
+			//Front vector
+			/*float3 start_line = matrix.TranslatePart();
+			float3 end_line = start_line + front;
+			App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
+			//Left vector
+			end_line = start_line + left;
+			App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
+			//Force vector
+			end_line = start_line + final_dir;
+			App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
+		
+		}
 	}
 }
 
