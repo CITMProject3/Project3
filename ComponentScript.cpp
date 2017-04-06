@@ -59,38 +59,7 @@ void ComponentScript::Update()
 	{
 		if (App->IsGameRunning() && !App->IsGamePaused())
 		{
-			if (!started)
-			{
-				string start_path = path.c_str();
-				start_path.append("_Start");
-				if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
-				{
-					finded_start = true;
-					string update_publics_path = path.c_str();
-					update_publics_path.append("_UpdatePublics");
-					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
-					{
-						update_publics(GetGameObject());
-					}
-					if (App->IsGameRunning() && !App->IsGamePaused())
-					{
-						start(GetGameObject());
-						started = true;
-					}
-					string actualize_publics_path = path.c_str();
-					actualize_publics_path.append("_ActualizePublics");
-					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
-					{
-						actualize_publics(GetGameObject());
-					}
-				}
-				else
-				{
-					finded_start = false;
-					error = GetLastError();
-				}
-			}
-			else
+			if (started)
 			{
 				string update_path = path.c_str();
 				update_path.append("_Update");
@@ -412,6 +381,42 @@ void ComponentScript::SetGOVar(GameObject* game_object)
 	}
 	App->scripting->to_set_var = nullptr;
 	App->scripting->setting_go_var_name = "";
+}
+
+void ComponentScript::OnPlay()
+{
+	if (App->scripting->scripts_loaded)
+	{
+		string start_path = path.c_str();
+		start_path.append("_Start");
+		if (f_Start start = (f_Start)GetProcAddress(App->scripting->scripts_lib->lib, start_path.c_str()))
+		{
+			finded_start = true;
+			string update_publics_path = path.c_str();
+			update_publics_path.append("_UpdatePublics");
+			if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+			{
+				update_publics(GetGameObject());
+			}
+			if (App->IsGameRunning() && !App->IsGamePaused())
+			{
+				start(GetGameObject());
+				started = true;
+			}
+			string actualize_publics_path = path.c_str();
+			actualize_publics_path.append("_ActualizePublics");
+			if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+			{
+				actualize_publics(GetGameObject());
+			}
+		}
+		else
+		{
+			started = false;
+			finded_start = false;
+			error = GetLastError();
+		}
+	}
 }
 
 void ComponentScript::OnFocus()
