@@ -156,6 +156,7 @@ float ComponentCar::GetVelocity() const
 
 void ComponentCar::HandlePlayerInput()
 {
+	BROFILER_CATEGORY("ComponentCar::HandlePlayerInput", Profiler::Color::HoneyDew)
 	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
 
 	float brake;
@@ -1089,6 +1090,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 
 void ComponentCar::GameLoopCheck()
 {
+	BROFILER_CATEGORY("ComponentCar::GameLoopCheck", Profiler::Color::HoneyDew)
 	if (game_object->transform->GetPosition().y <= lose_height)
 		TurnOver();
 }
@@ -1225,6 +1227,7 @@ Turbo* ComponentCar::GetAppliedTurbo() const
 
 void ComponentCar::CheckGroundCollision()
 {
+	BROFILER_CATEGORY("ComponentCar::CheckGroundCollision", Profiler::Color::HoneyDew)
 	bool last_contact = ground_contact_state;
 
 	ground_contact_state = vehicle->IsVehicleInContact();
@@ -1343,6 +1346,7 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
+	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 	/*
 	for (uint i = 0; i < wheels_go.size(); i++)

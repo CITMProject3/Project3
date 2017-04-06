@@ -436,6 +436,8 @@ void ComponentAnimation::Update()
 //-------------------------------------------
 void ComponentAnimation::UpdateBonesTransform(const Animation* settings, const Animation* blend, float blendRatio)
 {
+	BROFILER_CATEGORY("ComponentAnimation::UpdateBonesTransform", Profiler::Color::Orange)
+
 	uint current_frame = settings->start_frame + settings->ticks_per_second * settings->time;
 
 	for (uint i = 0; i < links.size(); i++)
@@ -558,6 +560,7 @@ void ComponentAnimation::CollectMeshesBones(GameObject* gameObject, std::map<std
 
 void ComponentAnimation::UpdateMeshAnimation(GameObject* gameObject)
 {
+	BROFILER_CATEGORY("ComponentAnimation::UpdateMeshAnimation", Profiler::Color::Orange)
 	ComponentMesh* mesh = (ComponentMesh*)gameObject->GetComponent(C_MESH);
 	if (mesh != nullptr && mesh->HasBones() == true)
 	{
