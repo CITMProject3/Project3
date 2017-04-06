@@ -142,6 +142,8 @@ namespace MapSelectUI
 					current_map--;
 
 				c_map_mainportrait->OnPressId(current_map - 2);
+
+				c_left_arrow->OnPressId(0);
 				dpad_left_pressed = true;
 			}
 
@@ -154,7 +156,7 @@ namespace MapSelectUI
 
 				c_map_mainportrait->OnPressId(current_map - 1); // TO BE TESTED
 
-				c_right_arrow->OnPressId(1);
+				c_right_arrow->OnPressId(0);
 				dpad_right_pressed = true;
 			}
 		}
@@ -226,5 +228,10 @@ namespace MapSelectUI
 			else
 				total = 0; // Redundancy
 		}
+	}
+
+	void MapSelectUIUI_OnFocus()
+	{
+
 	}
 }
