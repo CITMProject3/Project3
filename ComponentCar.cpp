@@ -118,7 +118,7 @@ void ComponentCar::OnPlay()
 		reset_pos = trs->GetPosition();
 		reset_rot = trs->GetRotation();
 	}
-	checkpoints = MAXUINT;
+	checkpoints = MAXUINT - 10;
 	lap = 0;
 }
 
@@ -1105,7 +1105,7 @@ void ComponentCar::TurnOver()
 
 void ComponentCar::Reset()
 {
-	if (checkpoints == 0 || checkpoints >= MAXUINT - 2)
+	if (checkpoints >= MAXUINT - 20)
 	{
 		vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
 		vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
