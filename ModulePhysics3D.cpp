@@ -177,11 +177,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (x1 > 1 && x1 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1], float4(0,1,1,1));
 						}
 						if (x2 > 1 && x2 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2], float4(0, 1, 1, 1));
 						}
 					}
 				}
@@ -194,11 +194,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (y1 > 0 && y1 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 						if (y2 > 0 && y2 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 					}
 				}

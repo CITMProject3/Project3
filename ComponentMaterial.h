@@ -54,5 +54,7 @@ private:
 	bool texture_changed = false;
 	std::string delete_texture_name;
 
+	std::string material_assets_path;
+
 };
 #endif // !__COMPONENT_MATERIAL_H__

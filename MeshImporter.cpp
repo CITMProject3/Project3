@@ -590,7 +590,10 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 					if (material->list_textures_paths.size() > 1)
 					{
 						Data tex_data;
-						tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[1]).c_str());
+						if (material->list_textures_paths[1] != "")
+							tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[1]).c_str());
+						else
+							tex_data.AppendString("path", "");
 						component_data.AppendArrayValue(tex_data);
 					}
 						break;
