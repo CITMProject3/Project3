@@ -1464,6 +1464,7 @@ void ComponentCar::Save(Data& file) const
 	//Turn 
 	data.AppendFloat("base_turn_max", base_turn_max);
 	data.AppendFloat("turn_speed", turn_speed);
+	data.AppendFloat("turn_speed_joystick", turn_speed_joystick);
 
 	data.AppendFloat("time_to_idle", time_to_idle);
 	data.AppendBool("idle_turn_by_interpolation", idle_turn_by_interpolation);
@@ -1616,6 +1617,7 @@ void ComponentCar::Load(Data& conf)
 	//Turn 
 	base_turn_max = conf.GetFloat("base_turn_max"); 
 	turn_speed = conf.GetFloat("turn_speed");
+	turn_speed_joystick = conf.GetFloat("turn_speed_joystick");
 
 	time_to_idle = conf.GetFloat("time_to_idle");
 	idle_turn_by_interpolation = conf.GetBool("idle_turn_by_interpolation");
