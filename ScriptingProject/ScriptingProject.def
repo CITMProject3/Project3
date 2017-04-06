@@ -119,3 +119,10 @@ EXPORTS
 	OutOfBounds_Start
 	OutOfBounds_Update
 	OutOfBounds_OnCollision
+
+	CarPositionController_GetPublics
+	CarPositionController_UpdatePublics
+	CarPositionController_ActualizePublics
+	CarPositionController_Start
+	CarPositionController_Update
+	CarPositionController_OnCollision

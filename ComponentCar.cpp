@@ -122,6 +122,7 @@ void ComponentCar::OnPlay()
 	lap = 0;
 	raceStarted = false;
 	finished = false;
+	n_checkpoints = 0;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -1080,6 +1081,7 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 {
 	if (checkpoint == checkpoints + 1)
 	{
+		n_checkpoints++;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
@@ -1098,6 +1100,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		{
 			lap++;
 		}
+		n_checkpoints++;
 		checkpoints = 0;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
