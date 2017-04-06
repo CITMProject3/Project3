@@ -27,6 +27,7 @@
 #include <string>
 
 #include "SDL\include\SDL_scancode.h"
+#include "Brofiler\include\Brofiler.h"
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
@@ -77,6 +78,8 @@ ComponentCar::~ComponentCar()
 
 void ComponentCar::Update()
 {
+	BROFILER_CATEGORY("ComponentCar::Update", Profiler::Color::GhostWhite)
+
 	if (App->IsGameRunning())
 	{
 		if (vehicle)
