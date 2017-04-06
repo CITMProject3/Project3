@@ -192,10 +192,12 @@ public:
 	bool lock_input = false;
 	uint team = 0;
 	uint place = 1;
-	bool finished = true;
+	bool finished = false;
 
 private:
 	float kickTimer = 0.0f;
+
+	bool raceStarted = false;
 public:
 
 	//Drifting control variables
