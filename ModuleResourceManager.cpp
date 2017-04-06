@@ -82,7 +82,7 @@ update_status ModuleResourceManager::Update()
 		{
 			CheckDirectoryModification(App->editor->assets->root);
 			modification_timer = 0.0f;
-			App->editor->assets->Refresh();
+			//App->editor->assets->Refresh();
 		}
 	}
 
