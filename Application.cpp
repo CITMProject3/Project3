@@ -66,9 +66,9 @@ Application::Application()
 	AddModule(g_Debug);
 	AddModule(scripting);
 	AddModule(physics);
-	AddModule(go_manager);
-	AddModule(camera);
 	AddModule(audio);
+	AddModule(go_manager);
+	AddModule(camera);	
 	AddModule(lighting);
 	
 	// Scenes
