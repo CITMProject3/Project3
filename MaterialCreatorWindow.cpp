@@ -38,7 +38,7 @@ void MaterialCreatorWindow::Draw()
 			if (ImGui::MenuItem((*ver).data()))
 			{
 				vertex = (*ver);
-				material.vertex_path = vertex;
+				material.vertex_path = App->resource_manager->FindFile(vertex);
 			}
 		}
 
@@ -57,7 +57,7 @@ void MaterialCreatorWindow::Draw()
 			if (ImGui::MenuItem((*frag).data()))
 			{
 				fragment = (*frag);
-				material.fragment_path = fragment;
+				material.fragment_path = App->resource_manager->FindFile(fragment);
 			}
 		}
 

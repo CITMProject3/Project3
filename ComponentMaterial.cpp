@@ -71,6 +71,7 @@ void ComponentMaterial::OnInspector(bool debug)
 							rc_material->Unload();
 						}
 						material_path = App->resource_manager->FindFile(material_name);
+						material_assets_path = material_name;
 						rc_material = (ResourceFileMaterial*)App->resource_manager->LoadResource(material_path, ResourceFileType::RES_MATERIAL);
 						for (vector<Uniform*>::iterator uni = rc_material->material.uniforms.begin(); uni != rc_material->material.uniforms.end(); ++uni)
 						{
@@ -164,6 +165,7 @@ void ComponentMaterial::Save(Data & file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("path", material_path.data());
+	data.AppendString("path_assets", material_assets_path.data());
 	data.AppendBool("properties_set", true);
 	data.AppendUInt("alpha", alpha);
 	data.AppendUInt("blend_type", blend_type);
@@ -191,6 +193,8 @@ void ComponentMaterial::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	material_path = conf.GetString("path");
+	const char* m_a_p = conf.GetString("path_assets");
+	material_assets_path = (m_a_p) ? m_a_p : "";
 	bool properties_set = conf.GetBool("properties_set");
 	if (properties_set)
 	{
@@ -425,6 +429,10 @@ void ComponentMaterial::PrintMaterialProperties()
 			break;
 		}
 		ImGui::Separator();
+	}
+	if (ImGui::Button("Save changes ###mat_changes"))
+	{
+		App->resource_manager->SaveMaterial(rc_material->material, material_assets_path.data(), rc_material->material.uuid);
 	}
 }
 

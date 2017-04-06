@@ -2289,6 +2289,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift multiplier");
 			ImGui::InputFloat("Drift mult", &drift_mult);
+
+			ImGui::Text("Drift angle ratio");
+			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 
