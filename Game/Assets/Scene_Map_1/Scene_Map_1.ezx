@@ -97,17 +97,17 @@
                     "UUID": 1604246270,
                     "active": true,
                     "matrix": [
-                        0.220818,
+                        -0.311251,
                         0,
-                        -0.975374,
+                        0.950383,
                         -34.711040,
                         0,
                         1,
                         0,
                         12.919684,
-                        0.975374,
+                        -0.950383,
                         0,
-                        0.220818,
+                        -0.311251,
                         -131.529617,
                         0,
                         0,
@@ -213,7 +213,15 @@
                     "UUID": 1380419276,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "velocity_firecracker": 0,
+                    "time_trowing_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "have_item": false,
+                    "have_firecracker": false,
+                    "using_firecracker": false,
+                    "throwing_firecracker": false
                 }
             ]
         },
@@ -10883,7 +10891,17 @@
                     "UUID": 3991982533,
                     "active": true,
                     "script_path": "Player_Camera",
-                    "script_num": 0
+                    "script_num": 0,
+                    "dist_y": 0,
+                    "dist_z": 0,
+                    "camera_y": 0,
+                    "inclination y max min": 0,
+                    "inclination z max min": 0,
+                    "fov change boost": 0,
+                    "fov_increment": 0,
+                    "fov_decrement": 0,
+                    "max_vel_relative": 0,
+                    "last_fov": 0
                 }
             ]
         },
@@ -11020,7 +11038,15 @@
                     "UUID": 1371071367,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "velocity_firecracker": 0,
+                    "time_trowing_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "have_item": false,
+                    "have_firecracker": false,
+                    "using_firecracker": false,
+                    "throwing_firecracker": false
                 }
             ]
         },
@@ -23471,7 +23497,8 @@
                     "UUID": 4192621243,
                     "active": true,
                     "script_path": "Scene_Manager",
-                    "script_num": 0
+                    "script_num": 0,
+                    "Main_Menu_Scene": ""
                 }
             ]
         },
@@ -24425,6 +24452,131 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "Wall1",
+            "UUID": 338089865,
+            "local_UUID": 2036429962,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 338089865,
+            "prefab_path": "\/Library\/643644559\/\/3639544411\/3639544411.pfb",
+            "components": [
+                {
+                    "position": [
+                        -245.185623,
+                        13.568822,
+                        -141.781021
+                    ],
+                    "rotation": [
+                        0,
+                        -49.874443,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall1",
+            "UUID": 1203457310,
+            "local_UUID": 2036429962,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1203457310,
+            "prefab_path": "\/Library\/643644559\/\/3639544411\/3639544411.pfb",
+            "components": [
+                {
+                    "position": [
+                        -279.152954,
+                        13.568822,
+                        -113.152084
+                    ],
+                    "rotation": [
+                        0,
+                        -49.874481,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall1",
+            "UUID": 3159798668,
+            "local_UUID": 2036429962,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3159798668,
+            "prefab_path": "\/Library\/643644559\/\/3639544411\/3639544411.pfb",
+            "components": [
+                {
+                    "position": [
+                        -222.430099,
+                        13.568822,
+                        -113.130089
+                    ],
+                    "rotation": [
+                        0,
+                        -49.874481,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall1",
+            "UUID": 4217484447,
+            "local_UUID": 2036429962,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4217484447,
+            "prefab_path": "\/Library\/643644559\/\/3639544411\/3639544411.pfb",
+            "components": [
+                {
+                    "position": [
+                        -255.109818,
+                        13.568822,
+                        -83.133179
+                    ],
+                    "rotation": [
+                        0,
+                        -48.253757,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 2253103054,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2253103054,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -275.909515,
+                        13.137115,
+                        -63.165157
+                    ],
+                    "rotation": [
+                        0,
+                        52.486176,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "terrain_textures": [
@@ -24441,5 +24593,5 @@
     "terrain_scaling": 28.897482,
     "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
-    "current_library_scene_path": "\/Library\/\/3916828973\/3916828973.ezx"
+    "current_library_scene_path": "\/Library\/1441726200\/\/2271634307\/2271634307.ezx"
 } 
