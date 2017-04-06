@@ -39,9 +39,9 @@ namespace MapSelectUI
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
 
-	string path_map1 = "Scene_Map_1/Scene_Map_1.ezx";
-	string path_map2 = "Scene_Map_2/Scene_Map_2.ezx";
-	string path_map3 = "Scene_Map_3/Scene_Map_3.ezx";
+	string path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
+	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	string path_map3 = "/Assets/Scene_Map_3/Scene_Map_3.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
@@ -289,8 +289,6 @@ namespace MapSelectUI
 
 				}
 			}
-			else
-				total = 0; // Redundancy
 		}
 	}
 
