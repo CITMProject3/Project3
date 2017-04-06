@@ -33,10 +33,9 @@ Global
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Debug|x86.Build.0 = Debug|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|Win32.ActiveCfg = Release Library|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|Win32.Build.0 = Release Library|Win32
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x64.ActiveCfg = Release|Win32
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x64.Build.0 = Release|Win32
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x86.ActiveCfg = Release|Win32
-		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x86.Build.0 = Release|Win32
+		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x64.ActiveCfg = Release Library|Win32
+		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x86.ActiveCfg = Release Library|Win32
+		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release Library|x86.Build.0 = Release Library|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.ActiveCfg = Release|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.Build.0 = Release|Win32
 		{746CC4C3-787F-4B0E-AA66-E388FE3FF4F6}.Release|Win32.Deploy.0 = Release|Win32

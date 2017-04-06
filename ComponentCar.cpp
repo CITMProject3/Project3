@@ -120,6 +120,8 @@ void ComponentCar::OnPlay()
 	}
 	checkpoints = MAXUINT - 10;
 	lap = 0;
+	raceStarted = false;
+	finished = false;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -839,7 +841,7 @@ void ComponentCar::CalcDriftForces()
 
 		//Debugging lines
 		//Front vector
-		float3 start_line = matrix.TranslatePart();
+		/*float3 start_line = matrix.TranslatePart();
 		float3 end_line = start_line + front;
 		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
 		//Left vector
@@ -847,7 +849,7 @@ void ComponentCar::CalcDriftForces()
 		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
 		//Force vector
 		end_line = start_line + final_dir;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));
+		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
 	}
 }
 
@@ -1078,10 +1080,18 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 {
 	if (checkpoints + 1 >= checkpoint)
 	{
+		if (raceStarted == false)
+		{
+			raceStarted = true;
+		}
+		else
+		{
+			lap++;
+		}
 		checkpoints = 0;
-		lap++;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
+		
 	}
 	if (lap >= 4)
 	{
@@ -2263,6 +2273,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift min speed");
 			ImGui::InputFloat("Drift min speed", &drift_min_speed);
+
+			ImGui::Text("Drift multiplier");
+			ImGui::InputFloat("Drift mult", &drift_mult);
 			
 			ImGui::TreePop();
 
