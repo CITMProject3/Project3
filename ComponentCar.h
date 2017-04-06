@@ -202,6 +202,7 @@ public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
+	float drift_ratio_left = 0.6f;
 	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
 	

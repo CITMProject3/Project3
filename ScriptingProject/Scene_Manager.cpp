@@ -177,6 +177,7 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		music_played = false;
 		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 		if (a_comp)	a_comp->PlayAudio(3);
 
