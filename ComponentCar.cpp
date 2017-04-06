@@ -204,7 +204,7 @@ void ComponentCar::HandlePlayerInput()
 	if (!turning)
 		IdleTurn();
 
-	if (drifting)
+	if (drifting )
 		CalcDriftForces();
 
 	if (p2_animation != nullptr && p2_animation->current_animation != nullptr)
@@ -817,34 +817,38 @@ void ComponentCar::StartDrift()
 
 void ComponentCar::CalcDriftForces()
 {
-	vehicle->vehicle->getRigidBody()->clearForces();
+	if (ground_contact_state)
+	{
 
-	float4x4 matrix;
-	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-	matrix.Transpose();
-	
-	float3 front = matrix.WorldZ();
-	float3 left = matrix.WorldX();
-	float3 final_dir;
-	if (drift_dir_left == true)
-		left = -left;
-	final_dir = left.Lerp(front, drift_ratio);
+		vehicle->vehicle->getRigidBody()->clearForces();
 
-	btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
-	float l = startDriftSpeed.length();
-	vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+		float4x4 matrix;
+		vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+		matrix.Transpose();
 
-	//Debugging lines
-	//Front vector
-	float3 start_line = matrix.TranslatePart();
-	float3 end_line = start_line + front;
-	App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
-	//Left vector
-	end_line = start_line + left;
-	App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
-	//Force vector
-	end_line = start_line + final_dir;
-	App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));
+		float3 front = matrix.WorldZ();
+		float3 left = matrix.WorldX();
+		float3 final_dir;
+		if (drift_dir_left == true)
+			left = -left;
+		final_dir = left.Lerp(front, drift_ratio);
+
+		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
+		float l = startDriftSpeed.length();
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+
+		//Debugging lines
+		//Front vector
+		float3 start_line = matrix.TranslatePart();
+		float3 end_line = start_line + front;
+		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
+		//Left vector
+		end_line = start_line + left;
+		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
+		//Force vector
+		end_line = start_line + final_dir;
+		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));
+	}
 }
 
 void ComponentCar::EndDrift()
@@ -2248,8 +2252,14 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::Separator();
 			ImGui::Text("Drifting settings");
 			ImGui::NewLine();
+
+			ImGui::Text("Drift exit boost");
 			ImGui::InputFloat("Drift exit boost", &drift_boost);
+
+			ImGui::Text("Drift turn max");
 			ImGui::InputFloat("Drift turn max", &drift_turn_max);
+
+			ImGui::Text("Drift min speed");
 			ImGui::InputFloat("Drift min speed", &drift_min_speed);
 			
 			ImGui::TreePop();
