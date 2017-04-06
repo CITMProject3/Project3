@@ -151,11 +151,15 @@ namespace MapSelectUI
 			}
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
-				
+				if (!players_ready[id])
+				{
+					c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
 
-				votes[id] = current_level;
-				players_ready[id] = true;
+
+					votes[id] = current_level;
+					players_ready[id] = true;
+				}
+				
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
