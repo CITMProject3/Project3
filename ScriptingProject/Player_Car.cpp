@@ -199,7 +199,7 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
