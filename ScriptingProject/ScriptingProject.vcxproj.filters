@@ -84,6 +84,9 @@
     <ClCompile Include="OutOfBounds.cpp">
       <Filter>Source Files\CollisionScripts</Filter>
     </ClCompile>
+    <ClCompile Include="CarPositionController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptingProject.def">

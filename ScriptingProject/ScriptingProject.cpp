@@ -27,6 +27,7 @@ extern "C"
 			App = engine_app;
 			time = engine_time;
 
+			script_names->push_back("CarPositionController");
 			//Game loop related
 			script_names->push_back("Checkpoint");
 			script_names->push_back("Finish_lane");
