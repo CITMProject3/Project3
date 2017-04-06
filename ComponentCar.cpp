@@ -1341,6 +1341,7 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
+	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::DarkBlue);
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
@@ -1359,6 +1360,7 @@ void ComponentCar::UpdateGO()
 	}
 	*/
 	//Updating turn animation
+	/*
 	if (p1_animation != nullptr)
 	{
 		if (turn_current >= turn_max + turn_boost)
@@ -1388,7 +1390,7 @@ void ComponentCar::UpdateGO()
 	if (p2_animation != nullptr)
 	{
 		UpdateP2Animation();
-	}
+	}*/
 }
 
 void ComponentCar::RenderWithoutCar()
