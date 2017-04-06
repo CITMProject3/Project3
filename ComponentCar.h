@@ -192,6 +192,7 @@ public:
 	bool lock_input = false;
 	uint team = 0;
 	uint place = 1;
+	bool finished = true;
 
 private:
 	float kickTimer = 0.0f;

@@ -30,9 +30,17 @@ EXPORTS
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics
+	Scene_Manager_ActualizePublics
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
 	Scene_Manager_Start
+	Scene_Manager_UpdateDuringRace
 	Scene_Manager_Update
 	Scene_Manager_UpdateItems
+	Scene_Manager_FinishRace
+	Scene_Manager_UpdateUIRaceTimer
+	Scene_Manager_UpdateStartCountDown
+	Scene_Manager_UpdateDuringRace
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics

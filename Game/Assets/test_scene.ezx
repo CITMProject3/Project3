@@ -24210,6 +24210,200 @@
             ]
         },
         {
+            "name": "Finish_Player1",
+            "UUID": 3805687474,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3180864301,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 495047714,
+                    "active": true,
+                    "rect_size": [
+                        600,
+                        200
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        650,
+                        0,
+                        1,
+                        0,
+                        130,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 3258012600,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2212371489,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Finish_Player2",
+            "UUID": 2844830127,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2077317283,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 4270613421,
+                    "active": true,
+                    "rect_size": [
+                        600,
+                        200
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        650,
+                        0,
+                        1,
+                        0,
+                        700,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 4015713613,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 98455831,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Cameras",
             "UUID": 2030306015,
             "local_UUID": 2030306015,
@@ -24288,8 +24482,7 @@
                     "active": true,
                     "script_path": "Scene_Manager",
                     "script_num": 0,
-                    "Position_Player2": 3974201536,
-                    "Race_HUD": 560522107,
+                    "Main_Menu_Scene": "",
                     "Car1": 3082689746,
                     "Car2": 3832415544,
                     "Timer_Text": 2597338925,
@@ -24298,7 +24491,12 @@
                     "Start_Timer_Text": 2475628546,
                     "Item_Player1": 361432611,
                     "Item_Player2": 1033624433,
-                    "Position_Player1": 3169063516
+                    "Position_Player1": 3169063516,
+                    "Position_Player2": 3974201536,
+                    "Race_HUD": 560522107,
+                    "Result_Window": 445700002,
+                    "Player1_Finish_Text": 3805687474,
+                    "Player2_Finish_Text": 2844830127
                 }
             ]
         }

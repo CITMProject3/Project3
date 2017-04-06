@@ -56,7 +56,7 @@ public:
 	bool IsGamePaused()const;
 
 	bool StartInGame()const;
-	void LoadScene(char* path);
+	void LoadScene(const char* path);
 
 	void OnStop();
 	void OnPlay();
