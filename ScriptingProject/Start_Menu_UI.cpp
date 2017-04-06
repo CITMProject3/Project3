@@ -226,7 +226,8 @@ namespace Start_Menu_UI
 					if (player_order[j] == i)
 					{
 						player_order[j] = -1;
-
+						start_but->SetActive(false);
+						choose_team->SetActive(true);
 						// Play Unselect player
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(1);
