@@ -30,9 +30,17 @@ EXPORTS
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics
+	Scene_Manager_ActualizePublics
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
 	Scene_Manager_Start
+	Scene_Manager_UpdateDuringRace
 	Scene_Manager_Update
 	Scene_Manager_UpdateItems
+	Scene_Manager_FinishRace
+	Scene_Manager_UpdateUIRaceTimer
+	Scene_Manager_UpdateStartCountDown
+	Scene_Manager_UpdateDuringRace
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics
@@ -80,13 +88,6 @@ EXPORTS
 	PlayerObjectSelector_Start
 
 	; Audio related scripts
-	Audio_PlaySound_Start
-	Audio_PlaySound_Update
-	Audio_PlaySound_OnCollision
-
-	Audio_PlaySound_GetPublics
-	Audio_PlaySound_UpdatePublics
-	Audio_PlaySound_ActualizePublics
 
 	Audio_PlaySound_GetPublics
 	Audio_PlaySound_UpdatePublics
@@ -95,3 +96,18 @@ EXPORTS
 	Audio_PlaySound_Update
 	Audio_PlaySound_OnCollision
 
+
+	; Game Loop scripts
+	Checkpoint_GetPublics
+	Checkpoint_UpdatePublics
+	Checkpoint_ActualizePublics
+	Checkpoint_Start
+	Checkpoint_Update
+	Checkpoint_OnCollision
+
+	Finish_lane_GetPublics
+	Finish_lane_UpdatePublics
+	Finish_lane_ActualizePublics
+	Finish_lane_Start
+	Finish_lane_Update
+	Finish_lane_OnCollision

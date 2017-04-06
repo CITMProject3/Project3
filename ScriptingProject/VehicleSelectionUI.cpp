@@ -303,6 +303,16 @@ namespace Vehicle_Selection_UI
 			if (red_counter_right == time)
 				but_red_arrow_right->OnPress();
 		}
+
+		if (team_red_selected && team_blue_selected)
+		{
+			ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+
+			main_canvas_script->public_ints.at("current_menu") = 2;
+
+			App->go_manager->team1_car = p_pos[0];
+			App->go_manager->team2_car = p_pos[1];
+		}
 	}
 
 	void Vehicle_Selection_UI_OnFocus(GameObject* game_object)

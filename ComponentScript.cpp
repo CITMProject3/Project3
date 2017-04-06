@@ -337,7 +337,8 @@ void ComponentScript::Load(Data & conf)
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
 			{
-				(*it).second = conf.GetString((*it).first);
+				const char* str = conf.GetString((*it).first);
+				if (str != nullptr)	(*it).second = str;
 			}
 		}
 		if (!public_ints.empty())

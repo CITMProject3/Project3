@@ -125,8 +125,8 @@ public:
 	uint team1_car = 1;
 	uint team2_car = 1;
 
-	uint team1_p1_c = 0;
-	uint team1_p2_c = 2;
+	uint team1_p1_c = 1;
+	uint team1_p2_c = 3;
 
 	uint team2_p1_c = 1;
 	uint team2_p2_c = 3;
