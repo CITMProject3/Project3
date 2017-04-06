@@ -1360,11 +1360,8 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
-<<<<<<< HEAD
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
-=======
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::DarkBlue);
->>>>>>> 062d9ebbda185468f46998b18c75a4f816c6715e
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
