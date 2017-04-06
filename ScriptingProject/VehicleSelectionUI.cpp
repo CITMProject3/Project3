@@ -164,7 +164,7 @@ namespace Vehicle_Selection_UI
 						but_blue_arrow_right->OnPress();
 					}
 					blue_counter_right = 0;
-
+					
 					if (p_pos[0] == 1)
 						p_pos[0] = 0;
 					else
@@ -312,6 +312,7 @@ namespace Vehicle_Selection_UI
 
 			App->go_manager->team1_car = p_pos[0];
 			App->go_manager->team2_car = p_pos[1];
+			game_object->SetActive(false);
 		}
 	}
 

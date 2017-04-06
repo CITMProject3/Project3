@@ -35,6 +35,7 @@ public:
 	const char* GetPath();
 	void SetGOVar(GameObject* game_object);
 
+	void OnPlay();
 	void OnFocus();
 	void OnCollision(PhysBody3D* col);
 
