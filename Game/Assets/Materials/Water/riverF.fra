@@ -1,0 +1,34 @@
+#version 330 core
+
+in vec2 TexCoord;
+
+uniform sampler2D tex;
+uniform float time;
+
+out vec4 color;
+
+void main()
+{
+	vec2 tiled_coords = fract(TexCoord/0.1);
+
+	vec2 n_TexCoord = vec2(tiled_coords.x, tiled_coords.y + time / 8);
+	vec2 n_d_TexCoord = vec2(tiled_coords.x + 0.3f, 1.0f - (tiled_coords.y + time / 10));
+	vec4 light_tex = texture(tex, n_TexCoord);
+	vec4 dark_tex = texture(tex, n_d_TexCoord);
+	
+	vec4 color_light = vec4(0.68f,0.8f,1,1);
+	vec4 color_dark = vec4(0.09f,0.25f,0.53f,1);
+	vec4 background = vec4(0.25f, 0.48f, 0.84f, 1);
+	
+	float light_alpha_nor = (1 + sin(time)) / 2.0;
+	light_alpha_nor = light_alpha_nor * 0.5 + 0.5;
+	light_tex = color_light * (light_tex.x * light_alpha_nor);
+	dark_tex = color_dark * (dark_tex.x * ((1 + sin(time))/2.0));
+
+	
+	vec4 f_color = mix(light_tex, dark_tex, 0.5);
+	
+	f_color = mix(f_color, background, 0.3);
+	
+	color = f_color;
+}

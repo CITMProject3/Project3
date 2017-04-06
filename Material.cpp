@@ -225,6 +225,7 @@ void Material::Load(const char * path)
 			cursor += bytes;
 
 			bytes = sizeof(char) * name_size;
+			uniform->name.resize(bytes);
 			memcpy(uniform->name._Myptr(), cursor, bytes);
 			cursor += bytes;
 

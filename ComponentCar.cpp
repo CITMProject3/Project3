@@ -122,6 +122,7 @@ void ComponentCar::OnPlay()
 	lap = 0;
 	raceStarted = false;
 	finished = false;
+	n_checkpoints = 0;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -161,7 +162,6 @@ void ComponentCar::HandlePlayerInput()
 	BROFILER_CATEGORY("ComponentCar::HandlePlayerInput", Profiler::Color::HoneyDew)
 	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
 
-	float brake;
 	bool turning = false;
 	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
@@ -310,11 +310,11 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Drifting
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
 		{
 			StartDrift();
 		}
-		else if ( drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
+		else if ( drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_UP)
 		{
 			EndDrift();
 		}
@@ -451,6 +451,15 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
+		if (x_joy_input > 0.0f)
+		{
+			*left_turn = false;
+		}
+		else
+		{
+			*left_turn = true;
+		}
+
 		if (drifting == false)
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
@@ -822,35 +831,51 @@ void ComponentCar::CalcDriftForces()
 {
 	if (ground_contact_state)
 	{
+		if (!accel || brake)
+		{
+			EndDrift();
+		}
+		else
+		{
+			vehicle->vehicle->getRigidBody()->clearForces();
 
-		vehicle->vehicle->getRigidBody()->clearForces();
+			float4x4 matrix;
+			vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+			matrix.Transpose();
 
-		float4x4 matrix;
-		vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-		matrix.Transpose();
+			float3 front = matrix.WorldZ();
+			float3 left = matrix.WorldX();
+			float3 final_dir;
+			if (drift_dir_left == true)
+				left = -left;
 
-		float3 front = matrix.WorldZ();
-		float3 left = matrix.WorldX();
-		float3 final_dir;
-		if (drift_dir_left == true)
-			left = -left;
-		final_dir = left.Lerp(front, drift_ratio);
 
-		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
-		float l = startDriftSpeed.length();
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+			final_dir = left.Lerp(front, drift_ratio);
 
-		//Debugging lines
-		//Front vector
-		/*float3 start_line = matrix.TranslatePart();
-		float3 end_line = start_line + front;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
-		//Left vector
-		end_line = start_line + left;
-		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
-		//Force vector
-		end_line = start_line + final_dir;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
+			btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
+			float l = startDriftSpeed.length();
+			btVector3 final_vector = vector * l * drift_mult;
+			btVector3 zero = { 0,0,0 };
+
+			final_vector.setY(0.0f);
+			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+			//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
+			/*final_vector.setY(0);
+			vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
+
+			//Debugging lines
+			//Front vector
+			/*float3 start_line = matrix.TranslatePart();
+			float3 end_line = start_line + front;
+			App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
+			//Left vector
+			end_line = start_line + left;
+			App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
+			//Force vector
+			end_line = start_line + final_dir;
+			App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
+		
+		}
 	}
 }
 
@@ -1071,6 +1096,7 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 {
 	if (checkpoint == checkpoints + 1)
 	{
+		n_checkpoints++;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
@@ -1089,6 +1115,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		{
 			lap++;
 		}
+		n_checkpoints++;
 		checkpoints = 0;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
@@ -2280,6 +2307,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift multiplier");
 			ImGui::InputFloat("Drift mult", &drift_mult);
+
+			ImGui::Text("Drift angle ratio");
+			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 

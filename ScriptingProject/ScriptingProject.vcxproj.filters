@@ -19,6 +19,9 @@
     <Filter Include="Source Files\CollisionScripts">
       <UniqueIdentifier>{1a3c6935-4730-4d39-ab0f-80a8c800c3e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\UI">
+      <UniqueIdentifier>{d27005bd-c7c0-4f71-95ae-2173572306dd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -51,18 +54,6 @@
     <ClCompile Include="Scene_Manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainMenuUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Start_Menu_UI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Character_Selection_UI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MapSelectUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Kmh_Counter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -70,9 +61,6 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObjectSelector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VehicleSelectionUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Checkpoint.cpp">
@@ -83,6 +71,24 @@
     </ClCompile>
     <ClCompile Include="OutOfBounds.cpp">
       <Filter>Source Files\CollisionScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="MapSelectUI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenuUI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Start_Menu_UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Character_Selection_UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="VehicleSelectionUI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="CarPositionController.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

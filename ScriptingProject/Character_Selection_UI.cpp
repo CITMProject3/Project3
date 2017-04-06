@@ -22,6 +22,8 @@
 #include "../ComponentUiImage.h"
 #include "../ModuleResourceManager.h"
 
+#include "../ComponentAudioSource.h"
+
 
 namespace Character_Selection_UI
 {
@@ -204,6 +206,10 @@ namespace Character_Selection_UI
 
 	void Character_Selection_UI_Start(GameObject* game_object)
 	{
+		// Play Bell for next menu
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
+
 		vehicles->SetActive(false);
 		character_selection[0] = -1;
 		character_selection[1] = -1;
@@ -276,6 +282,10 @@ namespace Character_Selection_UI
 			}
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				switch (id)
 				{
 				case 0:
@@ -315,6 +325,10 @@ namespace Character_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				switch (id)
 				{
 				case 0:
