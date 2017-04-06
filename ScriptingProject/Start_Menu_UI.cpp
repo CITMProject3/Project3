@@ -277,9 +277,9 @@ namespace Start_Menu_UI
 				{
 					start_but->SetActive(true);
 					choose_team->SetActive(false);
-					if (App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+					ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 0)
 					{
-						ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
 
 						main_canvas_script->public_ints.at("current_menu") = 1;
 						main_canvas_script->public_ints.at("Player1") = player_order[0];
