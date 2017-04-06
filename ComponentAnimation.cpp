@@ -170,6 +170,20 @@ void ComponentAnimation::Save(Data& file)const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendString("path", rAnimation->GetFile());
+	if (animations.size() > 0)
+	{
+		for (uint i = 0; i < animations.size(); i++)
+		{
+			if (current_animation == &animations[i])
+			{
+				data.AppendInt("current_animation", i);
+				break;
+			}
+		}
+	}
+	else
+		data.AppendInt("current_animation", -1);
+
 	data.AppendArray("animations");
 
 	for (uint i = 0; i < animations.size(); i++)
@@ -204,6 +218,12 @@ void ComponentAnimation::Load(Data& conf)
 		Data anim_data = conf.GetArray("animations", i);
 		AddAnimation(anim_data.GetString("name"), anim_data.GetUInt("start_frame"), anim_data.GetUInt("end_frame"), anim_data.GetFloat("ticks_per_second"));
 		animations[animations.size() - 1].loopable = anim_data.GetBool("loopable");
+	}
+
+	int current_anim = conf.GetInt("current_animation");
+	if (current_anim != -1)
+	{
+		current_animation = &animations[current_anim];
 	}
 }
 //-------------------------------------------
