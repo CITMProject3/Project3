@@ -18,6 +18,8 @@
 #include "../ModuleGOManager.h"
 #include "../ComponentCanvas.h"
 
+#include "../ComponentAudioSource.h"
+
 namespace Start_Menu_UI
 {
 	GameObject* rb_button = nullptr;
@@ -71,8 +73,6 @@ namespace Start_Menu_UI
 		c_rt = (ComponentUiButton*)rt_button->GetComponent(C_UI_BUTTON);
 		c_lb = (ComponentUiButton*)lb_button->GetComponent(C_UI_BUTTON);
 		c_lt = (ComponentUiButton*)lt_button->GetComponent(C_UI_BUTTON);
-
-
 	}
 
 	void Start_Menu_UI_ActualizePublics(GameObject* game_object)
@@ -131,6 +131,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[0] = i;
 						c_lb->OnPressId(i);
 						lb_pressed = true;
@@ -152,6 +156,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[1] = i;
 						c_lt->OnPressId(i);
 						lt_pressed = true;
@@ -173,6 +181,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[2] = i;
 						c_rb->OnPressId(i);
 						rb_pressed = true;
@@ -196,6 +208,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[3] = i;
 						c_rt->OnPressId(i);
 						rt_pressed = true;
@@ -210,6 +226,11 @@ namespace Start_Menu_UI
 					if (player_order[j] == i)
 					{
 						player_order[j] = -1;
+
+						// Play Unselect player
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 						switch (j)
 						{
 						case 0:

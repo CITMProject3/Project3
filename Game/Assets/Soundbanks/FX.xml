@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="120">
+	<RootPaths>
+		<ProjectRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\Carlos\Documents\GitHub\Project3\Game\Assets\Soundbanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<SoundBanks>
+		<SoundBank Id="1802970371" GUID="{6751123E-E154-46B9-81C7-E9859874D9E5}" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\FX</ObjectPath>
+			<ShortName>FX</ShortName>
+			<Path>FX.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3138285746" Name="Countdown_1" ObjectPath="\Events\Default Work Unit\Countdown_1" GUID="{0ACF6B7B-656D-438E-9AB0-DD0A6EC255A1}" DurationType="OneShot" DurationMin="0.415238" DurationMax="0.415238"/>
+				<Event Id="3138285745" Name="Countdown_2" ObjectPath="\Events\Default Work Unit\Countdown_2" GUID="{8969AC66-F70D-43F8-B614-686E9CA3B9D5}" DurationType="OneShot" DurationMin="0.415238" DurationMax="0.415238"/>
+				<Event Id="3138285744" Name="Countdown_3" ObjectPath="\Events\Default Work Unit\Countdown_3" GUID="{3B85972D-7616-4DA1-A9B2-A70CD82CB9E1}" DurationType="OneShot" DurationMin="0.415238" DurationMax="0.415238"/>
+				<Event Id="1539028611" Name="Countdown_Go" ObjectPath="\Events\Default Work Unit\Countdown_Go" GUID="{0E4DE4BE-052F-48E1-8A1D-4ACF327E3740}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
+				<Event Id="1303222956" Name="Next_Menu" ObjectPath="\Events\Default Work Unit\Next_Menu" GUID="{BF833952-2966-41BC-B450-34B681C0B221}" DurationType="OneShot" DurationMin="2.288000" DurationMax="2.288000"/>
+				<Event Id="1411552141" Name="Player_Selection" ObjectPath="\Events\Default Work Unit\Player_Selection" GUID="{42FEB31B-E85B-446A-956D-40F9DE66C49D}" DurationType="OneShot" DurationMin="0.159665" DurationMax="0.201165"/>
+				<Event Id="2081084158" Name="Player_Unselection" ObjectPath="\Events\Default Work Unit\Player_Unselection" GUID="{FD4E90C5-FC7E-48F3-8288-3A0F01775ADE}" DurationType="OneShot" DurationMin="0.268523" DurationMax="0.338318"/>
+				<Event Id="1114964412" Name="Start_Game" ObjectPath="\Events\Default Work Unit\Start_Game" GUID="{005ACD1F-E2D0-4A66-AB26-04E364FB71FD}" DurationType="OneShot" DurationMin="3.683265" DurationMax="3.683265"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="42459998" Language="SFX">
+					<ShortName>Player_selection.wav</ShortName>
+					<Path>SFX\Player_selection_9E69E797.wem</Path>
+				</File>
+				<File Id="292021613" Language="SFX">
+					<ShortName>Start_game.wav</ShortName>
+					<Path>SFX\Start_game_9E69E797.wem</Path>
+				</File>
+				<File Id="363507683" Language="SFX">
+					<ShortName>Countdown_1.wav</ShortName>
+					<Path>SFX\Countdown_1_9E69E797.wem</Path>
+				</File>
+				<File Id="547640341" Language="SFX">
+					<ShortName>Countdown_Go.wav</ShortName>
+					<Path>SFX\Countdown_Go_9E69E797.wem</Path>
+				</File>
+				<File Id="605600536" Language="SFX">
+					<ShortName>Countdown_3.wav</ShortName>
+					<Path>SFX\Countdown_3_9E69E797.wem</Path>
+				</File>
+				<File Id="943718003" Language="SFX">
+					<ShortName>Countdown_2.wav</ShortName>
+					<Path>SFX\Countdown_2_9E69E797.wem</Path>
+				</File>
+				<File Id="955218805" Language="SFX">
+					<ShortName>Next_menu.wav</ShortName>
+					<Path>SFX\Next_menu_9E69E797.wem</Path>
+				</File>
+				<File Id="1024195940" Language="SFX">
+					<ShortName>Player_unselection.wav</ShortName>
+					<Path>SFX\Player_unselection_9E69E797.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>
