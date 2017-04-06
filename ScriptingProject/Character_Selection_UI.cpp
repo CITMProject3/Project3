@@ -20,6 +20,9 @@
 #include "../ComponentCanvas.h"
 #include "../ComponentMaterial.h"
 #include "../ComponentUiImage.h"
+#include "../ModuleResourceManager.h"
+
+
 namespace Character_Selection_UI
 {
 	GameObject* driver1 = nullptr;
@@ -80,7 +83,6 @@ namespace Character_Selection_UI
 
 	int character_selection[4];
 	int player_order[4];
-
 	void Character_Selection_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_gos->insert(std::pair<const char*, GameObject*>("Drivers 1", driver1));
@@ -259,7 +261,14 @@ namespace Character_Selection_UI
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			int id = player_order[i];
+			int id = 0;
+			for (int j = 0; j < 4; j++)
+			{
+				if (player_order[j] == i)
+				{
+					id = j;
+				}
+			}
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				switch (id)
@@ -346,12 +355,13 @@ namespace Character_Selection_UI
 				case 0:
 					if (player1_select == false)
 					{
-						player1_select = true;
-						mat_Player1->color[0] = 1.0f;
-						mat_Player1->color[1] = 1.0f;
-						mat_Player1->color[2] = 1.0f;
+						
 						if (p_pos[id] == 0 && champ1_select == false)
 						{
+							player1_select = true;
+							mat_Player1->color[0] = 1.0f;
+							mat_Player1->color[1] = 1.0f;
+							mat_Player1->color[2] = 1.0f;
 							mat_driver1->color[0] = 0.4f;
 							mat_driver1->color[1] = 0.4f;
 							mat_driver1->color[2] = 0.4f;
@@ -359,6 +369,10 @@ namespace Character_Selection_UI
 						}
 						else if (p_pos[id] == 1 && champ3_select == false)
 						{
+							player1_select = true;
+							mat_Player1->color[0] = 1.0f;
+							mat_Player1->color[1] = 1.0f;
+							mat_Player1->color[2] = 1.0f;
 							mat_driver2->color[0] = 0.4f;
 							mat_driver2->color[1] = 0.4f;
 							mat_driver2->color[2] = 0.4f;
@@ -370,13 +384,14 @@ namespace Character_Selection_UI
 				case 1:
 					if (player2_select == false)
 					{
-						player2_select = true;
-						mat_Player2->color[0] = 1.0f;
-						mat_Player2->color[1] = 1.0f;
-						mat_Player2->color[2] = 1.0f;
+						
 
 						if (p_pos[id] == 0 && champ2_select == false)
 						{
+							player2_select = true;
+							mat_Player2->color[0] = 1.0f;
+							mat_Player2->color[1] = 1.0f;
+							mat_Player2->color[2] = 1.0f;
 							mat_support1->color[0] = 0.4f;
 							mat_support1->color[1] = 0.4f;
 							mat_support1->color[2] = 0.4f;
@@ -384,6 +399,10 @@ namespace Character_Selection_UI
 						}
 						else if (p_pos[id] == 1 && champ4_select == false)
 						{
+							player2_select = true;
+							mat_Player2->color[0] = 1.0f;
+							mat_Player2->color[1] = 1.0f;
+							mat_Player2->color[2] = 1.0f;
 							mat_support2->color[0] = 0.4f;
 							mat_support2->color[1] = 0.4f;
 							mat_support2->color[2] = 0.4f;
@@ -394,13 +413,12 @@ namespace Character_Selection_UI
 				case 2:
 					if (player3_select == false)
 					{
-						player3_select = true;
-						mat_Player3->color[0] = 1.0f;
-						mat_Player3->color[1] = 1.0f;
-						mat_Player3->color[2] = 1.0f;
-
 						if (p_pos[id] == 0 && champ1_select == false)
 						{
+							player3_select = true;
+							mat_Player3->color[0] = 1.0f;
+							mat_Player3->color[1] = 1.0f;
+							mat_Player3->color[2] = 1.0f;
 							mat_driver1->color[0] = 0.4f;
 							mat_driver1->color[1] = 0.4f;
 							mat_driver1->color[2] = 0.4f;
@@ -408,6 +426,10 @@ namespace Character_Selection_UI
 						}
 						else if (p_pos[id] == 1 && champ3_select == false)
 						{
+							player3_select = true;
+							mat_Player3->color[0] = 1.0f;
+							mat_Player3->color[1] = 1.0f;
+							mat_Player3->color[2] = 1.0f;
 							mat_driver2->color[0] = 0.4f;
 							mat_driver2->color[1] = 0.4f;
 							mat_driver2->color[2] = 0.4f;
@@ -418,13 +440,13 @@ namespace Character_Selection_UI
 				case 3:
 					if(player4_select == false)
 					{
-						player4_select = true;
-						mat_Player4->color[0] = 1.0f;
-						mat_Player4->color[1] = 1.0f;
-						mat_Player4->color[2] = 1.0f;
 
 						if (p_pos[id] == 0 && champ2_select == false)
 						{
+							player4_select = true;
+							mat_Player4->color[0] = 1.0f;
+							mat_Player4->color[1] = 1.0f;
+							mat_Player4->color[2] = 1.0f;
 							mat_support1->color[0] = 0.4f;
 							mat_support1->color[1] = 0.4f;
 							mat_support1->color[2] = 0.4f;
@@ -432,6 +454,10 @@ namespace Character_Selection_UI
 						}
 						else if (p_pos[id] == 1 && champ4_select == false)
 						{
+							player4_select = true;
+							mat_Player4->color[0] = 1.0f;
+							mat_Player4->color[1] = 1.0f;
+							mat_Player4->color[2] = 1.0f;
 							mat_support2->color[0] = 0.4f;
 							mat_support2->color[1] = 0.4f;
 							mat_support2->color[2] = 0.4f;
@@ -545,6 +571,47 @@ namespace Character_Selection_UI
 			}
 		}
 
+		if (player1_select && player2_select && player3_select && player4_select)
+		{
+
+			if (p_pos[0] == 0)
+			{
+				App->go_manager->team1_p1_c = 1;
+			}
+			else
+			{
+				App->go_manager->team1_p1_c = 0;
+			}
+			
+			if (p_pos[1] == 0)
+			{
+				App->go_manager->team1_p2_c = 2;
+			}
+			else
+			{
+				App->go_manager->team1_p2_c = 3;
+			}
+
+			if (p_pos[2] == 0)
+			{
+				App->go_manager->team2_p1_c = 1;
+			}
+			else
+			{
+				App->go_manager->team2_p1_c = 0;
+			}
+
+			if (p_pos[3] == 0)
+			{
+				App->go_manager->team2_p2_c = 2;
+			}
+			else
+			{
+				App->go_manager->team2_p2_c = 3;
+			}
+			//To test
+			App->resource_manager->LoadSceneFromAssets("Assets/test_scene.ezx");
+		}
 	}
 
 	void Character_Selection_UI_OnFocus(GameObject* game_object)
