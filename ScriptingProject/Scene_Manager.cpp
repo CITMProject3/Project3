@@ -246,7 +246,7 @@ namespace Scene_Manager
 		if (!music_played)
 		{
 			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(5);
+			if (a_comp)	a_comp->PlayAudio(4);
 			music_played = true;
 		}
 
@@ -369,7 +369,7 @@ namespace Scene_Manager
 			if (car_1 != nullptr)
 			{
 				//Update lap counter
-				if (car_1->lap + 1 != timer.GetCurrentLap(0))
+				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
 					if (car_1->finished == true)
 					{
@@ -399,7 +399,7 @@ namespace Scene_Manager
 			if (car_2 != nullptr)
 			{
 				//Update lap counter
-				if (car_2->lap + 1 != timer.GetCurrentLap(1))
+				if (car_2->lap + 1 > timer.GetCurrentLap(1))
 				{
 					if (car_2->finished == true)
 					{
