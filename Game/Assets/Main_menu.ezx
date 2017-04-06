@@ -1588,25 +1588,6 @@
                         1
                     ],
                     "Order": 0
-                },
-                {
-                    "type": 10,
-                    "UUID": 2639683112,
-                    "active": true,
-                    "script_path": "Character_Selection_UI",
-                    "script_num": 0,
-                    "Drivers 1": 929290665,
-                    "Support 1": 864259672,
-                    "Drivers 2": 840549808,
-                    "Support 2": 2370293141,
-                    "Drivers port 1": 3154961925,
-                    "Support port 1": 126547133,
-                    "Drivers port 2": 1700512315,
-                    "Support port 2": 3129169457,
-                    "Player 1": 166413418,
-                    "Player 2": 1499351069,
-                    "Player 3": 3552039009,
-                    "Player 4": 1868150937
                 }
             ]
         },
@@ -1615,7 +1596,7 @@
             "UUID": 357991960,
             "local_UUID": 0,
             "parent": 4204256960,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1650,8 +1631,8 @@
                     "UUID": 712074130,
                     "active": true,
                     "rect_size": [
-                        100,
-                        100
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -1672,6 +1653,685 @@
                         1
                     ],
                     "Order": 0
+                }
+            ]
+        },
+        {
+            "name": "Vehicles",
+            "UUID": 3509895648,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 494625095,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 612987114,
+                    "active": true,
+                    "rect_size": [
+                        352,
+                        83
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -176,
+                        0,
+                        1,
+                        0,
+                        76,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 6
+                },
+                {
+                    "type": 13,
+                    "UUID": 3709002961,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2888606722,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/597745043\/597745043.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "blue_left_arrow",
+            "UUID": 916758109,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1847678343,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1206061379,
+                    "active": true,
+                    "rect_size": [
+                        74,
+                        137
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -629,
+                        0,
+                        1,
+                        0,
+                        287,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 5
+                },
+                {
+                    "type": 15,
+                    "UUID": 1517859250,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1323633926,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1535499050\/1535499050.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/\/1192076551\/1192076551.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "blue_right_arrow",
+            "UUID": 698612536,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1791018460,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 38782755,
+                    "active": true,
+                    "rect_size": [
+                        74,
+                        137
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -153,
+                        0,
+                        1,
+                        0,
+                        287,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 15,
+                    "UUID": 2800402554,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2549463468,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/3838181471\/3838181471.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/\/162544623\/162544623.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "blue_vehicle",
+            "UUID": 2225327967,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 645020142,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 959465528,
+                    "active": true,
+                    "rect_size": [
+                        404,
+                        312
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -541,
+                        0,
+                        1,
+                        0,
+                        195,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 15,
+                    "UUID": 3511945842,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 259275928,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2688530628\/2688530628.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2989330961\/2989330961.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "red_left_arrow",
+            "UUID": 3835896838,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1103928379,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 2631704901,
+                    "active": true,
+                    "rect_size": [
+                        74,
+                        137
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        73.000008,
+                        0,
+                        1,
+                        0,
+                        287,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 15,
+                    "UUID": 3580124129,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 47630008,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1535499050\/1535499050.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/\/3524810485\/3524810485.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "red_right_arrow",
+            "UUID": 1869263203,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 203142439,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1530438600,
+                    "active": true,
+                    "rect_size": [
+                        74,
+                        137
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        523,
+                        0,
+                        1,
+                        0,
+                        287,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 15,
+                    "UUID": 929288238,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 484197664,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/3838181471\/3838181471.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/\/3566612609\/3566612609.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "red_vehicle",
+            "UUID": 1429455215,
+            "local_UUID": 0,
+            "parent": 357991960,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 542229200,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1399208519,
+                    "active": true,
+                    "rect_size": [
+                        404,
+                        312
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        125.000031,
+                        0,
+                        1,
+                        0,
+                        195,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 15,
+                    "UUID": 3615712428,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3697105555,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1420435009\/1420435009.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/293822223\/293822223.dds"
+                                }
+                            ]
+                        }
+                    ]
                 }
             ]
         },
@@ -1737,6 +2397,26 @@
                         1
                     ],
                     "Order": 0
+                },
+                {
+                    "type": 10,
+                    "UUID": 2404680059,
+                    "active": true,
+                    "script_path": "Character_Selection_UI",
+                    "script_num": 0,
+                    "Drivers 1": 929290665,
+                    "Support 1": 864259672,
+                    "Drivers 2": 840549808,
+                    "Support 2": 2370293141,
+                    "Drivers port 1": 3154961925,
+                    "Support port 1": 126547133,
+                    "Drivers port 2": 1700512315,
+                    "Support port 2": 3129169457,
+                    "Player 1": 166413418,
+                    "Player 2": 1499351069,
+                    "Player 3": 3552039009,
+                    "Player 4": 1868150937,
+                    "Vehicles": 357991960
                 }
             ]
         },
@@ -3691,6 +4371,103 @@
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/1885075233\/\/1804990376\/\/391974286\/391974286.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Characters",
+            "UUID": 1850151265,
+            "local_UUID": 0,
+            "parent": 688819453,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 245502568,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1665438442,
+                    "active": true,
+                    "rect_size": [
+                        491,
+                        76
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -245.500000,
+                        0,
+                        1,
+                        0,
+                        75,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 6
+                },
+                {
+                    "type": 13,
+                    "UUID": 4268938780,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 978101212,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/3171502590\/\/1885075233\/\/224784072\/\/1005672393\/1005672393.dds"
                                 },
                                 {
                                     "path": ""
