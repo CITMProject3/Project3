@@ -834,11 +834,20 @@ void ComponentCar::CalcDriftForces()
 		float3 final_dir;
 		if (drift_dir_left == true)
 			left = -left;
+
+
 		final_dir = left.Lerp(front, drift_ratio);
 
 		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
 		float l = startDriftSpeed.length();
+		btVector3 final_vector = vector * l * drift_mult;
+		btVector3 zero = { 0,0,0 };
+
+		final_vector.setY(0.0f);
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+		//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
+		/*final_vector.setY(0);
+		vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
 
 		//Debugging lines
 		//Front vector
@@ -2280,6 +2289,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift multiplier");
 			ImGui::InputFloat("Drift mult", &drift_mult);
+
+			ImGui::Text("Drift angle ratio");
+			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 

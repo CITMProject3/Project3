@@ -63,9 +63,6 @@
     <ClCompile Include="PlayerObjectSelector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VehicleSelectionUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Checkpoint.cpp">
       <Filter>Source Files\CollisionScripts</Filter>
     </ClCompile>
@@ -85,6 +82,9 @@
       <Filter>Source Files\UI</Filter>
     </ClCompile>
     <ClCompile Include="Character_Selection_UI.cpp">
+      <Filter>Source Files\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="VehicleSelectionUI.cpp">
       <Filter>Source Files\UI</Filter>
     </ClCompile>
   </ItemGroup>
