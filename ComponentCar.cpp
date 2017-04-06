@@ -119,6 +119,7 @@ void ComponentCar::OnPlay()
 		reset_rot = trs->GetRotation();
 	}
 	checkpoints = MAXUINT;
+	lap = 0;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -1080,7 +1081,8 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 	}
 	if (lap >= 4)
 	{
-	//	TrueReset();
+		finished = true;
+		BlockInput(true);
 	}
 }
 //--------------------------------------
