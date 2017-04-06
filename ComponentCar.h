@@ -372,7 +372,7 @@ private:
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
 
-	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
+	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:
 		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
 		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
@@ -380,6 +380,8 @@ private:
 		float3 last_check_pos = float3::zero;
 		Quat last_check_rot = Quat::identity;
 		unsigned int lap = 0;
+
+		unsigned int n_checkpoints = 0;
 
 };
 

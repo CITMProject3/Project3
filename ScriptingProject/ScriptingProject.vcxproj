@@ -166,6 +166,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CarPositionController.cpp" />
     <ClCompile Include="Character_Selection_UI.cpp" />
     <ClCompile Include="Audio_PlaySound.cpp" />
     <ClCompile Include="Checkpoint.cpp" />
