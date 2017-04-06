@@ -12,23 +12,32 @@ RaceTimer::~RaceTimer()
 void RaceTimer::Start()
 {
 	Reset();
+	race_timer = 0;
+}
 
-	current_lap1_time.Start();
-	current_lap2_time.Start();
+void RaceTimer::Update(float dt)
+{
+	race_timer += dt;
 }
 
 void RaceTimer::AddLap(unsigned int player)
 {
 	if (player == 0)
 	{
-		lap1_times.push_back(current_lap1_time.ReadMs());
-		current_lap1_time.Start();
+		double lap_time = race_timer - lap1_times[lap1_times.size() - 1];
+		if (lap1_times.size() > 0)
+			lap_time -= lap1_times.back();
+
+		lap1_times.push_back(lap_time);
 		current_lap1++;
 	}
 	else if (player == 1)
 	{
-		lap2_times.push_back(current_lap2_time.ReadMs());
-		current_lap2_time.Start();
+		double lap_time = race_timer;
+		if (lap2_times.size() > 0)
+			lap_time -= lap2_times.back();
+
+		lap2_times.push_back(lap_time);
 		current_lap2++;
 	}
 }
@@ -41,6 +50,18 @@ void RaceTimer::Reset()
 	lap2_times.clear();
 }
 
+double RaceTimer::GetRaceTime(int& minutes, int& seconds, int& miliseconds)const
+{
+	double time = race_timer;
+
+	seconds = floor(time);
+	miliseconds = (time - seconds) * 1000;
+	minutes = floor(seconds / 60);
+	seconds = seconds - (minutes * 60);
+
+	return time;
+}
+
 int RaceTimer::GetCurrentLap(unsigned int player) const
 {
 	return player == 0 ? current_lap1 : current_lap2;
@@ -48,25 +69,28 @@ int RaceTimer::GetCurrentLap(unsigned int player) const
 
 void RaceTimer::GetCurrentLapTime(unsigned int player, int& minutes, int& seconds, int& miliseconds) const
 {
-	double time = 0;
-	if (player == 0)
-	{
-		time = current_lap1_time.ReadMs();
-	}
-	if (player == 1)
-	{
-		time = current_lap2_time.ReadMs();
-	}
+	double time = GetCurrentLapTime(player);
 
-	seconds = floor(time / 1000);
-	miliseconds = floor(time - seconds * 1000);
+	seconds = floor(time);
+	miliseconds = (time - seconds) * 1000;
 	minutes = floor(seconds / 60);
 	seconds = seconds - (minutes * 60);
 }
 
 double RaceTimer::GetCurrentLapTime(unsigned int player) const
 {
-	return player == 0 ? current_lap1_time.ReadMs() : current_lap2_time.ReadMs();
+	double time = race_timer;
+	if (player == 0)
+	{
+		if (lap1_times.size() > 0)
+			time -= lap1_times.back();
+	}
+	else if (player == 1)
+	{
+		if (lap2_times.size() > 0)
+			time -= lap2_times.back();
+	}
+	return time;
 }
 
 bool RaceTimer::GetLapTime(unsigned int player, int lap, int & minutes, int & seconds, int & miliseconds) const
@@ -74,19 +98,23 @@ bool RaceTimer::GetLapTime(unsigned int player, int lap, int & minutes, int & se
 	double time = 0;
 	if (player == 0)
 	{
-		if(lap > lap1_times.size() || lap <= 0)
+		if(lap > lap1_times.size() || lap < 0)
 			return false;
-		time = lap1_times[lap - 1];
+		time = lap1_times[lap];
+		if (lap > 0)
+			time -= lap1_times[lap - 1];
 	}
 	else if (player == 1)
 	{
-		if (lap > lap2_times.size() || lap <= 0)
+		if (lap > lap2_times.size() || lap < 0)
 			return false;
-		time = lap2_times[lap - 1];
+		time = lap2_times[lap];
+		if (lap > 0)
+			time -= lap2_times[lap - 1];
 	}
 
-	seconds = floor(time / 1000);
-	miliseconds = floor(time - seconds * 1000);
+	seconds = floor(time);
+	miliseconds = (time - seconds) * 1000;
 	minutes = floor(seconds / 60);
 	seconds = seconds - (minutes * 60);
 
@@ -103,7 +131,7 @@ bool RaceTimer::GetAllLapsTime(unsigned int player, int & minutes, int & seconds
 	if (time > 0)
 	{
 		seconds = floor(time / 1000);
-		miliseconds = floor(time - seconds * 1000);
+		miliseconds = (time - seconds) * 1000;
 		minutes = floor(seconds / 60);
 		seconds = seconds - (minutes * 60);
 		return true;

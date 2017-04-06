@@ -35,6 +35,7 @@ namespace Player_Car
 	string item_box_name = "item_box";
 	GameObject* firecracker = nullptr;
 	GameObject* other_car = nullptr;
+	GameObject* scene_manager = nullptr;
 
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -52,6 +53,7 @@ namespace Player_Car
 
 		public_gos->insert(pair<const char*, GameObject*>("firecracker", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
 	}
 
 	void Player_Car_UpdatePublics(GameObject* game_object)
@@ -72,6 +74,7 @@ namespace Player_Car
 
 		firecracker = test_script->public_gos.at("firecracker");
 		other_car = test_script->public_gos.at("other_car");
+		scene_manager = test_script->public_gos.at("scene_manager");
 	}
 
 	void Player_Car_ActualizePublics(GameObject* game_object)
@@ -92,11 +95,15 @@ namespace Player_Car
 
 		test_script->public_gos.at("firecracker") = firecracker;
 		test_script->public_gos.at("other_car") = other_car;
+		test_script->public_gos.at("scene_manager") = scene_manager;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
 	{
 	}
+
+	void Player_Car_LoseItem(GameObject* game_object);
+	void Player_Car_PickItem(GameObject* game_object);
 
 	void Player_Car_Update(GameObject* game_object)
 	{
@@ -116,7 +123,7 @@ namespace Player_Car
 						//int Player_car_distance = game_object->GetComponent(ComponentType::C_CAR) check distance between cars
 					}
 					have_item = false;
-					have_firecracker = true;
+					Player_Car_PickItem(game_object);
 				}
 			}
 
@@ -166,12 +173,13 @@ namespace Player_Car
 					{
 						if (other_car != nullptr)
 						{
-							if (firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
+							if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
 								((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						}
-						have_firecracker = false;
+						Player_Car_LoseItem(game_object);
+
 						using_firecracker = false;
-						firecracker->SetActive(false);
+						if (firecracker) firecracker->SetActive(false);
 						Player_car->ReleaseItem();
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 					}
@@ -186,7 +194,7 @@ namespace Player_Car
 
 					if (using_firecracker && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP)
 					{
-						have_firecracker = false;
+						Player_Car_LoseItem(game_object);
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
@@ -207,7 +215,7 @@ namespace Player_Car
 					}
 					if (using_firecracker && App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 					{
-						have_firecracker = false;
+						Player_Car_LoseItem(game_object);
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
@@ -243,14 +251,14 @@ namespace Player_Car
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-						firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+						if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
 					}
 					else if (item_col->GetGameObject()->name == "Koma")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-						firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+						if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
 					}
@@ -259,6 +267,42 @@ namespace Player_Car
 						have_item = true;
 					}
 				}
+			}
+		}
+	}
+
+	void Player_Car_PickItem(GameObject* game_object)
+	{
+		have_firecracker = true;
+		if (scene_manager != nullptr)
+		{
+			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
+			function_path.append("_UpdateItems");
+			if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, function_path.c_str()))
+			{
+				update_items(((ComponentCar*)game_object->GetComponent(C_CAR))->team, true);
+			}
+			else
+			{
+				LOG("Scripting error: %s", GetLastError());
+			}
+		}
+	}
+
+	void Player_Car_LoseItem(GameObject* game_object)
+	{
+		have_firecracker = false;
+		if (scene_manager != nullptr)
+		{
+			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
+			function_path.append("_UpdateItems");
+			if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, function_path.c_str()))
+			{
+				update_items(((ComponentCar*)game_object->GetComponent(C_CAR))->team, false);
+			}
+			else
+			{
+				LOG("Scripting error: %s", GetLastError());
 			}
 		}
 	}

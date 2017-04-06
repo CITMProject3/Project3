@@ -17,8 +17,11 @@
 #include "../RaceTimer.h"
 #include "../ComponentCar.h"
 #include "../ComponentUiText.h"
+#include "../ComponentUiImage.h"
+
 #include "../ModuleGOManager.h"
 #include "../Timer.h"
+#include "../Time.h"
 
 namespace Scene_Manager
 {
@@ -41,6 +44,12 @@ namespace Scene_Manager
 	GameObject* start_timer_go = nullptr;
 	ComponentUiText* start_timer_text = nullptr;
 
+	GameObject* item_ui_1_go = nullptr;
+	ComponentUiImage* item_ui_1 = nullptr;
+
+	GameObject* item_ui_2_go = nullptr;
+	ComponentUiImage* item_ui_2 = nullptr;
+
 	//"Private" variables
 	Timer start_timer;
 	RaceTimer timer;
@@ -55,6 +64,9 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player1_Text", lap1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player2_Text", lap2_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start_Timer_Text", start_timer_go));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player1", item_ui_1_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player2", item_ui_2_go));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -66,6 +78,8 @@ namespace Scene_Manager
 		lap1_go = script->public_gos["Lap_Player1_Text"];
 		lap2_go = script->public_gos["Lap_Player2_Text"];
 		start_timer_go = script->public_gos["Start_Timer_Text"];
+		item_ui_1_go = script->public_gos["Item_Player1"];
+		item_ui_2_go = script->public_gos["Item_Player2"];
 	}
 
 	void Scene_Manager_SetStartTimerText(unsigned int number)
@@ -78,7 +92,6 @@ namespace Scene_Manager
 
 	void Scene_Manager_StartRace()
 	{
-		start_timer.Stop();
 		if (car_1 != nullptr)
 			car_1->BlockInput(false);
 		if (car_2 != nullptr)
@@ -86,13 +99,15 @@ namespace Scene_Manager
 		if (car_1 == nullptr || car_2 == nullptr)
 			LOG("Error: Could not find the cars in the scene!");
 
+		timer.Start();
+
 		if (start_timer_text != nullptr)
 			start_timer_text->GetGameObject()->SetActive(false);
 	}
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
-		race_timer_number = 3;
+		race_timer_number = 4;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer.Start();
 		//timer.Start();
@@ -100,13 +115,19 @@ namespace Scene_Manager
 		{
 			car_1 = (ComponentCar*)car_1_go->GetComponent(C_CAR);
 			if (car_1)
+			{
 				car_1->BlockInput(true);
+				car_1->team = 0;
+			}
 		}
 		if (car_2_go != nullptr)
 		{
 			car_2 = (ComponentCar*)car_2_go->GetComponent(C_CAR);
 			if (car_2)
+			{
 				car_2->BlockInput(true);
+				car_2->team = 1;
+			}
 		}
 		if (timer_text_go != nullptr)
 		{
@@ -124,6 +145,14 @@ namespace Scene_Manager
 		{
 			start_timer_text = (ComponentUiText*)start_timer_go->GetComponent(C_UI_TEXT);
 		}
+		if (item_ui_1_go)
+		{
+			item_ui_1 = (ComponentUiImage*)item_ui_1_go->GetComponent(C_UI_IMAGE);
+		}
+		if (item_ui_2_go)
+		{
+			item_ui_2 = (ComponentUiImage*)item_ui_2_go->GetComponent(C_UI_IMAGE);
+		}
 	}
 
 	void Scene_Manager_Update(GameObject* game_object)
@@ -137,13 +166,22 @@ namespace Scene_Manager
 				if (race_timer_number > 0)
 				{
 					start_timer.Start();
-					Scene_Manager_SetStartTimerText(race_timer_number);
+					Scene_Manager_SetStartTimerText(race_timer_number - 1);
 				}
 				else
+				{
+					start_timer.Stop();
+				}
+				if (race_timer_number == 1)
 				{
 					Scene_Manager_StartRace();
 				}				
 			}
+		}
+
+		if (race_timer_number == 0)
+		{
+			timer.Update(time->DeltaTime());
 		}
 
 		//Updating car laps
@@ -160,12 +198,8 @@ namespace Scene_Manager
 					string str = std::to_string(car_1->lap);
 					lap1_text->SetDisplayText(str);
 				}
-				if (lap2_text != nullptr)
-				{
-					string str = std::to_string(car_2->lap);
-					lap2_text->SetDisplayText(str);
-				}
 			}
+
 		}
 
 		if (car_2 != nullptr)
@@ -181,11 +215,6 @@ namespace Scene_Manager
 					string str = std::to_string(car_2->lap);
 					lap2_text->SetDisplayText(str);
 				}
-				if (lap2_text != nullptr)
-				{
-					string str = std::to_string(car_2->lap);
-					lap2_text->SetDisplayText(str);
-				}
 			}
 		}
 
@@ -193,7 +222,7 @@ namespace Scene_Manager
 		if (timer_text != nullptr)
 		{
 			int min, sec, milisec = 0;
-			timer.GetCurrentLapTime(0, min, sec, milisec);
+			timer.GetRaceTime(min, sec, milisec);
 			string min_str = to_string(min);
 			string sec_str = to_string(sec);
 			string mil_str = to_string(milisec);
@@ -208,5 +237,23 @@ namespace Scene_Manager
 			timer_text->SetDisplayText(timer_string);
 			LOG("Text set: %s", timer_string.c_str());
 		}	
+	}
+
+	void Scene_Manager_UpdateItems(unsigned int team, bool has_item)
+	{
+		if (team == 0 && car_1 != nullptr)
+		{
+			if (item_ui_1 != nullptr)
+			{
+				item_ui_1->GetGameObject()->SetActive(has_item);
+			}
+		}
+		else if (team == 1 && car_2 != nullptr)
+		{
+			if (item_ui_2 != nullptr)
+			{
+				item_ui_2->GetGameObject()->SetActive(has_item);
+			}
+		}
 	}
 }

@@ -19,6 +19,8 @@ EXPORTS
 	Player_Car_UpdatePublics
 	Player_Car_ActualizePublics
 	Player_Car_OnCollision
+	Player_Car_PickItem
+	Player_Car_LoseItem
 
 	Player_Camera_GetPublics
 	Player_Camera_Start
@@ -30,6 +32,7 @@ EXPORTS
 	Scene_Manager_UpdatePublics
 	Scene_Manager_Start
 	Scene_Manager_Update
+	Scene_Manager_UpdateItems
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics

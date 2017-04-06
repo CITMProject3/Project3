@@ -190,6 +190,7 @@ public:
 	Player2_State p2_state = P2IDLE;
 
 	bool lock_input = false;
+	uint team = 0;
 
 private:
 	float kickTimer = 0.0f;

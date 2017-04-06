@@ -395,6 +395,11 @@ void ComponentScript::SetPath(const char * path)
 	}
 }
 
+const char* ComponentScript:: GetPath()
+{
+	return path.c_str();
+}
+
 void ComponentScript::SetGOVar(GameObject* game_object)
 {
 	for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
