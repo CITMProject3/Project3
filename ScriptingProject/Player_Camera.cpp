@@ -33,6 +33,7 @@ namespace Player_Camera
 	float Player_Camera_relation_vel_fov = 10.0;
 	float Player_Camera_fov_increment = 5.0;
 	float Player_Camera_fov_decrement = 5.0;
+	float Player_Camera_max_vel_relative = 120.0;
 	float Player_Camera_last_fov = 60.0;
 
 	void Player_Camera_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
@@ -46,9 +47,10 @@ namespace Player_Camera
 		//public_float->insert(pair<const char*, float>("y change boost", Player_Camera_relation_vel_y));
 		//public_float->insert(pair<const char*, float>("z change boost", Player_Camera_relation_vel_z));
 		public_float->insert(pair<const char*, float>("fov change boost", Player_Camera_relation_vel_fov));
-		public_float->insert(pair<const char*, float>("Player_Camera_fov_increment", Player_Camera_fov_increment));
-		public_float->insert(pair<const char*, float>("Player_Camera_fov_decrement", Player_Camera_fov_decrement));
-		public_float->insert(pair<const char*, float>("Player_Camera_last_fov", Player_Camera_last_fov));
+		public_float->insert(pair<const char*, float>("fov_increment", Player_Camera_fov_increment));
+		public_float->insert(pair<const char*, float>("fov_decrement", Player_Camera_fov_decrement));
+		public_float->insert(pair<const char*, float>("max_vel_relative", Player_Camera_max_vel_relative));
+		public_float->insert(pair<const char*, float>("last_fov", Player_Camera_last_fov));
 	}
 
 	void Player_Camera_UpdatePublics(GameObject* game_object)
@@ -64,9 +66,10 @@ namespace Player_Camera
 		//Player_Camera_relation_vel_y = Player_Camera_script->public_floats.at("y change boost");
 		//Player_Camera_relation_vel_z = Player_Camera_script->public_floats.at("z change boost");
 		Player_Camera_relation_vel_fov = Player_Camera_script->public_floats.at("fov change boost");
-		Player_Camera_fov_increment = Player_Camera_script->public_floats.at("Player_Camera_fov_increment");
-		Player_Camera_fov_decrement = Player_Camera_script->public_floats.at("Player_Camera_fov_decrement");
-		Player_Camera_last_fov = Player_Camera_script->public_floats.at("Player_Camera_last_fov");
+		Player_Camera_fov_increment = Player_Camera_script->public_floats.at("fov_increment");
+		Player_Camera_fov_decrement = Player_Camera_script->public_floats.at("fov_decrement");
+		Player_Camera_max_vel_relative = Player_Camera_script->public_floats.at("max_vel_relative");
+		Player_Camera_last_fov = Player_Camera_script->public_floats.at("last_fov");
 	}
 
 	void Player_Camera_ActualizePublics(GameObject* game_object)
@@ -82,9 +85,10 @@ namespace Player_Camera
 		//Player_Camera_script->public_floats.at("y change boost") = Player_Camera_relation_vel_y;
 		//Player_Camera_script->public_floats.at("z change boost") = Player_Camera_relation_vel_z;
 		Player_Camera_script->public_floats.at("fov change boost") = Player_Camera_relation_vel_fov;
-		Player_Camera_script->public_floats.at("Player_Camera_fov_increment") = Player_Camera_fov_increment;
-		Player_Camera_script->public_floats.at("Player_Camera_fov_decrement") = Player_Camera_fov_decrement;
-		Player_Camera_script->public_floats.at("Player_Camera_last_fov") = Player_Camera_last_fov;
+		Player_Camera_script->public_floats.at("fov_increment") = Player_Camera_fov_increment;
+		Player_Camera_script->public_floats.at("fov_decrement") = Player_Camera_fov_decrement;
+		Player_Camera_script->public_floats.at("max_vel_relative") = Player_Camera_max_vel_relative;
+		Player_Camera_script->public_floats.at("last_fov") = Player_Camera_last_fov;
 	}
 
 	void Player_Camera_Start(GameObject* game_object)
@@ -117,12 +121,9 @@ namespace Player_Camera
 			ComponentCar* Player_Camera_car = (ComponentCar*)Player_Camera_target->GetComponent(ComponentType::C_CAR);
 			if (Player_Camera_car != nullptr)
 			{
-				if (Player_Camera_car->GetCurrentTurbo() != T_IDLE)
-				{
-					//total_dist_z += Player_Camera_relation_vel_z * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
-					//total_dist_y += Player_Camera_relation_vel_y * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
-					new_fov += Player_Camera_relation_vel_fov * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
-				}
+				//total_dist_z += Player_Camera_relation_vel_z * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
+				//total_dist_y += Player_Camera_relation_vel_y * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
+				new_fov += Player_Camera_relation_vel_fov * (Player_Camera_car->GetVelocity() / Player_Camera_max_vel_relative);
 			}
 
 			float3 Player_Camera_target_pos = float3::zero;
