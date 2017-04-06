@@ -27,6 +27,12 @@ extern "C"
 			App = engine_app;
 			time = engine_time;
 
+			//Game loop related
+			script_names->push_back("Checkpoint");
+			script_names->push_back("Finish_lane");
+			script_names->push_back("OutOfBounds");
+
+			//Others
 			script_names->push_back("Test");
 			script_names->push_back("Test2");
 

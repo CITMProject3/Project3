@@ -14,6 +14,8 @@
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	//Init frustrum
@@ -457,6 +459,7 @@ math::Ray ComponentCamera::CastCameraRay(math::float2 screen_pos)
 
 void ComponentCamera::UpdateCameraFrustum()
 {
+	BROFILER_CATEGORY("ComponentCamera::UpdateCameraFrustum", Profiler::Color::MediumTurquoise)
 	if (smoothFollow == true)
 	{		
 		float3 curr_pos, des_pos, scale;

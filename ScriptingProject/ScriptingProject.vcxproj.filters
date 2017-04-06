@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Audio">
       <UniqueIdentifier>{3dcd1155-e6d9-4189-8b7a-a9570207ef9e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\CollisionScripts">
+      <UniqueIdentifier>{1a3c6935-4730-4d39-ab0f-80a8c800c3e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -71,6 +74,15 @@
     </ClCompile>
     <ClCompile Include="VehicleSelectionUI.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Checkpoint.cpp">
+      <Filter>Source Files\CollisionScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="Finish_lane.cpp">
+      <Filter>Source Files\CollisionScripts</Filter>
+    </ClCompile>
+    <ClCompile Include="OutOfBounds.cpp">
+      <Filter>Source Files\CollisionScripts</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

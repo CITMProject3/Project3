@@ -294,6 +294,7 @@ void ComponentTransform::SaveAsPrefab(Data & file) const
 
 void ComponentTransform::CalculateFinalTransform()
 {
+	BROFILER_CATEGORY("ComponentTransform::CalculateFinalTransform", Profiler::Color::Chocolate)
 	GameObject* game_object = GetGameObject();
 	if (game_object)
 	{

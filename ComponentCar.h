@@ -192,10 +192,12 @@ public:
 	bool lock_input = false;
 	uint team = 0;
 	uint place = 1;
-	bool finished = true;
+	bool finished = false;
 
 private:
 	float kickTimer = 0.0f;
+
+	bool raceStarted = false;
 public:
 
 	//Drifting control variables
@@ -373,7 +375,7 @@ private:
 	public:
 		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
 		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
-		uint checkpoints = MAXUINT;
+		uint checkpoints = MAXUINT - 10;
 		float3 last_check_pos = float3::zero;
 		Quat last_check_rot = Quat::identity;
 		unsigned int lap = 0;

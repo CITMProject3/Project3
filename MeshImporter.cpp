@@ -597,6 +597,7 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 				}
 				case(C_ANIMATION):
 					component_data.AppendString("path", ((ComponentAnimation*)*component)->GetResourcePath());
+					component_data.AppendInt("current_animation", -1);
 					break;
 				case(C_BONE):
 					component_data.AppendString("path", ((ComponentBone*)*component)->GetResourcePath());
@@ -762,7 +763,7 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 		//Transform
 		if (node->mNumMeshes > 1)
 		{
-			GameObject* child = new GameObject(go_root);
+			child = new GameObject(go_root);
 			go_root->AddChild(child);
 			created_go.push_back(child);
 		}
