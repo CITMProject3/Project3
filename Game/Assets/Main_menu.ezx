@@ -1596,7 +1596,7 @@
             "UUID": 357991960,
             "local_UUID": 0,
             "parent": 4204256960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1653,6 +1653,20 @@
                         1
                     ],
                     "Order": 0
+                },
+                {
+                    "type": 10,
+                    "UUID": 3997258185,
+                    "active": true,
+                    "script_path": "Vehicle_Selection_UI",
+                    "script_num": 0,
+                    "Button Cooldown": 15,
+                    "Blue arrow left": 916758109,
+                    "Blue arrow right": 698612536,
+                    "Blue car": 2225327967,
+                    "Red arrow left": 3835896838,
+                    "Red arrow right": 1869263203,
+                    "Red car": 1429455215
                 }
             ]
         },
@@ -1661,7 +1675,7 @@
             "UUID": 3509895648,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1758,7 +1772,7 @@
             "UUID": 916758109,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1855,7 +1869,7 @@
             "UUID": 698612536,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1952,7 +1966,7 @@
             "UUID": 2225327967,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -2033,10 +2047,10 @@
                             "texture_changed": false,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2688530628\/2688530628.dds"
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2989330961\/2989330961.dds"
                                 },
                                 {
-                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2989330961\/2989330961.dds"
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1420435009\/1420435009.dds"
                                 }
                             ]
                         }
@@ -2049,7 +2063,7 @@
             "UUID": 3835896838,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -2146,7 +2160,7 @@
             "UUID": 1869263203,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -2243,7 +2257,7 @@
             "UUID": 1429455215,
             "local_UUID": 0,
             "parent": 357991960,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -2324,10 +2338,10 @@
                             "texture_changed": false,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1420435009\/1420435009.dds"
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/293822223\/293822223.dds"
                                 },
                                 {
-                                    "path": "\/Library\/4086913788\/\/2932010584\/\/293822223\/293822223.dds"
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1420435009\/1420435009.dds"
                                 }
                             ]
                         }

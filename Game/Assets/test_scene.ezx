@@ -21631,7 +21631,7 @@
             ]
         },
         {
-            "name": "UI_inGame",
+            "name": "Canvas",
             "UUID": 2871570994,
             "local_UUID": 0,
             "parent": 965909917,
@@ -23025,11 +23025,246 @@
             ]
         },
         {
-            "name": "Timer",
-            "UUID": 2597338925,
+            "name": "Start_Race",
+            "UUID": 833299389,
             "local_UUID": 0,
             "parent": 274882976,
             "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 924052391,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 2405775603,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                }
+            ]
+        },
+        {
+            "name": "CountDown_Text",
+            "UUID": 2475628546,
+            "local_UUID": 0,
+            "parent": 833299389,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2024391586,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 153354415,
+                    "active": true,
+                    "rect_size": [
+                        300,
+                        300
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        800,
+                        0,
+                        1,
+                        0,
+                        350,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 3815842409,
+                    "active": true,
+                    "text": "3",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3641736546,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2263021904\/2263021904.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "On_Race_HUD",
+            "UUID": 560522107,
+            "local_UUID": 0,
+            "parent": 274882976,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 290390143,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 320631591,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                }
+            ]
+        },
+        {
+            "name": "Timer",
+            "UUID": 2597338925,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -23082,7 +23317,7 @@
                         0,
                         1,
                         0,
-                        415.000031,
+                        460,
                         0,
                         0,
                         1,
@@ -23164,7 +23399,7 @@
             "name": "Item_1",
             "UUID": 361432611,
             "local_UUID": 0,
-            "parent": 274882976,
+            "parent": 560522107,
             "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -23207,11 +23442,11 @@
                         1,
                         0,
                         0,
-                        450,
+                        250,
                         0,
                         1,
                         0,
-                        200,
+                        100,
                         0,
                         0,
                         1,
@@ -23261,7 +23496,7 @@
             "name": "Item_2",
             "UUID": 1033624433,
             "local_UUID": 0,
-            "parent": 274882976,
+            "parent": 560522107,
             "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
@@ -23304,11 +23539,11 @@
                         1,
                         0,
                         0,
-                        450,
+                        250,
                         0,
                         1,
                         0,
-                        500,
+                        800,
                         0,
                         0,
                         1,
@@ -23344,6 +23579,626 @@
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2416372908\/2416372908.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Place_Player1",
+            "UUID": 3169063516,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 967958894,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1987487917,
+                    "active": true,
+                    "rect_size": [
+                        200,
+                        200
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        1300.000122,
+                        0,
+                        1,
+                        0,
+                        50,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 2436398096,
+                    "active": true,
+                    "text": "1",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 983671919,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": ""
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/3405845670\/3405845670.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/1653639162\/1653639162.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Place_Player2",
+            "UUID": 3974201536,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1146457420,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 285135609,
+                    "active": true,
+                    "rect_size": [
+                        200,
+                        200
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        1300,
+                        0,
+                        1,
+                        0,
+                        700,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 2207229093,
+                    "active": true,
+                    "text": "1",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1834243292,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": ""
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2803892791\/2803892791.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3101917108\/3101917108.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Player1",
+            "UUID": 837065514,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1351803029,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 4059428034,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        500,
+                        0,
+                        1,
+                        0,
+                        380,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 470327449,
+                    "active": true,
+                    "text": "1",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3675163740,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Player2",
+            "UUID": 208574500,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4024288072,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 220680229,
+                    "active": true,
+                    "rect_size": [
+                        100,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        500,
+                        0,
+                        1,
+                        0,
+                        520,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 3687751983,
+                    "active": true,
+                    "text": "1",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 637178587,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                },
+                                {
+                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Image1",
+            "UUID": 3457380248,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 331424876,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 338151449,
+                    "active": true,
+                    "rect_size": [
+                        200,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        300,
+                        0,
+                        1,
+                        0,
+                        392,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 2789817871,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3020726936,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Image2",
+            "UUID": 2455455361,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2489487485,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1406012063,
+                    "active": true,
+                    "rect_size": [
+                        200,
+                        100
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        300,
+                        0,
+                        1,
+                        0,
+                        532,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 2844543045,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2556539663,
+                            "active": true,
+                            "path": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
                                 },
                                 {
                                     "path": ""
@@ -23433,11 +24288,17 @@
                     "active": true,
                     "script_path": "Scene_Manager",
                     "script_num": 0,
+                    "Position_Player2": 3974201536,
+                    "Race_HUD": 560522107,
                     "Car1": 3082689746,
                     "Car2": 3832415544,
                     "Timer_Text": 2597338925,
+                    "Lap_Player1_Text": 837065514,
+                    "Lap_Player2_Text": 208574500,
+                    "Start_Timer_Text": 2475628546,
                     "Item_Player1": 361432611,
-                    "Item_Player2": 1033624433
+                    "Item_Player2": 1033624433,
+                    "Position_Player1": 3169063516
                 }
             ]
         }

@@ -55,10 +55,10 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Character_Selection_UI.cpp">
-		<Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MapSelectUI.cpp">
-    <Filter>Source Files</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Kmh_Counter.cpp">
       <Filter>Source Files</Filter>
@@ -67,6 +67,9 @@
       <Filter>Source Files\Audio</Filter>
     </ClCompile>
     <ClCompile Include="PlayerObjectSelector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VehicleSelectionUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

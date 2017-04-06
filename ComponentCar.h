@@ -191,6 +191,7 @@ public:
 
 	bool lock_input = false;
 	uint team = 0;
+	uint place = 1;
 
 private:
 	float kickTimer = 0.0f;
@@ -369,11 +370,12 @@ private:
 
 	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:
-	void WentThroughCheckpoint(ComponentCollider* checkpoint);
-	void WentThroughEnd(ComponentCollider* end);
-	unsigned char checkpoints = 255;
-	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 0;
+		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
+		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
+		uint checkpoints = MAXUINT;
+		float3 last_check_pos = float3::zero;
+		Quat last_check_rot = Quat::identity;
+		unsigned int lap = 0;
 
 };
 
