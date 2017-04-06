@@ -111,3 +111,10 @@ EXPORTS
 	Finish_lane_Start
 	Finish_lane_Update
 	Finish_lane_OnCollision
+
+	OutOfBounds_GetPublics
+	OutOfBounds_UpdatePublics
+	OutOfBounds_ActualizePublics
+	OutOfBounds_Start
+	OutOfBounds_Update
+	OutOfBounds_OnCollision
