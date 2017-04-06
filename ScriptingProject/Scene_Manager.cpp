@@ -18,6 +18,7 @@
 #include "../ComponentCar.h"
 #include "../ComponentUiText.h"
 #include "../ComponentUiImage.h"
+#include "../ComponentAudioSource.h"
 
 #include "../ModuleGOManager.h"
 #include "../ModuleResourceManager.h"
@@ -78,6 +79,9 @@ namespace Scene_Manager
 	double finish_timer = 0;
 	bool finish_timer_on = false;
 
+	// Bool for music playing
+	bool music_played = false;
+
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
@@ -135,12 +139,23 @@ namespace Scene_Manager
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 		script->public_chars.at("Main_Menu_Scene") = main_menu_scene;
-
 	}
 
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
-	void Scene_Manager_SetStartTimerText(unsigned int number)
+	void Scene_Manager_SetStartTimerText(unsigned int number, GameObject* game_object)
 	{
+		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		
+		if (a_comp)
+		{
+			switch (number)
+			{
+			case(2): a_comp->PlayAudio(2); break;
+			case(1): a_comp->PlayAudio(1); break;
+			case(0): a_comp->PlayAudio(0); break;
+			}
+		}
+		
 		if (start_timer_text != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
@@ -162,6 +177,9 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp)	a_comp->PlayAudio(3);
+
 		race_timer_number = 4;
 		finish_timer = 0;
 		finish_timer_on = false;
@@ -221,13 +239,20 @@ namespace Scene_Manager
 		}
 	}
 
-	void Scene_Manager_UpdateDuringRace();
+	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
 
 	void Scene_Manager_Update(GameObject* game_object)
 	{
+		if (!music_played)
+		{
+			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp)	a_comp->PlayAudio(5);
+			music_played = true;
+		}
+
 		if (race_finished == false)
 		{
-			Scene_Manager_UpdateDuringRace();
+			Scene_Manager_UpdateDuringRace(game_object);
 		}
 		else
 		{
@@ -286,7 +311,7 @@ namespace Scene_Manager
 		LOG("Text set: %s", timer_string.c_str());
 	}
 
-	void Scene_Manager_UpdateStartCountDown()
+	void Scene_Manager_UpdateStartCountDown(GameObject* game_object)
 	{
 		start_timer += time->DeltaTime();
 		if (start_timer >= 1)
@@ -295,7 +320,7 @@ namespace Scene_Manager
 			if (race_timer_number > 0)
 			{
 				start_timer = 0;
-				Scene_Manager_SetStartTimerText(race_timer_number - 1);
+				Scene_Manager_SetStartTimerText(race_timer_number - 1, game_object);
 			}
 			else
 			{
@@ -318,7 +343,7 @@ namespace Scene_Manager
 
 	}
 
-	void Scene_Manager_UpdateDuringRace()
+	void Scene_Manager_UpdateDuringRace(GameObject* game_object)
 	{
 		if (finish_timer_on == true)
 		{
@@ -332,7 +357,7 @@ namespace Scene_Manager
 		{
 			if (start_timer_on == true)
 			{
-				Scene_Manager_UpdateStartCountDown();
+				Scene_Manager_UpdateStartCountDown(game_object);
 			}
 
 			if (race_timer_number == 0)
