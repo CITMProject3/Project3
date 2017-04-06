@@ -73,6 +73,7 @@ EXPORTS
 	MapSelectUI_ActualizePublics
 	MapSelectUI_Start
 	MapSelectUI_Update
+	MapSelectUI_OnFocus
 
 	Scene_Manager_SetStartTimerText
 	Scene_Manager_StartRace
