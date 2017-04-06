@@ -1,4 +1,5 @@
 EXPORTS
+
 	GetScriptNames					
 	
 	Test_GetPublics
@@ -6,6 +7,7 @@ EXPORTS
 	Test_Update
 	Test_UpdatePublics
 	Test_ActualizePublics
+	Test_OnFocus
 	Test_OnCollision
 
 	Test2_Start
@@ -15,14 +17,112 @@ EXPORTS
 	Player_Car_Start
 	Player_Car_Update
 	Player_Car_UpdatePublics
+	Player_Car_ActualizePublics
 	Player_Car_OnCollision
+	Player_Car_PickItem
+	Player_Car_LoseItem
 
 	Player_Camera_GetPublics
 	Player_Camera_Start
 	Player_Camera_Update
 	Player_Camera_UpdatePublics
+	Player_Camera_ActualizePublics
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics
+	Scene_Manager_ActualizePublics
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
 	Scene_Manager_Start
+	Scene_Manager_UpdateDuringRace
 	Scene_Manager_Update
+	Scene_Manager_UpdateItems
+	Scene_Manager_FinishRace
+	Scene_Manager_UpdateUIRaceTimer
+	Scene_Manager_UpdateStartCountDown
+	Scene_Manager_UpdateDuringRace
+
+	Main_Menu_UI_GetPublics
+	Main_Menu_UI_UpdatePublics
+	Main_Menu_UI_ActualizePublics
+	Main_Menu_UI_Start
+	Main_Menu_UI_Update
+
+	Start_Menu_UI_GetPublics
+	Start_Menu_UI_UpdatePublics
+	Start_Menu_UI_ActualizePublics
+	Start_Menu_UI_Start
+	Start_Menu_UI_Update
+
+	Character_Selection_UI_GetPublics
+	Character_Selection_UI_UpdatePublics
+	Character_Selection_UI_ActualizePublics
+	Character_Selection_UI_Start
+	Character_Selection_UI_Update
+	Character_Selection_UI_OnFocus
+
+	Vehicle_Selection_UI_GetPublics
+	Vehicle_Selection_UI_UpdatePublics
+	Vehicle_Selection_UI_ActualizePublics
+	Vehicle_Selection_UI_Start
+	Vehicle_Selection_UI_Update
+	Vehicle_Selection_UI_OnFocus
+
+	MapSelectUI_GetPublics
+	MapSelectUI_UpdatePublics
+	MapSelectUI_ActualizePublics
+	MapSelectUI_Start
+	MapSelectUI_Update
+	MapSelectUI_OnFocus
+
+	Scene_Manager_SetStartTimerText
+	Scene_Manager_StartRace
+
+	Kmh_Counter_GetPublics
+	Kmh_Counter_UpdatePublics
+	Kmh_Counter_Start
+	Kmh_Counter_Update
+	Kmh_Counter_ActualizePublics
+
+	PlayerObjectSelector_GetPublics
+	PlayerObjectSelector_UpdatePublics
+	PlayerObjectSelector_Start
+
+	; Audio related scripts
+
+	Audio_PlaySound_GetPublics
+	Audio_PlaySound_UpdatePublics
+	Audio_PlaySound_ActualizePublics
+	Audio_PlaySound_Start
+	Audio_PlaySound_Update
+	Audio_PlaySound_OnCollision
+
+
+	; Game Loop scripts
+	Checkpoint_GetPublics
+	Checkpoint_UpdatePublics
+	Checkpoint_ActualizePublics
+	Checkpoint_Start
+	Checkpoint_Update
+	Checkpoint_OnCollision
+
+	Finish_lane_GetPublics
+	Finish_lane_UpdatePublics
+	Finish_lane_ActualizePublics
+	Finish_lane_Start
+	Finish_lane_Update
+	Finish_lane_OnCollision
+
+	OutOfBounds_GetPublics
+	OutOfBounds_UpdatePublics
+	OutOfBounds_ActualizePublics
+	OutOfBounds_Start
+	OutOfBounds_Update
+	OutOfBounds_OnCollision
+
+	CarPositionController_GetPublics
+	CarPositionController_UpdatePublics
+	CarPositionController_ActualizePublics
+	CarPositionController_Start
+	CarPositionController_Update
+	CarPositionController_OnCollision

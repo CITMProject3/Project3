@@ -9,7 +9,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentCamera.h"
 #include "ComponentLight.h"
-#include "ComponentAudio.h"
+#include "ComponentAudioSource.h"
+#include "ComponentAudioListener.h"
 #include "ComponentCollider.h"
 #include "ComponentCar.h"
 #include "ComponentRectTransform.h"
@@ -17,6 +18,7 @@
 #include "ComponentUiText.h"
 #include "ComponentCanvas.h"
 #include "ComponentUiButton.h"
+#include "ComponentGrid.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -388,9 +390,13 @@ Component* GameObject::AddComponent(ComponentType type)
 		if (transform)
 			item = new ComponentCar(this);
 		break;
-	case C_AUDIO:
+	case C_AUDIO_SOURCE:
 		if (transform)
-			item = new ComponentAudio(type, this);
+			item = new ComponentAudioSource(type, this);
+		break;
+	case C_AUDIO_LISTENER:
+		if (transform)
+			item = new ComponentAudioListener(type, this);
 		break;
 	case C_SCRIPT:
 		item = new ComponentScript(type, this);
@@ -430,6 +436,10 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_UI_BUTTON:
 		if (GetComponent(C_RECT_TRANSFORM))
 			item = new ComponentUiButton(type, this);
+		break;
+	case C_GRID:
+		if (GetComponent(C_RECT_TRANSFORM))
+			item = new ComponentGrid(type, this);
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);

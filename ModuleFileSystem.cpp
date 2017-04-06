@@ -5,6 +5,8 @@
 #include "SDL/include/SDL_stdinc.h"
 #include "SDL/include/SDL_rwops.h"
 
+#include "md5.h"
+
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 
 ModuleFileSystem::ModuleFileSystem(const char* name, bool start_enabled) : Module(name, start_enabled)
@@ -17,11 +19,14 @@ ModuleFileSystem::ModuleFileSystem(const char* name, bool start_enabled) : Modul
 	// By default we include executable's own directory
 	AddPath(".");
 	AddPath("Resources.zip");
+
+	md5 = new MD5();
 }
 
 // Destructor
 ModuleFileSystem::~ModuleFileSystem()
 {
+	delete md5;
 	PHYSFS_deinit();
 }
 
@@ -323,9 +328,14 @@ bool ModuleFileSystem::CopyFromOutsideFile(const char * from_path, const char * 
 	{
 		LOG("File System error while copying %s", from_path);
 	}
-
-	fclose(file);
-	PHYSFS_close(fs_file);
+	if (file)
+	{
+		fclose(file);
+	}
+	if (fs_file)
+	{
+		PHYSFS_close(fs_file);
+	}
 
 	return ret;
 }
@@ -390,6 +400,24 @@ bool ModuleFileSystem::DuplicateFile(const char * src, const char * dst) const
 	delete[] buffer;
 
 	return (success != 0) ? true : false;
+}
+
+char* ModuleFileSystem::GetMD5(const char * path) const
+{
+	char* ret = nullptr;
+	char* buffer = nullptr;
+
+	int size = Load(path, &buffer);
+
+	if (size != -1)
+		ret = md5->digestMemory((BYTE*)buffer, size);
+	else
+		LOG("Couldn't create md5 for path %s", path);
+
+	if (buffer)
+		delete[] buffer;
+
+	return ret;
 }
 
 void ModuleFileSystem::SearchResourceFolders()

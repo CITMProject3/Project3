@@ -1,5 +1,4 @@
 // ScriptingProject.cpp : Defines the exported functions for the DLL application.
-//
 
 #include "stdafx.h"
 
@@ -8,6 +7,7 @@
 #include <vector>
 
 #include "../Application.h"
+#include "../Time.h"
 #include "../ModuleScripting.h"
 #include "../ModuleInput.h"
 #include "../ModuleWindow.h"
@@ -22,10 +22,18 @@ extern "C"
 {
 	namespace ScriptNames
 	{
-		void GetScriptNames(Application* engine_app, vector<const char*>* script_names)
+		void GetScriptNames(Application* engine_app, vector<const char*>* script_names, Time* engine_time)
 		{
 			App = engine_app;
+			time = engine_time;
 
+			script_names->push_back("CarPositionController");
+			//Game loop related
+			script_names->push_back("Checkpoint");
+			script_names->push_back("Finish_lane");
+			script_names->push_back("OutOfBounds");
+
+			//Others
 			script_names->push_back("Test");
 			script_names->push_back("Test2");
 
@@ -33,6 +41,18 @@ extern "C"
 			script_names->push_back("Player_Camera");
 
 			script_names->push_back("Scene_Manager");
+
+			script_names->push_back("Main_Menu_UI");
+			script_names->push_back("Start_Menu_UI");
+			script_names->push_back("Character_Selection_UI");
+			script_names->push_back("Vehicle_Selection_UI");
+			script_names->push_back("MapSelectUI");
+			script_names->push_back("PlayerObjectSelector");
+
+			script_names->push_back("Kmh_Counter");
+			
+			// Audio related...
+			script_names->push_back("Audio_PlaySound");
 		}
 	}
 
@@ -94,7 +114,11 @@ extern "C"
 			test_script->public_gos.at("Test_go") = test_go;
 		}
 
-		void Test_OnCollision(PhysBody3D* col)
+		void Test_OnFocus(GameObject* game_object)
+		{
+		}
+
+		void Test_OnCollision(GameObject* game_object, PhysBody3D* col)
 		{
 			if (!col->GetCollider()->Static)
 			{

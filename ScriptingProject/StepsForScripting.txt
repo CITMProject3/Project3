@@ -3,7 +3,10 @@ Configuration Properties -> C/C++ -> Code Generation -> Preprocessor -> Preproce
 
 Configuration Properties -> Linker -> Input -> Module Definition File -> add .def file
 Build a library of Engine (Solution Configuration to Library) and add to: (ScriptingProject) Configuration Properties -> Linker -> Input -> Additional Dependencies
-Configuration Properties -> Linker -> General -> Additional Library Directories -> add $(SolutiionDir) or <inherit from parent or project defaults>
+Configuration Properties -> Linker -> General -> Additional Library Directories -> add $(SolutionDir) or <inherit from parent or project defaults>
+
+Make The Engine_debug.lib / Engine_release.lib:
+Active the configuration of Solution "Library Debug" or "Library Release", build the project "Engine" and copy "Engine_debug.lib" or "Engine_release.lib" from "Library Debug" or "Library Release" folder to "ScriptingProject" folder.
 
 MAKE A SCRIPT HERE!
 To add a script follow the structure of Test or Test2:
@@ -12,8 +15,9 @@ If you want to have variables in the inspector you need [name of script]_GetPubl
 	and [name_of_script]_UpdatePublics(GameObject* game_object) where you need to insert the variables and update the variables from the component
 And if you want to change these variables in the script, you need to [name of script]_ActualizePublics(GameObject* game_object), where you need to change the variables from the map.
 Remember to add the name of the script in the list (inside the function GetScriptNames(Application* engine_app, vector<const char*>* script_names)) and the functions mentioned before in the .def file! (following the structure of Test and Test2)
+Finally, build the project ScriptingProject in Debug or Release and scripts are ready for use in the Engine.
 
 FAQ:
 
 Q: A function that i make doesn't exist in the script project!
-A: You need to remake the Engine.lib (check line 5 of this .txt) and call it Engine_debug.lib or Engine.lib depending on the project configuration.
+A: You need to remake the Engine_debug.lib / Engine_release.lib (check line 8 of this .txt).

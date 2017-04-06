@@ -10,7 +10,7 @@ enum ComponentType
 	C_LIGHT = 4,
 	C_ANIMATION = 5,
 	C_BONE = 6,
-	C_AUDIO = 7,
+	//C_Audio was here
 	C_COLLIDER = 8,
 	C_CAR = 9,
 	C_SCRIPT = 10,
@@ -18,7 +18,10 @@ enum ComponentType
 	C_CANVAS = 12,
 	C_UI_IMAGE = 13,
 	C_UI_TEXT = 14,
-	C_UI_BUTTON = 15
+	C_UI_BUTTON = 15,
+	C_GRID = 16,
+	C_AUDIO_LISTENER = 17,
+	C_AUDIO_SOURCE = 18,
 };
 
 class GameObject;
@@ -52,7 +55,7 @@ public:
 	virtual void OnPlay() {}
 	virtual void OnPause() {}
 	virtual void OnStop() {}
-
+	virtual void OnFocus() {}
 protected:
 	bool active = true;
 	ComponentType type;

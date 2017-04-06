@@ -182,10 +182,6 @@ GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameOb
 	return game_object;
 }
 
-void ResourceFilePrefab::Save()
-{
-}
-
 void ResourceFilePrefab::UnloadInstance(GameObject * instance)
 {
 	instances.remove(instance);
@@ -317,6 +313,9 @@ void ResourceFilePrefab::SaveNewChanges(GameObject * gameobject) const
 		LOG("Error while applying changes to prefab. Couldn't find assets path");
 
 	delete[] buf;
+	
+	unsigned int pref_uuid = App->resource_manager->GetUUIDFromLib(file_path);
+	App->resource_manager->GenerateMetaFile(assets_file.data(), FileType::PREFAB, pref_uuid, file_path);
 
 	gameobject->SetParent(parent);
 }

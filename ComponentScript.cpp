@@ -37,6 +37,7 @@ ComponentScript::~ComponentScript()
 void ComponentScript::Update()
 {
 	BROFILER_CATEGORY("ComponentScript::Update", Profiler::Color::LawnGreen);
+	
 	if (public_gos_to_set)
 	{
 		if (!public_gos.empty())
@@ -76,9 +77,16 @@ void ComponentScript::Update()
 						start(GetGameObject());
 						started = true;
 					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
 				}
 				else
 				{
+					started = false;
 					finded_start = false;
 					error = GetLastError();
 				}
@@ -206,7 +214,7 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				str = "##";
 				str += (*it).first;
-				ImGui::InputText(str.c_str(), (*it).second._Myptr(), (*it).second.size());
+				ImGui::InputText(str.c_str(), (*it).second._Myptr(), 30);
 			}
 		}
 		if (!public_ints.empty())
@@ -330,7 +338,8 @@ void ComponentScript::Load(Data & conf)
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
 			{
-				(*it).second = conf.GetString((*it).first);
+				const char* str = conf.GetString((*it).first);
+				if (str != nullptr)	(*it).second = str;
 			}
 		}
 		if (!public_ints.empty())
@@ -388,6 +397,11 @@ void ComponentScript::SetPath(const char * path)
 	}
 }
 
+const char* ComponentScript:: GetPath()
+{
+	return path.c_str();
+}
+
 void ComponentScript::SetGOVar(GameObject* game_object)
 {
 	for (map<const char*, GameObject*>::iterator it = public_gos.begin(); it != public_gos.end(); it++)
@@ -401,6 +415,44 @@ void ComponentScript::SetGOVar(GameObject* game_object)
 	App->scripting->setting_go_var_name = "";
 }
 
+void ComponentScript::OnFocus()
+{
+	if (App->scripting->scripts_loaded)
+	{
+		if (App->IsGameRunning() && !App->IsGamePaused())
+		{
+			if (started)
+			{
+				string update_path = path.c_str();
+				update_path.append("_Update");
+				if (f_Update on_focus = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
+				{
+					string update_publics_path = path.c_str();
+					update_publics_path.append("_UpdatePublics");
+					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+					{
+						update_publics(GetGameObject());
+					}
+					if (App->IsGameRunning() && !App->IsGamePaused())
+					{
+						on_focus(GetGameObject());
+					}
+					string actualize_publics_path = path.c_str();
+					actualize_publics_path.append("_ActualizePublics");
+					if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+					{
+						actualize_publics(GetGameObject());
+					}
+				}
+				else
+				{
+					error = GetLastError();
+				}
+			}
+		}
+	}
+}
+
 void ComponentScript::OnCollision(PhysBody3D* col)
 {
 	if (App->scripting->scripts_loaded)
@@ -411,8 +463,22 @@ void ComponentScript::OnCollision(PhysBody3D* col)
 			collision_path.append("_OnCollision");
 			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
 			{
+				string update_publics_path = path.c_str();
+				update_publics_path.append("_UpdatePublics");
+				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
+				{
+					update_publics(GetGameObject());
+				}
+
 				if (App->IsGameRunning() && !App->IsGamePaused())
-					onCollision(col);
+					onCollision(GetGameObject(), col);
+
+				string actualize_publics_path = path.c_str();
+				actualize_publics_path.append("_ActualizePublics");
+				if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
+				{
+					actualize_publics(GetGameObject());
+				}
 			}
 			else
 			{

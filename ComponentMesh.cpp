@@ -39,6 +39,7 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::Update()
 {
+	BROFILER_CATEGORY("ComponentMesh::Update", Profiler::Color::AliceBlue)
 	//Component must be active to update
 	if (!IsActive())
 		return;
@@ -50,9 +51,7 @@ void ComponentMesh::Update()
 	}
 	if (App->renderer3D->renderAABBs)
 	{
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		App->renderer3D->DrawAABB(bounding_box.minPoint, bounding_box.maxPoint, float4(1, 1, 0, 1));
-		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 }
 

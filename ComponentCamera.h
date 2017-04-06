@@ -59,6 +59,7 @@ private:
 
 public:
 
+	bool renderTerrain = true;
 	bool smoothFollow = false;
 	bool block_z_rotation = true;
 

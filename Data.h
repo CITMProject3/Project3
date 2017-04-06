@@ -25,6 +25,7 @@ public:
 	bool AppendFloat(const char* name, float value);
 	bool AppendFloat2(const char * name, const float * value);
 	bool AppendFloat3(const char* name,const float* value);
+	bool AppendFloat4(const char* name, const float* value);
 	bool AppendDouble(const char* name, double value);
 	Data AppendJObject(const char* name);
 
@@ -40,6 +41,7 @@ public:
 	float GetFloat(const char* name)const;
 	float2 GetFloat2(const char* name) const;
 	float3 GetFloat3(const char* name)const;
+	float4 GetFloat4(const char* name)const;
 	double GetDouble(const char* name)const;
 
 	//Loading an array into the data

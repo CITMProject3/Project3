@@ -13,6 +13,7 @@
 #include "ComponentMesh.h"
 #include "ComponentLight.h"
 #include "ComponentAnimation.h"
+#include "ComponentCar.h"
 
 #include "RaycastHit.h"
 #include "LayerSystem.h"
@@ -36,13 +37,20 @@ ModuleGOManager::~ModuleGOManager()
 
 bool ModuleGOManager::Init(Data & config)
 {
-	LoadEmptyScene();
 	layer_system = new LayerSystem();
 	layer_system->Load(config);
 
 	// Whether exists one scene on Configuration.json, load it on Start()!
-	current_library_scene_path = config.GetString("current_library_scene_path");
+	if (App->IsGameRunning())
+		current_library_scene_path = config.GetString("current_library_scene_path");
+	else
+		current_library_scene_path = "";
 	
+	team1_front = PLAYER_1;
+	team1_back = PLAYER_2;
+	team2_front = PLAYER_3;
+	team2_back = PLAYER_4;
+
 	return true;
 }
 
@@ -51,7 +59,9 @@ bool ModuleGOManager::Start()
 	octree.Create(OCTREE_SIZE);
 
 	if (!current_library_scene_path.empty() && App->IsGameRunning())
-		App->resource_manager->LoadScene(current_library_scene_path.data());	
+		App->resource_manager->LoadScene(current_library_scene_path.data());
+	else
+		LoadEmptyScene();
 
 	return true;
 }
@@ -220,17 +230,16 @@ bool ModuleGOManager::FastRemoveGameObject(GameObject * object)
 	return ret;
 }
 
-void ModuleGOManager::GetAllCameras(std::vector<ComponentCamera*>& list, GameObject* from) const
+void ModuleGOManager::GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from) const 
 {
 	GameObject* go = (from) ? from : root;
-	
-	ComponentCamera* cam = (ComponentCamera*)go->GetComponent(C_CAMERA);
-	if (cam)
-		list.push_back(cam);
-	
+
+	Component* component = go->GetComponent(type);
+	if (component) list.push_back(component);
+
 	const vector<GameObject*>* childs = go->GetChilds();
 	for (vector<GameObject*>::const_iterator child = childs->begin(); child != childs->end(); ++child)
-		GetAllCameras(list, (*child));
+		GetAllComponents(list, type,(*child));
 }
 
 ComponentLight * ModuleGOManager::GetDirectionalLight(GameObject* from) const
@@ -289,7 +298,19 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	root_node.AppendArray("GameObjects");
 
 	root->Save(root_node);
-	root_node.AppendUInt("terrain_uuid", App->physics->GetCurrentTerrainUUID());
+
+	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
+
+	root_node.AppendArray("terrain_textures");
+	for (uint n = 0; n < App->physics->GetNTextures(); n++)
+	{
+		Data texture;
+		texture.AppendString("path", App->physics->GetTexturePath(n));
+		root_node.AppendArrayValue(texture);
+	}
+
+	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
+	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
 
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
@@ -297,12 +318,29 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 	App->file_system->Save(TEMPORAL_SCENE, buf, size); //TODO: Find the right place to save the scene.
 
 	delete[] buf;
+
+	std::string textureMapPath  = TEMPORAL_SCENE;
+	textureMapPath = textureMapPath.substr(0, textureMapPath.length() - 4);
+	textureMapPath += "txmp";
+	App->physics->SaveTextureMap(textureMapPath.data());
+
 }
 
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
 	App->file_system->Delete(TEMPORAL_SCENE);
+
+	string terrain = TEMPORAL_SCENE;
+	uint len = terrain.find(".ezx");
+	if (len == string::npos)
+	{
+		len = terrain.find(".json");
+	}
+	len++;
+	terrain = terrain.substr(0, len);
+	terrain += "txmp";
+	App->file_system->Delete(terrain.data());
 }
 
 bool ModuleGOManager::InsertGameObjectInOctree(GameObject * go)
@@ -332,14 +370,22 @@ bool ModuleGOManager::RemoveGameObjectOfOctree(GameObject * go)
 
 void ModuleGOManager::ClearScene()
 {
-	RemoveGameObject(root);
-	current_scene_canvas = nullptr;
-	//TODO: modules should have remove GameObject events and load scene events
-	App->editor->selected.clear();
+	if (root != nullptr)
+	{
+		if (App->IsGameRunning())
+		{
+			App->OnStop();
+		}
 
-	root = nullptr;
-	dynamic_gameobjects.clear();
-	octree.Create(OCTREE_SIZE);
+		RemoveGameObject(root);
+		current_scene_canvas = nullptr;
+		//TODO: modules should have remove GameObject events and load scene events
+		App->editor->selected.clear();
+
+		root = nullptr;
+		dynamic_gameobjects.clear();
+		octree.Create(OCTREE_SIZE);
+	}
 }
 
 GameObject * ModuleGOManager::LoadGameObject(const Data & go_data) 
@@ -755,10 +801,13 @@ void ModuleGOManager::OnPauseGameObjects(GameObject * obj)
 
 void ModuleGOManager::OnStop()
 {
-	std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
-	for (; child != root->GetChilds()->end(); ++child)
+	if (root != nullptr)
 	{
-		OnStopGameObjects((*child));
+		std::vector<GameObject*>::const_iterator child = root->GetChilds()->begin();
+		for (; child != root->GetChilds()->end(); ++child)
+		{
+			OnStopGameObjects((*child));
+		}
 	}
 }
 

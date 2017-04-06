@@ -12,7 +12,7 @@
 using namespace std;
 
 struct VehicleInfo;
-struct PhysVehicle3D;
+class PhysVehicle3D;
 class ComponentAnimation;
 class ComponentCollider;
 
@@ -48,6 +48,14 @@ enum MAX_TURN_CHANGE_MODE
 {
 	M_SPEED,
 	M_INTERPOLATION,
+};
+
+enum GROUND_CONTACT
+{
+	G_NONE,
+	G_BEGIN,
+	G_REPEAT,
+	G_EXIT,
 };
 
 struct Turbo
@@ -102,24 +110,33 @@ public:
 	void SetFrontPlayer(PLAYER player);
 	void SetBackPlayer(PLAYER player);
 
+	void BlockInput(bool block);
+	void TestFunction();
+
 	//Getters
 	float GetVelocity()const;
 
 	//Input handler during Game (import in the future to scripting)
+private:
+	void CheckGroundCollision();
+	void OnGroundCollision(GROUND_CONTACT state);
+public:
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void TurnOver();
 	void Reset();
-	void TrueReset();
 	void LimitSpeed();
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	float GetMinVelocity()const;
 	float GetMaxTurnByCurrentVelocity(float sp);
-
+	unsigned int GetFrontPlayer();
+	unsigned int GetBackPlayer();
+	PhysVehicle3D* GetVehicle();
 
 	TURBO GetCurrentTurbo()const;
+	Turbo* GetAppliedTurbo()const;
 
 private:
 	void CreateCar();
@@ -131,20 +148,22 @@ private:
 	void RenderWithoutCar();
 
 	//Controls methods (to use in different parts)
-	void Brake(float* accel, float* brake);
+	void Brake(float* accel, float* brake, bool with_trigger = false, float lt_joy_axis = 0);
 	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
-	void Accelerate(float* accel);
+	void LimitTurn();
+	void Accelerate(float* accel, bool with_trigger = false, float rt_joy_axis = 0);
 	void StartPush();
 	bool Push(float* accel);
+	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
 public:
 	void PickItem();
-private:
 	void UseItem(); //provisional
 	void ReleaseItem();
+private:
 	void IdleTurn();
 	void ApplyTurbo();
 
@@ -170,16 +189,22 @@ public:
 	bool drift_dir_left = false;
 	Player2_State p2_state = P2IDLE;
 
-	//TODO: provisional
-	GameObject* item = nullptr;
+	bool lock_input = false;
+	uint team = 0;
+	uint place = 1;
+	bool finished = false;
+
 private:
 	float kickTimer = 0.0f;
+
+	bool raceStarted = false;
 public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
 	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
+	
 
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
@@ -201,19 +226,22 @@ private:
 
 	//Turn direction
 	float base_turn_max = 0.7f;
-	float turn_speed = 0.1f;
+	float turn_speed = 1.5f;
+	float turn_speed_joystick = 1.5f;
+	float time_to_idle = 0.2f;
+	bool  idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.0f;
+	float turn_max_limit = 0.01f;
 
 	//By speed
-	float base_max_turn_change_speed = -1.0f;
+	float base_max_turn_change_speed = -0.01f;
 	float base_max_turn_change_accel = -0.1f;
 	bool limit_to_a_turn_max = false;
 	bool accelerated_change = false;
 
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_SPEED;
+	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
 
 	//Graph
 	bool show_graph = false;
@@ -228,6 +256,7 @@ private:
 
 	//Drifting
 	float drift_turn_boost = 0.15f;
+	float drift_turn_max = 0.7;
 	float drift_min_speed = 20.0f;
 
 	//Push
@@ -261,7 +290,9 @@ private:
 
 	//Rocket item
 	//WARNING: THIS WILL HAVE TO be in a better structure, provisional for vertical slice
+public:
 	Turbo rocket_turbo;
+private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
 
@@ -275,6 +306,8 @@ private:
 	bool turned = false;
 	float timer_start_turned = 0.0f;
 
+	//Brake
+	float brake = 0.0f;
 	//Boosts
 	float accel_boost = 0.0f;
 	float speed_boost = 0.0f;
@@ -305,6 +338,7 @@ private:
 	bool acro_front = false;
 	bool acro_back = false;
 	bool acro_on = false;
+	bool acro_done = false;
 	float acro_timer = 0.0f;
 	
 	//Turbo
@@ -331,17 +365,25 @@ private:
 
 	//Items! - provisional
 	bool has_item = false;
+
+	//Ground contact
+
+	bool ground_contact_state = false;
+
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
 
-	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
+	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:
-	void WentThroughCheckpoint(ComponentCollider* checkpoint);
-	void WentThroughEnd(ComponentCollider* end);
-	unsigned char checkpoints = 255;
-	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 0;
+		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
+		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
+		uint checkpoints = MAXUINT - 10;
+		float3 last_check_pos = float3::zero;
+		Quat last_check_rot = Quat::identity;
+		unsigned int lap = 0;
+
+		unsigned int n_checkpoints = 0;
 
 };
 

@@ -6,7 +6,7 @@
 
 void log(const char file[], int line, const char* format, ...);
 
-#define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
+#define CAP(n, _min, _max) ((n <= _min) ? n=_min : (n >= _max) ? n=_max : n=n)
 
 #define RELEASE( x )\
     {\
@@ -50,8 +50,8 @@ enum update_status
 // Configuration -----------
 #define SCREEN_SIZE 1
 #define WIN_FULLSCREEN false
-#define WIN_MAXIMIZED true
-#define WIN_RESIZABLE true
+#define WIN_MAXIMIZED false
+#define WIN_RESIZABLE false
 #define WIN_BORDERLESS false
 #define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true

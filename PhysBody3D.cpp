@@ -1,6 +1,6 @@
-#include "Globals.h"
-
 #include "PhysBody3D.h"
+
+#include "Globals.h"
 #include "Bullet\include\btBulletDynamicsCommon.h"
 
 // =================================================
@@ -13,14 +13,17 @@ PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCollider* col) : body(body)
 PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
 {
 	car = col;
-	collisionOptions = SetFlag(collisionOptions, co_isCar, true);
 	body->setUserPointer(this);
 }
 
 // ---------------------------------------------------------
 PhysBody3D::~PhysBody3D()
 {
-	delete body;
+	if (body != nullptr)
+	{
+		delete body;
+		body = nullptr;
+	}
 }
 
 // ---------------------------------------------------------
@@ -143,4 +146,25 @@ math::vec PhysBody3D::GetPosition()const
 	ret.z = body->getWorldTransform().getOrigin().getZ();
 
 	return ret;
+}
+
+void PhysBody3D::SetTrigger(bool value, TriggerType t_type)
+{
+	is_trigger = value;
+	trigger_type = t_type;
+}
+
+void PhysBody3D::SetCar(bool value)
+{
+	is_car = value;
+}
+
+bool PhysBody3D::IsCar() const
+{
+	return is_car;
+}
+
+bool PhysBody3D::IsTrigger() const
+{
+	return is_trigger;
 }

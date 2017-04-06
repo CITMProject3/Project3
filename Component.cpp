@@ -37,6 +37,7 @@ void Component::SetActive(bool value)
 {
 	active = value;
 }
+
 void Component::Remove()
 {
 	game_object->RemoveComponent(this);

@@ -6,6 +6,8 @@
 struct SDL_RWops;
 int close_sdl_rwops(SDL_RWops *rw);
 
+struct MD5;
+
 class ModuleFileSystem : public Module
 {
 public:
@@ -51,9 +53,14 @@ public:
 	bool Delete(std::string filename)const;
 	bool DuplicateFile(const char* src, const char* dst)const;
 
+	char* GetMD5(const char* path)const;
+
 private:
 
 	void SearchResourceFolders();
+
+private:
+	MD5* md5;
 
 };
 

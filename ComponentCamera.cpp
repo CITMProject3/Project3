@@ -14,6 +14,8 @@
 #include "ModuleCamera3D.h"
 #include "ModuleEditor.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 ComponentCamera::ComponentCamera(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
 	//Init frustrum
@@ -64,8 +66,8 @@ void ComponentCamera::PreUpdate()
 
 void ComponentCamera::Update()
 {
-	if (App->StartInGame() == false)
-		g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
+	if (App->StartInGame() == false && App->IsGameRunning() == false)
+			g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
 void ComponentCamera::OnInspector(bool debug)
@@ -87,7 +89,7 @@ void ComponentCamera::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 
-
+		ImGui::Checkbox("Render terrain", &renderTerrain);
 		ImGui::Checkbox("Smooth follow", &smoothFollow);
 		if (smoothFollow)
 		{
@@ -392,6 +394,8 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendFloat("followMovSpeed", followMoveSpeed);
 	data.AppendFloat("followRotSpeed", followRotateSpeed);
 
+	data.AppendBool("render_terrain", renderTerrain);
+
 	file.AppendArrayValue(data);
 }
 
@@ -418,6 +422,8 @@ void ComponentCamera::Load(Data & conf)
 	smoothFollow = conf.GetBool("followSmooth");
 	followMoveSpeed = conf.GetFloat("followMovSpeed");
 	followRotateSpeed = conf.GetFloat("followRotSpeed");
+
+	renderTerrain = conf.GetBool("render_terrain");
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);
@@ -453,6 +459,7 @@ math::Ray ComponentCamera::CastCameraRay(math::float2 screen_pos)
 
 void ComponentCamera::UpdateCameraFrustum()
 {
+	BROFILER_CATEGORY("ComponentCamera::UpdateCameraFrustum", Profiler::Color::MediumTurquoise)
 	if (smoothFollow == true)
 	{		
 		float3 curr_pos, des_pos, scale;

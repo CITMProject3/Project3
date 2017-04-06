@@ -11,12 +11,14 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
+/[Dd]ebug/
 [Dd]ebug Library/
-[Dd]ebugPublic/
-[Rr]elease/
+#[Dd]ebugPublic/
+/[Rr]elease/
 [Rr]elease Library/
-[Rr]eleases/
+#[Rr]eleases/
+ScriptingProject/Debug/
+ScriptingProject/Release/
 x64/
 x86/
 bld/
@@ -305,4 +307,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-Game/Configuration.json
