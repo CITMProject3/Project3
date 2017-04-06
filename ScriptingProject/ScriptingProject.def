@@ -53,6 +53,13 @@ EXPORTS
 	Character_Selection_UI_Update
 	Character_Selection_UI_OnFocus
 
+	Vehicle_Selection_UI_GetPublics
+	Vehicle_Selection_UI_UpdatePublics
+	Vehicle_Selection_UI_ActualizePublics
+	Vehicle_Selection_UI_Start
+	Vehicle_Selection_UI_Update
+	Vehicle_Selection_UI_OnFocus
+
 	MapSelectUI_GetPublics
 	MapSelectUI_UpdatePublics
 	MapSelectUI_ActualizePublics
