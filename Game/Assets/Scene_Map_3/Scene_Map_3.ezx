@@ -17728,8 +17728,8 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1916,
-                        1053
+                        1537,
+                        865
                     ],
                     "matrix": [
                         1,
@@ -20609,12 +20609,6 @@
                             "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
                         },
                         {
-                            "event_id": 1114964412,
-                            "event_name": "Start_Game",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
-                        },
-                        {
                             "event_id": 3568813383,
                             "event_name": "Play_Main_Theme",
                             "sound_3D": false,
@@ -20627,7 +20621,7 @@
         {
             "name": "Harb2_Ro_2",
             "UUID": 1781696659,
-            "local_UUID": 277612250,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
             "is_prefab": true,

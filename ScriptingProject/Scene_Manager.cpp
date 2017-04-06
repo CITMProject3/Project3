@@ -246,7 +246,7 @@ namespace Scene_Manager
 		if (!music_played)
 		{
 			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(5);
+			if (a_comp)	a_comp->PlayAudio(4);
 			music_played = true;
 		}
 
