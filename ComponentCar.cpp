@@ -122,6 +122,7 @@ void ComponentCar::OnPlay()
 	lap = 0;
 	raceStarted = false;
 	finished = false;
+	n_checkpoints = 0;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -451,6 +452,15 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
+		if (x_joy_input > 0.0f)
+		{
+			*left_turn = false;
+		}
+		else
+		{
+			*left_turn = true;
+		}
+
 		if (drifting == false)
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
@@ -1080,6 +1090,7 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 {
 	if (checkpoint == checkpoints + 1)
 	{
+		n_checkpoints++;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
@@ -1098,6 +1109,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		{
 			lap++;
 		}
+		n_checkpoints++;
 		checkpoints = 0;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
@@ -2289,6 +2301,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift multiplier");
 			ImGui::InputFloat("Drift mult", &drift_mult);
+
+			ImGui::Text("Drift angle ratio");
+			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 

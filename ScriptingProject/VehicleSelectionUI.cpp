@@ -22,6 +22,8 @@
 #include "../ComponentUiImage.h"
 #include "../ModuleResourceManager.h"
 
+#include "../ComponentAudioSource.h"
+
 
 namespace Vehicle_Selection_UI
 {
@@ -45,6 +47,7 @@ namespace Vehicle_Selection_UI
 	ComponentMaterial* mat_red_car = nullptr;
 	bool team_blue_selected = false;
 	bool team_red_selected = false;
+	bool start_tmp = false;
 	int player_order[4];
 	int p_pos[2];
 	int blue_counter_left = 30;
@@ -120,6 +123,7 @@ namespace Vehicle_Selection_UI
 
 	void Vehicle_Selection_UI_Start(GameObject* game_object)
 	{
+
 		player_order[0] = App->go_manager->team1_front;
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
@@ -137,12 +141,24 @@ namespace Vehicle_Selection_UI
 		blue_counter_right = time;
 		red_counter_right = time;
 		red_counter_left = time;
-
+		start_tmp = false;
+		team_red_selected = false;
+		team_blue_selected = false;
 		Vehicle_Selection_UI_ActualizePublics(game_object);
 	}
 
 	void Vehicle_Selection_UI_Update(GameObject* game_object)
 	{
+		if (start_tmp == false)
+		{
+			// Play Move Selection
+			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(0);
+			start_tmp = true;
+		}
+		
+
+
 		for (int i = 0; i < 4; i++)
 		{
 			int id = 0;
@@ -155,6 +171,10 @@ namespace Vehicle_Selection_UI
 			}
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
 					but_blue_car_portrait->OnPress();
@@ -190,10 +210,13 @@ namespace Vehicle_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
-					but_blue_car_portrait->OnPress();
-					
+					but_blue_car_portrait->OnPress();					
 
 					if (blue_counter_left == time)
 					{

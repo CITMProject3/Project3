@@ -21,6 +21,8 @@
 #include "../Random.h"
 #include "../Time.h"
 
+#include "../ComponentAudioSource.h"
+
 namespace MapSelectUI
 {
 
@@ -121,6 +123,10 @@ namespace MapSelectUI
 
 	void MapSelectUI_Start(GameObject* game_object)
 	{
+		// Play Move Selection
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
+
 		arrow_counter_left = time;
 		arrow_counter_right = time;
 		current_map = 0;
@@ -164,6 +170,10 @@ namespace MapSelectUI
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				current_level--;
 				if (current_level < 0)
 					current_level = 2;
@@ -196,6 +206,10 @@ namespace MapSelectUI
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				current_level++;
 				if (current_level > 2)
 					current_level = 0;
