@@ -16,6 +16,7 @@
 #include "glut\glut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+#include "Brofiler\include\Brofiler.h"
 
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
@@ -30,6 +31,8 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
+	BROFILER_CATEGORY("ComponentCollider::Update", Profiler::Color::Green)
+
 	if (App->IsGameRunning() == false || Static == true)
 	{
 		if (primitive != nullptr)
