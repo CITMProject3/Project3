@@ -193,7 +193,8 @@ void ComponentMaterial::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	material_path = conf.GetString("path");
-	material_assets_path = conf.GetString("path_assets");
+	const char* m_a_p = conf.GetString("path_assets");
+	material_assets_path = (m_a_p) ? m_a_p : "";
 	bool properties_set = conf.GetBool("properties_set");
 	if (properties_set)
 	{
