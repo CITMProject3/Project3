@@ -50,8 +50,18 @@ namespace Scene_Manager
 	GameObject* item_ui_2_go = nullptr;
 	ComponentUiImage* item_ui_2 = nullptr;
 
+	GameObject* position_ui_1_go = nullptr;
+	ComponentUiText* position_ui_1 = nullptr;
+
+	GameObject* position_ui_2_go = nullptr;
+	ComponentUiText* position_ui_2 = nullptr;
+
+	GameObject* race_HUD = nullptr;
+
 	//"Private" variables
-	Timer start_timer;
+	double start_timer;
+	bool start_timer_on;
+
 	RaceTimer timer;
 	int race_timer_number = 3;
 
@@ -67,6 +77,15 @@ namespace Scene_Manager
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player1", item_ui_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player2", item_ui_2_go));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player1", item_ui_1_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player2", item_ui_2_go));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Position_Player1", position_ui_1_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Position_Player2", position_ui_2_go));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Race_HUD", race_HUD));
+
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -80,6 +99,11 @@ namespace Scene_Manager
 		start_timer_go = script->public_gos["Start_Timer_Text"];
 		item_ui_1_go = script->public_gos["Item_Player1"];
 		item_ui_2_go = script->public_gos["Item_Player2"];
+
+		position_ui_1_go = script->public_gos["Position_Player1"];
+		position_ui_2_go = script->public_gos["Position_Player2"];
+
+		race_HUD = script->public_gos["Race_HUD"];
 	}
 
 	void Scene_Manager_SetStartTimerText(unsigned int number)
@@ -100,16 +124,15 @@ namespace Scene_Manager
 			LOG("Error: Could not find the cars in the scene!");
 
 		timer.Start();
-
-		if (start_timer_text != nullptr)
-			start_timer_text->GetGameObject()->SetActive(false);
 	}
+
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
 		race_timer_number = 4;
 		Scene_Manager_UpdatePublics(game_object);
-		start_timer.Start();
+		start_timer = 0;
+		start_timer_on = true;
 		//timer.Start();
 		if (car_1_go != nullptr)
 		{
@@ -153,24 +176,40 @@ namespace Scene_Manager
 		{
 			item_ui_2 = (ComponentUiImage*)item_ui_2_go->GetComponent(C_UI_IMAGE);
 		}
+		if (position_ui_1_go)
+		{
+			position_ui_1 = (ComponentUiText*)position_ui_1_go->GetComponent(C_UI_IMAGE);
+		}
+		if (position_ui_2_go)
+		{
+			position_ui_2 = (ComponentUiText*)position_ui_2_go->GetComponent(C_UI_IMAGE);
+		}
 	}
 
 	void Scene_Manager_Update(GameObject* game_object)
 	{
 		//"3, 2, 1, GO!"
-		if (start_timer.IsRunning() == true)
+		if (start_timer_on == true)
 		{
-			if (start_timer.ReadSec() >= 1)
+			start_timer += time->DeltaTime();
+			if (start_timer >= 1)
 			{
 				race_timer_number--;
 				if (race_timer_number > 0)
 				{
-					start_timer.Start();
+					start_timer = 0;
 					Scene_Manager_SetStartTimerText(race_timer_number - 1);
 				}
 				else
 				{
-					start_timer.Stop();
+					start_timer_on = false;
+					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(false);
+					if (race_HUD != nullptr)
+					{
+						race_HUD->SetActive(true);
+						if (item_ui_1) item_ui_1->GetGameObject()->SetActive(false);
+						if (item_ui_2) item_ui_2->GetGameObject()->SetActive(false);
+					}
 				}
 				if (race_timer_number == 1)
 				{
@@ -184,37 +223,45 @@ namespace Scene_Manager
 			timer.Update(time->DeltaTime());
 		}
 
-		//Updating car laps
+		//Updating invidual HUD
 		if (car_1 != nullptr)
 		{
+			//Update lap counter
 			if (car_1->lap + 1 != timer.GetCurrentLap(0))
 			{
-			//	if (car_1->lap >= 3)
-			//		App->LoadScene("Assets/test_scene2.ezx");
 				timer.AddLap(0);
-				//Update lap text
+				//Update current lap text
 				if (lap1_text != nullptr)
 				{
 					string str = std::to_string(car_1->lap);
 					lap1_text->SetDisplayText(str);
 				}
 			}
-
+			//Update first//second position
+			if (position_ui_1 != nullptr && std::to_string(car_1->place) != position_ui_1->GetText())
+			{
+				position_ui_1->SetText(std::to_string(car_1->place));
+			}
 		}
 
+		//Updating invidual HUD
 		if (car_2 != nullptr)
 		{
+			//Update lap counter
 			if (car_2->lap + 1 != timer.GetCurrentLap(1))
 			{
-			//	if (car_2->lap >= 3)
-			//		App->LoadScene("Assets/test_scene2.ezx");
 				timer.AddLap(1);
-				//Update lap text
+				//Update current lap text
 				if (lap2_text != nullptr)
 				{
 					string str = std::to_string(car_2->lap);
 					lap2_text->SetDisplayText(str);
 				}
+			}
+			//Update first//second position
+			if (position_ui_2 != nullptr && std::to_string(car_2->place) != position_ui_2->GetText())
+			{
+				position_ui_2->SetText(std::to_string(car_1->place));
 			}
 		}
 
