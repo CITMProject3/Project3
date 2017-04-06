@@ -2,13 +2,12 @@
 <COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1">
   <asset><contributor><author></author><authoring_tool>FBX COLLADA exporter</authoring_tool><comments></comments></contributor><created>2017-03-22T13:30:16Z</created><keywords></keywords><modified>2017-03-22T13:30:16Z</modified><revision></revision><subject></subject><title></title><unit meter="0.010000" name="centimeter"></unit><up_axis>Y_UP</up_axis></asset>
   <library_images>
-    <image id="file11-image" name="file11"><init_from>file://C:/Users/Roger/Desktop/WaterMill/WaterMillHolder.png</init_from></image>
-    <image id="file3-image" name="file3"><init_from>file://C:/Users/Roger/Desktop/WaterMill/WaterMillHouse.png</init_from></image>
-    <image id="file5-image" name="file5"><init_from>file://C:/Users/Roger/Desktop/WaterMill/Engines.png</init_from></image>
-    <image id="file7-image" name="file7"><init_from>file://C:/Users/Roger/Desktop/WaterMill/InteriorMill.png</init_from></image>
-    <image id="file4-image" name="file4"><init_from>file://C:/Users/Roger/Desktop/WaterMill/WaterMill.png</init_from></image>
-    <image id="file6-image" name="file6"><init_from>file://C:/Users/Roger/Desktop/WaterMill/Fences.png</init_from></image>
-    <image id="file8-image" name="file8"><init_from>file://C:/Users/Roger/Desktop/WaterMill/InternalProps.png</init_from></image>
+    <image id="file3-image" name="file3"><init_from>file://WaterMillHouse.png</init_from></image>
+    <image id="file5-image" name="file5"><init_from>file://Engines.png</init_from></image>
+    <image id="file7-image" name="file7"><init_from>file://InteriorMill.png</init_from></image>
+    <image id="file4-image" name="file4"><init_from>file://WaterMill.png</init_from></image>
+    <image id="file6-image" name="file6"><init_from>file://Fences.png</init_from></image>
+    <image id="file8-image" name="file8"><init_from>file://InternalProps.png</init_from></image>
   </library_images>
   <library_materials>
     <material id="WaterMillHolder" name="WaterMillHolder">
