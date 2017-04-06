@@ -32,8 +32,11 @@ namespace Scene_Manager
 	GameObject* timer_text_go = nullptr;
 	ComponentUiText* timer_text = nullptr;
 
-	GameObject* lap_go = nullptr;
-	ComponentUiText* lap_text = nullptr;
+	GameObject* lap1_go = nullptr;
+	ComponentUiText* lap1_text = nullptr;
+
+	GameObject* lap2_go = nullptr;
+	ComponentUiText* lap2_text = nullptr;
 
 	GameObject* start_timer_go = nullptr;
 	ComponentUiText* start_timer_text = nullptr;
@@ -49,7 +52,8 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("Car2", car_2_go));
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Timer_Text", timer_text_go));
-		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Text", lap_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player1_Text", lap1_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player2_Text", lap2_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start_Timer_Text", start_timer_go));
 	}
 
@@ -59,7 +63,8 @@ namespace Scene_Manager
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];
 		timer_text_go = script->public_gos["Timer_Text"];
-		lap_go = script->public_gos["Lap_Text"];
+		lap1_go = script->public_gos["Lap_Player1_Text"];
+		lap2_go = script->public_gos["Lap_Player2_Text"];
 		start_timer_go = script->public_gos["Start_Timer_Text"];
 	}
 
@@ -84,7 +89,7 @@ namespace Scene_Manager
 		if (start_timer_text != nullptr)
 			start_timer_text->GetGameObject()->SetActive(false);
 	}
-
+	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
 		race_timer_number = 3;
@@ -107,9 +112,13 @@ namespace Scene_Manager
 		{
 			timer_text = (ComponentUiText*)timer_text_go->GetComponent(C_UI_TEXT);
 		}
-		if (lap_go != nullptr)
+		if (lap1_go != nullptr)
 		{
-			lap_text = (ComponentUiText*)lap_go->GetComponent(C_UI_TEXT);
+			lap1_text = (ComponentUiText*)lap1_go->GetComponent(C_UI_TEXT);
+		}
+		if (lap2_go != nullptr)
+		{
+			lap2_text = (ComponentUiText*)lap2_go->GetComponent(C_UI_TEXT);
 		}
 		if (start_timer_go)
 		{
@@ -140,16 +149,42 @@ namespace Scene_Manager
 		//Updating car laps
 		if (car_1 != nullptr)
 		{
-			if (car_1->lap + 1 != timer.GetCurrentLap())
+			if (car_1->lap + 1 != timer.GetCurrentLap(0))
 			{
-				if (car_1->lap >= 3)
-					App->LoadScene("Assets/test_scene2.ezx");
-				timer.AddLap();
+			//	if (car_1->lap >= 3)
+			//		App->LoadScene("Assets/test_scene2.ezx");
+				timer.AddLap(0);
 				//Update lap text
-				if (lap_text != nullptr)
+				if (lap1_text != nullptr)
 				{
 					string str = std::to_string(car_1->lap);
-					lap_text->SetDisplayText(str);
+					lap1_text->SetDisplayText(str);
+				}
+				if (lap2_text != nullptr)
+				{
+					string str = std::to_string(car_2->lap);
+					lap2_text->SetDisplayText(str);
+				}
+			}
+		}
+
+		if (car_2 != nullptr)
+		{
+			if (car_2->lap + 1 != timer.GetCurrentLap(1))
+			{
+			//	if (car_2->lap >= 3)
+			//		App->LoadScene("Assets/test_scene2.ezx");
+				timer.AddLap(1);
+				//Update lap text
+				if (lap2_text != nullptr)
+				{
+					string str = std::to_string(car_2->lap);
+					lap2_text->SetDisplayText(str);
+				}
+				if (lap2_text != nullptr)
+				{
+					string str = std::to_string(car_2->lap);
+					lap2_text->SetDisplayText(str);
 				}
 			}
 		}
@@ -158,7 +193,7 @@ namespace Scene_Manager
 		if (timer_text != nullptr)
 		{
 			int min, sec, milisec = 0;
-			timer.GetCurrentLapTime(min, sec, milisec);
+			timer.GetCurrentLapTime(0, min, sec, milisec);
 			string min_str = to_string(min);
 			string sec_str = to_string(sec);
 			string mil_str = to_string(milisec);
