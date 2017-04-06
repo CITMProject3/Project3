@@ -115,7 +115,7 @@ void ComponentCar::OnPlay()
 		reset_pos = trs->GetPosition();
 		reset_rot = trs->GetRotation();
 	}
-	checkpoints = 255;
+	checkpoints = MAXUINT;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -1056,22 +1056,24 @@ void ComponentCar::UpdateP2Animation()
 	}
 }
 
-void ComponentCar::WentThroughCheckpoint(ComponentCollider* checkpoint)
+void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot)
 {
-	if (checkpoint->n == checkpoints + 1)
+	if (checkpoint == checkpoints + 1)
 	{
-		lastCheckpoint = checkpoint->GetGameObject();
-		checkpoints = checkpoint->n;
+		last_check_pos = resetPos;
+		last_check_rot = resetRot;
+		checkpoints = checkpoint;
 	}
 }
 
-void ComponentCar::WentThroughEnd(ComponentCollider * end)
+void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot)
 {
-	if (checkpoints + 1 >= end->n)
+	if (checkpoints + 1 >= checkpoint)
 	{
 		checkpoints = 0;
 		lap++;
-		lastCheckpoint = end->GetGameObject();
+		last_check_pos = resetPos;
+		last_check_rot = resetRot;
 	}
 	if (lap >= 4)
 	{
@@ -1098,19 +1100,16 @@ void ComponentCar::TurnOver()
 
 void ComponentCar::Reset()
 {
-	if (lastCheckpoint == nullptr)
+	if (checkpoints == 0 || checkpoints >= MAXUINT - 2)
 	{
 		vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
 		vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
 	}
 	else
 	{
-		ComponentTransform* trs = (ComponentTransform*)lastCheckpoint->GetComponent(C_TRANSFORM);
-		float3 pos = trs->GetPosition();
-		vehicle->SetPos(pos.x, pos.y, pos.z);
-		Quat rot = trs->GetRotation();
-		vehicle->SetRotation(rot);
-	}	
+		vehicle->SetPos(last_check_pos.x, last_check_pos.y, last_check_pos.z);
+		vehicle->SetRotation(last_check_rot);
+	}
 	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
 }
@@ -1339,12 +1338,6 @@ void ComponentCar::OnTransformModified()
 
 void ComponentCar::UpdateGO()
 {
-	if (App->IsGameRunning() == false)
-	{
-		lastCheckpoint = nullptr;
-		checkpoints = 0;
-	}
-
 	game_object->transform->Set(vehicle->GetTransform().Transposed());
 	/*
 	for (uint i = 0; i < wheels_go.size(); i++)
@@ -1784,14 +1777,8 @@ void ComponentCar::OnInspector(bool debug)
 			if (lap < 0) lap = 0;
 			this->lap = lap;
 		}
-		if (lastCheckpoint != nullptr)
-		{
-			ImGui::Text("Last checkpoint: %s", lastCheckpoint->name.data());
-		}
-		else
-		{
-			ImGui::Text("Last checkpoint: NULL");
-		}
+
+		ImGui::Text("Last checkpoint: %u", checkpoints);
 		if (vehicle)
 		{
 			if (ImGui::TreeNode("Read Stats"))
