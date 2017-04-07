@@ -40,8 +40,8 @@ public:
 	SDL_Surface* screen_surface;
 
 private:
-	int width = 1600;
-	int height = 900;
+	int width = 1270;
+	int height = 860;
 };
 
 #endif // __ModuleWindow_H__

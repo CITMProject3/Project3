@@ -112,7 +112,9 @@ namespace Player_Car
 		{
 			if (have_item)
 			{
-				if (!have_firecracker/* || !have_koma || !have_triple_koma || !have_makibishi*/)
+				if (have_firecracker/* || have_koma || have_triple_koma || have_makibishi*/)
+					have_item = false;
+				else
 				{
 					unsigned int percentage = App->rnd->RandomInt(0, 99);
 
@@ -142,10 +144,9 @@ namespace Player_Car
 				}
 				else
 				{
-					ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
-					float3 new_pos = firecracker_col->body->GetPosition();
-					new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
-					firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+					float3 new_pos = firecracker->transform->GetPosition();
+					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
+					firecracker->transform->SetPosition(new_pos);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
 					{
@@ -163,7 +164,6 @@ namespace Player_Car
 					firecracker->SetActive(true);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 					float3 last_scale = firecracker->transform->GetScale();
-					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					firecracker->transform->Set(game_object->GetGlobalMatrix());
 					firecracker->transform->SetScale(last_scale);
 				}
@@ -198,9 +198,9 @@ namespace Player_Car
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
-							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -219,9 +219,9 @@ namespace Player_Car
 						using_firecracker = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
-							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+							float3 new_pos = firecracker->transform->GetPosition();
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -250,13 +250,10 @@ namespace Player_Car
 					}
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
-						if (firecracker != col->GetCollider()->GetGameObject())
-						{
-							Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-							if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-							item_col->GetGameObject()->SetActive(false);
-							item_col->SetActive(false);
-						}
+						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+						if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+						item_col->GetGameObject()->SetActive(false);
+						item_col->SetActive(false);
 					}
 					else if (item_col->GetGameObject()->name == "Koma")
 					{

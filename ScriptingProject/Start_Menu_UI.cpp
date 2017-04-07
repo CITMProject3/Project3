@@ -226,8 +226,7 @@ namespace Start_Menu_UI
 					if (player_order[j] == i)
 					{
 						player_order[j] = -1;
-						start_but->SetActive(false);
-						choose_team->SetActive(true);
+
 						// Play Unselect player
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(1);
@@ -278,9 +277,9 @@ namespace Start_Menu_UI
 				{
 					start_but->SetActive(true);
 					choose_team->SetActive(false);
-					ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
-					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 0)
+					if (App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 					{
+						ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
 
 						main_canvas_script->public_ints.at("current_menu") = 1;
 						main_canvas_script->public_ints.at("Player1") = player_order[0];

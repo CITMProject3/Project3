@@ -24,7 +24,7 @@ void RaceTimer::AddLap(unsigned int player)
 {
 	if (player == 0)
 	{
-		double lap_time = race_timer;
+		double lap_time = race_timer - lap1_times[lap1_times.size() - 1];
 		if (lap1_times.size() > 0)
 			lap_time -= lap1_times.back();
 

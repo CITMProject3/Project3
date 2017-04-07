@@ -162,6 +162,7 @@ void ComponentCar::HandlePlayerInput()
 	BROFILER_CATEGORY("ComponentCar::HandlePlayerInput", Profiler::Color::HoneyDew)
 	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
 
+	float brake;
 	bool turning = false;
 	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
@@ -310,26 +311,15 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Drifting
-		if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_DOWN || 
-			App->input->GetJoystickButton(back_player, JOY_BUTTON::LB) == KEY_DOWN) && *turning == true)
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
 		{
 			StartDrift();
 		}
-		else if ( drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_UP || 
-			drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::LB) == KEY_UP)
+		else if ( drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
 		{
 			EndDrift();
 		}
-		
-
-		//Drifting turbo
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_DOWN && drifting)
-		{
-			//float x_joy_axis = App->input->GetJoystickAxis(back_player, JOY_AXIS::RIGHT_TRIGGER);
-			float x_joy_axis = 0;
-			DriftTurbo(x_joy_axis);
-		}
-
+	
 		//Acrobatics
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
@@ -349,20 +339,20 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		//StartPush();
 		Push(accel);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
-		DriftTurbo(0.0f);
+		//Leaning(*accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
 		Acrobatics(back_player);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
-		current_turbo = T_MINI;
-		//UseItem();
+		//current_turbo = T_MINI;
+		UseItem();
 	}
-	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 	{
 		//current_turbo = T_MINI;
 		ReleaseItem();
@@ -462,15 +452,6 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
-		if (x_joy_input > 0.0f)
-		{
-			*left_turn = false;
-		}
-		else
-		{
-			*left_turn = true;
-		}
-
 		if (drifting == false)
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
@@ -842,57 +823,44 @@ void ComponentCar::CalcDriftForces()
 {
 	if (ground_contact_state)
 	{
-		if (!accel || brake)
-		{
-			EndDrift();
-		}
-		else
-		{
-			vehicle->vehicle->getRigidBody()->clearForces();
 
-			float4x4 matrix;
-			vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-			matrix.Transpose();
+		vehicle->vehicle->getRigidBody()->clearForces();
 
-			float3 front = matrix.WorldZ();
-			float3 left = matrix.WorldX();
-			float3 final_dir;
+		float4x4 matrix;
+		vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+		matrix.Transpose();
 
-			float ratio = drift_ratio;
-
-			if (drift_dir_left == true)
-			{
-				left = -left;
-				ratio = drift_ratio_left;
-			}
+		float3 front = matrix.WorldZ();
+		float3 left = matrix.WorldX();
+		float3 final_dir;
+		if (drift_dir_left == true)
+			left = -left;
 
 
-			final_dir = left.Lerp(front, ratio);
+		final_dir = left.Lerp(front, drift_ratio);
 
-			btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
-			float l = startDriftSpeed.length();
-			btVector3 final_vector = vector * l * drift_mult;
-			btVector3 zero = { 0,0,0 };
+		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
+		float l = startDriftSpeed.length();
+		btVector3 final_vector = vector * l * drift_mult;
+		btVector3 zero = { 0,0,0 };
 
-			final_vector.setY(0.0f);
-			vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
-			//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
-			/*final_vector.setY(0);
-			vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
+		final_vector.setY(0.0f);
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+		//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
+		/*final_vector.setY(0);
+		vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
 
-			//Debugging lines
-			//Front vector
-			/*float3 start_line = matrix.TranslatePart();
-			float3 end_line = start_line + front;
-			App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
-			//Left vector
-			end_line = start_line + left;
-			App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
-			//Force vector
-			end_line = start_line + final_dir;
-			App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
-		
-		}
+		//Debugging lines
+		//Front vector
+		/*float3 start_line = matrix.TranslatePart();
+		float3 end_line = start_line + front;
+		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
+		//Left vector
+		end_line = start_line + left;
+		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
+		//Force vector
+		end_line = start_line + final_dir;
+		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
 	}
 }
 
@@ -930,7 +898,6 @@ void ComponentCar::EndDrift()
 		}
 
 		turbo_drift_lvl = 0;
-		drift_turbo_start = false;
 	}
 	//Old turbo
 	/*
@@ -953,47 +920,6 @@ void ComponentCar::EndDrift()
 	*/
 }
 
-void ComponentCar::DriftTurbo(float x_joy_axis)
-{
-	if(drifting)
-	{
-		button_clicks++;
-
-		if (button_clicks >= 2 && turbo_drift_lvl < 3)
-		{
-			to_drift_turbo = true;
-
-
-			turbo_drift_lvl++;
-			button_clicks = 0;
-		}
-	}
-
-	/*if (drifting)
-	{
-		if (math::Abs(x_joy_axis) >= 0.8f)
-		{
-			float current_dir;
-
-			if (x_joy_axis > 0)
-				current_dir = true;
-			else
-				current_dir = false;
-
-			if (turbo_drift_lvl == 0 && !drift_turbo_start)
-			{
-				begin_joystick_dir_turbo_drift = current_dir;
-				drift_turbo_start = true;
-			}
-			else if(current_dir != last_joystick_dir_turbo_drift && current_dir != begin_joystick_dir_turbo_drift)
-			{
-				turbo_drift_lvl++;
-			}
-
-			last_joystick_dir_turbo_drift = current_dir;
-		}
-	}*/
-}
 void ComponentCar::UpdateTurnOver()
 {
 	float4x4 matrix;
@@ -1291,10 +1217,6 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 			float velocity_dif = max_velocity - velocity_to_begin_change;
 
 			max_t += (turn_max_change_dif / velocity_dif) * (sp - velocity_to_begin_change);
-
-			if (max_t < turn_max_limit)
-				max_t = turn_max_limit;
-			
 		}
 
 		
@@ -1607,7 +1529,6 @@ void ComponentCar::Save(Data& file) const
 
 	//Drift 
 	data.AppendFloat("driftRatio", drift_ratio);
-	data.AppendFloat("drift_ratio_left", drift_ratio_left);
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
 	data.AppendFloat("driftMinSpeed", drift_min_speed);
@@ -1851,7 +1772,6 @@ void ComponentCar::Load(Data& conf)
 
 	//Drifting settings
 	drift_ratio = conf.GetFloat("driftRatio");
-	drift_ratio_left = conf.GetFloat("drift_ratio_left");
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
 	drift_min_speed = conf.GetFloat("driftMinSpeed");
@@ -2014,7 +1934,7 @@ void ComponentCar::OnInspector(bool debug)
 					{
 						ImGui::Text("Time to idle turn");
 						ImGui::DragFloat("##id_turn_time", &time_to_idle, 0.01f, 0.0f);
-	            	}
+					}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -2375,9 +2295,6 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift angle ratio");
 			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
-
-			ImGui::Text("Drift angle ratio left");
-			ImGui::DragFloat("##Dr_Ang_left", &drift_ratio_left, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 

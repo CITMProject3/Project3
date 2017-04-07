@@ -427,6 +427,7 @@ void ComponentScript::OnFocus()
 				update_path.append("_Update");
 				if (f_Update on_focus = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_path.c_str()))
 				{
+					finded_update = true;
 					string update_publics_path = path.c_str();
 					update_publics_path.append("_UpdatePublics");
 					if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
@@ -463,22 +464,8 @@ void ComponentScript::OnCollision(PhysBody3D* col)
 			collision_path.append("_OnCollision");
 			if (f_OnCollision onCollision = (f_OnCollision)GetProcAddress(App->scripting->scripts_lib->lib, collision_path.c_str()))
 			{
-				string update_publics_path = path.c_str();
-				update_publics_path.append("_UpdatePublics");
-				if (f_Update update_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, update_publics_path.c_str()))
-				{
-					update_publics(GetGameObject());
-				}
-
 				if (App->IsGameRunning() && !App->IsGamePaused())
 					onCollision(GetGameObject(), col);
-
-				string actualize_publics_path = path.c_str();
-				actualize_publics_path.append("_ActualizePublics");
-				if (f_Update actualize_publics = (f_Update)GetProcAddress(App->scripting->scripts_lib->lib, actualize_publics_path.c_str()))
-				{
-					actualize_publics(GetGameObject());
-				}
 			}
 			else
 			{
