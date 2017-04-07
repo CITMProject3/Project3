@@ -156,6 +156,7 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
+                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -11089,6 +11090,7 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
+                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -29205,7 +29207,7 @@
             "children_uuids": []
         },
         {
-            "name": "Empty GameObject",
+            "name": "Checkpoint1",
             "UUID": 2264030589,
             "local_UUID": 0,
             "parent": 965909917,
@@ -29272,7 +29274,7 @@
             ]
         },
         {
-            "name": "Empty GameObject",
+            "name": "Checkpoint2",
             "UUID": 1274774983,
             "local_UUID": 0,
             "parent": 965909917,
@@ -29339,7 +29341,7 @@
             ]
         },
         {
-            "name": "Empty GameObject",
+            "name": "WinCheckpoint",
             "UUID": 2618447998,
             "local_UUID": 0,
             "parent": 965909917,
@@ -29401,7 +29403,912 @@
                     "active": true,
                     "script_path": "Finish_lane",
                     "script_num": 0,
-                    "CheckpointN": 1
+                    "CheckpointN": 10
+                }
+            ]
+        },
+        {
+            "name": "Plane",
+            "UUID": 1424239847,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3516608906,
+                    "active": true,
+                    "matrix": [
+                        161.667252,
+                        0,
+                        0,
+                        318.818909,
+                        0,
+                        8.257920,
+                        0,
+                        2.754055,
+                        0,
+                        0,
+                        403.753601,
+                        -104.437683,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000003,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000003.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 858736387,
+                    "active": true,
+                    "path": "\/Library\/2554342575\/2148525026\/\/428624979\/428624979.mat",
+                    "path_assets": "\/Assets\/Materials\/Water\/water.mat",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false
+                }
+            ]
+        },
+        {
+            "name": "Sea",
+            "UUID": 4242197492,
+            "local_UUID": 1424239847,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4242197492,
+            "prefab_path": "\/Library\/1441726200\/\/3335305166\/3335305166.pfb",
+            "components": [
+                {
+                    "position": [
+                        159.069321,
+                        2.754055,
+                        -129.949921
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Sea",
+            "UUID": 2043210789,
+            "local_UUID": 1424239847,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2043210789,
+            "prefab_path": "\/Library\/1441726200\/\/3335305166\/3335305166.pfb",
+            "components": [
+                {
+                    "position": [
+                        56.041321,
+                        2.754055,
+                        -148.931152
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 2892931177,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2892931177,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -39.733643,
+                        2.054100,
+                        -91.973450
+                    ],
+                    "rotation": [
+                        -180,
+                        -19.512342,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 2631569476,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2631569476,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.095123,
+                        1.414728,
+                        -77.276764
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 3383431086,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3383431086,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -95.631157,
+                        0.191393,
+                        -30.469170
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 3239892383,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3239892383,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -106.263939,
+                        0.935986,
+                        10.670227
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1786936944,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1786936944,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -125.216675,
+                        0.594757,
+                        30.750237
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 316266728,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 316266728,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -198.144699,
+                        0.464075,
+                        20.112453
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1810838021,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1810838021,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -219.138733,
+                        0.112695,
+                        -13.070127
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 23625295,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 23625295,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -221.951630,
+                        0.159243,
+                        -49.744579
+                    ],
+                    "rotation": [
+                        180,
+                        -85.581184,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1369549701,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1369549701,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -217.604645,
+                        0.655430,
+                        -80.243431
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1121397046,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1121397046,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -308.428375,
+                        3.063488,
+                        -173.086685
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1067404498,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1067404498,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -279.784882,
+                        0.847548,
+                        -145.633133
+                    ],
+                    "rotation": [
+                        0,
+                        -90,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 3572494628,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3572494628,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -338.426147,
+                        2.200710,
+                        -194.273788
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -63.754963,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 1262597081,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1262597081,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -375.568542,
+                        2.096051,
+                        -208.131607
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -74.192314,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Checkpoint3",
+            "UUID": 4013153383,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1531882373,
+                    "active": true,
+                    "matrix": [
+                        0.987626,
+                        0,
+                        -0.134214,
+                        -26.056398,
+                        0,
+                        1,
+                        0,
+                        13.232080,
+                        0.133764,
+                        0,
+                        0.990952,
+                        -0.654040,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2483663163,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        41.000004,
+                        7.300000,
+                        10.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1525732967,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 3
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint4",
+            "UUID": 2950587563,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1342441052,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -37.048553,
+                        0,
+                        1,
+                        0,
+                        10.120414,
+                        0,
+                        0,
+                        1,
+                        92.215248,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1897150330,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        31.200001,
+                        10,
+                        10.900001
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 230172458,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint5",
+            "UUID": 382106246,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1306122703,
+                    "active": true,
+                    "matrix": [
+                        0.991732,
+                        0,
+                        0.128328,
+                        77.102844,
+                        0,
+                        1,
+                        0,
+                        13.586674,
+                        -0.128328,
+                        0,
+                        0.991732,
+                        267.133972,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1336973624,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        10,
+                        10,
+                        23.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3493509733,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 5
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint6",
+            "UUID": 4167159307,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3820275563,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        130.381027,
+                        0,
+                        1,
+                        0,
+                        8.023670,
+                        0,
+                        0,
+                        1,
+                        194.595413,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3741866474,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        12.600000,
+                        10,
+                        30
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3198662897,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 6
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint7",
+            "UUID": 2101070120,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1263251967,
+                    "active": true,
+                    "matrix": [
+                        0.941368,
+                        0,
+                        -0.337381,
+                        181.467697,
+                        0,
+                        1,
+                        0,
+                        9.234055,
+                        0.337381,
+                        0,
+                        0.941368,
+                        -0.687322,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2904253235,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40.800003,
+                        20,
+                        20
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2477444139,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 7
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint8",
+            "UUID": 3535989727,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 745206787,
+                    "active": true,
+                    "matrix": [
+                        0.964854,
+                        0,
+                        -0.262784,
+                        126.366287,
+                        0,
+                        1,
+                        0,
+                        9.255250,
+                        0.262784,
+                        0,
+                        0.964854,
+                        -110.754715,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3983412672,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        20,
+                        20,
+                        20
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1807851517,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 8
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint9",
+            "UUID": 4014804046,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3183478890,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -23.781467,
+                        0,
+                        1,
+                        0,
+                        10.295019,
+                        0,
+                        0,
+                        1,
+                        -136.661530,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1972102050,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        20,
+                        20,
+                        20
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 4171081694,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 9
                 }
             ]
         }
