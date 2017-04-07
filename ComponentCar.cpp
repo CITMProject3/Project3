@@ -325,7 +325,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Drifting turbo
 		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER) && drifting)
 		{
-
+			float x_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
+			DriftTurbo(x_joy_axis);
 		}
 
 		//Acrobatics
