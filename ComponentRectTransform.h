@@ -33,7 +33,7 @@ public:
 	void OnTransformModified();
 	math::float4x4 GetFinalTransform();
 	// Utilities
-	void Move(const vec &movement);
+	void Move(const float3 &movement);
 
 	Mesh* GetMesh();
 	 

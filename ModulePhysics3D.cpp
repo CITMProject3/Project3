@@ -181,11 +181,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (x1 > 1 && x1 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1], float4(0,1,1,1));
 						}
 						if (x2 > 1 && x2 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2], float4(0, 1, 1, 1));
 						}
 					}
 				}
@@ -198,11 +198,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (y1 > 0 && y1 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 						if (y2 > 0 && y2 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 					}
 				}
@@ -1142,7 +1142,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 	//Base
 	btCollisionShape* colBase = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
 	shapes.push_back(colBase);
-
+	
 	btCollisionShape* colNose = new btBoxShape(btVector3(info.nose_size.x * 0.5f, info.nose_size.y* 0.5f, info.nose_size.z*0.5f));
 	shapes.push_back(colNose);
 
@@ -1166,10 +1166,12 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, myMotionState, comShape, localInertia);
-
+	
 	btRigidBody* body = new btRigidBody(rbInfo);
 	body->setContactProcessingThreshold(BT_LARGE_FLOAT);
 	body->setActivationState(DISABLE_DEACTIVATION);
+	body->setCcdMotionThreshold(1e-7);
+	body->setCcdSweptSphereRadius(1.0);
 
 	world->addRigidBody(body);
 
@@ -1295,9 +1297,9 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 		case sculpt_flatten:
 		{
 			float h = vertices[y * terrainW + x].y;
-			for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+			for (int _y = y - brushSize - 1; _y <= y + brushSize; _y++)
 			{
-				for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+				for (int _x = x - brushSize; _x <= x + brushSize + 1; _x++)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{

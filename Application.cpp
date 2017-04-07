@@ -183,11 +183,11 @@ void Application::FinishUpdate()
 	}
 }
 
-void Application::LoadScene(char* path)
+void Application::LoadScene(const char* path)
 {
 	if (want_to_load == false)
 	{
-		scene_to_load = path;
+		scene_to_load = (char*)path;
 		want_to_load = true;
 	}
 }

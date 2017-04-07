@@ -14,6 +14,8 @@
 #include "imgui\imgui.h"
 #include "ImGuizmo\ImGuizmo.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 ComponentTransform::ComponentTransform(ComponentType type, GameObject* game_object, math::float4x4** global_matrix) : Component(type, game_object)
 {
 	CalculateFinalTransform();
@@ -27,6 +29,8 @@ ComponentTransform::~ComponentTransform()
 
 void ComponentTransform::Update()
 {
+	BROFILER_CATEGORY("ComponentTransform::Update", Profiler::Color::Tomato)
+
 	if (transform_modified)
 	{
 		transform_matrix = transform_matrix.FromTRS(position, rotation, scale);
@@ -290,6 +294,7 @@ void ComponentTransform::SaveAsPrefab(Data & file) const
 
 void ComponentTransform::CalculateFinalTransform()
 {
+	BROFILER_CATEGORY("ComponentTransform::CalculateFinalTransform", Profiler::Color::Chocolate)
 	GameObject* game_object = GetGameObject();
 	if (game_object)
 	{

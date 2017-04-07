@@ -590,13 +590,17 @@ void MeshImporter::SaveGameObjectInfo(GameObject* gameObject, Data& data)
 					if (material->list_textures_paths.size() > 1)
 					{
 						Data tex_data;
-						tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[1]).c_str());
+						if (material->list_textures_paths[1] != "")
+							tex_data.AppendString("path", App->resource_manager->FindFile(material->list_textures_paths[1]).c_str());
+						else
+							tex_data.AppendString("path", "");
 						component_data.AppendArrayValue(tex_data);
 					}
 						break;
 				}
 				case(C_ANIMATION):
 					component_data.AppendString("path", ((ComponentAnimation*)*component)->GetResourcePath());
+					component_data.AppendInt("current_animation", -1);
 					break;
 				case(C_BONE):
 					component_data.AppendString("path", ((ComponentBone*)*component)->GetResourcePath());
@@ -762,7 +766,7 @@ void MeshImporter::ImportNodeUUID(aiNode* node, const aiScene* scene, GameObject
 		//Transform
 		if (node->mNumMeshes > 1)
 		{
-			GameObject* child = new GameObject(go_root);
+			child = new GameObject(go_root);
 			go_root->AddChild(child);
 			created_go.push_back(child);
 		}

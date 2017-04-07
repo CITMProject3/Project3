@@ -148,7 +148,7 @@ private:
 	void RenderWithoutCar();
 
 	//Controls methods (to use in different parts)
-	void Brake(float* accel, float* brake);
+	void Brake(float* accel, float* brake, bool with_trigger = false, float lt_joy_axis = 0);
 	void FullBrake(float* brake);
 	bool Turn(bool* left_turn, bool left);
 	bool JoystickTurn(bool* left_turn, float x_joy_input);
@@ -190,15 +190,21 @@ public:
 	Player2_State p2_state = P2IDLE;
 
 	bool lock_input = false;
+	uint team = 0;
+	uint place = 1;
+	bool finished = false;
 
 private:
 	float kickTimer = 0.0f;
+
+	bool raceStarted = false;
 public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
 	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
+	
 
 	float connection_height = 0.1f;
 	float wheel_radius = 0.3f;
@@ -222,8 +228,8 @@ private:
 	float base_turn_max = 0.7f;
 	float turn_speed = 1.5f;
 	float turn_speed_joystick = 1.5f;
-	float time_to_idle = 0.1f;
-	bool idle_turn_by_interpolation =	true;
+	float time_to_idle = 0.2f;
+	bool  idle_turn_by_interpolation =	true;
 	
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
@@ -366,13 +372,16 @@ private:
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
 
-	//  TMP variables----------------------------------------------------------------------------------------------------------------------------------------
+	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:
-	void WentThroughCheckpoint(ComponentCollider* checkpoint);
-	void WentThroughEnd(ComponentCollider* end);
-	unsigned char checkpoints = 255;
-	GameObject* lastCheckpoint = nullptr;
-	unsigned int lap = 0;
+		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
+		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
+		uint checkpoints = MAXUINT - 10;
+		float3 last_check_pos = float3::zero;
+		Quat last_check_rot = Quat::identity;
+		unsigned int lap = 0;
+
+		unsigned int n_checkpoints = 0;
 
 };
 

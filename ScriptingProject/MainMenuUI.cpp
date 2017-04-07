@@ -93,17 +93,17 @@ namespace Main_Menu_UI
 			{
 			case 1:
 				start_menu->SetActive(false);
-				select_level->SetActive(false);
 				select_menu->SetActive(true);
-				canvas->AddGoFocus(select_menu);
-				canvas->RemoveGoFocus(start_menu);
+				select_level->SetActive(false);
+				//canvas->AddGoFocus(select_menu);
+				//canvas->RemoveGoFocus(start_menu);
 				break;
 			case 2:
 				start_menu->SetActive(false);
 				select_level->SetActive(true);
-				select_menu->SetActive(false);
-				canvas->AddGoFocus(select_level);
-				canvas->RemoveGoFocus(select_menu);
+				select_menu->SetActive(true);
+				//canvas->AddGoFocus(select_level);
+				//canvas->RemoveGoFocus(select_menu);
 				break;
 			}
 			current_canvas_scene = current_scene;
