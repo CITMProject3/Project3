@@ -27287,6 +27287,281 @@
                     "CheckpointN": 14
                 }
             ]
+        },
+        {
+            "name": "FinishLine_Post",
+            "UUID": 4149042705,
+            "local_UUID": 188763947,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4149042705,
+            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
+            "components": [
+                {
+                    "position": [
+                        -199.522324,
+                        16.795729,
+                        12.077853
+                    ],
+                    "rotation": [
+                        -180,
+                        0,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLine_Post",
+            "UUID": 458319851,
+            "local_UUID": 188763947,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 458319851,
+            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
+            "components": [
+                {
+                    "position": [
+                        -181.234848,
+                        16.795729,
+                        12.077853
+                    ],
+                    "rotation": [
+                        -0.000005,
+                        -0.000005,
+                        -0.000005
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLineFlag",
+            "UUID": 2462019152,
+            "local_UUID": 3029197853,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2462019152,
+            "prefab_path": "\/Library\/643644559\/3225563299\/\/3412732374\/3412732374.pfb",
+            "components": [
+                {
+                    "position": [
+                        -190.330093,
+                        20.021992,
+                        12.021157
+                    ],
+                    "rotation": [
+                        -179.999588,
+                        89.098206,
+                        179.999588
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "RedMushroom",
+            "UUID": 419754236,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 419754236,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/3263946516\/3263946516.pfb",
+            "components": [
+                {
+                    "position": [
+                        0.078229,
+                        9.817456,
+                        -64.284966
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "BlueMushroom",
+            "UUID": 1578730547,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1578730547,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/3058777158\/3058777158.pfb",
+            "components": [
+                {
+                    "position": [
+                        12.283937,
+                        9.480207,
+                        -67.357780
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "YellowMushroom",
+            "UUID": 532253741,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 532253741,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/1629527027\/1629527027.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.977554,
+                        9.467764,
+                        -64.477791
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat1",
+            "UUID": 2460734657,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2460734657,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        8.504796,
+                        6.278916,
+                        32.046818
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat3",
+            "UUID": 3816321736,
+            "local_UUID": 2827035752,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3816321736,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/3366389007\/3366389007.pfb",
+            "components": [
+                {
+                    "position": [
+                        -111.239830,
+                        5.620644,
+                        40.052467
+                    ],
+                    "rotation": [
+                        179.999985,
+                        17.118202,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat2",
+            "UUID": 1566433206,
+            "local_UUID": 3571098305,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1566433206,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/818922305\/818922305.pfb",
+            "components": [
+                {
+                    "position": [
+                        -68.352959,
+                        5.915304,
+                        187.316467
+                    ],
+                    "rotation": [
+                        180,
+                        -89.367577,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat2",
+            "UUID": 1270375360,
+            "local_UUID": 3571098305,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1270375360,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/818922305\/818922305.pfb",
+            "components": [
+                {
+                    "position": [
+                        -68.352959,
+                        5.915304,
+                        -9.287167
+                    ],
+                    "rotation": [
+                        -180,
+                        80.054970,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat1",
+            "UUID": 1164620944,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1164620944,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        -111.692429,
+                        6.278916,
+                        125.366623
+                    ],
+                    "rotation": [
+                        0,
+                        -35.747257,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "terrain_textures": [
