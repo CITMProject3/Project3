@@ -37,6 +37,9 @@
 
 #include "Brofiler/include/Brofiler.h"
 
+#define DUMMY_NUMBER 161803398
+
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -647,15 +650,11 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 
 					if (heightMapImg != nullptr)
 					{
-
 						heightMapImg->Unload();
 					}
 				}
 			}
-			if (buffer != nullptr)
-			{
-				delete[] buffer;
-			}
+			RELEASE_ARRAY(buffer);
 		}
 	}
 	return ret;
@@ -749,7 +748,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		}
 
 		//Terrain size (heightmap width, heightmap height, n chunks, max height)
-		uint size_generalData = sizeof(uint) * 3 + sizeof(float);
+		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
@@ -763,8 +762,16 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		char* buf = new char[size_total];
 		char* it = buf;
 
-		//Terrain width
 		uint bytes = sizeof(uint);
+		uint dummy = DUMMY_NUMBER;
+		memcpy(it, &dummy, bytes);
+		it += bytes;
+
+		dummy = TERRAIN_VERSION;
+		memcpy(it, &dummy, bytes);
+		it += bytes;
+
+		//Terrain width		
 		memcpy(it, &w, bytes);
 		it += bytes;
 		//Terrain height
@@ -834,8 +841,27 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 		{
 			char* it = tmp;
 
-			//Terrain w
+			uint dummy = 0;
 			uint bytes = sizeof(uint);
+			memcpy(&dummy, it, bytes);
+			it += bytes;
+
+			uint version = 0;
+			//Since not all terrains have a version number at the start, the ones that have it all begin with this "Dummy number"
+			//Any document that begins with a dummy number is followed by an uint that defines the terrain version
+			//Any document that doesn't have it, is version 0 and must be read and loaded from the first byte
+			if (dummy == DUMMY_NUMBER)
+			{
+				memcpy(&version, it, bytes);
+				it += bytes;
+			}
+			else
+			{
+				version = 0;
+				it = tmp;
+			}
+			
+			//Terrain w
 			memcpy(&terrainW, it, bytes);
 			it += bytes;
 			//Terrain H
@@ -877,10 +903,28 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			it += bytes;
 
 			RELEASE_ARRAY(textureMap);
-			textureMap = new float[terrainW * terrainH * textureMapScale];
-			bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
-			memcpy(textureMap, it, bytes);
-			it += bytes;
+			textureMap = new float[terrainW * terrainH * textureMapScale * 2];
+			if (version == 0)
+			{
+				float* tmp_textureMap = new float[terrainW * terrainH * textureMapScale];
+				bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
+				memcpy(tmp_textureMap, it, bytes);
+				it += bytes;
+
+				for (int n = 0; n < terrainW * terrainH * textureMapScale; n++)
+				{
+					textureMap[n * 2] = tmp_textureMap[n];
+					textureMap[n * 2 + 1] = 0;
+				}
+				RELEASE_ARRAY(tmp_textureMap);
+
+			}
+			else if (version == 1)
+			{
+				bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
+				memcpy(textureMap, it, bytes);
+				it += bytes;
+			}
 
 			uint nChunks;
 			bytes = sizeof(uint);
@@ -1841,11 +1885,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		float* edgeH = new float[(w*h) * 3];
 		float* edgeV = new float[(w*h) * 3];
 
-		if (textureMap != nullptr)
-		{
-			delete[] textureMap;
-		}
-		textureMap = new float[w*h];
+		RELEASE_ARRAY(textureMap);
+		textureMap = new float[w*h * 2];
 
 		float* buf = new float[w*h];
 		float maxVal = 0;
@@ -1908,10 +1949,10 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 					}
 				}
 
-				textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
-				if (textureMap[(h - y - 1) * w + x] > maxVal)
+				textureMap[((h - y - 1) * w + x) * 2] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+				if (textureMap[((h - y - 1) * w + x) * 2] > maxVal)
 				{
-					maxVal = textureMap[(h - y - 1) * w + x];
+					maxVal = textureMap[((h - y - 1) * w + x) * 2];
 				}
 #pragma endregion
 			}
@@ -1921,7 +1962,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		{
 			for (int x = 0; x < w; x++)
 			{
-				textureMap[y * w + x] /= maxVal;
+				textureMap[(y * w + x)*2] /= maxVal;
+				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
 		}
 
@@ -2070,14 +2112,15 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 		{
 			for (int x = 0; x < w; x++)
 			{
-				if (textureMap[y * w + x] > 0.15)
+				if (textureMap[(y * w + x) * 2] > 0.1)
 				{
-					textureMap[y * w + x] = 0.15f;
+					textureMap[(y * w + x) * 2] = 0.1999999f;
 				}
 				else
 				{
-					textureMap[y * w + x] = 0.05f;
+					textureMap[(y * w + x) * 2] = 0.0999999f;
 				}
+				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
 		}
 		ReinterpretTextureMap();
@@ -2100,7 +2143,7 @@ void ModulePhysics3D::ReinterpretTextureMap()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, terrainW, terrainH, 0, GL_RED, GL_FLOAT, textureMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG, terrainW, terrainH, 0, GL_RG, GL_FLOAT, textureMap);
 	}
 }
 
