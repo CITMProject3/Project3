@@ -355,12 +355,12 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	{
 		Acrobatics(back_player);
 	}
-	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
-		//current_turbo = T_MINI;
-		UseItem();
+		current_turbo = T_MINI;
+		//UseItem();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 	{
 		//current_turbo = T_MINI;
 		ReleaseItem();
@@ -1275,6 +1275,10 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 			float velocity_dif = max_velocity - velocity_to_begin_change;
 
 			max_t += (turn_max_change_dif / velocity_dif) * (sp - velocity_to_begin_change);
+
+			if (max_t < turn_max_limit)
+				max_t = turn_max_limit;
+			
 		}
 
 		

@@ -236,6 +236,7 @@ private:
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
 	float turn_max_limit = 0.01f;
+	float min_turn_max = 0.1f;
 
 	//By speed
 	float base_max_turn_change_speed = -0.01f;
