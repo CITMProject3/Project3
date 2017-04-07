@@ -19,6 +19,7 @@
 #include "../ComponentUiText.h"
 #include "../ComponentUiImage.h"
 #include "../ComponentAudioSource.h"
+#include "../ComponentUiButton.h"
 
 #include "../ModuleGOManager.h"
 #include "../ModuleResourceManager.h"
@@ -66,6 +67,17 @@ namespace Scene_Manager
 	GameObject* player1_finish = nullptr;
 	GameObject* player2_finish = nullptr;
 
+	GameObject* text_1_finish = nullptr;
+	ComponentUiText* timer_1_text = nullptr;
+
+	GameObject* text_2_finish = nullptr;
+	ComponentUiText* timer_2_text = nullptr;
+
+	GameObject* win1_finish = nullptr;
+	ComponentUiButton* win1_button = nullptr;
+	GameObject* win2_finish = nullptr;
+	ComponentUiButton* win2_button = nullptr;
+
 	string main_menu_scene = "Insert scene path here";
 
 	//"Private" variables
@@ -78,9 +90,12 @@ namespace Scene_Manager
 
 	double finish_timer = 0;
 	bool finish_timer_on = false;
-
+	bool team1_finished = false;
+	bool team2_finished = false;
 	// Bool for music playing
 	bool music_played = false;
+	string team1_text = "";
+	string team2_text = "";
 
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -107,6 +122,12 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("Result_Window", result_window));
 		public_gos->insert(std::pair<const char*, GameObject*>("Player1_Finish_Text", player1_finish));
 		public_gos->insert(std::pair<const char*, GameObject*>("Player2_Finish_Text", player2_finish));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Team1_timer_Text", text_1_finish));
+		public_gos->insert(std::pair<const char*, GameObject*>("Team2_timer_Text", text_2_finish));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("Win_team1_button", win1_finish));
+		public_gos->insert(std::pair<const char*, GameObject*>("Win_team2_button", win2_finish));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -131,7 +152,10 @@ namespace Scene_Manager
 
 		player1_finish = script->public_gos["Player1_Finish_Text"];
 		player2_finish = script->public_gos["Player2_Finish_Text"];
-
+		text_1_finish = script->public_gos["Team1_timer_Text"];
+		text_2_finish = script->public_gos["Team2_timer_Text"];
+		win1_finish = script->public_gos["Win_team1_button"];
+		win2_finish = script->public_gos["Win_team2_button"];
 		result_window = script->public_gos["Result_Window"];
 	}
 
@@ -238,6 +262,26 @@ namespace Scene_Manager
 		{
 			position_ui_2 = (ComponentUiText*)position_ui_2_go->GetComponent(C_UI_TEXT);
 		}
+
+		if (text_1_finish)
+		{
+			timer_1_text = (ComponentUiText*)text_1_finish->GetComponent(C_UI_TEXT);
+		}
+
+		if (text_2_finish)
+		{
+			timer_2_text = (ComponentUiText*)text_2_finish->GetComponent(C_UI_TEXT);
+		}
+
+		if (win1_finish)
+		{
+			win1_button = (ComponentUiButton*)win1_finish->GetComponent(C_UI_BUTTON);
+		}
+
+		if (win2_finish)
+		{
+			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
+		}
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
@@ -291,6 +335,8 @@ namespace Scene_Manager
 		race_finished = true;
 		if (race_HUD) race_HUD->SetActive(false);
 		if (result_window) result_window->SetActive(true);
+		if (timer_1_text)timer_1_text->SetDisplayText(team1_text);
+		if(timer_2_text)timer_2_text->SetDisplayText(team2_text);
 	}
 
 	void Scene_Manager_UpdateUIRaceTimer()
@@ -374,6 +420,16 @@ namespace Scene_Manager
 				{
 					if (car_1->finished == true)
 					{
+						if (team1_finished == false && timer_1_text != nullptr && timer_text != nullptr)
+						{
+							team1_text = timer_text->GetText();
+							if (team2_finished == false && win2_button != nullptr)
+							{
+								win2_button->OnPress();
+							}
+							team1_finished = true;
+						}
+
 						if (player1_finish) player1_finish->SetActive(true);
 						if (car_2 && car_2->finished == true)
 						{
@@ -404,6 +460,17 @@ namespace Scene_Manager
 				{
 					if (car_2->finished == true)
 					{
+						if (team2_finished == false && timer_2_text != nullptr && timer_text != nullptr)
+						{
+							
+							team2_text = timer_text->GetText();
+							if (team1_finished == false && win1_button != nullptr)
+							{
+								win1_button->OnPress();
+							}
+							team2_finished = true;
+						}
+
 						if (player2_finish) player2_finish->SetActive(true);
 						if (car_1 && car_1->finished == true)
 						{
