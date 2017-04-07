@@ -170,6 +170,7 @@ update_status ModulePhysics3D::Update()
 				int y = ceil(hit.point.z);
 				x += terrainW / 2;
 				y += terrainH / 2;
+				int p = (y * terrainW + x) * 2;
 #pragma region paintBrush
 				glLineWidth(4.0f);
 				for (int _y = y - brushSize - 1; _y < y + brushSize; _y++)
@@ -238,7 +239,8 @@ update_status ModulePhysics3D::Update()
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.05f;
 								}
 							}
 						}
@@ -914,7 +916,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 				for (int n = 0; n < terrainW * terrainH * textureMapScale; n++)
 				{
 					textureMap[n * 2] = tmp_textureMap[n];
-					textureMap[n * 2 + 1] = 0;
+					textureMap[n * 2 + 1] = textureMap[n * 2];
 				}
 				RELEASE_ARRAY(tmp_textureMap);
 
