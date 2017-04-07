@@ -323,9 +323,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		
 
 		//Drifting turbo
-		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER) && drifting)
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_DOWN && drifting)
 		{
-			float x_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
+			//float x_joy_axis = App->input->GetJoystickAxis(back_player, JOY_AXIS::RIGHT_TRIGGER);
+			float x_joy_axis = 0;
 			DriftTurbo(x_joy_axis);
 		}
 
@@ -954,9 +955,17 @@ void ComponentCar::EndDrift()
 
 void ComponentCar::DriftTurbo(float x_joy_axis)
 {
-	if (drifting)
+	button_clicks++;
+
+	if (button_clicks >= 2 && turbo_drift_lvl <3)
 	{
-		if (math::Abs(x_joy_axis) >= 0.9f)
+		turbo_drift_lvl++;
+		button_clicks = 0;
+	}
+
+	/*if (drifting)
+	{
+		if (math::Abs(x_joy_axis) >= 0.8f)
 		{
 			float current_dir;
 
@@ -977,7 +986,7 @@ void ComponentCar::DriftTurbo(float x_joy_axis)
 
 			last_joystick_dir_turbo_drift = current_dir;
 		}
-	}
+	}*/
 }
 void ComponentCar::UpdateTurnOver()
 {

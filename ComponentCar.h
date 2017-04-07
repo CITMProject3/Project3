@@ -348,6 +348,7 @@ private:
 	bool drift_turbo_start = false;
 	bool begin_joystick_dir_turbo_drift;
 	bool last_joystick_dir_turbo_drift;
+	uint button_clicks = 0;
 	
 	//Turbo
 	TURBO current_turbo = T_IDLE;
