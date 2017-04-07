@@ -135,6 +135,9 @@ namespace MapSelectUI
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
 		player_order[3] = App->go_manager->team2_back;
+
+		map_umi->SetActive(false);
+		map_ricing->SetActive(false);
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
@@ -153,7 +156,7 @@ namespace MapSelectUI
 			{
 				if (!players_ready[id])
 				{
-					c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
+					c_players_vote[id]->OnPressId(current_level);
 
 
 					votes[id] = current_level;
@@ -166,7 +169,7 @@ namespace MapSelectUI
 			{
 				if (players_ready[id])
 				{
-					c_players_vote[id]->OnPressId(votes[id]); // TO BE TESTED
+					c_players_vote[id]->OnPressId(votes[id]);
 
 					players_ready[id] = false;
 				}
