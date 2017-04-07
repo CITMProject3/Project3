@@ -349,9 +349,9 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		//StartPush();
 		Push(accel);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN)
 	{
-		//Leaning(*accel);
+		DriftTurbo(0.0f);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
@@ -955,12 +955,18 @@ void ComponentCar::EndDrift()
 
 void ComponentCar::DriftTurbo(float x_joy_axis)
 {
-	button_clicks++;
-
-	if (button_clicks >= 2 && turbo_drift_lvl <3)
+	if(drifting)
 	{
-		turbo_drift_lvl++;
-		button_clicks = 0;
+		button_clicks++;
+
+		if (button_clicks >= 2 && turbo_drift_lvl < 3)
+		{
+			to_drift_turbo = true;
+
+
+			turbo_drift_lvl++;
+			button_clicks = 0;
+		}
 	}
 
 	/*if (drifting)
