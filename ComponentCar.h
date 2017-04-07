@@ -159,6 +159,7 @@ private:
 	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+	void DriftTurbo(float x_joy_axis);
 public:
 	void PickItem();
 	void UseItem(); //provisional
@@ -341,6 +342,11 @@ private:
 	bool acro_on = false;
 	bool acro_done = false;
 	float acro_timer = 0.0f;
+	
+	//Drifting turbo flow
+	bool drift_turbo_start = false;
+	bool begin_joystick_dir_turbo_drift;
+	bool last_joystick_dir_turbo_drift;
 	
 	//Turbo
 	TURBO current_turbo = T_IDLE;

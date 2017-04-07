@@ -928,6 +928,7 @@ void ComponentCar::EndDrift()
 		}
 
 		turbo_drift_lvl = 0;
+		drift_turbo_start = false;
 	}
 	//Old turbo
 	/*
@@ -950,6 +951,33 @@ void ComponentCar::EndDrift()
 	*/
 }
 
+void ComponentCar::DriftTurbo(float x_joy_axis)
+{
+	if (drifting)
+	{
+		if (math::Abs(x_joy_axis) == 1.0f)
+		{
+			float current_dir;
+
+			if (x_joy_axis > 0)
+				current_dir = true;
+			else
+				current_dir = false;
+
+			if (turbo_drift_lvl == 0 && !drift_turbo_start)
+			{
+				begin_joystick_dir_turbo_drift = current_dir;
+				drift_turbo_start = true;
+			}
+			else if(current_dir != last_joystick_dir_turbo_drift && current_dir != begin_joystick_dir_turbo_drift)
+			{
+				turbo_drift_lvl++;
+			}
+
+			last_joystick_dir_turbo_drift = current_dir;
+		}
+	}
+}
 void ComponentCar::UpdateTurnOver()
 {
 	float4x4 matrix;
