@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2946182441,
+                    "UUID": 4286135711,
                     "active": true,
                     "matrix": [
                         1,
@@ -79,7 +79,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.810204,
+                    "aspect_ratio": 3.873945,
                     "color": [
                         0,
                         0,
@@ -109,10 +109,17 @@
                     "inclination y max min": 1,
                     "inclination z max min": 1,
                     "fov change boost": 5,
-                    "Player_Camera_fov_increment": 0,
-                    "Player_Camera_fov_decrement": 0,
-                    "Player_Camera_last_fov": 0,
+                    "fov_increment": 0,
+                    "fov_decrement": 0,
+                    "max_vel_relative": 0,
+                    "last_fov": 0,
                     "target": 3082689746
+                },
+                {
+                    "type": 17,
+                    "UUID": 3691713440,
+                    "active": true,
+                    "listener ID": 0
                 }
             ]
         },
@@ -158,7 +165,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.810204,
+                    "aspect_ratio": 3.873945,
                     "color": [
                         0,
                         0,
@@ -188,10 +195,17 @@
                     "inclination y max min": 1,
                     "inclination z max min": 1,
                     "fov change boost": 5,
-                    "Player_Camera_fov_increment": 0,
-                    "Player_Camera_fov_decrement": 0,
-                    "Player_Camera_last_fov": 0,
+                    "fov_increment": 0,
+                    "fov_decrement": 0,
+                    "max_vel_relative": 0,
+                    "last_fov": 0,
                     "target": 3832415544
+                },
+                {
+                    "type": 17,
+                    "UUID": 126400043,
+                    "active": true,
+                    "listener ID": 1
                 }
             ]
         },
@@ -237,7 +251,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.886051,
+                    "aspect_ratio": 1.917603,
                     "color": [
                         0,
                         0,

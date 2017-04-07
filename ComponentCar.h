@@ -159,6 +159,7 @@ private:
 	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+	void DriftTurbo(float x_joy_axis);
 public:
 	void PickItem();
 	void UseItem(); //provisional
@@ -202,6 +203,7 @@ public:
 
 	//Drifting control variables
 	float drift_ratio = 0.5f;
+	float drift_ratio_left = 0.6f;
 	float drift_mult = 1.8f;
 	float drift_boost = 1.0f;
 	
@@ -234,6 +236,7 @@ private:
 	//----Max turn change 
 	float velocity_to_begin_change = 10.0f;
 	float turn_max_limit = 0.01f;
+	float min_turn_max = 0.1f;
 
 	//By speed
 	float base_max_turn_change_speed = -0.01f;
@@ -306,6 +309,8 @@ private:
 	bool turned = false;
 	float timer_start_turned = 0.0f;
 
+	//Brake
+	float brake = 0.0f;
 	//Boosts
 	float accel_boost = 0.0f;
 	float speed_boost = 0.0f;
@@ -338,6 +343,12 @@ private:
 	bool acro_on = false;
 	bool acro_done = false;
 	float acro_timer = 0.0f;
+	
+	//Drifting turbo flow
+	bool drift_turbo_start = false;
+	bool begin_joystick_dir_turbo_drift;
+	bool last_joystick_dir_turbo_drift;
+	uint button_clicks = 0;
 	
 	//Turbo
 	TURBO current_turbo = T_IDLE;

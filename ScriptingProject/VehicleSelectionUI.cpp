@@ -47,6 +47,7 @@ namespace Vehicle_Selection_UI
 	ComponentMaterial* mat_red_car = nullptr;
 	bool team_blue_selected = false;
 	bool team_red_selected = false;
+	bool start_tmp = false;
 	int player_order[4];
 	int p_pos[2];
 	int blue_counter_left = 30;
@@ -122,9 +123,6 @@ namespace Vehicle_Selection_UI
 
 	void Vehicle_Selection_UI_Start(GameObject* game_object)
 	{
-		// Play Move Selection
-		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(0);
 
 		player_order[0] = App->go_manager->team1_front;
 		player_order[1] = App->go_manager->team1_back;
@@ -143,12 +141,24 @@ namespace Vehicle_Selection_UI
 		blue_counter_right = time;
 		red_counter_right = time;
 		red_counter_left = time;
-
+		start_tmp = false;
+		team_red_selected = false;
+		team_blue_selected = false;
 		Vehicle_Selection_UI_ActualizePublics(game_object);
 	}
 
 	void Vehicle_Selection_UI_Update(GameObject* game_object)
 	{
+		if (start_tmp == false)
+		{
+			// Play Move Selection
+			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(0);
+			start_tmp = true;
+		}
+		
+
+
 		for (int i = 0; i < 4; i++)
 		{
 			int id = 0;
