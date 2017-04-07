@@ -97,18 +97,18 @@
                     "UUID": 1604246270,
                     "active": true,
                     "matrix": [
-                        -0.999286,
+                        -0.088608,
                         0,
-                        0.038755,
-                        -94.416100,
+                        -0.996109,
+                        116.985519,
                         0,
                         1,
                         0,
                         74.668297,
-                        -0.038755,
+                        0.996109,
                         0,
-                        -0.999286,
-                        96.295677,
+                        -0.088608,
+                        -30.728552,
                         0,
                         0,
                         0,
@@ -21721,31 +21721,6 @@
             "children_uuids": []
         },
         {
-            "name": "BridgeColl_1",
-            "UUID": 1638308680,
-            "local_UUID": 1638308680,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1638308680,
-            "prefab_path": "\/Library\/1932397986\/\/1997542945\/1997542945.pfb",
-            "components": [
-                {
-                    "position": [
-                        -162.006561,
-                        79.161118,
-                        27.027309
-                    ],
-                    "rotation": [
-                        0,
-                        -0.767334,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
             "name": "WallCollider_6",
             "UUID": 3881018798,
             "local_UUID": 1984084804,
@@ -22819,6 +22794,775 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "BridgeColli_1",
+            "UUID": 3591775722,
+            "local_UUID": 1638308680,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3591775722,
+            "prefab_path": "\/Library\/1932397986\/\/1344650632\/1344650632.pfb",
+            "components": [
+                {
+                    "position": [
+                        -162.006561,
+                        79.161118,
+                        27.027309
+                    ],
+                    "rotation": [
+                        0,
+                        -0.767328,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLane",
+            "UUID": 3329993721,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1252636527,
+                    "active": true,
+                    "matrix": [
+                        -0.033750,
+                        0,
+                        -0.999438,
+                        117.046066,
+                        0,
+                        1,
+                        0,
+                        83.343117,
+                        0.999438,
+                        0,
+                        -0.033750,
+                        -29.952335,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 4168497973,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        39.200001,
+                        25.500002,
+                        17.700001
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3305775080,
+                    "active": true,
+                    "script_path": "Finish_lane",
+                    "script_num": 0,
+                    "CheckpointN": 0
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_1",
+            "UUID": 3359717948,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3632258383,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        -0.999978,
+                        67.443825,
+                        0,
+                        1,
+                        0,
+                        77.717522,
+                        0.999978,
+                        0,
+                        0,
+                        -33.415798,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 925952908,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        31.700001,
+                        10,
+                        1.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2616183648,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 1
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_2",
+            "UUID": 2311627643,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2257319357,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        0.999989,
+                        45.166576,
+                        0,
+                        1,
+                        0,
+                        77.123329,
+                        -0.999989,
+                        0,
+                        0,
+                        50.372990,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2852687991,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        30.800001,
+                        10,
+                        1.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 745297539,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 2
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_3",
+            "UUID": 734940177,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3545423311,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        -0.999980,
+                        147.636078,
+                        0,
+                        1,
+                        0,
+                        79.260529,
+                        0.999980,
+                        0,
+                        0,
+                        188.984344,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 4196906340,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 200225900,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 3
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_4",
+            "UUID": 1084977170,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 607175225,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        -0.999972,
+                        19.653011,
+                        0,
+                        1,
+                        0,
+                        80.196953,
+                        0.999972,
+                        0,
+                        0,
+                        188.927811,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 692618013,
+                    "active": true,
+                    "script_path": "",
+                    "script_num": 0
+                },
+                {
+                    "type": 10,
+                    "UUID": 375422202,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                },
+                {
+                    "type": 8,
+                    "UUID": 1076167045,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_5",
+            "UUID": 1164457173,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4061310208,
+                    "active": true,
+                    "matrix": [
+                        -0.000000,
+                        0,
+                        -0.999989,
+                        -142.601288,
+                        0,
+                        1,
+                        0,
+                        77.787224,
+                        0.999989,
+                        0,
+                        -0.000000,
+                        185.802826,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2699116856,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2414648499,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 5
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_6",
+            "UUID": 2457942618,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1790537321,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -98.422981,
+                        0,
+                        1,
+                        0,
+                        80.019135,
+                        0,
+                        0,
+                        1,
+                        64.398079,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1489417452,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1150833325,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 6
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_7",
+            "UUID": 614981761,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2814569982,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -272.243500,
+                        0,
+                        1,
+                        0,
+                        79.355606,
+                        0,
+                        0,
+                        1,
+                        -6.362585,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3103137732,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 704998443,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 7
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_8",
+            "UUID": 3007767571,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1018303136,
+                    "active": true,
+                    "matrix": [
+                        0.784638,
+                        0,
+                        -0.619954,
+                        -108.363411,
+                        0,
+                        1,
+                        0,
+                        76.880211,
+                        0.619954,
+                        0,
+                        0.784638,
+                        -79.513870,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 397498786,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2261069169,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 8
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_9",
+            "UUID": 3338560789,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1437697763,
+                    "active": true,
+                    "matrix": [
+                        -0.000000,
+                        0,
+                        0.999987,
+                        84.220108,
+                        0,
+                        1,
+                        0,
+                        75.618439,
+                        -0.999987,
+                        0,
+                        -0.000000,
+                        -189.380951,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 35120329,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2058868274,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 9
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint_10",
+            "UUID": 1795864179,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2639697648,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        254.782227,
+                        0,
+                        1,
+                        0,
+                        75.470963,
+                        0,
+                        0,
+                        1,
+                        -45.655315,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3606626386,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        40,
+                        20,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1908523028,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 10
+                }
+            ]
         }
     ],
     "terrain_textures": [
