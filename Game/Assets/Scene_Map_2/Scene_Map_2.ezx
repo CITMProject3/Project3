@@ -119,7 +119,7 @@
                     "type": 9,
                     "UUID": 3162055570,
                     "active": true,
-                    "lose_height": 0,
+                    "lose_height": 2,
                     "chasis_size": [
                         1.750000,
                         0.200000,
@@ -8895,7 +8895,7 @@
                     "type": 9,
                     "UUID": 1556886816,
                     "active": true,
-                    "lose_height": 0,
+                    "lose_height": 2,
                     "chasis_size": [
                         1.750000,
                         0.200000,
@@ -9513,6 +9513,43 @@
                         {
                             "path": ""
                         }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 3659447480,
+            "local_UUID": 0,
+            "parent": 4008709864,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3937704369,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
                     ]
                 }
             ]
@@ -22086,806 +22123,6 @@
             ]
         },
         {
-            "name": "HarborScene1",
-            "UUID": 2689493473,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2689493473,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -146.668060,
-                        -3.031260,
-                        76.473869
-                    ],
-                    "rotation": [
-                        -180,
-                        89.980209,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2242653393,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2242653393,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -131.653214,
-                        -3.031260,
-                        76.473869
-                    ],
-                    "rotation": [
-                        -180,
-                        89.980209,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2866328530,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2866328530,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -116.724319,
-                        -3.031260,
-                        76.474007
-                    ],
-                    "rotation": [
-                        179.999985,
-                        89.980209,
-                        179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2495935351,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2495935351,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -86.569107,
-                        -3.031260,
-                        91.417160
-                    ],
-                    "rotation": [
-                        -180,
-                        89.980209,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1139007852,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1139007852,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -71.724785,
-                        -2.633009,
-                        76.470131
-                    ],
-                    "rotation": [
-                        179.999908,
-                        0,
-                        179.999908
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 411803783,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 411803783,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -71.724785,
-                        -2.633009,
-                        61.409332
-                    ],
-                    "rotation": [
-                        179.999924,
-                        0,
-                        179.999924
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1245042900,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1245042900,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -86.358620,
-                        -2.922273,
-                        31.568071
-                    ],
-                    "rotation": [
-                        179.999908,
-                        0,
-                        179.999908
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3073541051,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3073541051,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -56.786388,
-                        -2.922273,
-                        31.568071
-                    ],
-                    "rotation": [
-                        179.999924,
-                        0,
-                        179.999924
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1329337229,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1329337229,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -71.436508,
-                        -2.922273,
-                        16.700409
-                    ],
-                    "rotation": [
-                        179.999115,
-                        89.980209,
-                        -179.999283
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 4135390009,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4135390009,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -40.139286,
-                        -2.254629,
-                        16.700409
-                    ],
-                    "rotation": [
-                        -90.001053,
-                        86.279259,
-                        90.000938
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1941568053,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1941568053,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.019854,
-                        -1.316777,
-                        16.700409
-                    ],
-                    "rotation": [
-                        -90.001259,
-                        86.279213,
-                        90.001152
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 643664109,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 643664109,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -10.995169,
-                        -0.845024,
-                        31.803976
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3638542297,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3638542297,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.508465,
-                        -0.845024,
-                        62.148987
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 891317042,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 891317042,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.508465,
-                        -3.697535,
-                        77.215332
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3482697737,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3482697737,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -71.701126,
-                        -2.666024,
-                        106.506546
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2182967824,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2182967824,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -71.701126,
-                        -2.666024,
-                        121.570961
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1220126235,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1220126235,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -86.483177,
-                        -2.666024,
-                        151.613480
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1865014372,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1865014372,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -70.442131,
-                        -2.068413,
-                        166.745850
-                    ],
-                    "rotation": [
-                        -90.001259,
-                        86.279213,
-                        90.001152
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3422600416,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3422600416,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -55.441727,
-                        -1.060298,
-                        166.745850
-                    ],
-                    "rotation": [
-                        -90.001259,
-                        86.279213,
-                        90.001152
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2091295048,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2091295048,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -40.795593,
-                        -0.694982,
-                        151.893997
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 528111692,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 528111692,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.980181,
-                        -0.694982,
-                        166.688858
-                    ],
-                    "rotation": [
-                        0,
-                        90,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1388205860,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1388205860,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -10.953861,
-                        -0.694982,
-                        151.567825
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2296174450,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2296174450,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.766724,
-                        -0.694982,
-                        121.800056
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1963765032,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1963765032,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -25.537510,
-                        -3.643260,
-                        106.768196
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2306916588,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2306916588,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        -10.175869,
-                        -3.231189,
-                        91.911072
-                    ],
-                    "rotation": [
-                        89.999855,
-                        -87.234795,
-                        89.999924
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 2178142707,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2178142707,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        19.173016,
-                        -2.799988,
-                        106.924622
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        -89.980209,
-                        -179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1220227053,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1220227053,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        19.436726,
-                        -2.799988,
-                        77.076416
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        -89.980209,
-                        -179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3922588173,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3922588173,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        34.428066,
-                        -2.666024,
-                        92.055527
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 3818136652,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3818136652,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        49.228836,
-                        -2.799988,
-                        61.965534
-                    ],
-                    "rotation": [
-                        180,
-                        -89.980209,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 1328795979,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1328795979,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        64.460930,
-                        -2.799988,
-                        61.965534
-                    ],
-                    "rotation": [
-                        180,
-                        -89.980209,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 4015868512,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4015868512,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        78.652725,
-                        -2.799988,
-                        60.714848
-                    ],
-                    "rotation": [
-                        0,
-                        -80.520615,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "HarborScene1",
-            "UUID": 881846419,
-            "local_UUID": 1340804865,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 881846419,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
-            "components": [
-                {
-                    "position": [
-                        92.165558,
-                        -3.059465,
-                        59.088291
-                    ],
-                    "rotation": [
-                        -36.132435,
-                        -86.306351,
-                        -36.189198
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
             "name": "Plane",
             "UUID": 668348311,
             "local_UUID": 0,
@@ -25795,6 +25032,2261 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "Checpoint 2",
+            "UUID": 1884039793,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 190852250,
+                    "active": true,
+                    "matrix": [
+                        0.504510,
+                        0,
+                        0.863407,
+                        -160.867706,
+                        0,
+                        1,
+                        0,
+                        14.555456,
+                        -0.863407,
+                        0,
+                        0.504510,
+                        71.087959,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3200760119,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        22.600000,
+                        11.100000,
+                        6.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3940039315,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 2
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 3",
+            "UUID": 3031557548,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2174571974,
+                    "active": true,
+                    "matrix": [
+                        -0.050994,
+                        0,
+                        0.998700,
+                        -89.960625,
+                        0,
+                        1,
+                        0,
+                        14.733238,
+                        -0.998700,
+                        0,
+                        -0.050994,
+                        91.070419,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1051546361,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        14.000001,
+                        9.900001,
+                        7.900001
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 722808225,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 3
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 1",
+            "UUID": 621270341,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4222472590,
+                    "active": true,
+                    "matrix": [
+                        0.998870,
+                        0,
+                        0.047675,
+                        -190,
+                        0,
+                        1,
+                        0,
+                        13.824026,
+                        -0.047675,
+                        0,
+                        0.998870,
+                        16.973173,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 184003761,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        22.300001,
+                        10.700001,
+                        8
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1411791488,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 1
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 4.1",
+            "UUID": 1167780574,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1187106787,
+                    "active": true,
+                    "matrix": [
+                        -1.000004,
+                        0,
+                        -0.000001,
+                        -71.649040,
+                        0,
+                        1,
+                        0,
+                        14.971815,
+                        0.000001,
+                        0,
+                        -1.000004,
+                        54.179195,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 567137474,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        12.900001,
+                        9,
+                        6.700000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 93602104,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 4.2",
+            "UUID": 1903061019,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1958876768,
+                    "active": true,
+                    "matrix": [
+                        0.998937,
+                        0,
+                        -0.046042,
+                        -86.148315,
+                        0,
+                        1,
+                        0,
+                        14.148052,
+                        0.046042,
+                        0,
+                        0.998937,
+                        143.583069,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3446155238,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        16.800001,
+                        9.500000,
+                        6.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2073675840,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 5.1",
+            "UUID": 545379526,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 503889628,
+                    "active": true,
+                    "matrix": [
+                        0.999999,
+                        0,
+                        -0.001634,
+                        -10.806064,
+                        0,
+                        1,
+                        0,
+                        17.222042,
+                        0.001634,
+                        0,
+                        0.999999,
+                        24.295523,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 427750503,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        12.900001,
+                        10.200001,
+                        7.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2664606852,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 5
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 5.2",
+            "UUID": 1707284349,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3026346322,
+                    "active": true,
+                    "matrix": [
+                        -1.000006,
+                        0,
+                        -0.000001,
+                        -40.929684,
+                        0,
+                        1,
+                        0,
+                        17.565752,
+                        0.000001,
+                        0,
+                        -1.000006,
+                        158.906509,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 869077600,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        14.500001,
+                        10.800000,
+                        11.500001
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3509472154,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 5
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 6",
+            "UUID": 3435620131,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1583457759,
+                    "active": true,
+                    "matrix": [
+                        0,
+                        0,
+                        0.999996,
+                        -3.242261,
+                        0,
+                        1,
+                        0,
+                        14.744482,
+                        -0.999996,
+                        0,
+                        0,
+                        92.145554,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 103983447,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        13.300000,
+                        10.900001,
+                        9
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3623985739,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 6
+                }
+            ]
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2689493473,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2689493473,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -146.007385,
+                        -3.193952,
+                        76.473633
+                    ],
+                    "rotation": [
+                        -90.509987,
+                        87.778679,
+                        90.510345
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2242653393,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2242653393,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -131.653214,
+                        -3.031260,
+                        76.473869
+                    ],
+                    "rotation": [
+                        -180,
+                        89.980209,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2866328530,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2866328530,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -116.724319,
+                        -3.031260,
+                        76.474007
+                    ],
+                    "rotation": [
+                        179.999985,
+                        89.980209,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2495935351,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2495935351,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.569107,
+                        -3.031260,
+                        91.417160
+                    ],
+                    "rotation": [
+                        -180,
+                        89.980209,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1139007852,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1139007852,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.724785,
+                        -2.633009,
+                        76.470131
+                    ],
+                    "rotation": [
+                        179.999908,
+                        0,
+                        179.999908
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 411803783,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 411803783,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.724785,
+                        -2.633009,
+                        61.409332
+                    ],
+                    "rotation": [
+                        179.999924,
+                        0,
+                        179.999924
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1245042900,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1245042900,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.358620,
+                        -2.922273,
+                        31.568071
+                    ],
+                    "rotation": [
+                        179.999908,
+                        0,
+                        179.999908
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3073541051,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3073541051,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -56.786388,
+                        -2.922273,
+                        31.568071
+                    ],
+                    "rotation": [
+                        179.999924,
+                        0,
+                        179.999924
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1329337229,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1329337229,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.436508,
+                        -2.922273,
+                        16.700409
+                    ],
+                    "rotation": [
+                        179.999115,
+                        89.980209,
+                        -179.999283
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 4135390009,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4135390009,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -40.139286,
+                        -2.254629,
+                        16.700409
+                    ],
+                    "rotation": [
+                        -90.001053,
+                        86.279259,
+                        90.000938
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1941568053,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1941568053,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.019854,
+                        -1.316777,
+                        16.700409
+                    ],
+                    "rotation": [
+                        -90.001259,
+                        86.279213,
+                        90.001152
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 643664109,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 643664109,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -10.995169,
+                        -0.845024,
+                        31.803976
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3638542297,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3638542297,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.508465,
+                        -0.845024,
+                        62.148987
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 891317042,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 891317042,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.508465,
+                        -3.697535,
+                        77.215332
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3482697737,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3482697737,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.701126,
+                        -2.666024,
+                        106.506546
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2182967824,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2182967824,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.701126,
+                        -2.666024,
+                        121.570961
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1220126235,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1220126235,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.483177,
+                        -2.666024,
+                        151.613480
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1865014372,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1865014372,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.442131,
+                        -2.068413,
+                        166.745850
+                    ],
+                    "rotation": [
+                        -90.001259,
+                        86.279213,
+                        90.001152
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3422600416,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3422600416,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -55.441727,
+                        -1.060298,
+                        166.745850
+                    ],
+                    "rotation": [
+                        -90.001259,
+                        86.279213,
+                        90.001152
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2091295048,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2091295048,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -40.795593,
+                        -0.694982,
+                        151.893997
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 528111692,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 528111692,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.980181,
+                        -0.694982,
+                        166.688858
+                    ],
+                    "rotation": [
+                        0,
+                        90,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1388205860,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1388205860,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -10.953861,
+                        -0.694982,
+                        151.567825
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2296174450,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2296174450,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.766724,
+                        -0.694982,
+                        121.800056
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1963765032,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1963765032,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -25.537510,
+                        -3.643260,
+                        106.768196
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2306916588,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2306916588,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -10.175869,
+                        -3.231189,
+                        91.911072
+                    ],
+                    "rotation": [
+                        89.999855,
+                        -87.234795,
+                        89.999924
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2178142707,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2178142707,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        19.173016,
+                        -2.799988,
+                        106.924622
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -89.980209,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1220227053,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1220227053,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        19.436726,
+                        -2.799988,
+                        77.076416
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -89.980209,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3922588173,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3922588173,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        34.428066,
+                        -2.666024,
+                        92.055527
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 3818136652,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3818136652,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        49.228836,
+                        -2.799988,
+                        61.965534
+                    ],
+                    "rotation": [
+                        180,
+                        -89.980209,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 1328795979,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1328795979,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        64.460930,
+                        -2.799988,
+                        61.965534
+                    ],
+                    "rotation": [
+                        180,
+                        -89.980209,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 4015868512,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4015868512,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        78.652725,
+                        -2.799988,
+                        60.714848
+                    ],
+                    "rotation": [
+                        0,
+                        -80.520615,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 881846419,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 881846419,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        92.165558,
+                        -3.059465,
+                        59.088291
+                    ],
+                    "rotation": [
+                        -36.132435,
+                        -86.306351,
+                        -36.189198
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Checpoint 7",
+            "UUID": 1829986380,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 289251319,
+                    "active": true,
+                    "matrix": [
+                        -0.118594,
+                        0,
+                        0.992947,
+                        79.140045,
+                        0,
+                        1,
+                        0,
+                        14.441374,
+                        -0.992947,
+                        0,
+                        -0.118594,
+                        60.254833,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2507836516,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        14.200001,
+                        9.800000,
+                        6.300000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2963193532,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 7
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 8",
+            "UUID": 3129535752,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 253114402,
+                    "active": true,
+                    "matrix": [
+                        0.323678,
+                        0,
+                        0.946168,
+                        193.023590,
+                        0,
+                        1,
+                        0,
+                        14.545169,
+                        -0.946168,
+                        0,
+                        0.323678,
+                        102.259041,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2554521643,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        20.700001,
+                        10.600000,
+                        5.400000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2529165492,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 8
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 9",
+            "UUID": 4267339060,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1888395658,
+                    "active": true,
+                    "matrix": [
+                        -0.823646,
+                        0,
+                        -0.567110,
+                        136.236664,
+                        0,
+                        1,
+                        0,
+                        14.492225,
+                        0.567110,
+                        0,
+                        -0.823646,
+                        6.095270,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 926883230,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        23.900002,
+                        10.600000,
+                        7.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3864004219,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 9
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 10",
+            "UUID": 943410397,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3952629547,
+                    "active": true,
+                    "matrix": [
+                        -0.891334,
+                        0,
+                        0.453358,
+                        165.852356,
+                        0,
+                        1,
+                        0,
+                        13.993649,
+                        -0.453358,
+                        0,
+                        -0.891334,
+                        -112.501564,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3171664222,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        21.000002,
+                        10.800000,
+                        5.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 11618625,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 10
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 11",
+            "UUID": 2964176162,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3805502770,
+                    "active": true,
+                    "matrix": [
+                        0.293820,
+                        0,
+                        -0.955861,
+                        128.497513,
+                        0,
+                        1,
+                        0,
+                        13.738582,
+                        0.955861,
+                        0,
+                        0.293820,
+                        -137.149811,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2549257205,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        21.500002,
+                        9.400001,
+                        7.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 21738706,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 11
+                }
+            ]
+        },
+        {
+            "name": "ramp1asier",
+            "UUID": 899885444,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4048017972,
+                    "active": true,
+                    "matrix": [
+                        10.789649,
+                        0.134155,
+                        0,
+                        9.694939,
+                        -1.460693,
+                        0.990957,
+                        0,
+                        9.550000,
+                        0,
+                        0,
+                        22.252993,
+                        -92.322273,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3923915109,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2186554475\/\/1676438960\/1676438960.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3171846565,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        10.900001,
+                        1,
+                        22.700001
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "ramp2asier",
+            "UUID": 722052600,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3320680208,
+                    "active": true,
+                    "matrix": [
+                        10.702619,
+                        0.133986,
+                        0,
+                        9.805670,
+                        -1.447052,
+                        0.990983,
+                        0,
+                        9.589846,
+                        0,
+                        0,
+                        22.500000,
+                        -168.636765,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3615872034,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2186554475\/\/1676438960\/1676438960.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3903066008,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        10.700001,
+                        1,
+                        22.600000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 12.1",
+            "UUID": 4104482935,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1645727180,
+                    "active": true,
+                    "matrix": [
+                        0.030538,
+                        0,
+                        -0.999535,
+                        -18.289379,
+                        0,
+                        1,
+                        0,
+                        13.842590,
+                        0.999535,
+                        0,
+                        0.030538,
+                        -88.343956,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 456375551,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        28.600002,
+                        11.700001,
+                        5.100000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 750094014,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 12
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 12.2",
+            "UUID": 975230036,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4031934086,
+                    "active": true,
+                    "matrix": [
+                        0.016435,
+                        0,
+                        -0.999865,
+                        -18.646381,
+                        0,
+                        1,
+                        0,
+                        14.663612,
+                        0.999865,
+                        0,
+                        0.016435,
+                        -135.555115,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2080620667,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        21.100000,
+                        14.600000,
+                        5.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3816234373,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 12
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 12.3",
+            "UUID": 3919618432,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2972546340,
+                    "active": true,
+                    "matrix": [
+                        -0.032483,
+                        0,
+                        -0.999472,
+                        -20.064436,
+                        0,
+                        1,
+                        0,
+                        13.860501,
+                        0.999472,
+                        0,
+                        -0.032483,
+                        -174.718033,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3042581306,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        29.600002,
+                        9.700001,
+                        5.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2558173425,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 12
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 13.1",
+            "UUID": 1571548836,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3700316629,
+                    "active": true,
+                    "matrix": [
+                        0.548985,
+                        0,
+                        -0.835832,
+                        -119.671211,
+                        0,
+                        1,
+                        0,
+                        14.492149,
+                        0.835832,
+                        0,
+                        0.548985,
+                        -100.906326,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 478502622,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        18.100000,
+                        10.400001,
+                        5.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2257845994,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 13
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 13.2",
+            "UUID": 1867494923,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 703457952,
+                    "active": true,
+                    "matrix": [
+                        0.076744,
+                        0,
+                        -0.997051,
+                        -153.489349,
+                        0,
+                        1,
+                        0,
+                        14.292438,
+                        0.997051,
+                        0,
+                        0.076744,
+                        -138.054642,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 5707109,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        21.500002,
+                        11.100000,
+                        5.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2815358568,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 13
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 14last",
+            "UUID": 3667931561,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 641605625,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -171.655243,
+                        0,
+                        1,
+                        0,
+                        14.672463,
+                        0,
+                        0,
+                        1,
+                        -41.434116,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2671846070,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        22.200001,
+                        11.500001,
+                        6
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2933200925,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 14
+                }
+            ]
         }
     ],
     "terrain_textures": [
