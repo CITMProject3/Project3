@@ -49,6 +49,8 @@ namespace MapSelectUI
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
+	bool just_once = false;
+
 	int current_level = 0;
 	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
 	int votes[4] = { 0, 0, 0, 0 };
@@ -135,13 +137,17 @@ namespace MapSelectUI
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
 		player_order[3] = App->go_manager->team2_back;
-
-		map_umi->SetActive(false);
-		map_ricing->SetActive(false);
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
+		if (!just_once)
+		{
+			map_umi->SetActive(false);
+			map_ricing->SetActive(false);
+			just_once = true;
+		}
+
 		for (int playerID = 0; playerID < 4; playerID++)
 		{
 			int id = 0;
