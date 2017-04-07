@@ -282,10 +282,6 @@ namespace Character_Selection_UI
 			}
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
-
 				switch (id)
 				{
 				case 0:
@@ -294,6 +290,10 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 1;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 1:
@@ -302,6 +302,10 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 1;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 2:
@@ -310,6 +314,10 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] = 1;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 3:
@@ -318,6 +326,10 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 1;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				}
@@ -325,10 +337,6 @@ namespace Character_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
-
 				switch (id)
 				{
 				case 0:
@@ -337,6 +345,11 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(-214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 0;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 					}
 					break;
 				case 1:
@@ -345,6 +358,11 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(-214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 0;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 					}
 					break;
 				case 2:
@@ -353,6 +371,11 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(-214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] =0;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 					}
 					break;
 				case 3:
@@ -361,6 +384,11 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(-214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 0;
+
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 					}
 					break;
 				}

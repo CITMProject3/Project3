@@ -310,15 +310,24 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Drifting
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_DOWN || 
+			App->input->GetJoystickButton(back_player, JOY_BUTTON::LB) == KEY_DOWN) && *turning == true)
 		{
 			StartDrift();
 		}
-		else if ( drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_UP)
+		else if ( drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::RB) == KEY_UP || 
+			drifting == true && App->input->GetJoystickButton(back_player, JOY_BUTTON::LB) == KEY_UP)
 		{
 			EndDrift();
 		}
-	
+		
+
+		//Drifting turbo
+		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER) && drifting)
+		{
+
+		}
+
 		//Acrobatics
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
@@ -846,11 +855,17 @@ void ComponentCar::CalcDriftForces()
 			float3 front = matrix.WorldZ();
 			float3 left = matrix.WorldX();
 			float3 final_dir;
+
+			float ratio = drift_ratio;
+
 			if (drift_dir_left == true)
+			{
 				left = -left;
+				ratio = drift_ratio_left;
+			}
 
 
-			final_dir = left.Lerp(front, drift_ratio);
+			final_dir = left.Lerp(front, ratio);
 
 			btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
 			float l = startDriftSpeed.length();
@@ -1544,6 +1559,7 @@ void ComponentCar::Save(Data& file) const
 
 	//Drift 
 	data.AppendFloat("driftRatio", drift_ratio);
+	data.AppendFloat("drift_ratio_left", drift_ratio_left);
 	data.AppendFloat("driftMult", drift_mult);
 	data.AppendFloat("driftBoost", drift_boost);
 	data.AppendFloat("driftMinSpeed", drift_min_speed);
@@ -1787,6 +1803,7 @@ void ComponentCar::Load(Data& conf)
 
 	//Drifting settings
 	drift_ratio = conf.GetFloat("driftRatio");
+	drift_ratio_left = conf.GetFloat("drift_ratio_left");
 	drift_mult = conf.GetFloat("driftMult");
 	drift_boost = conf.GetFloat("driftBoost");
 	drift_min_speed = conf.GetFloat("driftMinSpeed");
@@ -1949,7 +1966,7 @@ void ComponentCar::OnInspector(bool debug)
 					{
 						ImGui::Text("Time to idle turn");
 						ImGui::DragFloat("##id_turn_time", &time_to_idle, 0.01f, 0.0f);
-					}
+	            	}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -2310,6 +2327,9 @@ void ComponentCar::OnInspector(bool debug)
 
 			ImGui::Text("Drift angle ratio");
 			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
+
+			ImGui::Text("Drift angle ratio left");
+			ImGui::DragFloat("##Dr_Ang_left", &drift_ratio_left, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 

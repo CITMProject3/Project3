@@ -177,6 +177,7 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		music_played = false;
 		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 		if (a_comp)	a_comp->PlayAudio(3);
 
@@ -231,11 +232,11 @@ namespace Scene_Manager
 		}
 		if (position_ui_1_go)
 		{
-			position_ui_1 = (ComponentUiText*)position_ui_1_go->GetComponent(C_UI_IMAGE);
+			position_ui_1 = (ComponentUiText*)position_ui_1_go->GetComponent(C_UI_TEXT);
 		}
 		if (position_ui_2_go)
 		{
-			position_ui_2 = (ComponentUiText*)position_ui_2_go->GetComponent(C_UI_IMAGE);
+			position_ui_2 = (ComponentUiText*)position_ui_2_go->GetComponent(C_UI_TEXT);
 		}
 	}
 
@@ -391,7 +392,7 @@ namespace Scene_Manager
 				//Update first//second position
 				if (position_ui_1 != nullptr && std::to_string(car_1->place) != position_ui_1->GetText())
 				{
-					position_ui_1->SetText(std::to_string(car_1->place));
+					position_ui_1->SetDisplayText(std::to_string(car_1->place));
 				}
 			}
 
@@ -421,7 +422,7 @@ namespace Scene_Manager
 				//Update first//second position
 				if (position_ui_2 != nullptr && std::to_string(car_2->place) != position_ui_2->GetText())
 				{
-					position_ui_2->SetText(std::to_string(car_1->place));
+					position_ui_2->SetDisplayText(std::to_string(car_2->place));
 				}
 			}
 

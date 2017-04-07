@@ -10939,7 +10939,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.589653,
                     "color": [
                         0,
                         0,
@@ -10993,17 +10993,17 @@
                     "UUID": 47594509,
                     "active": true,
                     "matrix": [
-                        -0.986351,
+                        -0.986362,
                         0,
-                        0.164603,
+                        0.164604,
                         -40.737732,
                         0,
                         1,
                         0,
-                        84.188484,
-                        -0.164603,
+                        10.242186,
+                        -0.164604,
                         0,
-                        -0.986351,
+                        -0.986362,
                         51.373245,
                         0,
                         0,
@@ -21842,7 +21842,7 @@
             "UUID": 2871570994,
             "local_UUID": 0,
             "parent": 965909917,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -21877,8 +21877,8 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1537,
+                        865
                     ],
                     "matrix": [
                         1,
@@ -23211,7 +23211,7 @@
             "UUID": 274882976,
             "local_UUID": 0,
             "parent": 2871570994,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -23248,7 +23248,7 @@
             "UUID": 2597338925,
             "local_UUID": 0,
             "parent": 274882976,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -23656,6 +23656,45 @@
                     "script_path": "Scene_Manager",
                     "script_num": 0,
                     "Main_Menu_Scene": ""
+                },
+                {
+                    "type": 18,
+                    "UUID": 3424051850,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/1947947391\/4281391400\/4281391400.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 1539028611,
+                            "event_name": "Countdown_Go",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285746,
+                            "event_name": "Countdown_1",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285745,
+                            "event_name": "Countdown_2",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285744,
+                            "event_name": "Countdown_3",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3568813383,
+                            "event_name": "Play_Main_Theme",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/1407609015\/1407609015.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -24358,9 +24397,9 @@
             "components": [
                 {
                     "position": [
-                        -275.909515,
+                        -274.129028,
                         13.137115,
-                        -63.165157
+                        -63.118145
                     ],
                     "rotation": [
                         0,
@@ -24370,6 +24409,1293 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 3361011399,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1908549110,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 682694530,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2585183261,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -143.388214,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        1.125066,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3941134863,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3941134863,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -138.363190,
+                        13.571425,
+                        -55.294323
+                    ],
+                    "rotation": [
+                        0,
+                        55.100826,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 4183353257,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4183353257,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -142.111664,
+                        13.137115,
+                        -44.094242
+                    ],
+                    "rotation": [
+                        0,
+                        83.781387,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3173107797,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3173107797,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -141.750031,
+                        13.137115,
+                        -30.282177
+                    ],
+                    "rotation": [
+                        -180,
+                        78.889290,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3139645027,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3139645027,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -138.554535,
+                        13.137115,
+                        -16.583931
+                    ],
+                    "rotation": [
+                        -180,
+                        73.921143,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 838397145,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 838397145,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -133.665283,
+                        13.137115,
+                        -3.378084
+                    ],
+                    "rotation": [
+                        -180,
+                        75.724319,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1955609995,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1955609995,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -128.077454,
+                        13.137115,
+                        9.560698
+                    ],
+                    "rotation": [
+                        -180,
+                        61.188873,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1786419653,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1786419653,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -120.077179,
+                        13.137115,
+                        21.332840
+                    ],
+                    "rotation": [
+                        0,
+                        -53.863781,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3311780714,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3311780714,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -111.649002,
+                        13.137115,
+                        32.624847
+                    ],
+                    "rotation": [
+                        0,
+                        -53.525669,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3930175935,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3930175935,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -102.290070,
+                        13.137115,
+                        43.339130
+                    ],
+                    "rotation": [
+                        0,
+                        -45.776920,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1595648757,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1595648757,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -91.428299,
+                        13.137115,
+                        53.411499
+                    ],
+                    "rotation": [
+                        179.999985,
+                        39.774414,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 135073522,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 135073522,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -79.647888,
+                        13.137115,
+                        61.353092
+                    ],
+                    "rotation": [
+                        0,
+                        -28.148542,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3759530422,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3759530422,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -66.605011,
+                        13.137115,
+                        66.932755
+                    ],
+                    "rotation": [
+                        0,
+                        -12.519300,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1121016293,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1121016293,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -53.937973,
+                        13.137115,
+                        67.504814
+                    ],
+                    "rotation": [
+                        0,
+                        7.171657,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1039851218,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1039851218,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.717468,
+                        13.137115,
+                        61.297466
+                    ],
+                    "rotation": [
+                        0,
+                        46.261822,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 686770936,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 686770936,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -38.765335,
+                        13.137115,
+                        52.187832
+                    ],
+                    "rotation": [
+                        0.000004,
+                        82.744873,
+                        -0.000014
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 2699043611,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2699043611,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -38.246887,
+                        13.137115,
+                        38.333057
+                    ],
+                    "rotation": [
+                        -180,
+                        88.126945,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 927873564,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 927873564,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -40.430298,
+                        13.137115,
+                        24.681379
+                    ],
+                    "rotation": [
+                        -180,
+                        77.403183,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1676626590,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1676626590,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -44.498322,
+                        13.137115,
+                        11.160551
+                    ],
+                    "rotation": [
+                        -180,
+                        68.304604,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 2874976568,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2874976568,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -50.497650,
+                        13.137115,
+                        -2.208198
+                    ],
+                    "rotation": [
+                        -180,
+                        65.808525,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3816793763,
+            "local_UUID": 1207993198,
+            "parent": 682694530,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3816793763,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -52.225311,
+                        13.137115,
+                        -16.661383
+                    ],
+                    "rotation": [
+                        -180,
+                        86.416023,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "ramp1",
+            "UUID": 1273724099,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1273724099,
+            "prefab_path": "\/Library\/643644559\/\/3912166696\/3912166696.pfb",
+            "components": [
+                {
+                    "position": [
+                        13.694622,
+                        8.405368,
+                        129.045563
+                    ],
+                    "rotation": [
+                        -12.431602,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "ramp2",
+            "UUID": 1492073101,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1492073101,
+            "prefab_path": "\/Library\/643644559\/\/4055810866\/4055810866.pfb",
+            "components": [
+                {
+                    "position": [
+                        16.169104,
+                        8.208529,
+                        189.870010
+                    ],
+                    "rotation": [
+                        -174.159363,
+                        -0.297191,
+                        -179.845108
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 2693785540,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2693785540,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -195.410965,
+                        13.137115,
+                        -29.452414
+                    ],
+                    "rotation": [
+                        0,
+                        87.956558,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1047138542,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1047138542,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -192.948196,
+                        13.137115,
+                        -42.472313
+                    ],
+                    "rotation": [
+                        0,
+                        73.156708,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 1234876152,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1234876152,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -185.891190,
+                        13.137115,
+                        -55.067341
+                    ],
+                    "rotation": [
+                        0,
+                        46.261803,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3206318517,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3206318517,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -175.866928,
+                        13.137115,
+                        -63.459366
+                    ],
+                    "rotation": [
+                        0,
+                        46.261803,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3555927658,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3555927658,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -163.951370,
+                        13.137115,
+                        -70.925224
+                    ],
+                    "rotation": [
+                        0,
+                        16.663298,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 88143914,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 88143914,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -150.725632,
+                        13.137115,
+                        -73.945000
+                    ],
+                    "rotation": [
+                        0,
+                        11.013674,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 1183967602,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3199268692,
+                    "active": true,
+                    "matrix": [
+                        0.999793,
+                        0,
+                        0.019689,
+                        -116.134964,
+                        0,
+                        1,
+                        0,
+                        3.681981,
+                        -0.019689,
+                        0,
+                        0.999793,
+                        -75.515015,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1140552100,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        55.700001,
+                        28.200001,
+                        1.700000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wall2",
+            "UUID": 798127721,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 798127721,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.265823,
+                        13.137115,
+                        -78.040901
+                    ],
+                    "rotation": [
+                        0,
+                        -6.688915,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 687104018,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2819470801,
+                    "active": true,
+                    "matrix": [
+                        0.959910,
+                        0,
+                        -0.280305,
+                        -58.553413,
+                        0,
+                        1,
+                        0,
+                        9.864574,
+                        0.280305,
+                        0,
+                        0.959910,
+                        -95.450455,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3324954729,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        150,
+                        -19.500000,
+                        50
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 3724097799,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3583953623,
+                    "active": true,
+                    "matrix": [
+                        0.988273,
+                        0,
+                        -0.152678,
+                        29.428593,
+                        0,
+                        1,
+                        0,
+                        16.691183,
+                        0.152678,
+                        0,
+                        0.988273,
+                        11.182293,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 4151058635,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        -73.500000,
+                        17.400002,
+                        70.500000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 897216936,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 370530186,
+                    "active": true,
+                    "matrix": [
+                        0.995471,
+                        0,
+                        -0.095001,
+                        -90.929642,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.095001,
+                        0,
+                        0.995471,
+                        37.133087,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 4274614131,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        78.700005,
+                        140.900009,
+                        99.900002
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wall2",
+            "UUID": 3410253734,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3410253734,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -6.500765,
+                        13.137115,
+                        -48.039783
+                    ],
+                    "rotation": [
+                        -180,
+                        69.810402,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall2",
+            "UUID": 2555754407,
+            "local_UUID": 1207993198,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2555754407,
+            "prefab_path": "\/Library\/643644559\/\/4123534856\/4123534856.pfb",
+            "components": [
+                {
+                    "position": [
+                        -2.427582,
+                        13.137115,
+                        -34.382607
+                    ],
+                    "rotation": [
+                        -180,
+                        82.120918,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Wall1",
+            "UUID": 1002630826,
+            "local_UUID": 2036429962,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1002630826,
+            "prefab_path": "\/Library\/643644559\/\/3639544411\/3639544411.pfb",
+            "components": [
+                {
+                    "position": [
+                        -17.813587,
+                        13.568822,
+                        60.667068
+                    ],
+                    "rotation": [
+                        0,
+                        -11.529795,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 2375769411,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2192681892,
+                    "active": true,
+                    "matrix": [
+                        -0.155592,
+                        0,
+                        -0.987822,
+                        -94.561020,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.987822,
+                        0,
+                        -0.155592,
+                        -7.421460,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 4095523714,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        21.700001,
+                        56.500004,
+                        98.500008
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 3698138771,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 584901573,
+                    "active": true,
+                    "matrix": [
+                        0.989945,
+                        0,
+                        -0.141444,
+                        -96.296860,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.141444,
+                        0,
+                        0.989945,
+                        -20.916174,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 697764129,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        85.200005,
+                        50.800003,
+                        15.800001
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 130939273,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1664873727,
+                    "active": true,
+                    "matrix": [
+                        0.988555,
+                        0,
+                        -0.150852,
+                        -92.098373,
+                        0,
+                        1,
+                        0,
+                        16.041065,
+                        0.150852,
+                        0,
+                        0.988555,
+                        -33.090740,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 353829940,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        72.100006,
+                        20.400002,
+                        6.600000
+                    ]
+                }
+            ]
         }
     ],
     "terrain_textures": [
@@ -24383,7 +25709,7 @@
             "path": "\/Library\/2431007132\/\/3102449478\/3102449478.dds"
         }
     ],
-    "terrain_scaling": 28.897482,
+    "terrain_scaling": 18.117647,
     "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
     "current_library_scene_path": "\/Library\/1441726200\/\/2271634307\/2271634307.ezx"
