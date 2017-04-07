@@ -956,7 +956,7 @@ void ComponentCar::DriftTurbo(float x_joy_axis)
 {
 	if (drifting)
 	{
-		if (math::Abs(x_joy_axis) == 1.0f)
+		if (math::Abs(x_joy_axis) >= 0.9f)
 		{
 			float current_dir;
 
