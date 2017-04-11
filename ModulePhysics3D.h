@@ -24,6 +24,8 @@
 #define CHUNK_W 64
 #define CHUNK_H 64
 
+#define TERRAIN_VERSION 1
+
 class PhysBody3D;
 class PhysVehicle3D;
 struct VehicleInfo;

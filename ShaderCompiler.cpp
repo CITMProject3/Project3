@@ -680,6 +680,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"   color.w = material_color.w;\n"
 		"}\n";
 
+
 	GLint success;
 	GLchar info[512];
 
