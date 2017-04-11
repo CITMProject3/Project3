@@ -37,6 +37,9 @@
 
 #include "Brofiler/include/Brofiler.h"
 
+#define DUMMY_NUMBER 161803398
+
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
@@ -167,6 +170,7 @@ update_status ModulePhysics3D::Update()
 				int y = ceil(hit.point.z);
 				x += terrainW / 2;
 				y += terrainH / 2;
+				int p = (y * terrainW + x) * 2;
 #pragma region paintBrush
 				glLineWidth(4.0f);
 				for (int _y = y - brushSize - 1; _y < y + brushSize; _y++)
@@ -177,11 +181,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (x1 > 1 && x1 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x1], vertices[(_y + 1) * terrainW + x1], float4(0,1,1,1));
 						}
 						if (x2 > 1 && x2 < terrainW - 1)
 						{
-							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2]);
+							App->renderer3D->DrawLine(vertices[_y * terrainW + x2], vertices[(_y + 1) * terrainW + x2], float4(0, 1, 1, 1));
 						}
 					}
 				}
@@ -194,11 +198,11 @@ update_status ModulePhysics3D::Update()
 					{
 						if (y1 > 0 && y1 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y1 * terrainW + _x], vertices[y1  * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 						if (y2 > 0 && y2 < terrainH)
 						{
-							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1]);
+							App->renderer3D->DrawLine(vertices[y2 * terrainW + _x], vertices[y2 * terrainW + _x + 1], float4(0, 1, 1, 1));
 						}
 					}
 				}
@@ -235,7 +239,8 @@ update_status ModulePhysics3D::Update()
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x)] = (paintTexture / 10.0f) + 0.05f;
+									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.05f;
 								}
 							}
 						}
@@ -647,15 +652,11 @@ bool ModulePhysics3D::GenerateHeightmap(string resLibPath)
 
 					if (heightMapImg != nullptr)
 					{
-
 						heightMapImg->Unload();
 					}
 				}
 			}
-			if (buffer != nullptr)
-			{
-				delete[] buffer;
-			}
+			RELEASE_ARRAY(buffer);
 		}
 	}
 	return ret;
@@ -749,7 +750,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		}
 
 		//Terrain size (heightmap width, heightmap height, n chunks, max height)
-		uint size_generalData = sizeof(uint) * 3 + sizeof(float);
+		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
@@ -763,8 +764,16 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		char* buf = new char[size_total];
 		char* it = buf;
 
-		//Terrain width
 		uint bytes = sizeof(uint);
+		uint dummy = DUMMY_NUMBER;
+		memcpy(it, &dummy, bytes);
+		it += bytes;
+
+		dummy = TERRAIN_VERSION;
+		memcpy(it, &dummy, bytes);
+		it += bytes;
+
+		//Terrain width		
 		memcpy(it, &w, bytes);
 		it += bytes;
 		//Terrain height
@@ -834,8 +843,27 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 		{
 			char* it = tmp;
 
-			//Terrain w
+			uint dummy = 0;
 			uint bytes = sizeof(uint);
+			memcpy(&dummy, it, bytes);
+			it += bytes;
+
+			uint version = 0;
+			//Since not all terrains have a version number at the start, the ones that have it all begin with this "Dummy number"
+			//Any document that begins with a dummy number is followed by an uint that defines the terrain version
+			//Any document that doesn't have it, is version 0 and must be read and loaded from the first byte
+			if (dummy == DUMMY_NUMBER)
+			{
+				memcpy(&version, it, bytes);
+				it += bytes;
+			}
+			else
+			{
+				version = 0;
+				it = tmp;
+			}
+			
+			//Terrain w
 			memcpy(&terrainW, it, bytes);
 			it += bytes;
 			//Terrain H
@@ -877,10 +905,28 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			it += bytes;
 
 			RELEASE_ARRAY(textureMap);
-			textureMap = new float[terrainW * terrainH * textureMapScale];
-			bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
-			memcpy(textureMap, it, bytes);
-			it += bytes;
+			textureMap = new float[terrainW * terrainH * textureMapScale * 2];
+			if (version == 0)
+			{
+				float* tmp_textureMap = new float[terrainW * terrainH * textureMapScale];
+				bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
+				memcpy(tmp_textureMap, it, bytes);
+				it += bytes;
+
+				for (int n = 0; n < terrainW * terrainH * textureMapScale; n++)
+				{
+					textureMap[n * 2] = tmp_textureMap[n];
+					textureMap[n * 2 + 1] = textureMap[n * 2];
+				}
+				RELEASE_ARRAY(tmp_textureMap);
+
+			}
+			else if (version == 1)
+			{
+				bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
+				memcpy(textureMap, it, bytes);
+				it += bytes;
+			}
 
 			uint nChunks;
 			bytes = sizeof(uint);
@@ -1096,7 +1142,7 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 	//Base
 	btCollisionShape* colBase = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
 	shapes.push_back(colBase);
-
+	
 	btCollisionShape* colNose = new btBoxShape(btVector3(info.nose_size.x * 0.5f, info.nose_size.y* 0.5f, info.nose_size.z*0.5f));
 	shapes.push_back(colNose);
 
@@ -1120,10 +1166,12 @@ PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, myMotionState, comShape, localInertia);
-
+	
 	btRigidBody* body = new btRigidBody(rbInfo);
 	body->setContactProcessingThreshold(BT_LARGE_FLOAT);
 	body->setActivationState(DISABLE_DEACTIVATION);
+	body->setCcdMotionThreshold(1e-7);
+	body->setCcdSweptSphereRadius(1.0);
 
 	world->addRigidBody(body);
 
@@ -1249,9 +1297,9 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 		case sculpt_flatten:
 		{
 			float h = vertices[y * terrainW + x].y;
-			for (int _y = y - brushSize; _y <= y + brushSize; _y++)
+			for (int _y = y - brushSize - 1; _y <= y + brushSize; _y++)
 			{
-				for (int _x = x - brushSize; _x <= x + brushSize; _x++)
+				for (int _x = x - brushSize; _x <= x + brushSize + 1; _x++)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
@@ -1841,11 +1889,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		float* edgeH = new float[(w*h) * 3];
 		float* edgeV = new float[(w*h) * 3];
 
-		if (textureMap != nullptr)
-		{
-			delete[] textureMap;
-		}
-		textureMap = new float[w*h];
+		RELEASE_ARRAY(textureMap);
+		textureMap = new float[w*h * 2];
 
 		float* buf = new float[w*h];
 		float maxVal = 0;
@@ -1908,10 +1953,10 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 					}
 				}
 
-				textureMap[(h - y - 1) * w + x] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
-				if (textureMap[(h - y - 1) * w + x] > maxVal)
+				textureMap[((h - y - 1) * w + x) * 2] = math::Sqrt(edgeH[y * w + x] * edgeH[y * w + x] + edgeV[y * w + x] * edgeV[y * w + x]);
+				if (textureMap[((h - y - 1) * w + x) * 2] > maxVal)
 				{
-					maxVal = textureMap[(h - y - 1) * w + x];
+					maxVal = textureMap[((h - y - 1) * w + x) * 2];
 				}
 #pragma endregion
 			}
@@ -1921,7 +1966,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		{
 			for (int x = 0; x < w; x++)
 			{
-				textureMap[y * w + x] /= maxVal;
+				textureMap[(y * w + x)*2] /= maxVal;
+				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
 		}
 
@@ -2070,14 +2116,15 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 		{
 			for (int x = 0; x < w; x++)
 			{
-				if (textureMap[y * w + x] > 0.15)
+				if (textureMap[(y * w + x) * 2] > 0.1)
 				{
-					textureMap[y * w + x] = 0.15f;
+					textureMap[(y * w + x) * 2] = 0.1999999f;
 				}
 				else
 				{
-					textureMap[y * w + x] = 0.05f;
+					textureMap[(y * w + x) * 2] = 0.0999999f;
 				}
+				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
 		}
 		ReinterpretTextureMap();
@@ -2100,7 +2147,7 @@ void ModulePhysics3D::ReinterpretTextureMap()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, terrainW, terrainH, 0, GL_RED, GL_FLOAT, textureMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG, terrainW, terrainH, 0, GL_RG, GL_FLOAT, textureMap);
 	}
 }
 

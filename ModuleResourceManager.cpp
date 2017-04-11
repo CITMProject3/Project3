@@ -82,7 +82,7 @@ update_status ModuleResourceManager::Update()
 		{
 			CheckDirectoryModification(App->editor->assets->root);
 			modification_timer = 0.0f;
-			App->editor->assets->Refresh();
+			//App->editor->assets->Refresh();
 		}
 	}
 
@@ -990,6 +990,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* soundbank_extension = "bnk";
 	char* script_library_extension = "dll";
 	char* prefab_extension = "pfb";
+	char* material_extension = "mat";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -1026,6 +1027,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(prefab_extension) == 0)
 		return FileType::PREFAB;
+
+	if (extension.compare(material_extension) == 0)
+		return FileType::MATERIAL;
 
 	return NONE;
 }

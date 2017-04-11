@@ -86,6 +86,7 @@ void ComponentScript::Update()
 				}
 				else
 				{
+					started = false;
 					finded_start = false;
 					error = GetLastError();
 				}
@@ -213,7 +214,7 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				str = "##";
 				str += (*it).first;
-				ImGui::InputText(str.c_str(), (*it).second._Myptr(), (*it).second.size());
+				ImGui::InputText(str.c_str(), (*it).second._Myptr(), 30);
 			}
 		}
 		if (!public_ints.empty())
@@ -337,7 +338,8 @@ void ComponentScript::Load(Data & conf)
 		{
 			for (map<const char*, string>::iterator it = public_chars.begin(); it != public_chars.end(); it++)
 			{
-				(*it).second = conf.GetString((*it).first);
+				const char* str = conf.GetString((*it).first);
+				if (str != nullptr)	(*it).second = str;
 			}
 		}
 		if (!public_ints.empty())
@@ -393,6 +395,11 @@ void ComponentScript::SetPath(const char * path)
 	{
 		App->scripting->GetPublics(path, &public_chars, &public_ints, &public_floats, &public_bools, &public_gos);
 	}
+}
+
+const char* ComponentScript:: GetPath()
+{
+	return path.c_str();
 }
 
 void ComponentScript::SetGOVar(GameObject* game_object)

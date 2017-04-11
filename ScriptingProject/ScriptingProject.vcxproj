@@ -166,8 +166,10 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CarPositionController.cpp" />
     <ClCompile Include="Character_Selection_UI.cpp" />
     <ClCompile Include="Audio_PlaySound.cpp" />
+    <ClCompile Include="Checkpoint.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -182,9 +184,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Finish_lane.cpp" />
     <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="MapSelectUI.cpp" />
     <ClCompile Include="Kmh_Counter.cpp" />
+    <ClCompile Include="OutOfBounds.cpp" />
     <ClCompile Include="PlayerObjectSelector.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
@@ -197,6 +201,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="VehicleSelectionUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
