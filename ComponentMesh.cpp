@@ -39,6 +39,7 @@ ComponentMesh::~ComponentMesh()
 
 void ComponentMesh::Update()
 {
+	BROFILER_CATEGORY("ComponentMesh::Update", Profiler::Color::AliceBlue)
 	//Component must be active to update
 	if (!IsActive())
 		return;

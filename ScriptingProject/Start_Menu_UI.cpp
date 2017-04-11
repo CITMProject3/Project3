@@ -18,6 +18,8 @@
 #include "../ModuleGOManager.h"
 #include "../ComponentCanvas.h"
 
+#include "../ComponentAudioSource.h"
+
 namespace Start_Menu_UI
 {
 	GameObject* rb_button = nullptr;
@@ -25,6 +27,7 @@ namespace Start_Menu_UI
 	GameObject* lb_button = nullptr;
 	GameObject* lt_button = nullptr;
 	GameObject* start_but = nullptr;
+	GameObject* choose_team = nullptr;
 	ComponentUiButton* c_rb = nullptr;
 	ComponentUiButton* c_rt = nullptr;
 	ComponentUiButton* c_lb = nullptr;
@@ -44,6 +47,7 @@ namespace Start_Menu_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("RB Button", rb_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("RT Button", rt_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start Button", start_but));
+		public_gos->insert(std::pair<const char*, GameObject*>("Choose team", choose_team));
 		public_ints->insert(std::pair<const char*, int>("Player1", player_order[0]));
 		public_ints->insert(std::pair<const char*, int>("Player2", player_order[1]));
 		public_ints->insert(std::pair<const char*, int>("Player3", player_order[2]));
@@ -59,6 +63,7 @@ namespace Start_Menu_UI
 		lb_button = test_script->public_gos.at("LB Button");
 		lt_button = test_script->public_gos.at("LT Button");
 		start_but = test_script->public_gos.at("Start Button");
+		choose_team = test_script->public_gos.at("Choose team");
 		player_order[0] = test_script->public_ints.at("Player1");
 		player_order[1] = test_script->public_ints.at("Player2");
 		player_order[2] = test_script->public_ints.at("Player3");
@@ -68,8 +73,6 @@ namespace Start_Menu_UI
 		c_rt = (ComponentUiButton*)rt_button->GetComponent(C_UI_BUTTON);
 		c_lb = (ComponentUiButton*)lb_button->GetComponent(C_UI_BUTTON);
 		c_lt = (ComponentUiButton*)lt_button->GetComponent(C_UI_BUTTON);
-
-
 	}
 
 	void Start_Menu_UI_ActualizePublics(GameObject* game_object)
@@ -81,6 +84,7 @@ namespace Start_Menu_UI
 		test_script->public_gos.at("LB Button") = lb_button;
 		test_script->public_gos.at("LT Button") = lt_button;
 		test_script->public_gos.at("Start Button") = start_but;
+		test_script->public_gos.at("Choose team") = choose_team;
 		test_script->public_ints.at("Player1") = player_order[0];
 		test_script->public_ints.at("Player2") = player_order[1];
 		test_script->public_ints.at("Player3") = player_order[2];
@@ -101,6 +105,7 @@ namespace Start_Menu_UI
 		player_order[2] = -1;
 		player_order[3] = -1;
 		start_but->SetActive(false);
+		choose_team->SetActive(true);
 		Start_Menu_UI_ActualizePublics(game_object);
 		rb_pressed = false;
 		rt_pressed = false;
@@ -126,6 +131,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[0] = i;
 						c_lb->OnPressId(i);
 						lb_pressed = true;
@@ -147,6 +156,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[1] = i;
 						c_lt->OnPressId(i);
 						lt_pressed = true;
@@ -168,6 +181,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[2] = i;
 						c_rb->OnPressId(i);
 						rb_pressed = true;
@@ -191,6 +208,10 @@ namespace Start_Menu_UI
 					}
 					if (selectable)
 					{
+						// Player press AUDIO
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						player_order[3] = i;
 						c_rt->OnPressId(i);
 						rt_pressed = true;
@@ -205,6 +226,11 @@ namespace Start_Menu_UI
 					if (player_order[j] == i)
 					{
 						player_order[j] = -1;
+
+						// Play Unselect player
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 						switch (j)
 						{
 						case 0:
@@ -250,6 +276,7 @@ namespace Start_Menu_UI
 				if (total == 6)
 				{
 					start_but->SetActive(true);
+					choose_team->SetActive(false);
 					if (App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 					{
 						ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
@@ -259,6 +286,11 @@ namespace Start_Menu_UI
 						main_canvas_script->public_ints.at("Player2") = player_order[1];
 						main_canvas_script->public_ints.at("Player3") = player_order[2];
 						main_canvas_script->public_ints.at("Player4") = player_order[3];
+
+						App->go_manager->team1_front = (PLAYER)player_order[0];
+						App->go_manager->team1_back = (PLAYER)player_order[1];
+						App->go_manager->team2_front = (PLAYER)player_order[2];
+						App->go_manager->team2_back = (PLAYER)player_order[3];
 					}
 				}
 			}

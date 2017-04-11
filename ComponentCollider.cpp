@@ -16,6 +16,7 @@
 #include "glut\glut.h"
 
 #include "Bullet\include\BulletCollision\CollisionShapes\btShapeHull.h"
+#include "Brofiler\include\Brofiler.h"
 
 
 ComponentCollider::ComponentCollider(GameObject* game_object) : Component(C_COLLIDER, game_object), shape(S_NONE)
@@ -30,6 +31,8 @@ ComponentCollider::~ComponentCollider()
 
 void ComponentCollider::Update()
 {
+	BROFILER_CATEGORY("ComponentCollider::Update", Profiler::Color::Green)
+
 	if (App->IsGameRunning() == false || Static == true)
 	{
 		if (primitive != nullptr)
@@ -39,9 +42,14 @@ void ComponentCollider::Update()
 			Quat rotation;
 			float3 scale;
 			game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
-			translate += offset_pos;
+			float3 real_offset = rotation.Transform(offset_pos);
+			translate -= real_offset;
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
+			if (Static && App->IsGameRunning() == true && body != nullptr)
+			{
+				body->SetTransform(primitive->transform.ptr());
+			}
 
 			if (App->StartInGame() == false)
 			{
@@ -95,6 +103,18 @@ void ComponentCollider::Update()
 
 void ComponentCollider::OnPlay()
 {
+	if (primitive != nullptr)
+	{
+		//Setting the primitive pos
+		float3 translate;
+		Quat rotation;
+		float3 scale;
+		game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
+		float3 real_offset = rotation.Transform(offset_pos);
+		translate -= real_offset;
+		primitive->SetPos(translate.x, translate.y, translate.z);
+		primitive->SetRotation(rotation.Inverted());
+	}
 	LoadShape();
 }
 

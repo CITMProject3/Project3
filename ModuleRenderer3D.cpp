@@ -200,22 +200,6 @@ update_status ModuleRenderer3D::PostUpdate()
 {
 	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
 
-	glEnable(GL_CLIP_DISTANCE0);
-	//RenderTextures
-	vector<Component*> scene_cameras;
-	App->go_manager->GetAllComponents(scene_cameras, ComponentType::C_CAMERA);
-
-	for (size_t i = 0; i < scene_cameras.size(); ++i)
-	{
-		ComponentCamera *cam = (ComponentCamera*)scene_cameras[i];
-		if (cam->render_texture)
-		{
-			DrawScene(cam, true);
-		}
-	}
-
-	glDisable(GL_CLIP_DISTANCE0);
-
 	for (uint i = 0; i < cameras.size(); i++)
 	{
 		DrawScene(cameras[i]);
@@ -341,7 +325,10 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
-	App->physics->RenderTerrain(cam);
+	if (cam->renderTerrain)
+	{
+		App->physics->RenderTerrain(cam);
+	}
 	if (has_render_tex)
 	{
 		cam->render_texture->Bind();
@@ -418,6 +405,8 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		return;
 	}
 
+	BROFILER_CATEGORY("ModuleRenderer3D::Draw", Profiler::Color::YellowGreen);
+
 	uint shader_id = 0;
 	float4 color = { 1.0f,1.0f,1.0f,1.0f };
 	color = float4(material->color);
@@ -472,6 +461,7 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, ComponentCamera * cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render)const
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::DrawAnimated", Profiler::Color::YellowGreen);
 	ComponentMaterial* material = (ComponentMaterial*)obj->GetComponent(C_MATERIAL);
 
 	if (material == nullptr)
@@ -519,6 +509,7 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 	//Buffer tangents == 3
+
 	glEnableVertexAttribArray(3);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
@@ -552,6 +543,7 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 
 bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::SetShaderAlpha", Profiler::Color::Fuchsia);
 	if (material->alpha == 2 && alpha_render == false)
 	{
 		float distance = cam->GetProjectionMatrix().TranslatePart().Distance(obj->transform->GetPosition());
@@ -579,6 +571,7 @@ bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCame
 
 void ModuleRenderer3D::SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color) const
 {
+	BROFILER_CATEGORY("ModuleRenderer3D::SetShaderUniforms", Profiler::Color::Fuchsia);
 	ShaderMVPUniforms(shader_id, obj, cam);
 
 	ShaderTexturesUniforms(shader_id, material);

@@ -8,6 +8,7 @@
 #include "../ModuleInput.h"
 #include "../ModuleWindow.h"
 #include "../ComponentTransform.h"
+#include "../ModuleGOManager.h"
 #include "../GameObject.h"
 #include "../Component.h"
 #include "../ComponentScript.h"
@@ -20,17 +21,19 @@
 #include "../Random.h"
 #include "../Time.h"
 
+#include "../ComponentAudioSource.h"
+
 namespace MapSelectUI
 {
 
-	GameObject* map_mainportrait = nullptr;
-	GameObject* map_name = nullptr;
+	GameObject* map_fields = nullptr;
+	GameObject* map_umi = nullptr;
+	GameObject* map_ricing = nullptr;
+
 	GameObject* players_vote[4];
 	GameObject* right_arrow = nullptr;
 	GameObject* left_arrow = nullptr;
 
-	ComponentUiButton* c_map_mainportrait = nullptr;
-	ComponentUiButton* c_map_name = nullptr;
 	ComponentUiButton* c_players_vote[4];
 	// 0 - P1 Red, 1 - P2 Red, 2 - P1 Blue, 2 - P2 Blue,
 	ComponentUiButton* c_right_arrow = nullptr;
@@ -46,37 +49,45 @@ namespace MapSelectUI
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
-
-	int current_map = 1; // 1 -   , 2 -   , 3 -   ,
+	int current_level = 0;
+	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
 	int votes[4] = { 0, 0, 0, 0 };
 
+	int arrow_counter_left = 30;
+	int arrow_counter_right = 30;
+	int time = 30;
+	int player_order[4];
 	void MapSelectUI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
-		public_gos->insert(std::pair<const char*, GameObject*>("MapPortrait", map_mainportrait));
-		public_gos->insert(std::pair<const char*, GameObject*>("MapName", map_mainportrait));
-		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[0]));
-		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[1]));
-		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[2]));
-		public_gos->insert(std::pair<const char*, GameObject*>("P2-Blue Vote", players_vote[3]));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Fields", map_fields));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Umi", map_umi));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Ricing", map_ricing));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[2]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[3]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[0]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Blue Vote", players_vote[1]));
 		public_gos->insert(std::pair<const char*, GameObject*>("R-Arrow", right_arrow));
 		public_gos->insert(std::pair<const char*, GameObject*>("L-Arrow", left_arrow));
+
+		public_ints->insert(std::pair<const char*, int>("Button Cooldown", time));
 	}
 
 	void MapSelectUI_UpdatePublics(GameObject* game_object)
 	{
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		map_mainportrait = test_script->public_gos.at("MapPortrait");
-		map_name = test_script->public_gos.at("MapName");
-		players_vote[0] = test_script->public_gos.at("P1-Red Vote");
-		players_vote[1] = test_script->public_gos.at("P2-Red Vote");
-		players_vote[2] = test_script->public_gos.at("P1-Blue Vote");
-		players_vote[3] = test_script->public_gos.at("P2-Blue Vote");
+		map_fields = test_script->public_gos.at("Map Fields");
+		map_umi = test_script->public_gos.at("Map Umi");
+		map_ricing = test_script->public_gos.at("Map Ricing");
+		players_vote[0] = test_script->public_gos.at("P1-Blue Vote");
+		players_vote[1] = test_script->public_gos.at("P2-Blue Vote");
+		players_vote[2] = test_script->public_gos.at("P1-Red Vote");
+		players_vote[3] = test_script->public_gos.at("P2-Red Vote");
+
 		right_arrow = test_script->public_gos.at("R-Arrow");
 		left_arrow = test_script->public_gos.at("L-Arrow");
+		time = test_script->public_ints.at("Button Cooldown");
 
-		c_map_mainportrait = (ComponentUiButton*)map_mainportrait->GetComponent(C_UI_BUTTON);
-		c_map_name = (ComponentUiButton*)map_name->GetComponent(C_UI_BUTTON);
 		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
 		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
 		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
@@ -89,17 +100,17 @@ namespace MapSelectUI
 	{
 		ComponentScript* this_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		this_script->public_gos.at("MapPortrait") = map_mainportrait;
-		this_script->public_gos.at("MapName") = map_name;
-		this_script->public_gos.at("P1-Red Vote") = players_vote[0];
-		this_script->public_gos.at("P2-Red Vote") = players_vote[1];
-		this_script->public_gos.at("P1-Blue Vote") = players_vote[2];
-		this_script->public_gos.at("P2-Blue Vote") = players_vote[3];
+		this_script->public_gos.at("Map Fields") = map_fields;
+		this_script->public_gos.at("Map Umi") = map_umi;
+		this_script->public_gos.at("Map Ricing") = map_ricing;
+		this_script->public_gos.at("P1-Blue Vote") = players_vote[0];
+		this_script->public_gos.at("P2-Blue Vote") = players_vote[1];
+		this_script->public_gos.at("P1-Red Vote") = players_vote[2];
+		this_script->public_gos.at("P2-Red Vote") = players_vote[3];
+
 		this_script->public_gos.at("R-Arrow") = right_arrow;
 		this_script->public_gos.at("L-Arrow") = left_arrow;
-
-		c_map_mainportrait = (ComponentUiButton*)map_mainportrait->GetComponent(C_UI_BUTTON);
-		c_map_name = (ComponentUiButton*)map_name->GetComponent(C_UI_BUTTON);
+		this_script->public_ints.at("Button Cooldown") = time;
 		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
 		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
 		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
@@ -112,87 +123,138 @@ namespace MapSelectUI
 
 	void MapSelectUI_Start(GameObject* game_object)
 	{
+		// Play Move Selection
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
+
+		arrow_counter_left = time;
+		arrow_counter_right = time;
+		current_map = 0;
+		current_level = 0;
+		player_order[0] = App->go_manager->team1_front;
+		player_order[1] = App->go_manager->team1_back;
+		player_order[2] = App->go_manager->team2_front;
+		player_order[3] = App->go_manager->team2_back;
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
 		for (int playerID = 0; playerID < 4; playerID++)
 		{
+			int id = 0;
+			for (int j = 0; j < 4; j++)
+			{
+				if (player_order[j] == playerID)
+				{
+					id = j;
+				}
+			}
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				c_players_vote[playerID]->OnPressId(current_map - 1); // TO BE TESTED
-				
+				c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
 
-				votes[playerID] = current_map;
-				players_ready[playerID] = true;
+
+				votes[id] = current_level;
+				players_ready[id] = true;
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
-				c_players_vote[playerID]->OnPressId(0); // TO BE TESTED
+				if (players_ready[id])
+				{
+					c_players_vote[id]->OnPressId(votes[id]); // TO BE TESTED
 
-				players_ready[playerID] = false;
+					players_ready[id] = false;
+				}
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				if (current_map <= 1)
-					current_map = 3;
-				else
-					current_map--;
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
 
-				c_map_mainportrait->OnPressId(current_map - 2);
-				dpad_left_pressed = true;
+				current_level--;
+				if (current_level < 0)
+					current_level = 2;
+
+				switch (current_level)
+				{
+				case 0:
+					map_fields->SetActive(true);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(false);
+					break;
+				case 1:
+					map_fields->SetActive(false);
+					map_umi->SetActive(true);
+					map_ricing->SetActive(false);
+					break;
+				case 2:
+					map_fields->SetActive(false);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(true);
+					break;
+				}
+
+				if (arrow_counter_left >= time)
+				{
+					c_left_arrow->OnPress();
+				}
+				arrow_counter_left = 0;
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
-				if (current_map >= 3)
-					current_map = 1;
-				else
-					current_map++;
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
 
-				c_map_mainportrait->OnPressId(current_map - 1); // TO BE TESTED
+				current_level++;
+				if (current_level > 2)
+					current_level = 0;
+				switch (current_level)
+				{
+				case 0:
+					map_fields->SetActive(true);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(false);
+					break;
+				case 1:
+					map_fields->SetActive(false);
+					map_umi->SetActive(true);
+					map_ricing->SetActive(false);
+					break;
+				case 2:
+					map_fields->SetActive(false);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(true);
+					break;
+				}
 
-				c_right_arrow->OnPressId(1);
-				dpad_right_pressed = true;
+
+				if (arrow_counter_right >= time)
+				{
+					c_right_arrow->OnPress();
+				}
+				arrow_counter_right = 0;
 			}
 		}
 
-
-
-
-
-		if (dpad_left_pressed)
+		if (arrow_counter_left < time)
 		{
-			dpad_left_pressed = false;
-			for (int playerID = 0; playerID < 4; playerID++)
-			{
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
-				{
-					dpad_left_pressed = true;
-				}
-			}
-			if (!dpad_left_pressed)
-			{
-				c_right_arrow->OnPressId(1); // Return to original state
-			}
+			arrow_counter_left++;
+
+			if (arrow_counter_left == time)
+				c_left_arrow->OnPress();
 		}
 
-		if (dpad_right_pressed)
+		if (arrow_counter_right < time)
 		{
-			dpad_right_pressed = false;
-			for (int playerID = 0; playerID < 4; playerID++)
-			{
-				if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-				{
-					dpad_right_pressed = true;
-				}
-			}
-			if (!dpad_right_pressed)
-			{
-				c_right_arrow->OnPressId(1);  // Return to original state
-			}
+			arrow_counter_right++;
+
+			if (arrow_counter_right == time)
+				c_right_arrow->OnPress();
 		}
 
 		int total = 0;
@@ -226,5 +288,10 @@ namespace MapSelectUI
 			else
 				total = 0; // Redundancy
 		}
+	}
+
+	void MapSelectUI_OnFocus()
+	{
+
 	}
 }

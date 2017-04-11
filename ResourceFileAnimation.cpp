@@ -1,6 +1,5 @@
 #include "ResourceFileAnimation.h"
 #include "AnimationImporter.h"
-#include "Brofiler/include/Brofiler.h"
 
 bool Channel::HasPosKey() const
 {
@@ -9,16 +8,17 @@ bool Channel::HasPosKey() const
 
 std::map<double, float3>::iterator Channel::GetPrevPosKey(double currentKey)
 {
+
 	std::map<double, float3>::iterator ret = positionKeys.lower_bound(currentKey);
 	if (ret != positionKeys.begin())
 		ret--;
+
 	return ret;
 }
 
 std::map<double, float3>::iterator Channel::GetNextPosKey(double currentKey)
 {
-	std::map<double, float3>::iterator ret = positionKeys.upper_bound(currentKey);
-	return ret;
+	return positionKeys.upper_bound(currentKey);
 }
 
 bool Channel::HasRotKey() const
@@ -28,8 +28,6 @@ bool Channel::HasRotKey() const
 
 std::map<double, Quat>::iterator Channel::GetPrevRotKey(double currentKey)
 {
-	BROFILER_CATEGORY("Channel::GetPrevRotKey", Profiler::Color::LightGoldenRodYellow)
-	//Looping through keys
 	std::map<double, Quat>::iterator ret = rotationKeys.lower_bound(currentKey);
 	if (ret != rotationKeys.begin())
 		ret--;
@@ -38,10 +36,7 @@ std::map<double, Quat>::iterator Channel::GetPrevRotKey(double currentKey)
 
 std::map<double, Quat>::iterator Channel::GetNextRotKey(double currentKey)
 {
-	BROFILER_CATEGORY("Channel::GetNextRotKey", Profiler::Color::DarkMagenta)
-
-	std::map<double, Quat>::iterator ret = rotationKeys.upper_bound(currentKey);
-	return ret;
+	return rotationKeys.upper_bound(currentKey);
 }
 
 bool Channel::HasScaleKey() const
@@ -60,8 +55,7 @@ std::map<double, float3>::iterator Channel::GetPrevScaleKey(double currentKey)
 
 std::map<double, float3>::iterator Channel::GetNextScaleKey(double currentKey)
 {
-	std::map<double, float3>::iterator ret = scaleKeys.upper_bound(currentKey);
-	return ret;
+	return scaleKeys.upper_bound(currentKey);
 }
 
 ResourceFileAnimation::ResourceFileAnimation(const std::string& file_path, unsigned int uuid) : ResourceFile(RES_ANIMATION, file_path, uuid)

@@ -186,9 +186,9 @@ math::float4x4 ComponentRectTransform::GetFinalTransform()
 }
 
 
-void ComponentRectTransform::Move(const math::vec &movement)
+void ComponentRectTransform::Move(const math::float3 &movement)
 {
-	local_position += movement;
+	local_middle_position += movement;
 	apply_transformation = true;
 }
 

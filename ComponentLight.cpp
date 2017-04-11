@@ -6,6 +6,8 @@
 #include "DebugDraw.h"
 #include "ComponentTransform.h"
 
+#include "Brofiler\include\Brofiler.h"
+
 using namespace std;
 
 ComponentLight::ComponentLight(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -18,6 +20,7 @@ ComponentLight::~ComponentLight()
 
 void ComponentLight::Update()
 {
+	BROFILER_CATEGORY("ComponentLight::Update", Profiler::Color::Yellow)
 	float4x4 matrix = game_object->transform->GetGlobalMatrix();
 	float3 forward = matrix.Col3(2);
 	g_Debug->AddArrow(matrix.TranslatePart(), forward, g_Debug->yellow, 3.0f);
