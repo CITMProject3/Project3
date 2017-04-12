@@ -756,7 +756,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
-		uint size_textureMap = sizeof(float) * w * h + sizeof(uint);
+		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
 
 		//We're not saving UVs, we can regenerate them fastly
 
@@ -801,7 +801,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(float) * w * h * textureMapScale;
+		bytes = sizeof(float) * w * h * textureMapScale * 2;
 		memcpy(it, textureMap, bytes);
 		it += bytes;
 
@@ -825,9 +825,10 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			delete[] it_data->second;
 		}
 
-		return App->file_system->Save(path, buf, size_total);
-
 		RELEASE_ARRAY(buf);
+
+		return App->file_system->Save(path, buf, size_total);
+		
 	}
 	return false;
 }
@@ -836,6 +837,8 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 {
 	if (path != nullptr && path != "" && path != " ")
 	{
+		if (App->file_system->Exists(path) == false) { return false; }
+
 		BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
 		char* tmp = nullptr;
 		uint size = App->file_system->Load(path, &tmp);
@@ -895,6 +898,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			}
 
 			RELEASE_ARRAY(normals);
+			bytes = sizeof(float3) * terrainW * terrainH;
 			normals = new float3[terrainW * terrainH];
 			memcpy(normals, it, bytes);
 			it += bytes;
