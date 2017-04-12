@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="120">
+	<RootPaths>
+		<ProjectRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\Carlos\Documents\GitHub\Project3\Game\Assets\Soundbanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<SoundBanks>
+		<SoundBank Id="3991942870" GUID="{76AADC40-19AB-41F7-8FF2-E1BA4AD446B7}" Language="SFX">
+			<ObjectPath>\SoundBanks\Default Work Unit\Music</ObjectPath>
+			<ShortName>Music</ShortName>
+			<Path>Music.bnk</Path>
+			<IncludedEvents>
+				<Event Id="3568813383" Name="Play_Main_Theme" ObjectPath="\Events\Default Work Unit\Play_Main_Theme" GUID="{1358A5D3-B63C-4983-BEC1-536179D79F6C}" DurationType="Infinite"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="427291038" Language="SFX">
+					<ShortName>RiKarts_main_theme.wav</ShortName>
+					<Path>SFX\RiKarts_main_theme_6512B652.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>

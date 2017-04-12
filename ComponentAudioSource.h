@@ -7,7 +7,7 @@
 
 class Primitive;
 class ResourceFileAudio;
-struct AudioEvent;
+class AudioEvent;
 
 class ComponentAudioSource : public Component
 {
@@ -41,15 +41,15 @@ private:
 	void StopEvent(unsigned index) const;
 	void StopAllEvents() const;
 
-	std::vector<const AudioEvent*> list_of_events;	
-	const AudioEvent *empty_event = nullptr;
+	std::vector<AudioEvent*> list_of_events;	
+	AudioEvent *empty_event = nullptr;
 
 	unsigned int wwise_id_go;
 
 	float scale_factor_attenuation = 1.0f;
 	Primitive *attenuation_sphere = nullptr;
 
-	void UpdateEventSelected(unsigned int pos, const AudioEvent *new_event);
+	void UpdateEventSelected(unsigned int pos, AudioEvent *new_event);
 	void CreateAttenuationShpere(const AudioEvent *event);
 	void DeleteAttenuationShpere();
 	void UpdateAttenuationSpherePos();

@@ -12,10 +12,10 @@ ResourceFileAudio::~ResourceFileAudio()
 
 void ResourceFileAudio::LoadInMemory()
 {
-	App->audio->LoadSoundBank(file_path.c_str());
+	App->audio->LoadingSoundBank(file_path.c_str());
 }
 
 void ResourceFileAudio::UnloadInMemory()
 {
-	App->audio->UnloadSoundBank(file_path.c_str());
+	App->audio->UnloadingSoundBank(file_path.c_str());
 }

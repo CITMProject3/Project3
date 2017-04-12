@@ -3,11 +3,15 @@
 #include "Application.h"
 #include "ModuleFileSystem.h"
 #include "ModuleGOManager.h"
+#include "ModuleResourceManager.h"
 
 #include "ComponentAudioSource.h"
 #include "ComponentCamera.h"
 
+// Audio related
 #include "Wwise_Library.h"
+#include "AudioEvent.h"
+#include "SoundBank.h"
 
 ModuleAudio::ModuleAudio(const char* name, bool start_enabled) : Module(name, start_enabled)
 { }
@@ -34,6 +38,9 @@ bool ModuleAudio::Init(Data& config)
 
 bool ModuleAudio::Start()
 {
+	// Initiating timer
+	check_timer.Start();
+
 	// Looking for library directory for Soundbanks
 	char *buf;
 	if(App->file_system->Load("Assets/Soundbanks.meta", &buf) > 0)
@@ -91,8 +98,25 @@ bool ModuleAudio::CleanUp()
 	return true;
 }
 
-update_status ModuleAudio::Update()
+update_status ModuleAudio::PreUpdate()
 {
+	if (check_timer.ReadSec() > CHECK_TIME)
+	{
+		std::vector<AudioEvent*> audio_events;
+		ObtainEvents(audio_events);
+
+		for (std::vector<AudioEvent*>::iterator it = audio_events.begin(); it != audio_events.end(); ++it)
+		{
+			if ((*it)->IsReadyToUnload())
+			{
+				App->audio->UnloadSoundBank((*it)->parent_soundbank->path.c_str()); // Resource 
+				(*it)->Unloaded();
+			}				
+		}
+
+		check_timer.Start();
+	}
+
 	return UPDATE_CONTINUE;
 }
 
@@ -136,7 +160,7 @@ unsigned int ModuleAudio::AddListener()
 	
 	active_listeners |= new_listener;	// One audio listener more to the current active listeners!
 
-	// Adapting all sources to the new listener configuration
+	// Adapting all audio sources to the new listener configuration
 	std::vector<Component*> audio_sources;
 	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
 
@@ -154,7 +178,7 @@ void ModuleAudio::RemoveListener(unsigned char listener_id)
 	unsigned char listener_to_remove = ~(1 << listener_id);		// Obtaining bit position for listener to remove. I.e I.e. Listener_id --> 3 , new_listener = 11110111
 	active_listeners &= listener_to_remove;						// Deleting listener from the current active listeners!
 
-	// Adapting all sources to the new listener configuration
+	// Adapting all audio sources to the new listener configuration
 	std::vector<Component*> audio_sources;
 	App->go_manager->GetAllComponents(audio_sources, ComponentType::C_AUDIO_SOURCE);
 
@@ -222,7 +246,6 @@ unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 
 void ModuleAudio::ObtainEvents(std::vector<AudioEvent*> &events)
 {
-	// Deleting soundbank information
 	for (std::vector<SoundBank*>::iterator it_sb = soundbank_list.begin(); it_sb != soundbank_list.end(); ++it_sb)
 	{
 		for (std::vector<AudioEvent*>::iterator it_ev = (*it_sb)->events.begin(); it_ev != (*it_sb)->events.end(); ++it_ev)
@@ -238,7 +261,7 @@ bool ModuleAudio::IsSoundBank(const std::string &file_to_check) const
 	return false;
 }
 
-void ModuleAudio::LoadSoundBank(const char *soundbank_path)
+void ModuleAudio::LoadingSoundBank(const char *soundbank_path)
 {
 	AkBankID returned_bankID;
 
@@ -247,7 +270,7 @@ void ModuleAudio::LoadSoundBank(const char *soundbank_path)
 	assert(eResult == AK_Success);
 }
 
-void ModuleAudio::UnloadSoundBank(const char *soundbank_path)
+void ModuleAudio::UnloadingSoundBank(const char *soundbank_path)
 {
 	// Unload the corresponding soundbank
 	AkBankID returned_bankID = 0;
@@ -255,14 +278,47 @@ void ModuleAudio::UnloadSoundBank(const char *soundbank_path)
 	assert(eResult == AK_Success);
 }
 
-void ModuleAudio::PostEvent(const AudioEvent *ev, unsigned int id)
+bool ModuleAudio::LoadSoundBank(const char *soundbank_path)
 {
-	if(ev) AK::SoundEngine::PostEvent(ev->name.c_str(), id);
+	if (!soundbank_path) soundbank_path = GetInitLibrarySoundbankPath();
+	return App->resource_manager->LoadResource(soundbank_path, ResourceFileType::RES_SOUNDBANK) != nullptr;
+}
+
+bool ModuleAudio::UnloadSoundBank(const char *soundbank_path)
+{
+	App->resource_manager->UnloadResource(soundbank_path);
+	return true;
+}
+
+void ModuleAudio::PostEvent(AudioEvent *ev, unsigned int id)
+{
+	if (ev)
+	{
+		ev->playing_id = AK::SoundEngine::PostEvent(ev->name.c_str(), id, AkCallbackType::AK_EndOfEvent, ev->event_call_back, (void*)ev);
+	}		
 }
 
 void ModuleAudio::StopEvent(const AudioEvent *ev, unsigned int id)
 {
-	if (ev) AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+	if (ev)
+	{
+		AK::SoundEngine::StopPlayingID(ev->playing_id, 500L, AkCurveInterpolation::AkCurveInterpolation_Log1);
+		//AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+	}	
+}
+
+void ModuleAudio::EventCallBack(AkCallbackType in_eType, AkCallbackInfo* in_pCallbackInfo)
+{
+	AudioEvent *a_event = (AudioEvent*)in_pCallbackInfo->pCookie;
+
+	switch (in_eType)
+	{
+		case(AkCallbackType::AK_EndOfEvent):
+		{
+			a_event->playing_id = 0L;
+			break;
+		}
+	}
 }
 
 void ModuleAudio::RegisterGameObject(unsigned int id)

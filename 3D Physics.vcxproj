@@ -172,27 +172,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkArray.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkAssert.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkAutoLock.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkBankReadHelpers.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkDynaBlkPool.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkFNVHash.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyArray.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyDef.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkListBare.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkListBareLight.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkLock.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkMonitorError.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkObject.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkPlatformFuncs.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkSmartPtr.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkSyncCaller.h" />
-    <ClInclude Include="AK\include\AK\Tools\Common\AkVectors.h" />
-    <ClInclude Include="AK\include\AK\Tools\POSIX\AkLock.h" />
-    <ClInclude Include="AK\include\AK\Tools\POSIX\AkPlatformFuncs.h" />
-    <ClInclude Include="AK\include\AK\Tools\Win32\AkLock.h" />
-    <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultIOHookBlocking.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\AkDefaultLowLevelIODispatcher.h" />
     <ClInclude Include="AK\include\IO_DefaultInterface\akfilehelpers.h" />
@@ -205,6 +184,7 @@
     <ClInclude Include="AnimationImporter.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Assets.h" />
+    <ClInclude Include="AudioEvent.h" />
     <ClInclude Include="AutoProfile.h" />
     <ClInclude Include="CameraWindow.h" />
     <ClInclude Include="Color.h" />
@@ -276,6 +256,7 @@
     <ClInclude Include="ResourceScriptsLibrary.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SoundBank.h" />
     <ClInclude Include="TestWindow.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\GJK.h" />
@@ -386,6 +367,7 @@
     <ClCompile Include="AK\include\IO_DefaultInterface\AkFilePackageLUT.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Assets.cpp" />
+    <ClCompile Include="AudioEvent.cpp" />
     <ClCompile Include="AutoProfile.cpp" />
     <ClCompile Include="CameraWindow.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -453,6 +435,7 @@
     <ClCompile Include="ResourceScriptsLibrary.cpp" />
     <ClCompile Include="ShaderEditorWindow.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SoundBank.cpp" />
     <ClCompile Include="TestWindow.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="MathGeoLib\include\Algorithm\GJK.cpp" />
@@ -522,6 +505,7 @@
     <ClCompile Include="WarningWindow.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowOptions.cpp" />
+    <ClCompile Include="Wwise_Library.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="AK\include\IO_DefaultInterface\AkFilePackageLowLevelIO.inl" />
