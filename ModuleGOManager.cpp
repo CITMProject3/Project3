@@ -56,6 +56,8 @@ bool ModuleGOManager::Init(Data & config)
 
 bool ModuleGOManager::Start()
 {
+	DeleteTemporalScene();
+
 	octree.Create(OCTREE_SIZE);
 
 	if (!current_library_scene_path.empty() && App->IsGameRunning())
@@ -329,6 +331,11 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
+	DeleteTemporalScene();
+}
+
+void ModuleGOManager::DeleteTemporalScene()
+{
 	App->file_system->Delete(TEMPORAL_SCENE);
 
 	string terrain = TEMPORAL_SCENE;
