@@ -419,26 +419,24 @@ Component* GameObject::AddComponent(ComponentType type)
 		item = new ComponentScript(type, this);
 		break;
 	case C_RECT_TRANSFORM:
-		if (GetComponent(type) == nullptr) //Only one rect transform compoenent for gameobject
+		if (GetComponent(type) == nullptr) // Only one rect transform component for gameobject
 			item = new ComponentRectTransform(type, this);
 		break;
 	case C_UI_IMAGE:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiImage(type, this);
-		else
-		{
-			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-		}
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);			
+		item = new ComponentUiImage(type, this);
 		break;
 	case C_UI_TEXT:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiText(type,this);
-		else
-		{
-			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-		}
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentUiText(type,this);
+		break;
+	case C_UI_BUTTON:
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentUiButton(type, this);
+		break;
+	case C_GRID:
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentGrid(type, this);
 		break;
 	case C_CANVAS:
 		if (GetComponent(C_RECT_TRANSFORM))
@@ -449,14 +447,6 @@ Component* GameObject::AddComponent(ComponentType type)
 				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
 			}
 		}	
-		break;
-	case C_UI_BUTTON:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiButton(type, this);
-		break;
-	case C_GRID:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentGrid(type, this);
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);

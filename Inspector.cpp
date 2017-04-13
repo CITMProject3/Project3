@@ -123,7 +123,7 @@ void Inspector::Draw()
 			}
 			if (ImGui::Selectable("Add UI Image"))			selected_GO->AddComponent(C_UI_IMAGE);
 			if (ImGui::Selectable("Add UI Text"))			selected_GO->AddComponent(C_UI_TEXT);
-			if (ImGui::Selectable("Add Button"))			selected_GO->AddComponent(C_UI_BUTTON);
+			if (ImGui::Selectable("Add UI Button"))			selected_GO->AddComponent(C_UI_BUTTON);
 			if (ImGui::Selectable("Add UI Grid"))			selected_GO->AddComponent(C_GRID);
 
 			if (ImGui::Selectable("Add Audio Source"))		selected_GO->AddComponent(C_AUDIO_SOURCE);
