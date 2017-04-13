@@ -277,7 +277,7 @@ bool GameObject::IsActive() const
 	const GameObject *curr_go = this;
 	std::vector<const GameObject*> hierarchy_gos;	
 
-	while (!App->go_manager->IsRoot(curr_go))
+	while (curr_go != nullptr && !App->go_manager->IsRoot(curr_go))
 	{
 		hierarchy_gos.push_back(curr_go);
 		curr_go = curr_go->parent;
@@ -714,6 +714,25 @@ void GameObject::RevertPrefabChanges()
 			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
 			if (prefab_go)
 				prefab_go->rc_prefab->RevertChanges(prefab_go);
+		}
+	}
+}
+
+void GameObject::UnlinkPrefab()
+{
+	if (is_prefab)
+	{
+		if (rc_prefab)
+		{
+			rc_prefab->Unload();
+		}
+		is_prefab = false;
+		prefab_path = "";
+		prefab_root_uuid = 0;
+		local_uuid = 0;
+		for (std::vector<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
+		{
+			(*it)->UnlinkPrefab();
 		}
 	}
 }

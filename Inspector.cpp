@@ -74,6 +74,13 @@ void Inspector::Draw()
 				ImGui::End();
 				return; //TODO: Improve this patch
 			}
+			ImGui::SameLine();
+			if (ImGui::Button("Unlink"))
+			{
+				selected_GO->UnlinkPrefab();
+				ImGui::End();
+				return;
+			}
 		}
 
 		ImGui::Separator();

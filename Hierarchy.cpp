@@ -78,6 +78,7 @@ void Hierarchy::Draw()
 			if (App->editor->selected.size() > 0)
 			{
 				App->resource_manager->SavePrefab(App->editor->selected.back());
+				App->editor->RefreshAssets();
 			}
 		}
 		ImGui::Separator();

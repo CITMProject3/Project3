@@ -70,6 +70,7 @@ public:
 	void ApplyPrefabChanges();
 	void CollectChildrenUUID(std::vector<unsigned int>& uuid, std::vector<unsigned int>& local_uuid)const;
 	void RevertPrefabChanges();
+	void UnlinkPrefab();
 
 public:
 
