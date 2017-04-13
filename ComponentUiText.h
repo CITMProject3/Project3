@@ -3,8 +3,10 @@
 
 #include "Globals.h"
 #include "Component.h"
-
+//#include <vector>
 class ComponentMaterial;
+class ResourceFileMesh;
+class Mesh;
 
 class ComponentUiText : public Component
 {
@@ -26,27 +28,31 @@ public:
 	string GetText() const;
 	string GetArrayValues() const;
 	int GetCharRows() const;
-	float GetCharwidth() const;
-	float GetCharHeight() const;
+	float GetCharwidth(int i) const;
+	float GetCharHeight(int i) const;
 	float GetImgWidth() const;
 	float GetImgHeight()const;
 	void SetText(string &text);
 	void SetDisplayText(string text);
+	
+	vector<Mesh*> meshes;
 private:
 	void GenerateFont();
 	bool OnChangeTexture();
+	void GeneratePlane();
 	bool change_text = false;
 	bool change_array_values = false;
-
+	vector<ResourceFileMesh*> planes;
 	string text = "";
 	string array_values = "";
 	uint len = 0;
 	uint img_width = 0;
 	uint img_height = 0;
-	uint char_w = 0;
-	uint char_h = 0;
+	int* char_w;
+	int* char_h;
 	int text_type = 0;
 	string current_text_changing = "";
+	ResourceFileMesh* tplane = nullptr;
 };
 
 #endif // !__COMPONENTUITEXT_H__
