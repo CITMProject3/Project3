@@ -439,14 +439,12 @@ Component* GameObject::AddComponent(ComponentType type)
 		item = new ComponentGrid(type, this);
 		break;
 	case C_CANVAS:
-		if (GetComponent(C_RECT_TRANSFORM))
+		if (App->go_manager->current_scene_canvas == nullptr)
 		{
-			if (App->go_manager->current_scene_canvas == nullptr)
-			{
-				item = new ComponentCanvas(type, this);
-				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
-			}
-		}	
+			if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+			item = new ComponentCanvas(type, this);
+			App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
+		}
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);
