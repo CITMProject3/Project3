@@ -22,6 +22,9 @@ ComponentRectTransform::ComponentRectTransform(ComponentType type, GameObject* g
 	local_middle_position.Set(0.0f, 0.0f, 0.0f);
 	CalculateFinalTransform();
 	GeneratePlane();
+
+	if (game_object)
+		game_object->layer = 1; //TODO: User could change layer 1?
 }
 
 void ComponentRectTransform::GeneratePlane()
