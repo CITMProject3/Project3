@@ -749,18 +749,18 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			chunkData.push_back(data);
 		}
 
-		//Terrain size (heightmap width, heightmap height, n chunks, max height)
+		//Terrain size (heightmap width, heightmap height, n chunks, Dummy number, version, max height)
 		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
-		uint size_textureMap = sizeof(float) * w * h + sizeof(uint);
+		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
 
 		//We're not saving UVs, we can regenerate them fastly
 
-		uint size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		long unsigned int size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
 		char* buf = new char[size_total];
 		char* it = buf;
 
@@ -801,7 +801,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(float) * w * h * textureMapScale;
+		bytes = sizeof(float) * w * h * textureMapScale * 2;
 		memcpy(it, textureMap, bytes);
 		it += bytes;
 
@@ -825,9 +825,14 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			delete[] it_data->second;
 		}
 
-		return App->file_system->Save(path, buf, size_total);
+		
+
+		bool ret = App->file_system->Save(path, buf, size_total);
 
 		RELEASE_ARRAY(buf);
+
+		return ret;
+		
 	}
 	return false;
 }
@@ -836,6 +841,8 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 {
 	if (path != nullptr && path != "" && path != " ")
 	{
+		if (App->file_system->Exists(path) == false) { return false; }
+
 		BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
 		char* tmp = nullptr;
 		uint size = App->file_system->Load(path, &tmp);
@@ -895,6 +902,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			}
 
 			RELEASE_ARRAY(normals);
+			bytes = sizeof(float3) * terrainW * terrainH;
 			normals = new float3[terrainW * terrainH];
 			memcpy(normals, it, bytes);
 			it += bytes;

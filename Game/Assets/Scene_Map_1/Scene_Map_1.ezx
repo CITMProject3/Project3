@@ -213,7 +213,15 @@
                     "UUID": 1380419276,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "velocity_firecracker": 0,
+                    "time_trowing_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "have_item": false,
+                    "have_firecracker": false,
+                    "using_firecracker": false,
+                    "throwing_firecracker": false
                 }
             ]
         },
@@ -367,13 +375,14 @@
                     "type": 1,
                     "UUID": 3214337859,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/712382613.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 525416883,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -435,13 +444,14 @@
                     "type": 1,
                     "UUID": 2836970659,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1350655151.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 148198970,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -503,13 +513,14 @@
                     "type": 1,
                     "UUID": 2378146566,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1164440399.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2832103320,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -571,13 +582,14 @@
                     "type": 1,
                     "UUID": 4031130524,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/326770408.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3651378566,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -676,13 +688,14 @@
                     "type": 1,
                     "UUID": 2550641159,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3888552782.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2780327784,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -744,13 +757,14 @@
                     "type": 1,
                     "UUID": 3220235972,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3289363851.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 979531877,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -812,13 +826,14 @@
                     "type": 1,
                     "UUID": 4255100462,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3542197880.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3563993085,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -880,13 +895,14 @@
                     "type": 1,
                     "UUID": 858473435,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/388189045.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3324191266,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -948,13 +964,14 @@
                     "type": 1,
                     "UUID": 2476368409,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1729048569.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3566781832,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1016,13 +1033,14 @@
                     "type": 1,
                     "UUID": 2802870859,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/884365936.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 48102210,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1121,13 +1139,14 @@
                     "type": 1,
                     "UUID": 24534422,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/2419046848.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3231202553,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1189,13 +1208,14 @@
                     "type": 1,
                     "UUID": 903280164,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/2144832626.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1277096869,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1257,13 +1277,14 @@
                     "type": 1,
                     "UUID": 1048099137,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1719084628.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2876153181,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1325,13 +1346,14 @@
                     "type": 1,
                     "UUID": 1752942100,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/577770212.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2802786188,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1393,13 +1415,14 @@
                     "type": 1,
                     "UUID": 4250436523,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1034594896.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3302713228,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1535,13 +1558,14 @@
                     "type": 1,
                     "UUID": 2405258051,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2720213009.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1509112346,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1603,13 +1627,14 @@
                     "type": 1,
                     "UUID": 2185640889,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2376517241.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1799437395,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1671,13 +1696,14 @@
                     "type": 1,
                     "UUID": 3670928518,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3158313706.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1584240261,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1739,13 +1765,14 @@
                     "type": 1,
                     "UUID": 1697509151,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/83926291.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3843299263,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1807,13 +1834,14 @@
                     "type": 1,
                     "UUID": 2728650472,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2222605203.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1090242897,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1875,13 +1903,14 @@
                     "type": 1,
                     "UUID": 3213346534,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1690462796.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2418349662,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -1943,13 +1972,14 @@
                     "type": 1,
                     "UUID": 3025998240,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/537535519.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3225963545,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2011,13 +2041,14 @@
                     "type": 1,
                     "UUID": 2561067255,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2185106591.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2459357097,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2079,13 +2110,14 @@
                     "type": 1,
                     "UUID": 3523675376,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3850238133.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 706772684,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2147,13 +2179,14 @@
                     "type": 1,
                     "UUID": 3843644017,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1849987893.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3392755073,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2215,13 +2248,14 @@
                     "type": 1,
                     "UUID": 3371483838,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3382318328.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1289986202,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2283,13 +2317,14 @@
                     "type": 1,
                     "UUID": 4108119719,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1248696013.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3218232270,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2351,13 +2386,14 @@
                     "type": 1,
                     "UUID": 589018383,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3514612556.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1537930823,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2419,13 +2455,14 @@
                     "type": 1,
                     "UUID": 2477197446,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1158058970.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 923385846,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2487,13 +2524,14 @@
                     "type": 1,
                     "UUID": 1476706756,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/4284537159.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2131842403,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2555,13 +2593,14 @@
                     "type": 1,
                     "UUID": 3539675100,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2095852842.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3950483490,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -2720,6 +2759,7 @@
                     "UUID": 1041439558,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -4914,6 +4954,7 @@
                     "UUID": 1660602514,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -4982,6 +5023,7 @@
                     "UUID": 3303417462,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5050,6 +5092,7 @@
                     "UUID": 223699538,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5118,6 +5161,7 @@
                     "UUID": 3057182997,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5186,6 +5230,7 @@
                     "UUID": 3031172712,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5254,6 +5299,7 @@
                     "UUID": 1558939301,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5322,6 +5368,7 @@
                     "UUID": 2593760769,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5390,6 +5437,7 @@
                     "UUID": 427173244,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5458,6 +5506,7 @@
                     "UUID": 2636102130,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5526,6 +5575,7 @@
                     "UUID": 2499847953,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5594,6 +5644,7 @@
                     "UUID": 313523534,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5662,6 +5713,7 @@
                     "UUID": 1446367406,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5730,6 +5782,7 @@
                     "UUID": 3056065933,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5798,6 +5851,7 @@
                     "UUID": 600923021,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5866,6 +5920,7 @@
                     "UUID": 586842218,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -5934,6 +5989,7 @@
                     "UUID": 2678750282,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6002,6 +6058,7 @@
                     "UUID": 422212703,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6070,6 +6127,7 @@
                     "UUID": 3644444275,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6138,6 +6196,7 @@
                     "UUID": 2698759320,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6206,6 +6265,7 @@
                     "UUID": 2992562323,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6274,6 +6334,7 @@
                     "UUID": 3858995831,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6342,6 +6403,7 @@
                     "UUID": 972019155,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6410,6 +6472,7 @@
                     "UUID": 1278169061,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6478,6 +6541,7 @@
                     "UUID": 98595884,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6546,6 +6610,7 @@
                     "UUID": 1268581143,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6614,6 +6679,7 @@
                     "UUID": 3023884062,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6682,6 +6748,7 @@
                     "UUID": 1859158301,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6750,6 +6817,7 @@
                     "UUID": 1966455155,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -6908,6 +6976,7 @@
                     "UUID": 3457279996,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10184,6 +10253,7 @@
                     "UUID": 2742370572,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10252,6 +10322,7 @@
                     "UUID": 3676595732,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10320,6 +10391,7 @@
                     "UUID": 765989381,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10388,6 +10460,7 @@
                     "UUID": 1246709350,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10456,6 +10529,7 @@
                     "UUID": 542755896,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10524,6 +10598,7 @@
                     "UUID": 1998522060,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10592,6 +10667,7 @@
                     "UUID": 1285629196,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10660,6 +10736,7 @@
                     "UUID": 2084747667,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10728,6 +10805,7 @@
                     "UUID": 60596804,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10796,6 +10874,7 @@
                     "UUID": 311991463,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -10860,7 +10939,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.861796,
+                    "aspect_ratio": 3.935858,
                     "color": [
                         0,
                         0,
@@ -10883,7 +10962,17 @@
                     "UUID": 3991982533,
                     "active": true,
                     "script_path": "Player_Camera",
-                    "script_num": 0
+                    "script_num": 0,
+                    "dist_y": 0,
+                    "dist_z": 0,
+                    "camera_y": 0,
+                    "inclination y max min": 0,
+                    "inclination z max min": 0,
+                    "fov change boost": 0,
+                    "fov_increment": 0,
+                    "fov_decrement": 0,
+                    "max_vel_relative": 0,
+                    "last_fov": 0
                 }
             ]
         },
@@ -11020,7 +11109,15 @@
                     "UUID": 1371071367,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "velocity_firecracker": 0,
+                    "time_trowing_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "have_item": false,
+                    "have_firecracker": false,
+                    "using_firecracker": false,
+                    "throwing_firecracker": false
                 }
             ]
         },
@@ -11174,13 +11271,14 @@
                     "type": 1,
                     "UUID": 3214337859,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/712382613.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 525416883,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11242,13 +11340,14 @@
                     "type": 1,
                     "UUID": 2836970659,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1350655151.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 148198970,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11310,13 +11409,14 @@
                     "type": 1,
                     "UUID": 2378146566,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1164440399.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2832103320,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11378,13 +11478,14 @@
                     "type": 1,
                     "UUID": 4031130524,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/326770408.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3651378566,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11483,13 +11584,14 @@
                     "type": 1,
                     "UUID": 2550641159,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3888552782.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2780327784,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11551,13 +11653,14 @@
                     "type": 1,
                     "UUID": 3220235972,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3289363851.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 979531877,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11619,13 +11722,14 @@
                     "type": 1,
                     "UUID": 4255100462,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/3542197880.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3563993085,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11687,13 +11791,14 @@
                     "type": 1,
                     "UUID": 858473435,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/388189045.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3324191266,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11755,13 +11860,14 @@
                     "type": 1,
                     "UUID": 2476368409,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1729048569.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3566781832,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11823,13 +11929,14 @@
                     "type": 1,
                     "UUID": 2802870859,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/884365936.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 48102210,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11928,13 +12035,14 @@
                     "type": 1,
                     "UUID": 24534422,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/2419046848.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3231202553,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -11996,13 +12104,14 @@
                     "type": 1,
                     "UUID": 903280164,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/2144832626.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1277096869,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12064,13 +12173,14 @@
                     "type": 1,
                     "UUID": 1048099137,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1719084628.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2876153181,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12132,13 +12242,14 @@
                     "type": 1,
                     "UUID": 1752942100,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/577770212.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2802786188,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12200,13 +12311,14 @@
                     "type": 1,
                     "UUID": 4250436523,
                     "active": true,
-                    "path": "\/Library\/2898983412\/3144993825\/1034594896.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3302713228,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12342,13 +12454,14 @@
                     "type": 1,
                     "UUID": 2405258051,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2720213009.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1509112346,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12410,13 +12523,14 @@
                     "type": 1,
                     "UUID": 2185640889,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2376517241.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1799437395,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12478,13 +12592,14 @@
                     "type": 1,
                     "UUID": 3670928518,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3158313706.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1584240261,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12546,13 +12661,14 @@
                     "type": 1,
                     "UUID": 1697509151,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/83926291.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3843299263,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12614,13 +12730,14 @@
                     "type": 1,
                     "UUID": 2728650472,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2222605203.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1090242897,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12682,13 +12799,14 @@
                     "type": 1,
                     "UUID": 3213346534,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1690462796.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2418349662,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12750,13 +12868,14 @@
                     "type": 1,
                     "UUID": 3025998240,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/537535519.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3225963545,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12818,13 +12937,14 @@
                     "type": 1,
                     "UUID": 2561067255,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2185106591.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2459357097,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12886,13 +13006,14 @@
                     "type": 1,
                     "UUID": 3523675376,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3850238133.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 706772684,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -12954,13 +13075,14 @@
                     "type": 1,
                     "UUID": 3843644017,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1849987893.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3392755073,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13022,13 +13144,14 @@
                     "type": 1,
                     "UUID": 3371483838,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3382318328.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1289986202,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13090,13 +13213,14 @@
                     "type": 1,
                     "UUID": 4108119719,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1248696013.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3218232270,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13158,13 +13282,14 @@
                     "type": 1,
                     "UUID": 589018383,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/3514612556.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 1537930823,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13226,13 +13351,14 @@
                     "type": 1,
                     "UUID": 2477197446,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/1158058970.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 923385846,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13294,13 +13420,14 @@
                     "type": 1,
                     "UUID": 1476706756,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/4284537159.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 2131842403,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13362,13 +13489,14 @@
                     "type": 1,
                     "UUID": 3539675100,
                     "active": true,
-                    "path": "\/Library\/2242206477\/1816976897\/2095852842.msh"
+                    "path": ""
                 },
                 {
                     "type": 2,
                     "UUID": 3950483490,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -13527,6 +13655,7 @@
                     "UUID": 1041439558,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -15721,6 +15850,7 @@
                     "UUID": 1660602514,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -15789,6 +15919,7 @@
                     "UUID": 3303417462,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -15857,6 +15988,7 @@
                     "UUID": 223699538,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -15925,6 +16057,7 @@
                     "UUID": 3057182997,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -15993,6 +16126,7 @@
                     "UUID": 3031172712,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16061,6 +16195,7 @@
                     "UUID": 1558939301,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16129,6 +16264,7 @@
                     "UUID": 2593760769,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16197,6 +16333,7 @@
                     "UUID": 427173244,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16265,6 +16402,7 @@
                     "UUID": 2636102130,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16333,6 +16471,7 @@
                     "UUID": 2499847953,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16401,6 +16540,7 @@
                     "UUID": 313523534,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16469,6 +16609,7 @@
                     "UUID": 1446367406,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16537,6 +16678,7 @@
                     "UUID": 3056065933,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16605,6 +16747,7 @@
                     "UUID": 600923021,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16673,6 +16816,7 @@
                     "UUID": 586842218,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16741,6 +16885,7 @@
                     "UUID": 2678750282,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16809,6 +16954,7 @@
                     "UUID": 422212703,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16877,6 +17023,7 @@
                     "UUID": 3644444275,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -16945,6 +17092,7 @@
                     "UUID": 2698759320,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17013,6 +17161,7 @@
                     "UUID": 2992562323,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17081,6 +17230,7 @@
                     "UUID": 3858995831,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17149,6 +17299,7 @@
                     "UUID": 972019155,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17217,6 +17368,7 @@
                     "UUID": 1278169061,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17285,6 +17437,7 @@
                     "UUID": 98595884,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17353,6 +17506,7 @@
                     "UUID": 1268581143,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17421,6 +17575,7 @@
                     "UUID": 3023884062,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17489,6 +17644,7 @@
                     "UUID": 1859158301,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17557,6 +17713,7 @@
                     "UUID": 1966455155,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -17715,6 +17872,7 @@
                     "UUID": 3457279996,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -20991,6 +21149,7 @@
                     "UUID": 2742370572,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21059,6 +21218,7 @@
                     "UUID": 3676595732,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21127,6 +21287,7 @@
                     "UUID": 765989381,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21195,6 +21356,7 @@
                     "UUID": 1246709350,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21263,6 +21425,7 @@
                     "UUID": 542755896,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21331,6 +21494,7 @@
                     "UUID": 1998522060,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21399,6 +21563,7 @@
                     "UUID": 1285629196,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21467,6 +21632,7 @@
                     "UUID": 2084747667,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21535,6 +21701,7 @@
                     "UUID": 60596804,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21603,6 +21770,7 @@
                     "UUID": 311991463,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -21709,14 +21877,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        837
+                        1280,
+                        657
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        640,
                         0,
                         1,
                         0,
@@ -21877,6 +22045,7 @@
                             "UUID": 1350891750,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -21974,6 +22143,7 @@
                             "UUID": 2242273704,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22071,6 +22241,7 @@
                             "UUID": 2340193466,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22168,6 +22339,7 @@
                             "UUID": 55828040,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22267,6 +22439,7 @@
                             "UUID": 4137345745,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22393,6 +22566,7 @@
                             "UUID": 1623455816,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22517,6 +22691,7 @@
                             "UUID": 2867202860,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22614,6 +22789,7 @@
                             "UUID": 1519883234,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22711,6 +22887,7 @@
                             "UUID": 1413389164,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22808,6 +22985,7 @@
                             "UUID": 1712240939,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -22905,6 +23083,7 @@
                             "UUID": 4200094517,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -23002,6 +23181,7 @@
                             "UUID": 2621011181,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -23145,6 +23325,7 @@
                             "UUID": 1576635650,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -23272,6 +23453,7 @@
                             "UUID": 977844776,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -23369,6 +23551,7 @@
                             "UUID": 813108542,
                             "active": true,
                             "path": "",
+                            "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
                             "blend_type": 0,
@@ -23471,7 +23654,8 @@
                     "UUID": 4192621243,
                     "active": true,
                     "script_path": "Scene_Manager",
-                    "script_num": 0
+                    "script_num": 0,
+                    "Main_Menu_Scene": "Insert scene path here"
                 }
             ]
         },
@@ -23503,7 +23687,7 @@
         {
             "name": "ramp2",
             "UUID": 2663596719,
-            "local_UUID": 649434714,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
             "is_prefab": true,
@@ -23528,7 +23712,7 @@
         {
             "name": "ramp2",
             "UUID": 2650852401,
-            "local_UUID": 649434714,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
             "is_prefab": true,
@@ -23733,6 +23917,7 @@
                     "UUID": 3842393842,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
@@ -23933,7 +24118,7 @@
         {
             "name": "HarborFloor2",
             "UUID": 2020636472,
-            "local_UUID": 130399182,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
             "is_prefab": true,
@@ -23954,372 +24139,6 @@
                 }
             ],
             "children_uuids": []
-        },
-        {
-            "name": "WaterMill",
-            "UUID": 359980287,
-            "local_UUID": 455896659,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 359980287,
-            "prefab_path": "\/Library\/643644559\/1985123407\/\/3295800947\/3295800947.pfb",
-            "components": [
-                {
-                    "position": [
-                        -86.620529,
-                        0,
-                        -75.754234
-                    ],
-                    "rotation": [
-                        0,
-                        87.731682,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1560184750,
-                    "local_uuid": 3324488797
-                },
-                {
-                    "uuid": 3435638610,
-                    "local_uuid": 4106671514
-                },
-                {
-                    "uuid": 1269277584,
-                    "local_uuid": 3378350038
-                },
-                {
-                    "uuid": 2506846002,
-                    "local_uuid": 305486568
-                },
-                {
-                    "uuid": 2448571823,
-                    "local_uuid": 3285429418
-                },
-                {
-                    "uuid": 3144399051,
-                    "local_uuid": 3984039107
-                },
-                {
-                    "uuid": 3983601748,
-                    "local_uuid": 1187754667
-                },
-                {
-                    "uuid": 579729582,
-                    "local_uuid": 3454956811
-                },
-                {
-                    "uuid": 4001860010,
-                    "local_uuid": 942737555
-                },
-                {
-                    "uuid": 3255185265,
-                    "local_uuid": 2818976432
-                },
-                {
-                    "uuid": 2053601006,
-                    "local_uuid": 780848206
-                },
-                {
-                    "uuid": 587228160,
-                    "local_uuid": 1191048896
-                },
-                {
-                    "uuid": 318520268,
-                    "local_uuid": 750709328
-                },
-                {
-                    "uuid": 2633509635,
-                    "local_uuid": 3044657405
-                },
-                {
-                    "uuid": 888188525,
-                    "local_uuid": 134012381
-                },
-                {
-                    "uuid": 1831522780,
-                    "local_uuid": 3833720904
-                },
-                {
-                    "uuid": 14505436,
-                    "local_uuid": 1495391010
-                },
-                {
-                    "uuid": 1008344451,
-                    "local_uuid": 2934006725
-                },
-                {
-                    "uuid": 4283948738,
-                    "local_uuid": 2681095933
-                },
-                {
-                    "uuid": 3789127536,
-                    "local_uuid": 1073557731
-                },
-                {
-                    "uuid": 1060744510,
-                    "local_uuid": 3624612365
-                },
-                {
-                    "uuid": 2238147380,
-                    "local_uuid": 3476178985
-                },
-                {
-                    "uuid": 208451260,
-                    "local_uuid": 1170434135
-                },
-                {
-                    "uuid": 4096866081,
-                    "local_uuid": 2833311110
-                },
-                {
-                    "uuid": 796148933,
-                    "local_uuid": 2867114780
-                },
-                {
-                    "uuid": 2116636152,
-                    "local_uuid": 3089810682
-                },
-                {
-                    "uuid": 4093008534,
-                    "local_uuid": 1343712021
-                },
-                {
-                    "uuid": 2614727142,
-                    "local_uuid": 4088564460
-                },
-                {
-                    "uuid": 3700908726,
-                    "local_uuid": 154366863
-                },
-                {
-                    "uuid": 2344129143,
-                    "local_uuid": 3892825694
-                },
-                {
-                    "uuid": 1651199070,
-                    "local_uuid": 3062261209
-                },
-                {
-                    "uuid": 3626159733,
-                    "local_uuid": 233925191
-                },
-                {
-                    "uuid": 3376568690,
-                    "local_uuid": 3878475513
-                },
-                {
-                    "uuid": 4035869084,
-                    "local_uuid": 994173900
-                },
-                {
-                    "uuid": 1252593124,
-                    "local_uuid": 709298590
-                },
-                {
-                    "uuid": 1246854272,
-                    "local_uuid": 3671029893
-                },
-                {
-                    "uuid": 754077665,
-                    "local_uuid": 3488828338
-                },
-                {
-                    "uuid": 2733499593,
-                    "local_uuid": 1919277106
-                },
-                {
-                    "uuid": 1047759948,
-                    "local_uuid": 1122902623
-                },
-                {
-                    "uuid": 3597249490,
-                    "local_uuid": 3899591571
-                },
-                {
-                    "uuid": 1944048263,
-                    "local_uuid": 1206406629
-                },
-                {
-                    "uuid": 1396169502,
-                    "local_uuid": 1107329310
-                },
-                {
-                    "uuid": 2786005460,
-                    "local_uuid": 1778430548
-                },
-                {
-                    "uuid": 2590750656,
-                    "local_uuid": 3981242884
-                },
-                {
-                    "uuid": 1901720166,
-                    "local_uuid": 789853630
-                },
-                {
-                    "uuid": 2513845124,
-                    "local_uuid": 712223297
-                },
-                {
-                    "uuid": 1696110694,
-                    "local_uuid": 4286511885
-                },
-                {
-                    "uuid": 765597006,
-                    "local_uuid": 1716352479
-                },
-                {
-                    "uuid": 2821188600,
-                    "local_uuid": 1034225963
-                },
-                {
-                    "uuid": 2078486376,
-                    "local_uuid": 82437764
-                },
-                {
-                    "uuid": 79468798,
-                    "local_uuid": 1532646959
-                },
-                {
-                    "uuid": 2407747158,
-                    "local_uuid": 1072474643
-                },
-                {
-                    "uuid": 1682175420,
-                    "local_uuid": 1301042400
-                },
-                {
-                    "uuid": 3801691253,
-                    "local_uuid": 2225038880
-                },
-                {
-                    "uuid": 4245858643,
-                    "local_uuid": 1702622066
-                },
-                {
-                    "uuid": 1269566698,
-                    "local_uuid": 4203618688
-                },
-                {
-                    "uuid": 4228380981,
-                    "local_uuid": 2708356098
-                },
-                {
-                    "uuid": 548800502,
-                    "local_uuid": 1982053417
-                },
-                {
-                    "uuid": 411878180,
-                    "local_uuid": 3024876275
-                },
-                {
-                    "uuid": 3136210167,
-                    "local_uuid": 1434037852
-                },
-                {
-                    "uuid": 3504587843,
-                    "local_uuid": 1740868021
-                },
-                {
-                    "uuid": 3714270711,
-                    "local_uuid": 2285522965
-                },
-                {
-                    "uuid": 822286156,
-                    "local_uuid": 1899493248
-                },
-                {
-                    "uuid": 3242979590,
-                    "local_uuid": 1723020653
-                },
-                {
-                    "uuid": 3881378006,
-                    "local_uuid": 2546695675
-                },
-                {
-                    "uuid": 3847797664,
-                    "local_uuid": 2920145559
-                },
-                {
-                    "uuid": 661314242,
-                    "local_uuid": 788636804
-                },
-                {
-                    "uuid": 1453059526,
-                    "local_uuid": 2250645226
-                },
-                {
-                    "uuid": 3938529188,
-                    "local_uuid": 3412809446
-                },
-                {
-                    "uuid": 1656224796,
-                    "local_uuid": 1491571787
-                },
-                {
-                    "uuid": 2597670560,
-                    "local_uuid": 3470314684
-                },
-                {
-                    "uuid": 320022330,
-                    "local_uuid": 4005571663
-                },
-                {
-                    "uuid": 4145947422,
-                    "local_uuid": 888378092
-                },
-                {
-                    "uuid": 3686444574,
-                    "local_uuid": 8396823
-                },
-                {
-                    "uuid": 783118777,
-                    "local_uuid": 3934107514
-                },
-                {
-                    "uuid": 4143017412,
-                    "local_uuid": 430052917
-                },
-                {
-                    "uuid": 2715137584,
-                    "local_uuid": 3581231863
-                },
-                {
-                    "uuid": 3777259393,
-                    "local_uuid": 2279606259
-                },
-                {
-                    "uuid": 2423457558,
-                    "local_uuid": 1893476858
-                },
-                {
-                    "uuid": 2618284721,
-                    "local_uuid": 2083993251
-                },
-                {
-                    "uuid": 1813343696,
-                    "local_uuid": 1375909592
-                },
-                {
-                    "uuid": 72692775,
-                    "local_uuid": 1664857986
-                },
-                {
-                    "uuid": 687135389,
-                    "local_uuid": 3486552910
-                },
-                {
-                    "uuid": 3018368168,
-                    "local_uuid": 3273157111
-                },
-                {
-                    "uuid": 759025967,
-                    "local_uuid": 1845443577
-                }
-            ]
         },
         {
             "name": "Rock1",
@@ -24404,6 +24223,7 @@
                     "UUID": 265950824,
                     "active": true,
                     "path": "",
+                    "path_assets": "",
                     "properties_set": true,
                     "alpha": 0,
                     "blend_type": 0,
