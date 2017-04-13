@@ -749,7 +749,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			chunkData.push_back(data);
 		}
 
-		//Terrain size (heightmap width, heightmap height, n chunks, max height)
+		//Terrain size (heightmap width, heightmap height, n chunks, Dummy number, version, max height)
 		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
@@ -760,7 +760,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 
 		//We're not saving UVs, we can regenerate them fastly
 
-		uint size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		long unsigned int size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
 		char* buf = new char[size_total];
 		char* it = buf;
 
@@ -825,9 +825,13 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			delete[] it_data->second;
 		}
 
+		
+
+		bool ret = App->file_system->Save(path, buf, size_total);
+
 		RELEASE_ARRAY(buf);
 
-		return App->file_system->Save(path, buf, size_total);
+		return ret;
 		
 	}
 	return false;
