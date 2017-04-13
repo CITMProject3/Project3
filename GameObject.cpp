@@ -266,23 +266,40 @@ void GameObject::OnPause()
 	}
 }
 
-bool GameObject::IsActive() const
+bool *GameObject::GetActiveBoolean()
 {
-	return active;
+	return &active;
+}
+
+bool GameObject::IsActive() const
+{	
+	// Obtaning all gameobjects from "this" to root, up in the hierarchy
+	const GameObject *curr_go = this;
+	std::vector<const GameObject*> hierarchy_gos;	
+
+	while (!App->go_manager->IsRoot(curr_go))
+	{
+		hierarchy_gos.push_back(curr_go);
+		curr_go = curr_go->parent;
+	}
+
+	// Checking if all Gameobjects are active
+	bool is_active = true;
+	for (std::vector<const GameObject*>::const_iterator it = hierarchy_gos.begin(); it != hierarchy_gos.end(); ++it)
+	{
+		if (!(*it)->active)
+		{
+			is_active = false;	 // There is one that it's not active, so...
+			break;				 // this gameobject is not active at the end.
+		}			
+	}
+
+	return is_active;
 }
 
 void GameObject::SetActive(bool value)
 {
-	if (value == true && parent->IsActive() == false)
-		return;
-
-	if ((value == true && active == false) || (value == false && active == true))
-	{
-		active = value;
-
-		for (std::vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
-			(*child)->SetActive(value);
-	}
+	if (value != active) active = value;
 }
 
 bool GameObject::IsStatic() const

@@ -36,13 +36,10 @@ void Inspector::Draw()
 
 	if (selected_GO)
 	{
-
 		//Active
-		bool is_active = selected_GO->IsActive();
-		if (ImGui::Checkbox("", &is_active))
-		{
-			selected_GO->SetActive(is_active);
-		}
+		bool *is_active = selected_GO->GetActiveBoolean();
+		if (ImGui::Checkbox("", is_active))
+			selected_GO->SetActive(*is_active);
 
 		//Name
 		ImGui::SameLine();

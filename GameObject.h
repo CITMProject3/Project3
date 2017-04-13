@@ -40,6 +40,7 @@ public:
 	void OnStop();
 	void OnPause();
 
+	bool *GetActiveBoolean();
 	bool IsActive()const;
 	void SetActive(bool value);
 	bool IsStatic()const;
@@ -89,7 +90,7 @@ private:
 	GameObject* parent = NULL;
 	std::vector<GameObject*> childs;
 
-	bool active = true;
+	bool active = true; // Represents the status of the GameObject, but not the activity trough its hierarchy. IsActive() gives its final activity
 	bool is_static = false;
 	std::vector<Component*> components;
 	std::vector<Component*> components_to_remove;
