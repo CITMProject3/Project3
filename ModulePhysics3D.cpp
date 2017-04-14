@@ -1062,6 +1062,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 				for (uint n = 0; n < nTextures; n++)
 				{
 					uint pathLen;
+					bytes = sizeof(uint);
 					memcpy(&pathLen, it, bytes);
 					it += bytes;
 					uint nameLen;
