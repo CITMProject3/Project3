@@ -5,6 +5,12 @@
 #include "ModuleEditor.h"
 #include "Assets.h"
 
+#include "ResourceFileTexture.h"
+#include "Time.h"
+
+#include "ModuleInput.h"
+#include "SDL/include/SDL_scancode.h"
+
 TerrainWindow::TerrainWindow()
 {
 }
@@ -16,15 +22,95 @@ TerrainWindow::~TerrainWindow()
 void TerrainWindow::Draw()
 {
 	if (!active)
+	{
+		App->editor->lockSelection = false;
+		App->physics->currentTerrainTool = App->physics->none_tool;
 		return;
+	}
 
 	ImGui::Begin("Terrain_Tools", &active, flags);
+
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_DOWN)
+	{
+		App->physics->brushSize++;
+		timer = 0.0f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_PLUS) == KEY_REPEAT)
+	{
+		if (timer < 0.5f)
+		{
+			timer += time->RealDeltaTime();
+		}
+		else
+		{
+			App->physics->brushSize++;
+		}
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_DOWN)
+	{
+		App->physics->brushSize--;
+		timer = 0.0f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_MINUS) == KEY_REPEAT)
+	{
+		if (timer < 0.5f)
+		{
+			timer += time->RealDeltaTime();
+		}
+		else
+		{
+			App->physics->brushSize--;
+		}
+	}
+
+
+	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_DOWN)
+	{
+		App->physics->sculptStrength++;
+		timer = 0.0f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_REPEAT)
+	{
+		if (timer < 0.5f)
+		{
+			timer += time->RealDeltaTime();
+		}
+		else
+		{
+			App->physics->sculptStrength++;
+		}
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_DOWN)
+	{
+		App->physics->sculptStrength--;
+		timer = 0.0f;
+	}
+	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_REPEAT)
+	{
+		if (timer < 0.5f)
+		{
+			timer += time->RealDeltaTime();
+		}
+		else
+		{
+			App->physics->sculptStrength--;
+		}
+	}
 
 	bool toolBool = App->physics->currentTerrainTool == App->physics->paint_tool;
 	if (ImGui::Checkbox("Texture paint mode", &toolBool))
 	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->paint_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
+		if (toolBool)
+		{
+			App->physics->currentTerrainTool = App->physics->paint_tool;
+			App->editor->lockSelection = true;
+		}
+		else
+		{
+			App->physics->currentTerrainTool = App->physics->none_tool;
+			App->editor->lockSelection = false;
+		}
 	}
 	if (App->physics->currentTerrainTool == App->physics->paint_tool)
 	{
@@ -32,13 +118,27 @@ void TerrainWindow::Draw()
 		char button[64] = " ";
 		for (int n = 0; n < App->physics->GetNTextures(); n++)
 		{
+			if (App->input->GetKey(SDL_SCANCODE_1 + n) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_1 + n) == KEY_DOWN)
+			{
+				App->physics->paintTexture = n;
+			}
 			sprintf(button, "%i##paintTextureButton", n + 1);
-			ImGui::SameLine();
+
 			if (ImGui::Button(button))
 			{
 				App->physics->paintTexture = n;
 			}
+			ImGui::SameLine();
+			if (App->physics->paintTexture != n)
+			{
+				ImGui::Text("%s", App->physics->GetTextureName(n).data());
+			}
+			else
+			{
+				ImGui::Text("--- %s ---", App->physics->GetTextureName(n).data());
+			}
 		}
+
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
 		if (App->physics->paintTexture < App->physics->GetNTextures())
 		{
@@ -60,16 +160,32 @@ void TerrainWindow::Draw()
 	toolBool = App->physics->currentTerrainTool == App->physics->sculpt_tool;
 	if (ImGui::Checkbox("Sculpt mode", &toolBool))
 	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->sculpt_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
+		if (toolBool)
+		{
+			App->physics->currentTerrainTool = App->physics->sculpt_tool;
+			App->editor->lockSelection = true;
+		}
+		else
+		{
+			App->physics->currentTerrainTool = App->physics->none_tool;
+			App->editor->lockSelection = false;
+		}
 	}
 	if (App->physics->currentTerrainTool == App->physics->sculpt_tool)
 	{
+		for (int n = 0; n < 3; n++)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_1 + n) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_KP_1 + n) == KEY_DOWN)
+			{
+				App->physics->sculptTool = (SculptModeTools)n;
+			}
+		}
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
 		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
-		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
+		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);	ImGui::SameLine();
 		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
-		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);
+		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten);
+		
 	}
 
 	ImGui::NewLine();
@@ -79,8 +195,16 @@ void TerrainWindow::Draw()
 	toolBool = App->physics->currentTerrainTool == App->physics->goPlacement_tool;
 	if (ImGui::Checkbox("GameObject placement mode", &toolBool))
 	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->goPlacement_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
+		if (toolBool) 
+		{
+			App->physics->currentTerrainTool = App->physics->goPlacement_tool;
+			App->editor->lockSelection = true;
+		}
+		else
+		{
+			App->physics->currentTerrainTool = App->physics->none_tool;
+			App->editor->lockSelection = false;
+		}
 	}
 	if (App->physics->currentTerrainTool == App->physics->goPlacement_tool)
 	{
@@ -106,6 +230,13 @@ void TerrainWindow::Draw()
 			ImGui::Text("%s", terrainPlacingObject.data());
 		}
 	}
+
+	ImGui::NewLine();
+	ImGui::Separator();
+
+	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain");
+
+	App->physics->brushSize = CAP(App->physics->brushSize, 0, 1000);
 	ImGui::End();
 }
 

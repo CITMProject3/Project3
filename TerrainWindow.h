@@ -12,6 +12,7 @@ public:
 	void Draw();
 
 	string terrainPlacingObject;
+	float timer = 0.0f;
 };
 
 #endif

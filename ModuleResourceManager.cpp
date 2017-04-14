@@ -691,7 +691,8 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
 		{
 			Data tex = scene.GetArray("terrain_textures", i);
-			App->physics->LoadTexture(tex.GetString("path"));
+			string texName("");
+			App->physics->LoadTexture(tex.GetString("path"), -1, texName);
 		}
 
 		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));

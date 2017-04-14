@@ -142,7 +142,7 @@ public:
 	void SetTerrainMaxHeight(float height);
 	void SetTextureScaling(float scale, bool doNotUse = false);
 
-	void LoadTexture(std::string resLibPath, int pos = -1);
+	void LoadTexture(std::string resLibPath, int pos = -1, string texName = string(""));
 	void DeleteTexture(uint n);
 
 	bool SaveTextureMap(const char* path);
@@ -165,6 +165,7 @@ public:
 	void RegenerateNormals(int x0, int y0, int x1, int y1);
 
 	int GetTexture(uint n);
+	string GetTextureName(uint n);
 	uint GetTextureUUID(uint n);
 	const char* GetTexturePath(uint n);
 	uint GetNTextures();
@@ -241,7 +242,9 @@ private:
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	std::vector<ResourceFileTexture*> textures;
+	public:
+	std::vector<std::pair<ResourceFileTexture*, string>> textures;
+	private:
 	float textureScaling = 0.03f;
 	float terrainMaxHeight = 100.0f;
 

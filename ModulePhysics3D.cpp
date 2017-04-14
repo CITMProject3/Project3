@@ -1578,7 +1578,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_0, 1);
 				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[0].first->GetTexture());
 			}
 			else
 			{
@@ -1591,7 +1591,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_1, 2);
 				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, textures[1]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[1].first->GetTexture());
 			}
 			else
 			{
@@ -1604,7 +1604,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_2, 3);
 				glActiveTexture(GL_TEXTURE3);
-				glBindTexture(GL_TEXTURE_2D, textures[2]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[2].first->GetTexture());
 			}
 			else
 			{
@@ -1617,7 +1617,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_3, 4);
 				glActiveTexture(GL_TEXTURE4);
-				glBindTexture(GL_TEXTURE_2D, textures[3]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[3].first->GetTexture());
 			}
 			else
 			{
@@ -1630,7 +1630,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_4, 5);
 				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[4].first->GetTexture());
 			}
 			else
 			{
@@ -1643,7 +1643,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_5, 6);
 				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[5].first->GetTexture());
 			}
 			else
 			{
@@ -1656,7 +1656,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_6, 7);
 				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[6]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[6].first->GetTexture());
 			}
 			else
 			{
@@ -1669,7 +1669,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_7, 8);
 				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[7].first->GetTexture());
 			}
 			else
 			{
@@ -1682,7 +1682,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_8, 9);
 				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[8].first->GetTexture());
 			}
 			else
 			{
@@ -1695,7 +1695,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_9, 10);
 				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, textures[9]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[9].first->GetTexture());
 			}
 			else
 			{
@@ -2056,7 +2056,7 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 	}
 }
 
-void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
+void ModulePhysics3D::LoadTexture(string resLibPath, int pos, string texName)
 {
 	//Loading Heightmap Image
 	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 10)
@@ -2068,12 +2068,12 @@ void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 			{
 				if (pos == -1)
 				{
-					textures.push_back((ResourceFileTexture*)res);
+					textures.push_back(std::pair<ResourceFileTexture*, string>((ResourceFileTexture*)res, texName));
 				}
 				else
 				{
-					textures[pos]->Unload();
-					textures[pos] = (ResourceFileTexture*)res;
+					textures[pos].first->Unload();
+					textures[pos].first = (ResourceFileTexture*)res;
 				}
 				if (textures.size() == 1)
 				{
@@ -2089,11 +2089,11 @@ void ModulePhysics3D::DeleteTexture(uint n)
 	if (n >= 0 && n < textures.size())
 	{
 		int x = 0;
-		for (std::vector<ResourceFileTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
+		for (std::vector<std::pair<ResourceFileTexture*, string>>::iterator it = textures.begin(); it != textures.end(); it++)
 		{
 			if (x == n)
 			{
-				textures[n]->Unload();
+				textures[n].first->Unload();
 				textures.erase(it);
 				break;
 			}
@@ -2120,16 +2120,25 @@ int ModulePhysics3D::GetTexture(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetTexture();
+		return textures[n].first->GetTexture();
 	}
 	return 0;
+}
+
+string ModulePhysics3D::GetTextureName(uint n)
+{
+	if (n >= 0 && n < textures.size())
+	{
+		return textures[n].second;
+	}
+	return string();
 }
 
 uint ModulePhysics3D::GetTextureUUID(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetUUID();
+		return textures[n].first->GetUUID();
 	}
 	return 0;
 }
@@ -2138,7 +2147,7 @@ const char * ModulePhysics3D::GetTexturePath(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetFile();
+		return textures[n].first->GetFile();
 	}
 	char ret[5] = " ";
 	return ret;

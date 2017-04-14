@@ -168,16 +168,22 @@ bool ModuleEditor::UsingMouse() const
 
 void ModuleEditor::SelectSingle(GameObject* game_object)
 {
-	UnselectAll();
-	if (game_object != nullptr)
-		selected.push_back(game_object);
+	if (lockSelection == false)
+	{
+		UnselectAll();
+		if (game_object != nullptr)
+			selected.push_back(game_object);
+	}
 }
 
 void ModuleEditor::AddSelect(GameObject* game_object)
 {
-	//Just for safety
-	if (game_object != nullptr && IsSelected(game_object) == false)
-		selected.push_back(game_object);
+	if (lockSelection == false)
+	{
+		//Just for safety
+		if (game_object != nullptr && IsSelected(game_object) == false)
+			selected.push_back(game_object);
+	}
 }
 
 void ModuleEditor::Unselect(GameObject* game_object)
@@ -246,6 +252,11 @@ update_status ModuleEditor::PreUpdate()
 
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
 	using_mouse = ImGui::GetIO().WantCaptureMouse;
+
+	if (lockSelection && selected.empty() == false)
+	{
+		UnselectAll();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -703,7 +714,13 @@ void ModuleEditor::PhysicsMenu()
 					if (ImGui::MenuItem(textures_list[i].data()))
 					{
 						string lib_file = App->resource_manager->FindFile(textures_list[i]);
-						App->physics->LoadTexture(lib_file);
+
+						char* tmp_it = textures_list[i]._Myptr();
+						tmp_it += textures_list[i].length();
+						for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+						tmp_it++;
+
+						App->physics->LoadTexture(lib_file, -1, tmp_it);
 					}
 				}
 				ImGui::EndMenu();
@@ -714,6 +731,16 @@ void ModuleEditor::PhysicsMenu()
 				for (uint n = 0; n < App->physics->GetNTextures(); n++)
 				{
 					ImGui::NewLine();
+					ImGui::Text("%s", App->physics->GetTextureName(n).data());
+					float2 size = App->physics->GetHeightmapSize();
+					float maxSize = max(size.x, size.y);
+					if (maxSize > 200)
+					{
+						float scale = 200.0f / maxSize;
+						size.x *= scale;
+						size.y *= scale;
+					}
+					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
 					char menuName[64] = " ";
 					sprintf(menuName, "Replace texture:##texn%u", n);
 					if (ImGui::BeginMenu(menuName))
@@ -727,20 +754,18 @@ void ModuleEditor::PhysicsMenu()
 							if (ImGui::MenuItem(textures_list[i].data()))
 							{
 								string lib_file = App->resource_manager->FindFile(textures_list[i]);
-								App->physics->LoadTexture(lib_file, n);
+
+								char* tmp_it = textures_list[i]._Myptr();
+								tmp_it += textures_list[i].length();
+								for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+								tmp_it++;
+
+								App->physics->LoadTexture(lib_file, n, tmp_it);
 							}
 						}
 						ImGui::EndMenu();
 					}
-					float2 size = App->physics->GetHeightmapSize();
-					float maxSize = max(size.x, size.y);
-					if (maxSize > 200)
-					{
-						float scale = 200.0f / maxSize;
-						size.x *= scale;
-						size.y *= scale;
-					}
-					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
+					ImGui::NewLine();
 					char buttonName[64] = "";
 					sprintf(buttonName, "Delete texture##delText%u", n);
 					if (ImGui::Button(buttonName))
