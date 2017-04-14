@@ -223,6 +223,7 @@
     <ClInclude Include="ComponentMesh.h" />
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentScript.h" />
+    <ClInclude Include="ComponentSprite.h" />
     <ClInclude Include="ComponentTransform.h" />
     <ClInclude Include="ComponentUiButton.h" />
     <ClInclude Include="ComponentUiImage.h" />
@@ -404,6 +405,7 @@
     <ClCompile Include="ComponentMesh.cpp" />
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentScript.cpp" />
+    <ClCompile Include="ComponentSprite.cpp" />
     <ClCompile Include="ComponentTransform.cpp" />
     <ClCompile Include="ComponentUiButton.cpp" />
     <ClCompile Include="ComponentUiImage.cpp" />

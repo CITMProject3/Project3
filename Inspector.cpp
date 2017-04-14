@@ -114,6 +114,7 @@ void Inspector::Draw()
 			if (ImGui::Selectable("Add Collider"))			selected_GO->AddComponent(C_COLLIDER);
 			if (ImGui::Selectable("Add Car"))				selected_GO->AddComponent(C_CAR);
 			if (ImGui::Selectable("Add Light"))				selected_GO->AddComponent(C_LIGHT);
+			if (ImGui::Selectable("Add Sprite"))			selected_GO->AddComponent(C_SPRITE);
 
 			if (ImGui::Selectable("Add Script"))			selected_GO->AddComponent(C_SCRIPT);
 

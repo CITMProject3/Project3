@@ -47,6 +47,7 @@ struct tmp_mesh_file_uuid
 };
 
 struct Directory;
+struct Mesh;
 class ResourceFileMaterial;
 
 class ModuleResourceManager : public Module
@@ -82,6 +83,8 @@ public:
 	unsigned int GetDefaultShaderId()const;
 	unsigned int GetDefaultAnimShaderId()const;
 	unsigned int GetDefaultTerrainShaderId()const;
+	unsigned int GetDefaultBillboardShaderId()const;
+	Mesh* GetDefaultBillboardMesh()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -108,6 +111,7 @@ public:
 	unsigned int GetUUIDFromLib(const std::string& library_path)const;
 
 private:
+	void LoadDefaults();
 
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
@@ -153,9 +157,12 @@ private:
 	unsigned int texture_bytes = 0;
 	unsigned int mesh_bytes = 0;
 
+	//Defaults
 	unsigned int default_shader = 0;
 	unsigned int default_anim_shader = 0;
 	unsigned int default_terrain_shader = 0;
+	unsigned int default_billboard_shader = 0;
+	Mesh* billboard_mesh = nullptr;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

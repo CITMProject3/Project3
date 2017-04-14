@@ -11,6 +11,8 @@
 #include "Assets.h"
 #include "Time.h"
 
+#include "ComponentMesh.h"
+
 #include "ShaderComplier.h"
 #include "TextureImporter.h"
 #include "MeshImporter.h"
@@ -64,9 +66,8 @@ bool ModuleResourceManager::Init(Data & config)
 
 bool ModuleResourceManager::Start()
 {
-	default_shader = ShaderCompiler::LoadDefaultShader();
-	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
-	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
+	LoadDefaults();
+
 	if (App->StartInGame() == false)
 		UpdateAssetsAuto();
 	return true;
@@ -82,7 +83,7 @@ update_status ModuleResourceManager::Update()
 		{
 			CheckDirectoryModification(App->editor->assets->root);
 			modification_timer = 0.0f;
-			//App->editor->assets->Refresh();
+			App->editor->assets->Refresh();
 		}
 	}
 
@@ -92,6 +93,8 @@ update_status ModuleResourceManager::Update()
 
 bool ModuleResourceManager::CleanUp()
 {
+	delete billboard_mesh;
+
 	ilShutDown();
 	aiDetachAllLogStreams();
 	return true;
@@ -851,6 +854,16 @@ unsigned int ModuleResourceManager::GetDefaultTerrainShaderId() const
 	return default_terrain_shader;
 }
 
+unsigned int ModuleResourceManager::GetDefaultBillboardShaderId() const
+{
+	return default_billboard_shader;
+}
+
+Mesh * ModuleResourceManager::GetDefaultBillboardMesh() const
+{
+	return billboard_mesh;
+}
+
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
@@ -1043,6 +1056,16 @@ unsigned int ModuleResourceManager::GetUUIDFromLib(const string & library_path)c
 		return 0;
 
 	return std::stoul(name);
+}
+
+void ModuleResourceManager::LoadDefaults()
+{
+	default_shader = ShaderCompiler::LoadDefaultShader();
+	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
+	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
+	default_billboard_shader = ShaderCompiler::LoadDefaultBilboardShader();
+
+	billboard_mesh = MeshImporter::LoadBillboardMesh();
 }
 
 string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * path, string base_dir) const

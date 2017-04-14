@@ -708,6 +708,9 @@
     <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h">
       <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentSprite.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1140,6 +1143,9 @@
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
     <ClCompile Include="ComponentAudioListener.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentSprite.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>

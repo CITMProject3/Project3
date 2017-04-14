@@ -19,6 +19,7 @@ class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
 typedef void *SDL_GLContext;
+class ComponentSprite;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -38,6 +39,7 @@ public:
 	void AddCamera(ComponentCamera* camera);
 
 	void AddToDraw(GameObject* obj);
+	void AddToDrawSprite(ComponentSprite* sprite);
 
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);
@@ -49,11 +51,13 @@ public:
 	void DrawAABB(float3 minPoint, float3 maxPoint, float4 color = float4(1, 1, 1, 1));
 	void DrawUIImage(GameObject* obj)const;
 	void DrawUIText(GameObject* obj)const;
+
 private:
 
 	void DrawScene(ComponentCamera* cam, bool has_render_tex = false);
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
+	void DrawSprites(ComponentCamera* cam)const;
 
 	bool SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color)const;
@@ -75,6 +79,7 @@ public:
 private:
 
 	std::vector<GameObject*> objects_to_draw;
+	std::vector<ComponentSprite*> sprites_to_draw;
 };
 
 #endif // !__MODULERENDERER3D_H__
