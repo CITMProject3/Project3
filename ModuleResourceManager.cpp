@@ -750,10 +750,16 @@ ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	//Create the meta
 	//Duplicate file in assets
 	ResourceFilePrefab* ret = nullptr;
-
+	bool unlinked = false;
 	for (std::vector<GameObject*>::const_iterator it = gameobject->GetChilds()->begin(); it != gameobject->GetChilds()->end(); it++)
 	{
-		UnlinkChildPrefabs(*it);
+		if (UnlinkChildPrefabs(*it)) unlinked = true;
+	}
+
+	if (unlinked == true)
+	{
+		LOG("Warning: a GameObject child was a prefab, it has lost it's link to it.");
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Warning: a GameObject child was a prefab, it has lost it's link to it");
 	}
 
 	Data root_node;
@@ -817,13 +823,22 @@ ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	return ret;
 }
 
-void ModuleResourceManager::UnlinkChildPrefabs(GameObject* gameObject)
+bool ModuleResourceManager::UnlinkChildPrefabs(GameObject* gameObject)
 {
-	if (gameObject->IsPrefab()) gameObject->UnlinkPrefab();
+	bool ret = false;
+	if (gameObject->IsPrefab())
+	{
+		gameObject->UnlinkPrefab();
+		ret = true;
+	}
 	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
 	{
-		UnlinkChildPrefabs(*it);
+		if (UnlinkChildPrefabs(*it))
+		{
+			ret = true;
+		}
 	}
+	return ret;
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
