@@ -31,6 +31,7 @@
 #include "LightingWindow.h"
 #include "LayersWindow.h"
 #include "CurveWindow.h"
+#include "TerrainWindow.h"
 #include "RenderTexEditorWindow.h"
 #include "TestWindow.h"
 #include "RaycastHit.h"
@@ -66,8 +67,6 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
-	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
-
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
@@ -87,6 +86,7 @@ bool ModuleEditor::Start()
 		windows.push_back(test_win = new TestWindow());
 		windows.push_back(curve_win = new CurveWindow());
 		windows.push_back(warning_window = new WarningWindow());
+		windows.push_back(terrain_window = new TerrainWindow());
 		InitSizes();
 	}	
 	else
@@ -97,6 +97,8 @@ bool ModuleEditor::Start()
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
+
+	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
 
 	return ret;
 }
@@ -632,8 +634,16 @@ void ModuleEditor::GameObjectMenu()
 }
 
 void ModuleEditor::PhysicsMenu()
-{	
-	if(ImGui::BeginMenu("Heightmap"))
+{
+	if (ImGui::MenuItem("Open terrain tools"))
+	{
+		terrain_window->SetActive(true);
+	}
+
+	ImGui::NewLine();
+	ImGui::Separator();
+
+	if (ImGui::BeginMenu("Heightmap"))
 	{
 		if (ImGui::BeginMenu("Select a heightmap:"))
 		{
@@ -648,7 +658,7 @@ void ModuleEditor::PhysicsMenu()
 					string lib_file = App->resource_manager->FindFile(textures_list[i]);
 					App->physics->GenerateHeightmap(lib_file);
 					App->physics->SetTerrainMaxHeight(100.0f);
-					heightmapMaxHeight = 100.0f;
+					App->editor->heightmapMaxHeight = 100.0f;
 				}
 			}
 			ImGui::EndMenu();
@@ -674,7 +684,7 @@ void ModuleEditor::PhysicsMenu()
 			}
 		}
 		ImGui::EndMenu();
-	}	
+	}
 
 	ImGui::NewLine();
 	ImGui::Separator();
@@ -774,100 +784,11 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 	ImGui::NewLine();
-	bool toolBool = App->physics->currentTerrainTool == App->physics->paint_tool;
-	if (ImGui::Checkbox("Texture paint mode", &toolBool))
-	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->paint_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
-	}
-	if (App->physics->currentTerrainTool == App->physics->paint_tool)
-	{
-		ImGui::Text("Brush");
-		char button[64] = " ";
-		for (int n = 0; n < App->physics->GetNTextures(); n++)
-		{
-			sprintf(button, "%i##paintTextureButton", n + 1);
-			ImGui::SameLine();
-			if (ImGui::Button(button))
-			{
-				App->physics->paintTexture = n;
-			}
-		}
-		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		if (App->physics->paintTexture < App->physics->GetNTextures())
-		{
-			float2 size = App->physics->GetHeightmapSize();
-			float maxSize = max(size.x, size.y);
-			if (maxSize > 200)
-			{
-				float scale = 200.0f / maxSize;
-				size.x *= scale;
-				size.y *= scale;
-			}
-			ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
-		}
-	}
-
-	ImGui::NewLine();
-	ImGui::Separator();
-
-	toolBool = App->physics->currentTerrainTool == App->physics->sculpt_tool;
-	if (ImGui::Checkbox("Sculpt mode", &toolBool))
-	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->sculpt_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
-	}
-	if (App->physics->currentTerrainTool == App->physics->sculpt_tool)
-	{
-		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
-		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
-		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
-		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);
-	}
-
-	ImGui::NewLine();
-	ImGui::Separator();
-
-
-	toolBool = App->physics->currentTerrainTool == App->physics->goPlacement_tool;
-	if (ImGui::Checkbox("GameObject placement mode", &toolBool))
-	{
-		if (toolBool) { App->physics->currentTerrainTool = App->physics->goPlacement_tool; }
-		else { App->physics->currentTerrainTool = App->physics->none_tool; }
-	}
-	if (App->physics->currentTerrainTool == App->physics->goPlacement_tool)
-	{
-		if (ImGui::BeginMenu("Select a Prefab"))
-		{
-			vector<string> mesh_list;
-			App->editor->assets->GetAllFilesByType(FileType::PREFAB, mesh_list);
-
-			for (size_t i = 0; i < mesh_list.size(); ++i)
-			{
-				if (ImGui::MenuItem(mesh_list[i].data()))
-				{					
-					App->physics->GO_toPaint_libPath = App->resource_manager->FindFile(mesh_list[i]);
-					terrainPlacingObject = mesh_list[i];
-				}
-			}
-			ImGui::EndMenu();
-		}
-		ImGui::NewLine();
-		if (terrainPlacingObject.length() > 4)
-		{
-			ImGui::Text("Currently selected prefab:");
-			ImGui::Text("%s", terrainPlacingObject.data());
-		}
-	}
-
-	ImGui::NewLine();
-	ImGui::Separator();
 
 	ImGui::Text("Terrain Max Height:");
 	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
 	ImGui::SameLine();
-	if(ImGui::Button("Set height"))
+	if (ImGui::Button("Set height"))
 	{
 		App->physics->SetTerrainMaxHeight(heightmapMaxHeight);
 	}
@@ -882,6 +803,7 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
 	ImGui::Checkbox("Render terrain", &App->physics->renderFilledTerrain);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+
 }
 
 void ModuleEditor::DebugMenu()

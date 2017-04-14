@@ -257,6 +257,7 @@
     <ClInclude Include="ShaderEditorWindow.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SoundBank.h" />
+    <ClInclude Include="TerrainWindow.h" />
     <ClInclude Include="TestWindow.h" />
     <ClInclude Include="TextureImporter.h" />
     <ClInclude Include="MathGeoLib\include\Algorithm\GJK.h" />
@@ -436,6 +437,7 @@
     <ClCompile Include="ShaderEditorWindow.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SoundBank.cpp" />
+    <ClCompile Include="TerrainWindow.cpp" />
     <ClCompile Include="TestWindow.cpp" />
     <ClCompile Include="TextureImporter.cpp" />
     <ClCompile Include="MathGeoLib\include\Algorithm\GJK.cpp" />
