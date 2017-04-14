@@ -741,10 +741,7 @@ int ShaderCompiler::LoadDefaultBilboardShader()
 
 		"void main()\n"
 		"{\n"
-		"	vec4 c = texture(tex, TexCoord);\n"
-		"	if(c.a <= 0.01)\n"
-		"		discard;\n"
-		"	color = c;\n"
+		"	color = texture(tex, TexCoord);\n"
 		"}\n";
 
 	GLint success;

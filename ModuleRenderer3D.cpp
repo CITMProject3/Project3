@@ -561,6 +561,9 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
 
 	glActiveTexture(GL_TEXTURE0);
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
 	
 	for (vector<ComponentSprite*>::const_iterator sprite = sprites_to_draw.begin(); sprite != sprites_to_draw.end(); ++sprite)
 	{
@@ -593,6 +596,9 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_ALPHA_TEST);
+	
 }
 
 bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const
