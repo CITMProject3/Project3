@@ -149,6 +149,7 @@ private:
 	string scene_name_to_save;
 
 	float heightmapMaxHeight = 1.0f;
+	string terrainPlacingObject;
 
 	bool save_quit = false;
 	bool quit = false;
