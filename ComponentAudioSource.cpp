@@ -1,12 +1,14 @@
 #include "ComponentAudioSource.h"
 
 #include "ModuleAudio.h"
-#include "ModuleResourceManager.h"
 #include "Application.h"
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "Random.h"
+
+#include "AudioEvent.h"
+#include "SoundBank.h"
 
 #include "Primitive.h"
 
@@ -22,7 +24,7 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 ComponentAudioSource::~ComponentAudioSource()
 { 
 	if (attenuation_sphere != nullptr) delete attenuation_sphere;
-	StopAllEvents();
+	//StopAllEvents();
 	RemoveAllEvents();
 	App->audio->UnregisterGameObject(wwise_id_go);
 }
@@ -148,7 +150,7 @@ void ComponentAudioSource::Save(Data & file)const
 
 	// List of events
 	data.AppendArray("audio_events");
-	for (std::vector<const AudioEvent*>::const_iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	for (std::vector<AudioEvent*>::const_iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
 	{
 		Data sound_event;
 		if ((*curr_event)) // Maybe the user hasn't selected any audio event...
@@ -175,7 +177,7 @@ void ComponentAudioSource::Load(Data &conf)
 	// It's mandatory to load Init Soundbank first
 	if (!App->audio->IsInitSoundbankLoaded())
 	{
-		if (App->resource_manager->LoadResource(conf.GetString("init_soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK) != nullptr)
+		if (App->audio->LoadSoundBank(conf.GetString("init_soundbank_lib_path")))
 			App->audio->InitSoundbankLoaded();
 	}		
 
@@ -185,10 +187,10 @@ void ComponentAudioSource::Load(Data &conf)
 	{
 		Data audio_event = conf.GetArray("audio_events", i);
 
-		const AudioEvent *a_event = App->audio->FindEventById(audio_event.GetUInt("event_id"));
+		AudioEvent *a_event = App->audio->FindEventById(audio_event.GetUInt("event_id"));
 		if (a_event)
 		{
-			App->resource_manager->LoadResource(audio_event.GetString("soundbank_lib_path"), ResourceFileType::RES_SOUNDBANK);
+			App->audio->LoadSoundBank(audio_event.GetString("soundbank_lib_path"));
 			list_of_events.push_back(a_event);
 		}			
 		else
@@ -214,10 +216,8 @@ void ComponentAudioSource::Remove()
 
 // Attenuation related
 
-void ComponentAudioSource::UpdateEventSelected(unsigned int index, const AudioEvent *new_event)
+void ComponentAudioSource::UpdateEventSelected(unsigned int index, AudioEvent *new_event)
 {
-	//event_selected = new_event->name; // Name to show on Inspector
-
 	list_of_events[index] = new_event;
 
 	//current_event = new_event;		  // Variable that handles the new event
@@ -259,10 +259,10 @@ void ComponentAudioSource::ModifyAttenuationFactor()
 
 void ComponentAudioSource::RemoveAllEvents()
 {
-	for (std::vector<const AudioEvent*>::iterator it = list_of_events.begin(); it != list_of_events.end(); ++it)
+	for (std::vector<AudioEvent*>::iterator it = list_of_events.begin(); it != list_of_events.end(); ++it)
 	{
-		if((*it) != nullptr)
-			App->resource_manager->UnloadResource((*it)->parent_soundbank->path);  // Resource
+		if ((*it) != nullptr)
+			(*it)->Unload();
 	}
 
 	list_of_events.clear();
@@ -282,8 +282,8 @@ void ComponentAudioSource::ShowAddRemoveButtons()
 	// Remove last audio source added
 	if (ImGui::Button("-") && !list_of_events.empty())
 	{
-		if(list_of_events.back() != nullptr) // Unload Resource
-			App->resource_manager->UnloadResource(list_of_events.back()->parent_soundbank->path);
+		if (list_of_events.back() != nullptr) // Unload Resource
+			list_of_events.back()->Unload();
 		list_of_events.pop_back(); // Event
 	}
 }
@@ -295,7 +295,7 @@ void ComponentAudioSource::ShowListOfEvents()
 
 	// List of different events
 	unsigned index = 0;
-	for (std::vector<const AudioEvent*>::iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	for (std::vector<AudioEvent*>::iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
 	{
 		ImGui::Text("ID %u", index);
 		ImGui::Text("Event: "); ImGui::SameLine();
@@ -311,15 +311,18 @@ void ComponentAudioSource::ShowListOfEvents()
 			{
 				if (ImGui::MenuItem((*it)->name.c_str()))
 				{
-					// Unloading unused Soundbank.
-					if ((*curr_event) != nullptr) App->resource_manager->UnloadResource((*curr_event)->parent_soundbank->path);
-					// Loading new bank: first Init bank if it has been not loaded and then, the other one
-					if (!App->audio->IsInitSoundbankLoaded())
-						if (App->resource_manager->LoadResource(App->audio->GetInitLibrarySoundbankPath(), ResourceFileType::RES_SOUNDBANK) != nullptr)  // Init SB
-							App->audio->InitSoundbankLoaded();
-					App->resource_manager->LoadResource((*it)->parent_soundbank->path, ResourceFileType::RES_SOUNDBANK);  // Other one SB
+					// First, unloading previous Soundbank for old audio event.
+					if ((*curr_event) != nullptr)
+						(*curr_event)->Unload();
 
-					UpdateEventSelected(index, *it);
+					// Now, loading new bank: first Init bank if it has been not loaded 
+					if (!App->audio->IsInitSoundbankLoaded() && App->audio->LoadSoundBank())
+						App->audio->InitSoundbankLoaded();
+
+					// Finally, the soundbank to the corresponding new audio event
+					App->audio->LoadSoundBank((*it)->parent_soundbank->path.c_str());
+					
+					UpdateEventSelected(index, *it);  // Updating list of events
 				}
 			}
 			ImGui::EndMenu();

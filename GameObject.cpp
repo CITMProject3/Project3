@@ -266,23 +266,40 @@ void GameObject::OnPause()
 	}
 }
 
-bool GameObject::IsActive() const
+bool *GameObject::GetActiveBoolean()
 {
-	return active;
+	return &active;
+}
+
+bool GameObject::IsActive() const
+{	
+	// Obtaning all gameobjects from "this" to root, up in the hierarchy
+	const GameObject *curr_go = this;
+	std::vector<const GameObject*> hierarchy_gos;	
+
+	while (curr_go != nullptr && !App->go_manager->IsRoot(curr_go))
+	{
+		hierarchy_gos.push_back(curr_go);
+		curr_go = curr_go->parent;
+	}
+
+	// Checking if all Gameobjects are active
+	bool is_active = true;
+	for (std::vector<const GameObject*>::const_iterator it = hierarchy_gos.begin(); it != hierarchy_gos.end(); ++it)
+	{
+		if (!(*it)->active)
+		{
+			is_active = false;	 // There is one that it's not active, so...
+			break;				 // this gameobject is not active at the end.
+		}			
+	}
+
+	return is_active;
 }
 
 void GameObject::SetActive(bool value)
 {
-	if (value == true && parent->IsActive() == false)
-		return;
-
-	if ((value == true && active == false) || (value == false && active == true))
-	{
-		active = value;
-
-		for (std::vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
-			(*child)->SetActive(value);
-	}
+	if (value != active) active = value;
 }
 
 bool GameObject::IsStatic() const
@@ -402,44 +419,32 @@ Component* GameObject::AddComponent(ComponentType type)
 		item = new ComponentScript(type, this);
 		break;
 	case C_RECT_TRANSFORM:
-		if (GetComponent(type) == nullptr) //Only one rect transform compoenent for gameobject
+		if (GetComponent(type) == nullptr) // Only one rect transform component for gameobject
 			item = new ComponentRectTransform(type, this);
 		break;
 	case C_UI_IMAGE:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiImage(type, this);
-		else
-		{
-			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-		}
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);			
+		item = new ComponentUiImage(type, this);
 		break;
 	case C_UI_TEXT:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiText(type,this);
-		else
-		{
-			LOG("[ERROR] When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-			App->editor->DisplayWarning(WarningType::W_ERROR, "When adding component to %s: GameObject has no RectTransform component", this->name.c_str());
-		}
-		break;
-	case C_CANVAS:
-		if (GetComponent(C_RECT_TRANSFORM))
-		{
-			if (App->go_manager->current_scene_canvas == nullptr)
-			{
-				item = new ComponentCanvas(type, this);
-				App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
-			}
-		}	
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentUiText(type,this);
 		break;
 	case C_UI_BUTTON:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentUiButton(type, this);
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentUiButton(type, this);
 		break;
 	case C_GRID:
-		if (GetComponent(C_RECT_TRANSFORM))
-			item = new ComponentGrid(type, this);
+		if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+		item = new ComponentGrid(type, this);
+		break;
+	case C_CANVAS:
+		if (App->go_manager->current_scene_canvas == nullptr)
+		{
+			if (!GetComponent(C_RECT_TRANSFORM)) AddComponent(C_RECT_TRANSFORM);
+			item = new ComponentCanvas(type, this);
+			App->go_manager->current_scene_canvas = (ComponentCanvas*)item;
+		}
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);
@@ -709,6 +714,25 @@ void GameObject::RevertPrefabChanges()
 			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
 			if (prefab_go)
 				prefab_go->rc_prefab->RevertChanges(prefab_go);
+		}
+	}
+}
+
+void GameObject::UnlinkPrefab()
+{
+	if (is_prefab)
+	{
+		if (rc_prefab)
+		{
+			rc_prefab->Unload();
+		}
+		is_prefab = false;
+		prefab_path = "";
+		prefab_root_uuid = 0;
+		local_uuid = 0;
+		for (std::vector<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
+		{
+			(*it)->UnlinkPrefab();
 		}
 	}
 }

@@ -15,6 +15,8 @@
 #include "ComponentAnimation.h"
 #include "ComponentCar.h"
 
+#include "Assets.h"
+
 #include "RaycastHit.h"
 #include "LayerSystem.h"
 #include "Random.h"
@@ -230,6 +232,44 @@ bool ModuleGOManager::FastRemoveGameObject(GameObject * object)
 	}
 
 	return ret;
+}
+
+void ModuleGOManager::DuplicateGameObject(GameObject* object)
+{
+	if (object != nullptr)
+	{
+		if (object->IsPrefab() == true)
+		{
+			if (object->rc_prefab)
+			{
+				object->rc_prefab->LoadPrefabAsCopy();
+			}
+			LOG("Error: GameObject prefab has no resource prefab!");
+		}
+		else
+		{
+			ResourceFilePrefab* prefab = App->resource_manager->SavePrefab(object);
+			App->editor->RefreshAssets();
+			if (prefab)
+			{
+				GameObject* duplicated = prefab->LoadPrefabAsCopy();
+				object->UnlinkPrefab();
+				duplicated->UnlinkPrefab();
+				//Funny stuff. Adding assets here because files are managed on ImGui class x)
+				std::string asset_file = App->editor->assets->FindAssetFileFromLibrary(prefab->GetFile());
+				AssetFile* file = App->editor->assets->FindAssetFile(asset_file);
+				App->editor->assets->DeleteAssetFile(file);
+			}
+			else
+			{
+				LOG("Error while duplicating GameObject: prefab not saved");
+			}
+		}
+	}
+	else
+	{
+		LOG("Error: attempting to duplicate null GameObject");
+	}
 }
 
 void ModuleGOManager::GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from) const 
