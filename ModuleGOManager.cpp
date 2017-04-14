@@ -58,6 +58,8 @@ bool ModuleGOManager::Init(Data & config)
 
 bool ModuleGOManager::Start()
 {
+	DeleteTemporalScene();
+
 	octree.Create(OCTREE_SIZE);
 
 	if (!current_library_scene_path.empty() && App->IsGameRunning())
@@ -339,19 +341,6 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 
 	root->Save(root_node);
 
-	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-
-	root_node.AppendArray("terrain_textures");
-	for (uint n = 0; n < App->physics->GetNTextures(); n++)
-	{
-		Data texture;
-		texture.AppendString("path", App->physics->GetTexturePath(n));
-		root_node.AppendArrayValue(texture);
-	}
-
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
-
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 
@@ -369,6 +358,11 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
+	DeleteTemporalScene();
+}
+
+void ModuleGOManager::DeleteTemporalScene()
+{
 	App->file_system->Delete(TEMPORAL_SCENE);
 
 	string terrain = TEMPORAL_SCENE;

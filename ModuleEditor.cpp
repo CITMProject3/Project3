@@ -31,6 +31,7 @@
 #include "LightingWindow.h"
 #include "LayersWindow.h"
 #include "CurveWindow.h"
+#include "TerrainWindow.h"
 #include "RenderTexEditorWindow.h"
 #include "TestWindow.h"
 #include "RaycastHit.h"
@@ -66,8 +67,6 @@ bool ModuleEditor::Start()
 
 	LOG("Start Editor");
 
-	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
-
 	if (App->StartInGame() == false)
 	{
 		//Create Windows
@@ -87,6 +86,7 @@ bool ModuleEditor::Start()
 		windows.push_back(test_win = new TestWindow());
 		windows.push_back(curve_win = new CurveWindow());
 		windows.push_back(warning_window = new WarningWindow());
+		windows.push_back(terrain_window = new TerrainWindow());
 		InitSizes();
 	}	
 	else
@@ -97,6 +97,8 @@ bool ModuleEditor::Start()
 
 	//Testing
 	skybox.Init("Resources/Skybox/s_left.dds", "Resources/Skybox/s_right.dds", "Resources/Skybox/s_up.dds", "Resources/Skybox/s_down.dds", "Resources/Skybox/s_front.dds", "Resources/Skybox/s_back.dds");
+
+	heightmapMaxHeight = App->physics->GetTerrainHeightScale();
 
 	return ret;
 }
@@ -166,16 +168,22 @@ bool ModuleEditor::UsingMouse() const
 
 void ModuleEditor::SelectSingle(GameObject* game_object)
 {
-	UnselectAll();
-	if (game_object != nullptr)
-		selected.push_back(game_object);
+	if (lockSelection == false)
+	{
+		UnselectAll();
+		if (game_object != nullptr)
+			selected.push_back(game_object);
+	}
 }
 
 void ModuleEditor::AddSelect(GameObject* game_object)
 {
-	//Just for safety
-	if (game_object != nullptr && IsSelected(game_object) == false)
-		selected.push_back(game_object);
+	if (lockSelection == false)
+	{
+		//Just for safety
+		if (game_object != nullptr && IsSelected(game_object) == false)
+			selected.push_back(game_object);
+	}
 }
 
 void ModuleEditor::Unselect(GameObject* game_object)
@@ -244,6 +252,11 @@ update_status ModuleEditor::PreUpdate()
 
 	using_keyboard = ImGui::GetIO().WantCaptureKeyboard;
 	using_mouse = ImGui::GetIO().WantCaptureMouse;
+
+	if (lockSelection && selected.empty() == false)
+	{
+		UnselectAll();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -632,8 +645,16 @@ void ModuleEditor::GameObjectMenu()
 }
 
 void ModuleEditor::PhysicsMenu()
-{	
-	if(ImGui::BeginMenu("Heightmap"))
+{
+	if (ImGui::MenuItem("Open terrain tools"))
+	{
+		terrain_window->SetActive(true);
+	}
+
+	ImGui::NewLine();
+	ImGui::Separator();
+
+	if (ImGui::BeginMenu("Heightmap"))
 	{
 		if (ImGui::BeginMenu("Select a heightmap:"))
 		{
@@ -648,7 +669,7 @@ void ModuleEditor::PhysicsMenu()
 					string lib_file = App->resource_manager->FindFile(textures_list[i]);
 					App->physics->GenerateHeightmap(lib_file);
 					App->physics->SetTerrainMaxHeight(100.0f);
-					heightmapMaxHeight = 100.0f;
+					App->editor->heightmapMaxHeight = 100.0f;
 				}
 			}
 			ImGui::EndMenu();
@@ -674,7 +695,7 @@ void ModuleEditor::PhysicsMenu()
 			}
 		}
 		ImGui::EndMenu();
-	}	
+	}
 
 	ImGui::NewLine();
 	ImGui::Separator();
@@ -693,7 +714,13 @@ void ModuleEditor::PhysicsMenu()
 					if (ImGui::MenuItem(textures_list[i].data()))
 					{
 						string lib_file = App->resource_manager->FindFile(textures_list[i]);
-						App->physics->LoadTexture(lib_file);
+
+						char* tmp_it = textures_list[i]._Myptr();
+						tmp_it += textures_list[i].length();
+						for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+						tmp_it++;
+
+						App->physics->LoadTexture(lib_file, -1, tmp_it);
 					}
 				}
 				ImGui::EndMenu();
@@ -704,6 +731,16 @@ void ModuleEditor::PhysicsMenu()
 				for (uint n = 0; n < App->physics->GetNTextures(); n++)
 				{
 					ImGui::NewLine();
+					ImGui::Text("%s", App->physics->GetTextureName(n).data());
+					float2 size = App->physics->GetHeightmapSize();
+					float maxSize = max(size.x, size.y);
+					if (maxSize > 200)
+					{
+						float scale = 200.0f / maxSize;
+						size.x *= scale;
+						size.y *= scale;
+					}
+					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
 					char menuName[64] = " ";
 					sprintf(menuName, "Replace texture:##texn%u", n);
 					if (ImGui::BeginMenu(menuName))
@@ -717,20 +754,18 @@ void ModuleEditor::PhysicsMenu()
 							if (ImGui::MenuItem(textures_list[i].data()))
 							{
 								string lib_file = App->resource_manager->FindFile(textures_list[i]);
-								App->physics->LoadTexture(lib_file, n);
+
+								char* tmp_it = textures_list[i]._Myptr();
+								tmp_it += textures_list[i].length();
+								for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+								tmp_it++;
+
+								App->physics->LoadTexture(lib_file, n, tmp_it);
 							}
 						}
 						ImGui::EndMenu();
 					}
-					float2 size = App->physics->GetHeightmapSize();
-					float maxSize = max(size.x, size.y);
-					if (maxSize > 200)
-					{
-						float scale = 200.0f / maxSize;
-						size.x *= scale;
-						size.y *= scale;
-					}
-					ImGui::Image((void*)App->physics->GetTexture(n), ImVec2(size.x, size.y));
+					ImGui::NewLine();
 					char buttonName[64] = "";
 					sprintf(buttonName, "Delete texture##delText%u", n);
 					if (ImGui::Button(buttonName))
@@ -774,61 +809,11 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 	ImGui::NewLine();
-	if (ImGui::Checkbox("Texture paint mode", &App->physics->paintMode))
-	{
-		App->physics->sculptMode = false;
-	}
-	if (App->physics->paintMode)
-	{
-		ImGui::Text("Brush");
-		char button[64] = " ";
-		for (int n = 0; n < App->physics->GetNTextures(); n++)
-		{
-			sprintf(button, "%i##paintTextureButton", n + 1);
-			ImGui::SameLine();
-			if (ImGui::Button(button))
-			{
-				App->physics->paintTexture = n;
-			}
-		}
-		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		if (App->physics->paintTexture < App->physics->GetNTextures())
-		{
-			float2 size = App->physics->GetHeightmapSize();
-			float maxSize = max(size.x, size.y);
-			if (maxSize > 200)
-			{
-				float scale = 200.0f / maxSize;
-				size.x *= scale;
-				size.y *= scale;
-			}
-			ImGui::Image((void*)App->physics->GetTexture(App->physics->paintTexture), ImVec2(size.x, size.y));
-		}
-	}
-
-	ImGui::NewLine();
-	ImGui::Separator();
-
-	if (ImGui::Checkbox("Sculpt mode", &App->physics->sculptMode))
-	{
-		App->physics->paintMode = false;
-	}
-	if (App->physics->sculptMode)
-	{
-		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
-		ImGui::RadioButton("Flatten", (int*)&App->physics->tool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
-		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->tool, SculptModeTools::sculpt_raise); ImGui::SameLine();
-		ImGui::RadioButton("Smooth", (int*)&App->physics->tool, SculptModeTools::sculpt_smooth);
-	}
-
-	ImGui::NewLine();
-	ImGui::Separator();
 
 	ImGui::Text("Terrain Max Height:");
 	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
 	ImGui::SameLine();
-	if(ImGui::Button("Set height"))
+	if (ImGui::Button("Set height"))
 	{
 		App->physics->SetTerrainMaxHeight(heightmapMaxHeight);
 	}
@@ -843,6 +828,7 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::Checkbox("Render chunks", &App->physics->renderChunks);
 	ImGui::Checkbox("Render terrain", &App->physics->renderFilledTerrain);
 	ImGui::Checkbox("Wireframed terrain", &App->physics->renderWiredTerrain);
+
 }
 
 void ModuleEditor::DebugMenu()

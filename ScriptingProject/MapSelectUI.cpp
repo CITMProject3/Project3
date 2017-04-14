@@ -1,0 +1,297 @@
+#include "stdafx.h"
+
+#include <string>
+#include <map>
+#include <vector>
+#include "../Application.h"
+#include "../ModuleScripting.h"
+#include "../ModuleInput.h"
+#include "../ModuleWindow.h"
+#include "../ComponentTransform.h"
+#include "../ModuleGOManager.h"
+#include "../GameObject.h"
+#include "../Component.h"
+#include "../ComponentScript.h"
+#include "../ComponentRectTransform.h"
+#include "../SDL/include/SDL_scancode.h"
+#include "../Globals.h"
+#include "../ComponentUiButton.h"
+#include "../ComponentCanvas.h"
+#include "../ModuleResourceManager.h"
+#include "../Random.h"
+#include "../Time.h"
+
+#include "../ComponentAudioSource.h"
+
+namespace MapSelectUI
+{
+
+	GameObject* map_fields = nullptr;
+	GameObject* map_umi = nullptr;
+	GameObject* map_ricing = nullptr;
+	
+	GameObject* players_vote[4];
+	GameObject* right_arrow = nullptr;
+	GameObject* left_arrow = nullptr;
+
+	ComponentUiButton* c_players_vote[4];
+	// 0 - P1 Red, 1 - P2 Red, 2 - P1 Blue, 2 - P2 Blue,
+	ComponentUiButton* c_right_arrow = nullptr;
+	ComponentUiButton* c_left_arrow = nullptr;
+
+	string path_map1 = "";
+	string path_map2 = "";
+	string path_map3 = "";
+
+	bool players_ready[4] = { false, false, false, false };
+
+	bool a_pressed = false;
+	bool b_pressed = false;
+	bool dpad_left_pressed = false;
+	bool dpad_right_pressed = false;
+	int current_level = 0;
+	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
+	int votes[4] = { 0, 0, 0, 0 };
+
+	int arrow_counter_left = 30;
+	int arrow_counter_right = 30;
+	int time = 30;
+	int player_order[4];
+	void MapSelectUI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
+	{
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Fields", map_fields));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Umi", map_umi));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Ricing", map_ricing));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[2]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[3]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[0]));
+		public_gos->insert(std::pair<const char*, GameObject*>("P2-Blue Vote", players_vote[1]));
+		public_gos->insert(std::pair<const char*, GameObject*>("R-Arrow", right_arrow));
+		public_gos->insert(std::pair<const char*, GameObject*>("L-Arrow", left_arrow));
+
+		public_ints->insert(std::pair<const char*, int>("Button Cooldown", time));
+	}
+
+	void MapSelectUI_UpdatePublics(GameObject* game_object)
+	{
+		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+		map_fields = test_script->public_gos.at("Map Fields");
+		map_umi = test_script->public_gos.at("Map Umi");
+		map_ricing = test_script->public_gos.at("Map Ricing");
+		players_vote[0] = test_script->public_gos.at("P1-Blue Vote");
+		players_vote[1] = test_script->public_gos.at("P2-Blue Vote");
+		players_vote[2] = test_script->public_gos.at("P1-Red Vote");
+		players_vote[3] = test_script->public_gos.at("P2-Red Vote");
+		
+		right_arrow = test_script->public_gos.at("R-Arrow");
+		left_arrow = test_script->public_gos.at("L-Arrow");
+		time = test_script->public_ints.at("Button Cooldown");
+
+		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
+		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
+		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
+		c_players_vote[3] = (ComponentUiButton*)players_vote[3]->GetComponent(C_UI_BUTTON);
+		c_right_arrow = (ComponentUiButton*)right_arrow->GetComponent(C_UI_BUTTON);
+		c_left_arrow = (ComponentUiButton*)left_arrow->GetComponent(C_UI_BUTTON);
+	}
+
+	void MapSelectUI_ActualizePublics(GameObject* game_object)
+	{
+		ComponentScript* this_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+
+		this_script->public_gos.at("Map Fields") = map_fields;
+		this_script->public_gos.at("Map Umi") = map_umi;
+		this_script->public_gos.at("Map Ricing") = map_ricing;
+		this_script->public_gos.at("P1-Blue Vote") = players_vote[0];
+		this_script->public_gos.at("P2-Blue Vote") = players_vote[1];
+		this_script->public_gos.at("P1-Red Vote") = players_vote[2];
+		this_script->public_gos.at("P2-Red Vote") = players_vote[3];
+		
+		this_script->public_gos.at("R-Arrow") = right_arrow;
+		this_script->public_gos.at("L-Arrow") = left_arrow;
+		this_script->public_ints.at("Button Cooldown") = time;
+		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
+		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
+		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
+		c_players_vote[3] = (ComponentUiButton*)players_vote[3]->GetComponent(C_UI_BUTTON);
+		c_right_arrow = (ComponentUiButton*)right_arrow->GetComponent(C_UI_BUTTON);
+		c_left_arrow = (ComponentUiButton*)left_arrow->GetComponent(C_UI_BUTTON);
+	}
+
+	void MapSelectUI_UpdatePublics(GameObject* game_object);
+
+	void MapSelectUI_Start(GameObject* game_object)
+	{
+		// Play Move Selection
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
+
+		arrow_counter_left = time;
+		arrow_counter_right = time;
+		current_map = 0;
+		current_level = 0;
+		player_order[0] = App->go_manager->team1_front;
+		player_order[1] = App->go_manager->team1_back;
+		player_order[2] = App->go_manager->team2_front;
+		player_order[3] = App->go_manager->team2_back;
+	}
+
+	void MapSelectUI_Update(GameObject* game_object)
+	{
+		for (int playerID = 0; playerID < 4; playerID++)
+		{
+			int id = 0;
+			for (int j = 0; j < 4; j++)
+			{
+				if (player_order[j] == playerID)
+				{
+					id = j;
+				}
+			}
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+			{
+				c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
+				
+
+				votes[id] = current_level;
+				players_ready[id] = true;
+			}
+
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+			{
+				if (players_ready[id])
+				{
+					c_players_vote[id]->OnPressId(votes[id]); // TO BE TESTED
+
+					players_ready[id] = false;
+				}
+			}
+
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
+				current_level--;
+				if (current_level < 0)
+					current_level = 2;
+
+				switch (current_level)
+				{
+				case 0:
+					map_fields->SetActive(true);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(false);
+					break;
+				case 1:
+					map_fields->SetActive(false);
+					map_umi->SetActive(true);
+					map_ricing->SetActive(false);
+					break;
+				case 2:
+					map_fields->SetActive(false);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(true);
+					break;
+				}
+
+				if (arrow_counter_left >= time)
+				{
+					c_left_arrow->OnPress();
+				}
+				arrow_counter_left = 0;
+			}
+
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			{
+				// Play Move Selection
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
+				current_level++;
+				if (current_level > 2)
+					current_level = 0;
+				switch (current_level)
+				{
+				case 0:
+					map_fields->SetActive(true);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(false);
+					break;
+				case 1:
+					map_fields->SetActive(false);
+					map_umi->SetActive(true);
+					map_ricing->SetActive(false);
+					break;
+				case 2:
+					map_fields->SetActive(false);
+					map_umi->SetActive(false);
+					map_ricing->SetActive(true);
+					break;
+				}
+			
+
+				if (arrow_counter_right >= time)
+				{
+					c_right_arrow->OnPress();
+				}
+				arrow_counter_right = 0;
+			}
+		}
+
+		if (arrow_counter_left < time)
+		{
+			arrow_counter_left++;
+
+			if (arrow_counter_left == time)
+				c_left_arrow->OnPress();
+		}
+
+		if (arrow_counter_right < time)
+		{
+			arrow_counter_right++;
+
+			if (arrow_counter_right == time)
+				c_right_arrow->OnPress();
+		}
+
+		int total = 0;
+		for (int j = 0; j < 4; j++)
+		{
+			if (players_ready[j])
+				total++;
+
+			if (total == 4)
+			{
+				unsigned int k = App->rnd->RandomInt(1, 4);
+
+				switch (votes[k])
+				{
+				case 1:
+					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					break;
+				case 2:
+					App->resource_manager->LoadSceneFromAssets(path_map2.data());
+					break;
+				case 3:
+					App->resource_manager->LoadSceneFromAssets(path_map3.data());
+					break;
+				default:
+					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
+					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					break;
+
+				}
+			}
+			else
+				total = 0; // Redundancy
+		}
+	}
+
+	void MapSelectUI_OnFocus()
+	{
+
+	}
+}

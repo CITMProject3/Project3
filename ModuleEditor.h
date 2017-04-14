@@ -33,6 +33,7 @@ class LayersWindow;
 class RenderTexEditorWindow;
 class TestWindow;
 class CurveWindow;
+class TerrainWindow;
 
 class ComponentCar;
 
@@ -143,13 +144,16 @@ private:
 	LayersWindow* layers_win = nullptr;
 	TestWindow* test_win = nullptr;
 	CurveWindow* curve_win = nullptr;
-	WarningWindow *warning_window = nullptr;
+	WarningWindow* warning_window = nullptr;
+	TerrainWindow* terrain_window = nullptr;
 
 	bool save_scene_win = false;
 	string scene_name_to_save;
-
+	public:
 	float heightmapMaxHeight = 1.0f;
 
+	bool lockSelection = false;
+	private:
 	bool save_quit = false;
 	bool quit = false;
 };

@@ -44,11 +44,13 @@ GameObject* ResourceFilePrefab::LoadPrefabAsCopy()
 		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			root = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
-
 			if (i == 0)
 			{
-				ret = root;
 				instances.push_back(root); //Save the root GO of the prefab
+				if (ret == nullptr)
+				{
+					ret = root;
+				}
 				Load();
 				root->rc_prefab = this;
 			}

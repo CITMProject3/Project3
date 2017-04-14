@@ -16,6 +16,8 @@
 
 #include "PhysBody3D.h"
 
+#include "ResourceFile.h"
+
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
@@ -24,7 +26,7 @@
 #define CHUNK_W 64
 #define CHUNK_H 64
 
-#define TERRAIN_VERSION 1
+#define TERRAIN_VERSION 2
 
 class PhysBody3D;
 class PhysVehicle3D;
@@ -97,6 +99,13 @@ class ModulePhysics3D : public Module
 {
 	friend class chunk;
 public:
+	enum TerrainTools {
+		none_tool,
+		paint_tool,
+		sculpt_tool,
+		goPlacement_tool
+	};
+
 	ModulePhysics3D(const char* name, bool start_enabled = true);
 	~ModulePhysics3D();
 
@@ -126,13 +135,14 @@ public:
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	void Sculpt(int x, int y, bool inverse = false);
+	void PlaceGO(float3 pos, Quat rot = ::Quat::identity);
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
 	void SetTerrainMaxHeight(float height);
 	void SetTextureScaling(float scale, bool doNotUse = false);
 
-	void LoadTexture(std::string resLibPath, int pos = -1);
+	void LoadTexture(std::string resLibPath, int pos = -1, string texName = string(""));
 	void DeleteTexture(uint n);
 
 	bool SaveTextureMap(const char* path);
@@ -155,8 +165,9 @@ public:
 	void RegenerateNormals(int x0, int y0, int x1, int y1);
 
 	int GetTexture(uint n);
+	string GetTextureName(uint n);
 	uint GetTextureUUID(uint n);
-	const char* GetTexturePath(uint n);
+	string GetTexturePath(uint n);
 	uint GetNTextures();
 	float GetTextureScaling() { return textureScaling; }
 
@@ -231,7 +242,9 @@ private:
 	float* terrainData = nullptr;
 	float* realTerrainData = nullptr;
 	btHeightfieldTerrainShape* terrain = nullptr;
-	std::vector<ResourceFileTexture*> textures;
+	public:
+	std::vector<std::pair<ResourceFileTexture*, string>> textures;
+	private:
 	float textureScaling = 0.03f;
 	float terrainMaxHeight = 100.0f;
 
@@ -282,12 +295,14 @@ public:
 	float* textureMap = nullptr;
 	
 	bool renderChunks = false;
-	bool paintMode = false;
-	bool sculptMode = false;
+	TerrainTools currentTerrainTool = none_tool;
 	int paintTexture = 0;
 	int brushSize = 5;
 	float sculptStrength = 1.0f;
-	SculptModeTools tool = SculptModeTools::sculpt_smooth;
+	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
+
+	std::string GO_toPaint_libPath;
+	GameObject* last_placed_go = nullptr;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;

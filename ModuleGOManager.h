@@ -63,6 +63,7 @@ public:
 
 	void SaveSceneBeforeRunning();//Saves the scene before running the game
 	void LoadSceneBeforeRunning();
+	void DeleteTemporalScene();
 	void ClearScene(); //Removes the current scene
 	GameObject* LoadGameObject(const Data& go_data);
 
