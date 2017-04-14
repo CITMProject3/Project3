@@ -761,6 +761,11 @@ ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	//Duplicate file in assets
 	ResourceFilePrefab* ret = nullptr;
 
+	for (std::vector<GameObject*>::const_iterator it = gameobject->GetChilds()->begin(); it != gameobject->GetChilds()->end(); it++)
+	{
+		UnlinkChildPrefabs(*it);
+	}
+
 	Data root_node;
 	root_node.AppendArray("GameObjects");
 	GameObject* parent = gameobject->GetParent();
@@ -820,6 +825,15 @@ ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 	gameobject->prefab_path = library_path.data();
 
 	return ret;
+}
+
+void ModuleResourceManager::UnlinkChildPrefabs(GameObject* gameObject)
+{
+	if (gameObject->IsPrefab()) gameObject->UnlinkPrefab();
+	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
+	{
+		UnlinkChildPrefabs(*it);
+	}
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
