@@ -72,10 +72,6 @@ public:
 	bool IsSelected(GameObject* game_object) const;
 	void RemoveSelected();
 
-	void Copy(GameObject* game_object);
-	void Paste(GameObject* game_object);
-	void Duplicate(GameObject* game_object);
-
 	void DisplayWarning(WarningType type, const char *format, ...);
 
 private:

@@ -224,21 +224,6 @@ void ModuleEditor::RemoveSelected()
 	selected.clear();
 }
 
-void ModuleEditor::Copy(GameObject* game_object)
-{
-
-}
-
-void ModuleEditor::Paste(GameObject* game_object)
-{
-	
-}
-
-void ModuleEditor::Duplicate(GameObject* game_object)
-{
-
-}
-
 void ModuleEditor::DisplayWarning(WarningType type, const char *format, ...)
 {
 	static char tmp_string[4096];
@@ -318,6 +303,13 @@ void ModuleEditor::HandleInput()
 		OnSaveCall();
 	}
 
+	if (App->input->GetKey(SDL_SCANCODE_LCTRL) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_D) == KEY_DOWN)
+	{
+		if (selected.empty() == false)
+		{
+			App->go_manager->DuplicateGameObject(selected.back());
+		}
+	}
 	if (App->input->GetKey(SDL_SCANCODE_DELETE) == KEY_DOWN)
 	{
 		RemoveSelected();

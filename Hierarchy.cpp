@@ -49,23 +49,10 @@ void Hierarchy::Draw()
 
 	if (ImGui::BeginPopup("HierarchyOptions"))
 	{
-		if (ImGui::MenuItem("Copy"))
-		{
-			if (App->editor->selected.size() > 0)
-				App->editor->Copy(App->editor->selected.back());
-		}
-		if (ImGui::MenuItem("Paste"))
-		{
-			if (App->editor->selected.size() > 0)
-				App->editor->Paste(App->editor->selected.back());
-			else
-				App->editor->Paste(nullptr);
-		}
-		ImGui::Separator();
 		if (ImGui::MenuItem("Duplicate"))
 		{
 			if (App->editor->selected.size() > 0)
-				App->editor->Duplicate(App->editor->selected.back());
+				App->go_manager->DuplicateGameObject(App->editor->selected.back());
 		}
 
 		if (ImGui::MenuItem("Delete"))

@@ -270,9 +270,10 @@ void ComponentCollider::Load(Data & conf)
 	shape = (Collider_Shapes) conf.GetInt("shape");
 	Static = conf.GetBool("static");
 	mass = conf.GetFloat("mass");
-	offset_pos = conf.GetFloat3("offset_pos");
-	
+
 	SetShape(shape);
+
+	offset_pos = conf.GetFloat3("offset_pos");
 	is_trigger = conf.GetBool("is_trigger");
 	trigger_type = (TriggerType)conf.GetInt("trigger_type");
 	GetTriggerTypeName();
