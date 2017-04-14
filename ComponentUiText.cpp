@@ -111,6 +111,7 @@ void ComponentUiText::OnInspector(bool debug)
 		if (UImaterial->DefaultMaterialInspector())
 		{
 			GenerateFont(); 
+			OnChangeTexture();
 		}
 		if (ImGui::Button("Change Text"))
 		{
@@ -136,6 +137,8 @@ void ComponentUiText::OnInspector(bool debug)
 		{
 			SetText(array_values);
 		}
+
+		ImGui::InputInt("Letter offset", &char_offset);
 	}
 }
 
@@ -148,6 +151,7 @@ void ComponentUiText::Save(Data & file) const
 	data.AppendBool("active", active);
 	data.AppendString("text", text.c_str());
 	data.AppendString("array_values", array_values.c_str());
+	data.AppendInt("char_offset", char_offset);
 	data.AppendArray("Material");
 	UImaterial->Save(data);
 	file.AppendArrayValue(data);
@@ -159,6 +163,7 @@ void ComponentUiText::Load(Data & conf)
 	active = conf.GetBool("active");
 	text = conf.GetString("text");
 	array_values = conf.GetString("array_values");
+	char_offset = conf.GetInt("char_offset");
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
@@ -186,6 +191,11 @@ string ComponentUiText::GetArrayValues() const
 int ComponentUiText::GetCharRows() const
 {
 	return 0;
+}
+
+int ComponentUiText::GetCharOffset() const
+{
+	return char_offset;
 }
 
 float ComponentUiText::GetCharwidth(int i) const
@@ -239,6 +249,11 @@ void ComponentUiText::SetText(string &text)
 void ComponentUiText::SetDisplayText(string text)
 {
 	this->text = text;
+}
+
+void ComponentUiText::SetCharOffset(int off)
+{
+	char_offset = off;
 }
 
 void ComponentUiText::GenerateFont()

@@ -918,7 +918,7 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 					glBindTexture(GL_TEXTURE_2D, 0);
 					glBindTexture(GL_TEXTURE_2D, (t->UImaterial->texture_ids.at(to_string(j))));
 					
-					if (t->meshes.at(j) != nullptr)
+					if (t->meshes.size() > j)
 					{
 						mesh = t->meshes.at(j);
 					}
@@ -936,8 +936,8 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
 					glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 				}
-				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
-				x += letter_w;
+				tmp.SetTranslatePart(letter_w + t->GetCharOffset(), 0.0f, 0.0f);
+				x += (letter_w + t->GetCharOffset());
 				break;
 			}
 		}

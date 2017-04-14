@@ -28,13 +28,16 @@ public:
 	string GetText() const;
 	string GetArrayValues() const;
 	int GetCharRows() const;
+	int GetCharOffset() const;
 	float GetCharwidth(int i) const;
 	float GetCharHeight(int i) const;
 	float GetImgWidth() const;
 	float GetImgHeight()const;
+
 	void SetText(string &text);
 	void SetDisplayText(string text);
-	
+	void SetCharOffset(int off);
+
 	vector<Mesh*> meshes;
 private:
 	void GenerateFont();
@@ -50,6 +53,7 @@ private:
 	uint img_height = 0;
 	int* char_w;
 	int* char_h;
+	int char_offset = 0;
 	int text_type = 0;
 	string current_text_changing = "";
 	ResourceFileMesh* tplane = nullptr;
