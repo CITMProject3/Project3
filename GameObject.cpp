@@ -722,10 +722,22 @@ void GameObject::UnlinkPrefab()
 {
 	if (is_prefab)
 	{
-		if (rc_prefab)
+		if (rc_prefab == nullptr)
+		{
+			GameObject* prefab_go = App->go_manager->FindGameObjectByUUID(App->go_manager->root, prefab_root_uuid);
+			if (prefab_go && prefab_go->IsPrefab())
+			{
+				prefab_go->UnlinkPrefab();
+				return;
+			}
+		}
+		else
 		{
 			rc_prefab->Unload();
+			rc_prefab->UnloadInstance(this);
+			rc_prefab = nullptr;
 		}
+
 		is_prefab = false;
 		prefab_path = "";
 		prefab_root_uuid = 0;
