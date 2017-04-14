@@ -20576,6 +20576,365 @@
                     "Result_Window": 445700002,
                     "Player1_Finish_Text": 3805687474,
                     "Player2_Finish_Text": 2844830127
+                },
+                {
+                    "type": 18,
+                    "UUID": 3960951906,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/1947947391\/4281391400\/4281391400.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 1539028611,
+                            "event_name": "Countdown_Go",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285746,
+                            "event_name": "Countdown_1",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285745,
+                            "event_name": "Countdown_2",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3138285744,
+                            "event_name": "Countdown_3",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 1114964412,
+                            "event_name": "Start_Game",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                        },
+                        {
+                            "event_id": 3568813383,
+                            "event_name": "Play_Main_Theme",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/1947947391\/1407609015\/1407609015.bnk"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "end",
+            "UUID": 3899135594,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3188846460,
+                    "active": true,
+                    "matrix": [
+                        -0.988429,
+                        0,
+                        0.151807,
+                        -36.364441,
+                        0,
+                        1,
+                        0,
+                        86,
+                        -0.151807,
+                        0,
+                        -0.988429,
+                        48.236824,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1647955634,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        39.800003,
+                        14.600000,
+                        11.500001
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1699548274,
+                    "active": true,
+                    "script_path": "Finish_lane",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "cp1",
+            "UUID": 4132679894,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 892765691,
+                    "active": true,
+                    "matrix": [
+                        -0.849088,
+                        0,
+                        0.528319,
+                        -31.135670,
+                        0,
+                        1,
+                        0,
+                        86,
+                        -0.528319,
+                        0,
+                        -0.849088,
+                        -6.166614,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 277640568,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        32.300003,
+                        14.100000,
+                        3.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 1760595030,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 1
+                }
+            ]
+        },
+        {
+            "name": "cp2",
+            "UUID": 1102465518,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2823764629,
+                    "active": true,
+                    "matrix": [
+                        0.967618,
+                        0,
+                        0.252418,
+                        1.787149,
+                        0,
+                        1,
+                        0,
+                        86,
+                        -0.252418,
+                        0,
+                        0.967618,
+                        5.540357,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3461273118,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        30.800001,
+                        16.600000,
+                        2.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3802035966,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 2
+                }
+            ]
+        },
+        {
+            "name": "cp3",
+            "UUID": 3827158395,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2389741880,
+                    "active": true,
+                    "matrix": [
+                        0.885904,
+                        0,
+                        -0.463869,
+                        15.746225,
+                        0,
+                        1,
+                        0,
+                        86,
+                        0.463869,
+                        0,
+                        0.885904,
+                        63.177937,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1455316873,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        36.300003,
+                        16.600000,
+                        3.300000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3709395972,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 3
+                }
+            ]
+        },
+        {
+            "name": "position_controller",
+            "UUID": 2930767554,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2951739083,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2593946789,
+                    "active": true,
+                    "script_path": "CarPositionController",
+                    "script_num": 0,
+                    "car1": 3082689746,
+                    "car2": 3832415544
                 }
             ]
         }
