@@ -232,9 +232,9 @@ void Application::PauseGame()
 void Application::StopGame()
 {
 	game_state = GAME_STOP;
-	go_manager->LoadSceneBeforeRunning();
-	time->Stop();
 	OnStop();
+	go_manager->LoadSceneBeforeRunning();
+	time->Stop();	
 }
 
 // Call PreUpdate, Update and PostUpdate on all modules

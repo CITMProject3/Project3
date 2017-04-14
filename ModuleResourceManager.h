@@ -76,7 +76,7 @@ public:
 	bool LoadSceneFromAssets(const char* file_name);
 	bool LoadScene(const char* file_name);
 	void ReloadScene();
-	void SavePrefab(GameObject* gameobject);
+	ResourceFilePrefab* SavePrefab(GameObject* gameobject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;

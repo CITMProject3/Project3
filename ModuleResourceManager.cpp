@@ -756,11 +756,12 @@ void ModuleResourceManager::ReloadScene()
 	}
 }
 
-void ModuleResourceManager::SavePrefab(GameObject * gameobject)
+ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 {
 	//Create the file
 	//Create the meta
 	//Duplicate file in assets
+	ResourceFilePrefab* ret = nullptr;
 
 	Data root_node;
 	root_node.AppendArray("GameObjects");
@@ -810,18 +811,17 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 
 	delete[] buf;
 
-	ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
-	if (rc_prefab)
+	ret = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+	if (ret)
 	{
-		gameobject->rc_prefab = rc_prefab;
-		rc_prefab->InsertOriginalInstance(gameobject);
+		gameobject->rc_prefab = ret;
+		ret->InsertOriginalInstance(gameobject);
 	}
 
 	gameobject->SetParent(parent);
 	gameobject->prefab_path = library_path.data();
 
-
-
+	return ret;
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)

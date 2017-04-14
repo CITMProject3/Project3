@@ -443,8 +443,6 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 		if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
 			turn_current = top_turn;
 	}
-
-
 	return true;
 }
 

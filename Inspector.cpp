@@ -36,13 +36,10 @@ void Inspector::Draw()
 
 	if (selected_GO)
 	{
-
 		//Active
-		bool is_active = selected_GO->IsActive();
-		if (ImGui::Checkbox("", &is_active))
-		{
-			selected_GO->SetActive(is_active);
-		}
+		bool *is_active = selected_GO->GetActiveBoolean();
+		if (ImGui::Checkbox("", is_active))
+			selected_GO->SetActive(*is_active);
 
 		//Name
 		ImGui::SameLine();
@@ -77,6 +74,13 @@ void Inspector::Draw()
 				ImGui::End();
 				return; //TODO: Improve this patch
 			}
+			ImGui::SameLine();
+			if (ImGui::Button("Unlink"))
+			{
+				selected_GO->UnlinkPrefab();
+				ImGui::End();
+				return;
+			}
 		}
 
 		ImGui::Separator();
@@ -107,30 +111,36 @@ void Inspector::Draw()
 
 		if (ImGui::BeginPopup("InspectorOptions"))
 		{
-			if (ImGui::Selectable("Add Transform"))			selected_GO->AddComponent(C_TRANSFORM);
 			if (ImGui::Selectable("Add Mesh"))				selected_GO->AddComponent(C_MESH);
 			if (ImGui::Selectable("Add Material"))			selected_GO->AddComponent(C_MATERIAL);
 			if (ImGui::Selectable("Add Camera"))			selected_GO->AddComponent(C_CAMERA);
-			if (ImGui::Selectable("Add Collider"))			selected_GO->AddComponent(C_COLLIDER);
-			if (ImGui::Selectable("Add Car"))				selected_GO->AddComponent(C_CAR);
 			if (ImGui::Selectable("Add Light"))				selected_GO->AddComponent(C_LIGHT);
-
 			if (ImGui::Selectable("Add Script"))			selected_GO->AddComponent(C_SCRIPT);
 
-			// UI
-			if (ImGui::Selectable("Add Canvas"))			selected_GO->AddComponent(C_CANVAS);
-			if (ImGui::Selectable("Add Rect Transform"))
+			if (ImGui::BeginMenu("Physics"))
 			{
-				selected_GO->AddComponent(C_RECT_TRANSFORM);
-				selected_GO->layer = 1;
+				if (ImGui::Selectable("Add Collider"))			selected_GO->AddComponent(C_COLLIDER);
+				if (ImGui::Selectable("Add Car"))				selected_GO->AddComponent(C_CAR);
+				ImGui::EndMenu();
 			}
-			if (ImGui::Selectable("Add UI Image"))			selected_GO->AddComponent(C_UI_IMAGE);
-			if (ImGui::Selectable("Add UI Text"))			selected_GO->AddComponent(C_UI_TEXT);
-			if (ImGui::Selectable("Add Button"))			selected_GO->AddComponent(C_UI_BUTTON);
-			if (ImGui::Selectable("Add UI Grid"))			selected_GO->AddComponent(C_GRID);
 
-			if (ImGui::Selectable("Add Audio Source"))		selected_GO->AddComponent(C_AUDIO_SOURCE);
-			if (ImGui::Selectable("Add Audio Listener"))	selected_GO->AddComponent(C_AUDIO_LISTENER);
+			if (ImGui::BeginMenu("UI"))
+			{
+				if (ImGui::Selectable("Add Rect Transform")) selected_GO->AddComponent(C_RECT_TRANSFORM);
+				if (ImGui::Selectable("Add Canvas"))			selected_GO->AddComponent(C_CANVAS);
+				if (ImGui::Selectable("Add UI Image"))			selected_GO->AddComponent(C_UI_IMAGE);
+				if (ImGui::Selectable("Add UI Text"))			selected_GO->AddComponent(C_UI_TEXT);
+				if (ImGui::Selectable("Add UI Button"))			selected_GO->AddComponent(C_UI_BUTTON);
+				if (ImGui::Selectable("Add UI Grid"))			selected_GO->AddComponent(C_GRID);
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Audio"))
+			{
+				if (ImGui::Selectable("Add Audio Source"))		selected_GO->AddComponent(C_AUDIO_SOURCE);
+				if (ImGui::Selectable("Add Audio Listener"))	selected_GO->AddComponent(C_AUDIO_LISTENER);
+				ImGui::EndMenu();
+			}
 			ImGui::EndPopup();
 		}
 	}

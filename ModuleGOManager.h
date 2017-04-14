@@ -51,6 +51,7 @@ public:
 
 	bool RemoveGameObject(GameObject* object);
 	bool FastRemoveGameObject(GameObject* object); // Doesn't remove the GameObject from the parent list.
+	void DuplicateGameObject(GameObject* object);
 
 	void GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from = nullptr) const;
 	ComponentLight* GetDirectionalLight(GameObject* from = nullptr)const;

@@ -264,7 +264,11 @@ void ComponentScript::OnInspector(bool debug)
 				if ((*it).second != nullptr)
 					ImGui::Text((*it).second->name.c_str());
 				else
+				{
+					ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0, 0.0, 1.0, 1.0));
 					ImGui::Text("nullptr");
+					ImGui::PopStyleColor();
+				}
 				ImGui::SameLine();
 				std::string str = "Set GO##" + std::string((*it).first);
 				if (ImGui::Button(str.c_str(), ImVec2(80, 20)))
