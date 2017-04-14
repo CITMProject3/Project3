@@ -299,6 +299,7 @@ public:
 	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
 
 	std::string GO_toPaint_libPath;
+	GameObject* last_placed_go = nullptr;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;

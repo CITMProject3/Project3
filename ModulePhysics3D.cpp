@@ -261,6 +261,20 @@ update_status ModulePhysics3D::Update()
 						}
 						PlaceGO(hit.point, rot);
 					}
+					if (App->input->GetMouseButton(1) == KEY_REPEAT && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
+					{
+						ComponentTransform* trs = (ComponentTransform*)last_placed_go->GetComponent(ComponentType::C_TRANSFORM);
+						if (trs != nullptr)
+						{
+							Quat rot = Quat::identity;
+							if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
+							{
+								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
+							}
+							trs->SetPosition(hit.point);
+							trs->SetRotation(rot);
+						}
+					}
 				}
 #pragma endregion
 			}
@@ -1366,6 +1380,7 @@ void ModulePhysics3D::PlaceGO(float3 pos, Quat rot)
 	if (go == nullptr) { return; }
 	ComponentTransform* trs = (ComponentTransform*)go->GetComponent(ComponentType::C_TRANSFORM);
 	if (trs == nullptr) { return; }
+	last_placed_go = go;
 	trs->SetPosition(pos);
 	trs->SetRotation(rot);
 }
