@@ -408,23 +408,25 @@ void ModuleResourceManager::FileDropped(const char * file_path)
 	App->editor->RefreshAssets();
 }
 
-void ModuleResourceManager::LoadFile(const string & library_path, const FileType & type)
+GameObject* ModuleResourceManager::LoadFile(const string & library_path, const FileType & type)
 {
+	GameObject* ret = nullptr;
 	switch (type)
 	{
 	case MESH:
-		LoadPrefabFile(library_path);
+		ret = LoadPrefabFile(library_path);
 		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	case PREFAB:
 		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
 		if (r_prefab)
 		{
-			r_prefab->LoadPrefabAsCopy();
+			ret = r_prefab->LoadPrefabAsCopy();
 		}
 		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	}
+	return ret;
 }
 
 ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceFileType type)
@@ -563,19 +565,6 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 	App->go_manager->root->Save(root_node);
 
-	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-
-	root_node.AppendArray("terrain_textures");
-	for (uint n = 0; n < App->physics->GetNTextures(); n++)
-	{
-		Data texture;
-		texture.AppendString("path", App->physics->GetTexturePath(n));
-		root_node.AppendArrayValue(texture);
-	}
-
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
-
 	string library_scene_path;
 	string meta_file = name_to_save + ".meta";
 	unsigned int uuid = 0;
@@ -689,7 +678,8 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
 		{
 			Data tex = scene.GetArray("terrain_textures", i);
-			App->physics->LoadTexture(tex.GetString("path"));
+			string texName("");
+			App->physics->LoadTexture(tex.GetString("path"), -1, texName);
 		}
 
 		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
@@ -1596,8 +1586,9 @@ void ModuleResourceManager::PrefabDropped(const char * path, std::string base_di
 	GenerateMetaFile(file_assets_path.data(), FileType::PREFAB, uuid, final_prefab_path);
 }
 
-void ModuleResourceManager::LoadPrefabFile(const string & library_path)
+GameObject* ModuleResourceManager::LoadPrefabFile(const string & library_path)
 {
+	GameObject* ret = nullptr;
 	char* buffer = nullptr;
 	uint size = App->file_system->Load(library_path.data(), &buffer);
 	if (size == 0)
@@ -1606,7 +1597,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab file %s", library_path.data());
 		if (buffer)
 			delete[] buffer;
-		return;
+		return ret;
 	}
 
 	Data scene(buffer);
@@ -1617,7 +1608,14 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	{
 		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
-			App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			if (ret == nullptr)
+			{
+				ret = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			}
+			else
+			{
+				App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			}
 		}
 	}
 	else
@@ -1627,6 +1625,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	}
 
 	delete[] buffer;
+	return ret;
 }
 
 void ModuleResourceManager::CheckDirectoryModification(Directory * directory)

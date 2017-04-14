@@ -17728,14 +17728,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1920,
+                        1058
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        960,
                         0,
                         1,
                         0,
@@ -20939,16 +20939,6 @@
             ]
         }
     ],
-    "terrain_textures": [
-        {
-            "path": "\/Library\/2431007132\/\/3102449478\/3102449478.dds"
-        },
-        {
-            "path": "\/Library\/2431007132\/\/1950075827\/1950075827.dds"
-        }
-    ],
-    "terrain_scaling": 100,
-    "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/test_scene.ezx",
     "current_library_scene_path": "\/Library\/\/92764175\/92764175.ezx"
 } 

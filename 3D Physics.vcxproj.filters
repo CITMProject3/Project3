@@ -651,6 +651,9 @@
     <ClInclude Include="SoundBank.h">
       <Filter>Sources\Helpers\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="TerrainWindow.h">
+      <Filter>Sources\Editor\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1093,6 +1096,9 @@
     </ClCompile>
     <ClCompile Include="Wwise_Library.cpp">
       <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainWindow.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
