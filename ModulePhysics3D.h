@@ -26,7 +26,7 @@
 #define CHUNK_W 64
 #define CHUNK_H 64
 
-#define TERRAIN_VERSION 1
+#define TERRAIN_VERSION 2
 
 class PhysBody3D;
 class PhysVehicle3D;
@@ -167,7 +167,7 @@ public:
 	int GetTexture(uint n);
 	string GetTextureName(uint n);
 	uint GetTextureUUID(uint n);
-	const char* GetTexturePath(uint n);
+	string GetTexturePath(uint n);
 	uint GetNTextures();
 	float GetTextureScaling() { return textureScaling; }
 

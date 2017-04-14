@@ -778,18 +778,26 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			chunkData.push_back(data);
 		}
 
-		//Terrain size (heightmap width, heightmap height, n chunks, Dummy number, version, max height)
-		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
+		//Terrain size (heightmap width, heightmap height, texture scaling, n chunks, Dummy number, version, max height)
+		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float) * 2;
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
 		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
+		//Each Texture has 2 uints, path_length and name_length + Number of textures
+		uint texturesSize = sizeof(uint) * (1 + (GetNTextures() * 2));
+		for (int n = 0; n < GetNTextures(); n++)
+		{
+			texturesSize += GetTexturePath(n).length() + 1;
+			texturesSize += GetTextureName(n).length() + 1;
+		}
+
 
 		//We're not saving UVs, we can regenerate them fastly
 
-		long unsigned int size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		long unsigned int size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap + texturesSize;
 		char* buf = new char[size_total];
 		char* it = buf;
 
@@ -812,6 +820,10 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		//Max height
 		bytes = sizeof(float);
 		memcpy(it, &terrainMaxHeight, bytes);
+		it += bytes;
+
+		//Texture scaling
+		memcpy(it, &textureScaling, bytes);
 		it += bytes;
 
 		//Vertices
@@ -852,9 +864,30 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			it += bytes;
 
 			delete[] it_data->second;
-		}
+		}		
 
-		
+		uint nTextures = GetNTextures();
+		bytes = sizeof(uint);
+		memcpy(it, &nTextures, bytes);
+		it += bytes;
+
+		for (int n = 0; n < nTextures; n++)
+		{
+			uint pathLen = GetTexturePath(n).length() + 1;
+			uint nameLen = GetTextureName(n).length() + 1;
+			memcpy(it, &pathLen, bytes);
+			it += bytes;
+			memcpy(it, &nameLen, bytes);
+			it += bytes;
+
+			bytes = sizeof(char) * pathLen;
+			memcpy(it, GetTexturePath(n).data(), bytes);
+			it += bytes;
+			
+			bytes = sizeof(char) * nameLen;
+			memcpy(it, GetTextureName(n).data(), bytes);
+			it += bytes;
+		}
 
 		bool ret = App->file_system->Save(path, buf, size_total);
 
@@ -911,6 +944,11 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			memcpy(&terrainMaxHeight, it, bytes);
 			it += bytes;
 
+			if (version >= 2)
+			{
+				memcpy(&textureScaling, it, bytes);
+				it += bytes;
+			}
 
 			RELEASE_ARRAY(vertices);
 			RELEASE_ARRAY(terrainData);
@@ -958,7 +996,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 				RELEASE_ARRAY(tmp_textureMap);
 
 			}
-			else if (version == 1)
+			else if (version >= 1)
 			{
 				bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
 				memcpy(textureMap, it, bytes);
@@ -1010,6 +1048,41 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 					it_x->second.GenBuffer();
 				}
 			}
+
+			if (version >= 2)
+			{
+				uint nTextures;
+				bytes = sizeof(uint);
+				memcpy(&nTextures, it, bytes);
+				it += bytes;
+
+				for (uint n = 0; n < nTextures; n++)
+				{
+					uint pathLen;
+					memcpy(&pathLen, it, bytes);
+					it += bytes;
+					uint nameLen;
+					memcpy(&nameLen, it, bytes);
+					it += bytes;
+
+					char* texPath = new char[pathLen];
+					char* texName = new char[nameLen];
+
+					bytes = sizeof(char) * pathLen;
+					memcpy(texPath, it, bytes);
+					it += bytes;
+
+					bytes = sizeof(char) * nameLen;
+					memcpy(texName, it, bytes);
+					it += bytes;
+
+					LoadTexture(texPath, -1, texName);
+
+					RELEASE_ARRAY(texPath);
+					RELEASE_ARRAY(texName);
+				}
+			}
+
 			RELEASE_ARRAY(tmp);
 
 			{
@@ -2074,6 +2147,7 @@ void ModulePhysics3D::LoadTexture(string resLibPath, int pos, string texName)
 				{
 					textures[pos].first->Unload();
 					textures[pos].first = (ResourceFileTexture*)res;
+					textures[pos].second = texName;
 				}
 				if (textures.size() == 1)
 				{
@@ -2131,7 +2205,7 @@ string ModulePhysics3D::GetTextureName(uint n)
 	{
 		return textures[n].second;
 	}
-	return string();
+	return string("");
 }
 
 uint ModulePhysics3D::GetTextureUUID(uint n)
@@ -2143,14 +2217,13 @@ uint ModulePhysics3D::GetTextureUUID(uint n)
 	return 0;
 }
 
-const char * ModulePhysics3D::GetTexturePath(uint n)
+string ModulePhysics3D::GetTexturePath(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
 		return textures[n].first->GetFile();
 	}
-	char ret[5] = " ";
-	return ret;
+	return string("");
 }
 
 uint ModulePhysics3D::GetNTextures()

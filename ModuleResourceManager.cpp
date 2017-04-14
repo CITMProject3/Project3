@@ -565,19 +565,6 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 	App->go_manager->root->Save(root_node);
 
-	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-
-	root_node.AppendArray("terrain_textures");
-	for (uint n = 0; n < App->physics->GetNTextures(); n++)
-	{
-		Data texture;
-		texture.AppendString("path", App->physics->GetTexturePath(n));
-		root_node.AppendArrayValue(texture);
-	}
-
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
-
 	string library_scene_path;
 	string meta_file = name_to_save + ".meta";
 	unsigned int uuid = 0;
