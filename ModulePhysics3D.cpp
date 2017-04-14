@@ -786,12 +786,14 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
 		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
-		//Each Texture has 2 uints, path_length and name_length + Number of textures
-		uint texturesSize = sizeof(uint) * (1 + (GetNTextures() * 2));
+		//Number of textures
+		uint texturesSize = sizeof(uint) * 1;
 		for (int n = 0; n < GetNTextures(); n++)
 		{
-			texturesSize += GetTexturePath(n).length() + 1;
-			texturesSize += GetTextureName(n).length() + 1;
+			//Name Length && Path length
+			texturesSize += sizeof(uint) * 2;
+			texturesSize += sizeof(char) * (GetTexturePath(n).length() + 1);
+			texturesSize += sizeof(char) * (GetTextureName(n).length() + 1);
 		}
 
 
@@ -875,6 +877,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		{
 			uint pathLen = GetTexturePath(n).length() + 1;
 			uint nameLen = GetTextureName(n).length() + 1;
+			bytes = sizeof(uint);
 			memcpy(it, &pathLen, bytes);
 			it += bytes;
 			memcpy(it, &nameLen, bytes);
