@@ -63,7 +63,7 @@ public:
 
 	void InputFileDropped(std::list<std::string>& files);
 	void FileDropped(const char* file_path);
-	void LoadFile(const std::string& library_path, const FileType& type);
+	GameObject* LoadFile(const std::string& library_path, const FileType& type);
 
 	ResourceFile* LoadResource(const std::string& path, ResourceFileType type);
 	//Deprecated
@@ -128,7 +128,7 @@ private:
 	void SceneDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void PrefabDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
-	void LoadPrefabFile(const std::string& library_path);
+	GameObject* LoadPrefabFile(const std::string& library_path);
 
 	void CheckDirectoryModification(Directory* directory);
 

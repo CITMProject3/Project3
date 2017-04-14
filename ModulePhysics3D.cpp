@@ -157,7 +157,7 @@ update_status ModulePhysics3D::Update()
 			}
 		}
 
-		if ((paintMode || sculptMode) && terrainData != nullptr)
+		if (currentTerrainTool != none_tool && terrainData != nullptr)
 		{
 			CAP(brushSize, 0, 1000);
 
@@ -210,7 +210,7 @@ update_status ModulePhysics3D::Update()
 #pragma endregion
 
 #pragma region sculptMode
-				if (sculptMode)
+				if (currentTerrainTool == sculpt_tool)
 				{
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
@@ -227,7 +227,7 @@ update_status ModulePhysics3D::Update()
 #pragma endregion
 
 #pragma region paintMode
-				if (paintMode)
+				if (currentTerrainTool == paint_tool)
 				{
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
@@ -1220,7 +1220,7 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 {
 	if (x >= 0 && y >= 0 && x < terrainW && y < terrainH)
 	{
-		switch (tool)
+		switch (sculptTool)
 		{
 		case sculpt_smooth:
 		{

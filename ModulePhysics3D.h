@@ -16,6 +16,8 @@
 
 #include "PhysBody3D.h"
 
+#include "ResourceFile.h"
+
 // Recommended scale is 1.0f == 1 meter, no less than 0.2 objects
 #define GRAVITY btVector3(0.0f, -10.0f, 0.0f) 
 
@@ -97,6 +99,13 @@ class ModulePhysics3D : public Module
 {
 	friend class chunk;
 public:
+	enum TerrainTools {
+		none_tool,
+		paint_tool,
+		sculpt_tool,
+		goPlacement_tool
+	};
+
 	ModulePhysics3D(const char* name, bool start_enabled = true);
 	~ModulePhysics3D();
 
@@ -282,12 +291,13 @@ public:
 	float* textureMap = nullptr;
 	
 	bool renderChunks = false;
-	bool paintMode = false;
-	bool sculptMode = false;
+	TerrainTools currentTerrainTool = none_tool;
 	int paintTexture = 0;
 	int brushSize = 5;
 	float sculptStrength = 1.0f;
-	SculptModeTools tool = SculptModeTools::sculpt_smooth;
+	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
+
+	ResourceFile* GO_toPaint = nullptr;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;

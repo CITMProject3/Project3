@@ -782,11 +782,13 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 	ImGui::NewLine();
-	if (ImGui::Checkbox("Texture paint mode", &App->physics->paintMode))
+	bool toolBool = App->physics->currentTerrainTool == App->physics->paint_tool;
+	if (ImGui::Checkbox("Texture paint mode", &toolBool))
 	{
-		App->physics->sculptMode = false;
+		if (toolBool) { App->physics->currentTerrainTool = App->physics->paint_tool; }
+		else { App->physics->currentTerrainTool = App->physics->none_tool; }
 	}
-	if (App->physics->paintMode)
+	if (App->physics->currentTerrainTool == App->physics->paint_tool)
 	{
 		ImGui::Text("Brush");
 		char button[64] = " ";
@@ -817,17 +819,19 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	if (ImGui::Checkbox("Sculpt mode", &App->physics->sculptMode))
+	toolBool = App->physics->currentTerrainTool == App->physics->sculpt_tool;
+	if (ImGui::Checkbox("Sculpt mode", &toolBool))
 	{
-		App->physics->paintMode = false;
+		if (toolBool) { App->physics->currentTerrainTool = App->physics->sculpt_tool; }
+		else { App->physics->currentTerrainTool = App->physics->none_tool; }
 	}
-	if (App->physics->sculptMode)
+	if (App->physics->currentTerrainTool == App->physics->sculpt_tool)
 	{
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
 		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
-		ImGui::RadioButton("Flatten", (int*)&App->physics->tool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
-		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->tool, SculptModeTools::sculpt_raise); ImGui::SameLine();
-		ImGui::RadioButton("Smooth", (int*)&App->physics->tool, SculptModeTools::sculpt_smooth);
+		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten); ImGui::SameLine();
+		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
+		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);
 	}
 
 	ImGui::NewLine();
