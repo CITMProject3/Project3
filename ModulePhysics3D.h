@@ -135,6 +135,7 @@ public:
 	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	void Sculpt(int x, int y, bool inverse = false);
+	void PlaceGO(float3 pos, Quat rot = ::Quat::identity);
 
 	bool GenerateHeightmap(std::string resLibPath);
 	void DeleteHeightmap();
@@ -297,7 +298,7 @@ public:
 	float sculptStrength = 1.0f;
 	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
 
-	ResourceFile* GO_toPaint = nullptr;
+	std::string GO_toPaint_libPath;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;

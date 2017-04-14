@@ -248,6 +248,21 @@ update_status ModulePhysics3D::Update()
 					}
 				}
 #pragma endregion
+
+#pragma region PlaceGO Mode
+				if (currentTerrainTool == goPlacement_tool)
+				{
+					if (App->input->GetMouseButton(1) == KEY_DOWN && GO_toPaint_libPath.length() > 4)
+					{
+						Quat rot = Quat::identity;
+						if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
+						{
+							rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
+						}
+						PlaceGO(hit.point, rot);
+					}
+				}
+#pragma endregion
 			}
 		}
 	}
@@ -1343,6 +1358,16 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 			}
 		}
 	}
+}
+
+void ModulePhysics3D::PlaceGO(float3 pos, Quat rot)
+{
+	GameObject* go = App->resource_manager->LoadFile(GO_toPaint_libPath, PREFAB);
+	if (go == nullptr) { return; }
+	ComponentTransform* trs = (ComponentTransform*)go->GetComponent(ComponentType::C_TRANSFORM);
+	if (trs == nullptr) { return; }
+	trs->SetPosition(pos);
+	trs->SetRotation(rot);
 }
 
 

@@ -829,6 +829,34 @@ void ModuleEditor::PhysicsMenu()
 	ImGui::NewLine();
 	ImGui::Separator();
 
+
+	toolBool = App->physics->currentTerrainTool == App->physics->goPlacement_tool;
+	if (ImGui::Checkbox("GameObject placement mode", &toolBool))
+	{
+		if (toolBool) { App->physics->currentTerrainTool = App->physics->goPlacement_tool; }
+		else { App->physics->currentTerrainTool = App->physics->none_tool; }
+	}
+	if (App->physics->currentTerrainTool == App->physics->goPlacement_tool)
+	{
+		if (ImGui::BeginMenu("Select a Mesh"))
+		{
+			vector<string> mesh_list;
+			App->editor->assets->GetAllFilesByType(FileType::PREFAB, mesh_list);
+
+			for (size_t i = 0; i < mesh_list.size(); ++i)
+			{
+				if (ImGui::MenuItem(mesh_list[i].data()))
+				{
+					App->physics->GO_toPaint_libPath = App->resource_manager->FindFile(mesh_list[i]);
+				}
+			}
+			ImGui::EndMenu();
+		}
+	}
+
+	ImGui::NewLine();
+	ImGui::Separator();
+
 	ImGui::Text("Terrain Max Height:");
 	ImGui::DragFloat("##TerrainHeightScaling", &heightmapMaxHeight, 1.0f, 0.1f, 10000.0f);
 	ImGui::SameLine();
