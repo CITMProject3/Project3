@@ -6,11 +6,17 @@
 
 #include "Application.h"
 #include "Assets.h"
+#include "GameObject.h"
+
 #include "ModuleEditor.h"
 #include "ModuleRenderer3D.h"
+#include "DebugDraw.h"
 
 ComponentSprite::ComponentSprite(ComponentType type, GameObject* game_object) : Component(type, game_object)
-{}
+{
+	aabb.SetNegativeInfinity();
+	bounding_box.SetNegativeInfinity();
+}
 
 ComponentSprite::~ComponentSprite()
 {}
@@ -39,6 +45,8 @@ void ComponentSprite::OnInspector(bool debug)
 		if (texture)
 		{
 			ImGui::Image((ImTextureID)texture->GetTexture(), ImVec2(50, 50));
+
+			ImGui::Text("Width: %i Height: %i", width, height);
 		}
 
 		//Change texture
@@ -50,6 +58,13 @@ void ComponentSprite::OnInspector(bool debug)
 		}
 
 	}
+}
+
+void ComponentSprite::OnTransformModified()
+{
+	math::OBB ob = aabb.Transform(game_object->GetGlobalMatrix());
+	bounding_box = ob.MinimalEnclosingAABB();
+	game_object->bounding_box = &bounding_box;
 }
 
 unsigned int ComponentSprite::GetTextureId() const
@@ -75,7 +90,17 @@ void ComponentSprite::ChangeTexture()
 			{
 				if (texture)
 					texture->Unload();
+
 				texture = rc_tmp;
+				width = texture->GetWidth();
+				height = texture->GetHeight();
+				size.x = width / 100.0f;
+				size.y = height / 100.0f;
+
+				float max_size = (width > height) ? width : height;
+				max_size = (max_size / 100.0f) * 0.5f;
+				aabb = math::AABB(math::vec(-max_size), math::vec(max_size));
+				OnTransformModified();
 			}
 			else
 			{
@@ -85,3 +110,4 @@ void ComponentSprite::ChangeTexture()
 		}
 	}
 }
+

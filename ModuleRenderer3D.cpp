@@ -573,6 +573,8 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 		math::float3 center = (*sprite)->GetGameObject()->transform->GetPosition();
 		glUniform3fv(center_location, 1, reinterpret_cast<GLfloat*>(center.ptr()));
 		math::float2 size = (*sprite)->GetGameObject()->transform->GetScale().xy();
+		size.x *= (*sprite)->size.x;
+		size.y *= (*sprite)->size.y;
 		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(size.ptr()));
 
 		glBindTexture(GL_TEXTURE_2D, (*sprite)->GetTextureId());
