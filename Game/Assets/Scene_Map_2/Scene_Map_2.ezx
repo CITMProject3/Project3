@@ -156,7 +156,6 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
-                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -8932,7 +8931,6 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
-                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -17768,7 +17766,7 @@
                     "active": true,
                     "rect_size": [
                         1280,
-                        698
+                        657
                     ],
                     "matrix": [
                         1,
@@ -20614,11 +20612,7 @@
                     "Race_HUD": 560522107,
                     "Result_Window": 445700002,
                     "Player1_Finish_Text": 3805687474,
-                    "Player2_Finish_Text": 2844830127,
-                    "Team1_timer_Text": 3963698497,
-                    "Team2_timer_Text": 3735213079,
-                    "Win_team1_button": 1487181577,
-                    "Win_team2_button": 2755027748
+                    "Player2_Finish_Text": 2844830127
                 },
                 {
                     "type": 18,
@@ -28582,22 +28576,6 @@
             "children_uuids": []
         }
     ],
-    "terrain_textures": [
-        {
-            "path": "\/Library\/2431007132\/\/3841031546\/3841031546.dds"
-        },
-        {
-            "path": "\/Library\/2431007132\/\/1321341572\/1321341572.dds"
-        },
-        {
-            "path": "\/Library\/2431007132\/\/1377512087\/1377512087.dds"
-        },
-        {
-            "path": "\/Library\/2431007132\/\/934901638\/934901638.dds"
-        }
-    ],
-    "terrain_scaling": 30,
-    "terrain_tex_scaling": 0.020000,
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",
     "current_library_scene_path": "\/Library\/3645291025\/\/3212315065\/3212315065.ezx"
 } 
