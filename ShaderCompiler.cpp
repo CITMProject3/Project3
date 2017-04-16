@@ -667,7 +667,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"	else if (dist.x > 0.5f && _nTextures > 5) { tex_color = texture(_Texture_5, TexCoord); }\n"
 		"	else if (dist.x > 0.4f && _nTextures > 4) { tex_color = texture(_Texture_4, TexCoord); }\n"
 		"	else if (dist.x > 0.3f && _nTextures > 3) { tex_color = texture(_Texture_3, TexCoord); }\n"
-		"	else if (dist.x > 0.2f && _nTextures > 2) { tex_color = texture(_Texture_2, terrainCoord); }\n"
+		"	else if (dist.x > 0.2f && _nTextures > 2) { tex_color = texture(_Texture_2, TexCoord); }\n"
 		"	else if (dist.x > 0.1f && _nTextures > 1) { tex_color = texture(_Texture_1, TexCoord); }\n"
 		"	else { tex_color = texture(_Texture_0, TexCoord); }\n"
 		"}\n"

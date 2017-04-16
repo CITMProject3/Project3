@@ -233,14 +233,35 @@ update_status ModulePhysics3D::Update()
 					{
 						CAP(paintTexture, 0, 10);
 
+						float val;
+						float newVal;
+						uint textureN;
 						for (int _y = -brushSize; _y <= brushSize; _y++)
 						{
 							for (int _x = -brushSize; _x <= brushSize; _x++)
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.05f;
+									val = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+									textureN = GetTextureN(val);
+									if (paintTexture == textureN)
+									{
+										newVal = math::Sqrt((_x * _x) + (_y * _y)) / (brushSize * 2) - 0.1;
+										newVal = CAP(newVal, 0, 1);
+										
+										val += newVal;
+										if (GetTextureN(val) > textureN)
+										{
+											val = (float)textureN / 10.0f + 0.999;
+											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (float)textureN / 10.0f + 0.05;
+										}
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
+									}
+									else
+									{
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (float)textureN / 10.0f + 0.05f;
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = ((float)paintTexture / 10.0f) + 0.001f;
+									}
 								}
 							}
 						}
@@ -2102,6 +2123,16 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		delete[] edgeV;
 		delete[] buf;
 	}
+}
+
+uint ModulePhysics3D::GetTextureN(float textureValue)
+{
+	return floor(textureValue / 0.1f);
+}
+
+float ModulePhysics3D::GetTextureStrength(float textureValue)
+{	
+	return textureValue - GetTextureN(textureValue);
 }
 
 void ModulePhysics3D::SetTerrainMaxHeight(float height)

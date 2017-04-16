@@ -201,6 +201,9 @@ private:
 
 	void InterpretHeightmapRGB(float* R, float* G, float* B);
 
+	uint GetTextureN(float textureValue);
+	float GetTextureStrength(float textureValue);
+
 	bool CheckTriggerType(PhysBody3D *body);
 	void UpdateTriggerList();
 
