@@ -22229,7 +22229,7 @@
                         0,
                         0
                     ],
-                    "is_trigger": false,
+                    "is_trigger": true,
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
@@ -22343,7 +22343,7 @@
                         -0.047675,
                         0,
                         0.998870,
-                        16.973173,
+                        24.662312,
                         0,
                         0,
                         0,
@@ -23766,7 +23766,7 @@
                         0,
                         0
                     ],
-                    "is_trigger": false,
+                    "is_trigger": true,
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
@@ -24084,7 +24084,7 @@
                     ],
                     "is_trigger": true,
                     "trigger_type": 0,
-                    "is_transparent": false,
+                    "is_transparent": true,
                     "size": [
                         28.600002,
                         11.700001,
@@ -24370,7 +24370,7 @@
             ]
         },
         {
-            "name": "Checpoint 14last",
+            "name": "Checpoint 14",
             "UUID": 3667931561,
             "local_UUID": 0,
             "parent": 965909917,
@@ -24435,81 +24435,6 @@
                     "CheckpointN": 14
                 }
             ]
-        },
-        {
-            "name": "FinishLine_Post",
-            "UUID": 4149042705,
-            "local_UUID": 188763947,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4149042705,
-            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
-            "components": [
-                {
-                    "position": [
-                        -199.522324,
-                        16.795729,
-                        12.077853
-                    ],
-                    "rotation": [
-                        -180,
-                        0,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FinishLine_Post",
-            "UUID": 458319851,
-            "local_UUID": 188763947,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 458319851,
-            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
-            "components": [
-                {
-                    "position": [
-                        -181.234848,
-                        16.795729,
-                        12.077853
-                    ],
-                    "rotation": [
-                        -0.000005,
-                        -0.000005,
-                        -0.000005
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FinishLineFlag",
-            "UUID": 2462019152,
-            "local_UUID": 3029197853,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2462019152,
-            "prefab_path": "\/Library\/643644559\/3225563299\/\/3412732374\/3412732374.pfb",
-            "components": [
-                {
-                    "position": [
-                        -190.330093,
-                        20.021992,
-                        12.021157
-                    ],
-                    "rotation": [
-                        -179.999588,
-                        89.098206,
-                        179.999588
-                    ]
-                }
-            ],
-            "children_uuids": []
         },
         {
             "name": "RedMushroom",
@@ -24706,81 +24631,6 @@
                         0,
                         -35.747257,
                         0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FishStandw_as",
-            "UUID": 3893558301,
-            "local_UUID": 3963745830,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3893558301,
-            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
-            "components": [
-                {
-                    "position": [
-                        -172.882629,
-                        12.677460,
-                        32.104961
-                    ],
-                    "rotation": [
-                        179.999939,
-                        89.078461,
-                        179.999939
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FishStandw_as",
-            "UUID": 404284192,
-            "local_UUID": 3963745830,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 404284192,
-            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
-            "components": [
-                {
-                    "position": [
-                        -166.249756,
-                        12.677460,
-                        32.104961
-                    ],
-                    "rotation": [
-                        179.999985,
-                        89.077820,
-                        179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FishStandw_as",
-            "UUID": 1997830554,
-            "local_UUID": 3963745830,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1997830554,
-            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
-            "components": [
-                {
-                    "position": [
-                        -159.406494,
-                        12.677460,
-                        31.176888
-                    ],
-                    "rotation": [
-                        -179.999969,
-                        66.558945,
-                        179.999969
                     ]
                 }
             ],
@@ -26092,7 +25942,7 @@
                         -51.786205
                     ],
                     "rotation": [
-                        0.000000,
+                        0,
                         -1.743507,
                         179.999985
                     ]
@@ -26117,7 +25967,7 @@
                         -108.202812
                     ],
                     "rotation": [
-                        -0.000000,
+                        0,
                         -26.743612,
                         -179.999985
                     ]
@@ -28595,6 +28445,223 @@
                         0,
                         18.189514,
                         0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Last checkpoint",
+            "UUID": 3647568689,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3828250465,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -186.879669,
+                        0,
+                        1,
+                        0,
+                        14.782992,
+                        0,
+                        0,
+                        1,
+                        5.148532,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 419857669,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        25.300001,
+                        11.900001,
+                        3.300000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3517985189,
+                    "active": true,
+                    "script_path": "Finish_lane",
+                    "script_num": 0,
+                    "CheckpointN": 15
+                }
+            ]
+        },
+        {
+            "name": "FishStandw_as",
+            "UUID": 3893558301,
+            "local_UUID": 3963745830,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3893558301,
+            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
+            "components": [
+                {
+                    "position": [
+                        -164.667786,
+                        12.677460,
+                        32.104961
+                    ],
+                    "rotation": [
+                        179.999908,
+                        89.078674,
+                        179.999908
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishStandw_as",
+            "UUID": 404284192,
+            "local_UUID": 3963745830,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 404284192,
+            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
+            "components": [
+                {
+                    "position": [
+                        -157.302017,
+                        12.765005,
+                        31.603182
+                    ],
+                    "rotation": [
+                        179.999969,
+                        89.077820,
+                        179.999969
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishStandw_as",
+            "UUID": 1997830554,
+            "local_UUID": 3963745830,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1997830554,
+            "prefab_path": "\/Library\/3645291025\/\/464369511\/464369511.pfb",
+            "components": [
+                {
+                    "position": [
+                        -149.618439,
+                        12.677460,
+                        31.176888
+                    ],
+                    "rotation": [
+                        -179.999939,
+                        66.558945,
+                        179.999939
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLine_Post",
+            "UUID": 4149042705,
+            "local_UUID": 188763947,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4149042705,
+            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
+            "components": [
+                {
+                    "position": [
+                        -199.522324,
+                        16.795729,
+                        12.077853
+                    ],
+                    "rotation": [
+                        -180,
+                        0,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLine_Post",
+            "UUID": 458319851,
+            "local_UUID": 188763947,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 458319851,
+            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
+            "components": [
+                {
+                    "position": [
+                        -175.271866,
+                        16.795729,
+                        12.077853
+                    ],
+                    "rotation": [
+                        -0.000005,
+                        -0.000005,
+                        -0.000005
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FinishLineFlag",
+            "UUID": 2462019152,
+            "local_UUID": 3029197853,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2462019152,
+            "prefab_path": "\/Library\/643644559\/3225563299\/\/3412732374\/3412732374.pfb",
+            "components": [
+                {
+                    "position": [
+                        -187.514984,
+                        19.437275,
+                        11.989840
+                    ],
+                    "rotation": [
+                        -179.999573,
+                        89.098206,
+                        179.999573
                     ]
                 }
             ],
