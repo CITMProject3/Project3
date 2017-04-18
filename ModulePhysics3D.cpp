@@ -248,13 +248,14 @@ update_status ModulePhysics3D::Update()
 
 									if (hardBrush)
 									{
-										newVal = 1.0f;
+										newVal = 0.1f;
 									}
 									else
 									{
 										newVal = (1 - (math::Sqrt(((_x / 2) * (_x / 2)) + ((_y / 2) * (_y / 2))) / (brushSize * +0.5f))) * time->RealDeltaTime();
+										newVal = CAP(newVal, 0, brushStrength / 1000.0f);
 									}
-									newVal = CAP(newVal, 0, brushStrength/1000.0f);
+									
 
 									if (paintTexture == textureN)
 									{		

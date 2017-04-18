@@ -64,7 +64,10 @@ void TerrainWindow::Draw()
 		}
 	}
 
-
+	if (App->input->GetKey(SDL_SCANCODE_KP_0) == KEY_DOWN)
+	{
+		App->physics->hardBrush = ! App->physics->hardBrush;
+	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_DOWN)
 	{
 		App->physics->brushStrength++;
@@ -258,7 +261,7 @@ void TerrainWindow::Draw()
 	ImGui::NewLine();
 	ImGui::Separator();
 
-	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain");
+	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain.\nUse keypad 0 to toggle hard/soft edges when painting.");
 
 	App->physics->brushSize = CAP(App->physics->brushSize, 0, 1000);
 	ImGui::End();
