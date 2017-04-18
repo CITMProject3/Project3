@@ -67,7 +67,7 @@ void TerrainWindow::Draw()
 
 	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_DOWN)
 	{
-		App->physics->sculptStrength++;
+		App->physics->brushStrength++;
 		timer = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_REPEAT)
@@ -78,12 +78,12 @@ void TerrainWindow::Draw()
 		}
 		else
 		{
-			App->physics->sculptStrength++;
+			App->physics->brushStrength++;
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_DOWN)
 	{
-		App->physics->sculptStrength--;
+		App->physics->brushStrength--;
 		timer = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_REPEAT)
@@ -94,7 +94,7 @@ void TerrainWindow::Draw()
 		}
 		else
 		{
-			App->physics->sculptStrength--;
+			App->physics->brushStrength--;
 		}
 	}
 
@@ -140,6 +140,8 @@ void TerrainWindow::Draw()
 		}
 
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
+		ImGui::Checkbox("Hard Brush", &App->physics->hardBrush);
+		ImGui::DragFloat("Opacity", &App->physics->brushStrength, 0.1f, 0.1f, 99.0f);
 		if (App->physics->paintTexture < App->physics->GetNTextures())
 		{
 			float2 size = App->physics->GetHeightmapSize();
@@ -181,7 +183,7 @@ void TerrainWindow::Draw()
 			}
 		}
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
+		ImGui::DragFloat("Sculpt strength", &App->physics->brushStrength, 0.1f, 0.1f, 30.0f);
 		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);	ImGui::SameLine();
 		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
 		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten);

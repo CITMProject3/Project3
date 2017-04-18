@@ -238,6 +238,7 @@ private:
 	std::map<int, std::map<int, chunk>> chunks;
 	int terrainW = 0;
 	int terrainH = 0;
+	uint textureMapScale = 1;
 	uint heightmap_bufferID = 0;
 
 	float3* vertices = nullptr;
@@ -300,8 +301,9 @@ public:
 	bool renderChunks = false;
 	TerrainTools currentTerrainTool = none_tool;
 	int paintTexture = 0;
+	bool hardBrush = false;
 	int brushSize = 5;
-	float sculptStrength = 1.0f;
+	float brushStrength = 1.0f;
 	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
 
 	std::string GO_toPaint_libPath;

@@ -686,7 +686,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"	else"
 			//In case we need blending of the two textures
 		"	{\n"
-		"	float strength = float(dist.x*10.0) - float(t1);\n"
+			"	float strength = (float(dist.x*10.0) - float(t1))/0.9;\n"
 		"	switch (t1) {\n"
 		"		case 0: tex_color = texture(_Texture_0, TexCoord) * strength; break;\n"
 		"		case 1: tex_color = texture(_Texture_1, TexCoord) * strength; break;\n"//120
