@@ -686,9 +686,8 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"	else"
 			//In case we need blending of the two textures
 		"	{\n"
-		"	float strength = float(dist.x) - float(t1);\n"
-		"	tex_color = vec4(strength, 1.0,1.0,1.0);\n"
-		/*"	switch (t1) {\n"
+		"	float strength = float(dist.x*10.0) - float(t1);\n"
+		"	switch (t1) {\n"
 		"		case 0: tex_color = texture(_Texture_0, TexCoord) * strength; break;\n"
 		"		case 1: tex_color = texture(_Texture_1, TexCoord) * strength; break;\n"//120
 		"		case 2: tex_color = texture(_Texture_2, TexCoord) * strength; break;\n"
@@ -699,8 +698,8 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"		case 7: tex_color = texture(_Texture_7, TexCoord) * strength; break;\n"
 		"		case 8: tex_color = texture(_Texture_8, TexCoord) * strength; break;\n"
 		"		case 9: tex_color = texture(_Texture_9, TexCoord) * strength; break;\n"
-		"		}\n"/
-		/*"	switch (t2) {\n"
+		"		}\n"
+		"	switch (t2) {\n"
 		"		case 0: tex_color += texture(_Texture_0, TexCoord) * ( 1 - strength); break;\n"
 		"		case 1: tex_color += texture(_Texture_1, TexCoord) * ( 1 - strength); break;\n"
 		"		case 2: tex_color += texture(_Texture_2, TexCoord) * ( 1 - strength); break;\n"
@@ -711,7 +710,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"		case 7: tex_color += texture(_Texture_7, TexCoord) * ( 1 - strength); break;\n"
 		"		case 8: tex_color += texture(_Texture_8, TexCoord) * ( 1 - strength); break;\n"
 		"		case 9: tex_color += texture(_Texture_9, TexCoord) * ( 1 - strength); break;\n"
-		"		}\n"*/
+		"		}\n"
 		"	}\n"
 		"}\n"
 		"else\n"

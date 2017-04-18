@@ -236,9 +236,9 @@ update_status ModulePhysics3D::Update()
 						float val;
 						float newVal;
 						uint textureN;
-						for (int _y = -brushSize; _y <= brushSize; _y++)
+						for (int _y = -brushSize - 5; _y <= brushSize + 5; _y++)
 						{
-							for (int _x = -brushSize; _x <= brushSize; _x++)
+							for (int _x = -brushSize - 5; _x <= brushSize + 5; _x++)
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
