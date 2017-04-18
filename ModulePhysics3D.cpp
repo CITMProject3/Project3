@@ -244,23 +244,29 @@ update_status ModulePhysics3D::Update()
 								{
 									val = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
 									textureN = GetTextureN(val);
+
+									newVal = (1 - (math::Sqrt((_x * _x) + (_y * _y)) / (brushSize * 2 + 1))) / 50.0f;
+									newVal = CAP(newVal, 0, 0.09);
+
 									if (paintTexture == textureN)
-									{
-										newVal = (math::Sqrt((_x * _x) + (_y * _y)) / (brushSize * 2) - 0.1)/10.0f;
-										newVal = CAP(newVal, 0, 1);
-										
+									{		
 										val += newVal;
-										if (GetTextureN(val) > textureN)
+										if (val - float(textureN/10.0f) > 0.09f)
 										{
-											val = (float)textureN / 10.0f + 0.0999;
-											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (float)textureN / 10.0f + 0.05;
+											val = (textureN / 10.0f) + 0.09;
+											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+										}
+										else
+										{
+											int a = 1;
+											a = 3;
 										}
 										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
 									}
 									else
 									{
-										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (float)textureN / 10.0f + 0.05f;
-										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = ((float)paintTexture / 10.0f) + 0.001f;
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + newVal;
 									}
 								}
 							}
@@ -2283,11 +2289,11 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 			{
 				if (textureMap[(y * w + x) * 2] > 0.1)
 				{
-					textureMap[(y * w + x) * 2] = 0.1999999f;
+					textureMap[(y * w + x) * 2] = 0.19f;
 				}
 				else
 				{
-					textureMap[(y * w + x) * 2] = 0.0999999f;
+					textureMap[(y * w + x) * 2] = 0.09f;
 				}
 				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
