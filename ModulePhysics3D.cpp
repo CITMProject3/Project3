@@ -246,13 +246,13 @@ update_status ModulePhysics3D::Update()
 									textureN = GetTextureN(val);
 									if (paintTexture == textureN)
 									{
-										newVal = math::Sqrt((_x * _x) + (_y * _y)) / (brushSize * 2) - 0.1;
+										newVal = (math::Sqrt((_x * _x) + (_y * _y)) / (brushSize * 2) - 0.1)/10.0f;
 										newVal = CAP(newVal, 0, 1);
 										
 										val += newVal;
 										if (GetTextureN(val) > textureN)
 										{
-											val = (float)textureN / 10.0f + 0.999;
+											val = (float)textureN / 10.0f + 0.0999;
 											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (float)textureN / 10.0f + 0.05;
 										}
 										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;

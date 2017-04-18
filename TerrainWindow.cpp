@@ -232,6 +232,28 @@ void TerrainWindow::Draw()
 	}
 
 	ImGui::NewLine();
+	if (ImGui::CollapsingHeader("Texture Map"))
+	{
+		ImGui::Text("Texture map:");
+		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 400)
+			{
+				float scale = 400.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)App->physics->textureMapBufferID, ImVec2(size.x, size.y));
+		}
+		else
+		{
+			ImGui::Text("\nNot Loaded\n");
+		}
+	}
+
+	ImGui::NewLine();
 	ImGui::Separator();
 
 	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain");
