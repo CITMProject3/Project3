@@ -8,6 +8,7 @@
 #include "ModuleInput.h"
 #include "ModuleLighting.h"
 #include "ModuleCamera3D.h"
+#include "ModuleGOManager.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -288,6 +289,18 @@ update_status ModulePhysics3D::Update()
 #pragma region PlaceGO Mode
 				if (currentTerrainTool == goPlacement_tool)
 				{
+					std::vector<int> layersToCheck(size_t(60));
+					for (int n = 0; n < 60; n++)
+					{
+						layersToCheck[n] = n;
+					}
+					Ray GOs_ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+					RaycastHit GOs_hit = App->go_manager->Raycast(ray,layersToCheck);
+					if (GOs_hit.object != nullptr && GOs_hit.distance < hit.distance)
+					{
+						hit = GOs_hit;
+					}
+
 					if (App->input->GetMouseButton(1) == KEY_DOWN && GO_toPaint_libPath.length() > 4)
 					{
 						Quat rot = Quat::identity;
@@ -296,6 +309,7 @@ update_status ModulePhysics3D::Update()
 							rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
 						}
 						PlaceGO(hit.point, rot);
+						last_placed_go->layer = 60;
 					}
 					if (App->input->GetMouseButton(1) == KEY_REPEAT && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
 					{
@@ -303,6 +317,7 @@ update_status ModulePhysics3D::Update()
 						if (trs != nullptr)
 						{
 							Quat rot = Quat::identity;
+
 							if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
 							{
 								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
@@ -310,6 +325,10 @@ update_status ModulePhysics3D::Update()
 							trs->SetPosition(hit.point);
 							trs->SetRotation(rot);
 						}
+					}
+					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
+					{
+						last_placed_go->layer = 0;
 					}
 				}
 #pragma endregion
