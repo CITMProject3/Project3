@@ -8,6 +8,7 @@
 #include "ModuleInput.h"
 #include "ModuleLighting.h"
 #include "ModuleCamera3D.h"
+#include "ModuleGOManager.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -231,16 +232,52 @@ update_status ModulePhysics3D::Update()
 				{
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
-						CAP(paintTexture, 0, 10);
+						paintTexture = CAP(paintTexture, 0, 10);
+						brushStrength = CAP(brushStrength, 0.1f, 99.0f);
 
+						float val;
+						float newVal;
+						uint textureN;
 						for (int _y = -brushSize; _y <= brushSize; _y++)
 						{
 							for (int _x = -brushSize; _x <= brushSize; _x++)
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.05f;
+									val = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+									textureN = GetTextureN(val);
+
+									if (hardBrush)
+									{
+										newVal = 0.1f;
+									}
+									else
+									{
+										newVal = (1 - (math::Sqrt(((_x / 2) * (_x / 2)) + ((_y / 2) * (_y / 2))) / (brushSize * +0.5f))) * time->RealDeltaTime();
+										newVal = CAP(newVal, 0, brushStrength / 1000.0f);
+									}
+									
+
+									if (paintTexture == textureN)
+									{		
+										val += newVal;
+										if (val - float(textureN/10.0f) > 0.09f)
+										{
+											val = (textureN / 10.0f) + 0.09;
+											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+										}
+										else
+										{
+											int a = 1;
+											a = 3;
+										}
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
+									}
+									else
+									{
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture/10.0f) + (0.1 - GetTextureStrength(val));
+									}
 								}
 							}
 						}
@@ -252,6 +289,18 @@ update_status ModulePhysics3D::Update()
 #pragma region PlaceGO Mode
 				if (currentTerrainTool == goPlacement_tool)
 				{
+					std::vector<int> layersToCheck(size_t(60));
+					for (int n = 0; n < 60; n++)
+					{
+						layersToCheck[n] = n;
+					}
+					Ray GOs_ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+					RaycastHit GOs_hit = App->go_manager->Raycast(ray,layersToCheck);
+					if (GOs_hit.object != nullptr && GOs_hit.distance < hit.distance)
+					{
+						hit = GOs_hit;
+					}
+
 					if (App->input->GetMouseButton(1) == KEY_DOWN && GO_toPaint_libPath.length() > 4)
 					{
 						Quat rot = Quat::identity;
@@ -260,6 +309,7 @@ update_status ModulePhysics3D::Update()
 							rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
 						}
 						PlaceGO(hit.point, rot);
+						last_placed_go->SetLayerChilds(60);
 					}
 					if (App->input->GetMouseButton(1) == KEY_REPEAT && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
 					{
@@ -267,6 +317,7 @@ update_status ModulePhysics3D::Update()
 						if (trs != nullptr)
 						{
 							Quat rot = Quat::identity;
+
 							if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
 							{
 								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
@@ -274,6 +325,10 @@ update_status ModulePhysics3D::Update()
 							trs->SetPosition(hit.point);
 							trs->SetRotation(rot);
 						}
+					}
+					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
+					{
+						last_placed_go->SetLayerChilds(0);
 					}
 				}
 #pragma endregion
@@ -839,7 +894,6 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		it += bytes;
 
 		//Texture map
-		uint textureMapScale = 1;
 		bytes = sizeof(uint);
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
@@ -978,9 +1032,13 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			it += bytes;
 
 			bytes = sizeof(uint);
-			uint textureMapScale;
 			memcpy(&textureMapScale, it, bytes);
 			it += bytes;
+
+			if (textureMapScale == 0)
+			{
+				textureMapScale = 1;
+			}
 
 			RELEASE_ARRAY(textureMap);
 			textureMap = new float[terrainW * terrainH * textureMapScale * 2];
@@ -1364,17 +1422,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 								}
 								value /= n;
 
-								if (math::Abs(vertices[_y * terrainW + _x].y - value) < sculptStrength* time->RealDeltaTime())
+								if (math::Abs(vertices[_y * terrainW + _x].y - value) < brushStrength* time->RealDeltaTime())
 								{
 									vertices[_y * terrainW + _x].y = value;
 								}
 								else if (vertices[_y * terrainW + _x].y > value)
 								{
-									vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+									vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
 								}
 								else
 								{
-									vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+									vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
 								}
 							}
 						}
@@ -1391,11 +1449,11 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						float displacement = sculptStrength* time->RealDeltaTime();
+						float displacement = brushStrength* time->RealDeltaTime();
 						if (brushSize > 0)
 						{
 							float a = Max(math::Abs(x - _x), math::Abs(y - _y));
-							displacement = sculptStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
+							displacement = brushStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
 						}
 						if (inverse) { displacement *= -1; }
 						vertices[_y * terrainW + _x].y += displacement;
@@ -1417,17 +1475,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						if (math::Abs(vertices[_y * terrainW + _x].y - h) < sculptStrength* time->RealDeltaTime())
+						if (math::Abs(vertices[_y * terrainW + _x].y - h) < brushStrength* time->RealDeltaTime())
 						{
 							vertices[_y * terrainW + _x].y = h;
 						}
 						else if (vertices[_y * terrainW + _x].y > h)
 						{
-							vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+							vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
 						}
 						else
 						{
-							vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+							vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
 						}
 					}
 				}
@@ -2104,6 +2162,16 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	}
 }
 
+uint ModulePhysics3D::GetTextureN(float textureValue)
+{
+	return floor(textureValue / 0.1f);
+}
+
+float ModulePhysics3D::GetTextureStrength(float textureValue)
+{	
+	return textureValue - floor(textureValue/0.1f)/10.0f;
+}
+
 void ModulePhysics3D::SetTerrainMaxHeight(float height)
 {
 	if (height > 0.1f)
@@ -2252,11 +2320,11 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 			{
 				if (textureMap[(y * w + x) * 2] > 0.1)
 				{
-					textureMap[(y * w + x) * 2] = 0.1999999f;
+					textureMap[(y * w + x) * 2] = 0.19f;
 				}
 				else
 				{
-					textureMap[(y * w + x) * 2] = 0.0999999f;
+					textureMap[(y * w + x) * 2] = 0.09f;
 				}
 				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}

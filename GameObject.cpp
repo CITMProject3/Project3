@@ -363,6 +363,13 @@ bool GameObject::IsPrefab() const
 	return is_prefab;
 }
 
+void GameObject::SetLayerChilds(int _layer)
+{
+	layer = _layer;
+	for (vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
+		(*child)->SetLayerChilds(_layer);
+}
+
 Component* GameObject::AddComponent(ComponentType type)
 {
 	Component* item = nullptr;
