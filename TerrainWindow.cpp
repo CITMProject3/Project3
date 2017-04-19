@@ -64,10 +64,13 @@ void TerrainWindow::Draw()
 		}
 	}
 
-
+	if (App->input->GetKey(SDL_SCANCODE_KP_0) == KEY_DOWN)
+	{
+		App->physics->hardBrush = ! App->physics->hardBrush;
+	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_DOWN)
 	{
-		App->physics->sculptStrength++;
+		App->physics->brushStrength++;
 		timer = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_MULTIPLY) == KEY_REPEAT)
@@ -78,12 +81,12 @@ void TerrainWindow::Draw()
 		}
 		else
 		{
-			App->physics->sculptStrength++;
+			App->physics->brushStrength++;
 		}
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_DOWN)
 	{
-		App->physics->sculptStrength--;
+		App->physics->brushStrength--;
 		timer = 0.0f;
 	}
 	if (App->input->GetKey(SDL_SCANCODE_KP_DIVIDE) == KEY_REPEAT)
@@ -94,7 +97,7 @@ void TerrainWindow::Draw()
 		}
 		else
 		{
-			App->physics->sculptStrength--;
+			App->physics->brushStrength--;
 		}
 	}
 
@@ -140,6 +143,8 @@ void TerrainWindow::Draw()
 		}
 
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
+		ImGui::Checkbox("Hard Brush", &App->physics->hardBrush);
+		ImGui::DragFloat("Opacity", &App->physics->brushStrength, 0.1f, 0.1f, 99.0f);
 		if (App->physics->paintTexture < App->physics->GetNTextures())
 		{
 			float2 size = App->physics->GetHeightmapSize();
@@ -181,7 +186,7 @@ void TerrainWindow::Draw()
 			}
 		}
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
-		ImGui::DragFloat("Sculpt strength", &App->physics->sculptStrength, 0.1f, 0.1f, 30.0f);
+		ImGui::DragFloat("Sculpt strength", &App->physics->brushStrength, 0.1f, 0.1f, 30.0f);
 		ImGui::RadioButton("Smooth", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_smooth);	ImGui::SameLine();
 		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
 		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten);
@@ -232,9 +237,31 @@ void TerrainWindow::Draw()
 	}
 
 	ImGui::NewLine();
+	if (ImGui::CollapsingHeader("Texture Map"))
+	{
+		ImGui::Text("Texture map:");
+		if (App->physics->textureMap != nullptr && App->physics->textureMapBufferID != 0)
+		{
+			float2 size = App->physics->GetHeightmapSize();
+			float maxSize = max(size.x, size.y);
+			if (maxSize > 400)
+			{
+				float scale = 400.0f / maxSize;
+				size.x *= scale;
+				size.y *= scale;
+			}
+			ImGui::Image((void*)App->physics->textureMapBufferID, ImVec2(size.x, size.y));
+		}
+		else
+		{
+			ImGui::Text("\nNot Loaded\n");
+		}
+	}
+
+	ImGui::NewLine();
 	ImGui::Separator();
 
-	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain");
+	ImGui::Text("Shortcuts:\nUse keypad numbers to change textures/sculpting tools.\nUse keypad +/- to change the brush size.\nUse keypad multiply/divide to change the brush strength.\nWhen sculpting, using the raise/lower tool, hold shift to lower the terrain.\nUse keypad 0 to toggle hard/soft edges when painting.");
 
 	App->physics->brushSize = CAP(App->physics->brushSize, 0, 1000);
 	ImGui::End();
