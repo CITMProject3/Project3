@@ -235,6 +235,8 @@ update_status ModulePhysics3D::Update()
 						paintTexture = CAP(paintTexture, 0, 10);
 						brushStrength = CAP(brushStrength, 0.1f, 99.0f);
 
+						float maxVal = 0;
+
 						float val;
 						float newVal;
 						uint textureN;
@@ -249,27 +251,33 @@ update_status ModulePhysics3D::Update()
 
 									if (hardBrush)
 									{
-										newVal = 0.1f;
+										newVal = 1.0f;
 									}
 									else
 									{
-										newVal = (1 - (math::Sqrt(((_x / 2) * (_x / 2)) + ((_y / 2) * (_y / 2))) / (brushSize * +0.5f))) * time->RealDeltaTime();
-										newVal = CAP(newVal, 0, brushStrength / 1000.0f);
+										//We're dividing it by two, because we want the radius to be half the length of the brush Size, not a whole size
+										float dist = _x * _x + _y * _y;
+										float b = (brushSize + 0.5) * (brushSize + 0.5) - dist;
+										b = CAP(b, 0, 0.9f);
+										float a = brushSize * brushSize * 2;
+										maxVal = max(a, maxVal);
+										dist = dist / a;
+
+										newVal = (1 - dist);										
 									}
+									//Here, newVal should be a value between 0 and 1.
+									// Here is where we transform it to the proper value
+									newVal = CAP(newVal, 0, brushStrength / 10.0f);
 									
 
 									if (paintTexture == textureN)
 									{		
-										val += newVal;
+										val = max(GetTextureStrength(val), newVal);
+										val = float(textureN / 10.0f) + val;
 										if (val - float(textureN/10.0f) > 0.09f)
 										{
 											val = (textureN / 10.0f) + 0.09;
 											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
-										}
-										else
-										{
-											int a = 1;
-											a = 3;
 										}
 										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
 									}
