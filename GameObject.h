@@ -49,6 +49,8 @@ public:
 	void SetAsPrefab(unsigned int root_uuid);
 	bool IsPrefab()const;
 
+	void SetLayerChilds(int _layer);
+
 	Component* AddComponent(ComponentType type);
 	const std::vector<Component*>* GetComponents();
 	Component *GetComponent(ComponentType type) const;

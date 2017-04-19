@@ -309,7 +309,7 @@ update_status ModulePhysics3D::Update()
 							rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
 						}
 						PlaceGO(hit.point, rot);
-						last_placed_go->layer = 60;
+						last_placed_go->SetLayerChilds(60);
 					}
 					if (App->input->GetMouseButton(1) == KEY_REPEAT && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
 					{
@@ -328,7 +328,7 @@ update_status ModulePhysics3D::Update()
 					}
 					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
 					{
-						last_placed_go->layer = 0;
+						last_placed_go->SetLayerChilds(0);
 					}
 				}
 #pragma endregion
