@@ -107,6 +107,7 @@ void TerrainWindow::Draw()
 		if (toolBool)
 		{
 			App->physics->currentTerrainTool = App->physics->paint_tool;
+			App->physics->brushStrength = 99.0f;
 			App->editor->lockSelection = true;
 		}
 		else
@@ -168,6 +169,7 @@ void TerrainWindow::Draw()
 		if (toolBool)
 		{
 			App->physics->currentTerrainTool = App->physics->sculpt_tool;
+			App->physics->brushStrength = 20.0f;
 			App->editor->lockSelection = true;
 		}
 		else
