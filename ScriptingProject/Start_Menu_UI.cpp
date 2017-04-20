@@ -282,7 +282,7 @@ namespace Start_Menu_UI
 					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 0)
 					{
 
-						main_canvas_script->public_ints.at("current_menu") = 1;
+						main_canvas_script->public_ints.at("current_menu") = 2;
 						main_canvas_script->public_ints.at("Player1") = player_order[0];
 						main_canvas_script->public_ints.at("Player2") = player_order[1];
 						main_canvas_script->public_ints.at("Player3") = player_order[2];

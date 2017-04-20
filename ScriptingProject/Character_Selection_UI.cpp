@@ -43,8 +43,6 @@ namespace Character_Selection_UI
 	GameObject* Player3 = nullptr;
 	GameObject* Player4 = nullptr;
 
-	GameObject* vehicles = nullptr;
-
 	ComponentUiButton* but_driver1 = nullptr;
 	ComponentUiButton* but_support1 = nullptr;
 	ComponentUiButton* but_driver2 = nullptr;
@@ -102,7 +100,6 @@ namespace Character_Selection_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("Player 3", Player3));
 		public_gos->insert(std::pair<const char*, GameObject*>("Player 4", Player4));
 
-		public_gos->insert(std::pair<const char*, GameObject*>("Vehicles", vehicles));
 	}
 
 	void Character_Selection_UI_UpdatePublics(GameObject* game_object)
@@ -118,8 +115,6 @@ namespace Character_Selection_UI
 		support1_port = test_script->public_gos.at("Support port 1");
 		driver2_port = test_script->public_gos.at("Drivers port 2");
 		support2_port = test_script->public_gos.at("Support port 2");
-
-		vehicles = test_script->public_gos.at("Vehicles");
 
 		Player1 = test_script->public_gos.at("Player 1");
 		Player2 = test_script->public_gos.at("Player 2");
@@ -174,8 +169,6 @@ namespace Character_Selection_UI
 		test_script->public_gos.at("Drivers port 2") = driver2_port;
 		test_script->public_gos.at("Support port 2") = support2_port;
 
-		test_script->public_gos.at("Vehicles") = vehicles;
-
 		but_driver1 = (ComponentUiButton*)driver1->GetComponent(C_UI_BUTTON);
 		but_support1 = (ComponentUiButton*)support1->GetComponent(C_UI_BUTTON);
 		but_driver2 = (ComponentUiButton*)driver2->GetComponent(C_UI_BUTTON);
@@ -210,7 +203,6 @@ namespace Character_Selection_UI
 		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 		if (a_comp) a_comp->PlayAudio(0);
 
-		vehicles->SetActive(false);
 		character_selection[0] = -1;
 		character_selection[1] = -1;
 		character_selection[2] = -1;
@@ -630,8 +622,9 @@ namespace Character_Selection_UI
 			}
 			//To test
 			//App->resource_manager->LoadSceneFromAssets("Assets/test_scene.ezx");
-			game_object->SetActive(false);
-			vehicles->SetActive(true);
+			ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+
+			main_canvas_script->public_ints.at("current_menu") = 3;
 		}
 	}
 

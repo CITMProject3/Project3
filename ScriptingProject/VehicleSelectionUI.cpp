@@ -321,7 +321,7 @@ namespace Vehicle_Selection_UI
 		{
 			ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
 
-			main_canvas_script->public_ints.at("current_menu") = 2;
+			main_canvas_script->public_ints.at("current_menu") = 4;
 
 			App->go_manager->team1_car = p_pos[0];
 			App->go_manager->team2_car = p_pos[1];
