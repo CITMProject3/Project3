@@ -170,6 +170,7 @@ private:
 	void StartDrift();
 	void CalcDriftForces();
 	void EndDrift();
+	void DriftTurbo();
 
 	void UpdateTurnOver();
 
@@ -259,6 +260,9 @@ private:
 	float drift_turn_max = 0.7;
 	float drift_min_speed = 20.0f;
 
+	//Drift Turbo
+	int clicks_to_drift_turbo = 3;
+
 	//Push
 	float push_force = 10000.0f;
 	float push_speed_per = 60.0f;
@@ -324,6 +328,7 @@ private:
 	btVector3 startDriftSpeed;
 	bool to_drift_turbo = false;
 	int turbo_drift_lvl = 0;
+	int drift_turbo_clicks = 0;
 
 	//Leaning
 	bool leaning = false;

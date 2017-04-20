@@ -247,7 +247,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
-		//Insert here all the new mechanicsç
+		//Insert here all the new mechanics
 
 		//Back player-------------------
 
@@ -275,8 +275,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Push
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			//StartPush();
-			Push(accel);
+			if (drifting)
+				DriftTurbo();
+			else
+				Push(accel);
 		}
 
 		//Slide attack
@@ -337,7 +339,10 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
 	{
 		//StartPush();
-		Push(accel);
+		if (drifting)
+			DriftTurbo();
+		else
+			Push(accel);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
 	{
@@ -896,26 +901,25 @@ void ComponentCar::EndDrift()
 		}
 
 		turbo_drift_lvl = 0;
+		to_drift_turbo = false;
 	}
-	//Old turbo
-	/*
-	float data[16];
-	vehicle->GetRealTransform().getOpenGLMatrix(data);
-	float4x4 matrix = float4x4(data[0], data[1], data[2], data[3],
-	data[4], data[5], data[6], data[7],
-	data[8], data[9], data[10], data[11],
-	data[12], data[13], data[14], data[15]);
-	matrix.Transpose();
+}
 
-	float3 speed(matrix.WorldZ());
-	speed *= startDriftSpeed.length();
-	speed *= drift_boost;
-	vehicle->SetLinearSpeed(speed.x, speed.y, speed.z);
-	vehicle->vehicle->getRigidBody()->clearForces();
-	vehicle->Turn(0);
-	turn_current = 0;
-	vehicle->SetFriction(car->frictionSlip);
-	*/
+void ComponentCar::DriftTurbo()
+{
+	if (drifting)
+	{
+		drift_turbo_clicks++;
+
+		if (drift_turbo_clicks >= clicks_to_drift_turbo)
+		{
+			drift_turbo_clicks = 0;
+			to_drift_turbo = true;
+
+			if (turbo_drift_lvl < 3)
+				turbo_drift_lvl++;
+		}
+	}
 }
 
 void ComponentCar::UpdateTurnOver()
