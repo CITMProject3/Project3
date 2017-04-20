@@ -827,7 +827,7 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 			// Texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindTexture(GL_TEXTURE_2D, (*m->texture_ids.begin()).second);
+			glBindTexture(GL_TEXTURE_2D, (m->texture_ids.at(to_string(m->GetIdToRender()))));
 		}
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glColor4fv(m->color);

@@ -101,6 +101,17 @@ namespace Main_Menu_UI
 
 	void Main_Menu_UI_Update(GameObject* game_object)
 	{
+		if (current_canvas_scene == 0)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::X) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::Y) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+				{
+					current_scene = 1;
+				}
+			}
+			
+		}
 		if (current_canvas_scene != current_scene)
 		{
 			switch (current_scene)
