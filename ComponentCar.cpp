@@ -260,8 +260,16 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		//Acrobatics
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
-			Acrobatics(back_player);
+			if (ground_contact_state && *turning == true)
+				StartDrift();
+			else if (ground_contact_state == false)
+				Acrobatics(back_player);
 		}
+		else if (drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_UP)
+		{
+			EndDrift();
+		}
+
 		//Power Up
 		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
@@ -281,6 +289,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 				Push(accel);
 		}
 
+
 		//Slide attack
 
 
@@ -298,22 +307,26 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			float lt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
 			Brake(accel, brake, true, lt_joy_axis);
 		}
-		
+
 		//Direction
 		float x_joy_input = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
 		*turning = JoystickTurn(&turning_left, x_joy_input);
 
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
+		PLAYER trn_player = front_player;
+		if (drifting)
+			trn_player = back_player;
+
+		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
 		{
 			*turning = Turn(&turning_left, false);
 		}
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
+		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
 		{
 			*turning = Turn(&turning_left, true);
 		}
 
 		//Drifting
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		/*if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
 		{
 			StartDrift();
 		}
@@ -321,14 +334,14 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		{
 			EndDrift();
 		}
-	
+
 		//Acrobatics
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
 			Acrobatics(front_player);
-		}
+		}*/
 
-		
+
 
 	}
 }
@@ -363,48 +376,47 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		ReleaseItem();
 	}*/
 
-	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
-	{
-		FullBrake(brake);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
+		{
+			FullBrake(brake);
+		}
 
 
-	//Front player
-	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_W : SDL_SCANCODE_UP) == KEY_REPEAT)
-	{
-		Accelerate(accel);
-	}
-	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-	{
-		*turning = Turn(&turning_left, false);
-	}
-	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
-	{
-		*turning = Turn(&turning_left, true);
-	}
-	if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
-	{
-		Brake(accel, brake);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-	{
-		Reset();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-	{
-		Acrobatics(front_player);
-	}
-	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
-	{
-		StartDrift();
-	}
-	else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
-	{ 
-		EndDrift();
-	}	
-}
+		//Front player
+		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_W : SDL_SCANCODE_UP) == KEY_REPEAT)
+		{
+			Accelerate(accel);
+		}
+		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		{
+			*turning = Turn(&turning_left, false);
+		}
+		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		{
+			*turning = Turn(&turning_left, true);
+		}
+		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		{
+			Brake(accel, brake);
+		}
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+		{
+			Reset();
+		}
+		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
+		{
+			Acrobatics(front_player);
+		}
 
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
+		{
+			StartDrift();
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
+		{
+			EndDrift();
+		}
+	}
 // CONTROLS-----------------------------
 bool ComponentCar::Turn(bool* left_turn, bool left)
 {
