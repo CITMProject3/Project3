@@ -120,6 +120,10 @@ void LayerSystem::DisplayLayerMask(int& value)
 void LayerSystem::DisplayLayerSelector(int & value)
 {
 	int tmp_value = value;
+	if (value < 0 || value >= layers.size())
+	{
+		return;
+	}
 
 	std::string menu_name = "Layer: " + layers[value];
 	if (ImGui::BeginMenu(menu_name.data()))
