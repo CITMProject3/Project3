@@ -178,6 +178,10 @@ namespace Start_Menu_UI
 		player_order[3] = -1;
 		start_but->SetActive(false);
 		players->SetActive(true);
+		rb_button_color_selector->SetActive(false);
+		rt_button_color_selector->SetActive(false);
+		lb_button_color_selector->SetActive(false);
+		lt_button_color_selector->SetActive(false);
 		Start_Menu_UI_ActualizePublics(game_object);
 		rb_pressed = false;
 		rt_pressed = false;
@@ -211,7 +215,7 @@ namespace Start_Menu_UI
 						c_lb->OnPressId(i);
 						m_lb->SetIdToRender(i);
 						lb_pressed = true;
-
+						lb_button_color_selector->SetActive(true);
 						switch (i)
 						{
 						case 0: m_p1->SetIdToRender(1);
@@ -245,7 +249,7 @@ namespace Start_Menu_UI
 						// Player press AUDIO
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(0);
-
+						lt_button_color_selector->SetActive(true);
 						player_order[1] = i;
 						c_lt->OnPressId(i);
 						m_lt->SetIdToRender(i);
@@ -282,7 +286,7 @@ namespace Start_Menu_UI
 						// Player press AUDIO
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(0);
-
+						rb_button_color_selector->SetActive(true);
 						player_order[2] = i;
 						c_rb->OnPressId(i);
 						m_rb->SetIdToRender(i);
@@ -321,7 +325,7 @@ namespace Start_Menu_UI
 						// Player press AUDIO
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(0);
-
+						rt_button_color_selector->SetActive(true);
 						player_order[3] = i;
 						c_rt->OnPressId(i);
 						m_rt->SetIdToRender(i);
@@ -372,6 +376,7 @@ namespace Start_Menu_UI
 							{
 								lb_pressed = false;
 								c_lb->OnPressId(i);
+								lb_button_color_selector->SetActive(false);
 							}
 							break;
 						case 1:
@@ -379,6 +384,7 @@ namespace Start_Menu_UI
 							{
 								lt_pressed = false;
 								c_lt->OnPressId(i);
+								lt_button_color_selector->SetActive(false);
 							}
 							break;
 						case 2:
@@ -386,6 +392,7 @@ namespace Start_Menu_UI
 							{
 								rb_pressed = false;
 								c_rb->OnPressId(i);
+								rb_button_color_selector->SetActive(false);
 							}
 
 							break;
@@ -394,6 +401,7 @@ namespace Start_Menu_UI
 							{
 								rt_pressed = false;
 								c_rt->OnPressId(i);
+								rt_button_color_selector->SetActive(false);
 							}
 							break;
 						}
