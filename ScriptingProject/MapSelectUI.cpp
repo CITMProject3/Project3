@@ -160,15 +160,22 @@ namespace MapSelectUI
 			}
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				if (!players_ready[id])
+				switch (current_level)
 				{
-					c_players_vote[id]->OnPressId(current_level);
-
-
-					votes[id] = current_level;
-					players_ready[id] = true;
+				case 0:
+					App->LoadScene(path_map1.data());
+					break;
+				case 1:
+					App->LoadScene(path_map2.data());
+					break;
+				case 2:
+					App->LoadScene(path_map3.data());
+					break;
+				default:
+					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
+					App->LoadScene(path_map1.data());
+					break;
 				}
-
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
