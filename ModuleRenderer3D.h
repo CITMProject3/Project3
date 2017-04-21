@@ -20,6 +20,7 @@ class ComponentCamera;
 class ComponentMaterial;
 typedef void *SDL_GLContext;
 class ComponentSprite;
+class ComponentParticleSystem;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -58,6 +59,7 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void DrawSprites(ComponentCamera* cam)const;
+	void DrawParticles(ComponentCamera* cam)const;
 
 	bool SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color)const;
@@ -80,6 +82,7 @@ private:
 
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
+	std::vector<ComponentParticleSystem*> particles_to_draw;
 };
 
 #endif // !__MODULERENDERER3D_H__

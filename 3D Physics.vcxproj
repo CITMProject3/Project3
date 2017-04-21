@@ -221,6 +221,7 @@
     <ClInclude Include="ComponentLight.h" />
     <ClInclude Include="ComponentMaterial.h" />
     <ClInclude Include="ComponentMesh.h" />
+    <ClInclude Include="ComponentParticleSystem.h" />
     <ClInclude Include="ComponentRectTransform.h" />
     <ClInclude Include="ComponentScript.h" />
     <ClInclude Include="ComponentSprite.h" />
@@ -403,6 +404,7 @@
     <ClCompile Include="ComponentLight.cpp" />
     <ClCompile Include="ComponentMaterial.cpp" />
     <ClCompile Include="ComponentMesh.cpp" />
+    <ClCompile Include="ComponentParticleSystem.cpp" />
     <ClCompile Include="ComponentRectTransform.cpp" />
     <ClCompile Include="ComponentScript.cpp" />
     <ClCompile Include="ComponentSprite.cpp" />

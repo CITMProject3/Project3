@@ -20,6 +20,7 @@
 #include "ComponentUiButton.h"
 #include "ComponentGrid.h"
 #include "ComponentSprite.h"
+#include "ComponentParticleSystem.h"
 
 #include "MeshImporter.h"
 #include "RaycastHit.h"
@@ -445,6 +446,9 @@ Component* GameObject::AddComponent(ComponentType type)
 	case C_SPRITE:
 		if (transform)
 			item = new ComponentSprite(type, this);
+		break;
+	case C_PARTICLE_SYSTEM:
+		item = new ComponentParticleSystem(type, this);
 		break;
 	default:
 		LOG("[WARNING] Unknown type specified for GameObject %s", name);

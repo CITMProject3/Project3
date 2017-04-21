@@ -672,6 +672,38 @@ Mesh * MeshImporter::LoadBillboardMesh()
 	return mesh;
 }
 
+Mesh * MeshImporter::LoadQuad()
+{
+	Mesh* mesh = new Mesh();
+
+	const GLfloat quad_vertex[] =
+	{
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f
+	};
+
+	mesh->num_vertices = 4;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, quad_vertex, GL_STATIC_DRAW);
+
+	const unsigned int indices[] =
+	{
+		0, 1, 3,
+		1, 2, 3
+	};
+	mesh->num_indices = 6;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_indices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_indices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(unsigned int) * mesh->num_indices, indices, GL_STATIC_DRAW);
+
+	return mesh;
+}
+
 bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids, std::vector<uint>& uuids_anim, std::vector<uint>& uuids_bones)
 {
 	bool ret = false;

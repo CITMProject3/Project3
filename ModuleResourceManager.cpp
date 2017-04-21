@@ -864,6 +864,16 @@ Mesh * ModuleResourceManager::GetDefaultBillboardMesh() const
 	return billboard_mesh;
 }
 
+unsigned int ModuleResourceManager::GetDefaultParticlePositionShaderId() const
+{
+	return default_p_position_shader;
+}
+
+Mesh * ModuleResourceManager::GetDefaultQuadParticleMesh() const
+{
+	return quad_particles_mesh;
+}
+
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
@@ -1065,7 +1075,13 @@ void ModuleResourceManager::LoadDefaults()
 	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
 	default_billboard_shader = ShaderCompiler::LoadDefaultBilboardShader();
 
+	unsigned int ps_update_position_ver = ShaderCompiler::CompileVertex("Resources/Particles/UpdatePositionV.ver");
+	unsigned int ps_update_position_fra = ShaderCompiler::CompileFragment("Resources/Particles/UpdatePositionF.fra");
+
+	default_p_position_shader = ShaderCompiler::CompileShader(ps_update_position_ver, ps_update_position_fra);
+
 	billboard_mesh = MeshImporter::LoadBillboardMesh();
+	quad_particles_mesh = MeshImporter::LoadQuad();
 }
 
 string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * path, string base_dir) const

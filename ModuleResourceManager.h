@@ -85,6 +85,8 @@ public:
 	unsigned int GetDefaultTerrainShaderId()const;
 	unsigned int GetDefaultBillboardShaderId()const;
 	Mesh* GetDefaultBillboardMesh()const;
+	unsigned int GetDefaultParticlePositionShaderId()const;
+	Mesh* GetDefaultQuadParticleMesh()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -163,6 +165,8 @@ private:
 	unsigned int default_terrain_shader = 0;
 	unsigned int default_billboard_shader = 0;
 	Mesh* billboard_mesh = nullptr;
+	unsigned int default_p_position_shader = 0;
+	Mesh* quad_particles_mesh = nullptr; //To update position not to draw the particle
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

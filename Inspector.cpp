@@ -115,7 +115,7 @@ void Inspector::Draw()
 			if (ImGui::Selectable("Add Car"))				selected_GO->AddComponent(C_CAR);
 			if (ImGui::Selectable("Add Light"))				selected_GO->AddComponent(C_LIGHT);
 			if (ImGui::Selectable("Add Sprite"))			selected_GO->AddComponent(C_SPRITE);
-
+			if (ImGui::Selectable("Add ParticleSystem"))	selected_GO->AddComponent(C_PARTICLE_SYSTEM);
 			if (ImGui::Selectable("Add Script"))			selected_GO->AddComponent(C_SCRIPT);
 
 			// UI

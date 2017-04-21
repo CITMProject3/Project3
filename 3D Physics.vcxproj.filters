@@ -711,6 +711,9 @@
     <ClInclude Include="ComponentSprite.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="ComponentParticleSystem.h">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1146,6 +1149,9 @@
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
     <ClCompile Include="ComponentSprite.cpp">
+      <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentParticleSystem.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClCompile>
   </ItemGroup>

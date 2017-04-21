@@ -15,6 +15,7 @@
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
 #include "ComponentSprite.h"
+#include "ComponentParticleSystem.h"
 
 #include "Glew\include\glew.h"
 #include <gl/GL.h>
@@ -193,6 +194,7 @@ update_status ModuleRenderer3D::PreUpdate()
 
 	objects_to_draw.clear();
 	sprites_to_draw.clear();
+	particles_to_draw.clear();
 
 	return UPDATE_CONTINUE;
 }
@@ -383,6 +385,8 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	alpha_objects.clear();
 
 	DrawSprites(cam);
+
+	DrawParticles(cam);
 
 	App->editor->skybox.Render(cam);
 
@@ -601,6 +605,66 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 
 	glDisable(GL_ALPHA_TEST);
 	
+}
+
+void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
+{
+	unsigned int shader_id = App->resource_manager->GetDefaultBillboardShaderId();
+	glUseProgram(shader_id);
+
+	Mesh* bil_mesh = App->resource_manager->GetDefaultBillboardMesh();
+	if (bil_mesh == nullptr)
+		return;
+
+	GLint projection_location = glGetUniformLocation(shader_id, "projection");
+	GLint view_location = glGetUniformLocation(shader_id, "view");
+	math::float4x4 projection_m = cam->GetProjectionMatrix();
+	math::float4x4 view_m = cam->GetViewMatrix();
+
+	GLint center_location = glGetUniformLocation(shader_id, "center");
+	GLint size_location = glGetUniformLocation(shader_id, "size");
+	GLint texture_location = glGetUniformLocation(shader_id, "tex");
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
+
+	for (vector<ComponentSprite*>::const_iterator sprite = sprites_to_draw.begin(); sprite != sprites_to_draw.end(); ++sprite)
+	{
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
+
+		math::float3 center = (*sprite)->GetGameObject()->transform->GetPosition();
+		glUniform3fv(center_location, 1, reinterpret_cast<GLfloat*>(center.ptr()));
+		math::float2 size = (*sprite)->GetGameObject()->transform->GetScale().xy();
+		size.x *= (*sprite)->size.x;
+		size.y *= (*sprite)->size.y;
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(size.ptr()));
+
+		glBindTexture(GL_TEXTURE_2D, (*sprite)->GetTextureId());
+		glUniform1i(texture_location, 0);
+
+		//Buffer vertices == 0
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_vertices);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Buffer uvs == 1
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_uvs);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Index buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
+		glDrawElements(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, (void*)0);
+	}
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_ALPHA_TEST);
 }
 
 bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const
