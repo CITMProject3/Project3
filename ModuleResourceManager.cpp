@@ -263,6 +263,12 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 		tmp_mesh_uuid_files.push_back(tmp);
 	}
 	break;
+	case TERRAIN:
+	{
+		App->file_system->Delete(library_path.data());
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	}
 
 	case PREFAB:
 		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
@@ -1010,6 +1016,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* script_library_extension = "dll";
 	char* prefab_extension = "pfb";
 	char* material_extension = "mat";
+	char* terrain_extension = "txmp";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -1049,6 +1056,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(material_extension) == 0)
 		return FileType::MATERIAL;
+
+	if (extension.compare(terrain_extension) == 0)
+		return FileType::TERRAIN;
 
 	return NONE;
 }

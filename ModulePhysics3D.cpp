@@ -41,6 +41,14 @@
 #define DUMMY_NUMBER 161803398
 
 
+#define READ_TEX_VAL(n, u) ((u >> n*8) & 0xff)
+
+uint64_t set_tex_val(unsigned char val, unsigned int n, uint64_t storage)
+{
+	*(((char*)&storage) + n) = val;
+	return storage;
+}
+
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
 	#pragma comment (lib, "Bullet/libx86/BulletCollision_debug.lib")
