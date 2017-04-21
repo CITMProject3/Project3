@@ -43,8 +43,6 @@
 
 #define READ_TEX_VAL(n, u) ((u >> n*8) & 0xff)
 
-#define SET_TEX_VAL(a1, a2, a3, a4, a5, a6, a7, a8)	((a8 << 54) | (a7 << 48) | (a6 << 40) | (a5 << 32) | (a4 << 24) | (a3 << 16) | (a2 << 8) | a1)
-
 uint64_t set_tex_val(unsigned char val, unsigned int n, uint64_t storage)
 {
 	*(((char*)&storage) + n) = val;
@@ -143,54 +141,6 @@ update_status ModulePhysics3D::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 			debug = !debug;
-
-	//TESTING
-
-	unsigned int a = 0x000000FF;
-	unsigned int b = 0x0000FF00;
-	unsigned int c = 0x00FF0000;
-	unsigned int d = 0xFF000000;
-
-	uint64_t storage = 0;	
-	storage = set_tex_val(10, 0, storage);
-	storage = set_tex_val(20, 1, storage);
-	storage = set_tex_val(30, 2, storage);
-	storage = set_tex_val(40, 3, storage);
-	storage = set_tex_val(50, 4, storage);
-	storage = set_tex_val(60, 5, storage);
-	storage = set_tex_val(70, 6, storage);
-	storage = set_tex_val(80, 7, storage);
-
-	unsigned char a1 = READ_TEX_VAL(0, storage);
-	unsigned char a2 = READ_TEX_VAL(1, storage);
-	unsigned char a3 = READ_TEX_VAL(2, storage);
-	unsigned char a4 = READ_TEX_VAL(3, storage);
-	unsigned char a5 = READ_TEX_VAL(4, storage);
-	unsigned char a6 = READ_TEX_VAL(5, storage);
-	unsigned char a7 = READ_TEX_VAL(6, storage);
-	unsigned char a8 = READ_TEX_VAL(7, storage);
-
-	int b8 = (storage >> 56) & 0xff;
-	int b7 = (storage >> 48) & 0xff;
-	int b6 = (storage >> 40) & 0xff;
-	int b5 = (storage >> 32) & 0xff;
-	int b4 = (storage >> 24) & 0xff;  // high-order (leftmost) byte: bits 24-31
-	int b3 = (storage >> 16) & 0xff;  // next byte, counting from left: bits 16-23
-	int b2 = (storage >> 8) & 0xff;  // next byte, bits 8-15
-	int b1 = storage & 0xff;
-
-	unsigned char res[12];
-	for (size_t i = 0; i < sizeof(storage); ++i) {
-		// Convert to unsigned char* because a char is 1 byte in size.
-		// That is guaranteed by the standard.
-		// Note that is it NOT required to be 8 bits in size.
-		res[i] = *((unsigned char *)&storage + i);
-	}
-
-	int end = 4;
-
-	/////////
-
 
 	if (debug == true)
 	{
