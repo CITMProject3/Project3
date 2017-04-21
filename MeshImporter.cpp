@@ -376,8 +376,11 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 
 	//Tangents
 	bytes = sizeof(float) * header[1] * 3;
-	memcpy(cursor, mesh.tangents, bytes);
-	cursor += bytes;
+	if (mesh.tangents != nullptr)
+	{
+		memcpy(cursor, mesh.tangents, bytes);
+		cursor += bytes;
+	}		
 
 	//Generate random UUID for the name
 	msh_uuid = (unsigned int)App->rnd->RandomInt();
