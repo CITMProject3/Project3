@@ -258,16 +258,21 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 		//Acrobatics
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
 			if (ground_contact_state && *turning == true)
 				StartDrift();
 			else if (ground_contact_state == false)
-				Acrobatics(back_player);
+				Acrobatics(front_player);
 		}
 		else if (drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_UP)
 		{
 			EndDrift();
+		}
+
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
+		{
+			Acrobatics(front_player);
 		}
 
 		//Power Up
