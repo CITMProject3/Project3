@@ -15,6 +15,8 @@
 #include "../SDL/include/SDL_scancode.h"
 #include "../Globals.h"
 #include "../ComponentUiButton.h"
+#include "../ComponentUiImage.h"
+#include "../ComponentMaterial.h"
 #include "../ModuleGOManager.h"
 #include "../ComponentCanvas.h"
 
@@ -26,13 +28,22 @@ namespace Start_Menu_UI
 	GameObject* rt_button = nullptr;
 	GameObject* lb_button = nullptr;
 	GameObject* lt_button = nullptr;
+
+	GameObject* rb_button_color_selector = nullptr;
+	GameObject* rt_button_color_selector = nullptr;
+	GameObject* lb_button_color_selector = nullptr;
+	GameObject* lt_button_color_selector = nullptr;
+
 	GameObject* start_but = nullptr;
 	GameObject* choose_team = nullptr;
 	ComponentUiButton* c_rb = nullptr;
 	ComponentUiButton* c_rt = nullptr;
 	ComponentUiButton* c_lb = nullptr;
 	ComponentUiButton* c_lt = nullptr;
-
+	ComponentMaterial* m_rb = nullptr;
+	ComponentMaterial* m_rt = nullptr;
+	ComponentMaterial* m_lb = nullptr;
+	ComponentMaterial* m_lt = nullptr;
 	bool rb_pressed = false;
 	bool rt_pressed = false;
 	bool lb_pressed = false;
@@ -46,6 +57,10 @@ namespace Start_Menu_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("LT Button", lt_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("RB Button", rb_button));
 		public_gos->insert(std::pair<const char*, GameObject*>("RT Button", rt_button));
+		public_gos->insert(std::pair<const char*, GameObject*>("LB Button Color Selector", lb_button_color_selector));
+		public_gos->insert(std::pair<const char*, GameObject*>("LT Button Color Selector", lt_button_color_selector));
+		public_gos->insert(std::pair<const char*, GameObject*>("RB Button Color Selector", rb_button_color_selector));
+		public_gos->insert(std::pair<const char*, GameObject*>("RT Button Color Selector", rt_button_color_selector));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start Button", start_but));
 		public_gos->insert(std::pair<const char*, GameObject*>("Choose team", choose_team));
 		public_ints->insert(std::pair<const char*, int>("Player1", player_order[0]));
@@ -62,6 +77,10 @@ namespace Start_Menu_UI
 		rt_button = test_script->public_gos.at("RT Button");
 		lb_button = test_script->public_gos.at("LB Button");
 		lt_button = test_script->public_gos.at("LT Button");
+		rb_button_color_selector = test_script->public_gos.at("RB Button Color Selector");
+		rt_button_color_selector = test_script->public_gos.at("RT Button Color Selector");
+		lb_button_color_selector = test_script->public_gos.at("LB Button Color Selector");
+		lt_button_color_selector = test_script->public_gos.at("LT Button Color Selector");
 		start_but = test_script->public_gos.at("Start Button");
 		choose_team = test_script->public_gos.at("Choose team");
 		player_order[0] = test_script->public_ints.at("Player1");
@@ -73,6 +92,11 @@ namespace Start_Menu_UI
 		c_rt = (ComponentUiButton*)rt_button->GetComponent(C_UI_BUTTON);
 		c_lb = (ComponentUiButton*)lb_button->GetComponent(C_UI_BUTTON);
 		c_lt = (ComponentUiButton*)lt_button->GetComponent(C_UI_BUTTON);
+
+		m_rb = ((ComponentUiImage*)rb_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_rt = ((ComponentUiImage*)rt_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_lb = ((ComponentUiImage*)lb_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_lt = ((ComponentUiImage*)lt_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
 	}
 
 	void Start_Menu_UI_ActualizePublics(GameObject* game_object)
@@ -83,6 +107,10 @@ namespace Start_Menu_UI
 		test_script->public_gos.at("RT Button") = rt_button;
 		test_script->public_gos.at("LB Button") = lb_button;
 		test_script->public_gos.at("LT Button") = lt_button;
+		test_script->public_gos.at("RB Button Color Selector") = rb_button_color_selector;
+		test_script->public_gos.at("RT Button Color Selector") = rt_button_color_selector;
+		test_script->public_gos.at("LB Button Color Selector") = lb_button_color_selector;
+		test_script->public_gos.at("LT Button Color Selector") = lt_button_color_selector;
 		test_script->public_gos.at("Start Button") = start_but;
 		test_script->public_gos.at("Choose team") = choose_team;
 		test_script->public_ints.at("Player1") = player_order[0];
@@ -94,6 +122,11 @@ namespace Start_Menu_UI
 		c_rt = (ComponentUiButton*)rt_button->GetComponent(C_UI_BUTTON);
 		c_lb = (ComponentUiButton*)lb_button->GetComponent(C_UI_BUTTON);
 		c_lt = (ComponentUiButton*)lt_button->GetComponent(C_UI_BUTTON);
+
+		m_rb = ((ComponentUiImage*)rb_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_rt = ((ComponentUiImage*)rt_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_lb = ((ComponentUiImage*)lb_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_lt = ((ComponentUiImage*)lt_button_color_selector->GetComponent(C_UI_IMAGE))->UImaterial;
 	}
 
 	void Start_Menu_UI_UpdatePublics(GameObject* game_object);
@@ -137,6 +170,7 @@ namespace Start_Menu_UI
 
 						player_order[0] = i;
 						c_lb->OnPressId(i);
+						m_lb->SetIdToRender(i);
 						lb_pressed = true;
 					}
 				}
@@ -162,6 +196,7 @@ namespace Start_Menu_UI
 
 						player_order[1] = i;
 						c_lt->OnPressId(i);
+						m_lt->SetIdToRender(i);
 						lt_pressed = true;
 					}
 				}
@@ -187,6 +222,7 @@ namespace Start_Menu_UI
 
 						player_order[2] = i;
 						c_rb->OnPressId(i);
+						m_rb->SetIdToRender(i);
 						rb_pressed = true;
 					}
 
@@ -214,6 +250,7 @@ namespace Start_Menu_UI
 
 						player_order[3] = i;
 						c_rt->OnPressId(i);
+						m_rt->SetIdToRender(i);
 						rt_pressed = true;
 					}
 				}
@@ -277,9 +314,9 @@ namespace Start_Menu_UI
 				if (total == 6)
 				{
 					start_but->SetActive(true);
-					choose_team->SetActive(false);
+					//choose_team->SetActive(false);
 					ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
-					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 0)
+					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
 					{
 
 						main_canvas_script->public_ints.at("current_menu") = 2;

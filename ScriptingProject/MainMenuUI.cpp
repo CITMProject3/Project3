@@ -89,11 +89,12 @@ namespace Main_Menu_UI
 		Main_Menu_UI_ActualizePublics(game_object);
 		if (title_menu != nullptr)
 		{
-			canvas->AddGoFocus(title_menu);
 			title_menu->SetActive(true);
+			select_parent->SetActive(false);
 			select_team_menu->SetActive(false);
-			select_level->SetActive(false);
 			select_menu->SetActive(false);
+			select_vehicle->SetActive(false);
+			select_level->SetActive(false);
 		}
 			
 		//canvas->go_focus = title_menu;
