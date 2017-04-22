@@ -137,7 +137,7 @@
                     "fake_break": 25,
                     "base_turn_max": 0.700000,
                     "turn_speed": 1.500000,
-                    "turn_speed_joystick": 0,
+                    "turn_speed_joystick": 2,
                     "time_to_idle": 0.200000,
                     "idle_turn_by_interpolation": true,
                     "velocity_to_change": 10,
@@ -13647,75 +13647,6 @@
             ]
         },
         {
-            "name": "BODY",
-            "UUID": 4008709864,
-            "local_UUID": 0,
-            "parent": 3515283067,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1406051670,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 3480749411,
-                    "active": true,
-                    "path": "\/Library\/29241684\/850687396\/2899087046.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 1041439558,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "textures": [
-                        {
-                            "path": "\/Library\/29241684\/\/2819861780\/2819861780.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "locator1",
             "UUID": 3014115765,
             "local_UUID": 0,
@@ -24856,14 +24787,14 @@
             "components": [
                 {
                     "position": [
-                        61.026348,
-                        9.052666,
-                        8.955639
+                        56.655590,
+                        8.620120,
+                        17.099117
                     ],
                     "rotation": [
                         -175.849060,
-                        -18.783487,
-                        -178.661316
+                        -18.783485,
+                        -178.661301
                     ]
                 }
             ],
@@ -25207,15 +25138,15 @@
                         1,
                         0,
                         0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
+                        -14.466732,
                         0,
                         1,
                         0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        21.690678,
                         0,
                         0,
                         0,
@@ -29421,14 +29352,14 @@
             "components": [
                 {
                     "position": [
-                        114.683006,
-                        4.699009,
-                        -85.155769
+                        27.518824,
+                        4.699013,
+                        -166.177582
                     ],
                     "rotation": [
-                        -180,
-                        0.790535,
-                        -180
+                        -0.000005,
+                        -0.729856,
+                        0.000005
                     ]
                 }
             ],
@@ -30071,7 +30002,7 @@
                     "is_transparent": true,
                     "size": [
                         25.200001,
-                        1,
+                        15.400001,
                         7.900001
                     ]
                 },
@@ -30159,7 +30090,7 @@
                 {
                     "position": [
                         159.069321,
-                        2.754055,
+                        3.164373,
                         -150.036728
                     ],
                     "rotation": [
@@ -30236,31 +30167,6 @@
                         -70.095123,
                         1.414728,
                         -77.276764
-                    ],
-                    "rotation": [
-                        -180,
-                        -46.215176,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "river1",
-            "UUID": 3383431086,
-            "local_UUID": 2498473116,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3383431086,
-            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
-            "components": [
-                {
-                    "position": [
-                        -95.631157,
-                        0.191393,
-                        -30.469170
                     ],
                     "rotation": [
                         -180,
@@ -32176,6 +32082,4365 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "WoodenCrate1",
+            "UUID": 175542537,
+            "local_UUID": 1653967403,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 175542537,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/603935533\/603935533.pfb",
+            "components": [
+                {
+                    "position": [
+                        9.164136,
+                        8.826725,
+                        42.747620
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4286772058,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4286772058,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.979019,
+                        7.764702,
+                        -10.613461
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3784963557,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3784963557,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.153297,
+                        7.764706,
+                        -8.731221
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4250184567,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4250184567,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.542160,
+                        7.764702,
+                        -7.715355
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2673620270,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2673620270,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.028244,
+                        7.764706,
+                        -6.445520
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2942292244,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2942292244,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.153328,
+                        7.764706,
+                        -5.639669
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3294373858,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3294373858,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.445511,
+                        7.764702,
+                        -4.876364
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 507077162,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 507077162,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.770172,
+                        7.764706,
+                        -4.028257
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3977502760,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3977502760,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -75.062370,
+                        7.764706,
+                        -3.264952
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 482760434,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 482760434,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -75.417244,
+                        7.764706,
+                        -1.856977
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4188928150,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4188928150,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -75.937653,
+                        7.764709,
+                        -0.497496
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4021846664,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4021846664,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -76.653198,
+                        7.764706,
+                        1.371792
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2180936591,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2180936591,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.076828,
+                        7.764706,
+                        2.961178
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3940754342,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3940754342,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.112907,
+                        7.764706,
+                        5.004187
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2517720757,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2517720757,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.640030,
+                        7.764706,
+                        6.872900
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3547299816,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3547299816,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.166252,
+                        7.764702,
+                        8.247576
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2183196699,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2183196699,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.951279,
+                        7.764706,
+                        9.806625
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1718619569,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1718619569,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.257660,
+                        7.764706,
+                        12.729452
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 167172775,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 167172775,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.978539,
+                        7.764702,
+                        14.612619
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2607634342,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2607634342,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -82.027069,
+                        7.764706,
+                        17.351782
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 108371609,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 108371609,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -82.386765,
+                        7.764709,
+                        19.766567
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2884584019,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2884584019,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -79.989319,
+                        7.764706,
+                        11.540335
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2394473777,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2394473777,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.559853,
+                        7.764706,
+                        14.008751
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2898247641,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2898247641,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -81.755463,
+                        7.764706,
+                        16.154087
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2920516707,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2920516707,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -81.779922,
+                        7.764709,
+                        19.173891
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3988206006,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3988206006,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -83.109207,
+                        7.764709,
+                        21.807442
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2483302258,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2483302258,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -83.151291,
+                        7.764702,
+                        21.065807
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1466830800,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1466830800,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.713913,
+                        7.764706,
+                        22.946798
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3947201623,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3947201623,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.148193,
+                        7.764706,
+                        22.538391
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3159245038,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3159245038,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.874031,
+                        7.764709,
+                        24.727276
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3613422005,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3613422005,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.894630,
+                        7.764709,
+                        24.364456
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4087099607,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4087099607,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.776207,
+                        7.764706,
+                        -9.892250
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 871342979,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 871342979,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.834328,
+                        7.764706,
+                        -8.589499
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 408220750,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 408220750,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.881523,
+                        7.764706,
+                        -6.968800
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1003526276,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1003526276,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.963570,
+                        7.764704,
+                        -5.364912
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2663249603,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2663249603,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.122643,
+                        7.764706,
+                        -4.045021
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3207351878,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3207351878,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.124992,
+                        7.764706,
+                        -2.802532
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1483338189,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1483338189,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.230598,
+                        7.764706,
+                        -1.427084
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 678425848,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 678425848,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.678772,
+                        7.764706,
+                        0.022110
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 599479411,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 599479411,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.962753,
+                        7.764706,
+                        0.722326
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2161101443,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2161101443,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.481415,
+                        7.764708,
+                        2.477480
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3871332458,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3871332458,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.927681,
+                        7.764706,
+                        3.719700
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2978316621,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2978316621,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -75.362633,
+                        7.764706,
+                        5.128506
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1564791206,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1564791206,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -75.678192,
+                        7.764706,
+                        7.078756
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4178213190,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4178213190,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -76.292610,
+                        7.764706,
+                        8.814379
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3102533514,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3102533514,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.271690,
+                        7.764706,
+                        10.835457
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3608529164,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3608529164,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.988281,
+                        7.764706,
+                        12.868768
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1522842272,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1522842272,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.699844,
+                        7.764706,
+                        24.311153
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3096635033,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3096635033,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -79.942497,
+                        7.764706,
+                        16.760662
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 463837116,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 463837116,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.966820,
+                        7.764704,
+                        18.753620
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3486667662,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3486667662,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -81.967789,
+                        7.764706,
+                        20.594574
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 438948156,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 438948156,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -83.310860,
+                        7.764706,
+                        23.168133
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1820997887,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1820997887,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.378906,
+                        7.764708,
+                        24.910477
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2959683832,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2959683832,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.461479,
+                        7.764704,
+                        27.207260
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 913643142,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 913643142,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -88.017647,
+                        7.764706,
+                        28.473572
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 958924037,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 958924037,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -89.496277,
+                        7.764706,
+                        30.191528
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 565662523,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 565662523,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -90.279579,
+                        7.764704,
+                        31.392372
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2286523783,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2286523783,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -91.099075,
+                        7.764708,
+                        33.281990
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3629135867,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3629135867,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -91.501427,
+                        7.764708,
+                        35.528767
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 566031603,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 566031603,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -91.429787,
+                        7.764706,
+                        35.914394
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3986512632,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3986512632,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -90.289391,
+                        7.764706,
+                        34.107788
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3123428358,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3123428358,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -90.194016,
+                        7.764708,
+                        33.800858
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1105098502,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1105098502,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -89.584747,
+                        7.764706,
+                        32.870789
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4208051329,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4208051329,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -88.322479,
+                        7.764706,
+                        30.947929
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 260513295,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 260513295,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.372681,
+                        7.764708,
+                        28.993740
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2898709986,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2898709986,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.401260,
+                        7.764706,
+                        27.855850
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4267626458,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4267626458,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.090256,
+                        7.764706,
+                        25.941715
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1237912367,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1237912367,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -83.397255,
+                        7.764706,
+                        24.929886
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1465674082,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1465674082,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.725983,
+                        7.764709,
+                        -9.007597
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4099528957,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4099528957,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.349091,
+                        7.764709,
+                        -6.488350
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1196053793,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1196053793,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.895676,
+                        7.764709,
+                        -2.917530
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1929576606,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1929576606,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.185921,
+                        7.764709,
+                        -4.677072
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2641548964,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2641548964,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -76.323578,
+                        7.764709,
+                        -6.536821
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2391173484,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2391173484,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -76.848053,
+                        7.764709,
+                        -8.871516
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2043901319,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2043901319,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.030167,
+                        7.764709,
+                        -7.907797
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 907595827,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 907595827,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -77.780167,
+                        7.764709,
+                        -2.659435
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 480857140,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 480857140,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.063904,
+                        7.764709,
+                        -1.998143
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1786976507,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1786976507,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.019485,
+                        -0.000008,
+                        -5.813858
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2857748554,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2857748554,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.547073,
+                        0,
+                        -3.965877
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1632956905,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1632956905,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -88.607727,
+                        0,
+                        -5.134679
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 51224276,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 51224276,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -85.418358,
+                        -0.000008,
+                        -7.537301
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1280924682,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1280924682,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.109131,
+                        0,
+                        -2.014288
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2385964974,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2385964974,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.027908,
+                        0,
+                        -2.357792
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 326194597,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 326194597,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -88.223450,
+                        -0.000008,
+                        -3.433459
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 793574961,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 793574961,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -84.794144,
+                        0,
+                        -0.439191
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1195226113,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1195226113,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.433189,
+                        2.588234,
+                        -19.413078
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1834664063,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1834664063,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -79.302475,
+                        2.588234,
+                        -23.747576
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1558400831,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1558400831,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -80.913811,
+                        2.588230,
+                        -26.818079
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 77682904,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 77682904,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.345764,
+                        2.488792,
+                        -32.004761
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        16.044247
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1942630936,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1942630936,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.449013,
+                        2.588234,
+                        -33.191906
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2991443559,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2991443559,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.173294,
+                        2.588234,
+                        -30.751883
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1464470221,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1464470221,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -79.476616,
+                        2.588238,
+                        -29.497997
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3132480080,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3132480080,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.374214,
+                        7.764706,
+                        -14.151256
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2615460086,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2615460086,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.008858,
+                        7.764706,
+                        -13.300831
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 679148683,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 679148683,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.958435,
+                        7.764706,
+                        -12.510801
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3493715924,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3493715924,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -73.307732,
+                        7.764706,
+                        -11.500006
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 756230373,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 756230373,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.045319,
+                        7.764706,
+                        -17.070427
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 986375545,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 986375545,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.901482,
+                        7.764706,
+                        -18.463264
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3810584960,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3810584960,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.924820,
+                        7.764706,
+                        -20.334675
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3737791202,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3737791202,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.381287,
+                        7.764702,
+                        -21.887611
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3661546789,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3661546789,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.707458,
+                        7.764709,
+                        -22.836966
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1272746504,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1272746504,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.602844,
+                        7.764709,
+                        -24.079519
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1355463235,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1355463235,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.145935,
+                        7.764706,
+                        -25.401676
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2378064761,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2378064761,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.765190,
+                        7.764706,
+                        -26.503475
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1376916034,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1376916034,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.498665,
+                        7.764706,
+                        -27.274733
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3482005944,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3482005944,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.875542,
+                        7.764706,
+                        -28.138163
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4064984353,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4064984353,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.325935,
+                        7.764706,
+                        -28.784298
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2746732018,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2746732018,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -68.773705,
+                        7.764706,
+                        -29.433523
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 839612568,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 839612568,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -67.487297,
+                        7.764706,
+                        -30.282232
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2474491734,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2474491734,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -66.671112,
+                        7.764702,
+                        -30.705130
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1964575335,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1964575335,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.278748,
+                        7.764706,
+                        -16.394924
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2514447149,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2514447149,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -71.512169,
+                        7.764706,
+                        -15.719433
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4257800888,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4257800888,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.221024,
+                        7.764706,
+                        -14.644703
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1964507075,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1964507075,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.470520,
+                        7.764709,
+                        -14.387810
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1636306816,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1636306816,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.633301,
+                        7.764717,
+                        -10.095764
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3671904420,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3671904420,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -70.350410,
+                        7.764709,
+                        -2.314693
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 1227915567,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1227915567,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -72.054062,
+                        7.764709,
+                        3.746346
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 4066825102,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4066825102,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -74.972481,
+                        7.764717,
+                        9.889004
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 974337520,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 974337520,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -78.722878,
+                        7.764709,
+                        15.370579
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3832993933,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3832993933,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -81.339981,
+                        7.764709,
+                        20.453850
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 2354300083,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2354300083,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -279.784882,
+                        3.618032,
+                        -144.759583
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215176,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 2813738748,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2813738748,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -96.978363,
+                        3.618032,
+                        -20.616070
+                    ],
+                    "rotation": [
+                        -180,
+                        12.254032,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 639583287,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 639583287,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -165.641586,
+                        3.618032,
+                        25.377682
+                    ],
+                    "rotation": [
+                        180,
+                        -71.375015,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "river1",
+            "UUID": 3056025633,
+            "local_UUID": 2498473116,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3056025633,
+            "prefab_path": "\/Library\/1441726200\/\/3963909376\/3963909376.pfb",
+            "components": [
+                {
+                    "position": [
+                        -249.330383,
+                        3.618032,
+                        -116.443405
+                    ],
+                    "rotation": [
+                        -180,
+                        -46.215019,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 4196357248,
+            "local_UUID": 2108837362,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4196357248,
+            "prefab_path": "\/Library\/643644559\/1279625784\/\/1708994058\/1708994058.pfb",
+            "components": [
+                {
+                    "position": [
+                        22.670109,
+                        7.764706,
+                        -36.786659
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 2635368357,
+            "local_UUID": 2108837362,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2635368357,
+            "prefab_path": "\/Library\/643644559\/1279625784\/\/1708994058\/1708994058.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.160847,
+                        7.764706,
+                        -35.098709
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 1777254397,
+            "local_UUID": 2108837362,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1777254397,
+            "prefab_path": "\/Library\/643644559\/1279625784\/\/1708994058\/1708994058.pfb",
+            "components": [
+                {
+                    "position": [
+                        21.062395,
+                        7.764709,
+                        -35.082855
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 593079670,
+            "local_UUID": 2108837362,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 593079670,
+            "prefab_path": "\/Library\/643644559\/1279625784\/\/1708994058\/1708994058.pfb",
+            "components": [
+                {
+                    "position": [
+                        10.650436,
+                        8.060944,
+                        -36.450317
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 2476446881,
+            "local_UUID": 2108837362,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2476446881,
+            "prefab_path": "\/Library\/643644559\/1279625784\/\/1708994058\/1708994058.pfb",
+            "components": [
+                {
+                    "position": [
+                        8.028032,
+                        7.764709,
+                        -22.719711
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat3",
+            "UUID": 1580715174,
+            "local_UUID": 2827035752,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1580715174,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/3366389007\/3366389007.pfb",
+            "components": [
+                {
+                    "position": [
+                        142.644440,
+                        4.616607,
+                        -138.970337
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat3",
+            "UUID": 1331309458,
+            "local_UUID": 2827035752,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1331309458,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/3366389007\/3366389007.pfb",
+            "components": [
+                {
+                    "position": [
+                        66.852692,
+                        6.579733,
+                        -155.234344
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat2",
+            "UUID": 420116841,
+            "local_UUID": 3571098305,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 420116841,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/818922305\/818922305.pfb",
+            "components": [
+                {
+                    "position": [
+                        182.346649,
+                        6.417796,
+                        -129.694885
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat2",
+            "UUID": 3639411057,
+            "local_UUID": 3571098305,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3639411057,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/818922305\/818922305.pfb",
+            "components": [
+                {
+                    "position": [
+                        240.666336,
+                        6.405106,
+                        -48.730530
+                    ],
+                    "rotation": [
+                        180,
+                        -80.972794,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat2",
+            "UUID": 3665813288,
+            "local_UUID": 3571098305,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3665813288,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/818922305\/818922305.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.125473,
+                        5.915304,
+                        -72.703606
+                    ],
+                    "rotation": [
+                        180,
+                        -82.852592,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 1261429737,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1261429737,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        67.419220,
+                        7.764717,
+                        24.318375
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2659621009,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2659621009,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        67.217537,
+                        7.764706,
+                        20.769487
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 4230214201,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4230214201,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        67.834076,
+                        7.764709,
+                        16.744835
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2812439102,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2812439102,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        68.424896,
+                        7.764709,
+                        12.861168
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2335867045,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2335867045,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        68.823189,
+                        7.764706,
+                        7.883741
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2545834351,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2545834351,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        69.191650,
+                        7.764706,
+                        3.791494
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2513668820,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2513668820,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        60.927982,
+                        7.764709,
+                        27.697166
+                    ],
+                    "rotation": [
+                        0,
+                        -83.906708,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 63017008,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 63017008,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        56.686554,
+                        7.764709,
+                        27.510525
+                    ],
+                    "rotation": [
+                        180,
+                        -82.576378,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 3643470915,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3643470915,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        52.762001,
+                        7.764709,
+                        27.198887
+                    ],
+                    "rotation": [
+                        180,
+                        -86.863251,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 4018127769,
+            "local_UUID": 3652078254,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4018127769,
+            "prefab_path": "\/Library\/643644559\/2226794139\/\/2937647313\/2937647313.pfb",
+            "components": [
+                {
+                    "position": [
+                        48.740417,
+                        7.764709,
+                        26.991224
+                    ],
+                    "rotation": [
+                        180,
+                        -88.665718,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2470015918,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200013,
+                        0,
+                        -0.003866,
+                        46.880459,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200013,
+                        24.443604,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 1435543547,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200015,
+                        0,
+                        -0.003866,
+                        46.806175,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200015,
+                        20.600540,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 305262703,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200016,
+                        0,
+                        -0.003866,
+                        46.726704,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200016,
+                        16.488956,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 420609326,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200017,
+                        0,
+                        -0.003866,
+                        46.651974,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200017,
+                        12.622849,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2404468014,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200019,
+                        0,
+                        -0.003866,
+                        46.581619,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200019,
+                        8.983126,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 3836996487,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3061886154,
+                    "active": true,
+                    "matrix": [
+                        -0.200021,
+                        0,
+                        -0.003866,
+                        46.492207,
+                        0,
+                        0.200000,
+                        0,
+                        7.611534,
+                        0.003866,
+                        0,
+                        -0.200021,
+                        4.357135,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 2237239208,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1084978340,
+                    "active": true,
+                    "matrix": [
+                        0.014767,
+                        0,
+                        -0.199459,
+                        65.046089,
+                        0,
+                        0.200000,
+                        0,
+                        7.764709,
+                        0.199459,
+                        0,
+                        0.014767,
+                        27.513283,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 1498221613,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1084978340,
+                    "active": true,
+                    "matrix": [
+                        0.014767,
+                        0,
+                        -0.199459,
+                        67.246536,
+                        0,
+                        0.200000,
+                        0,
+                        7.764709,
+                        0.199459,
+                        0,
+                        0.014767,
+                        2.010977,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 559235145,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1084978340,
+                    "active": true,
+                    "matrix": [
+                        0.014767,
+                        0,
+                        -0.199459,
+                        63.311813,
+                        0,
+                        0.200000,
+                        0,
+                        7.764709,
+                        0.199459,
+                        0,
+                        0.014767,
+                        2.302283,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 1031021996,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1084978340,
+                    "active": true,
+                    "matrix": [
+                        0.014767,
+                        0,
+                        -0.199459,
+                        48.941471,
+                        0,
+                        0.200000,
+                        0,
+                        7.764709,
+                        0.199459,
+                        0,
+                        0.014767,
+                        2.679368,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodFence1",
+            "UUID": 1891476228,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1084978340,
+                    "active": true,
+                    "matrix": [
+                        0.014767,
+                        0,
+                        -0.199459,
+                        53.208603,
+                        0,
+                        0.200000,
+                        0,
+                        7.764709,
+                        0.199459,
+                        0,
+                        0.014767,
+                        2.363453,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2644004168,
+                    "active": true,
+                    "path": "\/Library\/2226794139\/1592365912\/3549650121.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2327093511,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2226794139\/\/3962036996\/3962036996.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/\/4235778118\/4235778118.pfb"
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
