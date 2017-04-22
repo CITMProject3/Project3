@@ -46,6 +46,9 @@ namespace Scene_Manager
 	GameObject* start_timer_go = nullptr;
 	ComponentUiText* start_timer_text = nullptr;
 
+	GameObject* start_timer_go2 = nullptr;
+	ComponentUiText* start_timer_text2 = nullptr;
+
 	GameObject* item_ui_1_go = nullptr;
 	ComponentUiImage* item_ui_1 = nullptr;
 
@@ -65,7 +68,7 @@ namespace Scene_Manager
 	GameObject* player1_finish = nullptr;
 	GameObject* player2_finish = nullptr;
 
-	string main_menu_scene = "Insert scene path here";
+	string main_menu_scene = "/Assets/Main_menu.ezx";
 
 	//"Private" variables
 	double start_timer;
@@ -89,6 +92,7 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player1_Text", lap1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Lap_Player2_Text", lap2_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start_Timer_Text", start_timer_go));
+		public_gos->insert(std::pair<const char*, GameObject*>("Start_Timer_Text2", start_timer_go2));
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player1", item_ui_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Item_Player2", item_ui_2_go));
@@ -117,6 +121,7 @@ namespace Scene_Manager
 		lap1_go = script->public_gos["Lap_Player1_Text"];
 		lap2_go = script->public_gos["Lap_Player2_Text"];
 		start_timer_go = script->public_gos["Start_Timer_Text"];
+		start_timer_go2 = script->public_gos["Start_Timer_Text2"];
 		item_ui_1_go = script->public_gos["Item_Player1"];
 		item_ui_2_go = script->public_gos["Item_Player2"];
 
@@ -141,9 +146,10 @@ namespace Scene_Manager
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
 	void Scene_Manager_SetStartTimerText(unsigned int number)
 	{
-		if (start_timer_text != nullptr)
+		if (start_timer_text != nullptr && start_timer_text2 != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
+			start_timer_text2->SetDisplayText(std::to_string(number));
 		}
 	}
 
@@ -203,6 +209,10 @@ namespace Scene_Manager
 		{
 			start_timer_text = (ComponentUiText*)start_timer_go->GetComponent(C_UI_TEXT);
 		}
+		if (start_timer_go2)
+		{
+			start_timer_text2 = (ComponentUiText*)start_timer_go2->GetComponent(C_UI_TEXT);
+		}
 		if (item_ui_1_go)
 		{
 			item_ui_1 = (ComponentUiImage*)item_ui_1_go->GetComponent(C_UI_IMAGE);
@@ -233,7 +243,7 @@ namespace Scene_Manager
 		{
 			for (uint joystick = 0; joystick < 4; joystick++)
 			{
-				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::B) == KEY_DOWN)
+				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 				{
 					App->LoadScene(main_menu_scene.c_str());
 					return;
@@ -301,6 +311,7 @@ namespace Scene_Manager
 			{
 				start_timer_on = false;
 				if (start_timer_text) start_timer_text->GetGameObject()->SetActive(false);
+				if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(false);
 				if (race_HUD != nullptr)
 				{
 					race_HUD->SetActive(true);
