@@ -168,6 +168,8 @@ namespace Vehicle_Selection_UI
 		red_counter_right = time;
 		red_counter_left = time;
 		total_timer = time;
+		p_pos[0] = 0;
+		p_pos[1] = 0;
 		Vehicle_Selection_UI_ActualizePublics(game_object);
 	}
 
@@ -228,9 +230,6 @@ namespace Vehicle_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				
-				
-
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
 					// Play Move Selection

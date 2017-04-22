@@ -338,6 +338,10 @@ namespace Character_Selection_UI
 		mat_Player3_num_port->SetIdToRender(player_order[2]);
 		mat_Player4_num_port->SetIdToRender(player_order[3]);
 
+		but_driver1->UImaterial->SetIdToRender(player_order[0]);
+		but_support1->UImaterial->SetIdToRender(player_order[1]);
+		but_driver2->UImaterial->SetIdToRender(player_order[2]);
+		but_support2->UImaterial->SetIdToRender(player_order[3]);
 		Character_Selection_UI_ActualizePublics(game_object);
 	}
 
@@ -357,7 +361,7 @@ namespace Character_Selection_UI
 			{
 				// Play Move Selection
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
+				
 
 				switch (id)
 				{
@@ -367,6 +371,7 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 1;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 1:
@@ -375,6 +380,7 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 1;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 2:
@@ -383,6 +389,7 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] = 1;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 3:
@@ -391,6 +398,7 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 1;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				}
@@ -400,7 +408,7 @@ namespace Character_Selection_UI
 			{
 				// Play Move Selection
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
+				
 
 				switch (id)
 				{
@@ -410,6 +418,7 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(-214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 0;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 1:
@@ -418,6 +427,7 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(-214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 0;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 2:
@@ -434,6 +444,7 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(-214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 0;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				}
@@ -448,7 +459,7 @@ namespace Character_Selection_UI
 					if (player1_select == false)
 					{
 						
-						if (p_pos[id] == 0 && champ1_select == false)
+						if (p_pos[id] == 0)
 						{
 							player1_select = true;
 							mat_Player1->color[0] = 1.0f;
@@ -459,7 +470,7 @@ namespace Character_Selection_UI
 							mat_driver1->color[2] = 0.4f;
 							champ1_select = true;
 						}
-						else if (p_pos[id] == 1 && champ3_select == false)
+						else if (p_pos[id] == 1 )
 						{
 							player1_select = true;
 							mat_Player1->color[0] = 1.0f;
@@ -478,7 +489,7 @@ namespace Character_Selection_UI
 					{
 						
 
-						if (p_pos[id] == 0 && champ2_select == false)
+						if (p_pos[id] == 0)
 						{
 							player2_select = true;
 							mat_Player2->color[0] = 1.0f;
@@ -489,7 +500,7 @@ namespace Character_Selection_UI
 							mat_support1->color[2] = 0.4f;
 							champ2_select = true;
 						}
-						else if (p_pos[id] == 1 && champ4_select == false)
+						else if (p_pos[id] == 1)
 						{
 							player2_select = true;
 							mat_Player2->color[0] = 1.0f;
@@ -505,7 +516,7 @@ namespace Character_Selection_UI
 				case 2:
 					if (player3_select == false)
 					{
-						if (p_pos[id] == 0 && champ1_select == false)
+						if (p_pos[id] == 0)
 						{
 							player3_select = true;
 							mat_Player3->color[0] = 1.0f;
@@ -516,7 +527,7 @@ namespace Character_Selection_UI
 							mat_driver1->color[2] = 0.4f;
 							champ1_select = true;
 						}
-						else if (p_pos[id] == 1 && champ3_select == false)
+						else if (p_pos[id] == 1)
 						{
 							player3_select = true;
 							mat_Player3->color[0] = 1.0f;
@@ -533,7 +544,7 @@ namespace Character_Selection_UI
 					if(player4_select == false)
 					{
 
-						if (p_pos[id] == 0 && champ2_select == false)
+						if (p_pos[id] == 0)
 						{
 							player4_select = true;
 							mat_Player4->color[0] = 1.0f;
@@ -544,7 +555,7 @@ namespace Character_Selection_UI
 							mat_support1->color[2] = 0.4f;
 							champ2_select = true;
 						}
-						else if (p_pos[id] == 1 && champ4_select == false)
+						else if (p_pos[id] == 1)
 						{
 							player4_select = true;
 							mat_Player4->color[0] = 1.0f;
@@ -571,14 +582,14 @@ namespace Character_Selection_UI
 						mat_Player1->color[0] = 0.4f;
 						mat_Player1->color[1] = 0.4f;
 						mat_Player1->color[2] = 0.4f;
-						if (p_pos[id] == 0 && champ1_select == true)
+						if (p_pos[id] == 0)
 						{
 							mat_driver1->color[0] = 1.0f;
 							mat_driver1->color[1] = 1.0f;
 							mat_driver1->color[2] = 1.0f;
 							champ1_select = false;
 						}
-						else if (p_pos[id] == 1 && champ3_select == true)
+						else if (p_pos[id] == 1)
 						{
 							mat_driver2->color[0] = 1.0f;
 							mat_driver2->color[1] = 1.0f;
@@ -595,14 +606,14 @@ namespace Character_Selection_UI
 						mat_Player2->color[1] = 0.4f;
 						mat_Player2->color[2] = 0.4f;
 
-						if (p_pos[id] == 0 && champ2_select == true)
+						if (p_pos[id] == 0)
 						{
 							mat_support1->color[0] = 1.0f;
 							mat_support1->color[1] = 1.0f;
 							mat_support1->color[2] = 1.0f;
 							champ2_select = false;
 						}
-						else if (p_pos[id] == 1 && champ4_select == true)
+						else if (p_pos[id] == 1)
 						{
 							mat_support2->color[0] = 1.0f;
 							mat_support2->color[1] = 1.0f;
@@ -619,14 +630,14 @@ namespace Character_Selection_UI
 						mat_Player3->color[1] = 0.4f;
 						mat_Player3->color[2] = 0.4f;
 
-						if (p_pos[id] == 0 && champ1_select == true)
+						if (p_pos[id] == 0)
 						{
 							mat_driver1->color[0] = 1.0f;
 							mat_driver1->color[1] = 1.0f;
 							mat_driver1->color[2] = 1.0f;
 							champ1_select = false;
 						}
-						else if (p_pos[id] == 1 && champ3_select == true)
+						else if (p_pos[id] == 1)
 						{
 							mat_driver2->color[0] = 1.0f;
 							mat_driver2->color[1] = 1.0f;
@@ -643,14 +654,14 @@ namespace Character_Selection_UI
 						mat_Player4->color[1] = 0.4f;
 						mat_Player4->color[2] = 0.4f;
 
-						if (p_pos[id] == 0 && champ2_select == true)
+						if (p_pos[id] == 0)
 						{
 							mat_support1->color[0] = 1.0f;
 							mat_support1->color[1] = 1.0f;
 							mat_support1->color[2] = 1.0f;
 							champ2_select = false;
 						}
-						else if (p_pos[id] == 1 && champ4_select == true)
+						else if (p_pos[id] == 1)
 						{
 							mat_support2->color[0] = 1.0f;
 							mat_support2->color[1] = 1.0f;
