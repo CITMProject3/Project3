@@ -17766,7 +17766,7 @@
                     "active": true,
                     "rect_size": [
                         1280,
-                        698
+                        657
                     ],
                     "matrix": [
                         1,
@@ -21427,11 +21427,11 @@
                         0,
                         1,
                         0,
-                        10.102404,
+                        10.356459,
                         -0.863407,
                         0,
                         0.504510,
-                        71.087959,
+                        68.764984,
                         0,
                         0,
                         0,
@@ -21455,8 +21455,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        22.600000,
-                        11.100000,
+                        31.600002,
+                        24.600000,
                         6.800000
                     ]
                 },
@@ -21523,7 +21523,7 @@
                     "is_transparent": true,
                     "size": [
                         21.000002,
-                        10,
+                        15.300001,
                         8.500000
                     ]
                 },
@@ -21557,7 +21557,7 @@
                         0.998870,
                         0,
                         0.047675,
-                        -188.443253,
+                        -186.260452,
                         0,
                         1,
                         0,
@@ -21565,7 +21565,7 @@
                         -0.047675,
                         0,
                         0.998870,
-                        24.662312,
+                        35.454128,
                         0,
                         0,
                         0,
@@ -21589,8 +21589,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        22.300001,
-                        10.700001,
+                        31.900002,
+                        13.300000,
                         8
                     ]
                 },
@@ -21605,141 +21605,7 @@
             ]
         },
         {
-            "name": "Checpoint 4",
-            "UUID": 1903061019,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1958876768,
-                    "active": true,
-                    "matrix": [
-                        0.008865,
-                        0,
-                        0.999957,
-                        -48.710800,
-                        0,
-                        1,
-                        0,
-                        13.661287,
-                        -0.999957,
-                        0,
-                        0.008865,
-                        144.130920,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 3446155238,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        22.900002,
-                        9.500000,
-                        6.900000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 2073675840,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 4
-                }
-            ]
-        },
-        {
             "name": "Checpoint 5",
-            "UUID": 3435620131,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1583457759,
-                    "active": true,
-                    "matrix": [
-                        -0.261897,
-                        0,
-                        0.965070,
-                        31.279799,
-                        0,
-                        1,
-                        0,
-                        14.134560,
-                        -0.965070,
-                        0,
-                        -0.261897,
-                        120.649857,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 103983447,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        21.200001,
-                        11.400001,
-                        9
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3623985739,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 5
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 6",
             "UUID": 1829986380,
             "local_UUID": 0,
             "parent": 965909917,
@@ -21755,17 +21621,17 @@
                     "UUID": 289251319,
                     "active": true,
                     "matrix": [
-                        -0.118594,
+                        -0.422027,
                         0,
-                        0.992947,
+                        0.906592,
                         79.140045,
                         0,
                         1,
                         0,
                         11.747005,
-                        -0.992947,
+                        -0.906592,
                         0,
-                        -0.118594,
+                        -0.422027,
                         66.295097,
                         0,
                         0,
@@ -21790,8 +21656,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        19.100000,
-                        11.100000,
+                        20.900002,
+                        27.200001,
                         6.800000
                     ]
                 },
@@ -21801,12 +21667,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 6
+                    "CheckpointN": 5
                 }
             ]
         },
         {
-            "name": "Checpoint 7",
+            "name": "Checpoint 6",
             "UUID": 3129535752,
             "local_UUID": 0,
             "parent": 965909917,
@@ -21857,8 +21723,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        20.700001,
-                        10.600000,
+                        28.700001,
+                        20.600000,
                         5.400000
                     ]
                 },
@@ -21868,12 +21734,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 7
+                    "CheckpointN": 6
                 }
             ]
         },
         {
-            "name": "Checpoint 8",
+            "name": "Checpoint 7",
             "UUID": 4267339060,
             "local_UUID": 0,
             "parent": 965909917,
@@ -21892,7 +21758,7 @@
                         -0.823646,
                         0,
                         -0.567110,
-                        136.236664,
+                        133.904419,
                         0,
                         1,
                         0,
@@ -21900,7 +21766,7 @@
                         0.567110,
                         0,
                         -0.823646,
-                        6.095270,
+                        9.035538,
                         0,
                         0,
                         0,
@@ -21924,9 +21790,9 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        23.900002,
-                        10.600000,
-                        7.800000
+                        28.600002,
+                        21.400002,
+                        8.500000
                     ]
                 },
                 {
@@ -21935,12 +21801,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 8
+                    "CheckpointN": 7
                 }
             ]
         },
         {
-            "name": "Checpoint 9",
+            "name": "Checpoint 8",
             "UUID": 943410397,
             "local_UUID": 0,
             "parent": 965909917,
@@ -21959,7 +21825,7 @@
                         -0.891334,
                         0,
                         0.453358,
-                        165.852356,
+                        164.037430,
                         0,
                         1,
                         0,
@@ -21991,8 +21857,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        21.000002,
-                        10.800000,
+                        26.200001,
+                        20.800001,
                         5.800000
                     ]
                 },
@@ -22002,12 +21868,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 9
+                    "CheckpointN": 8
                 }
             ]
         },
         {
-            "name": "Checpoint 10",
+            "name": "Checpoint 9",
             "UUID": 2964176162,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22023,18 +21889,18 @@
                     "UUID": 3805502770,
                     "active": true,
                     "matrix": [
-                        0.293820,
+                        0.370973,
                         0,
-                        -0.955861,
-                        128.497513,
+                        -0.928644,
+                        127.040924,
                         0,
                         1,
                         0,
                         10.399161,
-                        0.955861,
+                        0.928644,
                         0,
-                        0.293820,
-                        -137.149811,
+                        0.370973,
+                        -138.109650,
                         0,
                         0,
                         0,
@@ -22058,8 +21924,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        21.500002,
-                        9.400001,
+                        24.800001,
+                        21.300001,
                         7.500000
                     ]
                 },
@@ -22069,7 +21935,7 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 10
+                    "CheckpointN": 9
                 }
             ]
         },
@@ -22256,7 +22122,7 @@
             ]
         },
         {
-            "name": "Checpoint 11.1",
+            "name": "Checpoint 10.1",
             "UUID": 4104482935,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22307,8 +22173,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        28.600002,
-                        11.700001,
+                        29.500002,
+                        24.200001,
                         5.100000
                     ]
                 },
@@ -22318,12 +22184,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 11
+                    "CheckpointN": 10
                 }
             ]
         },
         {
-            "name": "Checpoint 11.2",
+            "name": "Checpoint 10.2",
             "UUID": 975230036,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22374,8 +22240,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        21.100000,
-                        14.600000,
+                        28.600002,
+                        24.000002,
                         5.200000
                     ]
                 },
@@ -22385,12 +22251,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 11
+                    "CheckpointN": 10
                 }
             ]
         },
         {
-            "name": "Checpoint 11.3",
+            "name": "Checpoint 10.3",
             "UUID": 3919618432,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22441,8 +22307,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        29.600002,
-                        9.700001,
+                        38.100002,
+                        23.800001,
                         5.900000
                     ]
                 },
@@ -22452,12 +22318,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 11
+                    "CheckpointN": 10
                 }
             ]
         },
         {
-            "name": "Checpoint 12.1",
+            "name": "Checpoint 11.1",
             "UUID": 1571548836,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22508,8 +22374,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        18.100000,
-                        10.400001,
+                        25.600000,
+                        20.100000,
                         5.900000
                     ]
                 },
@@ -22519,12 +22385,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 12
+                    "CheckpointN": 11
                 }
             ]
         },
         {
-            "name": "Checpoint 12.2",
+            "name": "Checpoint 11.2",
             "UUID": 1867494923,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22575,8 +22441,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        21.500002,
-                        11.100000,
+                        24.500002,
+                        24.300001,
                         5.900000
                     ]
                 },
@@ -22586,12 +22452,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 12
+                    "CheckpointN": 11
                 }
             ]
         },
         {
-            "name": "Checpoint 13",
+            "name": "Checpoint 12",
             "UUID": 3667931561,
             "local_UUID": 0,
             "parent": 965909917,
@@ -22610,7 +22476,7 @@
                         1,
                         0,
                         0,
-                        -171.655243,
+                        -168.223450,
                         0,
                         1,
                         0,
@@ -22642,8 +22508,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        22.200001,
-                        11.500001,
+                        32.300003,
+                        24.900002,
                         6
                     ]
                 },
@@ -22653,7 +22519,7 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 13
+                    "CheckpointN": 12
                 }
             ]
         },
@@ -26197,7 +26063,7 @@
                         0,
                         0,
                         1,
-                        0.022984,
+                        11.940918,
                         0,
                         0,
                         0,
@@ -26221,8 +26087,8 @@
                     "trigger_type": 0,
                     "is_transparent": true,
                     "size": [
-                        25.300001,
-                        11.900001,
+                        32.100002,
+                        21.100000,
                         10.100000
                     ]
                 },
@@ -26232,7 +26098,7 @@
                     "active": true,
                     "script_path": "Finish_lane",
                     "script_num": 0,
-                    "CheckpointN": 14
+                    "CheckpointN": 13
                 }
             ]
         },
@@ -34136,6 +34002,320 @@
             "children_uuids": []
         },
         {
+            "name": "HarborFloor2",
+            "UUID": 1712898485,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1712898485,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.516006,
+                        -8.359802,
+                        120.583099
+                    ],
+                    "rotation": [
+                        -180,
+                        89.980209,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2132892022,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "HarborFloor2",
+            "UUID": 3463101189,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3463101189,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        45.779274,
+                        -8.359802,
+                        120.599129
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1934898397,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "HarborFloor2",
+            "UUID": 1882063595,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1882063595,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        -93.131653,
+                        -8.359802,
+                        120.583099
+                    ],
+                    "rotation": [
+                        180,
+                        -89.980209,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1596198845,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "HarborFloor2",
+            "UUID": 3023948091,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3023948091,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        -69.627975,
+                        -8.359802,
+                        144.127838
+                    ],
+                    "rotation": [
+                        0,
+                        -90,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2937922111,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "HarborFloor2",
+            "UUID": 334529254,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 334529254,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        22.581394,
+                        -8.359802,
+                        144.542694
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2311064491,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "HarborFloor2",
+            "UUID": 1258232333,
+            "local_UUID": 78280418,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1258232333,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
+            "components": [
+                {
+                    "position": [
+                        22.581394,
+                        -8.359802,
+                        120.868591
+                    ],
+                    "rotation": [
+                        179.999985,
+                        0,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2597370105,
+                    "local_uuid": 3843932393
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 4",
+            "UUID": 1903061019,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1958876768,
+                    "active": true,
+                    "matrix": [
+                        0.008865,
+                        0,
+                        0.999957,
+                        -23.455196,
+                        0,
+                        1,
+                        0,
+                        13.661287,
+                        -0.999957,
+                        0,
+                        0.008865,
+                        144.130920,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3446155238,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        22.900002,
+                        9.500000,
+                        6.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2073675840,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 4",
+            "UUID": 966995987,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1958876768,
+                    "active": true,
+                    "matrix": [
+                        0.008865,
+                        0,
+                        0.999957,
+                        -24.140064,
+                        0,
+                        1,
+                        0,
+                        13.661287,
+                        -0.999957,
+                        0,
+                        0.008865,
+                        74.638458,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3446155238,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        22.900002,
+                        38.300003,
+                        6.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2073675840,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
             "name": "HarborScene1",
             "UUID": 910370568,
             "local_UUID": 1340804865,
@@ -34197,14 +34377,14 @@
             "components": [
                 {
                     "position": [
-                        -46.045460,
-                        -6.390632,
+                        -46.935379,
+                        -6.986100,
                         74.708885
                     ],
                     "rotation": [
-                        -90.156876,
-                        82.427017,
-                        90.158119
+                        -90.231995,
+                        84.849915,
+                        90.233665
                     ]
                 }
             ],
@@ -34509,186 +34689,6 @@
                 }
             ],
             "children_uuids": []
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 1712898485,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1712898485,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        -69.516006,
-                        -8.359802,
-                        120.583099
-                    ],
-                    "rotation": [
-                        -180,
-                        89.980209,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2132892022,
-                    "local_uuid": 3843932393
-                }
-            ]
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 3463101189,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3463101189,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        45.779274,
-                        -8.359802,
-                        120.599129
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1934898397,
-                    "local_uuid": 3843932393
-                }
-            ]
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 1882063595,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1882063595,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        -93.131653,
-                        -8.359802,
-                        120.583099
-                    ],
-                    "rotation": [
-                        180,
-                        -89.980209,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1596198845,
-                    "local_uuid": 3843932393
-                }
-            ]
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 3023948091,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3023948091,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        -69.627975,
-                        -8.359802,
-                        144.127838
-                    ],
-                    "rotation": [
-                        0,
-                        -90,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2937922111,
-                    "local_uuid": 3843932393
-                }
-            ]
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 334529254,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 334529254,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        22.581394,
-                        -8.359802,
-                        144.542694
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2311064491,
-                    "local_uuid": 3843932393
-                }
-            ]
-        },
-        {
-            "name": "HarborFloor2",
-            "UUID": 1258232333,
-            "local_UUID": 78280418,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1258232333,
-            "prefab_path": "\/Library\/643644559\/2730194168\/\/3227253988\/3227253988.pfb",
-            "components": [
-                {
-                    "position": [
-                        22.581394,
-                        -8.359802,
-                        120.868591
-                    ],
-                    "rotation": [
-                        179.999985,
-                        0,
-                        179.999985
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2597370105,
-                    "local_uuid": 3843932393
-                }
-            ]
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",
