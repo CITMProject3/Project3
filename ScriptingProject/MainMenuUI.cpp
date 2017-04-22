@@ -125,7 +125,7 @@ namespace Main_Menu_UI
 				break;
 			case 1:
 				title_menu->SetActive(false);
-				select_parent->SetActive(true);
+				select_parent->SetActive(false);
 				select_team_menu->SetActive(true);
 				select_menu->SetActive(false);
 				select_vehicle->SetActive(false);
