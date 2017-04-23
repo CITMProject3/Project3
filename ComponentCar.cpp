@@ -410,12 +410,15 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		}
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 		{
-			Acrobatics(front_player);
+			//Acrobatics(front_player);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
 		{
-			StartDrift();
+			if (ground_contact_state && *turning == true)
+				StartDrift();
+			else if(ground_contact_state == false)
+				Acrobatics(front_player);
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
 		{
