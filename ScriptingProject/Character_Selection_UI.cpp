@@ -436,6 +436,7 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(-214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] =0;
+						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 3:
