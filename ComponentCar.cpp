@@ -272,7 +272,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
-			Acrobatics(front_player);
+			Acrobatics(back_player);
 		}
 
 		//Power Up
