@@ -253,8 +253,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		//Direction
 		PLAYER trn_player = front_player;
-		if (drifting)
-			trn_player = back_player;
+		/*if (drifting)
+			trn_player = back_player;*/
 
 		float x_joy_input = App->input->GetJoystickAxis(trn_player, JOY_AXIS::LEFT_STICK_X);
 		*turning = JoystickTurn(&turning_left, x_joy_input);
@@ -481,6 +481,11 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
+		if (x_joy_input < 0.0f)
+		{
+			*left_turn = true;
+		}
+
 		if (drifting == false)
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 		else
