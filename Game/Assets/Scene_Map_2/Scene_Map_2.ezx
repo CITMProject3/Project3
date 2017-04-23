@@ -132,12 +132,12 @@
                     ],
                     "turn_over_reset_time": 2,
                     "acceleration": 1550,
-                    "max_speed": 110,
-                    "min_speed": -40,
+                    "max_speed": 120,
+                    "min_speed": -45,
                     "fake_break": 45,
                     "base_turn_max": 0.400000,
                     "turn_speed": 2,
-                    "turn_speed_joystick": 0,
+                    "turn_speed_joystick": 2,
                     "time_to_idle": 0.150000,
                     "idle_turn_by_interpolation": true,
                     "velocity_to_change": 1,
@@ -147,10 +147,10 @@
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 900,
+                    "push_force": 1000,
                     "push_speed_per": 80,
-                    "brakeForce": 100,
-                    "backForce": 1700,
+                    "brakeForce": 100.000008,
+                    "backForce": 1800,
                     "full_brake_force": 300,
                     "lean_accel_boost": 25,
                     "lean_speed_boost": 25,
@@ -8954,65 +8954,65 @@
                     ],
                     "chasis_offset": [
                         0,
-                        0,
+                        0.690000,
                         0
                     ],
                     "turn_over_reset_time": 2,
-                    "acceleration": 1675,
-                    "max_speed": 140,
-                    "min_speed": -60,
-                    "fake_break": 30,
+                    "acceleration": 1550,
+                    "max_speed": 120,
+                    "min_speed": -45,
+                    "fake_break": 45,
                     "base_turn_max": 0.400000,
-                    "turn_speed": 1.500000,
-                    "turn_speed_joystick": 0,
-                    "time_to_idle": 0.200000,
+                    "turn_speed": 2,
+                    "turn_speed_joystick": 2,
+                    "time_to_idle": 0.150000,
                     "idle_turn_by_interpolation": true,
-                    "velocity_to_change": 5,
-                    "turn_max_limit": 0.090000,
+                    "velocity_to_change": 1,
+                    "turn_max_limit": 0.070000,
                     "base_max_turn_change_speed": -0.010000,
                     "base_max_turn_change_accel": -0.100000,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 10000,
-                    "push_speed_per": 60,
-                    "brakeForce": 300,
-                    "backForce": 1500,
+                    "push_force": 1000,
+                    "push_speed_per": 80,
+                    "brakeForce": 100,
+                    "backForce": 1800,
                     "full_brake_force": 300,
                     "lean_accel_boost": 25,
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
-                    "driftRatio": 0.500000,
-                    "driftMult": 1.800000,
+                    "driftRatio": 0.550000,
+                    "driftMult": 1.450000,
                     "driftBoost": 1,
-                    "driftMinSpeed": 20,
-                    "drift_turn_max": 0,
-                    "miniturbo_accel_boost": 300,
-                    "miniturbo_speed_boost": 25.000002,
+                    "driftMinSpeed": 50,
+                    "drift_turn_max": 0.150000,
+                    "miniturbo_accel_boost": 100,
+                    "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 10,
-                    "miniturbo_time": 2,
-                    "miniturbo_accel_per": false,
-                    "miniturbo_speed_per": true,
-                    "miniturbo_speed_direct": true,
+                    "miniturbo_deceleration": 15,
+                    "miniturbo_time": 1,
+                    "miniturbo_accel_per": true,
+                    "miniturbo_speed_per": false,
+                    "miniturbo_speed_direct": false,
                     "miniturbo_speed_decrease": true,
-                    "drift_turbo_2_accel_boost": 300,
-                    "drift_turbo_2_speed_boost": 30,
+                    "drift_turbo_2_accel_boost": 100,
+                    "drift_turbo_2_speed_boost": 20,
                     "drift_turbo_2_turbo_speed": -431602080,
-                    "drift_turbo_2_deceleration": 10,
-                    "drift_turbo_2_time": 2,
-                    "drift_turbo_2_accel_per": false,
-                    "drift_turbo_2_speed_per": true,
-                    "drift_turbo_2_speed_direct": true,
+                    "drift_turbo_2_deceleration": 15,
+                    "drift_turbo_2_time": 1,
+                    "drift_turbo_2_accel_per": true,
+                    "drift_turbo_2_speed_per": false,
+                    "drift_turbo_2_speed_direct": false,
                     "drift_turbo_2_speed_decrease": true,
-                    "drift_turbo_3_accel_boost": 300,
-                    "drift_turbo_3_speed_boost": 35,
+                    "drift_turbo_3_accel_boost": 100,
+                    "drift_turbo_3_speed_boost": 25,
                     "drift_turbo_3_turbo_speed": -431602080,
-                    "drift_turbo_3_deceleration": 10,
-                    "drift_turbo_3_time": 2,
-                    "drift_turbo_3_accel_per": false,
-                    "drift_turbo_3_speed_per": true,
-                    "drift_turbo_3_speed_direct": true,
+                    "drift_turbo_3_deceleration": 15,
+                    "drift_turbo_3_time": 1,
+                    "drift_turbo_3_accel_per": true,
+                    "drift_turbo_3_speed_per": false,
+                    "drift_turbo_3_speed_direct": false,
                     "drift_turbo_3_speed_decrease": true,
                     "rocket_turbo_accel_boost": 0,
                     "rocket_turbo_speed_boost": 35,
@@ -9023,15 +9023,15 @@
                     "rocket_turbo_speed_per": true,
                     "rocket_turbo_speed_direct": true,
                     "rocket_turbo_speed_decrease": true,
-                    "connection_height": 0,
-                    "wheel_radius": 0.300000,
-                    "wheel_width": 0.200000,
-                    "mass": 500,
+                    "connection_height": -0.200000,
+                    "wheel_radius": 0.400000,
+                    "wheel_width": 0.400000,
+                    "mass": 300,
                     "suspensionStiffness": 100,
                     "suspensionCompression": 0.830000,
                     "suspensionDamping": 20,
                     "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000,
+                    "maxSuspensionTravelCm": 1000.000061,
                     "frictionSlip": 50.500000,
                     "maxSuspensionForce": 6000
                 },
@@ -31259,44 +31259,6 @@
             "children_uuids": []
         },
         {
-            "name": "Cameras",
-            "UUID": 2030306015,
-            "local_UUID": 2030306015,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2030306015,
-            "prefab_path": "\/Library\/4171985717\/\/709277553\/709277553.pfb",
-            "components": [
-                {
-                    "position": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 919851984,
-                    "local_uuid": 919851984
-                },
-                {
-                    "uuid": 3223094229,
-                    "local_uuid": 3223094229
-                },
-                {
-                    "uuid": 3338027922,
-                    "local_uuid": 3338027922
-                }
-            ]
-        },
-        {
             "name": "HarborFloor3",
             "UUID": 1532675510,
             "local_UUID": 328226414,
@@ -32169,6 +32131,44 @@
                 {
                     "uuid": 3248639491,
                     "local_uuid": 274882976
+                }
+            ]
+        },
+        {
+            "name": "Cameras",
+            "UUID": 2030306015,
+            "local_UUID": 2030306015,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2030306015,
+            "prefab_path": "\/Library\/4171985717\/\/709277553\/709277553.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 919851984,
+                    "local_uuid": 919851984
+                },
+                {
+                    "uuid": 3223094229,
+                    "local_uuid": 3223094229
+                },
+                {
+                    "uuid": 3338027922,
+                    "local_uuid": 3338027922
                 }
             ]
         }
