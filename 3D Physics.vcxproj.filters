@@ -91,8 +91,8 @@
     <Filter Include="3rd Party Tools\MD5">
       <UniqueIdentifier>{16cf8ea8-7058-4ef8-9f21-3fc4cfe8fa7e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="3rd Party Tools\Wwise\Wwise_files">
-      <UniqueIdentifier>{e34f7f81-76e9-4000-91ab-87571abdf576}</UniqueIdentifier>
+    <Filter Include="Sources\Helpers\Audio">
+      <UniqueIdentifier>{94366cd0-49b4-4b90-a4d6-e49511569013}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -645,68 +645,14 @@
     <ClInclude Include="ComponentAudioListener.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkArray.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    <ClInclude Include="AudioEvent.h">
+      <Filter>Sources\Helpers\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkAssert.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    <ClInclude Include="SoundBank.h">
+      <Filter>Sources\Helpers\Audio</Filter>
     </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkAutoLock.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkBankReadHelpers.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkDynaBlkPool.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkFNVHash.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyArray.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkKeyDef.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkListBare.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkListBareLight.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkLock.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkMonitorError.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkObject.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkPlatformFuncs.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkSmartPtr.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkSyncCaller.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Common\AkVectors.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\POSIX\AkLock.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\POSIX\AkPlatformFuncs.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Win32\AkLock.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
-    </ClInclude>
-    <ClInclude Include="AK\include\AK\Tools\Win32\AkPlatformFuncs.h">
-      <Filter>3rd Party Tools\Wwise\Wwise_files</Filter>
+    <ClInclude Include="TerrainWindow.h">
+      <Filter>Sources\Editor\Windows</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1141,6 +1087,18 @@
     </ClCompile>
     <ClCompile Include="ComponentAudioListener.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioEvent.cpp">
+      <Filter>Sources\Helpers\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundBank.cpp">
+      <Filter>Sources\Helpers\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="Wwise_Library.cpp">
+      <Filter>3rd Party Tools\Wwise</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainWindow.cpp">
+      <Filter>Sources\Editor\Windows</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -8,6 +8,7 @@
 #include "ModuleInput.h"
 #include "ModuleLighting.h"
 #include "ModuleCamera3D.h"
+#include "ModuleGOManager.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -39,6 +40,14 @@
 
 #define DUMMY_NUMBER 161803398
 
+
+#define READ_TEX_VAL(n, u) ((u >> n*8) & 0xff)
+
+uint64_t set_tex_val(unsigned char val, unsigned int n, uint64_t storage)
+{
+	*(((char*)&storage) + n) = val;
+	return storage;
+}
 
 #ifdef _DEBUG
 	#pragma comment (lib, "Bullet/libx86/BulletDynamics_debug.lib")
@@ -157,7 +166,7 @@ update_status ModulePhysics3D::Update()
 			}
 		}
 
-		if ((paintMode || sculptMode) && terrainData != nullptr)
+		if (currentTerrainTool != none_tool && terrainData != nullptr)
 		{
 			CAP(brushSize, 0, 1000);
 
@@ -210,7 +219,7 @@ update_status ModulePhysics3D::Update()
 #pragma endregion
 
 #pragma region sculptMode
-				if (sculptMode)
+				if (currentTerrainTool == sculpt_tool)
 				{
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
@@ -227,24 +236,139 @@ update_status ModulePhysics3D::Update()
 #pragma endregion
 
 #pragma region paintMode
-				if (paintMode)
+				if (currentTerrainTool == paint_tool)
 				{
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
-						CAP(paintTexture, 0, 10);
+						paintTexture = CAP(paintTexture, 0, 10);
+						brushStrength = CAP(brushStrength, 0.1f, 99.0f);
 
+						float maxVal = 0;
+
+						float val;
+						float newVal;
+						uint textureN;
 						for (int _y = -brushSize; _y <= brushSize; _y++)
 						{
 							for (int _x = -brushSize; _x <= brushSize; _x++)
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
-									textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.05f;
+									val = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+									textureN = GetTextureN(val);
+
+									if (hardBrush)
+									{
+										newVal = 1.0f;
+									}
+									else
+									{
+										//We're dividing it by two, because we want the radius to be half the length of the brush Size, not a whole size
+										float dist = _x * _x + _y * _y;										
+										float a = brushSize * brushSize * 0.75f;										
+										dist = dist / a;
+										maxVal = max(dist, maxVal);
+										newVal = (1 - dist);
+										newVal /= 10.0f;
+										newVal = CAP(newVal, 0, 0.1f);
+									}
+									//Here, newVal should be a value between 0 and 1.
+									// Here is where we transform it to the proper value
+									newVal = CAP(newVal, 0, brushStrength / 1000.0f);
+									
+
+									if (paintTexture == textureN)
+									{		
+										val = max(GetTextureStrength(val), newVal);
+										val = float(textureN / 10.0f) + val;
+										if (val - float(textureN/10.0f) > 0.09f)
+										{
+											val = (textureN / 10.0f) + 0.09;
+											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+										}
+										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
+									}
+									else
+									{
+										
+										if (hardBrush)
+										{
+											if (newVal < 0.09f)
+											{
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + newVal;
+											}
+											else
+											{
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (paintTexture / 10.0f) + 0.05f;
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.09;
+											}
+										}
+										else
+										{
+											if (paintTexture == GetTextureN(textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1]))
+											{
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = paintTexture / 10.0f + 0.1 - GetTextureStrength(textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2]);
+											}
+											else
+											{
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
+												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.0001f;
+											}
+										}
+									}
 								}
 							}
 						}
 						ReinterpretTextureMap();
+					}
+				}
+#pragma endregion
+
+#pragma region PlaceGO Mode
+				if (currentTerrainTool == goPlacement_tool)
+				{
+					std::vector<int> layersToCheck(size_t(60));
+					for (int n = 0; n < 60; n++)
+					{
+						layersToCheck[n] = n;
+					}
+					Ray GOs_ray = App->camera->GetEditorCamera()->CastCameraRay(float2(App->input->GetMouseX(), App->input->GetMouseY()));
+					RaycastHit GOs_hit = App->go_manager->Raycast(ray,layersToCheck);
+					if (GOs_hit.object != nullptr && GOs_hit.distance < hit.distance)
+					{
+						hit = GOs_hit;
+					}
+
+					if (App->input->GetMouseButton(1) == KEY_DOWN && GO_toPaint_libPath.length() > 4)
+					{
+						Quat rot = Quat::identity;
+						if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
+						{
+							rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
+						}
+						PlaceGO(hit.point, rot);
+						last_placed_go->SetLayerChilds(60);
+					}
+					if (App->input->GetMouseButton(1) == KEY_REPEAT && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
+					{
+						ComponentTransform* trs = (ComponentTransform*)last_placed_go->GetComponent(ComponentType::C_TRANSFORM);
+						if (trs != nullptr)
+						{
+							Quat rot = Quat::identity;
+
+							if (hit.normal.AngleBetween(float3(0, 1, 0)) > 5 * DEGTORAD)
+							{
+								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
+							}
+							trs->SetPosition(hit.point);
+							trs->SetRotation(rot);
+						}
+					}
+					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
+					{
+						last_placed_go->SetLayerChilds(0);
 					}
 				}
 #pragma endregion
@@ -749,18 +873,28 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			chunkData.push_back(data);
 		}
 
-		//Terrain size (heightmap width, heightmap height, n chunks, max height)
-		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float);
+		//Terrain size (heightmap width, heightmap height, texture scaling, n chunks, Dummy number, version, max height)
+		uint size_generalData = sizeof(uint) * (3 + 2) + sizeof(float) * 2;
 		//Number of vertices
 		uint size_vertices = sizeof(float3) * w * h;
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
-		uint size_textureMap = sizeof(float) * w * h + sizeof(uint);
+		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
+		//Number of textures
+		uint texturesSize = sizeof(uint) * 1;
+		for (int n = 0; n < GetNTextures(); n++)
+		{
+			//Name Length && Path length
+			texturesSize += sizeof(uint) * 2;
+			texturesSize += sizeof(char) * (GetTexturePath(n).length() + 1);
+			texturesSize += sizeof(char) * (GetTextureName(n).length() + 1);
+		}
+
 
 		//We're not saving UVs, we can regenerate them fastly
 
-		uint size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap;
+		long unsigned int size_total = size_generalData + size_totalChunkSize + size_vertices + size_normals + size_textureMap + texturesSize;
 		char* buf = new char[size_total];
 		char* it = buf;
 
@@ -785,6 +919,10 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, &terrainMaxHeight, bytes);
 		it += bytes;
 
+		//Texture scaling
+		memcpy(it, &textureScaling, bytes);
+		it += bytes;
+
 		//Vertices
 		bytes = sizeof(float3) * w * h;
 		memcpy(it, vertices, bytes);
@@ -796,12 +934,11 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		it += bytes;
 
 		//Texture map
-		uint textureMapScale = 1;
 		bytes = sizeof(uint);
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(float) * w * h * textureMapScale;
+		bytes = sizeof(float) * w * h * textureMapScale * 2;
 		memcpy(it, textureMap, bytes);
 		it += bytes;
 
@@ -823,11 +960,38 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 			it += bytes;
 
 			delete[] it_data->second;
+		}		
+
+		uint nTextures = GetNTextures();
+		bytes = sizeof(uint);
+		memcpy(it, &nTextures, bytes);
+		it += bytes;
+
+		for (int n = 0; n < nTextures; n++)
+		{
+			uint pathLen = GetTexturePath(n).length() + 1;
+			uint nameLen = GetTextureName(n).length() + 1;
+			bytes = sizeof(uint);
+			memcpy(it, &pathLen, bytes);
+			it += bytes;
+			memcpy(it, &nameLen, bytes);
+			it += bytes;
+
+			bytes = sizeof(char) * pathLen;
+			memcpy(it, GetTexturePath(n).data(), bytes);
+			it += bytes;
+			
+			bytes = sizeof(char) * nameLen;
+			memcpy(it, GetTextureName(n).data(), bytes);
+			it += bytes;
 		}
 
-		return App->file_system->Save(path, buf, size_total);
+		bool ret = App->file_system->Save(path, buf, size_total);
 
 		RELEASE_ARRAY(buf);
+
+		return ret;
+		
 	}
 	return false;
 }
@@ -836,6 +1000,8 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 {
 	if (path != nullptr && path != "" && path != " ")
 	{
+		if (App->file_system->Exists(path) == false) { return false; }
+
 		BROFILER_CATEGORY("ModulePhysics3D::LoadHeightmap", Profiler::Color::HoneyDew);
 		char* tmp = nullptr;
 		uint size = App->file_system->Load(path, &tmp);
@@ -875,6 +1041,11 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			memcpy(&terrainMaxHeight, it, bytes);
 			it += bytes;
 
+			if (version >= 2)
+			{
+				memcpy(&textureScaling, it, bytes);
+				it += bytes;
+			}
 
 			RELEASE_ARRAY(vertices);
 			RELEASE_ARRAY(terrainData);
@@ -895,14 +1066,19 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			}
 
 			RELEASE_ARRAY(normals);
+			bytes = sizeof(float3) * terrainW * terrainH;
 			normals = new float3[terrainW * terrainH];
 			memcpy(normals, it, bytes);
 			it += bytes;
 
 			bytes = sizeof(uint);
-			uint textureMapScale;
 			memcpy(&textureMapScale, it, bytes);
 			it += bytes;
+
+			if (textureMapScale == 0)
+			{
+				textureMapScale = 1;
+			}
 
 			RELEASE_ARRAY(textureMap);
 			textureMap = new float[terrainW * terrainH * textureMapScale * 2];
@@ -921,7 +1097,7 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 				RELEASE_ARRAY(tmp_textureMap);
 
 			}
-			else if (version == 1)
+			else if (version >= 1)
 			{
 				bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
 				memcpy(textureMap, it, bytes);
@@ -973,6 +1149,42 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 					it_x->second.GenBuffer();
 				}
 			}
+
+			if (version >= 2)
+			{
+				uint nTextures;
+				bytes = sizeof(uint);
+				memcpy(&nTextures, it, bytes);
+				it += bytes;
+
+				for (uint n = 0; n < nTextures; n++)
+				{
+					uint pathLen;
+					bytes = sizeof(uint);
+					memcpy(&pathLen, it, bytes);
+					it += bytes;
+					uint nameLen;
+					memcpy(&nameLen, it, bytes);
+					it += bytes;
+
+					char* texPath = new char[pathLen];
+					char* texName = new char[nameLen];
+
+					bytes = sizeof(char) * pathLen;
+					memcpy(texPath, it, bytes);
+					it += bytes;
+
+					bytes = sizeof(char) * nameLen;
+					memcpy(texName, it, bytes);
+					it += bytes;
+
+					LoadTexture(texPath, -1, texName);
+
+					RELEASE_ARRAY(texPath);
+					RELEASE_ARRAY(texName);
+				}
+			}
+
 			RELEASE_ARRAY(tmp);
 
 			{
@@ -1212,7 +1424,7 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 {
 	if (x >= 0 && y >= 0 && x < terrainW && y < terrainH)
 	{
-		switch (tool)
+		switch (sculptTool)
 		{
 		case sculpt_smooth:
 		{
@@ -1250,17 +1462,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 								}
 								value /= n;
 
-								if (math::Abs(vertices[_y * terrainW + _x].y - value) < sculptStrength* time->RealDeltaTime())
+								if (math::Abs(vertices[_y * terrainW + _x].y - value) < brushStrength* time->RealDeltaTime())
 								{
 									vertices[_y * terrainW + _x].y = value;
 								}
 								else if (vertices[_y * terrainW + _x].y > value)
 								{
-									vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+									vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
 								}
 								else
 								{
-									vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+									vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
 								}
 							}
 						}
@@ -1277,11 +1489,11 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						float displacement = sculptStrength* time->RealDeltaTime();
+						float displacement = brushStrength* time->RealDeltaTime();
 						if (brushSize > 0)
 						{
 							float a = Max(math::Abs(x - _x), math::Abs(y - _y));
-							displacement = sculptStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
+							displacement = brushStrength * time->RealDeltaTime() * (1.0f - (a / (float)brushSize));
 						}
 						if (inverse) { displacement *= -1; }
 						vertices[_y * terrainW + _x].y += displacement;
@@ -1303,17 +1515,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 				{
 					if (_x >= 0 && _y >= 0 && _x < terrainW && _y < terrainH)
 					{
-						if (math::Abs(vertices[_y * terrainW + _x].y - h) < sculptStrength* time->RealDeltaTime())
+						if (math::Abs(vertices[_y * terrainW + _x].y - h) < brushStrength* time->RealDeltaTime())
 						{
 							vertices[_y * terrainW + _x].y = h;
 						}
 						else if (vertices[_y * terrainW + _x].y > h)
 						{
-							vertices[_y * terrainW + _x].y -= sculptStrength* time->RealDeltaTime();
+							vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
 						}
 						else
 						{
-							vertices[_y * terrainW + _x].y += sculptStrength* time->RealDeltaTime();
+							vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
 						}
 					}
 				}
@@ -1335,6 +1547,17 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 			}
 		}
 	}
+}
+
+void ModulePhysics3D::PlaceGO(float3 pos, Quat rot)
+{
+	GameObject* go = App->resource_manager->LoadFile(GO_toPaint_libPath, PREFAB);
+	if (go == nullptr) { return; }
+	ComponentTransform* trs = (ComponentTransform*)go->GetComponent(ComponentType::C_TRANSFORM);
+	if (trs == nullptr) { return; }
+	last_placed_go = go;
+	trs->SetPosition(pos);
+	trs->SetRotation(rot);
 }
 
 
@@ -1530,7 +1753,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_0, 1);
 				glActiveTexture(GL_TEXTURE1);
-				glBindTexture(GL_TEXTURE_2D, textures[0]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[0].first->GetTexture());
 			}
 			else
 			{
@@ -1543,7 +1766,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_1, 2);
 				glActiveTexture(GL_TEXTURE2);
-				glBindTexture(GL_TEXTURE_2D, textures[1]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[1].first->GetTexture());
 			}
 			else
 			{
@@ -1556,7 +1779,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_2, 3);
 				glActiveTexture(GL_TEXTURE3);
-				glBindTexture(GL_TEXTURE_2D, textures[2]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[2].first->GetTexture());
 			}
 			else
 			{
@@ -1569,7 +1792,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_3, 4);
 				glActiveTexture(GL_TEXTURE4);
-				glBindTexture(GL_TEXTURE_2D, textures[3]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[3].first->GetTexture());
 			}
 			else
 			{
@@ -1582,7 +1805,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_4, 5);
 				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, textures[4]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[4].first->GetTexture());
 			}
 			else
 			{
@@ -1595,7 +1818,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_5, 6);
 				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, textures[5]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[5].first->GetTexture());
 			}
 			else
 			{
@@ -1608,7 +1831,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_6, 7);
 				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[6]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[6].first->GetTexture());
 			}
 			else
 			{
@@ -1621,7 +1844,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_7, 8);
 				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, textures[7]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[7].first->GetTexture());
 			}
 			else
 			{
@@ -1634,7 +1857,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_8, 9);
 				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, textures[8]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[8].first->GetTexture());
 			}
 			else
 			{
@@ -1647,7 +1870,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			{
 				glUniform1i(texture_location_9, 10);
 				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, textures[9]->GetTexture());
+				glBindTexture(GL_TEXTURE_2D, textures[9].first->GetTexture());
 			}
 			else
 			{
@@ -1979,6 +2202,16 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 	}
 }
 
+uint ModulePhysics3D::GetTextureN(float textureValue)
+{
+	return floor(textureValue / 0.1f);
+}
+
+float ModulePhysics3D::GetTextureStrength(float textureValue)
+{	
+	return textureValue - floor(textureValue/0.1f)/10.0f;
+}
+
 void ModulePhysics3D::SetTerrainMaxHeight(float height)
 {
 	if (height > 0.1f)
@@ -2008,7 +2241,7 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 	}
 }
 
-void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
+void ModulePhysics3D::LoadTexture(string resLibPath, int pos, string texName)
 {
 	//Loading Heightmap Image
 	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 10)
@@ -2020,12 +2253,13 @@ void ModulePhysics3D::LoadTexture(string resLibPath, int pos)
 			{
 				if (pos == -1)
 				{
-					textures.push_back((ResourceFileTexture*)res);
+					textures.push_back(std::pair<ResourceFileTexture*, string>((ResourceFileTexture*)res, texName));
 				}
 				else
 				{
-					textures[pos]->Unload();
-					textures[pos] = (ResourceFileTexture*)res;
+					textures[pos].first->Unload();
+					textures[pos].first = (ResourceFileTexture*)res;
+					textures[pos].second = texName;
 				}
 				if (textures.size() == 1)
 				{
@@ -2041,11 +2275,11 @@ void ModulePhysics3D::DeleteTexture(uint n)
 	if (n >= 0 && n < textures.size())
 	{
 		int x = 0;
-		for (std::vector<ResourceFileTexture*>::iterator it = textures.begin(); it != textures.end(); it++)
+		for (std::vector<std::pair<ResourceFileTexture*, string>>::iterator it = textures.begin(); it != textures.end(); it++)
 		{
 			if (x == n)
 			{
-				textures[n]->Unload();
+				textures[n].first->Unload();
 				textures.erase(it);
 				break;
 			}
@@ -2072,28 +2306,36 @@ int ModulePhysics3D::GetTexture(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetTexture();
+		return textures[n].first->GetTexture();
 	}
 	return 0;
+}
+
+string ModulePhysics3D::GetTextureName(uint n)
+{
+	if (n >= 0 && n < textures.size())
+	{
+		return textures[n].second;
+	}
+	return string("");
 }
 
 uint ModulePhysics3D::GetTextureUUID(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetUUID();
+		return textures[n].first->GetUUID();
 	}
 	return 0;
 }
 
-const char * ModulePhysics3D::GetTexturePath(uint n)
+string ModulePhysics3D::GetTexturePath(uint n)
 {
 	if (n >= 0 && n < textures.size())
 	{
-		return textures[n]->GetFile();
+		return textures[n].first->GetFile();
 	}
-	char ret[5] = " ";
-	return ret;
+	return string("");
 }
 
 uint ModulePhysics3D::GetNTextures()
@@ -2118,11 +2360,11 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 			{
 				if (textureMap[(y * w + x) * 2] > 0.1)
 				{
-					textureMap[(y * w + x) * 2] = 0.1999999f;
+					textureMap[(y * w + x) * 2] = 0.19f;
 				}
 				else
 				{
-					textureMap[(y * w + x) * 2] = 0.0999999f;
+					textureMap[(y * w + x) * 2] = 0.09f;
 				}
 				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}

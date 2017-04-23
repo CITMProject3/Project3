@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2946182441,
+                    "UUID": 2580628442,
                     "active": true,
                     "matrix": [
                         1,
@@ -77,9 +77,9 @@
                     "UUID": 214756153,
                     "active": true,
                     "near_plane": 0.300000,
-                    "far_plane": 1000,
-                    "fov": 60,
-                    "aspect_ratio": 3.810204,
+                    "far_plane": 125,
+                    "fov": 50,
+                    "aspect_ratio": 3.704668,
                     "color": [
                         0,
                         0,
@@ -93,7 +93,7 @@
                     "viewport_rel_size_x": 1,
                     "viewport_rel_size_y": 0.495000,
                     "followSmooth": true,
-                    "followMovSpeed": 0.100000,
+                    "followMovSpeed": 0.500000,
                     "followRotSpeed": 0.100000,
                     "render_terrain": true
                 },
@@ -103,16 +103,23 @@
                     "active": true,
                     "script_path": "Player_Camera",
                     "script_num": 0,
-                    "dist_y": 4,
-                    "dist_z": -5,
-                    "camera_y": 2,
+                    "dist_y": 4.200000,
+                    "dist_z": -6.200000,
+                    "camera_y": 2.200000,
                     "inclination y max min": 1,
                     "inclination z max min": 1,
                     "fov change boost": 5,
-                    "Player_Camera_fov_increment": 0,
-                    "Player_Camera_fov_decrement": 0,
-                    "Player_Camera_last_fov": 0,
+                    "fov_increment": 1.500000,
+                    "fov_decrement": 4,
+                    "max_vel_relative": 100,
+                    "last_fov": 0,
                     "target": 3082689746
+                },
+                {
+                    "type": 17,
+                    "UUID": 3691713440,
+                    "active": true,
+                    "listener ID": 0
                 }
             ]
         },
@@ -158,7 +165,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 3.810204,
+                    "aspect_ratio": 3.704668,
                     "color": [
                         0,
                         0,
@@ -188,10 +195,17 @@
                     "inclination y max min": 1,
                     "inclination z max min": 1,
                     "fov change boost": 5,
-                    "Player_Camera_fov_increment": 0,
-                    "Player_Camera_fov_decrement": 0,
-                    "Player_Camera_last_fov": 0,
+                    "fov_increment": 0,
+                    "fov_decrement": 0,
+                    "max_vel_relative": 0,
+                    "last_fov": 0,
                     "target": 3832415544
+                },
+                {
+                    "type": 17,
+                    "UUID": 126400043,
+                    "active": true,
+                    "listener ID": 1
                 }
             ]
         },
@@ -237,7 +251,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.886051,
+                    "aspect_ratio": 1.833811,
                     "color": [
                         0,
                         0,

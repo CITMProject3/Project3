@@ -44,6 +44,7 @@ namespace Finish_lane
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		if (car && trs)
 		{
+			Finish_lane_UpdatePublics(game_object);
 			car->WentThroughEnd(Checkpoint_N, trs->GetPosition(), trs->GetRotation());
 		}
 	}
