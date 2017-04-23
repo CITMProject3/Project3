@@ -19526,7 +19526,7 @@
             "UUID": 560522107,
             "local_UUID": 0,
             "parent": 274882976,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",

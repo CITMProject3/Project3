@@ -81,7 +81,7 @@ namespace Scene_Manager
 	GameObject* win2_finish = nullptr;
 	ComponentUiButton* win2_button = nullptr;
 
-	string main_menu_scene = "Insert scene path here";
+	string main_menu_scene = "/Assets/Main_menu.ezx";
 
 	//"Private" variables
 	double start_timer;
