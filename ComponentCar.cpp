@@ -251,13 +251,27 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		//Back player-------------------
 
+		PLAYER trn_player = front_player;
+		if (drifting)
+			trn_player = back_player;
+
+		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
+		{
+			*turning = Turn(&turning_left, false);
+		}
+		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
+		{
+			*turning = Turn(&turning_left, true);
+		}
+
+
 		//Leaning
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
 		{
 			//Leaning(*accel);
 		}
 
-		//Acrobatics
+		//Acrobatics // Drift
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
 			if (ground_contact_state && *turning == true)
@@ -317,19 +331,9 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		float x_joy_input = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
 		*turning = JoystickTurn(&turning_left, x_joy_input);
 
-		PLAYER trn_player = front_player;
-		if (drifting)
-			trn_player = back_player;
+		
 
-		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
-		{
-			*turning = Turn(&turning_left, false);
-		}
-		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
-		{
-			*turning = Turn(&turning_left, true);
-		}
-
+		
 		//Drifting
 		/*if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
 		{
