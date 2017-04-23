@@ -6,6 +6,8 @@
 #include "ComponentRectTransform.h"
 #include "ComponentMaterial.h"
 #include "ResourceFileTexture.h"
+#include "ResourceFileMesh.h"
+#include "ComponentMesh.h"
 #include "imgui\imgui.h"
 
 ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) : Component(type, game_object)
@@ -18,22 +20,68 @@ ComponentUiText::ComponentUiText(ComponentType type, GameObject * game_object) :
 	UImaterial = new ComponentMaterial(C_MATERIAL, nullptr);
 	img_width = 100;
 	img_height = 100;
+	char_w = new int[2];
+	char_h = new int[2];
+	GeneratePlane();
 }
 
 ComponentUiText::~ComponentUiText()
 {
 	delete UImaterial;
 }
+
+void ComponentUiText::GeneratePlane()
+{
+	std::string prim_path = "Resources/Primitives/2147000003.msh";
+	ResourceFileMesh* tmp_rc = (ResourceFileMesh*)App->resource_manager->LoadResource(prim_path, ResourceFileType::RES_MESH);
+	ResourceFileMesh* plane = new ResourceFileMesh(*tmp_rc);
+	plane->mesh = new Mesh();
+	plane->mesh->num_vertices = 4;
+	plane->mesh->vertices = new float[plane->mesh->num_vertices * 3];
+	plane->mesh->num_indices = 6;
+	plane->mesh->indices = new uint[plane->mesh->num_indices];
+	plane->mesh->num_uvs = 4;
+	plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
+	plane->mesh->vertices[0] = 0.0f;
+	plane->mesh->vertices[1] = 0.0f;
+	plane->mesh->vertices[2] = 0.0f;
+	plane->mesh->vertices[3] = 1.0f;
+	plane->mesh->vertices[4] = 0.0f;
+	plane->mesh->vertices[5] = 0.0f;
+	plane->mesh->vertices[6] = 0.0f;
+	plane->mesh->vertices[7] = 1.0f;
+	plane->mesh->vertices[8] = 0.0f;
+	plane->mesh->vertices[9] = 1.0f;
+	plane->mesh->vertices[10] = 1.0f;
+	plane->mesh->vertices[11] = 0.0f;
+
+
+	plane->mesh->indices[0] = 0;
+	plane->mesh->indices[1] = 2;
+	plane->mesh->indices[2] = 1;
+	plane->mesh->indices[3] = 1;
+	plane->mesh->indices[4] = 2;
+	plane->mesh->indices[5] = 3;
+
+
+
+	plane->mesh->uvs[0] = 0.0f;
+	plane->mesh->uvs[1] = 1.0f;
+	plane->mesh->uvs[2] = 1.0f;
+	plane->mesh->uvs[3] = 1.0f;
+	plane->mesh->uvs[4] = 0.0f;
+	plane->mesh->uvs[5] = 0.0f;
+	plane->mesh->uvs[6] = 1.0f;
+	plane->mesh->uvs[7] = 0.0f;
+
+	plane->ReLoadInMemory();
+	tplane = plane;
+	planes.push_back(plane);
+	meshes.push_back(plane->mesh);
+}
+
 void ComponentUiText::Update()
 {
-	if (text_type == 1)
-	{
-		//Velo
-	}
-	else
-	{
-		//timer
-	}
 		
 }
 
@@ -63,6 +111,7 @@ void ComponentUiText::OnInspector(bool debug)
 		if (UImaterial->DefaultMaterialInspector())
 		{
 			GenerateFont(); 
+			OnChangeTexture();
 		}
 		if (ImGui::Button("Change Text"))
 		{
@@ -88,6 +137,8 @@ void ComponentUiText::OnInspector(bool debug)
 		{
 			SetText(array_values);
 		}
+
+		ImGui::InputInt("Letter offset", &char_offset);
 	}
 }
 
@@ -100,6 +151,7 @@ void ComponentUiText::Save(Data & file) const
 	data.AppendBool("active", active);
 	data.AppendString("text", text.c_str());
 	data.AppendString("array_values", array_values.c_str());
+	data.AppendInt("char_offset", char_offset);
 	data.AppendArray("Material");
 	UImaterial->Save(data);
 	file.AppendArrayValue(data);
@@ -111,11 +163,13 @@ void ComponentUiText::Load(Data & conf)
 	active = conf.GetBool("active");
 	text = conf.GetString("text");
 	array_values = conf.GetString("array_values");
+	char_offset = conf.GetInt("char_offset");
 	Data mat_file;
 	mat_file = conf.GetArray("Material", 0);
 	UImaterial->Load(mat_file);
 //	text.resize(text.length() + 10);
 	array_values.resize(array_values.length() + 1);
+	OnChangeTexture();
 	LOG("%d",text.size());
 }
 
@@ -139,14 +193,25 @@ int ComponentUiText::GetCharRows() const
 	return 0;
 }
 
-float ComponentUiText::GetCharwidth() const
+int ComponentUiText::GetCharOffset() const
 {
-	return char_w;
+	return char_offset;
 }
 
-float ComponentUiText::GetCharHeight() const
+float ComponentUiText::GetCharwidth(int i) const
 {
-	return char_h;
+	if (char_w != nullptr)
+		return char_w[i];
+	else
+		return 0.0f;
+}
+
+float ComponentUiText::GetCharHeight(int i) const
+{
+	if (char_h != nullptr)
+		return char_h[i];
+	else
+		return 0.0f;
 }
 
 float ComponentUiText::GetImgWidth() const
@@ -174,6 +239,7 @@ void ComponentUiText::SetText(string &text)
 			change_text = false;
 			change_array_values = false;
 			GenerateFont();
+			OnChangeTexture();
 		}
 		ImGui::End();
 	}
@@ -185,6 +251,11 @@ void ComponentUiText::SetDisplayText(string text)
 	this->text = text;
 }
 
+void ComponentUiText::SetCharOffset(int off)
+{
+	char_offset = off;
+}
+
 void ComponentUiText::GenerateFont()
 {
 	len = array_values.length();
@@ -194,20 +265,76 @@ bool ComponentUiText::OnChangeTexture()
 {
 	if (UImaterial->list_textures_paths.size() > 0)
 	{
-		string tex_path = (*UImaterial->list_textures_paths.begin());
-		ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
+		for (vector<ResourceFileMesh*>::const_iterator it = planes.begin(); it != planes.end(); it++)
+		{
+			(*it)->Unload();
+		}
+		planes.clear();
+		meshes.clear();
+		int i = 0;
+		char_w = new int[UImaterial->list_textures_paths.size()];
+		char_h = new int[UImaterial->list_textures_paths.size()];
+		for (vector<string>::const_iterator it = UImaterial->list_textures_paths.begin(); it != UImaterial->list_textures_paths.end(); it++)
+		{
+			string tex_path = (*it);
+			ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
 
-		if (rc_tmp == nullptr)
-			return false;
+			if (rc_tmp != nullptr)
+			{
+				img_width = rc_tmp->GetWidth();
+				img_height = rc_tmp->GetHeight();
 
-		img_width = rc_tmp->GetWidth();
-		img_height = rc_tmp->GetHeight();
+				char_w[i] = img_width;
+				char_h[i] = img_height;
 
-		char_w = img_width;
-		char_h = img_height;
+				ResourceFileMesh* plane = new ResourceFileMesh(*tplane);
+				plane->mesh = new Mesh();
 
+				plane->mesh->num_vertices = 4;
+				plane->mesh->vertices = new float[plane->mesh->num_vertices * 3];
+				plane->mesh->num_indices = 6;
+				plane->mesh->indices = new uint[plane->mesh->num_indices];
+				plane->mesh->num_uvs = 4;
+				plane->mesh->uvs = new float[plane->mesh->num_uvs * 2];
+				plane->mesh->vertices[0] = 0.0f;
+				plane->mesh->vertices[1] = 0.0f;
+				plane->mesh->vertices[2] = 0.0f;
+				plane->mesh->vertices[3] = char_w[i];
+				plane->mesh->vertices[4] = 0.0f;
+				plane->mesh->vertices[5] = 0.0f;
+				plane->mesh->vertices[6] = 0.0f;
+				plane->mesh->vertices[7] = char_h[i];
+				plane->mesh->vertices[8] = 0.0f;
+				plane->mesh->vertices[9] = char_w[i];
+				plane->mesh->vertices[10] = char_h[i];
+				plane->mesh->vertices[11] = 0.0f;
+
+				plane->mesh->indices[0] = 0;
+				plane->mesh->indices[1] = 2;
+				plane->mesh->indices[2] = 1;
+				plane->mesh->indices[3] = 1;
+				plane->mesh->indices[4] = 2;
+				plane->mesh->indices[5] = 3;
+
+				plane->mesh->uvs[0] = 0.0f;
+				plane->mesh->uvs[1] = 1.0f;
+				plane->mesh->uvs[2] = 1.0f;
+				plane->mesh->uvs[3] = 1.0f;
+				plane->mesh->uvs[4] = 0.0f;
+				plane->mesh->uvs[5] = 0.0f;
+				plane->mesh->uvs[6] = 1.0f;
+				plane->mesh->uvs[7] = 0.0f;
+
+				plane->ReLoadInMemory();
+
+				planes.push_back(plane);
+				meshes.push_back(plane->mesh);
+			}
+
+			i++;
+		}
 		ComponentRectTransform* c = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
-		c->SetSize(float2(char_w, char_h));
+		c->SetSize(float2(img_width, img_height));
 		c->OnTransformModified();
 
 		return true;

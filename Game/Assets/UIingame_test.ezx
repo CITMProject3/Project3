@@ -156,7 +156,6 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
-                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -216,13 +215,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
+                    "koma_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
+                    "time_trowing_koma": 0,
+                    "current_time_trowing_koma1": 0,
+                    "current_time_trowing_koma2": 0,
+                    "current_time_trowing_koma3": 0,
+                    "velocity_koma": 0,
                     "have_item": false,
+                    "have_koma": false,
+                    "have_triple_koma": false,
                     "have_firecracker": false,
-                    "using_firecracker": false,
+                    "using_item": false,
                     "throwing_firecracker": false,
+                    "throwing_koma": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -359,6 +367,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/295808156\/\/1087503613\/1087503613.dds"
@@ -502,6 +511,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/569807310\/569807310.dds"
@@ -571,6 +581,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/3593477099\/3593477099.dds"
@@ -730,6 +741,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/29241684\/\/2819861780\/2819861780.dds"
@@ -2925,6 +2937,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -2994,6 +3007,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3063,6 +3077,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3132,6 +3147,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3201,6 +3217,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3270,6 +3287,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3339,6 +3357,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3408,6 +3427,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3477,6 +3497,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3546,6 +3567,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3615,6 +3637,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3684,6 +3707,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3753,6 +3777,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3822,6 +3847,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3891,6 +3917,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3960,6 +3987,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4029,6 +4057,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4098,6 +4127,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4167,6 +4197,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4236,6 +4267,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4305,6 +4337,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4374,6 +4407,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4443,6 +4477,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4512,6 +4547,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4581,6 +4617,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4650,6 +4687,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4719,6 +4757,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4788,6 +4827,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4947,6 +4987,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/4145300488\/\/1921389166\/1921389166.dds"
@@ -8224,6 +8265,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8293,6 +8335,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8362,6 +8405,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8431,6 +8475,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8500,6 +8545,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8569,6 +8615,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8638,6 +8685,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8707,6 +8755,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8776,6 +8825,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8845,6 +8895,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8932,7 +8983,6 @@
                     "lean_speed_boost": 25,
                     "lean_turn_strict": 25,
                     "driftRatio": 0.500000,
-                    "drift_ratio_left": 0,
                     "driftMult": 1.800000,
                     "driftBoost": 1,
                     "driftMinSpeed": 20,
@@ -8992,13 +9042,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
+                    "koma_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
+                    "time_trowing_koma": 0,
+                    "current_time_trowing_koma1": 0,
+                    "current_time_trowing_koma2": 0,
+                    "current_time_trowing_koma3": 0,
+                    "velocity_koma": 0,
                     "have_item": false,
+                    "have_koma": false,
+                    "have_triple_koma": false,
                     "have_firecracker": false,
-                    "using_firecracker": false,
+                    "using_item": false,
                     "throwing_firecracker": false,
+                    "throwing_koma": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -9135,6 +9194,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/295808156\/\/1087503613\/1087503613.dds"
@@ -9278,6 +9338,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/569807310\/569807310.dds"
@@ -9347,6 +9408,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/3593477099\/3593477099.dds"
@@ -9506,6 +9568,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/29241684\/\/2819861780\/2819861780.dds"
@@ -11701,6 +11764,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11770,6 +11834,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11839,6 +11904,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11908,6 +11974,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11977,6 +12044,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12046,6 +12114,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12115,6 +12184,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12184,6 +12254,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12253,6 +12324,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12322,6 +12394,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12391,6 +12464,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12460,6 +12534,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12529,6 +12604,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12598,6 +12674,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12667,6 +12744,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12736,6 +12814,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12805,6 +12884,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12874,6 +12954,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12943,6 +13024,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13012,6 +13094,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13081,6 +13164,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13150,6 +13234,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13219,6 +13304,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13288,6 +13374,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13357,6 +13444,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13426,6 +13514,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13495,6 +13584,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13564,6 +13654,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13723,6 +13814,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/4145300488\/\/1921389166\/1921389166.dds"
@@ -17000,6 +17092,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17069,6 +17162,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17138,6 +17232,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17207,6 +17302,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17276,6 +17372,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17345,6 +17442,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17414,6 +17512,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17483,6 +17582,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17552,6 +17652,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17621,6 +17722,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17730,14 +17832,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        877
+                        1920,
+                        1017
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        960,
                         0,
                         1,
                         0,
@@ -17830,7 +17932,7 @@
             "UUID": 2125961208,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -17910,9 +18012,10 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/\/\/3023199753\/3023199753.dds"
+                                    "path": "\/Library\/4086913788\/\/2535511274\/\/2486320764\/2486320764.dds"
                                 },
                                 {
                                     "path": ""
@@ -17928,7 +18031,7 @@
             "UUID": 4129946361,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -17963,18 +18066,18 @@
                     "UUID": 1180752569,
                     "active": true,
                     "rect_size": [
-                        504,
-                        112.500000
+                        403,
+                        90
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        -252,
+                        -201.500000,
                         0,
                         1,
                         0,
-                        129,
+                        50.000004,
                         0,
                         0,
                         1,
@@ -18008,6 +18111,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/2703596669\/2703596669.dds"
@@ -18026,7 +18130,7 @@
             "UUID": 1487181577,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18106,6 +18210,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/3776832557\/3776832557.dds"
@@ -18124,7 +18229,7 @@
             "UUID": 2755027748,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18204,6 +18309,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1803179270\/1803179270.dds"
@@ -18222,7 +18328,7 @@
             "UUID": 3963698497,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18257,14 +18363,14 @@
                     "UUID": 603773960,
                     "active": true,
                     "rect_size": [
-                        65,
-                        65
+                        21,
+                        87
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        -632.500000,
+                        -606.500000,
                         0,
                         1,
                         0,
@@ -18282,14 +18388,15 @@
                 },
                 {
                     "type": 14,
-                    "UUID": 1158296242,
+                    "UUID": 2381718959,
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 3,
                     "Material": [
                         {
                             "type": 2,
-                            "UUID": 4137345745,
+                            "UUID": 4294016795,
                             "active": true,
                             "path": "",
                             "path_assets": "",
@@ -18304,39 +18411,40 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3225703587\/3225703587.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/4060753295\/4060753295.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/4209585141\/4209585141.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1640727251\/1640727251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1435739895\/1435739895.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1996375597\/1996375597.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/535923756\/535923756.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3854648441\/3854648441.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/4043289378\/4043289378.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/656548311\/656548311.dds"
                                 }
                             ]
                         }
@@ -18349,7 +18457,7 @@
             "UUID": 3735213079,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18384,14 +18492,14 @@
                     "UUID": 1411524548,
                     "active": true,
                     "rect_size": [
-                        65,
-                        65
+                        21,
+                        87
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        120.500000,
+                        146.500000,
                         0,
                         1,
                         0,
@@ -18409,14 +18517,15 @@
                 },
                 {
                     "type": 14,
-                    "UUID": 3363258610,
+                    "UUID": 1987719503,
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 3,
                     "Material": [
                         {
                             "type": 2,
-                            "UUID": 1623455816,
+                            "UUID": 4149052047,
                             "active": true,
                             "path": "",
                             "path_assets": "",
@@ -18431,39 +18540,40 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3225703587\/3225703587.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/4060753295\/4060753295.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/4209585141\/4209585141.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1640727251\/1640727251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1435739895\/1435739895.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1996375597\/1996375597.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/535923756\/535923756.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3854648441\/3854648441.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/4043289378\/4043289378.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/656548311\/656548311.dds"
                                 }
                             ]
                         }
@@ -18476,7 +18586,7 @@
             "UUID": 3621243803,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18556,6 +18666,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1300728200\/1300728200.dds"
@@ -18574,7 +18685,7 @@
             "UUID": 515583811,
             "local_UUID": 0,
             "parent": 3621243803,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18654,6 +18765,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1054950941\/1054950941.dds"
@@ -18672,7 +18784,7 @@
             "UUID": 3618617057,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18752,6 +18864,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/2893755813\/2893755813.dds"
@@ -18770,7 +18883,7 @@
             "UUID": 1769843870,
             "local_UUID": 0,
             "parent": 3618617057,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18850,6 +18963,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1365929905\/1365929905.dds"
@@ -18864,11 +18978,11 @@
             ]
         },
         {
-            "name": "blue_paint",
+            "name": "Lines",
             "UUID": 678809583,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -18903,18 +19017,18 @@
                     "UUID": 3502585400,
                     "active": true,
                     "rect_size": [
-                        701,
-                        865
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        -842.500000,
+                        -800,
                         0,
                         1,
                         0,
-                        50,
+                        0,
                         0,
                         0,
                         1,
@@ -18948,9 +19062,10 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/\/\/1163310351\/1163310351.dds"
+                                    "path": "\/Library\/4086913788\/\/2535511274\/\/3175992952\/3175992952.dds"
                                 },
                                 {
                                     "path": ""
@@ -18962,11 +19077,11 @@
             ]
         },
         {
-            "name": "red_paint",
+            "name": "title_Back",
             "UUID": 666785297,
             "local_UUID": 0,
             "parent": 445700002,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -19001,18 +19116,18 @@
                     "UUID": 3841684492,
                     "active": true,
                     "rect_size": [
-                        701,
-                        865
+                        526,
+                        138
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        141.500000,
+                        -263,
                         0,
                         1,
                         0,
-                        50,
+                        28.000002,
                         0,
                         0,
                         1,
@@ -19022,7 +19137,7 @@
                         0,
                         1
                     ],
-                    "Order": 6
+                    "Order": 5
                 },
                 {
                     "type": 13,
@@ -19046,9 +19161,10 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/\/\/240997167\/240997167.dds"
+                                    "path": "\/Library\/4086913788\/\/2535511274\/\/3748800355\/3748800355.dds"
                                 },
                                 {
                                     "path": ""
@@ -19229,18 +19345,18 @@
                     "UUID": 153354415,
                     "active": true,
                     "rect_size": [
-                        200,
-                        200
+                        72,
+                        87
                     ],
                     "matrix": [
-                        1,
+                        1.500000,
                         0,
                         0,
-                        700,
+                        -66,
                         0,
-                        1,
+                        1.500000,
                         0,
-                        350,
+                        150,
                         0,
                         0,
                         1,
@@ -19258,6 +19374,7 @@
                     "active": true,
                     "text": "3",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19276,18 +19393,127 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2263021904\/2263021904.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/3864926016\/3864926016.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "CountDown_Text2",
+            "UUID": 1553165272,
+            "local_UUID": 0,
+            "parent": 833299389,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1893838120,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1494011016,
+                    "active": true,
+                    "rect_size": [
+                        72,
+                        87
+                    ],
+                    "matrix": [
+                        1.500000,
+                        0,
+                        0,
+                        -66,
+                        0,
+                        1.500000,
+                        0,
+                        650,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 1563480482,
+                    "active": true,
+                    "text": "3",
+                    "array_values": "0123456789:k",
+                    "char_offset": 0,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 811733493,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/3864926016\/3864926016.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
                                 }
                             ]
                         }
@@ -19407,18 +19633,18 @@
                     "UUID": 450483726,
                     "active": true,
                     "rect_size": [
-                        75,
-                        75
+                        21,
+                        87
                     ],
                     "matrix": [
-                        1,
+                        0.750000,
                         0,
                         0,
-                        -37.500000,
+                        379.500000,
                         0,
-                        1,
+                        0.750000,
                         0,
-                        460,
+                        420,
                         0,
                         0,
                         1,
@@ -19436,6 +19662,7 @@
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19444,7 +19671,7 @@
                             "path": "",
                             "path_assets": "",
                             "properties_set": true,
-                            "alpha": 0,
+                            "alpha": 2,
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
@@ -19454,12 +19681,40 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": ""
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
                                 },
                                 {
-                                    "path": ""
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/4060753295\/4060753295.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1640727251\/1640727251.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1996375597\/1996375597.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3854648441\/3854648441.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/656548311\/656548311.dds"
                                 }
                             ]
                         }
@@ -19514,11 +19769,11 @@
                         1,
                         0,
                         0,
-                        -50,
+                        -510.000031,
                         0,
                         1,
                         0,
-                        100,
+                        40,
                         0,
                         0,
                         1,
@@ -19552,6 +19807,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/360384015\/360384015.dds"
@@ -19612,11 +19868,11 @@
                         1,
                         0,
                         0,
-                        -50.000004,
+                        -510,
                         0,
                         1,
                         0,
-                        800,
+                        760,
                         0,
                         0,
                         1,
@@ -19650,6 +19906,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2416372908\/2416372908.dds"
@@ -19703,18 +19960,18 @@
                     "UUID": 1987487917,
                     "active": true,
                     "rect_size": [
-                        200.000015,
-                        200
+                        146,
+                        107
                     ],
                     "matrix": [
-                        1,
+                        1.250000,
                         0,
                         0,
-                        1300.000122,
+                        577,
                         0,
-                        1,
+                        1.250000,
                         0,
-                        50,
+                        10,
                         0,
                         0,
                         1,
@@ -19732,6 +19989,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19750,15 +20008,16 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": ""
                                 },
                                 {
-                                    "path": "\/Library\/4086913788\/2755989527\/\/3405845670\/3405845670.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2095575029\/2095575029.dds"
                                 },
                                 {
-                                    "path": "\/Library\/4086913788\/2755989527\/\/1653639162\/1653639162.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/3856186509\/3856186509.dds"
                                 }
                             ]
                         }
@@ -19806,18 +20065,18 @@
                     "UUID": 285135609,
                     "active": true,
                     "rect_size": [
-                        200,
-                        200
+                        146,
+                        107
                     ],
                     "matrix": [
-                        1,
+                        1.250000,
                         0,
                         0,
-                        1300,
+                        577,
                         0,
-                        1,
+                        1.250000,
                         0,
-                        700,
+                        710,
                         0,
                         0,
                         1,
@@ -19835,6 +20094,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19853,15 +20113,16 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": ""
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2803892791\/2803892791.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2095575029\/2095575029.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3101917108\/3101917108.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/3856186509\/3856186509.dds"
                                 }
                             ]
                         }
@@ -19909,18 +20170,18 @@
                     "UUID": 4059428034,
                     "active": true,
                     "rect_size": [
-                        70,
-                        70
+                        72,
+                        87
                     ],
                     "matrix": [
-                        1,
+                        0.900000,
                         0,
                         0,
-                        500,
+                        -621,
                         0,
-                        1,
+                        0.900000,
                         0,
-                        380,
+                        340,
                         0,
                         0,
                         1,
@@ -19934,14 +20195,15 @@
                 },
                 {
                     "type": 14,
-                    "UUID": 470327449,
+                    "UUID": 2410269485,
                     "active": true,
-                    "text": "1",
+                    "text": "0",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
-                            "UUID": 3675163740,
+                            "UUID": 3729651720,
                             "active": true,
                             "path": "",
                             "path_assets": "",
@@ -19956,24 +20218,25 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
                                 }
                             ]
                         }
@@ -20021,18 +20284,18 @@
                     "UUID": 220680229,
                     "active": true,
                     "rect_size": [
-                        70,
-                        70
+                        72,
+                        87
                     ],
                     "matrix": [
-                        1,
+                        0.900000,
                         0,
                         0,
-                        500,
+                        -621,
                         0,
-                        1,
+                        0.900000,
                         0,
-                        520,
+                        465,
                         0,
                         0,
                         1,
@@ -20046,14 +20309,15 @@
                 },
                 {
                     "type": 14,
-                    "UUID": 3687751983,
+                    "UUID": 3949191519,
                     "active": true,
-                    "text": "1",
+                    "text": "0",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
-                            "UUID": 637178587,
+                            "UUID": 1105682945,
                             "active": true,
                             "path": "",
                             "path_assets": "",
@@ -20068,24 +20332,25 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/1860504774\/1860504774.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/570461858\/570461858.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/3867201640\/3867201640.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2420180542\/2420180542.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
                                 },
                                 {
-                                    "path": "\/Library\/3171502590\/\/3871876971\/\/\/2166734576\/2166734576.dds"
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
                                 }
                             ]
                         }
@@ -20133,18 +20398,18 @@
                     "UUID": 338151449,
                     "active": true,
                     "rect_size": [
-                        100,
+                        50,
                         50
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        300,
+                        -675,
                         0,
                         1,
                         0,
-                        392,
+                        340.000031,
                         0,
                         0,
                         1,
@@ -20178,9 +20443,10 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/1656725978\/1656725978.dds"
                                 },
                                 {
                                     "path": ""
@@ -20231,18 +20497,18 @@
                     "UUID": 1406012063,
                     "active": true,
                     "rect_size": [
-                        100,
+                        50,
                         50
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        300,
+                        -675,
                         0,
                         1,
                         0,
-                        532,
+                        469.000031,
                         0,
                         0,
                         1,
@@ -20252,7 +20518,7 @@
                         0,
                         1
                     ],
-                    "Order": 0
+                    "Order": 4
                 },
                 {
                     "type": 13,
@@ -20276,9 +20542,10 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/1656725978\/1656725978.dds"
                                 },
                                 {
                                     "path": ""
@@ -20329,18 +20596,18 @@
                     "UUID": 495047714,
                     "active": true,
                     "rect_size": [
-                        600,
-                        200
+                        300,
+                        100
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        650,
+                        -150,
                         0,
                         1,
                         0,
-                        130,
+                        150,
                         0,
                         0,
                         1,
@@ -20374,6 +20641,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
@@ -20427,18 +20695,18 @@
                     "UUID": 4270613421,
                     "active": true,
                     "rect_size": [
-                        600,
-                        200
+                        300,
+                        100
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        650,
+                        -150,
                         0,
                         1,
                         0,
-                        700,
+                        650,
                         0,
                         0,
                         1,
@@ -20472,9 +20740,511 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Player1\/3",
+            "UUID": 3431741592,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 528036737,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3865614235,
+                    "active": true,
+                    "rect_size": [
+                        72,
+                        87
+                    ],
+                    "matrix": [
+                        0.500000,
+                        0,
+                        0,
+                        -556,
+                        0,
+                        0.500000,
+                        0,
+                        375,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 2844183917,
+                    "active": true,
+                    "text": "01",
+                    "array_values": "0123456789:k",
+                    "char_offset": 0,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3484493750,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2561154493\/2561154493.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lap_Player2\/3",
+            "UUID": 823870525,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2393329859,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3383306377,
+                    "active": true,
+                    "rect_size": [
+                        72,
+                        87
+                    ],
+                    "matrix": [
+                        0.500000,
+                        0,
+                        0,
+                        -556,
+                        0,
+                        0.500000,
+                        0,
+                        500.000031,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 3732713416,
+                    "active": true,
+                    "text": "01",
+                    "array_values": "0123456789:k",
+                    "char_offset": 0,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1805629698,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2561154493\/2561154493.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Highlight_1",
+            "UUID": 41868166,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 609639595,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 146273381,
+                    "active": true,
+                    "rect_size": [
+                        120,
+                        120
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -525,
+                        0,
+                        1,
+                        0,
+                        30.000002,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 2351638798,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1524559166,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2181706726\/2181706726.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2181706726\/2181706726.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Highlight_2",
+            "UUID": 2777290059,
+            "local_UUID": 0,
+            "parent": 560522107,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 651067886,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 961049115,
+                    "active": true,
+                    "rect_size": [
+                        120,
+                        120
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -525,
+                        0,
+                        1,
+                        0,
+                        750,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 32137674,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 357094328,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2181706726\/2181706726.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Bar",
+            "UUID": 575695556,
+            "local_UUID": 0,
+            "parent": 274882976,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2143443949,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 1691065092,
+                    "active": true,
+                    "rect_size": [
+                        1600,
+                        3
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -800,
+                        0,
+                        1,
+                        0,
+                        450,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 7
+                },
+                {
+                    "type": 13,
+                    "UUID": 2457503363,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 2516800497,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 0,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/4257326853\/4257326853.dds"
                                 },
                                 {
                                     "path": ""
@@ -20571,6 +21341,7 @@
                     "Lap_Player1_Text": 837065514,
                     "Lap_Player2_Text": 208574500,
                     "Start_Timer_Text": 2475628546,
+                    "Start_Timer_Text2": 1553165272,
                     "Item_Player1": 361432611,
                     "Item_Player2": 1033624433,
                     "Position_Player1": 3169063516,
@@ -20578,7 +21349,11 @@
                     "Race_HUD": 560522107,
                     "Result_Window": 445700002,
                     "Player1_Finish_Text": 3805687474,
-                    "Player2_Finish_Text": 2844830127
+                    "Player2_Finish_Text": 2844830127,
+                    "Team1_timer_Text": 3963698497,
+                    "Team2_timer_Text": 3735213079,
+                    "Win_team1_button": 1487181577,
+                    "Win_team2_button": 3735213079
                 },
                 {
                     "type": 18,
@@ -20942,16 +21717,6 @@
             ]
         }
     ],
-    "terrain_textures": [
-        {
-            "path": "\/Library\/2431007132\/\/3102449478\/3102449478.dds"
-        },
-        {
-            "path": "\/Library\/2431007132\/\/1950075827\/1950075827.dds"
-        }
-    ],
-    "terrain_scaling": 100,
-    "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/UIingame_test.ezx",
     "current_library_scene_path": "\/Library\/\/1253401993\/1253401993.ezx"
 } 
