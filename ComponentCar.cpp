@@ -481,7 +481,7 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
-		if (x_joy_input < 0.0f)
+		if (x_joy_input > 0.0f)
 		{
 			*left_turn = true;
 		}
