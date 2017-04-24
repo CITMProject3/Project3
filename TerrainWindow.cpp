@@ -107,7 +107,7 @@ void TerrainWindow::Draw()
 		if (toolBool)
 		{
 			App->physics->currentTerrainTool = App->physics->paint_tool;
-			App->physics->brushStrength = 99.0f;
+			App->physics->brushStrength = 100.0f;
 			App->editor->lockSelection = true;
 		}
 		else
@@ -145,7 +145,7 @@ void TerrainWindow::Draw()
 
 		ImGui::InputInt("Brush Size", &App->physics->brushSize);
 		ImGui::Checkbox("Hard Brush", &App->physics->hardBrush);
-		ImGui::DragFloat("Opacity", &App->physics->brushStrength, 0.1f, 0.1f, 99.0f);
+		ImGui::DragFloat("Opacity", &App->physics->brushStrength, 0.1f, 0.1f, 100.0f);
 		if (App->physics->paintTexture < App->physics->GetNTextures())
 		{
 			float2 size = App->physics->GetHeightmapSize();
