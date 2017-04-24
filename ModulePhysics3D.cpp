@@ -269,8 +269,25 @@ update_status ModulePhysics3D::Update()
 										newVal = max(newVal * 255.0, READ_TEX_VAL(paintTexture, *val));
 
 										uint rest = 255 - newVal;
-
+										float* vals = new float[sizeof(int32_t)];
+										uint total = 0;
+										for (int n = 0; n < sizeof(int32_t); n++)
+										{
+											if (n != paintTexture)
+											{
+												total += vals[n] = READ_TEX_VAL(n, *val);
+											}
+										}
+										total += newVal;
+										for (int n = 0; n < sizeof(int32_t); n++)
+										{
+											if (n != paintTexture)
+											{
+												*val = set_tex_val((vals[n] / total) * 255, n, *val);
+											}
+										}
 										*val = set_tex_val(newVal, paintTexture, *val);
+										RELEASE_ARRAY(vals);										
 									}
 								}
 							}
