@@ -17,14 +17,18 @@
 
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
+#include "ModuleRenderer3D.h"
 
 #include "ComponentMesh.h"
+
+#include "Brofiler\include\Brofiler.h"
 
 #include <string>
 using namespace std;
 
 ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object)
 {
+	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 	particles.resize(1024);
 	std::fill(particles.begin(), particles.end(), 0);
 
@@ -44,7 +48,12 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, 32, 32, 0, GL_RED, GL_FLOAT, particles.data());
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	UpdateParticlesPosition(fboA, textureB);
+	glGenBuffers(1, &particles_position_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, particles_position_buffer);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(int) * 1024, NULL, GL_STREAM_DRAW);
+
+	particles[260] = time->RealTimeSinceStartup();
+	live_particles_id.push_back(264);
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
@@ -137,6 +146,9 @@ void ComponentParticleSystem::Load(Data & conf)
 
 void ComponentParticleSystem::Update()
 {
+	BROFILER_CATEGORY("ComponentParticleSystem::Update", Profiler::Color::Navy);
+
+	/*live_particles_id.clear();
 	spawn_timer += time->RealDeltaTime();
 
 	if (spawn_timer >= spawn_time)
@@ -152,16 +164,41 @@ void ComponentParticleSystem::Update()
 	double current_time = time->RealTimeSinceStartup();
 	for (int i = 0; i < particles.size(); ++i)
 	{
-		if (particles[i] > 0 && current_time - particles[i] >= life_time)
+		if (particles[i] > 0) //Live
 		{
-			particles[i] = 0;
-			available_ids.push(i);
-			--life_particles;
+			if (current_time - particles[i] >= life_time)
+			{
+				particles[i] = 0;
+				available_ids.push(i);
+				--life_particles;
+			}
+			else
+				live_particles_id.push_back(i);
 		}
-	}
+	}*/
+}
 
-	//Update particles system positions
+void ComponentParticleSystem::PostUpdate()
+{
+	BROFILER_CATEGORY("ComponentParticleSystem::UpdatePositions", Profiler::Color::Navy);
+	if (pingpong_tex)
+		UpdateParticlesPosition(fboA, textureB);
+	else
+		UpdateParticlesPosition(fboB, textureA);
 
+	pingpong_tex = !pingpong_tex;
+
+	App->renderer3D->AddToDrawParticle(this);
+}
+
+unsigned int ComponentParticleSystem::GetTextureId() const
+{
+	return (texture) ? texture->GetTexture() : 0;
+}
+
+unsigned int ComponentParticleSystem::GetPositionTextureId() const
+{
+	return (pingpong_tex) ? textureA : textureB;
 }
 
 void ComponentParticleSystem::InspectorDelete()
@@ -219,17 +256,15 @@ void ComponentParticleSystem::SpawnParticle()
 
 void ComponentParticleSystem::UpdateParticlesPosition(unsigned int fbo, unsigned int tex)
 {
-
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo); //Ping -pong fbo & texture
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glViewport(0, 0, 32, 32);
-	glClear(GL_COLOR_BUFFER_BIT);
 
 	glUseProgram(update_position_shader);
 
-	//Update position texture
-	float current_time = time->RealTimeSinceStartup();
-	particles[200] = current_time - 1;
 	glBindTexture(GL_TEXTURE_2D, p_lifes_tex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, 32, 32, 0, GL_RED, GL_FLOAT, particles.data());
 	glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -240,11 +275,9 @@ void ComponentParticleSystem::UpdateParticlesPosition(unsigned int fbo, unsigned
 	GLint p_life_location = glGetUniformLocation(update_position_shader, "p_life");
 
 	glUniform3fv(origin_location, 1, reinterpret_cast<GLfloat*>(float3(0, 0, 0).ptr()));
-	float speed = 1.0f;
-	glUniform1f(speed_location, speed);
-	glUniform1f(current_time_location, current_time);
-	float life = 5.0;
-	glUniform1f(p_life_location, life);
+	glUniform1f(speed_location, 1.0f); //TODO change by speed
+	glUniform1f(current_time_location, time->RealTimeSinceStartup());
+	glUniform1f(p_life_location, life_time);
 
 	glActiveTexture(GL_TEXTURE0);
 	GLint texture_location = glGetUniformLocation(update_position_shader, "tex");
@@ -266,5 +299,4 @@ void ComponentParticleSystem::UpdateParticlesPosition(unsigned int fbo, unsigned
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight());
-
 }

@@ -874,6 +874,11 @@ Mesh * ModuleResourceManager::GetDefaultQuadParticleMesh() const
 	return quad_particles_mesh;
 }
 
+unsigned int ModuleResourceManager::GetDefaultParticleShaderId() const
+{
+	return default_particle_shader;
+}
+
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
 {
 	string ret;
@@ -1082,6 +1087,11 @@ void ModuleResourceManager::LoadDefaults()
 
 	billboard_mesh = MeshImporter::LoadBillboardMesh();
 	quad_particles_mesh = MeshImporter::LoadQuad();
+
+	unsigned int ps_ps_ver = ShaderCompiler::CompileVertex("Resources/Particles/particleV.ver");
+	unsigned int ps_ps_fra = ShaderCompiler::CompileFragment("Resources/Particles/particleF.fra");
+
+	default_particle_shader = ShaderCompiler::CompileShader(ps_ps_ver, ps_ps_fra);
 }
 
 string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * path, string base_dir) const

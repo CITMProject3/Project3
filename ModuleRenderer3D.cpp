@@ -295,6 +295,11 @@ void ModuleRenderer3D::AddToDrawSprite(ComponentSprite * sprite)
 	if (sprite) sprites_to_draw.push_back(sprite);
 }
 
+void ModuleRenderer3D::AddToDrawParticle(ComponentParticleSystem * particle_sys)
+{
+	if (particle_sys) particles_to_draw.push_back(particle_sys);
+}
+
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
 	BROFILER_CATEGORY("ModuleRenderer3D::DrawScene", Profiler::Color::NavajoWhite);
@@ -609,7 +614,7 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 
 void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 {
-	unsigned int shader_id = App->resource_manager->GetDefaultBillboardShaderId();
+	unsigned int shader_id = App->resource_manager->GetDefaultParticleShaderId();
 	glUseProgram(shader_id);
 
 	Mesh* bil_mesh = App->resource_manager->GetDefaultBillboardMesh();
@@ -621,29 +626,34 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	math::float4x4 projection_m = cam->GetProjectionMatrix();
 	math::float4x4 view_m = cam->GetViewMatrix();
 
-	GLint center_location = glGetUniformLocation(shader_id, "center");
+	GLint center_location = glGetUniformLocation(shader_id, "center"); //Todo change for location center
 	GLint size_location = glGetUniformLocation(shader_id, "size");
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
+	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
 
-	glActiveTexture(GL_TEXTURE0);
+	
 
 	glEnable(GL_ALPHA_TEST);
 	glAlphaFunc(GL_GREATER, 0.5f);
 
-	for (vector<ComponentSprite*>::const_iterator sprite = sprites_to_draw.begin(); sprite != sprites_to_draw.end(); ++sprite)
+	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
-		math::float3 center = (*sprite)->GetGameObject()->transform->GetPosition();
-		glUniform3fv(center_location, 1, reinterpret_cast<GLfloat*>(center.ptr()));
-		math::float2 size = (*sprite)->GetGameObject()->transform->GetScale().xy();
-		size.x *= (*sprite)->size.x;
-		size.y *= (*sprite)->size.y;
-		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(size.ptr()));
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2(1,1).ptr())); //TODO change for variable size
 
-		glBindTexture(GL_TEXTURE_2D, (*sprite)->GetTextureId());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
 		glUniform1i(texture_location, 0);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, (*particle)->GetPositionTextureId());
+		glUniform1i(position_texture_location, 1);
+
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->particles_position_buffer);
+		glBufferData(GL_ARRAY_BUFFER, 1024 * sizeof(GL_INT), NULL, GL_STREAM_DRAW);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, (*particle)->live_particles_id.size() * sizeof(GL_INT), (*particle)->live_particles_id.data());
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
@@ -655,13 +665,24 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_uvs);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
+		//Instanced id position buffer == 2
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->particles_position_buffer);
+		glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, 0, (GLvoid*)0);
+
+		glVertexAttribDivisor(0, 0);
+		glVertexAttribDivisor(1, 0);
+		glVertexAttribDivisor(2, 1);
+
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
-		glDrawElements(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, (void*)0);
+		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->live_particles_id.size());
 	}
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	glDisable(GL_ALPHA_TEST);

@@ -41,6 +41,7 @@ public:
 
 	void AddToDraw(GameObject* obj);
 	void AddToDrawSprite(ComponentSprite* sprite);
+	void AddToDrawParticle(ComponentParticleSystem* particle_sys);
 
 	void SetClearColor(const math::float3& color)const;
 	void RemoveBuffer(unsigned int id);

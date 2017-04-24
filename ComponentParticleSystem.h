@@ -18,6 +18,10 @@ public:
 	void Save(Data& file) const;
 	void Load(Data& conf);
 	void Update();
+	void PostUpdate();
+
+	unsigned int GetTextureId()const;
+	unsigned int GetPositionTextureId()const;
 
 private:
 
@@ -47,12 +51,19 @@ private:
 	unsigned int textureA = 0;
 	unsigned int textureB = 0;
 	unsigned int p_lifes_tex = 0;
+	bool pingpong_tex = true;
+	
 
 	unsigned int update_position_shader = 0;
 	Mesh* quad_position = nullptr;
 
 
 	int life_particles = 0;
+	
+
+public:
+	unsigned int particles_position_buffer = 0;
+	std::vector<int> live_particles_id;
 };
 
 #endif // !__COMPONENTPARTICLESYTEM_H__
