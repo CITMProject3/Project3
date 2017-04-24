@@ -440,11 +440,6 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
-	//Buffer tangents == 3
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
 	//Index buffer
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, obj->mesh_to_draw->id_indices);
 	glDrawElements(GL_TRIANGLES, obj->mesh_to_draw->num_indices, GL_UNSIGNED_INT, (void*)0);
@@ -507,12 +502,6 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	glEnableVertexAttribArray(2);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_normals);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-	//Buffer tangents == 3
-
-	glEnableVertexAttribArray(3);
-	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_tangents);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		
 
 	//Buffer bones id == 4

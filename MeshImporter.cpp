@@ -301,13 +301,6 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 	//	mesh.colors = new float[mesh.num_vertices * 3];
 //		memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
 	}
-
-	//Tangents  --------------------------------------------------------------------------------------------------------
-	if (mesh_to_load->HasTangentsAndBitangents())
-	{
-		mesh.tangents = new float[mesh.num_vertices * 3];
-		memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
-	}
 		
 	return Save(mesh, folder_path, output_name, msh_uuid);
 }
@@ -374,13 +367,6 @@ bool MeshImporter::Save(Mesh& mesh, const char* folder_path, string& output_name
 	memcpy(cursor, mesh.uvs, bytes);
 	cursor += bytes;
 
-	//Tangents
-	bytes = sizeof(float) * header[1] * 3;
-	if (mesh.tangents != nullptr)
-	{
-		memcpy(cursor, mesh.tangents, bytes);
-		cursor += bytes;
-	}		
 
 	//Generate random UUID for the name
 	msh_uuid = (unsigned int)App->rnd->RandomInt();
@@ -452,11 +438,6 @@ Mesh * MeshImporter::Load(const char * path)
 		memcpy(mesh->uvs, cursor, bytes);
 		cursor += bytes;
 
-		//Tangents
-		bytes = sizeof(float) * mesh->num_vertices * 3;
-		mesh->tangents = new float[mesh->num_vertices * 3];
-		memcpy(mesh->tangents, cursor, bytes);
-		cursor += bytes;
 
 		LoadBuffers(mesh);
 	}
@@ -497,10 +478,6 @@ void MeshImporter::LoadBuffers(Mesh* mesh)
 		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->normals, GL_STATIC_DRAW);
 	}
 
-	//Load Tangents-----------------------------------------------------------------------------------------------------------------------
-	glGenBuffers(1, (GLuint*)&(mesh->id_tangents));
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_tangents);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, mesh->tangents, GL_STATIC_DRAW);
 }
 
 void MeshImporter::DeleteBuffers(Mesh* mesh)
@@ -511,7 +488,6 @@ void MeshImporter::DeleteBuffers(Mesh* mesh)
 		App->renderer3D->RemoveBuffer(mesh->id_indices);
 		App->renderer3D->RemoveBuffer(mesh->id_uvs);
 		App->renderer3D->RemoveBuffer(mesh->id_normals);
-		App->renderer3D->RemoveBuffer(mesh->id_tangents);
 	}
 	else
 	{
@@ -908,13 +884,6 @@ bool MeshImporter::ImportMeshUUID(const aiMesh * mesh_to_load, const char * fold
 		//memcpy(mesh.colors, mesh_to_load->mColors, sizeof(float) * mesh.num_vertices * 3);
 	}
 
-	//Tangents  --------------------------------------------------------------------------------------------------------
-	if (mesh_to_load->HasTangentsAndBitangents())
-	{
-		mesh.tangents = new float[mesh.num_vertices * 3];
-		memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
-	}
-
 	return SaveUUID(mesh, folder_path, output_name, uuid);
 }
 
@@ -980,10 +949,6 @@ bool MeshImporter::SaveUUID(Mesh & mesh, const char * folder_path, std::string &
 	memcpy(cursor, mesh.uvs, bytes);
 	cursor += bytes;
 
-	//Tangents
-	bytes = sizeof(float) * header[1] * 3;
-	memcpy(cursor, mesh.tangents, bytes);
-	cursor += bytes;
 
 	//Generate random UUID for the name
 	ret = App->file_system->Save(std::to_string(uuid).data(), data, size, folder_path, "msh", output_name);
