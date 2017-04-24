@@ -41,11 +41,12 @@
 #define DUMMY_NUMBER 161803398
 
 
-#define READ_TEX_VAL(n, u) ((u >> n*8) & 0xff)
+#define READ_TEX_VAL(n, u) ((u >> (sizeof(int32_t) - n - 1)*8) & 0xff)
 
-uint32_t set_tex_val(unsigned char val, unsigned int n, uint32_t storage)
+int32_t set_tex_val(unsigned char val, unsigned int n, int32_t storage)
 {
-	*(((char*)&storage) + n) = val;
+	unsigned char* ptr = ((unsigned char*)&storage) + (sizeof(storage) - n - 1);
+	*ptr = val;
 	return storage;
 }
 
@@ -142,18 +143,6 @@ update_status ModulePhysics3D::Update()
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 			debug = !debug;
 
-	if (textureMap != nullptr)
-	{
-		for (int n = 0; n < terrainW * terrainH; n++)
-		{
-			unsigned char a1 = READ_TEX_VAL(0, textureMap[n]);
-			unsigned char a2 = READ_TEX_VAL(1, textureMap[n]);
-			unsigned char a3 = READ_TEX_VAL(2, textureMap[n]);
-			unsigned char a4 = READ_TEX_VAL(3, textureMap[n]);
-			int b = 0;
-		}
-	}
-
 	if (debug == true)
 	{
 		world->debugDrawWorld();
@@ -249,31 +238,25 @@ update_status ModulePhysics3D::Update()
 
 #pragma region paintMode
 				if (currentTerrainTool == paint_tool)
-				{
-					/*
-					COMMENTED TODO
+				{					
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
-						paintTexture = CAP(paintTexture, 0, 10);
+						paintTexture = CAP(paintTexture, 0, 4);
 						brushStrength = CAP(brushStrength, 0.1f, 99.0f);
-
-						float maxVal = 0;
-
-						float val;
-						float newVal;
-						uint textureN;
+						
+						int32_t* val;
 						for (int _y = -brushSize; _y <= brushSize; _y++)
 						{
 							for (int _x = -brushSize; _x <= brushSize; _x++)
 							{
 								if (_x + x > 0 && _y + y > 0 && _x + x < terrainW && _y + y < terrainH)
 								{
-									val = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
-									textureN = GetTextureN(val);
+									val = &textureMap[((terrainH - (_y + y)) * terrainW + _x + x)];
 
 									if (hardBrush)
 									{
-										newVal = 1.0f;
+										*val = 0;
+										*val = set_tex_val(255, paintTexture, *val);
 									}
 									else
 									{
@@ -281,62 +264,19 @@ update_status ModulePhysics3D::Update()
 										float dist = _x * _x + _y * _y;										
 										float a = brushSize * brushSize * 0.75f;										
 										dist = dist / a;
-										maxVal = max(dist, maxVal);
-										newVal = (1 - dist);
-										newVal /= 10.0f;
-										newVal = CAP(newVal, 0, 0.1f);
-									}
-									//Here, newVal should be a value between 0 and 1.
-									// Here is where we transform it to the proper value
-									newVal = CAP(newVal, 0, brushStrength / 1000.0f);
-									
+										float newVal = (1 - dist);
+										newVal = CAP(newVal, 0, 1.0f);
+										newVal = max(newVal * 255.0, READ_TEX_VAL(paintTexture, *val));
 
-									if (paintTexture == textureN)
-									{		
-										val = max(GetTextureStrength(val), newVal);
-										val = float(textureN / 10.0f) + val;
-										if (val - float(textureN/10.0f) > 0.09f)
-										{
-											val = (textureN / 10.0f) + 0.09;
-											textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
-										}
-										textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = val;
-									}
-									else
-									{
-										
-										if (hardBrush)
-										{
-											if (newVal < 0.09f)
-											{
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + newVal;
-											}
-											else
-											{
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (paintTexture / 10.0f) + 0.05f;
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.09;
-											}
-										}
-										else
-										{
-											if (paintTexture == GetTextureN(textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1]))
-											{
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2];
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = paintTexture / 10.0f + 0.1 - GetTextureStrength(textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2]);
-											}
-											else
-											{
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2 + 1] = (textureN / 10.0f) + 0.05f;
-												textureMap[((terrainH - (_y + y)) * terrainW + _x + x) * 2] = (paintTexture / 10.0f) + 0.0001f;
-											}
-										}
+										uint rest = 255 - newVal;
+
+										*val = set_tex_val(newVal, paintTexture, *val);
 									}
 								}
 							}
 						}
 						ReinterpretTextureMap();
-					}*/
+					}
 				}
 #pragma endregion
 
@@ -894,7 +834,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
-		uint size_textureMap = sizeof(uint32_t) * w * h + sizeof(uint);
+		uint size_textureMap = sizeof(int32_t) * w * h + sizeof(uint);
 		//Number of textures
 		uint texturesSize = sizeof(uint) * 1;
 		for (int n = 0; n < GetNTextures(); n++)
@@ -952,7 +892,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(uint32_t) * w * h * textureMapScale;
+		bytes = sizeof(int32_t) * w * h * textureMapScale;
 		memcpy(it, textureMap, bytes);
 		it += bytes;
 
@@ -1095,11 +1035,11 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			}
 
 			RELEASE_ARRAY(textureMap);
-			textureMap = new uint32_t[terrainW * terrainH * textureMapScale];
+			textureMap = new int32_t[terrainW * terrainH * textureMapScale];
 			
 			if (version >= 3)
 			{				
-				bytes = sizeof(uint32_t) * terrainW * terrainH * textureMapScale;
+				bytes = sizeof(int32_t) * terrainW * terrainH * textureMapScale;
 				memcpy(textureMap, it, bytes);
 				it += bytes;
 			}
@@ -2154,7 +2094,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		float* edgeV = new float[(w*h) * 3];
 
 		RELEASE_ARRAY(textureMap);
-		textureMap = new uint32_t[w*h];
+		textureMap = new int32_t[w*h];
 
 		float* buf = new float[w*h];
 		float maxVal = 0;
@@ -2199,8 +2139,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 				realTerrainData[y*w + x] = value;
 				terrainData[y*w + x] = value * terrainMaxHeight;
 #pragma endregion
-/*
-COMMENTED TODO
+				/*
 #pragma region Edge detection
 				int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
 				int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
@@ -2224,17 +2163,7 @@ COMMENTED TODO
 				{
 					maxVal = textureMap[((h - y - 1) * w + x) * 2];
 				}
-#pragma endregion
-*/
-			}
-		}
-
-		for (int y = 0; y < h; y++)
-		{
-			for (int x = 0; x < w; x++)
-			{
-				textureMap[y * w + x] = 0;
-				textureMap[y * w + x] = set_tex_val(255, 0, textureMap[y * w + x]);
+#pragma endregion*/
 			}
 		}
 

@@ -296,7 +296,7 @@ private:
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
-	uint32_t* textureMap = nullptr;
+	int32_t* textureMap = nullptr;
 	
 	bool renderChunks = false;
 	TerrainTools currentTerrainTool = none_tool;
