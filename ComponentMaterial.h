@@ -21,6 +21,9 @@ public:
 	void Save(Data& file)const;
 	void Load(Data& conf);
 
+	int GetIdToRender()const;
+	void SetIdToRender(int new_id);
+
 	bool DefaultMaterialInspector();
 private:
 	void PrintMaterialProperties();
@@ -53,7 +56,7 @@ private:
 	bool change_material_enabled = false;
 	bool texture_changed = false;
 	std::string delete_texture_name;
-
+	int id_to_render = 0;
 	std::string material_assets_path;
 
 };

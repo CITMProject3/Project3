@@ -173,7 +173,7 @@ void ComponentMaterial::Save(Data & file)const
 	data.AppendFloat3("color", color);
 	data.AppendFloat("specular", specular);
 	data.AppendBool("texture_changed", texture_changed);
-
+	data.AppendInt("id_to_render", id_to_render);
 	if (material_path.size() == 0 || texture_changed)
 	{
 		data.AppendArray("textures");
@@ -195,6 +195,7 @@ void ComponentMaterial::Load(Data & conf)
 	material_path = conf.GetString("path");
 	const char* m_a_p = conf.GetString("path_assets");
 	material_assets_path = (m_a_p) ? m_a_p : "";
+	id_to_render = conf.GetInt("id_to_render");
 	bool properties_set = conf.GetBool("properties_set");
 	if (properties_set)
 	{
@@ -712,6 +713,20 @@ void ComponentMaterial::RemoveTexture(std::string name)
 			texture_ids.erase(it);
 		}
 	}
+}
+
+int ComponentMaterial::GetIdToRender() const
+{
+	if (id_to_render <= texture_ids.size())
+		return id_to_render;
+	else
+		return 0;
+}
+
+void ComponentMaterial::SetIdToRender(int new_id)
+{
+	if (new_id <= texture_ids.size())
+		id_to_render = new_id;
 }
 
 void ComponentMaterial::CleanUp()
