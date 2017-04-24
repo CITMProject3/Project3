@@ -485,6 +485,10 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 		{
 			*left_turn = true;
 		}
+		else
+		{
+			*left_turn = false;
+		}
 
 		if (drifting == false)
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
