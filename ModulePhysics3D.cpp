@@ -43,7 +43,7 @@
 
 #define READ_TEX_VAL(n, u) ((u >> n*8) & 0xff)
 
-uint64_t set_tex_val(unsigned char val, unsigned int n, uint64_t storage)
+uint32_t set_tex_val(unsigned char val, unsigned int n, uint32_t storage)
 {
 	*(((char*)&storage) + n) = val;
 	return storage;
@@ -142,6 +142,18 @@ update_status ModulePhysics3D::Update()
 		if (App->input->GetKey(SDL_SCANCODE_F1) == KEY_DOWN)
 			debug = !debug;
 
+	if (textureMap != nullptr)
+	{
+		for (int n = 0; n < terrainW * terrainH; n++)
+		{
+			unsigned char a1 = READ_TEX_VAL(0, textureMap[n]);
+			unsigned char a2 = READ_TEX_VAL(1, textureMap[n]);
+			unsigned char a3 = READ_TEX_VAL(2, textureMap[n]);
+			unsigned char a4 = READ_TEX_VAL(3, textureMap[n]);
+			int b = 0;
+		}
+	}
+
 	if (debug == true)
 	{
 		world->debugDrawWorld();
@@ -238,6 +250,8 @@ update_status ModulePhysics3D::Update()
 #pragma region paintMode
 				if (currentTerrainTool == paint_tool)
 				{
+					/*
+					COMMENTED TODO
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
 						paintTexture = CAP(paintTexture, 0, 10);
@@ -322,7 +336,7 @@ update_status ModulePhysics3D::Update()
 							}
 						}
 						ReinterpretTextureMap();
-					}
+					}*/
 				}
 #pragma endregion
 
@@ -880,7 +894,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		//Normals
 		uint size_normals = sizeof(float3) * w * h;
 		//Texture map
-		uint size_textureMap = sizeof(float) * w * h * 2 + sizeof(uint);
+		uint size_textureMap = sizeof(uint32_t) * w * h + sizeof(uint);
 		//Number of textures
 		uint texturesSize = sizeof(uint) * 1;
 		for (int n = 0; n < GetNTextures(); n++)
@@ -938,7 +952,7 @@ bool ModulePhysics3D::SaveTextureMap(const char * path)
 		memcpy(it, &textureMapScale, bytes);
 		it += bytes;
 
-		bytes = sizeof(float) * w * h * textureMapScale * 2;
+		bytes = sizeof(uint32_t) * w * h * textureMapScale;
 		memcpy(it, textureMap, bytes);
 		it += bytes;
 
@@ -1081,27 +1095,56 @@ bool ModulePhysics3D::LoadTextureMap(const char * path)
 			}
 
 			RELEASE_ARRAY(textureMap);
-			textureMap = new float[terrainW * terrainH * textureMapScale * 2];
-			if (version == 0)
-			{
-				float* tmp_textureMap = new float[terrainW * terrainH * textureMapScale];
-				bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
-				memcpy(tmp_textureMap, it, bytes);
+			textureMap = new uint32_t[terrainW * terrainH * textureMapScale];
+			
+			if (version >= 3)
+			{				
+				bytes = sizeof(uint32_t) * terrainW * terrainH * textureMapScale;
+				memcpy(textureMap, it, bytes);
 				it += bytes;
+			}
+			else
+			{
+				float* tmpBuffer = new float[terrainW * terrainH * textureMapScale * 2];
+
+				if (version == 0)
+				{
+					float* tmp_textureMap = new float[terrainW * terrainH * textureMapScale];
+					bytes = sizeof(float) * terrainW * terrainH * textureMapScale;
+					memcpy(tmp_textureMap, it, bytes);
+					it += bytes;
+
+					for (int n = 0; n < terrainW * terrainH * textureMapScale; n++)
+					{
+						tmpBuffer[n * 2 + 1] = tmpBuffer[n * 2] = tmp_textureMap[n];
+					}
+					RELEASE_ARRAY(tmp_textureMap);
+				}
+				else if (version >= 1)
+				{
+					bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
+					memcpy(tmpBuffer, it, bytes);
+					it += bytes;
+				}
 
 				for (int n = 0; n < terrainW * terrainH * textureMapScale; n++)
 				{
-					textureMap[n * 2] = tmp_textureMap[n];
-					textureMap[n * 2 + 1] = textureMap[n * 2];
+					int n1 = GetTextureN(tmpBuffer[n * 2]);
+					float str1 = GetTextureStrength(GetTextureStrength(tmpBuffer[n * 2]));
+					int n2 = GetTextureN(tmpBuffer[n * 2 + 1]);
+					float str2 = 1.0f - str1;
+					textureMap[n] = 0;
+					if (n1 == n2)
+					{
+						textureMap[n] = set_tex_val(255, n1, textureMap[n]);
+					}
+					else
+					{						
+						textureMap[n] = set_tex_val(255 * str1, n1, textureMap[n]);
+						textureMap[n] = set_tex_val(255 * str2, n2, textureMap[n]);
+					}					
 				}
-				RELEASE_ARRAY(tmp_textureMap);
-
-			}
-			else if (version >= 1)
-			{
-				bytes = sizeof(float) * terrainW * terrainH * textureMapScale * 2;
-				memcpy(textureMap, it, bytes);
-				it += bytes;
+				RELEASE_ARRAY(tmpBuffer);
 			}
 
 			uint nChunks;
@@ -1717,8 +1760,6 @@ void ModulePhysics3D::RenderTerrain(ComponentCamera* camera)
 
 void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 {
-
-
 	if (GetNChunksW() >= 0 && terrainData != nullptr)
 	{
 		if (wired)
@@ -2113,7 +2154,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		float* edgeV = new float[(w*h) * 3];
 
 		RELEASE_ARRAY(textureMap);
-		textureMap = new float[w*h * 2];
+		textureMap = new uint32_t[w*h];
 
 		float* buf = new float[w*h];
 		float maxVal = 0;
@@ -2129,6 +2170,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 
 		float value = 0.0f;
 		int n = 0;
+	
 		//Iterating all image pixels
 		for (int y = 0; y < h; y++)
 		{
@@ -2157,7 +2199,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 				realTerrainData[y*w + x] = value;
 				terrainData[y*w + x] = value * terrainMaxHeight;
 #pragma endregion
-
+/*
+COMMENTED TODO
 #pragma region Edge detection
 				int hk[3][3] = { {-3,0,3}, {-10,0,10}, {-3,0,3} };
 				int vk[3][3] = { { -3,-10,-3 },{ 0,0,0 },{ 3,10,3 } };
@@ -2182,6 +2225,7 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 					maxVal = textureMap[((h - y - 1) * w + x) * 2];
 				}
 #pragma endregion
+*/
 			}
 		}
 
@@ -2189,8 +2233,8 @@ void ModulePhysics3D::InterpretHeightmapRGB(float * R, float * G, float * B)
 		{
 			for (int x = 0; x < w; x++)
 			{
-				textureMap[(y * w + x)*2] /= maxVal;
-				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
+				textureMap[y * w + x] = 0;
+				textureMap[y * w + x] = set_tex_val(255, 0, textureMap[y * w + x]);
 			}
 		}
 
@@ -2354,6 +2398,8 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 	{
 		int w = terrainW;
 		int h = terrainH;
+		/*
+		COMMENTED TODO
 		for (int y = 0; y < h; y++)
 		{
 			for (int x = 0; x < w; x++)
@@ -2368,7 +2414,7 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 				}
 				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
 			}
-		}
+		}*/
 		ReinterpretTextureMap();
 	}
 }
@@ -2389,7 +2435,7 @@ void ModulePhysics3D::ReinterpretTextureMap()
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RG, terrainW, terrainH, 0, GL_RG, GL_FLOAT, textureMap);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, terrainW, terrainH, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, textureMap);
 	}
 }
 
