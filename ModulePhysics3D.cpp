@@ -2231,7 +2231,7 @@ void ModulePhysics3D::SetTextureScaling(float scale, bool doNotUse)
 void ModulePhysics3D::LoadTexture(string resLibPath, int pos, string texName)
 {
 	//Loading Heightmap Image
-	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 10)
+	if (resLibPath != "" && resLibPath != " " && GetNTextures() <= 4)
 	{
 		if ((pos == -1) || (pos >= 0 && pos < GetNTextures()))
 		{
@@ -2341,23 +2341,14 @@ void ModulePhysics3D::AutoGenerateTextureMap()
 	{
 		int w = terrainW;
 		int h = terrainH;
-		/*
-		COMMENTED TODO
 		for (int y = 0; y < h; y++)
 		{
 			for (int x = 0; x < w; x++)
 			{
-				if (textureMap[(y * w + x) * 2] > 0.1)
-				{
-					textureMap[(y * w + x) * 2] = 0.19f;
-				}
-				else
-				{
-					textureMap[(y * w + x) * 2] = 0.09f;
-				}
-				textureMap[(y * w + x) * 2 + 1] = textureMap[(y * w + x) * 2];
+				textureMap[(y * w + x)] = 0;
+				textureMap[(y * w + x)] = set_tex_val(255, 0, textureMap[(y * w + x)]);
 			}
-		}*/
+		}
 		ReinterpretTextureMap();
 	}
 }
