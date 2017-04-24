@@ -26,7 +26,7 @@
 #define CHUNK_W 64
 #define CHUNK_H 64
 
-#define TERRAIN_VERSION 2
+#define TERRAIN_VERSION 3
 
 class PhysBody3D;
 class PhysVehicle3D;
@@ -296,7 +296,7 @@ private:
 #pragma endregion
 public:
 	uint textureMapBufferID = 0;
-	float* textureMap = nullptr;
+	int32_t* textureMap = nullptr;
 	
 	bool renderChunks = false;
 	TerrainTools currentTerrainTool = none_tool;

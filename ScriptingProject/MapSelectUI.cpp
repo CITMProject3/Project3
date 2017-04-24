@@ -29,7 +29,7 @@ namespace MapSelectUI
 	GameObject* map_fields = nullptr;
 	GameObject* map_umi = nullptr;
 	GameObject* map_ricing = nullptr;
-	
+
 	GameObject* players_vote[4];
 	GameObject* right_arrow = nullptr;
 	GameObject* left_arrow = nullptr;
@@ -39,9 +39,9 @@ namespace MapSelectUI
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
 
-	string path_map1 = "";
-	string path_map2 = "";
-	string path_map3 = "";
+	string path_map1 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	string path_map3 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
@@ -49,6 +49,8 @@ namespace MapSelectUI
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
+	bool just_once = false;
+
 	int current_level = 0;
 	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
 	int votes[4] = { 0, 0, 0, 0 };
@@ -83,7 +85,7 @@ namespace MapSelectUI
 		players_vote[1] = test_script->public_gos.at("P2-Blue Vote");
 		players_vote[2] = test_script->public_gos.at("P1-Red Vote");
 		players_vote[3] = test_script->public_gos.at("P2-Red Vote");
-		
+
 		right_arrow = test_script->public_gos.at("R-Arrow");
 		left_arrow = test_script->public_gos.at("L-Arrow");
 		time = test_script->public_ints.at("Button Cooldown");
@@ -107,7 +109,7 @@ namespace MapSelectUI
 		this_script->public_gos.at("P2-Blue Vote") = players_vote[1];
 		this_script->public_gos.at("P1-Red Vote") = players_vote[2];
 		this_script->public_gos.at("P2-Red Vote") = players_vote[3];
-		
+
 		this_script->public_gos.at("R-Arrow") = right_arrow;
 		this_script->public_gos.at("L-Arrow") = left_arrow;
 		this_script->public_ints.at("Button Cooldown") = time;
@@ -139,6 +141,13 @@ namespace MapSelectUI
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
+		if (!just_once)
+		{
+			map_umi->SetActive(false);
+			map_ricing->SetActive(false);
+			just_once = true;
+		}
+
 		for (int playerID = 0; playerID < 4; playerID++)
 		{
 			int id = 0;
@@ -151,18 +160,29 @@ namespace MapSelectUI
 			}
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
-				c_players_vote[id]->OnPressId(current_level); // TO BE TESTED
-				
-
-				votes[id] = current_level;
-				players_ready[id] = true;
+				switch (current_level)
+				{
+				case 0:
+					App->LoadScene(path_map1.data());
+					break;
+				case 1:
+					App->LoadScene(path_map2.data());
+					break;
+				case 2:
+					App->LoadScene(path_map3.data());
+					break;
+				default:
+					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
+					App->LoadScene(path_map1.data());
+					break;
+				}
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
 				if (players_ready[id])
 				{
-					c_players_vote[id]->OnPressId(votes[id]); // TO BE TESTED
+					c_players_vote[id]->OnPressId(votes[id]);
 
 					players_ready[id] = false;
 				}
@@ -231,7 +251,7 @@ namespace MapSelectUI
 					map_ricing->SetActive(true);
 					break;
 				}
-			
+
 
 				if (arrow_counter_right >= time)
 				{
@@ -270,23 +290,21 @@ namespace MapSelectUI
 				switch (votes[k])
 				{
 				case 1:
-					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					App->LoadScene(path_map1.data());
 					break;
 				case 2:
-					App->resource_manager->LoadSceneFromAssets(path_map2.data());
+					App->LoadScene(path_map2.data());
 					break;
 				case 3:
-					App->resource_manager->LoadSceneFromAssets(path_map3.data());
+					App->LoadScene(path_map3.data());
 					break;
 				default:
 					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
-					App->resource_manager->LoadSceneFromAssets(path_map1.data());
+					App->LoadScene(path_map1.data());
 					break;
 
 				}
 			}
-			else
-				total = 0; // Redundancy
 		}
 	}
 

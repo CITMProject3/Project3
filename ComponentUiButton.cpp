@@ -71,22 +71,29 @@ void ComponentUiButton::OnFocus()
 
 void ComponentUiButton::OnPress()
 {
-	if (UImaterial->texture_ids.size() >= 2)
+	if (pressed == false)
 	{
-		uint tmp = UImaterial->texture_ids.at("0");
-		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at("1");
-		UImaterial->texture_ids.at("1") = tmp;
+		UImaterial->SetIdToRender(UImaterial->GetIdToRender() + 1);
+		pressed = true;
+	}
+	else
+	{
+		UImaterial->SetIdToRender(UImaterial->GetIdToRender() -1);
+		pressed = false;
 	}
 }
 
 void ComponentUiButton::OnPressId(int i)
 {
-	if (UImaterial->texture_ids.size() >= i+1)
+	if (pressed == false)
 	{
-		string str = to_string(i+1);
-		uint tmp = UImaterial->texture_ids.at("0");
-		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
-		UImaterial->texture_ids.at(str) = tmp;
+		UImaterial->SetIdToRender(i + 1);
+		pressed = true;
+	}
+	else
+	{
+		UImaterial->SetIdToRender(0);
+		pressed = false;
 	}
 }
 
@@ -135,4 +142,9 @@ void ComponentUiButton::ResetId(int i)
 		UImaterial->texture_ids.at("0") = UImaterial->texture_ids.at(str);
 		UImaterial->texture_ids.at(str) = tmp;
 	}
+}
+
+bool ComponentUiButton::GetState() const
+{
+	return pressed;
 }

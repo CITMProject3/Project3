@@ -44,6 +44,7 @@ namespace Checkpoint
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		if (car && trs)
 		{
+			Checkpoint_UpdatePublics(game_object);
 			car->WentThroughCheckpoint(Checkpoint_N, trs->GetPosition(), trs->GetRotation());
 		}
 	}
