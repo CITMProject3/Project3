@@ -27,6 +27,8 @@ public:
 	void Load(Data& conf);
 	void Reset();
 	void ResetId(int i);
+
+	bool GetState() const;
 	
 public:
 	ComponentMaterial* UImaterial = nullptr;

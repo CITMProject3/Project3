@@ -218,6 +218,8 @@ namespace Scene_Manager
 		start_timer = 0;
 		start_timer_on = true;
 		race_finished = false;
+		team1_finished = false;
+		team2_finished = false;
 		if (car_1_go != nullptr)
 		{
 			car_1 = (ComponentCar*)car_1_go->GetComponent(C_CAR);

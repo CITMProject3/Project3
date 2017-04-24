@@ -143,3 +143,8 @@ void ComponentUiButton::ResetId(int i)
 		UImaterial->texture_ids.at(str) = tmp;
 	}
 }
+
+bool ComponentUiButton::GetState() const
+{
+	return pressed;
+}
