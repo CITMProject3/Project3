@@ -242,7 +242,7 @@ update_status ModulePhysics3D::Update()
 					if (App->input->GetMouseButton(1) == KEY_REPEAT || App->input->GetMouseButton(1) == KEY_DOWN)
 					{
 						paintTexture = CAP(paintTexture, 0, 4);
-						brushStrength = CAP(brushStrength, 0.1f, 99.0f);
+						brushStrength = CAP(brushStrength, 0.1f, 100.0f);
 						
 						int32_t* val;
 						for (int _y = -brushSize; _y <= brushSize; _y++)
@@ -260,15 +260,12 @@ update_status ModulePhysics3D::Update()
 									}
 									else
 									{
-										//We're dividing it by two, because we want the radius to be half the length of the brush Size, not a whole size
-										float dist = _x * _x + _y * _y;										
-										float a = brushSize * brushSize * 0.75f;										
-										dist = dist / a;
-										float newVal = (1 - dist);
+										//We're dividing it by two, because we want the radius to be half the length of the brush Size, not a whole size										
+										float a = brushSize * brushSize * 0.75f;	
+										float newVal = (1 - (_x * _x + _y * _y) / a);
 										newVal = CAP(newVal, 0, 1.0f);
-										newVal = max(newVal * 255.0, READ_TEX_VAL(paintTexture, *val));
+										newVal = max(newVal * (255.0 * (brushStrength / 100.0f)), READ_TEX_VAL(paintTexture, *val));
 
-										uint rest = 255 - newVal;
 										float* vals = new float[sizeof(int32_t)];
 										uint total = 0;
 										for (int n = 0; n < sizeof(int32_t); n++)
