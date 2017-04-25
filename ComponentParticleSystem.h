@@ -37,6 +37,7 @@ private:
 	float life_time = 5.0f;
 	int max_particles = 1000;
 	float emission_rate = 10.0f;
+	float speed = 1.0f;
 
 	ResourceFileTexture* texture = nullptr;
 

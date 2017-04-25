@@ -20,6 +20,7 @@
 #include "ModuleRenderer3D.h"
 
 #include "ComponentMesh.h"
+#include "ComponentTransform.h"
 
 #include "Brofiler\include\Brofiler.h"
 
@@ -70,6 +71,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 
 		//Main Options
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
+		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 
 		ImGui::Text("Emission rate: "); ImGui::SameLine(); 
@@ -111,6 +113,7 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat("life_time", life_time);
 	data.AppendInt("max_particles", max_particles);
 	data.AppendFloat("emission_rate", emission_rate);
+	data.AppendFloat("speed", speed);
 
 	//Render
 	if (texture)
@@ -130,6 +133,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	max_particles = conf.GetInt("max_particles");
 	emission_rate = conf.GetFloat("emission_rate");
 	spawn_time = 1.0f / emission_rate;
+	speed = conf.GetFloat("speed");
 
 	string tex_path = conf.GetString("texture");
 	if (tex_path.size() > 0)
@@ -279,8 +283,8 @@ void ComponentParticleSystem::UpdateParticlesPosition(unsigned int fbo, unsigned
 	GLint current_time_location = glGetUniformLocation(update_position_shader, "current_time");
 	GLint p_life_location = glGetUniformLocation(update_position_shader, "p_life");
 
-	glUniform3fv(origin_location, 1, reinterpret_cast<GLfloat*>(float3(0, 0, 0).ptr()));
-	glUniform1f(speed_location, 1.0f); //TODO change by speed
+	glUniform3fv(origin_location, 1, reinterpret_cast<GLfloat*>(game_object->transform->GetPosition().ptr()));
+	glUniform1f(speed_location, speed); 
 	glUniform1f(current_time_location, time->RealTimeSinceStartup());
 	glUniform1f(p_life_location, life_time);
 
