@@ -120,6 +120,13 @@ EXPORTS
 	OutOfBounds_Update
 	OutOfBounds_OnCollision
 
+	TurboPad_GetPublics
+	TurboPad_UpdatePublics
+	TurboPad_ActualizePublics
+	TurboPad_Start
+	TurboPad_Update
+	TurboPad_OnCollision
+
 	CarPositionController_GetPublics
 	CarPositionController_UpdatePublics
 	CarPositionController_ActualizePublics

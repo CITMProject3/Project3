@@ -46,7 +46,6 @@ void Inspector::Draw()
 		ImGui::InputText("###goname", selected_GO->name._Myptr(), selected_GO->name.capacity());
 
 		//Static
-		ImGui::SameLine();
 		ImGui::Text("Static:");
 		ImGui::SameLine();
 		bool is_static = selected_GO->IsStatic();

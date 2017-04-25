@@ -32,6 +32,7 @@ extern "C"
 			script_names->push_back("Checkpoint");
 			script_names->push_back("Finish_lane");
 			script_names->push_back("OutOfBounds");
+			script_names->push_back("TurboPad");
 
 			//Others
 			script_names->push_back("Test");
