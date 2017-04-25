@@ -247,11 +247,8 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 	if (App->input->GetNumberJoysticks() > 0)
 	{
-		//Insert here all the new mechanics
 
-		//Back player-------------------
-
-		//Direction
+		//Handling
 		PLAYER trn_player = front_player;
 		if (drifting)
 			trn_player = back_player;
@@ -269,18 +266,18 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 		}
 
 
-		//Leaning
+		//Y back
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
 		{
-			//Leaning(*accel);
+
 		}
 
-		//Acrobatics // Drift
+		//X front
 		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
-			if (ground_contact_state && *turning == true)
+			if (on_ground && *turning == true)
 				StartDrift();
-			else if (ground_contact_state == false)
+			else if (on_ground == false)
 				Acrobatics(front_player);
 		}
 		else if (drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_UP)
@@ -288,22 +285,13 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 			EndDrift();
 		}
 
+		//X back
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
 			Acrobatics(back_player);
 		}
 
-		//Power Up
-		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
-		{
-			UseItem();
-		}
-
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
-		{
-			ReleaseItem();
-		}*/
-		//Push
+		//A back
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
 			if (drifting)
@@ -312,47 +300,31 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 				Push(accel);
 		}
 
-
-		//Slide attack
-
-
-		//Front player------------------
-		//Acceleration
+		//Front RT
 		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER))
 		{
 			float rt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
 			Accelerate(accel, true, rt_joy_axis);
 		}
 
-		//Brake/Backwards
+		//Front LT
 		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER))
 		{
 			float lt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
 			Brake(accel, brake, true, lt_joy_axis);
 		}
 
-		
 
-		
-
-		
-		//Drifting
-		/*if (App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_DOWN && *turning == true)
+		//Power Up
+		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
 		{
-			StartDrift();
-		}
-		else if ( drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::RB) == KEY_UP)
-		{
-			EndDrift();
+		UseItem();
 		}
 
-		//Acrobatics
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
+		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
 		{
-			Acrobatics(front_player);
+		ReleaseItem();
 		}*/
-
-
 
 	}
 }
@@ -421,9 +393,9 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
 		{
-			if (ground_contact_state && *turning == true)
+			if (on_ground && *turning == true)
 				StartDrift();
-			else if(ground_contact_state == false)
+			else if(on_ground == false)
 				Acrobatics(front_player);
 		}
 		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
@@ -622,7 +594,7 @@ void ComponentCar::Leaning(float accel)
 
 void ComponentCar::Acrobatics(PLAYER p)
 {
-	if (!ground_contact_state)
+	if (!on_ground)
 	{
 		bool tmp_front = acro_front;
 		bool tmp_back = acro_back;
@@ -859,7 +831,7 @@ void ComponentCar::StartDrift()
 
 void ComponentCar::CalcDriftForces()
 {
-	if (ground_contact_state)
+	if (on_ground)
 	{
 
 		vehicle->vehicle->getRigidBody()->clearForces();
@@ -1291,12 +1263,12 @@ Turbo* ComponentCar::GetAppliedTurbo() const
 void ComponentCar::CheckGroundCollision()
 {
 	BROFILER_CATEGORY("ComponentCar::CheckGroundCollision", Profiler::Color::HoneyDew)
-	bool last_contact = ground_contact_state;
+	bool last_contact = on_ground;
 
-	ground_contact_state = vehicle->IsVehicleInContact();
+	on_ground = vehicle->IsVehicleInContact();
 
 	
-	if (ground_contact_state != last_contact)
+	if (on_ground != last_contact)
 	{
 		if (last_contact)
 			OnGroundCollision(G_EXIT);
@@ -1875,7 +1847,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
 
-				bool on_ground = ground_contact_state;
+		
 				ImGui::Checkbox("On ground", &on_ground);
 
 				bool on_t = current_turbo != T_IDLE;

@@ -159,10 +159,12 @@ private:
 	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+
 public:
 	void PickItem();
 	void UseItem(); //provisional
 	void ReleaseItem();
+
 private:
 	void IdleTurn();
 	void ApplyTurbo();
@@ -372,8 +374,7 @@ private:
 	bool has_item = false;
 
 	//Ground contact
-
-	bool ground_contact_state = false;
+	bool on_ground = false;
 
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
