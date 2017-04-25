@@ -41,6 +41,9 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	update_position_shader = App->resource_manager->GetDefaultParticlePositionShaderId();
 	quad_position = App->resource_manager->GetDefaultQuadParticleMesh();
 
+	live_particles_id.resize(1024);
+	std::fill(live_particles_id.begin(), live_particles_id.end(), 0.0f);
+
 	glGenTextures(1, &p_lifes_tex);
 	glBindTexture(GL_TEXTURE_2D, p_lifes_tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -48,12 +51,10 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_R16F, 32, 32, 0, GL_RED, GL_FLOAT, particles.data());
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glGenBuffers(1, &particles_position_buffer);
-	glBindBuffer(GL_ARRAY_BUFFER, particles_position_buffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(int) * 1024, NULL, GL_STREAM_DRAW);
+	glGenBuffers(1, &live_particles_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, live_particles_buffer);
+	glBufferData(GL_ARRAY_BUFFER, 1024 * sizeof(float), NULL, GL_STREAM_DRAW);
 
-	particles[260] = time->RealTimeSinceStartup();
-	live_particles_id.push_back(264);
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
@@ -148,7 +149,7 @@ void ComponentParticleSystem::Update()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Update", Profiler::Color::Navy);
 
-	/*live_particles_id.clear();
+	live_particles_id.clear();
 	spawn_timer += time->RealDeltaTime();
 
 	if (spawn_timer >= spawn_time)
@@ -175,7 +176,7 @@ void ComponentParticleSystem::Update()
 			else
 				live_particles_id.push_back(i);
 		}
-	}*/
+	}
 }
 
 void ComponentParticleSystem::PostUpdate()
@@ -187,6 +188,10 @@ void ComponentParticleSystem::PostUpdate()
 		UpdateParticlesPosition(fboB, textureA);
 
 	pingpong_tex = !pingpong_tex;
+
+	glBindBuffer(GL_ARRAY_BUFFER, live_particles_buffer);
+	glBufferData(GL_ARRAY_BUFFER, 1024 * sizeof(float), NULL, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, live_particles_id.size() * sizeof(float), live_particles_id.data());
 
 	App->renderer3D->AddToDrawParticle(this);
 }

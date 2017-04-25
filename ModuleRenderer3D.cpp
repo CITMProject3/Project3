@@ -651,27 +651,23 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetPositionTextureId());
 		glUniform1i(position_texture_location, 1);
 
-		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->particles_position_buffer);
-		glBufferData(GL_ARRAY_BUFFER, 1024 * sizeof(GL_INT), NULL, GL_STREAM_DRAW);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, (*particle)->live_particles_id.size() * sizeof(GL_INT), (*particle)->live_particles_id.data());
+		
 
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_vertices);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(0, 0);
 
 		//Buffer uvs == 1
 		glEnableVertexAttribArray(1);
 		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_uvs);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
-
-		//Instanced id position buffer == 2
-		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->particles_position_buffer);
-		glVertexAttribPointer(2, 1, GL_INT, GL_FALSE, 0, (GLvoid*)0);
-
-		glVertexAttribDivisor(0, 0);
 		glVertexAttribDivisor(1, 0);
+
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->live_particles_buffer);
+		glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glVertexAttribDivisor(2, 1);
 
 		//Index buffer
@@ -681,7 +677,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 

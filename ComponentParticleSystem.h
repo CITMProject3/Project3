@@ -63,7 +63,11 @@ private:
 
 public:
 	unsigned int particles_position_buffer = 0;
-	std::vector<int> live_particles_id;
+
+	unsigned int test_buffer = 0;
+
+	unsigned int live_particles_buffer = 0;
+	std::vector<float> live_particles_id;
 };
 
 #endif // !__COMPONENTPARTICLESYTEM_H__
