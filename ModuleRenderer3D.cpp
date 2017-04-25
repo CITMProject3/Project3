@@ -641,7 +641,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
-		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2(1,1).ptr())); //TODO change for variable size
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
@@ -650,7 +650,6 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetPositionTextureId());
 		glUniform1i(position_texture_location, 1);
-
 		
 
 		//Buffer vertices == 0

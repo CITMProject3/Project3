@@ -38,6 +38,7 @@ private:
 	int max_particles = 1000;
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
+	
 
 	ResourceFileTexture* texture = nullptr;
 
@@ -69,6 +70,9 @@ public:
 
 	unsigned int live_particles_buffer = 0;
 	std::vector<float> live_particles_id;
+
+	//Properites
+	float size = 1.0f;
 };
 
 #endif // !__COMPONENTPARTICLESYTEM_H__

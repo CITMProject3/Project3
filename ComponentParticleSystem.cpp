@@ -72,6 +72,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		//Main Options
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
+		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 
 		ImGui::Text("Emission rate: "); ImGui::SameLine(); 
@@ -114,6 +115,7 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendInt("max_particles", max_particles);
 	data.AppendFloat("emission_rate", emission_rate);
 	data.AppendFloat("speed", speed);
+	data.AppendFloat("size", size);
 
 	//Render
 	if (texture)
@@ -134,6 +136,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	emission_rate = conf.GetFloat("emission_rate");
 	spawn_time = 1.0f / emission_rate;
 	speed = conf.GetFloat("speed");
+	size = conf.GetFloat("size");
 
 	string tex_path = conf.GetString("texture");
 	if (tex_path.size() > 0)
