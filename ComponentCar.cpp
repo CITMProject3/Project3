@@ -451,19 +451,17 @@ bool ComponentCar::Turn(bool* left_turn, bool left)
 
 bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 {
+	float top_turn = turn_max + turn_boost;
+
 	if (math::Abs(x_joy_input) > 0.2f)
 	{
-		if (x_joy_input < 0.0f)
-		{
-			*left_turn = true;
-		}
-		else
-		{
-			*left_turn = false;
-		}
+		x_joy_input < 0.0f ? *left_turn = true : *left_turn = false;
 
 		if (drifting == false)
+		{
 			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
+
+		}
 		else
 		{
 			//Normalizing x_joy_input to 0-1 vlaue
@@ -472,12 +470,21 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 
 			if (drift_dir_left == true)
 			{
-				turn_current = turn_max * x_joy_input;
+				turn_current = top_turn * x_joy_input;
 			}
 			else
 			{
-				turn_current = -turn_max * x_joy_input;
+				turn_current = -top_turn * x_joy_input;
 			}
+
+			
+			//Turn limitation
+			if (drift_dir_left == false)
+				top_turn = -top_turn;
+			if (drift_dir_left ? turn_current < 0 : turn_current > 0)
+				turn_current = 0;
+			if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
+				turn_current = top_turn;
 		}
 		return true;
 	}
