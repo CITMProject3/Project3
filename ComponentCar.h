@@ -345,7 +345,9 @@ private:
 	float acro_timer = 0.0f;
 	
 	//Turbo
+	public:
 	TURBO current_turbo = T_IDLE;
+	private:
 	TURBO last_turbo = T_IDLE;
 	Turbo* applied_turbo = nullptr;
 	float turbo_accel_boost = 0.0f;
