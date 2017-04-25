@@ -282,11 +282,13 @@ void ComponentParticleSystem::UpdateParticlesPosition(unsigned int fbo, unsigned
 	GLint speed_location = glGetUniformLocation(update_position_shader, "speed");
 	GLint current_time_location = glGetUniformLocation(update_position_shader, "current_time");
 	GLint p_life_location = glGetUniformLocation(update_position_shader, "p_life");
+	GLint rotation = glGetUniformLocation(update_position_shader, "rotation");
 
-	glUniform3fv(origin_location, 1, reinterpret_cast<GLfloat*>(game_object->transform->GetPosition().ptr()));
+	glUniform3fv(origin_location, 1, reinterpret_cast<const GLfloat*>(game_object->transform->GetGlobalMatrix().TranslatePart().ptr()));
 	glUniform1f(speed_location, speed); 
 	glUniform1f(current_time_location, time->RealTimeSinceStartup());
 	glUniform1f(p_life_location, life_time);
+	glUniform4fv(rotation, 1, reinterpret_cast<GLfloat*>(game_object->transform->GetGlobalMatrix().RotatePart().ToQuat().Inverted().ptr()));
 
 	glActiveTexture(GL_TEXTURE0);
 	GLint texture_location = glGetUniformLocation(update_position_shader, "tex");
