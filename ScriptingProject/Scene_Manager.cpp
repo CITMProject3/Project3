@@ -185,7 +185,7 @@ namespace Scene_Manager
 			}
 		}
 
-		if (start_timer_text != nullptr)
+		if (start_timer_text != nullptr && start_timer_text2 != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
 			start_timer_text2->SetDisplayText(std::to_string(number));
