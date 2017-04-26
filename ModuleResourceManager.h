@@ -64,7 +64,7 @@ public:
 
 	void InputFileDropped(std::list<std::string>& files);
 	void FileDropped(const char* file_path);
-	void LoadFile(const std::string& library_path, const FileType& type);
+	GameObject* LoadFile(const std::string& library_path, const FileType& type);
 
 	ResourceFile* LoadResource(const std::string& path, ResourceFileType type);
 	//Deprecated
@@ -77,7 +77,8 @@ public:
 	bool LoadSceneFromAssets(const char* file_name);
 	bool LoadScene(const char* file_name);
 	void ReloadScene();
-	void SavePrefab(GameObject* gameobject);
+	ResourceFilePrefab* SavePrefab(GameObject* gameobject);
+	bool UnlinkChildPrefabs(GameObject* gameObject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;
@@ -135,7 +136,7 @@ private:
 	void SceneDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void PrefabDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
-	void LoadPrefabFile(const std::string& library_path);
+	GameObject* LoadPrefabFile(const std::string& library_path);
 
 	void CheckDirectoryModification(Directory* directory);
 

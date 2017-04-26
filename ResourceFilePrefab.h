@@ -14,7 +14,7 @@ public:
 	ResourceFilePrefab(ResourceFileType type, const std::string& file_path, unsigned int uuid);
 	~ResourceFilePrefab();
 
-	void LoadPrefabAsCopy(); //Loads a new prefab instance loaded from the Assets(library actually) file
+	GameObject* LoadPrefabAsCopy(); //Loads a new prefab instance loaded from the Assets(library actually) file
 	GameObject* LoadPrefabFromScene(const Data& file, GameObject* parent); //Loads a prefab from a scene file
 
 	void UnloadInstance(GameObject* instance);

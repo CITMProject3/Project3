@@ -964,7 +964,7 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 			// Texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindTexture(GL_TEXTURE_2D, (*m->texture_ids.begin()).second);
+			glBindTexture(GL_TEXTURE_2D, (m->texture_ids.at(to_string(m->GetIdToRender()))));
 		}
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glColor4fv(m->color);
@@ -1030,8 +1030,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	string text = t->GetText();
 	string data_values = t->GetArrayValues();
 	int row_chars = t->GetCharRows();
-	float letter_w = c->GetRectSize().x;
-	float letter_h = t->GetCharHeight();
 	float2 pos = float2(c->GetLocalPos().ptr());
 	float x = 0;
 	float y = 0;
@@ -1045,31 +1043,38 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 		{
 			if (data_values[j] == text[i])
 			{
+				float letter_w = 0.0f;
+				float letter_h = 0.0f;
 				glMultMatrixf(*tmp.Transposed().v);
 				if (t->UImaterial->texture_ids.size()>j)
 				{
+					letter_w = t->GetCharwidth(j);
+
 					// Texture
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, 0);
 					glBindTexture(GL_TEXTURE_2D, (t->UImaterial->texture_ids.at(to_string(j))));
+					
+					if (t->meshes.size() > j)
+					{
+						mesh = t->meshes.at(j);
+					}
+					// Vertices
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+					glVertexPointer(3, GL_FLOAT, 0, NULL);
+				
+					// Texture coordinates
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+					glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+					glColor4fv(t->UImaterial->color);
+					// Indices
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+					glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 				}
-
-				// Vertices
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-				glVertexPointer(3, GL_FLOAT, 0, NULL);
-				
-				// Texture coordinates
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glColor4fv(t->UImaterial->color);
-				// Indices
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
-				
-				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
-				x += letter_w;
+				tmp.SetTranslatePart(letter_w + t->GetCharOffset(), 0.0f, 0.0f);
+				x += (letter_w + t->GetCharOffset());
 				break;
 			}
 		}

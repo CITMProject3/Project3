@@ -266,6 +266,12 @@ void ModuleResourceManager::ImportFileWithMeta(unsigned int type, unsigned int u
 		tmp_mesh_uuid_files.push_back(tmp);
 	}
 	break;
+	case TERRAIN:
+	{
+		App->file_system->Delete(library_path.data());
+		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
+		break;
+	}
 
 	case PREFAB:
 		App->file_system->DuplicateFile(assets_path.data(), library_path.data());
@@ -411,23 +417,25 @@ void ModuleResourceManager::FileDropped(const char * file_path)
 	App->editor->RefreshAssets();
 }
 
-void ModuleResourceManager::LoadFile(const string & library_path, const FileType & type)
+GameObject* ModuleResourceManager::LoadFile(const string & library_path, const FileType & type)
 {
+	GameObject* ret = nullptr;
 	switch (type)
 	{
 	case MESH:
-		LoadPrefabFile(library_path);
+		ret = LoadPrefabFile(library_path);
 		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	case PREFAB:
 		ResourceFilePrefab* r_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
 		if (r_prefab)
 		{
-			r_prefab->LoadPrefabAsCopy();
+			ret = r_prefab->LoadPrefabAsCopy();
 		}
 		App->go_manager->LinkAnimation(App->go_manager->root);
 		break;
 	}
+	return ret;
 }
 
 ResourceFile * ModuleResourceManager::LoadResource(const string &path, ResourceFileType type)
@@ -566,19 +574,6 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 	root_node.AppendArray("GameObjects");
 	App->go_manager->root->Save(root_node);
 
-	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-
-	root_node.AppendArray("terrain_textures");
-	for (uint n = 0; n < App->physics->GetNTextures(); n++)
-	{
-		Data texture;
-		texture.AppendString("path", App->physics->GetTexturePath(n));
-		root_node.AppendArrayValue(texture);
-	}
-
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
-
 	string library_scene_path;
 	string meta_file = name_to_save + ".meta";
 	unsigned int uuid = 0;
@@ -692,7 +687,8 @@ bool ModuleResourceManager::LoadScene(const char *file_name)
 		for (size_t i = 0; i < scene.GetArraySize("terrain_textures"); i++)
 		{
 			Data tex = scene.GetArray("terrain_textures", i);
-			App->physics->LoadTexture(tex.GetString("path"));
+			string texName("");
+			App->physics->LoadTexture(tex.GetString("path"), -1, texName);
 		}
 
 		App->physics->SetTerrainMaxHeight(scene.GetFloat("terrain_scaling"));
@@ -757,11 +753,23 @@ void ModuleResourceManager::ReloadScene()
 	}
 }
 
-void ModuleResourceManager::SavePrefab(GameObject * gameobject)
+ResourceFilePrefab* ModuleResourceManager::SavePrefab(GameObject * gameobject)
 {
 	//Create the file
 	//Create the meta
 	//Duplicate file in assets
+	ResourceFilePrefab* ret = nullptr;
+	bool unlinked = false;
+	for (std::vector<GameObject*>::const_iterator it = gameobject->GetChilds()->begin(); it != gameobject->GetChilds()->end(); it++)
+	{
+		if (UnlinkChildPrefabs(*it)) unlinked = true;
+	}
+
+	if (unlinked == true)
+	{
+		LOG("Warning: a GameObject child was a prefab, it has lost it's link to it.");
+		App->editor->DisplayWarning(WarningType::W_ERROR, "Warning: a GameObject child was a prefab, it has lost it's link to it");
+	}
 
 	Data root_node;
 	root_node.AppendArray("GameObjects");
@@ -811,18 +819,35 @@ void ModuleResourceManager::SavePrefab(GameObject * gameobject)
 
 	delete[] buf;
 
-	ResourceFilePrefab* rc_prefab = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
-	if (rc_prefab)
+	ret = (ResourceFilePrefab*)LoadResource(library_path, ResourceFileType::RES_PREFAB);
+	if (ret)
 	{
-		gameobject->rc_prefab = rc_prefab;
-		rc_prefab->InsertOriginalInstance(gameobject);
+		gameobject->rc_prefab = ret;
+		ret->InsertOriginalInstance(gameobject);
 	}
 
 	gameobject->SetParent(parent);
 	gameobject->prefab_path = library_path.data();
 
+	return ret;
+}
 
-
+bool ModuleResourceManager::UnlinkChildPrefabs(GameObject* gameObject)
+{
+	bool ret = false;
+	if (gameObject->IsPrefab())
+	{
+		gameObject->UnlinkPrefab();
+		ret = true;
+	}
+	for (std::vector<GameObject*>::const_iterator it = gameObject->GetChilds()->begin(); it != gameObject->GetChilds()->end(); it++)
+	{
+		if (UnlinkChildPrefabs(*it))
+		{
+			ret = true;
+		}
+	}
+	return ret;
 }
 
 void ModuleResourceManager::SaveMaterial(const Material & material, const char * path, uint _uuid)
@@ -1019,6 +1044,7 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 	char* script_library_extension = "dll";
 	char* prefab_extension = "pfb";
 	char* material_extension = "mat";
+	char* terrain_extension = "txmp";
 
 	string name = path;
 	string extension = name.substr(name.find_last_of(".") + 1);
@@ -1058,6 +1084,9 @@ FileType ModuleResourceManager::GetFileExtension(const char * path) const
 
 	if (extension.compare(material_extension) == 0)
 		return FileType::MATERIAL;
+
+	if (extension.compare(terrain_extension) == 0)
+		return FileType::TERRAIN;
 
 	return NONE;
 }
@@ -1616,8 +1645,9 @@ void ModuleResourceManager::PrefabDropped(const char * path, std::string base_di
 	GenerateMetaFile(file_assets_path.data(), FileType::PREFAB, uuid, final_prefab_path);
 }
 
-void ModuleResourceManager::LoadPrefabFile(const string & library_path)
+GameObject* ModuleResourceManager::LoadPrefabFile(const string & library_path)
 {
+	GameObject* ret = nullptr;
 	char* buffer = nullptr;
 	uint size = App->file_system->Load(library_path.data(), &buffer);
 	if (size == 0)
@@ -1626,7 +1656,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab file %s", library_path.data());
 		if (buffer)
 			delete[] buffer;
-		return;
+		return ret;
 	}
 
 	Data scene(buffer);
@@ -1637,7 +1667,14 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	{
 		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
-			App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			if (ret == nullptr)
+			{
+				ret = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			}
+			else
+			{
+				App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
+			}
 		}
 	}
 	else
@@ -1647,6 +1684,7 @@ void ModuleResourceManager::LoadPrefabFile(const string & library_path)
 	}
 
 	delete[] buffer;
+	return ret;
 }
 
 void ModuleResourceManager::CheckDirectoryModification(Directory * directory)

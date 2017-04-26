@@ -24,7 +24,7 @@ void RaceTimer::AddLap(unsigned int player)
 {
 	if (player == 0)
 	{
-		double lap_time = race_timer - lap1_times[lap1_times.size() - 1];
+		double lap_time = race_timer;
 		if (lap1_times.size() > 0)
 			lap_time -= lap1_times.back();
 
@@ -98,7 +98,7 @@ bool RaceTimer::GetLapTime(unsigned int player, int lap, int & minutes, int & se
 	double time = 0;
 	if (player == 0)
 	{
-		if(lap > lap1_times.size() || lap < 0)
+		if (lap > lap1_times.size() || lap < 0)
 			return false;
 		time = lap1_times[lap];
 		if (lap > 0)
