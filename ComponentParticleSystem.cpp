@@ -158,6 +158,8 @@ void ComponentParticleSystem::PostUpdate()
 
 	num_alive_particles = 0;
 
+	float3 origin = game_object->GetGlobalMatrix().TranslatePart();
+	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 	//Update positions
 	for (int i = 0; i < top_max_particles; i++)
 	{
@@ -169,7 +171,7 @@ void ComponentParticleSystem::PostUpdate()
 
 			if (p.life > 0.0f)
 			{
-				p.position += p.speed * dt;
+				p.position = origin + (rotation * p.speed) * (life_time - p.life);
 				alive_particles_position[num_alive_particles] = p.position;
 				++num_alive_particles;
 			}		
