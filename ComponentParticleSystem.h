@@ -4,9 +4,17 @@
 #include "Component.h"
 #include <vector>
 #include <stack>
+#include "MathGeoLib\include\MathGeoLib.h"
 
 class ResourceFileTexture;
 struct Mesh;
+
+struct Particle
+{
+	math::float3 position;
+	math::float3 speed;
+	float life = -1.0f;
+};
 
 class ComponentParticleSystem : public Component
 {
@@ -21,7 +29,6 @@ public:
 	void PostUpdate();
 
 	unsigned int GetTextureId()const;
-	unsigned int GetPositionTextureId()const;
 
 private:
 
@@ -29,7 +36,7 @@ private:
 	void InspectorChangeTexture();
 
 	void SpawnParticle();
-	void UpdateParticlesPosition(unsigned int fbo, unsigned int tex);
+	int FindUnusedParticle();
 
 private:
 
@@ -39,37 +46,22 @@ private:
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
 	
-
 	ResourceFileTexture* texture = nullptr;
 
-	std::vector<float> particles; //Handles life & death
-	std::stack<unsigned int> available_ids;
 	float spawn_time = 0.1f; // 1 / emission rate
 	float spawn_timer = 0.0;
-
-	//Save positions in textures
-	unsigned int fboA = 0;
-	unsigned int fboB = 0;
-	unsigned int textureA = 0;
-	unsigned int textureB = 0;
-	unsigned int p_lifes_tex = 0;
-	bool pingpong_tex = true;
 	
+	const int top_max_particles = 1000; //Maximum number of particles (not editable for the user)
+	std::vector<Particle> particles_container;
+	std::vector<math::float3> alive_particles_position; 
+	int last_used_particle = 0; //Id of the last used particle
 
-	unsigned int update_position_shader = 0;
-	Mesh* quad_position = nullptr;
-
-
-	int life_particles = 0;
 	
-
 public:
-	unsigned int particles_position_buffer = 0;
+	//Buffers
+	unsigned int position_buffer = 0;
 
-	unsigned int test_buffer = 0;
-
-	unsigned int live_particles_buffer = 0;
-	std::vector<float> live_particles_id;
+	int num_alive_particles = 0; //Number of particles alive
 
 	//Properites
 	float size = 1.0f;

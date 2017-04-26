@@ -626,7 +626,6 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	math::float4x4 projection_m = cam->GetProjectionMatrix();
 	math::float4x4 view_m = cam->GetViewMatrix();
 
-	GLint center_location = glGetUniformLocation(shader_id, "center"); //Todo change for location center
 	GLint size_location = glGetUniformLocation(shader_id, "size");
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
 	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
@@ -646,10 +645,6 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
 		glUniform1i(texture_location, 0);
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, (*particle)->GetPositionTextureId());
-		glUniform1i(position_texture_location, 1);
 		
 
 		//Buffer vertices == 0
@@ -665,18 +660,18 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glVertexAttribDivisor(1, 0);
 
 		glEnableVertexAttribArray(2);
-		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->live_particles_buffer);
-		glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->position_buffer);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glVertexAttribDivisor(2, 1);
 
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
-		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->live_particles_id.size());
+		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->num_alive_particles);
 	}
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(2);
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
