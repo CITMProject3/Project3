@@ -225,7 +225,7 @@ namespace Start_Menu_UI
 		for (int i = 0; i < 4; i++)
 		{
 			// DOWN INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 			{
 				if (!down_pressed[i])
 				{
@@ -337,7 +337,7 @@ namespace Start_Menu_UI
 				up_pressed[i] = false;
 			}
 			// LEFT INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (!left_pressed[i])
 				{
