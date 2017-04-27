@@ -77,14 +77,14 @@
                     "UUID": 2471300271,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1017
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        960,
+                        800,
                         0,
                         1,
                         0,
@@ -130,7 +130,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.887906,
+                    "aspect_ratio": 1.777778,
                     "color": [
                         0,
                         0,
@@ -291,14 +291,14 @@
                     "script_path": "Vehicle_Selection_UI",
                     "script_num": 0,
                     "Button Cooldown": 15,
-                    "Red car": 1429455215,
-                    "blue_car_portrait_selected": 1406819144,
-                    "Red arrow right": 1869263203,
-                    "red_car_portrait_selected": 3511565641,
                     "Blue arrow left": 916758109,
                     "Blue arrow right": 698612536,
                     "Blue car": 2225327967,
-                    "Red arrow left": 3835896838
+                    "blue_car_portrait_selected": 1406819144,
+                    "Red arrow left": 3835896838,
+                    "Red arrow right": 1869263203,
+                    "Red car": 1429455215,
+                    "red_car_portrait_selected": 3511565641
                 },
                 {
                     "type": 18,
@@ -711,7 +711,7 @@
                                     "path": "\/Library\/4086913788\/\/2932010584\/\/2989330961\/2989330961.dds"
                                 },
                                 {
-                                    "path": "\/Library\/4086913788\/\/2932010584\/\/1420435009\/1420435009.dds"
+                                    "path": "\/Library\/4086913788\/\/2932010584\/\/2688530628\/2688530628.dds"
                                 }
                             ]
                         }
@@ -1092,7 +1092,7 @@
                             "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
-                            "blend_type": 768,
+                            "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
                                 1,
@@ -1191,7 +1191,7 @@
                             "path_assets": "",
                             "properties_set": true,
                             "alpha": 2,
-                            "blend_type": 768,
+                            "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
                                 1,
@@ -1283,13 +1283,6 @@
                     "active": true,
                     "script_path": "Character_Selection_UI",
                     "script_num": 0,
-                    "Player 2 num": 2986032933,
-                    "Player 3 num": 2311143151,
-                    "Player 4 num": 1659269849,
-                    "Player 1 num port": 3633601568,
-                    "Player 2 num port": 4267246801,
-                    "Player 3 num port": 26833916,
-                    "Player 4 num port": 2099441143,
                     "Drivers 1": 929290665,
                     "Support 1": 864259672,
                     "Drivers 2": 840549808,
@@ -1302,7 +1295,14 @@
                     "Player 2": 1499351069,
                     "Player 3": 3552039009,
                     "Player 4": 1868150937,
-                    "Player 1 num": 2881384116
+                    "Player 1 num": 2881384116,
+                    "Player 2 num": 2986032933,
+                    "Player 3 num": 2311143151,
+                    "Player 4 num": 1659269849,
+                    "Player 1 num port": 3633601568,
+                    "Player 2 num port": 4267246801,
+                    "Player 3 num port": 26833916,
+                    "Player 4 num port": 2099441143
                 },
                 {
                     "type": 18,
@@ -4692,7 +4692,7 @@
             "UUID": 906546674,
             "local_UUID": 0,
             "parent": 470889133,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -4797,7 +4797,7 @@
             "UUID": 4022420604,
             "local_UUID": 0,
             "parent": 470889133,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -4902,7 +4902,7 @@
             "UUID": 2489083272,
             "local_UUID": 0,
             "parent": 470889133,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -5007,7 +5007,7 @@
             "UUID": 2991329458,
             "local_UUID": 0,
             "parent": 470889133,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -6235,11 +6235,6 @@
                     "Player2": 3,
                     "Player3": 0,
                     "Player4": 2,
-                    "P3 indicator": 1221716897,
-                    "Choose team": 411042294,
-                    "Players": 1610629024,
-                    "P4 indicator": 4293179157,
-                    "Start Button": 2890886191,
                     "LB Button": 605510669,
                     "LT Button": 870812808,
                     "RB Button": 539643898,
@@ -6249,7 +6244,12 @@
                     "RB Button Color Selector": 2840008332,
                     "RT Button Color Selector": 1021265338,
                     "P1 indicator": 4108307526,
-                    "P2 indicator": 2749682358
+                    "P2 indicator": 2749682358,
+                    "P3 indicator": 1221716897,
+                    "P4 indicator": 4293179157,
+                    "Start Button": 2890886191,
+                    "Choose team": 411042294,
+                    "Players": 1610629024
                 },
                 {
                     "type": 18,
@@ -6566,7 +6566,7 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/2129572884\/2129572884.dds"
+                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/774090905\/774090905.dds"
                                 },
                                 {
                                     "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1709906971\/1709906971.dds"
@@ -6878,7 +6878,7 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1819736597\/1819736597.dds"
+                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/774090905\/774090905.dds"
                                 },
                                 {
                                     "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1709906971\/1709906971.dds"
@@ -7190,7 +7190,7 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1225118712\/1225118712.dds"
+                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/774090905\/774090905.dds"
                                 },
                                 {
                                     "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1709906971\/1709906971.dds"
@@ -7502,7 +7502,7 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
-                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/109355077\/109355077.dds"
+                                    "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/774090905\/774090905.dds"
                                 },
                                 {
                                     "path": "\/Library\/3171502590\/\/3430952749\/\/1577992361\/\/1709906971\/1709906971.dds"
@@ -8479,9 +8479,6 @@
             ]
         }
     ],
-    "terrain_textures": [],
-    "terrain_scaling": 100,
-    "terrain_tex_scaling": 0.030000,
     "current_assets_scene_path": "\/Assets\/Main_menu2.ezx",
     "current_library_scene_path": "\/Library\/\/739861994\/739861994.ezx"
 } 

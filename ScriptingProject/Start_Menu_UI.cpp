@@ -57,15 +57,18 @@ namespace Start_Menu_UI
 	ComponentMaterial* m_p2 = nullptr;
 	ComponentMaterial* m_p3 = nullptr;
 	ComponentMaterial* m_p4 = nullptr;
-	bool rb_pressed = false;
-	bool rt_pressed = false;
-	bool lb_pressed = false;
-	bool lt_pressed = false;
 
-	bool rtrigger_pressed[4];
-	bool ltrigger_pressed[4];
+	bool up_pressed[4];
+	bool down_pressed[4];
+	bool left_pressed[4];
+	bool right_pressed[4];
 
 	int player_order[4];
+	int player_position[8];
+	//  Player_position
+	//  [0] [1] [2] [3]
+	//  [4]         [6]
+	//  [5]         [7]
 
 	void Start_Menu_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -93,7 +96,7 @@ namespace Start_Menu_UI
 	void Start_Menu_UI_UpdatePublics(GameObject* game_object)
 	{
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-		
+
 		rb_button = test_script->public_gos.at("RB Button");
 		rt_button = test_script->public_gos.at("RT Button");
 		lb_button = test_script->public_gos.at("LB Button");
@@ -153,7 +156,7 @@ namespace Start_Menu_UI
 		test_script->public_ints.at("Player2") = player_order[1];
 		test_script->public_ints.at("Player3") = player_order[2];
 		test_script->public_ints.at("Player4") = player_order[3];
-		
+
 
 		c_rb = (ComponentUiButton*)rb_button->GetComponent(C_UI_BUTTON);
 		c_rt = (ComponentUiButton*)rt_button->GetComponent(C_UI_BUTTON);
@@ -167,7 +170,7 @@ namespace Start_Menu_UI
 
 		m_p1 = ((ComponentUiImage*)p1_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
 		m_p2 = ((ComponentUiImage*)p2_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p3= ((ComponentUiImage*)p3_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
+		m_p3 = ((ComponentUiImage*)p3_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
 		m_p4 = ((ComponentUiImage*)p4_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
 	}
 
@@ -179,6 +182,14 @@ namespace Start_Menu_UI
 		player_order[1] = -1;
 		player_order[2] = -1;
 		player_order[3] = -1;
+		player_position[0] = 0;
+		player_position[1] = 1;
+		player_position[2] = 2;
+		player_position[3] = 3;
+		player_position[4] = -1;
+		player_position[5] = -1;
+		player_position[6] = -1;
+		player_position[7] = -1;
 		start_but->SetActive(false);
 		players->SetActive(true);
 		rb_button_color_selector->SetActive(false);
@@ -186,410 +197,371 @@ namespace Start_Menu_UI
 		lb_button_color_selector->SetActive(false);
 		lt_button_color_selector->SetActive(false);
 		Start_Menu_UI_ActualizePublics(game_object);
-		rb_pressed = false;
-		rt_pressed = false;
-		lb_pressed = false;
-		lt_pressed = false;
-		rtrigger_pressed[0] = false;
-		rtrigger_pressed[1] = false;
-		rtrigger_pressed[2] = false;
-		rtrigger_pressed[3] = false;
-		ltrigger_pressed[0] = false;
-		ltrigger_pressed[1] = false;
-		ltrigger_pressed[2] = false;
-		ltrigger_pressed[3] = false;
+		up_pressed[0] = false;
+		up_pressed[1] = false;
+		up_pressed[2] = false;
+		up_pressed[3] = false;
+		down_pressed[0] = false;
+		down_pressed[1] = false;
+		down_pressed[2] = false;
+		down_pressed[3] = false;
+		right_pressed[0] = false;
+		right_pressed[1] = false;
+		right_pressed[2] = false;
+		right_pressed[3] = false;
+		left_pressed[0] = false;
+		left_pressed[1] = false;
+		left_pressed[2] = false;
+		left_pressed[3] = false;
 	}
 
 	void Start_Menu_UI_Update(GameObject* game_object)
 	{
 		for (int i = 0; i < 4; i++)
 		{
-			// LB INPUT ------------------------
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::LB) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_T) == KEY_DOWN)
+			// DOWN INPUT ------------------------
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < -0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < -0.2 || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 			{
-				if (lb_pressed == false)
+				if (!down_pressed[i])
 				{
-					bool selectable = true;
-					for (int j = 0; j < 4; j++)
+					down_pressed[i] = true;
+					if (player_position[0] == i || player_position[1] == i)
 					{
-						if (player_order[j] == i)
+						if (player_position[4] == -1)
 						{
-							selectable = false;
+							player_position[4] = i + 4;
+						}
+						else if (player_position[5] == -1)
+						{
+							player_position[5] = i + 4;
+						}
+						else if (player_position[6] == -1)
+						{
+							player_position[6] = i + 4;
+						}
+						else if (player_position[7] == -1)
+						{
+							player_position[7] = i + 4;
 						}
 					}
-					if (selectable)
-					{
-						// Player press AUDIO
-						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(0);
 
-						player_order[0] = i;
-						c_lb->OnPressId(i);
-						m_lb->SetIdToRender(i);
-						lb_pressed = true;
-						lb_button_color_selector->SetActive(true);
-						switch (i)
+					else if (player_position[2] == i || player_position[3] == i)
+					{
+						if (player_position[6] == -1)
 						{
-						case 0: m_p1->SetIdToRender(1);
-							break;
-						case 1: m_p2->SetIdToRender(1);
-							break;
-						case 2: m_p3->SetIdToRender(1);
-							break;
-						case 3: m_p4->SetIdToRender(1);
-							break;
+							player_position[6] = i + 4;
 						}
-
-					}
-				}
-				else if (lb_pressed == true && player_order[0] == i)
-				{
-					for (int j = 0; j < 4; j++)
-					{
-						if (player_order[j] == i)
+						else if (player_position[7] == -1)
 						{
-							switch (i)
+							player_position[7] = i + 4;
+						}
+						else if (player_position[4] == -1)
+						{
+							player_position[4] = i + 4;
+						}
+						else if (player_position[5] == -1)
+						{
+							player_position[5] = i + 4;
+						}
+					}
+
+					else
+					{
+						if (player_position[4] == i)
+						{
+							if (player_position[5] == -1)
 							{
-							case 0: m_p1->SetIdToRender(0);
-								break;
-							case 1: m_p2->SetIdToRender(0);
-								break;
-							case 2: m_p3->SetIdToRender(0);
-								break;
-							case 3: m_p4->SetIdToRender(0);
-								break;
-							}
-							player_order[j] = -1;
-							start_but->SetActive(false);
-							players->SetActive(true);
-							// Play Unselect player
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(1);
-
-							lb_pressed = false;
-							c_lb->OnPressId(i);
-							lb_button_color_selector->SetActive(false);
-						}
-					}
-				}
-			}
-			
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_TRIGGER) < 0.1f)
-			{
-				ltrigger_pressed[i] = false;
-			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_TRIGGER) < 0.1f)
-			{
-				rtrigger_pressed[i] = false;
-			}
-			// LT INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_TRIGGER) > 0.2f || App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
-			{
-				if (ltrigger_pressed[i] == false)
-				{
-					ltrigger_pressed[i] = true;
-					if (lt_pressed == false)
-					{
-						bool selectable = true;
-						for (int j = 0; j < 4; j++)
-						{
-							if (player_order[j] == i)
-							{
-								selectable = false;
+								player_position[5] = i + 4;
 							}
 						}
-						if (selectable)
+						else if (player_position[6] == i)
 						{
-							// Player press AUDIO
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
-							lt_button_color_selector->SetActive(true);
-							player_order[1] = i;
-							c_lt->OnPressId(i);
-							m_lt->SetIdToRender(i);
-							lt_pressed = true;
-							switch (i)
+							if (player_position[7] == -1)
 							{
-							case 0: m_p1->SetIdToRender(1);
-								break;
-							case 1: m_p2->SetIdToRender(1);
-								break;
-							case 2: m_p3->SetIdToRender(1);
-								break;
-							case 3: m_p4->SetIdToRender(1);
-								break;
-							}
-						}
-					}
-					else if (lt_pressed == true && player_order[1] == i)
-					{
-						for (int j = 0; j < 4; j++)
-						{
-							if (player_order[j] == i)
-							{
-								switch (i)
-								{
-								case 0: m_p1->SetIdToRender(0);
-									break;
-								case 1: m_p2->SetIdToRender(0);
-									break;
-								case 2: m_p3->SetIdToRender(0);
-									break;
-								case 3: m_p4->SetIdToRender(0);
-									break;
-								}
-								player_order[j] = -1;
-								start_but->SetActive(false);
-								players->SetActive(true);
-								// Play Unselect player
-								ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-								if (a_comp) a_comp->PlayAudio(1);
-
-								lt_pressed = false;
-								c_lt->OnPressId(i);
-								lt_button_color_selector->SetActive(false);
+								player_position[7] = i + 4;
 							}
 						}
 					}
 				}
 			}
-
-			
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::RB) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > -0.1 ||*/ App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 			{
-				if (rb_pressed == false)
-				{
-					bool selectable = true;
-					for (int j = 0; j < 4; j++)
-					{
-						if (player_order[j] == i)
-						{
-							selectable = false;
-						}
-					}
-					if (selectable)
-					{
-						// Player press AUDIO
-						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(0);
-						rb_button_color_selector->SetActive(true);
-						player_order[2] = i;
-						c_rb->OnPressId(i);
-						m_rb->SetIdToRender(i);
-						rb_pressed = true;
-						switch (i)
-						{
-						case 0: m_p1->SetIdToRender(1);
-							break;
-						case 1: m_p2->SetIdToRender(1);
-							break;
-						case 2: m_p3->SetIdToRender(1);
-							break;
-						case 3: m_p4->SetIdToRender(1);
-							break;
-						}
-					}
-
-				}
-				else if (rb_pressed == true && player_order[2] == i)
-				{
-					for (int j = 0; j < 4; j++)
-					{
-						if (player_order[j] == i)
-						{
-							switch (i)
-							{
-							case 0: m_p1->SetIdToRender(0);
-								break;
-							case 1: m_p2->SetIdToRender(0);
-								break;
-							case 2: m_p3->SetIdToRender(0);
-								break;
-							case 3: m_p4->SetIdToRender(0);
-								break;
-							}
-							player_order[j] = -1;
-							start_but->SetActive(false);
-							players->SetActive(true);
-							// Play Unselect player
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(1);
-
-							rb_pressed = false;
-							c_rb->OnPressId(i);
-							rb_button_color_selector->SetActive(false);
-						}
-					}
-				}
+				down_pressed[i] = false;
 			}
 
-
-			
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_TRIGGER) > 0.2f || App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN)
+			// UP INPUT ------------------------
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.2 || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
 			{
-				if (rtrigger_pressed[i] == false)
+				if (!up_pressed[i])
 				{
+					up_pressed[i] = true;
 
-					rtrigger_pressed[i] = true;
-					if (rt_pressed == false)
+					if (player_position[4] == i || player_position[6] == i)
 					{
-						bool selectable = true;
-						for (int j = 0; j < 4; j++)
-						{
-							if (player_order[j] == i)
-							{
-								selectable = false;
-							}
-						}
-						if (selectable)
-						{
-							// Player press AUDIO
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
-							rt_button_color_selector->SetActive(true);
-							player_order[3] = i;
-							c_rt->OnPressId(i);
-							m_rt->SetIdToRender(i);
-							rt_pressed = true;
-							switch (i)
-							{
-							case 0: m_p1->SetIdToRender(1);
-								break;
-							case 1: m_p2->SetIdToRender(1);
-								break;
-							case 2: m_p3->SetIdToRender(1);
-								break;
-							case 3: m_p4->SetIdToRender(1);
-								break;
-							}
-						}
-					}
-					else if (rt_pressed == true && player_order[3] == i)
-					{
-						for (int j = 0; j < 4; j++)
-						{
-							if (player_order[j] == i)
-							{
-								switch (i)
-								{
-								case 0: m_p1->SetIdToRender(0);
-									break;
-								case 1: m_p2->SetIdToRender(0);
-									break;
-								case 2: m_p3->SetIdToRender(0);
-									break;
-								case 3: m_p4->SetIdToRender(0);
-									break;
-								}
-								player_order[j] = -1;
-								start_but->SetActive(false);
-								players->SetActive(true);
-								// Play Unselect player
-								ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-								if (a_comp) a_comp->PlayAudio(1);
-
-								rt_pressed = false;
-								c_rt->OnPressId(i);
-								rt_button_color_selector->SetActive(false);
-							}
-						}
-					}
-				}
-			}
-				
-			
-			
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
-			{
-				for (int j = 0; j < 4; j++)
-				{
-					if (player_order[j] == i)
-					{
-						switch (i)
-						{
-						case 0: m_p1->SetIdToRender(0);
-							break;
-						case 1: m_p2->SetIdToRender(0);
-							break;
-						case 2: m_p3->SetIdToRender(0);
-							break;
-						case 3: m_p4->SetIdToRender(0);
-							break;
-						}
-						player_order[j] = -1;
+						player_position[i] = i + 4; // Reset
 						start_but->SetActive(false);
-						players->SetActive(true);
-						// Play Unselect player
-						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(1);
+					}
+					else if (player_position[5] == i)
+					{
+						if (player_position[4] == -1)
+						{
+							player_position[4] = i + 4;
+						}
+						else
+						{
+							player_position[i] = i + 4; // Reset
+							start_but->SetActive(false);
+						}
+					}
+					else if (player_position[7] == i)
+					{
+						if (player_position[6] == -1)
+						{
+							player_position[6] = i + 4;
+						}
+						else
+						{
+							player_position[i] = i + 4; // Reset
+							start_but->SetActive(false);
+						}
+					}
+				}
+			}
+			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < 0.1 ||*/ App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+			{
+				up_pressed[i] = false;
+			}
+			// LEFT INPUT ------------------------
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.2 || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			{
+				if (!left_pressed[i])
+				{
+					left_pressed[i] = true;
 
-						switch (j)
+					if (player_position[0] == i || player_position[1] == i || player_position[2] == i || player_position[3] == i)
+					{
+						if (player_position[4] == -1)
+						{
+							player_position[4] = i + 4;
+						}
+						else if (player_position[5] == -1)
+						{
+							player_position[5] = i + 4;
+						}
+					}
+					if (player_position[6] == i)
+					{
+						if (player_position[4] == -1)
+						{
+							player_position[4] = i + 4;
+						}
+					}
+					else if (player_position[7] == i)
+					{
+						if (player_position[5] == -1)
+						{
+							player_position[5] = i + 4;
+						}
+					}
+				}
+			}
+			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) >- 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 ||*/ App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			{
+				left_pressed[i] = false;
+			}
+			// RIGHT INPUT ------------------------
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.2 || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			{
+				//  [0] [1] [2] [3]
+				//  [4]         [6]
+				//  [5]         [7]
+
+				if (!right_pressed[i])
+				{
+					right_pressed[i] = true;
+
+					if (player_position[0] == i || player_position[1] == i || player_position[2] == i || player_position[3] == i)
+					{
+						if (player_position[6] == -1)
+						{
+							player_position[6] = i + 4;
+						}
+						else if (player_position[7] == -1)
+						{
+							player_position[7] = i + 4;
+						}
+					}
+
+					if (player_position[4] == i)
+					{
+						if (player_position[6] == -1)
+						{
+							player_position[6] = i + 4;
+						}
+					}
+					else if (player_position[5] == i)
+					{
+						if (player_position[7] == -1)
+						{
+							player_position[7] = i + 4;
+						}
+					}
+				}
+			}
+			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 ||*/ App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			{
+				right_pressed[i] = false;
+			}
+		}
+		// Resolve
+		for (int y = 0; y <= 7; y++)
+		{
+			if (player_position[y] >= 4)
+			{
+				int requesting_player = player_position[y] - 4;
+
+				// Delete previous position
+				for (int k = 0; k <= 7; k++)
+				{
+					if (player_position[k] == requesting_player)
+					{
+						switch (k)
 						{
 						case 0:
-							if (lb_pressed)
-							{
-								lb_pressed = false;
-								c_lb->OnPressId(i);
-								lb_button_color_selector->SetActive(false);
-							}
+							m_p1->SetIdToRender(1);
 							break;
 						case 1:
-							if (lt_pressed)
-							{
-								lt_pressed = false;
-								c_lt->OnPressId(i);
-								lt_button_color_selector->SetActive(false);
-							}
+							m_p2->SetIdToRender(1);
 							break;
 						case 2:
-							if (rb_pressed)
-							{
-								rb_pressed = false;
-								c_rb->OnPressId(i);
-								rb_button_color_selector->SetActive(false);
-							}
-
+							m_p3->SetIdToRender(1);
 							break;
 						case 3:
-							if (rt_pressed)
-							{
-								rt_pressed = false;
-								c_rt->OnPressId(i);
-								rt_button_color_selector->SetActive(false);
-							}
+							m_p4->SetIdToRender(1);
+							break;
+						case 4:
+							c_lb->OnPressId(requesting_player);
+							m_lb->SetIdToRender(requesting_player);
+							lb_button_color_selector->SetActive(false);
+							player_order[0] = -1;
+							break;
+						case 5:
+							c_lt->OnPressId(requesting_player);
+							m_lt->SetIdToRender(requesting_player);
+							lt_button_color_selector->SetActive(false);
+							player_order[1] = -1;
+							break;
+						case 6:
+							c_rb->OnPressId(requesting_player);
+							m_rb->SetIdToRender(requesting_player);
+							rb_button_color_selector->SetActive(false);
+							player_order[2] = -1;
+							break;
+						case 7:
+							c_rt->OnPressId(requesting_player);
+							m_rt->SetIdToRender(requesting_player);
+							rt_button_color_selector->SetActive(false);
+							player_order[3] = -1;
 							break;
 						}
-						break;
+						player_position[k] = -1;
 					}
 				}
-			}
 
-			int total = 0;
-			for (int j = 0; j < 4; j++)
-			{
-				total += player_order[j];
+				// Player press AUDIO
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);				
 
-				if (total == 6)
+				player_position[y] = requesting_player;
+
+				switch (y)
 				{
-					start_but->SetActive(true);
-					players->SetActive(false);
-					ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
-					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
-					{
-						main_canvas_script->public_ints.at("current_menu") = 2;
-						main_canvas_script->public_ints.at("Player1") = player_order[0];
-						main_canvas_script->public_ints.at("Player2") = player_order[1];
-						main_canvas_script->public_ints.at("Player3") = player_order[2];
-						main_canvas_script->public_ints.at("Player4") = player_order[3];
+				case 0:
+					m_p1->SetIdToRender(0);
+					if (a_comp) a_comp->PlayAudio(1);
+					break;
+				case 1:
+					m_p2->SetIdToRender(0);
+					if (a_comp) a_comp->PlayAudio(1);
+					break;
+				case 2:
+					m_p3->SetIdToRender(0);
+					if (a_comp) a_comp->PlayAudio(1);
+					break;
+				case 3:
+					m_p4->SetIdToRender(0);
+					if (a_comp) a_comp->PlayAudio(1);
+					break;
+				case 4:
+					c_lb->OnPressId(requesting_player);
+					m_lb->SetIdToRender(requesting_player);
+					lb_button_color_selector->SetActive(true);
+					player_order[0] = requesting_player;
 
-						App->go_manager->team1_front = (PLAYER)player_order[0];
-						App->go_manager->team1_back = (PLAYER)player_order[1];
-						App->go_manager->team2_front = (PLAYER)player_order[2];
-						App->go_manager->team2_back = (PLAYER)player_order[3];
-					}
+					if (a_comp) a_comp->PlayAudio(0);
+					break;
+				case 5:
+					c_lt->OnPressId(requesting_player);
+					m_lt->SetIdToRender(requesting_player);
+					lt_button_color_selector->SetActive(true);
+					player_order[1] = requesting_player;
+
+					if (a_comp) a_comp->PlayAudio(0);
+					break;
+				case 6:
+					c_rb->OnPressId(requesting_player);
+					m_rb->SetIdToRender(requesting_player);
+					rb_button_color_selector->SetActive(true);
+					player_order[2] = requesting_player;
+
+					if (a_comp) a_comp->PlayAudio(0);
+					break; 
+
+				case 7:
+					c_rt->OnPressId(requesting_player);
+					m_rt->SetIdToRender(requesting_player);
+					rt_button_color_selector->SetActive(true);
+					player_order[3] = requesting_player;
+
+					if (a_comp) a_comp->PlayAudio(0);
+					break;
 				}
 			}
+		}
 
+		// Check All Players Ready
+		int total = 0;
+		for (int j = 0; j < 4; j++)
+		{
+			if (player_order[j] >= 0)
+			{
+				total++;
+			}
+
+			if (total == 4)
+			{
+				start_but->SetActive(true);
+				players->SetActive(false);
+				ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+				if ((App->input->GetJoystickButton(j, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
+				{
+					main_canvas_script->public_ints.at("current_menu") = 2;
+					main_canvas_script->public_ints.at("Player1") = player_order[0];
+					main_canvas_script->public_ints.at("Player2") = player_order[1];
+					main_canvas_script->public_ints.at("Player3") = player_order[2];
+					main_canvas_script->public_ints.at("Player4") = player_order[3];
+
+					App->go_manager->team1_front = (PLAYER)player_order[0];
+					App->go_manager->team1_back = (PLAYER)player_order[1];
+					App->go_manager->team2_front = (PLAYER)player_order[2];
+					App->go_manager->team2_back = (PLAYER)player_order[3];
+				}
+			}
+			else
+			{
+				start_but->SetActive(false);
+				players->SetActive(true);
+			}
 		}
 	}
 }
+			
