@@ -58,6 +58,7 @@ namespace Start_Menu_UI
 	ComponentMaterial* m_p3 = nullptr;
 	ComponentMaterial* m_p4 = nullptr;
 
+	bool b_pressed[4];
 	bool up_pressed[4];
 	bool down_pressed[4];
 	bool left_pressed[4];
@@ -213,6 +214,10 @@ namespace Start_Menu_UI
 		left_pressed[1] = false;
 		left_pressed[2] = false;
 		left_pressed[3] = false;
+		b_pressed[0] = false;
+		b_pressed[1] = false;
+		b_pressed[2] = false;
+		b_pressed[3] = false;
 	}
 
 	void Start_Menu_UI_Update(GameObject* game_object)
@@ -355,12 +360,20 @@ namespace Start_Menu_UI
 						{
 							player_position[4] = i + 4;
 						}
+						else if (player_position[5] == -1)
+						{
+							player_position[5] = i + 4;
+						}
 					}
 					else if (player_position[7] == i)
 					{
 						if (player_position[5] == -1)
 						{
 							player_position[5] = i + 4;
+						}
+						else if (player_position[4] == -1)
+						{
+							player_position[4] = i + 4;
 						}
 					}
 				}
@@ -398,6 +411,10 @@ namespace Start_Menu_UI
 						{
 							player_position[6] = i + 4;
 						}
+						else if (player_position[7] == -1)
+						{
+							player_position[7] = i + 4;
+						}
 					}
 					else if (player_position[5] == i)
 					{
@@ -405,12 +422,35 @@ namespace Start_Menu_UI
 						{
 							player_position[7] = i + 4;
 						}
+						else if (player_position[6] == -1)
+						{
+							player_position[6] = i + 4;
+						}
 					}
 				}
 			}
 			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[i] = false;
+			}
+
+			// B INPUT ------------------------
+			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+			{
+				if (!b_pressed[i])
+				{
+					b_pressed[i] = true;
+
+					if (player_position[4] == i || player_position[5] == i || player_position[6] == i || player_position[7] == i)
+					{
+						player_position[i] = i + 4; // Reset
+						start_but->SetActive(false);
+					}
+				}
+			}
+			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_B) == KEY_UP)
+			{
+				b_pressed[i] = false;
 			}
 		}
 		// Resolve
