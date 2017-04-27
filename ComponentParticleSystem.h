@@ -32,14 +32,21 @@ public:
 	void Update();
 	void PostUpdate();
 
+	void OnPlay();
+	void OnPause();
+	void OnStop();
+
 	unsigned int GetTextureId()const;
 
 	void SortParticles(ComponentCamera* cam);
+
+	void StopAll(); //Stops the particle system and removes the alive particles
 
 private:
 
 	void InspectorDelete();
 	void InspectorChangeTexture();
+	void InspectorSimulation(); //Play/Stop simulation
 
 	void SpawnParticle();
 	int FindUnusedParticle();
@@ -51,6 +58,7 @@ private:
 	int max_particles = 1000;
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
+	bool play_on_awake = true;
 	
 	ResourceFileTexture* texture = nullptr;
 
@@ -62,7 +70,11 @@ private:
 	std::vector<math::float3> alive_particles_position; 
 	int last_used_particle = 0; //Id of the last used particle
 
-	
+	//Simulation in editor
+	float simulation_time = 0.0f;
+	bool playing_editor = false; 
+
+	bool is_playing = false;
 public:
 	//Buffers
 	unsigned int position_buffer = 0;

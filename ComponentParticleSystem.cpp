@@ -58,6 +58,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
+		ImGui::Text("Play On Awake: "); ImGui::SameLine(); ImGui::Checkbox("###ps_play_awake", &play_on_awake);
 
 		ImGui::Text("Emission rate: "); ImGui::SameLine(); 
 		if (ImGui::DragFloat("###ps_emission", &emission_rate, 1.0f, 0.0f, 500.0f))
@@ -85,6 +86,8 @@ void ComponentParticleSystem::OnInspector(bool debug)
 				ImGui::EndMenu();
 			}
 		}
+
+		InspectorSimulation();
 	}
 }
 
@@ -100,6 +103,7 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat("emission_rate", emission_rate);
 	data.AppendFloat("speed", speed);
 	data.AppendFloat("size", size);
+	data.AppendBool("play_on_awake", play_on_awake);
 
 	//Render
 	if (texture)
@@ -121,6 +125,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	spawn_time = 1.0f / emission_rate;
 	speed = conf.GetFloat("speed");
 	size = conf.GetFloat("size");
+	play_on_awake = conf.GetBool("play_on_awake");
 
 	string tex_path = conf.GetString("texture");
 	if (tex_path.size() > 0)
@@ -140,51 +145,85 @@ void ComponentParticleSystem::Update()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Update", Profiler::Color::Navy);
 
-	spawn_timer += time->RealDeltaTime();
-
-	if (spawn_timer >= spawn_time)
+	if (playing_editor || is_playing)
 	{
-		int num_particles_to_spawn = spawn_timer / spawn_time;
+		spawn_timer += time->RealDeltaTime();
 
-		for(int i = 0; i < num_particles_to_spawn; i++)
-			SpawnParticle();
+		if (spawn_timer >= spawn_time)
+		{
+			int num_particles_to_spawn = spawn_timer / spawn_time;
 
-		spawn_timer -= spawn_time * num_particles_to_spawn;
+			for (int i = 0; i < num_particles_to_spawn; i++)
+				SpawnParticle();
+
+			spawn_timer -= spawn_time * num_particles_to_spawn;
+		}
+
 	}
+
 }
 
 void ComponentParticleSystem::PostUpdate()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::UpdatePositions", Profiler::Color::Navy);
 
-	float dt = time->RealDeltaTime();//time->DeltaTime();
-
-	num_alive_particles = 0;
-
-	float3 origin = game_object->GetGlobalMatrix().TranslatePart();
-	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
-
-	//Update positions
-	for (int i = 0; i < top_max_particles; i++)
+	if (playing_editor || is_playing)
 	{
-		Particle& p = particles_container[i];
+		float dt = time->RealDeltaTime();//time->DeltaTime();
 
-		if (p.life > 0.0f)
+		num_alive_particles = 0;
+
+		float3 origin = game_object->GetGlobalMatrix().TranslatePart();
+		Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+
+		//Update positions
+		for (int i = 0; i < top_max_particles; i++)
 		{
-			p.life -= dt;
+			Particle& p = particles_container[i];
 
 			if (p.life > 0.0f)
 			{
-				p.position = origin + (rotation * p.speed) * (life_time - p.life);
-				++num_alive_particles;
+				p.life -= dt;
+
+				if (p.life > 0.0f)
+				{
+					p.position = origin + (rotation * p.speed) * (life_time - p.life);
+					++num_alive_particles;
+				}
 			}
+			else
+				p.cam_distance = -1.0f;
+
 		}
-		else
-			p.cam_distance = -1.0f;
 
+		App->renderer3D->AddToDrawParticle(this);
+
+		if(playing_editor)
+			simulation_time += dt;
 	}
+	
+}
 
-	App->renderer3D->AddToDrawParticle(this);
+void ComponentParticleSystem::OnPlay()
+{
+	if (play_on_awake)
+	{
+		is_playing = true;
+	}
+}
+
+void ComponentParticleSystem::OnPause()
+{
+	//Do not create new particles and do not update positions
+}
+
+void ComponentParticleSystem::OnStop()
+{
+	if (is_playing)
+	{
+		is_playing = false;
+		StopAll();
+	}
 }
 
 unsigned int ComponentParticleSystem::GetTextureId() const
@@ -217,6 +256,15 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 3, alive_particles_position.data());
 }
 
+void ComponentParticleSystem::StopAll()
+{
+	for (int i = 0; i < top_max_particles; i++)
+		particles_container[i].life = -1.0f;
+
+	last_used_particle = 0;
+	num_alive_particles = 0;
+}
+
 void ComponentParticleSystem::InspectorDelete()
 {
 	if (ImGui::IsItemClicked(1))
@@ -227,7 +275,6 @@ void ComponentParticleSystem::InspectorDelete()
 			Remove();
 		ImGui::EndPopup();
 	}
-
 }
 
 void ComponentParticleSystem::InspectorChangeTexture()
@@ -255,6 +302,26 @@ void ComponentParticleSystem::InspectorChangeTexture()
 			}
 		}
 	}
+}
+
+void ComponentParticleSystem::InspectorSimulation()
+{
+	ImGui::SetNextWindowPos(ImVec2(App->window->GetScreenWidth() * 3 / 5, 600));
+	bool open = true;
+	ImGui::Begin("##ps_simulation", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+	if (ImGui::Button("Play##ps_stop"))
+	{
+		playing_editor = true;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Stop##ps_stop"))
+	{
+		playing_editor = false;
+		simulation_time = 0.0f;
+		StopAll();
+	}
+	ImGui::Text("Playback Time: %.2f", simulation_time);
+	ImGui::End();
 }
 
 void ComponentParticleSystem::SpawnParticle()
