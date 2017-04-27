@@ -284,7 +284,7 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > -0.1 ||*/ App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > -0.1 || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 			{
 				down_pressed[i] = false;
 			}
@@ -327,7 +327,7 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < 0.1 ||*/ App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < 0.1 || App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
 			{
 				up_pressed[i] = false;
 			}
@@ -365,7 +365,7 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) >- 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 ||*/ App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) >- 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 			{
 				left_pressed[i] = false;
 			}
@@ -408,7 +408,7 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (/*App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 ||*/ App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[i] = false;
 			}
