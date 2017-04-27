@@ -101,12 +101,15 @@ namespace PlayerObjectSelector
 
 	void PlayerObjectSelector_Start(GameObject* game_object)
 	{
+		ComponentCar* comp_car_1 = nullptr;
+		ComponentCar* comp_car_2 = nullptr;
+
 		//Team 1
 		if (car1)
 		{
-			ComponentCar* comp = (ComponentCar*)car1->GetComponent(C_CAR);
-			comp->SetFrontPlayer(App->go_manager->team1_front);
-			comp->SetBackPlayer(App->go_manager->team1_back);
+			comp_car_1 = (ComponentCar*)car1->GetComponent(C_CAR);
+			comp_car_1->SetFrontPlayer(App->go_manager->team1_front);
+			comp_car_1->SetBackPlayer(App->go_manager->team1_back);
 		}
 
 		if (team1_car1) team1_car1->SetActive(App->go_manager->team1_car == 0);
@@ -114,16 +117,20 @@ namespace PlayerObjectSelector
 
 		if (team1_p1_c1) team1_p1_c1->SetActive(App->go_manager->team1_p1_c == 0);
 		if (team1_p1_c2) team1_p1_c2->SetActive(App->go_manager->team1_p1_c == 1);
+		
+		if (comp_car_1) comp_car_1->p1_animation = (ComponentAnimation*)(App->go_manager->team1_p1_c == 0 ? team1_p1_c1 : team1_p1_c2)->GetComponent(C_ANIMATION);
 
 		if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
 		if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
 
+		if (comp_car_1) comp_car_1->p2_animation = (ComponentAnimation*)(App->go_manager->team1_p2_c == 2 ? team1_p2_c1 : team1_p2_c2)->GetComponent(C_ANIMATION);
+
 		//Team 2
 		if (car2)
 		{
-			ComponentCar* comp = (ComponentCar*)car2->GetComponent(C_CAR);
-			comp->SetFrontPlayer(App->go_manager->team2_front);
-			comp->SetBackPlayer(App->go_manager->team2_back);
+			comp_car_2 = (ComponentCar*)car2->GetComponent(C_CAR);
+			comp_car_2->SetFrontPlayer(App->go_manager->team2_front);
+			comp_car_2->SetBackPlayer(App->go_manager->team2_back);
 		}
 
 		if (team2_car1) team2_car1->SetActive(App->go_manager->team2_car == 0);
@@ -132,7 +139,11 @@ namespace PlayerObjectSelector
 		if (team2_p1_c1) team2_p1_c1->SetActive(App->go_manager->team2_p1_c == 0);
 		if (team2_p1_c2) team2_p1_c2->SetActive(App->go_manager->team2_p1_c == 1);
 
+		if (comp_car_2) comp_car_2->p1_animation = (ComponentAnimation*)(App->go_manager->team2_p1_c == 0 ? team2_p1_c1 : team2_p1_c2)->GetComponent(C_ANIMATION);
+
 		if (team2_p2_c1) team2_p2_c1->SetActive(App->go_manager->team2_p2_c == 2);
 		if (team2_p2_c2) team2_p2_c2->SetActive(App->go_manager->team2_p2_c == 3);
+
+		if (comp_car_1) comp_car_2->p2_animation = (ComponentAnimation*)(App->go_manager->team2_p2_c == 2 ? team2_p2_c1 : team2_p2_c2)->GetComponent(C_ANIMATION);
 	}
 }

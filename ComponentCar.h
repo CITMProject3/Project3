@@ -214,6 +214,9 @@ public:
 	float wheel_width = 0.2f;
 	float suspensionRestLength = 0.3f;
 
+	ComponentAnimation* p1_animation = nullptr;
+	ComponentAnimation* p2_animation = nullptr;
+
 	//Game Setting (Previous configuration) ----------------------------------------------------------------
 
 	//Game Car settings ---------
@@ -221,8 +224,6 @@ public:
 
 	//Car mechanics settings --------
 private:
-	ComponentAnimation* p1_animation = nullptr;
-	ComponentAnimation* p2_animation = nullptr;
 
 	//Turn over
 	float turn_over_reset_time = 5.0f;
