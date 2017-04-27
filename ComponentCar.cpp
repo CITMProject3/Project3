@@ -1307,18 +1307,6 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 }
 void ComponentCar::CreateCar()
 {
-	std::vector<Component*> components;
-	game_object->GetComponentsInChilds(C_ANIMATION, components);
-	if (p1_animation == nullptr && components.size() > 0)
-	{
-		p1_animation = (ComponentAnimation*)components[0];
-	}
-	if (p2_animation == nullptr && components.size() > 1)
-	{
-		if ((p2_animation = (ComponentAnimation*)components[1]) != nullptr)
-			p2_animation->PlayAnimation(3, 0.0f);
-	}
-
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
@@ -1408,7 +1396,7 @@ void ComponentCar::UpdateGO()
 	}
 	*/
 	//Updating turn animation
-	/*
+	
 	if (p1_animation != nullptr)
 	{
 		if (turn_current >= turn_max + turn_boost)
@@ -1438,7 +1426,8 @@ void ComponentCar::UpdateGO()
 	if (p2_animation != nullptr)
 	{
 		UpdateP2Animation();
-	}*/
+	}
+	
 }
 
 void ComponentCar::RenderWithoutCar()
