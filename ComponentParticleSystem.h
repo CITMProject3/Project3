@@ -8,12 +8,16 @@
 
 class ResourceFileTexture;
 struct Mesh;
+class ComponentCamera;
 
 struct Particle
 {
 	math::float3 position;
 	math::float3 speed;
 	float life = -1.0f;
+	float cam_distance = -1.0f;
+
+	bool operator<(Particle& b);
 };
 
 class ComponentParticleSystem : public Component
@@ -29,6 +33,8 @@ public:
 	void PostUpdate();
 
 	unsigned int GetTextureId()const;
+
+	void SortParticles(ComponentCamera* cam);
 
 private:
 

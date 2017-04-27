@@ -630,13 +630,13 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
 	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
 
-	
-
-	glEnable(GL_ALPHA_TEST);
-	glAlphaFunc(GL_GREATER, 0.5f);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
+		(*particle)->SortParticles(cam);
+
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
@@ -675,7 +675,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	glDisable(GL_ALPHA_TEST);
+	glDisable(GL_BLEND);
 }
 
 bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const

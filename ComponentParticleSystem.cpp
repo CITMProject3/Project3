@@ -18,13 +18,16 @@
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRenderer3D.h"
+#include "ModuleCamera3D.h"
 
 #include "ComponentMesh.h"
 #include "ComponentTransform.h"
+#include "ComponentCamera.h"
 
 #include "Brofiler\include\Brofiler.h"
 
 #include <string>
+#include <algorithm>
 using namespace std;
 
 ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object)
@@ -160,6 +163,7 @@ void ComponentParticleSystem::PostUpdate()
 
 	float3 origin = game_object->GetGlobalMatrix().TranslatePart();
 	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+
 	//Update positions
 	for (int i = 0; i < top_max_particles; i++)
 	{
@@ -172,16 +176,13 @@ void ComponentParticleSystem::PostUpdate()
 			if (p.life > 0.0f)
 			{
 				p.position = origin + (rotation * p.speed) * (life_time - p.life);
-				alive_particles_position[num_alive_particles] = p.position;
 				++num_alive_particles;
-			}		
+			}
 		}
+		else
+			p.cam_distance = -1.0f;
 
 	}
-
-	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
-	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 3, alive_particles_position.data());
 
 	App->renderer3D->AddToDrawParticle(this);
 }
@@ -189,6 +190,31 @@ void ComponentParticleSystem::PostUpdate()
 unsigned int ComponentParticleSystem::GetTextureId() const
 {
 	return (texture) ? texture->GetTexture() : 0;
+}
+
+void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
+{
+	float3 cam_pos;
+	if (cam != App->camera->GetEditorCamera())
+		cam_pos = cam->GetGameObject()->GetGlobalMatrix().TranslatePart();
+	else
+		cam_pos = cam->GetPos();
+
+	for (int i = 0; i < max_particles; i++)
+	{
+		particles_container[i].cam_distance = cam_pos.DistanceSq(particles_container[i].position);
+	}
+
+	std::sort(particles_container.begin(), particles_container.end());
+
+	for (int i = 0; i < num_alive_particles; i++)
+	{
+		alive_particles_position[i] = particles_container[i].position;
+	}
+
+	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
+	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 3, alive_particles_position.data());
 }
 
 void ComponentParticleSystem::InspectorDelete()
@@ -263,4 +289,12 @@ int ComponentParticleSystem::FindUnusedParticle()
 	}
 
 	return 0;
+}
+
+bool Particle::operator<(Particle & b)
+{
+	if (this->life < 0 && b.life < 0) return this->life > b.life;
+	if (this->life > 0 && b.life < 0) return true;
+	if (this->life < 0 && b.life > 0) return false;
+	return this->cam_distance > b.cam_distance;
 }
