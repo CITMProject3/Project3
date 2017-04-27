@@ -22,6 +22,8 @@ enum ComponentType
 	C_GRID = 16,
 	C_AUDIO_LISTENER = 17,
 	C_AUDIO_SOURCE = 18,
+	C_SPRITE = 19,
+	C_PARTICLE_SYSTEM = 20
 };
 
 class GameObject;

@@ -628,6 +628,82 @@ void MeshImporter::LoadAnimBuffers(float * weights, int weights_size, unsigned i
 	glBufferData(GL_ARRAY_BUFFER, sizeof(int) * bones_ids_size, bones_ids, GL_STATIC_DRAW);
 }
 
+Mesh * MeshImporter::LoadBillboardMesh()
+{
+	Mesh* mesh = new Mesh();
+
+	const GLfloat quad_vertex[] = 
+	{
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f
+	};
+
+	mesh->num_vertices = 4;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, quad_vertex, GL_STATIC_DRAW);
+
+	const unsigned int indices[] = 
+	{
+		0, 1, 2,
+		1, 3, 2
+	};
+	mesh->num_indices = 6;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_indices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_indices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(unsigned int) * mesh->num_indices, indices, GL_STATIC_DRAW);
+
+	const float uvs[] =
+	{
+		0.0, 0.0,
+		1.0, 0.0,
+		0.0, 1.0,
+		1.0, 1.0
+	};
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_uvs));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 8, uvs, GL_STATIC_DRAW);
+
+	return mesh;
+}
+
+Mesh * MeshImporter::LoadQuad()
+{
+	Mesh* mesh = new Mesh();
+
+	const GLfloat quad_vertex[] =
+	{
+		-1.0f, -1.0f, 0.0f,
+		1.0f, -1.0f, 0.0f,
+		1.0f, 1.0f, 0.0f,
+		-1.0f, 1.0f, 0.0f
+	};
+
+	mesh->num_vertices = 4;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_vertices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * mesh->num_vertices, quad_vertex, GL_STATIC_DRAW);
+
+	const unsigned int indices[] =
+	{
+		0, 1, 3,
+		1, 2, 3
+	};
+	mesh->num_indices = 6;
+
+	glGenBuffers(1, (GLuint*)&(mesh->id_indices));
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->id_indices);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(unsigned int) * mesh->num_indices, indices, GL_STATIC_DRAW);
+
+	return mesh;
+}
+
 bool MeshImporter::ImportUUID(const char * file, const char * path, const char * base_path, std::stack<unsigned int>& uuids, std::vector<uint>& uuids_anim, std::vector<uint>& uuids_bones)
 {
 	bool ret = false;
