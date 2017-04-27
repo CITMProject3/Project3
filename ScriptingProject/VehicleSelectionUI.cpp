@@ -185,7 +185,7 @@ namespace Vehicle_Selection_UI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.2 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				
 
@@ -228,7 +228,7 @@ namespace Vehicle_Selection_UI
 				}
 			}
 
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.2 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
