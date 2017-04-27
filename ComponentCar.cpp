@@ -45,7 +45,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	car->wheels = new Wheel[4];
 
 	turn_max = base_turn_max;
-
+	
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
@@ -69,6 +69,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	//Item
 	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
+	
 }
 
 ComponentCar::~ComponentCar()
@@ -1257,6 +1258,19 @@ PhysVehicle3D* ComponentCar::GetVehicle()
 	return vehicle;
 }
 
+bool ComponentCar::GetGroundState() const
+{
+	return on_ground;
+}
+
+float ComponentCar::GetAngularVelocity() const
+{
+	if (vehicle->vehicle->getRigidBody() != nullptr)
+	{
+		return vehicle->vehicle->getRigidBody()->getAngularVelocity().length();
+	}
+}
+
 TURBO ComponentCar::GetCurrentTurbo() const
 {
 	return current_turbo;
@@ -1274,7 +1288,6 @@ void ComponentCar::CheckGroundCollision()
 
 	on_ground = vehicle->IsVehicleInContact();
 
-	
 	if (on_ground != last_contact)
 	{
 		if (last_contact)
@@ -1812,6 +1825,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
+			
 		int player_f = (int)front_player;
 		if (ImGui::InputInt("Front player joystick", &player_f, 1))
 		{

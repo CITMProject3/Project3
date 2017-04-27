@@ -576,24 +576,29 @@ namespace Start_Menu_UI
 			{
 				total++;
 			}
-
+		}
+		
 			if (total == 4)
 			{
 				start_but->SetActive(true);
 				players->SetActive(false);
 				ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
-				if ((App->input->GetJoystickButton(j, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
+				for (int i = 0; i < 4; i++)
 				{
-					main_canvas_script->public_ints.at("current_menu") = 2;
-					main_canvas_script->public_ints.at("Player1") = player_order[0];
-					main_canvas_script->public_ints.at("Player2") = player_order[1];
-					main_canvas_script->public_ints.at("Player3") = player_order[2];
-					main_canvas_script->public_ints.at("Player4") = player_order[3];
 
-					App->go_manager->team1_front = (PLAYER)player_order[0];
-					App->go_manager->team1_back = (PLAYER)player_order[1];
-					App->go_manager->team2_front = (PLAYER)player_order[2];
-					App->go_manager->team2_back = (PLAYER)player_order[3];
+					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
+					{
+						main_canvas_script->public_ints.at("current_menu") = 2;
+						main_canvas_script->public_ints.at("Player1") = player_order[0];
+						main_canvas_script->public_ints.at("Player2") = player_order[1];
+						main_canvas_script->public_ints.at("Player3") = player_order[2];
+						main_canvas_script->public_ints.at("Player4") = player_order[3];
+
+						App->go_manager->team1_front = (PLAYER)player_order[0];
+						App->go_manager->team1_back = (PLAYER)player_order[1];
+						App->go_manager->team2_front = (PLAYER)player_order[2];
+						App->go_manager->team2_back = (PLAYER)player_order[3];
+					}
 				}
 			}
 			else
@@ -601,7 +606,7 @@ namespace Start_Menu_UI
 				start_but->SetActive(false);
 				players->SetActive(true);
 			}
-		}
+		
 	}
 }
 			
