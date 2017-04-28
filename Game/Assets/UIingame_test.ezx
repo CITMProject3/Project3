@@ -22234,7 +22234,15 @@
                     "Team1_timer_Text": 3963698497,
                     "Team2_timer_Text": 3735213079,
                     "Win_team1_button": 1487181577,
-                    "Win_team2_button": 3735213079
+                    "Win_team2_button": 3735213079,
+                    "TopDriver_Number": 1500663260,
+                    "TopGunner_Number": 2331234705,
+                    "BotDriver_Number": 453736494,
+                    "BotGunner_Number": 2531251958,
+                    "TopDriver_Label": 1772638892,
+                    "TopGunner_Label": 2328967028,
+                    "BotDriver_Label": 175737948,
+                    "BotGunner_Label": 489939158
                 },
                 {
                     "type": 18,
