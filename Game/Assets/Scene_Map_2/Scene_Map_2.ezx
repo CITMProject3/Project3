@@ -215,22 +215,20 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "koma_quantity": 0,
+                    "makibishi_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
-                    "time_trowing_koma": 0,
-                    "current_time_trowing_koma1": 0,
-                    "current_time_trowing_koma2": 0,
-                    "current_time_trowing_koma3": 0,
-                    "velocity_koma": 0,
+                    "velocity_makibishi": 0,
                     "have_item": false,
-                    "have_koma": false,
-                    "have_triple_koma": false,
+                    "have_makibishi": false,
+                    "have_triple_makibishi": false,
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_koma": false,
+                    "throwing_makibishi": false,
+                    "firecracker": 3187657995,
+                    "other_car": 3832415544,
                     "scene_manager": 144932385
                 }
             ]
@@ -9042,22 +9040,20 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "koma_quantity": 0,
+                    "makibishi_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
-                    "time_trowing_koma": 0,
-                    "current_time_trowing_koma1": 0,
-                    "current_time_trowing_koma2": 0,
-                    "current_time_trowing_koma3": 0,
-                    "velocity_koma": 0,
+                    "velocity_makibishi": 0,
                     "have_item": false,
-                    "have_koma": false,
-                    "have_triple_koma": false,
+                    "have_makibishi": false,
+                    "have_triple_makibishi": false,
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_koma": false,
+                    "throwing_makibishi": false,
+                    "firecracker": 745679149,
+                    "other_car": 3082689746,
                     "scene_manager": 144932385
                 }
             ]
@@ -32164,6 +32160,315 @@
                 {
                     "uuid": 3338027922,
                     "local_uuid": 3338027922
+                }
+            ]
+        },
+        {
+            "name": "Items",
+            "UUID": 977062925,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 336494919,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "item_box",
+            "UUID": 1694326848,
+            "local_UUID": 0,
+            "parent": 977062925,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 788135947,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -186.105515,
+                        0,
+                        1,
+                        0,
+                        20.987656,
+                        0,
+                        0,
+                        1,
+                        26.276608,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 121214540,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3810245142,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 2,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "radius": 2.032000
+                }
+            ]
+        },
+        {
+            "name": "Firecracker",
+            "UUID": 3187657995,
+            "local_UUID": 0,
+            "parent": 977062925,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2335794196,
+                    "active": true,
+                    "matrix": [
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        -0.050000,
+                        0,
+                        0,
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 704671075,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3001038513\/3727418803\/3904047355.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3920284205,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/\/2892187663\/2892187663.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/\/584656637\/584656637.dds"
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1207723179,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        -0.010154,
+                        1.014000,
+                        0.074000
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        1.700000,
+                        4.400000,
+                        1.300000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Firecracker",
+            "UUID": 745679149,
+            "local_UUID": 0,
+            "parent": 977062925,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2335794196,
+                    "active": true,
+                    "matrix": [
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        -0.050000,
+                        0,
+                        0,
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 704671075,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3001038513\/3727418803\/3904047355.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3920284205,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/\/2892187663\/2892187663.dds"
+                        },
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/\/584656637\/584656637.dds"
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1207723179,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        -0.010154,
+                        1.014000,
+                        0.074000
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        1.700000,
+                        4.400000,
+                        1.300000
+                    ]
                 }
             ]
         }

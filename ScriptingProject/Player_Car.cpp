@@ -290,7 +290,8 @@ namespace Player_Car
 						if (makibishi1 != nullptr)
 						{
 							float3 new_pos = makibishi1->transform->GetPosition();
-							new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y;
+							new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+							((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							makibishi1->transform->SetPosition(new_pos);
 							makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_makibishi = true;
@@ -304,7 +305,8 @@ namespace Player_Car
 								if (y_joy_input < 0)
 								{
 									new_pos = makibishi1->transform->GetPosition();
-									new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+									new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+									((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 									makibishi1->transform->SetPosition(new_pos);
 								}
 								else
@@ -353,7 +355,8 @@ namespace Player_Car
 							if (makibishi1 != nullptr)
 							{
 								float3 new_pos = makibishi1->transform->GetPosition();
-								new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y;
+								new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 								makibishi1->transform->SetPosition(new_pos);
 								makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
@@ -367,7 +370,8 @@ namespace Player_Car
 									if (y_joy_input < 0)
 									{
 										new_pos = makibishi1->transform->GetPosition();
-										new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+										new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 										makibishi1->transform->SetPosition(new_pos);
 									}
 									else
@@ -384,7 +388,8 @@ namespace Player_Car
 							if (makibishi2 != nullptr)
 							{
 								float3 new_pos = makibishi2->transform->GetPosition();
-								new_pos += makibishi2->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y;
+								new_pos += makibishi2->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 								makibishi2->transform->SetPosition(new_pos);
 								makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
@@ -398,7 +403,8 @@ namespace Player_Car
 									if (y_joy_input < 0)
 									{
 										new_pos = makibishi2->transform->GetPosition();
-										new_pos -= makibishi2->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+										new_pos -= makibishi2->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 										makibishi2->transform->SetPosition(new_pos);
 									}
 									else
@@ -415,7 +421,8 @@ namespace Player_Car
 							if (makibishi3 != nullptr)
 							{
 								float3 new_pos = makibishi3->transform->GetPosition();
-								new_pos += makibishi3->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y;
+								new_pos += makibishi3->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 								makibishi3->transform->SetPosition(new_pos);
 								makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
@@ -429,7 +436,8 @@ namespace Player_Car
 									if (y_joy_input < 0)
 									{
 										new_pos = makibishi3->transform->GetPosition();
-										new_pos -= makibishi3->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+										new_pos -= makibishi3->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 										makibishi3->transform->SetPosition(new_pos);
 									}
 									else
@@ -455,6 +463,7 @@ namespace Player_Car
 				{
 					float3 new_pos = firecracker->transform->GetPosition();
 					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
+					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 					firecracker->transform->SetPosition(new_pos);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
@@ -508,7 +517,8 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z *2;
+							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
@@ -529,7 +539,8 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
+							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
@@ -551,6 +562,9 @@ namespace Player_Car
 			if (!col->IsCar())
 			{
 				ComponentCollider* item_col = col->GetCollider();
+				
+				GameObject* check_go = (GameObject*)item_col->GetGameObject();
+
 				if (item_col->IsActive())
 				{
 					if (item_col->GetGameObject()->name == "Hitodama")
@@ -571,7 +585,6 @@ namespace Player_Car
 					}
 					else if (item_col->GetGameObject()->name == item_box_name.c_str())
 					{
-						((ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("have_item") = true;
 						have_item = true;
 					}
 				}
