@@ -40,7 +40,8 @@ void Inspector::Draw()
 		bool *is_active = selected_GO->GetActiveBoolean();
 		if (ImGui::Checkbox("", is_active))
 			selected_GO->SetActive(*is_active);
-
+		if (debug && ImGui::Checkbox("SetAllActive", is_active))
+			selected_GO->SetAllActive(is_active);
 		//Name
 		ImGui::SameLine();
 		ImGui::InputText("###goname", selected_GO->name._Myptr(), selected_GO->name.capacity());

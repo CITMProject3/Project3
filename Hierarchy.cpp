@@ -23,7 +23,7 @@
 Hierarchy::Hierarchy()
 {
 	active = true;
-	flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+	//flags |= ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
 }
 Hierarchy::~Hierarchy()
 {}
@@ -36,7 +36,7 @@ void Hierarchy::Draw()
 	ImGui::SetNextWindowPos(current_position);
 
 	ImGui::Begin("Hierarchy", &active, flags);
-	
+	current_size = ImGui::GetWindowSize();
 	DisplayGameObjectsChilds(App->go_manager->root->GetChilds());
 
 	if (ImGui::IsMouseHoveringWindow())
