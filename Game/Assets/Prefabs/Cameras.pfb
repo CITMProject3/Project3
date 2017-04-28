@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3718840687,
+                    "UUID": 919752865,
                     "active": true,
                     "matrix": [
                         1,
@@ -113,6 +113,8 @@
                     "fov_decrement": 0.500000,
                     "max_vel_relative": 100,
                     "last_fov": 0,
+                    "Player_Max_angular_velocity": 2.500000,
+                    "distance": 2,
                     "target": 3082689746
                 },
                 {
@@ -199,6 +201,8 @@
                     "fov_decrement": 4,
                     "max_vel_relative": 100,
                     "last_fov": 0,
+                    "Player_Max_angular_velocity": 2.500000,
+                    "distance": 0,
                     "target": 3832415544
                 },
                 {
