@@ -571,6 +571,7 @@ namespace Player_Car
 					}
 					else if (item_col->GetGameObject()->name == item_box_name.c_str())
 					{
+						((ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("have_item") = true;
 						have_item = true;
 					}
 				}
