@@ -93,6 +93,9 @@
     <ClCompile Include="TurboPad.cpp">
       <Filter>Source Files\CollisionScripts</Filter>
     </ClCompile>
+    <ClCompile Include="Makibishi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptingProject.def">
