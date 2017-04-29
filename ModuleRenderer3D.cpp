@@ -14,6 +14,8 @@
 #include "ComponentMaterial.h"
 #include "ComponentTransform.h"
 #include "ComponentLight.h"
+#include "ComponentSprite.h"
+#include "ComponentParticleSystem.h"
 
 #include "Glew\include\glew.h"
 #include <gl/GL.h>
@@ -191,6 +193,8 @@ update_status ModuleRenderer3D::PreUpdate()
 		lights[i].Render();
 
 	objects_to_draw.clear();
+	sprites_to_draw.clear();
+	particles_to_draw.clear();
 
 	return UPDATE_CONTINUE;
 }
@@ -205,13 +209,6 @@ update_status ModuleRenderer3D::PostUpdate()
 		DrawScene(cameras[i]);
 	}
 
-	/*
-	glViewport(0, App->window->GetScreenHeight()/2, App->window->GetScreenWidth(), App->window->GetScreenHeight()/2);
-	DrawScene(camera);
-
-	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight() / 2);
-	DrawScene(camera);
-	*/
 	glUseProgram(0);
 
 	ImGui::Render();
@@ -291,6 +288,16 @@ void ModuleRenderer3D::AddToDraw(GameObject* obj)
 		if(obj->IsStatic() == false)
 			objects_to_draw.push_back(obj);
 	}
+}
+
+void ModuleRenderer3D::AddToDrawSprite(ComponentSprite * sprite)
+{
+	if (sprite) sprites_to_draw.push_back(sprite);
+}
+
+void ModuleRenderer3D::AddToDrawParticle(ComponentParticleSystem * particle_sys)
+{
+	if (particle_sys) particles_to_draw.push_back(particle_sys);
 }
 
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
@@ -381,7 +388,10 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		Draw(it->second, App->lighting->GetLightInfo(),cam, alpha_object,true);
 	}
 	alpha_objects.clear();
-	
+
+	DrawSprites(cam);
+
+	DrawParticles(cam);
 
 	App->editor->skybox.Render(cam);
 
@@ -539,6 +549,133 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	glDisable(GL_ALPHA_TEST);
 	glDisable(GL_BLEND);
 	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
+{
+	unsigned int shader_id = App->resource_manager->GetDefaultBillboardShaderId();
+	glUseProgram(shader_id);
+
+	Mesh* bil_mesh = App->resource_manager->GetDefaultBillboardMesh();
+	if (bil_mesh == nullptr)
+		return;
+
+	GLint projection_location = glGetUniformLocation(shader_id, "projection");	
+	GLint view_location = glGetUniformLocation(shader_id, "view");
+	math::float4x4 projection_m = cam->GetProjectionMatrix();
+	math::float4x4 view_m = cam->GetViewMatrix();
+
+	GLint center_location = glGetUniformLocation(shader_id, "center");
+	GLint size_location = glGetUniformLocation(shader_id, "size");
+	GLint texture_location = glGetUniformLocation(shader_id, "tex");
+
+	glActiveTexture(GL_TEXTURE0);
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
+	
+	for (vector<ComponentSprite*>::const_iterator sprite = sprites_to_draw.begin(); sprite != sprites_to_draw.end(); ++sprite)
+	{
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
+
+		math::float3 center = (*sprite)->GetGameObject()->transform->GetPosition();
+		glUniform3fv(center_location, 1, reinterpret_cast<GLfloat*>(center.ptr()));
+		math::float2 size = (*sprite)->GetGameObject()->transform->GetScale().xy();
+		size.x *= (*sprite)->size.x;
+		size.y *= (*sprite)->size.y;
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(size.ptr()));
+
+		glBindTexture(GL_TEXTURE_2D, (*sprite)->GetTextureId());
+		glUniform1i(texture_location, 0);
+
+		//Buffer vertices == 0
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_vertices);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Buffer uvs == 1
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_uvs);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+
+		//Index buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
+		glDrawElements(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, (void*)0);
+	}
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_ALPHA_TEST);
+	
+}
+
+void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
+{
+	unsigned int shader_id = App->resource_manager->GetDefaultParticleShaderId();
+	glUseProgram(shader_id);
+
+	Mesh* bil_mesh = App->resource_manager->GetDefaultBillboardMesh();
+	if (bil_mesh == nullptr)
+		return;
+
+	GLint projection_location = glGetUniformLocation(shader_id, "projection");
+	GLint view_location = glGetUniformLocation(shader_id, "view");
+	math::float4x4 projection_m = cam->GetProjectionMatrix();
+	math::float4x4 view_m = cam->GetViewMatrix();
+
+	GLint size_location = glGetUniformLocation(shader_id, "size");
+	GLint texture_location = glGetUniformLocation(shader_id, "tex");
+	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
+
+	
+
+	glEnable(GL_ALPHA_TEST);
+	glAlphaFunc(GL_GREATER, 0.5f);
+
+	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
+	{
+		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
+		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
+
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
+		glUniform1i(texture_location, 0);
+		
+
+		//Buffer vertices == 0
+		glEnableVertexAttribArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_vertices);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(0, 0);
+
+		//Buffer uvs == 1
+		glEnableVertexAttribArray(1);
+		glBindBuffer(GL_ARRAY_BUFFER, bil_mesh->id_uvs);
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(1, 0);
+
+		glEnableVertexAttribArray(2);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->position_buffer);
+		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(2, 1);
+
+		//Index buffer
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
+		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->num_alive_particles);
+	}
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	glDisable(GL_ALPHA_TEST);
 }
 
 bool ModuleRenderer3D::SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render) const
@@ -827,7 +964,7 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 			// Texture
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, 0);
-			glBindTexture(GL_TEXTURE_2D, (*m->texture_ids.begin()).second);
+			glBindTexture(GL_TEXTURE_2D, (m->texture_ids.at(to_string(m->GetIdToRender()))));
 		}
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		glColor4fv(m->color);
@@ -893,8 +1030,6 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 	string text = t->GetText();
 	string data_values = t->GetArrayValues();
 	int row_chars = t->GetCharRows();
-	float letter_w = c->GetRectSize().x;
-	float letter_h = t->GetCharHeight();
 	float2 pos = float2(c->GetLocalPos().ptr());
 	float x = 0;
 	float y = 0;
@@ -908,31 +1043,38 @@ void ModuleRenderer3D::DrawUIText(GameObject * obj) const
 		{
 			if (data_values[j] == text[i])
 			{
+				float letter_w = 0.0f;
+				float letter_h = 0.0f;
 				glMultMatrixf(*tmp.Transposed().v);
 				if (t->UImaterial->texture_ids.size()>j)
 				{
+					letter_w = t->GetCharwidth(j);
+
 					// Texture
 					glEnable(GL_TEXTURE_2D);
 					glBindTexture(GL_TEXTURE_2D, 0);
 					glBindTexture(GL_TEXTURE_2D, (t->UImaterial->texture_ids.at(to_string(j))));
+					
+					if (t->meshes.size() > j)
+					{
+						mesh = t->meshes.at(j);
+					}
+					// Vertices
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
+					glVertexPointer(3, GL_FLOAT, 0, NULL);
+				
+					// Texture coordinates
+					glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
+					glTexCoordPointer(2, GL_FLOAT, 0, NULL);
+
+					glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+					glColor4fv(t->UImaterial->color);
+					// Indices
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
+					glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
 				}
-
-				// Vertices
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_vertices);
-				glVertexPointer(3, GL_FLOAT, 0, NULL);
-				
-				// Texture coordinates
-				glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
-				glTexCoordPointer(2, GL_FLOAT, 0, NULL);
-
-				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-				glColor4fv(t->UImaterial->color);
-				// Indices
-				glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->id_indices);
-				glDrawElements(GL_TRIANGLES, mesh->num_indices, GL_UNSIGNED_INT, NULL);
-				
-				tmp.SetTranslatePart(letter_w, 0.0f, 0.0f);
-				x += letter_w;
+				tmp.SetTranslatePart(letter_w + t->GetCharOffset(), 0.0f, 0.0f);
+				x += (letter_w + t->GetCharOffset());
 				break;
 			}
 		}

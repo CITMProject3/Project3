@@ -18,13 +18,14 @@ public:
 	void CleanUp();
 
 	void OnInspector(bool debug);
-
+	
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
 
 public:
 	ComponentMaterial* UImaterial = nullptr;
+	int id_to_render = 0;
 
 };
 

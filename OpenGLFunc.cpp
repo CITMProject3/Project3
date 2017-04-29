@@ -54,6 +54,38 @@ unsigned int OpenGLFunc::CreateDepthTexture(unsigned int width, unsigned int hei
 	return texture_id;
 }
 
+unsigned int OpenGLFunc::CreateFBOColorOnly(unsigned int width, unsigned int height, unsigned int & color_texture)
+{
+	unsigned int fbo;
+	glGenFramebuffers(1, &fbo);
+	glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+	color_texture = CreateColorTextureSimple(width, height);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, color_texture, 0);
+
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);
+
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+	{
+		LOG("Error while creating the framebuffer");
+	}
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	return fbo;
+}
+
+unsigned int OpenGLFunc::CreateColorTextureSimple(unsigned int width, unsigned int height)
+{
+	unsigned int texture_id;
+	glGenTextures(1, &texture_id);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, 0);
+	return texture_id;
+}
+
 void OpenGLFunc::Bind(unsigned int fbo)
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, fbo);

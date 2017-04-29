@@ -58,6 +58,8 @@ void ComponentUiImage::OnInspector(bool debug)
 	}
 }
 
+
+
 void ComponentUiImage::Save(Data & file) const
 {
 	Data data;

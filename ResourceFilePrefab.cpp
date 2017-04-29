@@ -20,8 +20,9 @@ ResourceFilePrefab::ResourceFilePrefab(ResourceFileType type, const std::string&
 ResourceFilePrefab::~ResourceFilePrefab()
 {}
 
-void ResourceFilePrefab::LoadPrefabAsCopy()
+GameObject* ResourceFilePrefab::LoadPrefabAsCopy()
 {
+	GameObject* ret = nullptr;
 	char* buffer = nullptr;
 	uint size = App->file_system->Load(file_path.data(), &buffer);
 	if (size == 0)
@@ -30,7 +31,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 		App->editor->DisplayWarning(WarningType::W_ERROR, "While loading prefab resource %s", file_path.data());
 		if (buffer)
 			delete[] buffer;
-		return;
+		return nullptr;
 	}
 
 	Data scene(buffer);
@@ -43,10 +44,13 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 		for (size_t i = 0; i < scene.GetArraySize("GameObjects"); i++)
 		{
 			root = App->go_manager->LoadPrefabGameObject(scene.GetArray("GameObjects", i), uuids);
-
 			if (i == 0)
 			{
 				instances.push_back(root); //Save the root GO of the prefab
+				if (ret == nullptr)
+				{
+					ret = root;
+				}
 				Load();
 				root->rc_prefab = this;
 			}
@@ -61,6 +65,7 @@ void ResourceFilePrefab::LoadPrefabAsCopy()
 	}
 
 	delete[] buffer;
+	return ret;
 }
 
 GameObject* ResourceFilePrefab::LoadPrefabFromScene(const Data & go_data, GameObject* parent)

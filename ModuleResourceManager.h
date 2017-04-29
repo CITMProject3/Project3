@@ -47,6 +47,7 @@ struct tmp_mesh_file_uuid
 };
 
 struct Directory;
+struct Mesh;
 class ResourceFileMaterial;
 
 class ModuleResourceManager : public Module
@@ -63,7 +64,7 @@ public:
 
 	void InputFileDropped(std::list<std::string>& files);
 	void FileDropped(const char* file_path);
-	void LoadFile(const std::string& library_path, const FileType& type);
+	GameObject* LoadFile(const std::string& library_path, const FileType& type);
 
 	ResourceFile* LoadResource(const std::string& path, ResourceFileType type);
 	//Deprecated
@@ -76,12 +77,18 @@ public:
 	bool LoadSceneFromAssets(const char* file_name);
 	bool LoadScene(const char* file_name);
 	void ReloadScene();
-	void SavePrefab(GameObject* gameobject);
+	ResourceFilePrefab* SavePrefab(GameObject* gameobject);
+	bool UnlinkChildPrefabs(GameObject* gameObject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
 	unsigned int GetDefaultShaderId()const;
 	unsigned int GetDefaultAnimShaderId()const;
 	unsigned int GetDefaultTerrainShaderId()const;
+	unsigned int GetDefaultBillboardShaderId()const;
+	Mesh* GetDefaultBillboardMesh()const;
+	unsigned int GetDefaultParticlePositionShaderId()const;
+	Mesh* GetDefaultQuadParticleMesh()const;
+	unsigned int GetDefaultParticleShaderId()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -108,6 +115,7 @@ public:
 	unsigned int GetUUIDFromLib(const std::string& library_path)const;
 
 private:
+	void LoadDefaults();
 
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
@@ -128,7 +136,7 @@ private:
 	void SceneDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 	void PrefabDropped(const char* path, std::string base_dir = std::string(), std::string base_library_dir = std::string(), unsigned int uuid = 0)const;
 
-	void LoadPrefabFile(const std::string& library_path);
+	GameObject* LoadPrefabFile(const std::string& library_path);
 
 	void CheckDirectoryModification(Directory* directory);
 
@@ -153,9 +161,15 @@ private:
 	unsigned int texture_bytes = 0;
 	unsigned int mesh_bytes = 0;
 
+	//Defaults
 	unsigned int default_shader = 0;
 	unsigned int default_anim_shader = 0;
 	unsigned int default_terrain_shader = 0;
+	unsigned int default_billboard_shader = 0;
+	Mesh* billboard_mesh = nullptr;
+	unsigned int default_p_position_shader = 0;
+	Mesh* quad_particles_mesh = nullptr; //To update position not to draw the particle
+	unsigned int default_particle_shader = 0;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

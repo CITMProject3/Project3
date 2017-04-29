@@ -134,7 +134,8 @@ public:
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	PhysVehicle3D* GetVehicle();
-
+	bool GetGroundState() const;
+	float GetAngularVelocity() const;
 	TURBO GetCurrentTurbo()const;
 	Turbo* GetAppliedTurbo()const;
 
@@ -159,10 +160,12 @@ private:
 	void PushUpdate(float* accel);
 	void Leaning(float accel);
 	void Acrobatics(PLAYER p);
+
 public:
 	void PickItem();
 	void UseItem(); //provisional
 	void ReleaseItem();
+
 private:
 	void IdleTurn();
 	void ApplyTurbo();
@@ -170,6 +173,7 @@ private:
 	void StartDrift();
 	void CalcDriftForces();
 	void EndDrift();
+	void DriftTurbo();
 
 	void UpdateTurnOver();
 
@@ -259,6 +263,9 @@ private:
 	float drift_turn_max = 0.7;
 	float drift_min_speed = 20.0f;
 
+	//Drift Turbo
+	int clicks_to_drift_turbo = 3;
+
 	//Push
 	float push_force = 10000.0f;
 	float push_speed_per = 60.0f;
@@ -306,8 +313,6 @@ private:
 	bool turned = false;
 	float timer_start_turned = 0.0f;
 
-	//Brake
-	float brake = 0.0f;
 	//Boosts
 	float accel_boost = 0.0f;
 	float speed_boost = 0.0f;
@@ -326,6 +331,7 @@ private:
 	btVector3 startDriftSpeed;
 	bool to_drift_turbo = false;
 	int turbo_drift_lvl = 0;
+	int drift_turbo_clicks = 0;
 
 	//Leaning
 	bool leaning = false;
@@ -342,7 +348,9 @@ private:
 	float acro_timer = 0.0f;
 	
 	//Turbo
+	public:
 	TURBO current_turbo = T_IDLE;
+	private:
 	TURBO last_turbo = T_IDLE;
 	Turbo* applied_turbo = nullptr;
 	float turbo_accel_boost = 0.0f;
@@ -367,8 +375,7 @@ private:
 	bool has_item = false;
 
 	//Ground contact
-
-	bool ground_contact_state = false;
+	bool on_ground = false;
 
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load

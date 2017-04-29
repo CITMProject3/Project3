@@ -30,40 +30,49 @@ namespace Vehicle_Selection_UI
 	GameObject* blue_arrow_left = nullptr;
 	GameObject* blue_arrow_right = nullptr;
 	GameObject* blue_car_portrait = nullptr;
-	
+	GameObject* blue_car_portrait_selected = nullptr;
+
 	GameObject* red_arrow_left = nullptr;
 	GameObject* red_arrow_right = nullptr;
 	GameObject* red_car_portrait = nullptr;
+	GameObject* red_car_portrait_selected = nullptr;
 
 	ComponentUiButton* but_blue_arrow_left = nullptr;
 	ComponentUiButton* but_blue_arrow_right = nullptr;
 	ComponentUiButton* but_blue_car_portrait = nullptr;
-	
+	ComponentUiButton* but_blue_car_port_select = nullptr;
+
 	ComponentUiButton* but_red_arrow_left = nullptr;
 	ComponentUiButton* but_red_arrow_right = nullptr;
 	ComponentUiButton* but_red_car_portrait = nullptr;
+	ComponentUiButton* but_red_car_port_select = nullptr;
 
 	ComponentMaterial* mat_blue_car = nullptr;
 	ComponentMaterial* mat_red_car = nullptr;
+	ComponentMaterial* mat_blue_car_select = nullptr;
+	ComponentMaterial* mat_red_car_select = nullptr;
+
 	bool team_blue_selected = false;
 	bool team_red_selected = false;
-	bool start_tmp = false;
 	int player_order[4];
 	int p_pos[2];
 	int blue_counter_left = 30;
 	int blue_counter_right = 30;
 	int red_counter_right = 30;
 	int red_counter_left = 30;
+	int total_timer = 30;
 	int time = 30;
 	void Vehicle_Selection_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_gos->insert(std::pair<const char*, GameObject*>("Blue arrow left", blue_arrow_left));
 		public_gos->insert(std::pair<const char*, GameObject*>("Blue arrow right", blue_arrow_right));
 		public_gos->insert(std::pair<const char*, GameObject*>("Blue car", blue_car_portrait));
-		
+		public_gos->insert(std::pair<const char*, GameObject*>("blue_car_portrait_selected", blue_car_portrait_selected));
+
 		public_gos->insert(std::pair<const char*, GameObject*>("Red arrow left", red_arrow_left));
 		public_gos->insert(std::pair<const char*, GameObject*>("Red arrow right", red_arrow_right));
 		public_gos->insert(std::pair<const char*, GameObject*>("Red car", red_car_portrait));
+		public_gos->insert(std::pair<const char*, GameObject*>("red_car_portrait_selected", red_car_portrait_selected));
 
 		public_ints->insert(std::pair<const char*, int>("Button Cooldown", time));
 	}
@@ -75,55 +84,71 @@ namespace Vehicle_Selection_UI
 		blue_arrow_left = test_script->public_gos.at("Blue arrow left");
 		blue_arrow_right = test_script->public_gos.at("Blue arrow right");
 		blue_car_portrait = test_script->public_gos.at("Blue car");
+		blue_car_portrait_selected = test_script->public_gos.at("blue_car_portrait_selected");
 	
 		red_arrow_left = test_script->public_gos.at("Red arrow left");
 		red_arrow_right = test_script->public_gos.at("Red arrow right");
 		red_car_portrait = test_script->public_gos.at("Red car");
+		red_car_portrait_selected = test_script->public_gos.at("red_car_portrait_selected");
 		time = test_script->public_ints.at("Button Cooldown");
 
 		but_blue_arrow_left = (ComponentUiButton*)blue_arrow_left->GetComponent(C_UI_BUTTON);
 		but_blue_arrow_right = (ComponentUiButton*)blue_arrow_right->GetComponent(C_UI_BUTTON);
 		but_blue_car_portrait = (ComponentUiButton*)blue_car_portrait->GetComponent(C_UI_BUTTON);
+		but_blue_car_port_select = (ComponentUiButton*)blue_car_portrait_selected->GetComponent(C_UI_BUTTON);
 
 		but_red_arrow_left = (ComponentUiButton*)red_arrow_left->GetComponent(C_UI_BUTTON);
 		but_red_arrow_right = (ComponentUiButton*)red_arrow_right->GetComponent(C_UI_BUTTON);
 		but_red_car_portrait = (ComponentUiButton*)red_car_portrait->GetComponent(C_UI_BUTTON);
+		but_red_car_port_select = (ComponentUiButton*)red_car_portrait_selected->GetComponent(C_UI_BUTTON);
 
 		mat_blue_car = but_blue_car_portrait->UImaterial;
 		mat_red_car = but_red_car_portrait->UImaterial;
+		mat_blue_car_select = but_blue_car_port_select->UImaterial;
+		mat_red_car_select = but_red_car_port_select->UImaterial;
 	}
 
 	void Vehicle_Selection_UI_ActualizePublics(GameObject* game_object)
 	{
-
-
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		test_script->public_gos.at("Blue arrow left") = blue_arrow_left;
 		test_script->public_gos.at("Blue arrow right") = blue_arrow_right;
 		test_script->public_gos.at("Blue car") = blue_car_portrait;
-		
+		test_script->public_gos.at("blue_car_portrait_selected") = blue_car_portrait_selected;
+
 		test_script->public_gos.at("Red arrow left") = red_arrow_left;
 		test_script->public_gos.at("Red arrow right") = red_arrow_right;
 		test_script->public_gos.at("Red car") = red_car_portrait;
+		test_script->public_gos.at("red_car_portrait_selected") = red_car_portrait_selected;
+
 		test_script->public_ints.at("Button Cooldown")= time;
 		but_blue_arrow_left = (ComponentUiButton*)blue_arrow_left->GetComponent(C_UI_BUTTON);
 		but_blue_arrow_right = (ComponentUiButton*)blue_arrow_right->GetComponent(C_UI_BUTTON);
 		but_blue_car_portrait = (ComponentUiButton*)blue_car_portrait->GetComponent(C_UI_BUTTON);
+		but_blue_car_port_select = (ComponentUiButton*)blue_car_portrait_selected->GetComponent(C_UI_BUTTON);
 
 		but_red_arrow_left = (ComponentUiButton*)red_arrow_left->GetComponent(C_UI_BUTTON);
 		but_red_arrow_right = (ComponentUiButton*)red_arrow_right->GetComponent(C_UI_BUTTON);
 		but_red_car_portrait = (ComponentUiButton*)red_car_portrait->GetComponent(C_UI_BUTTON);
+		but_red_car_port_select = (ComponentUiButton*)red_car_portrait_selected->GetComponent(C_UI_BUTTON);
 
 		mat_blue_car = but_blue_car_portrait->UImaterial;
 		mat_red_car = but_red_car_portrait->UImaterial;
+		mat_blue_car_select = but_blue_car_port_select->UImaterial;
+		mat_red_car_select = but_red_car_port_select->UImaterial;
 	}
 
 	void Vehicle_Selection_UI_UpdatePublics(GameObject* game_object);
 
 	void Vehicle_Selection_UI_Start(GameObject* game_object)
 	{
+		// Play Move Selection
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
 
+		blue_car_portrait_selected->SetActive(false);
+		red_car_portrait_selected->SetActive(false);
 		player_order[0] = App->go_manager->team1_front;
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
@@ -136,29 +161,20 @@ namespace Vehicle_Selection_UI
 		mat_red_car->color[0] = 0.6f;
 		mat_red_car->color[1] = 0.6f;
 		mat_red_car->color[2] = 0.6f;
-
+		team_blue_selected = false;
+		team_red_selected = false;
 		blue_counter_left = time;
 		blue_counter_right = time;
 		red_counter_right = time;
 		red_counter_left = time;
-		start_tmp = false;
-		team_red_selected = false;
-		team_blue_selected = false;
+		total_timer = time;
+		p_pos[0] = 0;
+		p_pos[1] = 0;
 		Vehicle_Selection_UI_ActualizePublics(game_object);
 	}
 
 	void Vehicle_Selection_UI_Update(GameObject* game_object)
 	{
-		if (start_tmp == false)
-		{
-			// Play Move Selection
-			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(0);
-			start_tmp = true;
-		}
-		
-
-
 		for (int i = 0; i < 4; i++)
 		{
 			int id = 0;
@@ -169,14 +185,15 @@ namespace Vehicle_Selection_UI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
+				
 
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
+					// Play Move Selection
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(1);
 					but_blue_car_portrait->OnPress();
 
 					if (blue_counter_right == time)
@@ -193,6 +210,9 @@ namespace Vehicle_Selection_UI
 
 				if (team_red_selected == false && (id == 2 || id == 3))
 				{
+					// Play Move Selection
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(1);
 					but_red_car_portrait->OnPress();
 
 					if (red_counter_right == time)
@@ -208,14 +228,13 @@ namespace Vehicle_Selection_UI
 				}
 			}
 
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
-
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
+					// Play Move Selection
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(1);
 					but_blue_car_portrait->OnPress();					
 
 					if (blue_counter_left == time)
@@ -232,6 +251,9 @@ namespace Vehicle_Selection_UI
 
 				if (team_red_selected == false && (id == 2 || id == 3))
 				{
+					// Play Move Selection
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(1);
 					but_red_car_portrait->OnPress();
 
 					if (red_counter_left == time)
@@ -255,9 +277,9 @@ namespace Vehicle_Selection_UI
 					team_blue_selected = true;
 					blue_arrow_left->SetActive(false);
 					blue_arrow_right->SetActive(false);
-					mat_blue_car->color[0] = 1.0f;
-					mat_blue_car->color[1] = 1.0f;
-					mat_blue_car->color[2] = 1.0f;
+					blue_car_portrait_selected->SetActive(true);
+					mat_blue_car_select->SetIdToRender(p_pos[0]);
+					blue_car_portrait->SetActive(false);
 				}
 
 				if (team_red_selected == false && (id == 2 || id == 3))
@@ -265,9 +287,9 @@ namespace Vehicle_Selection_UI
 					team_red_selected = true;
 					red_arrow_left->SetActive(false);
 					red_arrow_right->SetActive(false);
-					mat_red_car->color[0] = 1.0f;
-					mat_red_car->color[1] = 1.0f;
-					mat_red_car->color[2] = 1.0f;
+					red_car_portrait_selected->SetActive(true);
+					mat_red_car_select->SetIdToRender(p_pos[1]);
+					red_car_portrait->SetActive(false);
 				}
 			}
 
@@ -278,9 +300,8 @@ namespace Vehicle_Selection_UI
 					team_blue_selected = false;
 					blue_arrow_left->SetActive(true);
 					blue_arrow_right->SetActive(true);
-					mat_blue_car->color[0] = 0.6f;
-					mat_blue_car->color[1] = 0.6f;
-					mat_blue_car->color[2] = 0.6f;
+					blue_car_portrait_selected->SetActive(false);
+					blue_car_portrait->SetActive(true);
 				}
 
 				if (team_red_selected == true && (id == 2 || id == 3))
@@ -288,9 +309,8 @@ namespace Vehicle_Selection_UI
 					team_red_selected = false;
 					red_arrow_left->SetActive(true);
 					red_arrow_right->SetActive(true);
-					mat_red_car->color[0] = 0.6f;
-					mat_red_car->color[1] = 0.6f;
-					mat_red_car->color[2] = 0.6f;
+					red_car_portrait_selected->SetActive(false);
+					red_car_portrait->SetActive(true);
 				}
 			}
 		}
@@ -327,15 +347,23 @@ namespace Vehicle_Selection_UI
 				but_red_arrow_right->OnPress();
 		}
 
-		if (team_red_selected && team_blue_selected)
+		if (total_timer < time)
 		{
-			ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+			total_timer++;
 
-			main_canvas_script->public_ints.at("current_menu") = 2;
+			if (total_timer == time)
+			{
+				ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
+				main_canvas_script->public_ints.at("current_menu") = 4;
+				game_object->SetActive(false);
+			}
+		}
 
+		if (team_red_selected && team_blue_selected && total_timer == time)
+		{
 			App->go_manager->team1_car = p_pos[0];
 			App->go_manager->team2_car = p_pos[1];
-			game_object->SetActive(false);
+			total_timer = 0;
 		}
 	}
 

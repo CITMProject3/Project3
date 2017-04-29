@@ -40,6 +40,7 @@ public:
 	void OnStop();
 	void OnPause();
 
+	bool *GetActiveBoolean();
 	bool IsActive()const;
 	void SetActive(bool value);
 	bool IsStatic()const;
@@ -47,6 +48,8 @@ public:
 	void ForceStatic(bool value);
 	void SetAsPrefab(unsigned int root_uuid);
 	bool IsPrefab()const;
+
+	void SetLayerChilds(int _layer);
 
 	Component* AddComponent(ComponentType type);
 	const std::vector<Component*>* GetComponents();
@@ -69,6 +72,7 @@ public:
 	void ApplyPrefabChanges();
 	void CollectChildrenUUID(std::vector<unsigned int>& uuid, std::vector<unsigned int>& local_uuid)const;
 	void RevertPrefabChanges();
+	void UnlinkPrefab();
 
 public:
 
@@ -89,7 +93,7 @@ private:
 	GameObject* parent = NULL;
 	std::vector<GameObject*> childs;
 
-	bool active = true;
+	bool active = true; // Represents the status of the GameObject, but not the activity trough its hierarchy. IsActive() gives its final activity
 	bool is_static = false;
 	std::vector<Component*> components;
 	std::vector<Component*> components_to_remove;

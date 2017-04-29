@@ -217,7 +217,7 @@ int ShaderCompiler::CompileShader(unsigned int vertex_id, unsigned int fragment_
 int ShaderCompiler::LoadDefaultShader()
 {
 	GLuint vertex_shader, fragment_shader;
-	GLuint shader = glCreateProgram();;
+	GLuint shader = glCreateProgram();
 
 	const GLchar* vertex_code =
 		"#version 330 core \n"
@@ -367,7 +367,7 @@ int ShaderCompiler::LoadDefaultShader()
 int ShaderCompiler::LoadDefaultAnimShader()
 {
 	GLuint vertex_shader, fragment_shader;
-	GLuint shader = glCreateProgram();;
+	GLuint shader = glCreateProgram();
 
 	const GLchar* vertex_code =
 		"#version 330 core\n"
@@ -555,7 +555,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"}\n";
 
 	const GLchar* fragment_code =
-		"#version 330 core\n"
+		"#version 330 core\n" //1
 		"in vec2 TexCoord;\n"
 		"in vec3 normal0;\n"
 		"in vec2 terrainCoord;\n"
@@ -565,7 +565,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"uniform vec3 _EyeWorldPos;\n"
 
 		"uniform sampler2D _TextureDistributor;\n"
-		"uniform int _nTextures;\n"
+		"uniform int _nTextures;\n" //10
 		"uniform sampler2D _Texture_0;\n"
 		"uniform sampler2D _Texture_1;\n"
 		"uniform sampler2D _Texture_2;\n"
@@ -575,7 +575,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"uniform sampler2D _Texture_6;\n"
 		"uniform sampler2D _Texture_7;\n"
 		"uniform sampler2D _Texture_8;\n"
-		"uniform sampler2D _Texture_9;\n"
+		"uniform sampler2D _Texture_9;\n" //20
 
 		"uniform sampler2D _NormalMap;\n"
 		"uniform bool _HasNormalMap;\n"
@@ -586,7 +586,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"uniform vec3 _DirectionalColor;\n"
 		"uniform vec3 _DirectionalDirection;\n"
 		"uniform vec4 material_color;\n"
-		"uniform float _specular;\n"
+		"uniform float _specular;\n" //30
 
 		"vec3 CalculateBumpedNormal()\n"
 		"{\n"
@@ -597,7 +597,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"   vec3 bumpmap_normal = texture(_NormalMap, TexCoord).xyz;\n"
 		"   bumpmap_normal = 2.0f * bumpmap_normal - vec3(1.0f, 1.0f, 1.0f);\n"
 		"   vec3 new_normal;\n"
-		"   mat3 tan_bit_nor = mat3(tangent, bitangent, normal);\n"
+		"   mat3 tan_bit_nor = mat3(tangent, bitangent, normal);\n" //40
 		"   new_normal = tan_bit_nor * bumpmap_normal;\n"
 		"   new_normal = normalize(new_normal);\n"
 		"   return new_normal;\n"
@@ -609,14 +609,19 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"	return mix(edge0, edge1, T);\n"
 		"}\n"
 
-		"float step(float edge, float x)\n"
+		"float step(float edge, float x)\n" //50
 		"{\n"
 		"	return x < edge ? 0.0f : 1.0f;\n"
 		"}\n"
 
+		"int getTexN(float a)\n"
+		"{\n"
+		"	return int(a / 0.1);\n"
+		"}\n"
+
 		"void main()\n"
 		"{\n"
-		"   vec3 new_normal = (_HasNormalMap) ? CalculateBumpedNormal() : normal0;\n"
+		"   vec3 new_normal = (_HasNormalMap) ? CalculateBumpedNormal() : normal0;\n" //60
 		"	vec4 ambient = vec4(_AmbientIntensity) * vec4(_AmbientColor, 1.0f);\n"
 		"	vec4 directional_color = vec4(_DirectionalColor * _DirectionalIntensity, 1.0f);\n"
 		"	float ddf = dot(normalize(new_normal), -_DirectionalDirection);\n"
@@ -626,7 +631,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"   {\n"
 		"		const float A = 0.1f;\n"
 		"		const float B = 0.3f;\n"
-		"		const float C = 0.6f;\n"
+		"		const float C = 0.6f;\n"//70
 		"		const float D = 1.0f;\n"
 		"		float E = fwidth(ddf);\n"
 
@@ -638,7 +643,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"		else if(ddf < C) ddf = C;\n"
 		"		else ddf = D;\n"
 
-		"		diffuse = vec4(_DirectionalColor * _DirectionalIntensity * ddf, 1.0f);\n"
+		"		diffuse = vec4(_DirectionalColor * _DirectionalIntensity * ddf, 1.0f);\n" //80
 
 		"       vec3 vertex_to_eye = normalize(_EyeWorldPos - world_pos0);\n"
 		"       vec3 light_reflect = normalize(reflect(_DirectionalDirection, normalize(normal0)));\n"
@@ -650,26 +655,28 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"			if(sf > 0.5f - E && sf < 0.5f + E)\n"
 		"				sf = stepmix(0.5f, 0.8f, E, sf);\n"
 		"			else\n"
-		"				sf = step(0.5f, sf);\n"
+		"				sf = step(0.5f, sf);\n" //90
 		"			specular_color = vec4(_DirectionalColor * _specular * sf, 1.0f);\n"
 		"       }\n"
 		"   }\n"
 
-		"vec4 tex_color = vec4(1,1,1,1);\n"
+		"vec4 tex_color = vec4(0,0,0,0);\n"
 		"if(_nTextures > 0)\n"
 		"{\n"
 		"	vec4 dist = texture(_TextureDistributor, terrainCoord);\n"
-		"   float val = dist.x;\n"
-		"	if (dist.x > 0.9f && _nTextures > 9) { tex_color = texture(_Texture_9, TexCoord); }\n"
-		"	else if (dist.x > 0.8f && _nTextures > 8) { tex_color = texture(_Texture_8, TexCoord); }\n"
-		"	else if (dist.x > 0.7f && _nTextures > 7) { tex_color = texture(_Texture_7, TexCoord); }\n"
-		"	else if (dist.x > 0.6f && _nTextures > 6) { tex_color = texture(_Texture_6, TexCoord); }\n"
-		"	else if (dist.x > 0.5f && _nTextures > 5) { tex_color = texture(_Texture_5, TexCoord); }\n"
-		"	else if (dist.x > 0.4f && _nTextures > 4) { tex_color = texture(_Texture_4, TexCoord); }\n"
-		"	else if (dist.x > 0.3f && _nTextures > 3) { tex_color = texture(_Texture_3, TexCoord); }\n"
-		"	else if (dist.x > 0.2f && _nTextures > 2) { tex_color = texture(_Texture_2, terrainCoord); }\n"
-		"	else if (dist.x > 0.1f && _nTextures > 1) { tex_color = texture(_Texture_1, TexCoord); }\n"
-		"	else { tex_color = texture(_Texture_0, TexCoord); }\n"
+		"	if(dist[0] > 0) {\n"
+		"		tex_color += texture(_Texture_0, TexCoord) * dist[0];\n"
+		"		}\n"
+		"	if(dist[1] > 0) {\n"
+		"		tex_color += texture(_Texture_1, TexCoord) * dist[1];\n"
+		"		}\n"
+		"	if(dist[2] > 0) {\n"
+		"		tex_color += texture(_Texture_2, TexCoord) * dist[2];\n"
+		"		}\n"
+		"	if(dist[3] > 0) {\n"
+		"		tex_color += texture(_Texture_3, TexCoord) * dist[3];\n"
+		"		}\n"
+
 		"}\n"
 		"else\n"
 		"{\n"
@@ -679,6 +686,7 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 		"	color = material_color * tex_color * (ambient + diffuse + specular_color);\n"
 		"   color.w = material_color.w;\n"
 		"}\n";
+
 
 	GLint success;
 	GLchar info[512];
@@ -701,6 +709,69 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 	{
 		glGetShaderInfoLog(fragment_shader, 512, NULL, info);
 		LOG("Default shader fragment compilation error (%s)", info);
+	}
+
+	glAttachShader(shader, vertex_shader);
+	glAttachShader(shader, fragment_shader);
+	glLinkProgram(shader);
+
+	return shader;
+}
+
+int ShaderCompiler::LoadDefaultBilboardShader()
+{
+	GLuint vertex_shader, fragment_shader;
+	GLuint shader = glCreateProgram();
+
+	const GLchar* vertex_code =
+		"#version 330 core \n"
+		"layout(location = 0) in vec3 position;\n"
+		"layout(location = 1) in vec2 texCoord;\n"
+		"out vec2 TexCoord;\n"
+		"uniform mat4 view;\n"
+		"uniform mat4 projection;\n"
+		"uniform vec3 center;\n"
+		"uniform vec2 size;\n"
+		"void main()\n"
+		"{\n"
+		"   vec3 vertex_position = center + vec3(view[0][0], view[1][0], view[2][0]) * position.x * size.x + vec3(view[0][1], view[1][1], view[2][1]) * position.y * size.y;\n"
+		"	gl_Position = projection * view * vec4(vertex_position, 1.0);\n"
+		"	TexCoord = texCoord;\n"
+		"}\n";
+
+	const GLchar* fragment_code =
+		"#version 330 core\n"
+		"in vec2 TexCoord;\n"
+		"out vec4 color;\n"
+
+		"uniform sampler2D tex;\n"
+
+		"void main()\n"
+		"{\n"
+		"	color = texture(tex, TexCoord);\n"
+		"}\n";
+
+	GLint success;
+	GLchar info[512];
+
+	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(vertex_shader, 1, &vertex_code, 0);
+	glShaderSource(fragment_shader, 1, &fragment_code, 0);
+	glCompileShader(vertex_shader);
+
+	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+	if (success == 0)
+	{
+		glGetShaderInfoLog(vertex_shader, 512, NULL, info);
+		LOG("Default shader billboard vertex compilation error (%s)", info);
+	}
+	glCompileShader(fragment_shader);
+	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+	if (success == 0)
+	{
+		glGetShaderInfoLog(fragment_shader, 512, NULL, info);
+		LOG("Default shader billboard fragment compilation error (%s)", info);
 	}
 
 	glAttachShader(shader, vertex_shader);

@@ -15,6 +15,8 @@
 #include "ComponentAnimation.h"
 #include "ComponentCar.h"
 
+#include "Assets.h"
+
 #include "RaycastHit.h"
 #include "LayerSystem.h"
 #include "Random.h"
@@ -56,6 +58,8 @@ bool ModuleGOManager::Init(Data & config)
 
 bool ModuleGOManager::Start()
 {
+	DeleteTemporalScene();
+
 	octree.Create(OCTREE_SIZE);
 
 	if (!current_library_scene_path.empty() && App->IsGameRunning())
@@ -230,6 +234,44 @@ bool ModuleGOManager::FastRemoveGameObject(GameObject * object)
 	return ret;
 }
 
+void ModuleGOManager::DuplicateGameObject(GameObject* object)
+{
+	if (object != nullptr)
+	{
+		if (object->IsPrefab() == true)
+		{
+			if (object->rc_prefab)
+			{
+				object->rc_prefab->LoadPrefabAsCopy();
+			}
+			LOG("Error: GameObject prefab has no resource prefab!");
+		}
+		else
+		{
+			ResourceFilePrefab* prefab = App->resource_manager->SavePrefab(object);
+			App->editor->RefreshAssets();
+			if (prefab)
+			{
+				GameObject* duplicated = prefab->LoadPrefabAsCopy();
+				object->UnlinkPrefab();
+				duplicated->UnlinkPrefab();
+				//Funny stuff. Adding assets here because files are managed on ImGui class x)
+				std::string asset_file = App->editor->assets->FindAssetFileFromLibrary(prefab->GetFile());
+				AssetFile* file = App->editor->assets->FindAssetFile(asset_file);
+				App->editor->assets->DeleteAssetFile(file);
+			}
+			else
+			{
+				LOG("Error while duplicating GameObject: prefab not saved");
+			}
+		}
+	}
+	else
+	{
+		LOG("Error: attempting to duplicate null GameObject");
+	}
+}
+
 void ModuleGOManager::GetAllComponents(std::vector<Component*> &list, ComponentType type, GameObject *from) const 
 {
 	GameObject* go = (from) ? from : root;
@@ -299,19 +341,6 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 
 	root->Save(root_node);
 
-	//root_node.AppendString("terrain", App->physics->GetHeightmapPath());
-
-	root_node.AppendArray("terrain_textures");
-	for (uint n = 0; n < App->physics->GetNTextures(); n++)
-	{
-		Data texture;
-		texture.AppendString("path", App->physics->GetTexturePath(n));
-		root_node.AppendArrayValue(texture);
-	}
-
-	root_node.AppendFloat("terrain_scaling", App->physics->GetTerrainHeightScale());
-	root_node.AppendFloat("terrain_tex_scaling", App->physics->GetTextureScaling());
-
 	char* buf;
 	size_t size = root_node.Serialize(&buf);
 
@@ -329,6 +358,11 @@ void ModuleGOManager::SaveSceneBeforeRunning()
 void ModuleGOManager::LoadSceneBeforeRunning()
 {
 	App->resource_manager->LoadScene(TEMPORAL_SCENE);
+	DeleteTemporalScene();
+}
+
+void ModuleGOManager::DeleteTemporalScene()
+{
 	App->file_system->Delete(TEMPORAL_SCENE);
 
 	string terrain = TEMPORAL_SCENE;
