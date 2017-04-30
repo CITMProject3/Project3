@@ -8,6 +8,7 @@ public:
 
 	Random();
 	float RandomFloat();
+	float RandomFloat(float min, float max);
 	unsigned int RandomInt();
 	unsigned int RandomInt(int min, int max);
 

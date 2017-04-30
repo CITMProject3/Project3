@@ -14,6 +14,8 @@
 #include "GameObject.h"
 #include "Time.h"
 #include "OpenGLFunc.h"
+#include "Random.h"
+#include "DebugDraw.h"
 
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
@@ -40,11 +42,20 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	glGenBuffers(1, &position_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
 	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
+
+	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
+	box_shape_obb.r = box_shape * 0.5;
+	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+	box_shape_obb.axis[0] = rotation * float3::unitX;
+	box_shape_obb.axis[1] = rotation * float3::unitY;
+	box_shape_obb.axis[2] = rotation * float3::unitZ;
+
+	rnd = LCG(time->RealTimeSinceStartup());
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
-	
+	glDeleteBuffers(1, &position_buffer);
 }
 
 void ComponentParticleSystem::OnInspector(bool debug)
@@ -57,6 +68,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
+		if (ImGui::CollapsingHeader("Start color: ")) { ImGui::ColorPicker("###ps_start_color", color.ptr()); }
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 		ImGui::Text("Play On Awake: "); ImGui::SameLine(); ImGui::Checkbox("###ps_play_awake", &play_on_awake);
 
@@ -67,10 +79,16 @@ void ComponentParticleSystem::OnInspector(bool debug)
 			spawn_timer = 0.0f;
 		}
 
-		//Debug
-		if (debug)
+		//Shape
+		if(ImGui::CollapsingHeader("Shape ##ps_shape"))
 		{
-			//ImGui::Text("Life particles %i", life_particles);
+			ImGui::Text("Shape: Box"); //TODO: add different shape options
+			
+			ImGui::Text("Box X/Y/Z: "); ImGui::SameLine(); 
+			if (ImGui::DragFloat3("##ps_bs", box_shape.ptr(), 0.1, 0.001, 1000))
+			{
+				box_shape_obb.r = box_shape * 0.5f;
+			}
 		}
 
 		//Render
@@ -104,6 +122,9 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat("speed", speed);
 	data.AppendFloat("size", size);
 	data.AppendBool("play_on_awake", play_on_awake);
+	data.AppendFloat3("color", color.ptr());
+
+	data.AppendFloat3("box_shape", box_shape.ptr());
 
 	//Render
 	if (texture)
@@ -126,6 +147,9 @@ void ComponentParticleSystem::Load(Data & conf)
 	speed = conf.GetFloat("speed");
 	size = conf.GetFloat("size");
 	play_on_awake = conf.GetBool("play_on_awake");
+	color = conf.GetFloat3("color");
+
+	box_shape = conf.GetFloat3("box_shape");
 
 	string tex_path = conf.GetString("texture");
 	if (tex_path.size() > 0)
@@ -165,19 +189,18 @@ void ComponentParticleSystem::Update()
 
 void ComponentParticleSystem::PostUpdate()
 {
-	BROFILER_CATEGORY("ComponentParticleSystem::UpdatePositions", Profiler::Color::Navy);
+	BROFILER_CATEGORY("ComponentParticleSystem::PostUpdate", Profiler::Color::Navy);
 
 	if (playing_editor || is_playing)
 	{
-		float dt = time->RealDeltaTime();//time->DeltaTime();
+		float dt = time->RealDeltaTime();
 
 		num_alive_particles = 0;
 
-		float3 origin = game_object->GetGlobalMatrix().TranslatePart();
 		Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 
 		//Update positions
-		for (int i = 0; i < top_max_particles; i++)
+		for (int i = 0; i < top_max_particles; ++i)
 		{
 			Particle& p = particles_container[i];
 
@@ -187,7 +210,7 @@ void ComponentParticleSystem::PostUpdate()
 
 				if (p.life > 0.0f)
 				{
-					p.position = origin + (rotation * p.speed) * (life_time - p.life);
+					p.position = p.origin + (rotation * p.speed) * (life_time - p.life);
 					++num_alive_particles;
 				}
 			}
@@ -202,6 +225,15 @@ void ComponentParticleSystem::PostUpdate()
 			simulation_time += dt;
 	}
 	
+}
+
+void ComponentParticleSystem::OnTransformModified()
+{
+	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
+	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+	box_shape_obb.axis[0] = rotation * float3::unitX;
+	box_shape_obb.axis[1] = rotation * float3::unitY;
+	box_shape_obb.axis[2] = rotation * float3::unitZ;
 }
 
 void ComponentParticleSystem::OnPlay()
@@ -233,20 +265,21 @@ unsigned int ComponentParticleSystem::GetTextureId() const
 
 void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 {
+	BROFILER_CATEGORY("ComponentParticleSystem::SortParticles", Profiler::Color::Navy);
 	float3 cam_pos;
 	if (cam != App->camera->GetEditorCamera())
 		cam_pos = cam->GetGameObject()->GetGlobalMatrix().TranslatePart();
 	else
 		cam_pos = cam->GetPos();
 
-	for (int i = 0; i < max_particles; i++)
+	for (int i = 0; i < max_particles; ++i)
 	{
-		particles_container[i].cam_distance = cam_pos.DistanceSq(particles_container[i].position);
+		particles_container[i].cam_distance = cam_pos.Distance(particles_container[i].position);
 	}
 
 	std::sort(particles_container.begin(), particles_container.end());
 
-	for (int i = 0; i < num_alive_particles; i++)
+	for (int i = 0; i < num_alive_particles; ++i)
 	{
 		alive_particles_position[i] = particles_container[i].position;
 	}
@@ -258,10 +291,9 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 
 void ComponentParticleSystem::StopAll()
 {
-	for (int i = 0; i < top_max_particles; i++)
+	for (int i = 0; i < top_max_particles; ++i)
 		particles_container[i].life = -1.0f;
 
-	last_used_particle = 0;
 	num_alive_particles = 0;
 }
 
@@ -333,24 +365,15 @@ void ComponentParticleSystem::SpawnParticle()
 	p.life = life_time;
 	p.position = math::float3(0.0f);
 	p.speed = math::float3(0, speed, 0);
+	p.origin = box_shape_obb.RandomPointInside(rnd);
 }
 
 int ComponentParticleSystem::FindUnusedParticle()
 {
-	for (int i = last_used_particle; i < top_max_particles; i++)
+	for (int i = 0; i < top_max_particles; ++i)
 	{
 		if (particles_container[i].life < 0)
 		{
-			last_used_particle = i;
-			return i;
-		}
-	}
-
-	for (int i = 0; i < last_used_particle; i++)
-	{
-		if (particles_container[i].life < 0)
-		{
-			last_used_particle = i;
 			return i;
 		}
 	}

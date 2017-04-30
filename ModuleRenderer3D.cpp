@@ -629,6 +629,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	GLint size_location = glGetUniformLocation(shader_id, "size");
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
 	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
+	GLint color_location = glGetUniformLocation(shader_id, "s_color");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -641,6 +642,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
 		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
+		glUniform3fv(color_location, 1, (*particle)->color.ptr());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
