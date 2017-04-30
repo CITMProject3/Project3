@@ -289,10 +289,10 @@ namespace Player_Car
 					{
 						if (makibishi1 != nullptr)
 						{
-							float3 new_pos = makibishi1->transform->GetPosition();
-							new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+							float3 new_pos = game_object->transform->GetPosition();
+							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+							((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 							((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-							makibishi1->transform->SetPosition(new_pos);
 							makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_makibishi = true;
 							((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
@@ -304,10 +304,11 @@ namespace Player_Car
 								float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
 								if (y_joy_input < 0)
 								{
-									new_pos = makibishi1->transform->GetPosition();
-									new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+									float3 new_pos = game_object->transform->GetPosition();
+									new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+									((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 									((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-									makibishi1->transform->SetPosition(new_pos);
+									makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								}
 								else
 								{
@@ -354,10 +355,10 @@ namespace Player_Car
 							makibishi_quantity--;
 							if (makibishi1 != nullptr)
 							{
-								float3 new_pos = makibishi1->transform->GetPosition();
-								new_pos += makibishi1->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-								makibishi1->transform->SetPosition(new_pos);
 								makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
 								((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
@@ -369,10 +370,11 @@ namespace Player_Car
 									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
 									if (y_joy_input < 0)
 									{
-										new_pos = makibishi1->transform->GetPosition();
-										new_pos -= makibishi1->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-										makibishi1->transform->SetPosition(new_pos);
+										makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 									}
 									else
 									{
@@ -387,10 +389,10 @@ namespace Player_Car
 							makibishi_quantity--;
 							if (makibishi2 != nullptr)
 							{
-								float3 new_pos = makibishi2->transform->GetPosition();
-								new_pos += makibishi2->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-								makibishi2->transform->SetPosition(new_pos);
 								makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
 								((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
@@ -402,10 +404,11 @@ namespace Player_Car
 									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
 									if (y_joy_input < 0)
 									{
-										new_pos = makibishi2->transform->GetPosition();
-										new_pos -= makibishi2->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-										makibishi2->transform->SetPosition(new_pos);
+										makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 									}
 									else
 									{
@@ -420,10 +423,10 @@ namespace Player_Car
 							makibishi_quantity--;
 							if (makibishi3 != nullptr)
 							{
-								float3 new_pos = makibishi3->transform->GetPosition();
-								new_pos += makibishi3->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-								makibishi3->transform->SetPosition(new_pos);
 								makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 								throwing_makibishi = true;
 								((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
@@ -435,10 +438,11 @@ namespace Player_Car
 									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
 									if (y_joy_input < 0)
 									{
-										new_pos = makibishi3->transform->GetPosition();
-										new_pos -= makibishi3->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos -= game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-										makibishi3->transform->SetPosition(new_pos);
+										makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 									}
 									else
 									{
@@ -461,10 +465,10 @@ namespace Player_Car
 				}
 				else
 				{
-					float3 new_pos = firecracker->transform->GetPosition();
-					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
-					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-					firecracker->transform->SetPosition(new_pos);
+					ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
+					float3 new_pos = firecracker_col->body->GetPosition();
+					new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
+					firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
 					{
@@ -482,6 +486,7 @@ namespace Player_Car
 					firecracker->SetActive(true);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 					float3 last_scale = firecracker->transform->GetScale();
+					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					firecracker->transform->Set(game_object->GetGlobalMatrix());
 					firecracker->transform->SetScale(last_scale);
 				}
@@ -516,10 +521,10 @@ namespace Player_Car
 						using_item = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z *2;
+							float3 new_pos = game_object->transform->GetPosition();
+							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+							new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -538,10 +543,10 @@ namespace Player_Car
 						using_item = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+							float3 new_pos = game_object->transform->GetPosition();
+							new_pos += game_object->transform->GetForward().Normalized() * Player_car->chasis_size.z * 2;
+							new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * Player_car->chasis_size.y * 2;
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-							firecracker->transform->SetPosition(new_pos);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
