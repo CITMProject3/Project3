@@ -574,19 +574,23 @@ namespace Player_Car
 				{
 					if (item_col->GetGameObject()->name == "Hitodama")
 					{
-						//Do something
+						Player_car->AddHitodama();
+						item_col->GetGameObject()->SetActive(false);
+						item_col->SetActive(false);
 					}
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
+						Player_car->RemoveHitodama();
 					}
 					else if (item_col->GetGameObject()->name == "Makibishi")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
+						Player_car->RemoveHitodama();
 					}
 					else if (item_col->GetGameObject()->name == item_box_name.c_str())
 					{

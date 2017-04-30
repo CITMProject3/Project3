@@ -690,6 +690,20 @@ void ComponentCar::ReleaseItem()
 		current_turbo = T_IDLE;
 	}
 }
+void ComponentCar::AddHitodama()
+{
+	if (num_hitodamas < 5)
+	{
+		num_hitodamas++;
+	}
+}
+void ComponentCar::RemoveHitodama()
+{
+	if (num_hitodamas > 0)
+	{
+		num_hitodamas--;
+	}
+}
 void ComponentCar::IdleTurn()
 {
 	//By turn interpolation
@@ -1171,7 +1185,7 @@ void ComponentCar::LimitSpeed()
 
 	if (vehicle)
 	{
-		top_velocity = max_velocity + speed_boost;
+		top_velocity = max_velocity + speed_boost + (num_hitodamas*2);
 		//Here went definition of top_velocity
 		if (GetVelocity() > top_velocity)
 		{

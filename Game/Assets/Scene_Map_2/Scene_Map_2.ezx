@@ -18979,208 +18979,7 @@
             ]
         },
         {
-            "name": "Checpoint 6",
-            "UUID": 3129535752,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 253114402,
-                    "active": true,
-                    "matrix": [
-                        0.323678,
-                        0,
-                        0.946168,
-                        193.023590,
-                        0,
-                        1,
-                        0,
-                        10.066899,
-                        -0.946168,
-                        0,
-                        0.323678,
-                        102.259041,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 2554521643,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        28.700001,
-                        20.600000,
-                        5.400000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 2529165492,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 6
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 7",
-            "UUID": 4267339060,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1888395658,
-                    "active": true,
-                    "matrix": [
-                        -0.823646,
-                        0,
-                        -0.567110,
-                        133.904419,
-                        0,
-                        1,
-                        0,
-                        10.368746,
-                        0.567110,
-                        0,
-                        -0.823646,
-                        9.035538,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 926883230,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        28.600002,
-                        21.400002,
-                        8.500000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3864004219,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 7
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 8",
-            "UUID": 943410397,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 3952629547,
-                    "active": true,
-                    "matrix": [
-                        -0.891334,
-                        0,
-                        0.453358,
-                        164.037430,
-                        0,
-                        1,
-                        0,
-                        10.831125,
-                        -0.453358,
-                        0,
-                        -0.891334,
-                        -112.501564,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 3171664222,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        26.200001,
-                        20.800001,
-                        5.800000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 11618625,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 8
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 9",
+            "name": "Checpoint 15",
             "UUID": 2964176162,
             "local_UUID": 0,
             "parent": 965909917,
@@ -19242,7 +19041,7 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 9
+                    "CheckpointN": 15
                 }
             ]
         },
@@ -19431,208 +19230,7 @@
             ]
         },
         {
-            "name": "Checpoint 10.1",
-            "UUID": 4104482935,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1645727180,
-                    "active": true,
-                    "matrix": [
-                        0.030538,
-                        0,
-                        -0.999535,
-                        -18.289379,
-                        0,
-                        1,
-                        0,
-                        10.197947,
-                        0.999535,
-                        0,
-                        0.030538,
-                        -88.343956,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 456375551,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        29.500002,
-                        24.200001,
-                        5.100000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 750094014,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 10
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 10.2",
-            "UUID": 975230036,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 4031934086,
-                    "active": true,
-                    "matrix": [
-                        0.016434,
-                        0,
-                        -0.999865,
-                        -18.646381,
-                        0,
-                        1,
-                        0,
-                        9.982635,
-                        0.999865,
-                        0,
-                        0.016434,
-                        -135.555115,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 2080620667,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        28.600002,
-                        24.000002,
-                        5.200000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3816234373,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 10
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 10.3",
-            "UUID": 3919618432,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 2972546340,
-                    "active": true,
-                    "matrix": [
-                        -0.032484,
-                        0,
-                        -0.999472,
-                        -20.064436,
-                        0,
-                        1,
-                        0,
-                        9.786539,
-                        0.999472,
-                        0,
-                        -0.032484,
-                        -174.718033,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 3042581306,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        38.100002,
-                        23.800001,
-                        5.900000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 2558173425,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 10
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 11.1",
+            "name": "Checpoint 18.1",
             "UUID": 1571548836,
             "local_UUID": 0,
             "parent": 965909917,
@@ -19694,12 +19292,12 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 11
+                    "CheckpointN": 18
                 }
             ]
         },
         {
-            "name": "Checpoint 11.2",
+            "name": "Checpoint 18.2",
             "UUID": 1867494923,
             "local_UUID": 0,
             "parent": 965909917,
@@ -19761,74 +19359,7 @@
                     "active": true,
                     "script_path": "Checkpoint",
                     "script_num": 0,
-                    "CheckpointN": 11
-                }
-            ]
-        },
-        {
-            "name": "Checpoint 12",
-            "UUID": 3667931561,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 641605625,
-                    "active": true,
-                    "matrix": [
-                        0.969069,
-                        0,
-                        -0.246785,
-                        -168.223450,
-                        0,
-                        1,
-                        0,
-                        10.704159,
-                        0.246785,
-                        0,
-                        0.969069,
-                        -41.434116,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 2671846070,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        32.300003,
-                        24.900002,
-                        6
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 2933200925,
-                    "active": true,
-                    "script_path": "Checkpoint",
-                    "script_num": 0,
-                    "CheckpointN": 12
+                    "CheckpointN": 18
                 }
             ]
         },
@@ -23409,7 +22940,7 @@
                     "active": true,
                     "script_path": "Finish_lane",
                     "script_num": 0,
-                    "CheckpointN": 13
+                    "CheckpointN": 21
                 }
             ]
         },
@@ -32469,6 +32000,1145 @@
                         4.400000,
                         1.300000
                     ]
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 6",
+            "UUID": 3129535752,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 253114402,
+                    "active": true,
+                    "matrix": [
+                        0.519149,
+                        0,
+                        0.854685,
+                        149.030090,
+                        0,
+                        1,
+                        0,
+                        10.066899,
+                        -0.854685,
+                        0,
+                        0.519149,
+                        75.160141,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2554521643,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.300003,
+                        21.000002,
+                        5.400000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2529165492,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 6
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 7",
+            "UUID": 1171755421,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 253114402,
+                    "active": true,
+                    "matrix": [
+                        0.323678,
+                        0,
+                        0.946168,
+                        193.023590,
+                        0,
+                        1,
+                        0,
+                        10.066899,
+                        -0.946168,
+                        0,
+                        0.323678,
+                        102.259041,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2554521643,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        28.700001,
+                        20.600000,
+                        5.400000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2529165492,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 7
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 8",
+            "UUID": 594397826,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1888395658,
+                    "active": true,
+                    "matrix": [
+                        -0.815537,
+                        0,
+                        -0.578737,
+                        224.545425,
+                        0,
+                        1,
+                        0,
+                        10.368746,
+                        0.578737,
+                        0,
+                        -0.815537,
+                        69.773506,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 926883230,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        35.100002,
+                        21.400002,
+                        8.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3864004219,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 8
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 9",
+            "UUID": 4154178537,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1888395658,
+                    "active": true,
+                    "matrix": [
+                        -0.315344,
+                        0,
+                        -0.948982,
+                        178.313675,
+                        0,
+                        1,
+                        0,
+                        11.445393,
+                        0.948982,
+                        0,
+                        -0.315344,
+                        46.704197,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 926883230,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        34.600002,
+                        21.400002,
+                        8.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3864004219,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 9
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 10",
+            "UUID": 4267339060,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1888395658,
+                    "active": true,
+                    "matrix": [
+                        -0.823646,
+                        0,
+                        -0.567110,
+                        133.904419,
+                        0,
+                        1,
+                        0,
+                        10.851862,
+                        0.567110,
+                        0,
+                        -0.823646,
+                        9.035538,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 926883230,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        28.600002,
+                        21.400002,
+                        8.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3864004219,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 10
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 11",
+            "UUID": 12700936,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1888395658,
+                    "active": true,
+                    "matrix": [
+                        -0.999766,
+                        0,
+                        -0.022649,
+                        147.201126,
+                        0,
+                        1,
+                        0,
+                        11.688458,
+                        0.022649,
+                        0,
+                        -0.999766,
+                        -58.660515,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 926883230,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        31.900002,
+                        21.400002,
+                        8.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3864004219,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 11
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 12",
+            "UUID": 943410397,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3952629547,
+                    "active": true,
+                    "matrix": [
+                        -0.891334,
+                        0,
+                        0.453358,
+                        164.037430,
+                        0,
+                        1,
+                        0,
+                        10.831125,
+                        -0.453358,
+                        0,
+                        -0.891334,
+                        -112.501564,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3171664222,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        26.200001,
+                        20.800001,
+                        5.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 11618625,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 12
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 13",
+            "UUID": 4139519290,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3952629547,
+                    "active": true,
+                    "matrix": [
+                        -0.964109,
+                        0,
+                        -0.265574,
+                        194.900040,
+                        0,
+                        1,
+                        0,
+                        10.831125,
+                        0.265574,
+                        0,
+                        -0.964109,
+                        -158.907059,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3171664222,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        26.200001,
+                        20.800001,
+                        5.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 11618625,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 13
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 14",
+            "UUID": 3783251925,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3952629547,
+                    "active": true,
+                    "matrix": [
+                        0.780054,
+                        0,
+                        -0.625745,
+                        168.960144,
+                        0,
+                        1,
+                        0,
+                        10.831125,
+                        0.625745,
+                        0,
+                        0.780054,
+                        -165.836945,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3171664222,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        25.200001,
+                        20.800001,
+                        5.800000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 11618625,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 14
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 16.1",
+            "UUID": 4104482935,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1645727180,
+                    "active": true,
+                    "matrix": [
+                        0.030538,
+                        0,
+                        -0.999535,
+                        43.002605,
+                        0,
+                        1,
+                        0,
+                        10.197947,
+                        0.999535,
+                        0,
+                        0.030538,
+                        -91.532700,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 456375551,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        29.500002,
+                        24.200001,
+                        5.100000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 750094014,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 16
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 17.1",
+            "UUID": 1166587848,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1645727180,
+                    "active": true,
+                    "matrix": [
+                        0.030538,
+                        0,
+                        -0.999535,
+                        -18.289379,
+                        0,
+                        1,
+                        0,
+                        10.197947,
+                        0.999535,
+                        0,
+                        0.030538,
+                        -88.343956,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 456375551,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        29.500002,
+                        24.200001,
+                        5.100000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 750094014,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 17
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 16.2",
+            "UUID": 975230036,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4031934086,
+                    "active": true,
+                    "matrix": [
+                        0.016434,
+                        0,
+                        -0.999865,
+                        42.916698,
+                        0,
+                        1,
+                        0,
+                        9.982635,
+                        0.999865,
+                        0,
+                        0.016434,
+                        -130.742157,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2080620667,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        28.600002,
+                        24.000002,
+                        5.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3816234373,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 16
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 17.2",
+            "UUID": 2339239279,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4031934086,
+                    "active": true,
+                    "matrix": [
+                        0.016434,
+                        0,
+                        -0.999865,
+                        -18.646381,
+                        0,
+                        1,
+                        0,
+                        9.982635,
+                        0.999865,
+                        0,
+                        0.016434,
+                        -135.555115,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2080620667,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        28.600002,
+                        24.000002,
+                        5.200000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3816234373,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 17
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 16.3",
+            "UUID": 3919618432,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2972546340,
+                    "active": true,
+                    "matrix": [
+                        -0.032484,
+                        0,
+                        -0.999472,
+                        40.884979,
+                        0,
+                        1,
+                        0,
+                        9.786539,
+                        0.999472,
+                        0,
+                        -0.032484,
+                        -169.535767,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3042581306,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        38.100002,
+                        23.800001,
+                        5.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2558173425,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 16
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 17.3",
+            "UUID": 2373281024,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2972546340,
+                    "active": true,
+                    "matrix": [
+                        -0.032484,
+                        0,
+                        -0.999472,
+                        -20.064436,
+                        0,
+                        1,
+                        0,
+                        9.786539,
+                        0.999472,
+                        0,
+                        -0.032484,
+                        -174.718033,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3042581306,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        38.100002,
+                        23.800001,
+                        5.900000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2558173425,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 17
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 19",
+            "UUID": 3667931561,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 641605625,
+                    "active": true,
+                    "matrix": [
+                        0.999543,
+                        0,
+                        0.029765,
+                        -164.933533,
+                        0,
+                        1,
+                        0,
+                        10.704159,
+                        -0.029765,
+                        0,
+                        0.999543,
+                        -73.409698,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2671846070,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        32.300003,
+                        24.900002,
+                        6
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2933200925,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 19
+                }
+            ]
+        },
+        {
+            "name": "Checpoint 20",
+            "UUID": 1983724665,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 641605625,
+                    "active": true,
+                    "matrix": [
+                        0.969069,
+                        0,
+                        -0.246785,
+                        -170.971786,
+                        0,
+                        1,
+                        0,
+                        10.704159,
+                        0.246785,
+                        0,
+                        0.969069,
+                        -31.537689,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 2671846070,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        32.300003,
+                        24.900002,
+                        6
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2933200925,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 20
                 }
             ]
         }

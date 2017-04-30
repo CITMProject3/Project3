@@ -166,6 +166,9 @@ public:
 	void UseItem(); //provisional
 	void ReleaseItem();
 
+	void AddHitodama();
+	void RemoveHitodama();
+
 private:
 	void IdleTurn();
 	void ApplyTurbo();
@@ -380,6 +383,9 @@ private:
 	//Turbos vector
 	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
 	vector<Turbo> turbos;
+
+	//Hitodamas
+	int num_hitodamas = 0;
 
 	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:
