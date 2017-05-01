@@ -226,8 +226,7 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_makibishi": false,
-                    "firecracker": 3187657995,
+                    "firecracker": 1275364142,
                     "other_car": 3832415544,
                     "scene_manager": 144932385
                 }
@@ -9051,8 +9050,7 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_makibishi": false,
-                    "firecracker": 745679149,
+                    "firecracker": 1842911390,
                     "other_car": 3082689746,
                     "scene_manager": 144932385
                 }
@@ -31736,7 +31734,7 @@
             "UUID": 1694326848,
             "local_UUID": 0,
             "parent": 977062925,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -31755,11 +31753,11 @@
                         0,
                         1,
                         0,
-                        20.987656,
+                        10.497546,
                         0,
                         0,
                         1,
-                        26.276608,
+                        26.272758,
                         0,
                         0,
                         0,
@@ -31815,13 +31813,13 @@
                     "is_trigger": true,
                     "trigger_type": 0,
                     "is_transparent": true,
-                    "radius": 2.032000
+                    "radius": 1.332000
                 }
             ]
         },
         {
             "name": "Firecracker",
-            "UUID": 3187657995,
+            "UUID": 1275364142,
             "local_UUID": 0,
             "parent": 977062925,
             "active": false,
@@ -31833,7 +31831,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2335794196,
+                    "UUID": 3895595017,
                     "active": true,
                     "matrix": [
                         0.050000,
@@ -31841,11 +31839,70 @@
                         0,
                         0,
                         0,
+                        0.050000,
                         0,
-                        -0.050000,
+                        0,
                         0,
                         0,
                         0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 1266179295,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": false,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0.300000
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        1.300000,
+                        1.300000,
+                        2.900000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Firecracker",
+            "UUID": 3187657995,
+            "local_UUID": 0,
+            "parent": 1275364142,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2335794196,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        -1,
+                        0,
+                        0,
+                        1,
                         0,
                         0,
                         0,
@@ -31886,27 +31943,64 @@
                             "path": "\/Library\/643644559\/3001038513\/\/\/584656637\/584656637.dds"
                         }
                     ]
+                }
+            ]
+        },
+        {
+            "name": "Firecracker",
+            "UUID": 1842911390,
+            "local_UUID": 0,
+            "parent": 977062925,
+            "active": false,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3895595017,
+                    "active": true,
+                    "matrix": [
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.050000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
                 },
                 {
                     "type": 8,
-                    "UUID": 1207723179,
+                    "UUID": 1940900073,
                     "active": true,
                     "CheckpointN": 0,
                     "shape": 1,
                     "static": false,
                     "mass": 10,
                     "offset_pos": [
-                        -0.010154,
-                        1.014000,
-                        0.074000
+                        0,
+                        0,
+                        0.300000
                     ],
                     "is_trigger": true,
                     "trigger_type": 0,
                     "is_transparent": false,
                     "size": [
-                        1.700000,
-                        4.400000,
-                        1.300000
+                        1.300000,
+                        1.300000,
+                        2.900000
                     ]
                 }
             ]
@@ -31915,8 +32009,8 @@
             "name": "Firecracker",
             "UUID": 745679149,
             "local_UUID": 0,
-            "parent": 977062925,
-            "active": false,
+            "parent": 1842911390,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -31928,16 +32022,16 @@
                     "UUID": 2335794196,
                     "active": true,
                     "matrix": [
-                        0.050000,
+                        1,
                         0,
                         0,
                         0,
                         0,
                         0,
-                        -0.050000,
+                        -1,
                         0,
                         0,
-                        0.050000,
+                        1,
                         0,
                         0,
                         0,
@@ -31977,28 +32071,6 @@
                         {
                             "path": "\/Library\/643644559\/3001038513\/\/\/584656637\/584656637.dds"
                         }
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 1207723179,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        -0.010154,
-                        1.014000,
-                        0.074000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        1.700000,
-                        4.400000,
-                        1.300000
                     ]
                 }
             ]
