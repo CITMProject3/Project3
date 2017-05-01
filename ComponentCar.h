@@ -224,8 +224,9 @@ public:
 	void UseItem(); //provisional
 	void ReleaseItem();
 
-	void AddHitodama();
-	void RemoveHitodama();
+	bool AddHitodama();
+	bool RemoveHitodama();
+	int GetNumHitodamas() const;
 
 private:
 	void IdleTurn();
@@ -444,6 +445,8 @@ private:
 
 	//Hitodamas
 	int num_hitodamas = 0;
+	int max_hitodamas = 5;
+	int bonus_hitodamas = 2;
 
 	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
 	public:

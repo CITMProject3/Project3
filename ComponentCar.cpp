@@ -693,19 +693,27 @@ void ComponentCar::ReleaseItem()
 		current_turbo = T_IDLE;
 	}
 }
-void ComponentCar::AddHitodama()
+bool ComponentCar::AddHitodama()
 {
-	if (num_hitodamas < 5)
+	if (num_hitodamas < max_hitodamas)
 	{
 		num_hitodamas++;
+		return true;
 	}
+	return false;
 }
-void ComponentCar::RemoveHitodama()
+bool ComponentCar::RemoveHitodama()
 {
 	if (num_hitodamas > 0)
 	{
 		num_hitodamas--;
+		return true;
 	}
+	return false;
+}
+int ComponentCar::GetNumHitodamas() const
+{
+	return num_hitodamas;
 }
 void ComponentCar::IdleTurn()
 {
@@ -1192,7 +1200,7 @@ void ComponentCar::LimitSpeed()
 
 	if (vehicle)
 	{
-		top_velocity = kart->max_velocity + speed_boost + (num_hitodamas*2);
+		top_velocity = kart->max_velocity + speed_boost + (num_hitodamas*bonus_hitodamas);
 		//Here went definition of top_velocity
 		if (GetVelocity() > top_velocity)
 		{
@@ -1724,6 +1732,11 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("frictionSlip", car->frictionSlip);
 	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
 
+
+	//Hitodamas
+	data.AppendInt("max_hitodamas", max_hitodamas);
+	data.AppendInt("bonus_hitodamas", bonus_hitodamas);
+
 	file.AppendArrayValue(data);
 }
 
@@ -1927,6 +1940,9 @@ void ComponentCar::Load(Data& conf)
 	car->frictionSlip = conf.GetFloat("frictionSlip");
 	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
 
+	//Hitodamas
+	max_hitodamas = conf.GetInt("max_hitodamas");
+	bonus_hitodamas = conf.GetInt("bonus_hitodamas");
 
 }
 
@@ -2038,7 +2054,6 @@ void ComponentCar::OnInspector(bool debug)
 						PickItem();
 					}
 				}
-
 				if (turned)
 				{
 					ImGui::Text("Time to reset: %f", (turn_over_reset_time - timer_start_turned));
@@ -2332,9 +2347,16 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::TreePop();
 				}
 
+				if (ImGui::TreeNode("Hitodamas"))
+				{
+					ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
+					ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
+					ImGui::TreePop();
+				}
 				if (ImGui::TreeNode("Items"))
 				{
-
+					ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
+					ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
 					if (ImGui::TreeNode("Rocket"))
 					{
 
