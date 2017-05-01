@@ -31,8 +31,10 @@
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
 {
-	car = new VehicleInfo();
+	SetCarType(T_KOJI);
 
+	car = new VehicleInfo();
+	
 	car->mass = 400.0f;
 	car->suspensionStiffness = 100.0f;
 	car->suspensionCompression = 0.83f;
@@ -44,7 +46,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	car->num_wheels = 4;
 	car->wheels = new Wheel[4];
 
-	turn_max = base_turn_max;
+	turn_max = kart->base_turn_max;
 	
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
@@ -69,6 +71,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 	//Item
 	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
+	
 	
 }
 
@@ -177,7 +180,7 @@ void ComponentCar::HandlePlayerInput()
 
 	if (drifting == true)
 	{
-		turn_max = drift_turn_max;
+		turn_max = kart->drift_turn_max;
 	}
 	
 	if (lock_input == false)
@@ -194,7 +197,7 @@ void ComponentCar::HandlePlayerInput()
 	{
 		acro_timer += time->DeltaTime();
 
-		if (acro_timer >= acro_time)
+		if (acro_timer >= kart->acro_time)
 		{
 			acro_on = false;
 			acro_timer = 0.0f;
@@ -230,7 +233,7 @@ void ComponentCar::HandlePlayerInput()
 
 		if (!accel && !brake)
 		{
-			vehicle->Brake(decel_brake);
+			vehicle->Brake(kart->decel_brake);
 		}
 
 		LimitSpeed();
@@ -408,7 +411,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 bool ComponentCar::Turn(bool* left_turn, bool left)
 {
 	bool ret = true;
-	float t_speed = turn_speed;
+	float t_speed = kart->turn_speed;
 
 	float top_turn = turn_max + turn_boost;
 
@@ -460,7 +463,7 @@ bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
 
 		if (drifting == false)
 		{
-			turn_current += (turn_speed_joystick * -x_joy_input) * time->DeltaTime();
+			turn_current += (kart->turn_speed_joystick * -x_joy_input) * time->DeltaTime();
 
 		}
 		else
@@ -505,8 +508,8 @@ void ComponentCar::LimitTurn()
 
 void ComponentCar::Brake(float* accel, float* brake, bool with_trigger, float lt_joy_axis)
 {
-	float ba_force = back_force;
-	float br_force = brake_force;
+	float ba_force = kart->back_force;
+	float br_force = kart->brake_force;
 
 	if (with_trigger)
 	{
@@ -539,7 +542,7 @@ void ComponentCar::Brake(float* accel, float* brake, bool with_trigger, float lt
 void ComponentCar::FullBrake(float* brake)
 {
 	if (vehicle->GetKmh() > 0)
-		*brake = full_brake_force;
+		*brake = kart->full_brake_force;
 }
 void ComponentCar::Accelerate(float* accel, bool with_trigger, float rt_joy_axis)
 {
@@ -550,12 +553,12 @@ void ComponentCar::Accelerate(float* accel, bool with_trigger, float rt_joy_axis
 
 		if (math::Abs(rt_joy_axis) > 0.2f)
 		{
-			*accel += accel_force * rt_joy_axis;
+			*accel += kart->accel_force * rt_joy_axis;
 		}
 	}
 	else
 	{
-		*accel += accel_force;
+		*accel += kart->accel_force;
 	}
 }
 
@@ -568,7 +571,7 @@ void ComponentCar::StartPush()
 bool ComponentCar::Push(float* accel)
 {
 	bool ret = false;
-	if (vehicle->GetKmh() < (max_velocity / 100)* push_speed_per)
+	if (vehicle->GetKmh() < (kart->max_velocity / 100)* kart->push_speed_per)
 	{
 		pushing = true;
 	}
@@ -584,7 +587,7 @@ void ComponentCar::PushUpdate(float* accel)
 
 	if (pushing)
 	{
-		*accel += push_force;
+		*accel += kart->push_force;
 	}
 }
 
@@ -594,9 +597,9 @@ void ComponentCar::Leaning(float accel)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
-		accel_boost += ((accel / 100)*lean_top_acc);
+		/*accel_boost += ((accel / 100)*lean_top_acc);
 		speed_boost += ((max_velocity / 100)*lean_top_sp);
-		turn_boost -= ((turn_max / 100)*lean_red_turn);
+		turn_boost -= ((turn_max / 100)*lean_red_turn);*/
 	}
 }
 
@@ -707,10 +710,10 @@ void ComponentCar::RemoveHitodama()
 void ComponentCar::IdleTurn()
 {
 	//By turn interpolation
-	float  t_idle_speed = turn_speed;
+	float  t_idle_speed = kart->turn_speed;
 
-	if(idle_turn_by_interpolation)
-		 t_idle_speed = turn_max / time_to_idle;
+	if(kart->idle_turn_by_interpolation)
+		 t_idle_speed = turn_max / kart->time_to_idle;
 
 	//By turn speed
 	if (turn_current > 0)
@@ -766,12 +769,12 @@ void ComponentCar::ApplyTurbo()
 			applied_turbo->timer = 0.0f;
 
 			if (applied_turbo->per_ac)
-				turbo_accel_boost = ((accel_force / 100) * applied_turbo->accel_boost);
+				turbo_accel_boost = ((kart->accel_force / 100) * applied_turbo->accel_boost);
 			else
 				turbo_accel_boost = applied_turbo->accel_boost;
 
 			if (applied_turbo->per_sp)
-				turbo_speed_boost = ((max_velocity / 100) * applied_turbo->speed_boost);
+				turbo_speed_boost = ((kart->max_velocity / 100) * applied_turbo->speed_boost);
 			else
 				turbo_speed_boost = applied_turbo->speed_boost;
 
@@ -780,7 +783,7 @@ void ComponentCar::ApplyTurbo()
 			{
 				float3 fv = game_object->transform->GetForward();
 				float s_offset = 0.5;
-				vehicle->SetVelocity(fv.x, fv.y, fv.z, max_velocity + turbo_speed_boost - s_offset);
+				vehicle->SetVelocity(fv.x, fv.y, fv.z, kart->max_velocity + turbo_speed_boost - s_offset);
 			}
 
 			turbo_deceleration = applied_turbo->deceleration;
@@ -841,7 +844,7 @@ void ComponentCar::ApplyTurbo()
 void ComponentCar::StartDrift()
 {
 	
-	if (GetVelocity() >= drift_min_speed)
+	if (GetVelocity() >= kart->drift_min_speed)
 	{
 		drifting = true;
 		drift_dir_left = turning_left;
@@ -869,15 +872,15 @@ void ComponentCar::CalcDriftForces()
 			left = -left;
 
 
-		final_dir = left.Lerp(front, drift_ratio);
+		final_dir = left.Lerp(front, kart->drift_ratio);
 
 		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
 		float l = startDriftSpeed.length();
-		btVector3 final_vector = vector * l * drift_mult;
+		btVector3 final_vector = vector * l * kart->drift_mult;
 		btVector3 zero = { 0,0,0 };
 
 		final_vector.setY(0.0f);
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
+		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * kart->drift_mult);
 	}
 	else
 	{
@@ -1054,7 +1057,7 @@ void ComponentCar::UpdateP2Animation()
 			}
 			else
 			{
-				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (max_velocity + speed_boost));
+				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (kart->max_velocity + speed_boost));
 			}
 			break;
 		}
@@ -1189,15 +1192,15 @@ void ComponentCar::LimitSpeed()
 
 	if (vehicle)
 	{
-		top_velocity = max_velocity + speed_boost + (num_hitodamas*2);
+		top_velocity = kart->max_velocity + speed_boost + (num_hitodamas*2);
 		//Here went definition of top_velocity
 		if (GetVelocity() > top_velocity)
 		{
 			vehicle->SetModularSpeed(top_velocity * KmhToMs);
 		}
-		else if (GetVelocity() < min_velocity)
+		else if (GetVelocity() < kart->min_velocity)
 		{
-			vehicle->SetModularSpeed(-(min_velocity * KmhToMs));
+			vehicle->SetModularSpeed(-(kart->min_velocity * KmhToMs));
 		}
 	}
 }
@@ -1209,20 +1212,20 @@ float ComponentCar::GetVelocity()
 
 float ComponentCar::GetMaxVelocity() const
 {
-	return max_velocity;
+	return kart->max_velocity;
 }
 
 float ComponentCar::GetMinVelocity() const
 {
-	return min_velocity;
+	return kart->min_velocity;
 }
 
 float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 {
-	float max_t = base_turn_max;
+	float max_t = kart->base_turn_max;
 
 
-	if (sp <= velocity_to_begin_change)
+	if (sp <= kart->velocity_to_begin_change)
 	{
 		return max_t;
 	}
@@ -1230,28 +1233,28 @@ float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
 	{
 		if (current_max_turn_change_mode == M_SPEED)
 		{
-			float velocity_dif = sp - velocity_to_begin_change;
+			float velocity_dif = sp - kart->velocity_to_begin_change;
 			
-			max_t += (velocity_dif * base_max_turn_change_speed);
+			max_t += (velocity_dif * kart->base_max_turn_change_speed);
 
 			if (accelerated_change)
 			{
-				max_t += ((base_max_turn_change_accel / 2) * velocity_dif * velocity_dif);
+				max_t += ((kart->base_max_turn_change_accel / 2) * velocity_dif * velocity_dif);
 			}
 
-			if (max_t < turn_max_limit)
+			if (max_t < kart->turn_max_limit)
 			{
-				max_t = turn_max_limit;
+				max_t = kart->turn_max_limit;
 			}
 
 		}
 
 		else if (current_max_turn_change_mode == M_INTERPOLATION)
 		{
-			float turn_max_change_dif = turn_max_limit - base_turn_max;
-			float velocity_dif = max_velocity - velocity_to_begin_change;
+			float turn_max_change_dif = kart->turn_max_limit - kart->base_turn_max;
+			float velocity_dif = kart->max_velocity - kart->velocity_to_begin_change;
 
-			max_t += (turn_max_change_dif / velocity_dif) * (sp - velocity_to_begin_change);
+			max_t += (turn_max_change_dif / velocity_dif) * (sp - kart->velocity_to_begin_change);
 		}
 
 		
@@ -1297,6 +1300,21 @@ TURBO ComponentCar::GetCurrentTurbo() const
 Turbo* ComponentCar::GetAppliedTurbo() const
 {
 	return applied_turbo;
+}
+
+void ComponentCar::SetCarType(CAR_TYPE type)
+{
+	switch (type)
+	{
+	case T_WOOD:
+		kart = &wood;
+		kart->type = T_WOOD;
+		break;
+	case T_KOJI:
+		kart = &koji;
+		kart->type = T_KOJI;
+		break;
+	}
 }
 
 void ComponentCar::CheckGroundCollision()
@@ -1523,6 +1541,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 
+	//Common on both cars
 	//Game loop settings
 	data.AppendFloat("lose_height", lose_height);
 
@@ -1530,56 +1549,98 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat3("chasis_size", chasis_size.ptr());
 	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
-	//Controls settings --------------
 	//Turn over
 	data.AppendFloat("turn_over_reset_time", turn_over_reset_time);
 
-	//Acceleration
-	data.AppendFloat("acceleration", accel_force);
-	data.AppendFloat("max_speed", max_velocity);
-	data.AppendFloat("min_speed", min_velocity);
-	data.AppendFloat("fake_break", decel_brake);
-
-	//Turn 
-	data.AppendFloat("base_turn_max", base_turn_max);
-	data.AppendFloat("turn_speed", turn_speed);
-	data.AppendFloat("turn_speed_joystick", turn_speed_joystick);
-
-	data.AppendFloat("time_to_idle", time_to_idle);
-	data.AppendBool("idle_turn_by_interpolation", idle_turn_by_interpolation);
-
 	//Max turn change
-	data.AppendFloat("velocity_to_change", velocity_to_begin_change);
-	data.AppendFloat("turn_max_limit", turn_max_limit);
-
-	data.AppendFloat("base_max_turn_change_speed", base_max_turn_change_speed);
-	data.AppendFloat("base_max_turn_change_accel", base_max_turn_change_accel);
 	data.AppendBool("limit_to_a_turn_max", limit_to_a_turn_max);
 	data.AppendBool("accelerated_change", accelerated_change);
 
 	data.AppendInt("current_max_turn_change_mode", current_max_turn_change_mode);
+
+	//Controls settings , Unique for each--------------
+
+	//Wood -------------------------------
+	//Acceleration
+	data.AppendFloat("wood_acceleration", wood.accel_force);
+	data.AppendFloat("wood_max_speed", wood.max_velocity);
+	data.AppendFloat("wood_min_speed", wood.min_velocity);
+	data.AppendFloat("wood_fake_break", wood.decel_brake);
+
+	//Turn 
+	data.AppendFloat("wood_base_turn_max", wood.base_turn_max);
+	data.AppendFloat("wood_turn_speed", wood.turn_speed);
+	data.AppendFloat("wood_turn_speed_joystick", wood.turn_speed_joystick);
+
+	data.AppendFloat("wood_time_to_idle", wood.time_to_idle);
+	data.AppendBool("wood_idle_turn_by_interpolation", wood.idle_turn_by_interpolation);
+
+	//Max turn change
+	data.AppendFloat("wood_velocity_to_change", wood.velocity_to_begin_change);
+	data.AppendFloat("wood_turn_max_limit", wood.turn_max_limit);
+
+	data.AppendFloat("wood_base_max_turn_change_speed", wood.base_max_turn_change_speed);
+	data.AppendFloat("wood_base_max_turn_change_accel", wood.base_max_turn_change_accel);
+
 	
 
 	//Push
-	data.AppendFloat("push_force", push_force);
-	data.AppendFloat("push_speed_per", push_speed_per);
+	data.AppendFloat("wood_push_force", wood.push_force);
+	data.AppendFloat("wood_push_speed_per", wood.push_speed_per);
 
 	//Brake
-	data.AppendFloat("brakeForce", brake_force);
-	data.AppendFloat("backForce", back_force);
-	data.AppendFloat("full_brake_force", full_brake_force);
+	data.AppendFloat("wood_brakeForce", wood.brake_force);
+	data.AppendFloat("wood_backForce", wood.back_force);
+	data.AppendFloat("wood_full_brake_force", wood.full_brake_force);
 
-	//Leaning
-	data.AppendFloat("lean_accel_boost", lean_top_acc);
-	data.AppendFloat("lean_speed_boost", lean_top_sp);
-	data.AppendFloat("lean_turn_strict", lean_red_turn);
 
 	//Drift 
-	data.AppendFloat("driftRatio", drift_ratio);
-	data.AppendFloat("driftMult", drift_mult);
-	data.AppendFloat("driftBoost", drift_boost);
-	data.AppendFloat("driftMinSpeed", drift_min_speed);
-	data.AppendFloat("drift_turn_max", drift_turn_max); 
+	data.AppendFloat("wood_driftRatio", wood.drift_ratio);
+	data.AppendFloat("wood_driftMult", wood.drift_mult);
+	data.AppendFloat("wood_driftBoost", wood.drift_boost);
+	data.AppendFloat("wood_driftMinSpeed", wood.drift_min_speed);
+	data.AppendFloat("wood_drift_turn_max", wood.drift_turn_max); 
+
+	//Koji -------------------------------
+	//Acceleration
+	data.AppendFloat("koji_acceleration", koji.accel_force);
+	data.AppendFloat("koji_max_speed", koji.max_velocity);
+	data.AppendFloat("koji_min_speed", koji.min_velocity);
+	data.AppendFloat("koji_fake_break", koji.decel_brake);
+
+	//Turn 
+	data.AppendFloat("koji_base_turn_max", koji.base_turn_max);
+	data.AppendFloat("koji_turn_speed", koji.turn_speed);
+	data.AppendFloat("koji_turn_speed_joystick", koji.turn_speed_joystick);
+
+	data.AppendFloat("koji_time_to_idle", koji.time_to_idle);
+	data.AppendBool("koji_idle_turn_by_interpolation", koji.idle_turn_by_interpolation);
+
+	//Max turn change
+	data.AppendFloat("koji_velocity_to_change", koji.velocity_to_begin_change);
+	data.AppendFloat("koji_turn_max_limit", koji.turn_max_limit);
+
+	data.AppendFloat("koji_base_max_turn_change_speed", koji.base_max_turn_change_speed);
+	data.AppendFloat("koji_base_max_turn_change_accel", koji.base_max_turn_change_accel);
+
+
+
+	//Push
+	data.AppendFloat("koji_push_force", koji.push_force);
+	data.AppendFloat("koji_push_speed_per", koji.push_speed_per);
+
+	//Brake
+	data.AppendFloat("koji_brakeForce", koji.brake_force);
+	data.AppendFloat("koji_backForce", koji.back_force);
+	data.AppendFloat("koji_full_brake_force", koji.full_brake_force);
+
+
+	//Drift 
+	data.AppendFloat("koji_driftRatio", koji.drift_ratio);
+	data.AppendFloat("koji_driftMult", koji.drift_mult);
+	data.AppendFloat("koji_driftBoost", koji.drift_boost);
+	data.AppendFloat("koji_driftMinSpeed", koji.drift_min_speed);
+	data.AppendFloat("koji_drift_turn_max", koji.drift_turn_max);
 
 	//Turbos-------
 	//Mini turbo
@@ -1678,6 +1739,12 @@ void ComponentCar::Load(Data& conf)
 	chasis_size = conf.GetFloat3("chasis_size");
 	chasis_offset = conf.GetFloat3("chasis_offset");
 
+	//Turn change over time
+	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
+	accelerated_change = conf.GetBool("accelerated_change");
+
+	current_max_turn_change_mode = MAX_TURN_CHANGE_MODE(conf.GetInt("current_max_turn_change_mode"));
+
 	//Gameplay settings-----------------
 	//Turn over
 	turn_over_reset_time = conf.GetFloat("turn_over_reset_time");
@@ -1686,45 +1753,88 @@ void ComponentCar::Load(Data& conf)
 		turn_over_reset_time = 4.0f;
 	}
 
+	//Wood car-------------------------------------------
 	//Acceleration
-	accel_force = conf.GetFloat("acceleration"); 
-	max_velocity = conf.GetFloat("max_speed"); 
-	min_velocity = conf.GetFloat("min_speed");
-	decel_brake = conf.GetFloat("fake_break");
+	wood.accel_force = conf.GetFloat("wood_acceleration"); 
+	wood.max_velocity = conf.GetFloat("wood_max_speed");
+	wood.min_velocity = conf.GetFloat("wood_min_speed");
+	wood.decel_brake = conf.GetFloat("wood_fake_break");
 
 
 	//Turn 
-	base_turn_max = conf.GetFloat("base_turn_max"); 
-	turn_speed = conf.GetFloat("turn_speed");
-	turn_speed_joystick = conf.GetFloat("turn_speed_joystick");
+	wood.base_turn_max = conf.GetFloat("wood_base_turn_max");
+	wood.turn_speed = conf.GetFloat("wood_turn_speed");
+	wood.turn_speed_joystick = conf.GetFloat("wood_turn_speed_joystick");
 
-	time_to_idle = conf.GetFloat("time_to_idle");
-	idle_turn_by_interpolation = conf.GetBool("idle_turn_by_interpolation");
+	wood.time_to_idle = conf.GetFloat("wood_time_to_idle");
+	wood.idle_turn_by_interpolation = conf.GetBool("wood_idle_turn_by_interpolation");
 
 	//Max turn change
-	velocity_to_begin_change = conf.GetFloat("velocity_to_change"); 
-	turn_max_limit = conf.GetFloat("turn_max_limit"); 
+	wood.velocity_to_begin_change = conf.GetFloat("wood_velocity_to_change");
+	wood.turn_max_limit = conf.GetFloat("wood_turn_max_limit");
 
-	base_max_turn_change_speed = conf.GetFloat("base_max_turn_change_speed");
-	base_max_turn_change_accel = conf.GetFloat("base_max_turn_change_accel"); 
-	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
-	accelerated_change = conf.GetBool("accelerated_change");
-
-	current_max_turn_change_mode = MAX_TURN_CHANGE_MODE(conf.GetInt("current_max_turn_change_mode"));
+	wood.base_max_turn_change_speed = conf.GetFloat("wood_base_max_turn_change_speed");
+	wood.base_max_turn_change_accel = conf.GetFloat("wood_base_max_turn_change_accel");
+	
 
 	//Push
-	push_force = conf.GetFloat("push_force"); 
-	push_speed_per = conf.GetFloat("push_speed_per");
+	wood.push_force = conf.GetFloat("wood_push_force");
+	wood.push_speed_per = conf.GetFloat("wood_push_speed_per");
 
 	//Brake
-	brake_force = conf.GetFloat("brakeForce"); 
-	back_force = conf.GetFloat("backForce"); 
-	full_brake_force = conf.GetFloat("full_brake_force");
+	wood.brake_force = conf.GetFloat("wood_brakeForce");
+	wood.back_force = conf.GetFloat("wood_backForce");
+	wood.full_brake_force = conf.GetFloat("wood_full_brake_force");
 
-	//Leaning
-	lean_top_acc = conf.GetFloat("lean_accel_boost");  
-	lean_top_sp = conf.GetFloat("lean_speed_boost"); 
-	lean_red_turn = conf.GetFloat("lean_turn_strict");
+	//Drifting settings
+	wood.drift_ratio = conf.GetFloat("wood_driftRatio");
+	wood.drift_mult = conf.GetFloat("wood_driftMult");
+	wood.drift_boost = conf.GetFloat("wood_driftBoost");
+	wood.drift_min_speed = conf.GetFloat("wood_driftMinSpeed");
+	wood.drift_turn_max = conf.GetFloat("wood_drift_turn_max");
+	//-----------------------------------------
+
+
+	//Koji car-------------------------------------------
+	//Acceleration
+	koji.accel_force = conf.GetFloat("koji_acceleration");
+	koji.max_velocity = conf.GetFloat("koji_max_speed");
+	koji.min_velocity = conf.GetFloat("koji_min_speed");
+	koji.decel_brake = conf.GetFloat("koji_fake_break");
+
+
+	//Turn 
+	koji.base_turn_max = conf.GetFloat("koji_base_turn_max");
+	koji.turn_speed = conf.GetFloat("koji_turn_speed");
+	koji.turn_speed_joystick = conf.GetFloat("koji_turn_speed_joystick");
+
+	koji.time_to_idle = conf.GetFloat("koji_time_to_idle");
+	koji.idle_turn_by_interpolation = conf.GetBool("koji_idle_turn_by_interpolation");
+
+	//Max turn change
+	koji.velocity_to_begin_change = conf.GetFloat("koji_velocity_to_change");
+	koji.turn_max_limit = conf.GetFloat("koji_turn_max_limit");
+
+	koji.base_max_turn_change_speed = conf.GetFloat("koji_base_max_turn_change_speed");
+	koji.base_max_turn_change_accel = conf.GetFloat("koji_base_max_turn_change_accel");
+
+
+	//Push
+	koji.push_force = conf.GetFloat("koji_push_force");
+	koji.push_speed_per = conf.GetFloat("koji_push_speed_per");
+
+	//Brake
+	koji.brake_force = conf.GetFloat("koji_brakeForce");
+	koji.back_force = conf.GetFloat("koji_backForce");
+	wood.full_brake_force = conf.GetFloat("koji_full_brake_force");
+
+	//Drifting settings
+	koji.drift_ratio = conf.GetFloat("koji_driftRatio");
+	koji.drift_mult = conf.GetFloat("koji_driftMult");
+	koji.drift_boost = conf.GetFloat("koji_driftBoost");
+	koji.drift_min_speed = conf.GetFloat("koji_driftMinSpeed");
+	koji.drift_turn_max = conf.GetFloat("koji_drift_turn_max");
+	//-----------------------------------------
 
 	//Turbo
 	//Mini turbo
@@ -1817,12 +1927,7 @@ void ComponentCar::Load(Data& conf)
 	car->frictionSlip = conf.GetFloat("frictionSlip");
 	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
 
-	//Drifting settings
-	drift_ratio = conf.GetFloat("driftRatio");
-	drift_mult = conf.GetFloat("driftMult");
-	drift_boost = conf.GetFloat("driftBoost");
-	drift_min_speed = conf.GetFloat("driftMinSpeed");
-	drift_turn_max = conf.GetFloat("drift_turn_max");
+
 }
 
 void ComponentCar::OnInspector(bool debug)
@@ -1843,7 +1948,36 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-			
+		
+
+		//Choos car type popup
+		if (ImGui::Button("Kart Type :"))
+			ImGui::OpenPopup("Kart Type");
+		ImGui::SameLine();
+		switch(kart->type)
+		{
+			case T_WOOD:
+				ImGui::Text(" Wood ");
+				break;
+			case T_KOJI:
+				ImGui::Text(" Koji Lion ");
+				break;
+		}
+		if (ImGui::BeginPopup("Kart Type"))
+		{
+			if(ImGui::Selectable("Wood"))
+			{
+				SetCarType(T_WOOD);
+			}
+			if(ImGui::Selectable("Koji Lion"))
+			{
+				SetCarType(T_KOJI);
+			}
+
+			ImGui::EndPopup();
+		}
+
+
 		int player_f = (int)front_player;
 		if (ImGui::InputInt("Front player joystick", &player_f, 1))
 		{
@@ -1943,19 +2077,19 @@ void ComponentCar::OnInspector(bool debug)
 					ImGui::Text("");
 					ImGui::Text("Max speed");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##MxSpeed", &max_velocity, 1.0f, 0.0f, 1000.0f)) {}
+					if (ImGui::DragFloat("##MxSpeed", &kart->max_velocity, 1.0f, 0.0f, 1000.0f)) {}
 
 					ImGui::Text("Min speed");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##MnSpeed", &min_velocity, 1.0f, -100.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##MnSpeed", &kart->min_velocity, 1.0f, -100.0f, 0.0f)) {}
 
 					ImGui::Text("Accel");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##AccForce", &accel_force, 1.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##AccForce", &kart->accel_force, 1.0f, 0.0f)) {}
 
 					ImGui::Text("Deceleration");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##DecelForce", &decel_brake, 1.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##DecelForce", &kart->decel_brake, 1.0f, 0.0f)) {}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -1967,21 +2101,21 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Base turn max");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Turnmax", &base_turn_max, 0.1f, 0.0f, 2.0f)) {}
+					if (ImGui::DragFloat("##Turnmax", &kart->base_turn_max, 0.1f, 0.0f, 2.0f)) {}
 
 
 					ImGui::Text("Turn speed");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Wheel_turn_speed", &turn_speed, 0.01f, 0.0f, 2.0f)) {}
+					if (ImGui::DragFloat("##Wheel_turn_speed", &kart->turn_speed, 0.01f, 0.0f, 2.0f)) {}
 
 					ImGui::Text("Joystick turn speed");
-					if (ImGui::DragFloat("##joystick_turn_speed", &turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
+					if (ImGui::DragFloat("##joystick_turn_speed", &kart->turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
 
-					ImGui::Checkbox("Idle turn by interpolation", &idle_turn_by_interpolation);
-					if (idle_turn_by_interpolation)
+					ImGui::Checkbox("Idle turn by interpolation", &kart->idle_turn_by_interpolation);
+					if (kart->idle_turn_by_interpolation)
 					{
 						ImGui::Text("Time to idle turn");
-						ImGui::DragFloat("##id_turn_time", &time_to_idle, 0.01f, 0.0f);
+						ImGui::DragFloat("##id_turn_time", &kart->time_to_idle, 0.01f, 0.0f);
 					}
 
 					ImGui::Text("");
@@ -1991,10 +2125,10 @@ void ComponentCar::OnInspector(bool debug)
 				if (ImGui::TreeNode("Max turn change settings"))
 				{
 					ImGui::Text("Velocity to begin change");
-					ImGui::DragFloat("##v_to_change", &velocity_to_begin_change, 0.1f, 0.0f);
+					ImGui::DragFloat("##v_to_change", &kart->velocity_to_begin_change, 0.1f, 0.0f);
 
 					ImGui::Text("Limit max turn");
-					ImGui::DragFloat("##l_max_turn", &turn_max_limit, 1.0f, 0.0f);
+					ImGui::DragFloat("##l_max_turn", &kart->turn_max_limit, 1.0f, 0.0f);
 
 					bool by_interpolation = (current_max_turn_change_mode == M_INTERPOLATION);
 					bool by_speed = (current_max_turn_change_mode == M_SPEED);
@@ -2007,7 +2141,7 @@ void ComponentCar::OnInspector(bool debug)
 					if (by_speed)
 					{
 						ImGui::Text("Base speed of max turn change");
-						ImGui::DragFloat("##s_mx_tn_change", &base_max_turn_change_speed, 0.1f);
+						ImGui::DragFloat("##s_mx_tn_change", &kart->base_max_turn_change_speed, 0.1f);
 
 						ImGui::Checkbox("Limit to a certain turn max", &limit_to_a_turn_max);
 
@@ -2015,7 +2149,7 @@ void ComponentCar::OnInspector(bool debug)
 						if (accelerated_change)
 						{
 							ImGui::Text("Base accel of max turn change speed");
-							ImGui::DragFloat("##a_mx_tn_change", &base_max_turn_change_accel, 0.01f);
+							ImGui::DragFloat("##a_mx_tn_change", &kart->base_max_turn_change_accel, 0.01f);
 						}
 					}
 
@@ -2046,15 +2180,15 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Brake force");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Brake_force", &brake_force, 1.0f, 0.0f, 1000.0f)) {}
+					if (ImGui::DragFloat("##Brake_force", &kart->brake_force, 1.0f, 0.0f, 1000.0f)) {}
 
 					ImGui::Text("Back force");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##Back_force", &back_force, 1.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##Back_force", &kart->back_force, 1.0f, 0.0f)) {}
 
 					ImGui::Text("Full brake force");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##full_br_force", &full_brake_force, 1.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##full_br_force", &kart->full_brake_force, 1.0f, 0.0f)) {}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -2066,31 +2200,11 @@ void ComponentCar::OnInspector(bool debug)
 
 					ImGui::Text("Push force");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##push_force", &push_force, 10.0f, 0.0f)) {}
+					if (ImGui::DragFloat("##push_force", &kart->push_force, 10.0f, 0.0f)) {}
 
 					ImGui::Text("Push speed limit");
 					ImGui::SameLine();
-					if (ImGui::DragFloat("##push_sp", &push_speed_per, 1.0f, 0.0f, 100.0f)) {}
-
-					ImGui::Text("");
-					ImGui::TreePop();
-				}
-
-				if (ImGui::TreeNode("Leaning settings"))
-				{
-					ImGui::Text("");
-
-					ImGui::Text("Speed boost");
-					ImGui::SameLine();
-					if (ImGui::DragFloat("##lean_sp_boost", &lean_top_sp, 0.5f, 0.0f, 200.0f)) {}
-
-					ImGui::Text("Accel boost");
-					ImGui::SameLine();
-					if (ImGui::DragFloat("##lean_accel_boost", &lean_top_acc, 0.5f, 0.0f, 200.0f)) {}
-
-					ImGui::Text("Turn decrease");
-					ImGui::SameLine();
-					if (ImGui::DragFloat("##lean_res_turn", &lean_red_turn, 0.5f, 0.0f, 100.0f)) {}
+					if (ImGui::DragFloat("##push_sp", &kart->push_speed_per, 1.0f, 0.0f, 100.0f)) {}
 
 					ImGui::Text("");
 					ImGui::TreePop();
@@ -2330,19 +2444,19 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::NewLine();
 
 			ImGui::Text("Drift exit boost");
-			ImGui::InputFloat("Drift exit boost", &drift_boost);
+			ImGui::InputFloat("Drift exit boost", &kart->drift_boost);
 
 			ImGui::Text("Drift turn max");
-			ImGui::InputFloat("Drift turn max", &drift_turn_max);
+			ImGui::InputFloat("Drift turn max", &kart->drift_turn_max);
 
 			ImGui::Text("Drift min speed");
-			ImGui::InputFloat("Drift min speed", &drift_min_speed);
+			ImGui::InputFloat("Drift min speed", &kart->drift_min_speed);
 
 			ImGui::Text("Drift multiplier");
-			ImGui::InputFloat("Drift mult", &drift_mult);
+			ImGui::InputFloat("Drift mult", &kart->drift_mult);
 
 			ImGui::Text("Drift angle ratio");
-			ImGui::DragFloat("##Dr_angle_ratio", &drift_ratio, 0.001, 0.0f, 1.0f);
+			ImGui::DragFloat("##Dr_angle_ratio", &kart->drift_ratio, 0.001, 0.0f, 1.0f);
 			
 			ImGui::TreePop();
 
