@@ -17877,7 +17877,6 @@
                     "Lap_Player1_Text": 101099895,
                     "Lap_Player2_Text": 1443513751,
                     "Start_Timer_Text": 196995447,
-                    "Start_Timer_Text2": 941818233,
                     "Item_Player1": 2610169321,
                     "Item_Player2": 528464418,
                     "Position_Player1": 111198867,
@@ -17885,11 +17884,7 @@
                     "Race_HUD": 1204979850,
                     "Result_Window": 1464473590,
                     "Player1_Finish_Text": 903508031,
-                    "Player2_Finish_Text": 792990698,
-                    "Team1_timer_Text": 2838578354,
-                    "Team2_timer_Text": 2794836964,
-                    "Win_team1_button": 1708373164,
-                    "Win_team2_button": 3948780143
+                    "Player2_Finish_Text": 792990698
                 },
                 {
                     "type": 18,
@@ -31977,7 +31972,7 @@
             "UUID": 178660845,
             "local_UUID": 2871570994,
             "parent": 965909917,
-            "active": true,
+            "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 178660845,
             "prefab_path": "\/Library\/4171985717\/\/214048432\/214048432.pfb",

@@ -217,7 +217,7 @@ int ShaderCompiler::CompileShader(unsigned int vertex_id, unsigned int fragment_
 int ShaderCompiler::LoadDefaultShader()
 {
 	GLuint vertex_shader, fragment_shader;
-	GLuint shader = glCreateProgram();;
+	GLuint shader = glCreateProgram();
 
 	const GLchar* vertex_code =
 		"#version 330 core \n"
@@ -367,7 +367,7 @@ int ShaderCompiler::LoadDefaultShader()
 int ShaderCompiler::LoadDefaultAnimShader()
 {
 	GLuint vertex_shader, fragment_shader;
-	GLuint shader = glCreateProgram();;
+	GLuint shader = glCreateProgram();
 
 	const GLchar* vertex_code =
 		"#version 330 core\n"
@@ -709,6 +709,69 @@ int ShaderCompiler::LoadDefaultTerrainShader()
 	{
 		glGetShaderInfoLog(fragment_shader, 512, NULL, info);
 		LOG("Default shader fragment compilation error (%s)", info);
+	}
+
+	glAttachShader(shader, vertex_shader);
+	glAttachShader(shader, fragment_shader);
+	glLinkProgram(shader);
+
+	return shader;
+}
+
+int ShaderCompiler::LoadDefaultBilboardShader()
+{
+	GLuint vertex_shader, fragment_shader;
+	GLuint shader = glCreateProgram();
+
+	const GLchar* vertex_code =
+		"#version 330 core \n"
+		"layout(location = 0) in vec3 position;\n"
+		"layout(location = 1) in vec2 texCoord;\n"
+		"out vec2 TexCoord;\n"
+		"uniform mat4 view;\n"
+		"uniform mat4 projection;\n"
+		"uniform vec3 center;\n"
+		"uniform vec2 size;\n"
+		"void main()\n"
+		"{\n"
+		"   vec3 vertex_position = center + vec3(view[0][0], view[1][0], view[2][0]) * position.x * size.x + vec3(view[0][1], view[1][1], view[2][1]) * position.y * size.y;\n"
+		"	gl_Position = projection * view * vec4(vertex_position, 1.0);\n"
+		"	TexCoord = texCoord;\n"
+		"}\n";
+
+	const GLchar* fragment_code =
+		"#version 330 core\n"
+		"in vec2 TexCoord;\n"
+		"out vec4 color;\n"
+
+		"uniform sampler2D tex;\n"
+
+		"void main()\n"
+		"{\n"
+		"	color = texture(tex, TexCoord);\n"
+		"}\n";
+
+	GLint success;
+	GLchar info[512];
+
+	vertex_shader = glCreateShader(GL_VERTEX_SHADER);
+	fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(vertex_shader, 1, &vertex_code, 0);
+	glShaderSource(fragment_shader, 1, &fragment_code, 0);
+	glCompileShader(vertex_shader);
+
+	glGetShaderiv(vertex_shader, GL_COMPILE_STATUS, &success);
+	if (success == 0)
+	{
+		glGetShaderInfoLog(vertex_shader, 512, NULL, info);
+		LOG("Default shader billboard vertex compilation error (%s)", info);
+	}
+	glCompileShader(fragment_shader);
+	glGetShaderiv(fragment_shader, GL_COMPILE_STATUS, &success);
+	if (success == 0)
+	{
+		glGetShaderInfoLog(fragment_shader, 512, NULL, info);
+		LOG("Default shader billboard fragment compilation error (%s)", info);
 	}
 
 	glAttachShader(shader, vertex_shader);

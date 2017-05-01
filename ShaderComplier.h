@@ -13,6 +13,7 @@ namespace ShaderCompiler
 	int LoadDefaultShader();
 	int LoadDefaultAnimShader();
 	int LoadDefaultTerrainShader();
+	int LoadDefaultBilboardShader();
 
 	void DeleteShader(unsigned int shader_id);
 }

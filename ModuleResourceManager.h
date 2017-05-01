@@ -47,6 +47,7 @@ struct tmp_mesh_file_uuid
 };
 
 struct Directory;
+struct Mesh;
 class ResourceFileMaterial;
 
 class ModuleResourceManager : public Module
@@ -83,6 +84,11 @@ public:
 	unsigned int GetDefaultShaderId()const;
 	unsigned int GetDefaultAnimShaderId()const;
 	unsigned int GetDefaultTerrainShaderId()const;
+	unsigned int GetDefaultBillboardShaderId()const;
+	Mesh* GetDefaultBillboardMesh()const;
+	unsigned int GetDefaultParticlePositionShaderId()const;
+	Mesh* GetDefaultQuadParticleMesh()const;
+	unsigned int GetDefaultParticleShaderId()const;
 
 	//Returns the path of the file in library
 	std::string FindFile(const std::string& assets_file_path)const;
@@ -109,6 +115,7 @@ public:
 	unsigned int GetUUIDFromLib(const std::string& library_path)const;
 
 private:
+	void LoadDefaults();
 
 	std::string CopyOutsideFileToAssetsCurrentDir(const char* path, std::string base_dir = std::string())const;
 
@@ -154,9 +161,15 @@ private:
 	unsigned int texture_bytes = 0;
 	unsigned int mesh_bytes = 0;
 
+	//Defaults
 	unsigned int default_shader = 0;
 	unsigned int default_anim_shader = 0;
 	unsigned int default_terrain_shader = 0;
+	unsigned int default_billboard_shader = 0;
+	Mesh* billboard_mesh = nullptr;
+	unsigned int default_p_position_shader = 0;
+	Mesh* quad_particles_mesh = nullptr; //To update position not to draw the particle
+	unsigned int default_particle_shader = 0;
 
 	std::vector<tmp_mesh_file_uuid> tmp_mesh_uuid_files;
 

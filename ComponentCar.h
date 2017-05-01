@@ -134,7 +134,8 @@ public:
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	PhysVehicle3D* GetVehicle();
-
+	bool GetGroundState() const;
+	float GetAngularVelocity() const;
 	TURBO GetCurrentTurbo()const;
 	Turbo* GetAppliedTurbo()const;
 

@@ -225,7 +225,7 @@ namespace Start_Menu_UI
 		for (int i = 0; i < 4; i++)
 		{
 			// DOWN INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < -0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < -0.2 || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 			{
 				if (!down_pressed[i])
 				{
@@ -289,13 +289,13 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > -0.1 || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < 0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_UP || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_UP)
 			{
 				down_pressed[i] = false;
 			}
 
 			// UP INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.2 || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) <  -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
 			{
 				if (!up_pressed[i])
 				{
@@ -332,12 +332,12 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) < 0.1 || App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > -0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > -0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_UP) == KEY_UP || App->input->GetKey(SDL_SCANCODE_UP) == KEY_UP)
 			{
 				up_pressed[i] = false;
 			}
 			// LEFT INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.2 || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (!left_pressed[i])
 				{
@@ -378,12 +378,12 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) >- 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) >- 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 			{
 				left_pressed[i] = false;
 			}
 			// RIGHT INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.2 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.2 || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				//  [0] [1] [2] [3]
 				//  [4]         [6]
@@ -429,7 +429,7 @@ namespace Start_Menu_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[i] = false;
 			}
@@ -576,24 +576,29 @@ namespace Start_Menu_UI
 			{
 				total++;
 			}
-
+		}
+		
 			if (total == 4)
 			{
 				start_but->SetActive(true);
 				players->SetActive(false);
 				ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
-				if ((App->input->GetJoystickButton(j, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
+				for (int i = 0; i < 4; i++)
 				{
-					main_canvas_script->public_ints.at("current_menu") = 2;
-					main_canvas_script->public_ints.at("Player1") = player_order[0];
-					main_canvas_script->public_ints.at("Player2") = player_order[1];
-					main_canvas_script->public_ints.at("Player3") = player_order[2];
-					main_canvas_script->public_ints.at("Player4") = player_order[3];
 
-					App->go_manager->team1_front = (PLAYER)player_order[0];
-					App->go_manager->team1_back = (PLAYER)player_order[1];
-					App->go_manager->team2_front = (PLAYER)player_order[2];
-					App->go_manager->team2_back = (PLAYER)player_order[3];
+					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
+					{
+						main_canvas_script->public_ints.at("current_menu") = 2;
+						main_canvas_script->public_ints.at("Player1") = player_order[0];
+						main_canvas_script->public_ints.at("Player2") = player_order[1];
+						main_canvas_script->public_ints.at("Player3") = player_order[2];
+						main_canvas_script->public_ints.at("Player4") = player_order[3];
+
+						App->go_manager->team1_front = (PLAYER)player_order[0];
+						App->go_manager->team1_back = (PLAYER)player_order[1];
+						App->go_manager->team2_front = (PLAYER)player_order[2];
+						App->go_manager->team2_back = (PLAYER)player_order[3];
+					}
 				}
 			}
 			else
@@ -601,7 +606,7 @@ namespace Start_Menu_UI
 				start_but->SetActive(false);
 				players->SetActive(true);
 			}
-		}
+		
 	}
 }
 			

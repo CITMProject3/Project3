@@ -81,6 +81,20 @@ namespace Scene_Manager
 	GameObject* win2_finish = nullptr;
 	ComponentUiButton* win2_button = nullptr;
 
+	GameObject* topdriver_number = nullptr;
+	GameObject* topgunner_number = nullptr;
+	GameObject* botdriver_number = nullptr;
+	GameObject* botgunner_number = nullptr;
+	ComponentMaterial* td_number = nullptr;
+	ComponentMaterial* tg_number = nullptr;
+	ComponentMaterial* bd_number = nullptr;
+	ComponentMaterial* bg_number = nullptr;
+
+	GameObject* topdriver_label = nullptr;
+	GameObject* topgunner_label = nullptr;
+	GameObject* botdriver_label = nullptr;
+	GameObject* botgunner_label = nullptr;
+
 	string main_menu_scene = "/Assets/Main_menu.ezx";
 
 	//"Private" variables
@@ -132,6 +146,16 @@ namespace Scene_Manager
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Win_team1_button", win1_finish));
 		public_gos->insert(std::pair<const char*, GameObject*>("Win_team2_button", win2_finish));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("TopDriver_Number", topdriver_number));
+		public_gos->insert(std::pair<const char*, GameObject*>("TopGunner_Number", topgunner_number));
+		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Number", botdriver_number));
+		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Number", botgunner_number));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("TopDriver_Label", topdriver_label));
+		public_gos->insert(std::pair<const char*, GameObject*>("TopGunner_Label", topgunner_label));
+		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Label", botdriver_label));
+		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Label", botgunner_label));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -162,6 +186,16 @@ namespace Scene_Manager
 		win1_finish = script->public_gos["Win_team1_button"];
 		win2_finish = script->public_gos["Win_team2_button"];
 		result_window = script->public_gos["Result_Window"];
+
+		topdriver_number = script->public_gos["TopDriver_Number"];
+		topgunner_number = script->public_gos["TopGunner_Number"];
+		botdriver_number = script->public_gos["BotDriver_Number"];
+		botgunner_number = script->public_gos["BotGunner_Number"];
+
+		topdriver_label = script->public_gos["TopDriver_Label"];
+		topgunner_label = script->public_gos["TopGunner_Label"];
+		botdriver_label = script->public_gos["BotDriver_Label"];
+		botgunner_label = script->public_gos["BotGunner_Label"];
 	}
 
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
@@ -294,6 +328,14 @@ namespace Scene_Manager
 		{
 			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
 		}
+
+		if (topdriver_number)
+		{
+			td_number = ((ComponentUiImage*)topdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
+			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
+			bd_number = ((ComponentUiImage*)botdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
+			bg_number = ((ComponentUiImage*)botgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
+		}
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
@@ -390,7 +432,7 @@ namespace Scene_Manager
 				{
 					race_HUD->SetActive(true);
 					if (item_ui_1) item_ui_1->GetGameObject()->SetActive(false);
-					if (item_ui_2) item_ui_2->GetGameObject()->SetActive(false);
+					if (item_ui_2) item_ui_2->GetGameObject()->SetActive(false); 
 					if (player1_finish) player1_finish->SetActive(false);
 					if (player2_finish) player2_finish->SetActive(false);
 				}
