@@ -520,7 +520,7 @@ namespace Player_Car
 						{
 							float3 new_pos = game_object->transform->GetPosition();
 							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
-							new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
@@ -542,7 +542,7 @@ namespace Player_Car
 						{
 							float3 new_pos = game_object->transform->GetPosition();
 							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
-							new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
@@ -581,6 +581,12 @@ namespace Player_Car
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
 						Player_car->RemoveHitodama();
+
+						if (other_car != nullptr)
+						{
+							if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
+								((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+						}
 					}
 					else if (item_col->GetGameObject()->name == "Makibishi")
 					{
