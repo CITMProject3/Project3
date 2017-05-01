@@ -604,6 +604,67 @@ namespace Player_Car
 		}
 	}
 
+	void Player_Car_ChooseItem(GameObject* game_object)
+	{
+		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
+
+		//By position
+		int result = App->rnd->RandomInt(1, 100);
+
+		if (car->place == 1)
+		{
+			if (result <= 5)
+			{
+				//Insert firecracker here
+
+				//
+			}
+			else if (result <= 40)
+			{
+				//Insert triple makibi here
+
+				//
+			}
+			else
+			{
+				//Insert makibi here
+
+				//
+			}
+		}
+		else if (car->place == 2)
+		{
+			//2nd
+			if (result <= 15)
+			{
+				//Insert evil spirit here
+
+				//
+			}
+			else if (result <= 35)
+			{
+				//Insert triple makibi here
+
+				//
+			}
+			else if (result <= 65)
+			{
+				//Insert makibi here
+
+				//
+			}
+			else
+			{
+				//Insert firecracker here
+
+				//
+			}
+		}
+
+
+		//By distance
+	}
+
 	void Player_Car_PickItem(GameObject* game_object)
 	{
 		have_firecracker = true;
