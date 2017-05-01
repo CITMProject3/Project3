@@ -58,6 +58,7 @@ namespace Makibishi
 		}
 		else
 		{
+			game_object->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 			current_time_trowing_makibishi += time->DeltaTime();
 			if (current_time_trowing_makibishi >= time_trowing_makibishi)
 			{
