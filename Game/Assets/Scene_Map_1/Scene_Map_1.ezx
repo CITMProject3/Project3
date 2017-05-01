@@ -602,13 +602,13 @@
                 {
                     "position": [
                         -46.813782,
-                        12.555435,
-                        -15.665694
+                        12.928927,
+                        -9.499603
                     ],
                     "rotation": [
-                        -10.507387,
-                        -0.271207,
-                        -0.652858
+                        -5.902121,
+                        -0.271208,
+                        -0.652865
                     ]
                 }
             ],
@@ -628,12 +628,12 @@
                     "position": [
                         39.400414,
                         12.277697,
-                        28.460474
+                        23.295319
                     ],
                     "rotation": [
-                        10.399981,
-                        0,
-                        0.775800
+                        5.995224,
+                        0.000001,
+                        0.775810
                     ]
                 }
             ],
@@ -710,7 +710,7 @@
                     "wood_push_speed_per": 0,
                     "wood_brakeForce": 0,
                     "wood_backForce": 0,
-                    "wood_full_brake_force": 0,
+                    "wood_full_brake_force": 300,
                     "wood_driftRatio": 0,
                     "wood_driftMult": 0,
                     "wood_driftBoost": 0,
@@ -807,6 +807,7 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
+                    "throwing_makibishi": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -9554,7 +9555,7 @@
                     "wood_push_speed_per": 0,
                     "wood_brakeForce": 0,
                     "wood_backForce": 0,
-                    "wood_full_brake_force": 0,
+                    "wood_full_brake_force": 300,
                     "wood_driftRatio": 0,
                     "wood_driftMult": 0,
                     "wood_driftBoost": 0,
@@ -9651,6 +9652,7 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
+                    "throwing_makibishi": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -18477,8 +18479,6 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 100,
                     "last_fov": 40,
-                    "Player_Max_angular_velocity": 0,
-                    "distance": 0,
                     "target": 726386159
                 },
                 {
@@ -18565,8 +18565,6 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
                     "last_fov": 55,
-                    "Player_Max_angular_velocity": 0,
-                    "distance": 0,
                     "target": 2807956156
                 },
                 {
@@ -23438,6 +23436,558 @@
             ]
         },
         {
+            "name": "Collider",
+            "UUID": 1151012133,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        -0.093905,
+                        0,
+                        -0.998192,
+                        -61.666794,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        1.561143,
+                        0,
+                        -0.060043,
+                        49.399147,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        26.500002,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Collider",
+            "UUID": 1219311235,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        -0.149441,
+                        0,
+                        -0.994192,
+                        -63.793304,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        1.380757,
+                        0,
+                        -0.107603,
+                        73.963234,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        22.700001,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Collider",
+            "UUID": 1094059479,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        -0.394312,
+                        0,
+                        -0.885866,
+                        -71.861023,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        0.752911,
+                        0,
+                        -0.463943,
+                        98.316841,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        29.600002,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Collider",
+            "UUID": 73601961,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        0.044053,
+                        0,
+                        -0.998657,
+                        -77.953758,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        0.848776,
+                        0,
+                        0.051832,
+                        125.946350,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        29.600002,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Collider",
+            "UUID": 47686630,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        0.331868,
+                        0,
+                        -0.920617,
+                        -71.510254,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        0.782449,
+                        0,
+                        0.390470,
+                        153.992065,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        29.600002,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Collider",
+            "UUID": 1102429536,
+            "local_UUID": 0,
+            "parent": 638308003,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1896513608,
+                    "active": true,
+                    "matrix": [
+                        0.569680,
+                        0,
+                        -0.742114,
+                        -56.063995,
+                        0,
+                        1,
+                        0,
+                        34.133587,
+                        0.630736,
+                        0,
+                        0.670276,
+                        178.580246,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3452362471,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 850661679,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        29.600002,
+                        8.800000,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
             "name": "DeformedBamboo",
             "UUID": 113896437,
             "local_UUID": 1554413921,
@@ -24345,15 +24895,15 @@
                     "matrix": [
                         1,
                         0,
-                        -0.000000,
+                        0,
                         -0.481556,
                         0,
                         1,
                         0,
                         0,
-                        0.000000,
                         0,
-                        1.000000,
+                        0,
+                        1,
                         -2.838943,
                         0,
                         0,
@@ -24521,15 +25071,15 @@
                     "active": true,
                     "matrix": [
                         -0.268655,
-                        0.000000,
+                        0,
                         0.262416,
                         -29.018517,
-                        0.000000,
+                        0,
                         0.375530,
-                        0.000000,
+                        0,
                         32.842308,
                         -0.262416,
-                        0.000000,
+                        0,
                         -0.268654,
                         -78.128166,
                         0,
@@ -26239,15 +26789,15 @@
                     "matrix": [
                         1,
                         0,
-                        -0.000000,
+                        0,
                         64.207260,
                         0,
                         1,
                         0,
                         0,
-                        0.000000,
                         0,
-                        1.000000,
+                        0,
+                        1,
                         8.301804,
                         0,
                         0,
@@ -27805,6 +28355,2006 @@
                     "rotation": [
                         0,
                         37.673786,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2702539362,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2702539362,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -33.576271,
+                        31.998301,
+                        37.610737
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3305716316,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3305716316,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -33.665863,
+                        31.677433,
+                        44.699249
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3697902488,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3697902488,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -33.787769,
+                        31.672356,
+                        51.454857
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 4146913910,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4146913910,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -33.796459,
+                        31.601072,
+                        58.052231
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3258251737,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3258251737,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -34.228706,
+                        31.650105,
+                        64.869888
+                    ],
+                    "rotation": [
+                        0,
+                        -7.695113,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3490230968,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3490230968,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -35.139977,
+                        31.614815,
+                        71.797318
+                    ],
+                    "rotation": [
+                        0,
+                        -7.595205,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3488004276,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3488004276,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -36.053177,
+                        31.545477,
+                        78.670357
+                    ],
+                    "rotation": [
+                        0,
+                        -8.216742,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 33971974,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 33971974,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -37.670475,
+                        31.619904,
+                        85.450554
+                    ],
+                    "rotation": [
+                        0,
+                        -18.250879,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 272691531,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 272691531,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -40.238579,
+                        31.506804,
+                        91.657425
+                    ],
+                    "rotation": [
+                        0,
+                        -27.745377,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2513198614,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2513198614,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.668587,
+                        31.705673,
+                        97.869110
+                    ],
+                    "rotation": [
+                        0,
+                        -29.746428,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3226987820,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3226987820,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -46.547596,
+                        31.738049,
+                        104.284012
+                    ],
+                    "rotation": [
+                        0,
+                        -19.686457,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2692349298,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2692349298,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -48.593761,
+                        31.699450,
+                        110.871964
+                    ],
+                    "rotation": [
+                        0,
+                        -16.388662,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3761672201,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3761672201,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -50.101139,
+                        31.603739,
+                        117.680511
+                    ],
+                    "rotation": [
+                        0,
+                        -9.869184,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2908270859,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2908270859,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -50.604794,
+                        31.568138,
+                        124.565796
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 411513710,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 411513710,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -50.211540,
+                        31.598309,
+                        131.375458
+                    ],
+                    "rotation": [
+                        0,
+                        8.332510,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1421063455,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1421063455,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -46.726173,
+                        31.564430,
+                        144.718170
+                    ],
+                    "rotation": [
+                        0,
+                        24.606495,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3958708418,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3958708418,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.242970,
+                        31.600634,
+                        150.647430
+                    ],
+                    "rotation": [
+                        0,
+                        35.847908,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3582693996,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3582693996,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -38.685253,
+                        31.584494,
+                        155.614899
+                    ],
+                    "rotation": [
+                        0,
+                        50.934933,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1415872171,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1415872171,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -32.924175,
+                        31.571247,
+                        159.398483
+                    ],
+                    "rotation": [
+                        0,
+                        63.285683,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2583801099,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2583801099,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -26.509693,
+                        31.500429,
+                        162.056488
+                    ],
+                    "rotation": [
+                        0,
+                        71.983009,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2941138599,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2941138599,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -19.806999,
+                        31.664351,
+                        164.017929
+                    ],
+                    "rotation": [
+                        0,
+                        74.212784,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2342346029,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2342346029,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -12.934570,
+                        31.678457,
+                        165.461868
+                    ],
+                    "rotation": [
+                        0,
+                        80.368484,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1560830055,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1560830055,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -6.140685,
+                        31.862461,
+                        165.974350
+                    ],
+                    "rotation": [
+                        -180,
+                        87.687164,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 152092333,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 152092333,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        0.505709,
+                        31.834938,
+                        165.404694
+                    ],
+                    "rotation": [
+                        -180,
+                        80.005730,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2177395138,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2177395138,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        7.489277,
+                        31.606024,
+                        163.903366
+                    ],
+                    "rotation": [
+                        -180,
+                        78.292664,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 877676952,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 877676952,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        13.835832,
+                        31.559925,
+                        162.221237
+                    ],
+                    "rotation": [
+                        -180,
+                        73.835197,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3286247546,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3286247546,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        20.365881,
+                        31.807274,
+                        159.129776
+                    ],
+                    "rotation": [
+                        -180,
+                        51.895443,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2700387600,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2700387600,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.132813,
+                        31.727291,
+                        153.966599
+                    ],
+                    "rotation": [
+                        -180,
+                        35.088978,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2025525856,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2025525856,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        28.954029,
+                        31.611393,
+                        148.008835
+                    ],
+                    "rotation": [
+                        -180,
+                        28.903166,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2578077493,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2578077493,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        31.786858,
+                        31.783133,
+                        141.718475
+                    ],
+                    "rotation": [
+                        -180,
+                        17.068052,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 348159609,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 348159609,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        33.228142,
+                        31.447206,
+                        134.738815
+                    ],
+                    "rotation": [
+                        -180,
+                        11.005146,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1224900240,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1224900240,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        35.120766,
+                        31.658144,
+                        127.583282
+                    ],
+                    "rotation": [
+                        -180,
+                        5.346698,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 893402297,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 893402297,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        35.556034,
+                        31.886656,
+                        120.531822
+                    ],
+                    "rotation": [
+                        -180,
+                        -1.620772,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3287161816,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3287161816,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        34.749519,
+                        32.196236,
+                        113.346634
+                    ],
+                    "rotation": [
+                        -180,
+                        -16.058361,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3801215693,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3801215693,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        32.713997,
+                        31.958628,
+                        106.675957
+                    ],
+                    "rotation": [
+                        -180,
+                        -16.097775,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3797511108,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3797511108,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        30.747606,
+                        31.791998,
+                        99.943047
+                    ],
+                    "rotation": [
+                        -180,
+                        -14.888001,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 572186817,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 572186817,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        28.585529,
+                        32.156868,
+                        93.002922
+                    ],
+                    "rotation": [
+                        -180,
+                        -20.618698,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2955661713,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2955661713,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        26.888769,
+                        32.004917,
+                        85.980217
+                    ],
+                    "rotation": [
+                        -180,
+                        -5.692140,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2667299723,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2667299723,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        26.230902,
+                        32.156864,
+                        79.011543
+                    ],
+                    "rotation": [
+                        -180,
+                        -6.930985,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3171711158,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3171711158,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.908506,
+                        32.156864,
+                        72.009796
+                    ],
+                    "rotation": [
+                        -180,
+                        0.393475,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1614248266,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1614248266,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.897213,
+                        32.100281,
+                        64.833008
+                    ],
+                    "rotation": [
+                        -180,
+                        0.225390,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1018874249,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1018874249,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.786371,
+                        31.930185,
+                        57.738770
+                    ],
+                    "rotation": [
+                        -180,
+                        -1.620743,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3252019367,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3252019367,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.423782,
+                        32.156864,
+                        37.950279
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3752291717,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3752291717,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.415501,
+                        32.156868,
+                        45.081619
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 615965408,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 615965408,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.266392,
+                        32.156860,
+                        52.180534
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1988080684,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1988080684,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.323135,
+                        32.156860,
+                        59.308464
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2334967036,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2334967036,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.069576,
+                        32.156868,
+                        66.349167
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3944568369,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3944568369,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.199806,
+                        32.156864,
+                        73.378853
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1217969365,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1217969365,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        51.906403,
+                        32.156864,
+                        80.321892
+                    ],
+                    "rotation": [
+                        0,
+                        8.808519,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 692395897,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 692395897,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        52.892788,
+                        32.156864,
+                        87.285515
+                    ],
+                    "rotation": [
+                        0,
+                        11.544954,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2201831251,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2201831251,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        54.310974,
+                        32.156864,
+                        93.976212
+                    ],
+                    "rotation": [
+                        0,
+                        10.951647,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 548872406,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 548872406,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        55.748817,
+                        32.156864,
+                        100.839706
+                    ],
+                    "rotation": [
+                        0,
+                        12.532291,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3022021461,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3022021461,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        56.819622,
+                        32.156864,
+                        107.708557
+                    ],
+                    "rotation": [
+                        0,
+                        4.758124,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1638677085,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1638677085,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        57.111401,
+                        32.156864,
+                        114.521072
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1866414055,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1866414055,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        57.192520,
+                        32.156864,
+                        121.628502
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3224113869,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3224113869,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        57.056694,
+                        32.156864,
+                        128.349045
+                    ],
+                    "rotation": [
+                        0,
+                        -3.300682,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 4062179446,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4062179446,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        56.865284,
+                        32.156860,
+                        135.444412
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 802621815,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 802621815,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        56.434181,
+                        32.156864,
+                        142.281509
+                    ],
+                    "rotation": [
+                        0,
+                        -6.349877,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 4080901167,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4080901167,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        55.105000,
+                        32.156864,
+                        149.083450
+                    ],
+                    "rotation": [
+                        0,
+                        -14.396377,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1954208280,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1954208280,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        53.262878,
+                        32.156868,
+                        155.741379
+                    ],
+                    "rotation": [
+                        0,
+                        -20.044388,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3315225208,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3315225208,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        50.609196,
+                        32.156860,
+                        162.114151
+                    ],
+                    "rotation": [
+                        0,
+                        -25.210991,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2671000365,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2671000365,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        46.930874,
+                        32.156864,
+                        167.995132
+                    ],
+                    "rotation": [
+                        0,
+                        -37.365143,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1533970230,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1533970230,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        42.446507,
+                        32.156868,
+                        173.180405
+                    ],
+                    "rotation": [
+                        -0.601993,
+                        -45.438854,
+                        0.064800
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 302586343,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 302586343,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        37.196186,
+                        32.156864,
+                        177.752914
+                    ],
+                    "rotation": [
+                        0,
+                        -52.789597,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3050127925,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3050127925,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        31.528395,
+                        32.156868,
+                        181.805267
+                    ],
+                    "rotation": [
+                        0,
+                        -56.366207,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2381070162,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2381070162,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        25.392088,
+                        32.156864,
+                        184.902298
+                    ],
+                    "rotation": [
+                        0,
+                        -69.325279,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 4293006891,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4293006891,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        18.468363,
+                        32.156860,
+                        186.920105
+                    ],
+                    "rotation": [
+                        0,
+                        -74.063072,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1313380821,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1313380821,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        11.570918,
+                        32.156864,
+                        188.541611
+                    ],
+                    "rotation": [
+                        0,
+                        -81.443512,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3584785339,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3584785339,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        4.772488,
+                        32.156868,
+                        189.390823
+                    ],
+                    "rotation": [
+                        0,
+                        -85.239464,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 249207666,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 249207666,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -2.188137,
+                        32.156864,
+                        189.795303
+                    ],
+                    "rotation": [
+                        0.000141,
+                        -86.010017,
+                        0.000171
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 215390651,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 215390651,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -9.213981,
+                        32.156868,
+                        190.160507
+                    ],
+                    "rotation": [
+                        0,
+                        -89.667793,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2408848089,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2408848089,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -16.140516,
+                        32.156864,
+                        190.230621
+                    ],
+                    "rotation": [
+                        180,
+                        -89.470650,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 2786205929,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2786205929,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -22.947998,
+                        32.156864,
+                        190.035294
+                    ],
+                    "rotation": [
+                        180,
+                        -86.823990,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 8661162,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 8661162,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -29.906761,
+                        32.156864,
+                        189.508331
+                    ],
+                    "rotation": [
+                        180,
+                        -87.620918,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 4047364643,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4047364643,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        5.999666,
+                        31.953461,
+                        -159.694412
+                    ],
+                    "rotation": [
+                        180,
+                        -86.049431,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3089110666,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3089110666,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -48.944386,
+                        31.646416,
+                        138.240555
+                    ],
+                    "rotation": [
+                        0,
+                        13.332493,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 773569089,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 773569089,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        26.013462,
+                        31.921700,
+                        50.610722
+                    ],
+                    "rotation": [
+                        -180,
+                        4.711780,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3083519932,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3083519932,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        26.400578,
+                        32.017891,
+                        43.637768
+                    ],
+                    "rotation": [
+                        -180,
+                        3.733645,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 541810078,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 541810078,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -36.905766,
+                        32.156864,
+                        189.134537
+                    ],
+                    "rotation": [
+                        180,
+                        -89.735329,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 1895514175,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1895514175,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.924408,
+                        32.156864,
+                        189.257309
+                    ],
+                    "rotation": [
+                        0,
+                        -88.848686,
                         0
                     ]
                 }
