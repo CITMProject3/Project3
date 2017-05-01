@@ -17,8 +17,19 @@ struct Particle
 	math::float3 origin;
 	float life = -1.0f;
 	float cam_distance = -1.0f;
+	int next_c_id = 0;
+	math::float4 color;
 
 	bool operator<(Particle& b);
+};
+
+struct ColorTimeItem
+{
+	float alpha;
+	float position; //In %
+	math::float3 color;
+
+	ColorTimeItem(float alpha, float position, const math::float3& color);
 };
 
 class ComponentParticleSystem : public Component
@@ -49,6 +60,7 @@ private:
 	void InspectorDelete();
 	void InspectorChangeTexture();
 	void InspectorSimulation(); //Play/Stop simulation
+	void InspectorColorOverTime();
 
 	void SpawnParticle();
 	int FindUnusedParticle();
@@ -61,7 +73,13 @@ private:
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
 	bool play_on_awake = true;
-	
+
+	//Color over time
+public:
+	bool color_over_time_active = false;
+private:
+	std::vector<ColorTimeItem*> color_time;
+	ColorTimeItem cti_entry;
 
 	//Shape
 	math::float3 box_shape = math::float3(1);
@@ -74,7 +92,7 @@ private:
 	
 	const int top_max_particles = 1000; //Maximum number of particles (not editable for the user)
 	std::vector<Particle> particles_container;
-	std::vector<math::float3> alive_particles_position; 
+	
 
 	//Simulation in editor
 	float simulation_time = 0.0f;
@@ -85,8 +103,12 @@ private:
 	math::LCG rnd;
 
 public:
+	std::vector<math::float3> alive_particles_position;
+	std::vector<math::float4> alive_particles_color;
+
 	//Buffers
 	unsigned int position_buffer = 0;
+	unsigned int color_buffer = 0;
 
 	int num_alive_particles = 0; //Number of particles alive
 

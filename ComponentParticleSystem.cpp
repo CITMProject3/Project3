@@ -32,16 +32,21 @@
 #include <algorithm>
 using namespace std;
 
-ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object)
+ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), color(1), cti_entry(1, 0, float3(1))
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
 	particles_container.resize(top_max_particles);
 	alive_particles_position.resize(top_max_particles);
+	alive_particles_color.resize(top_max_particles);
 
 	glGenBuffers(1, &position_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
 	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
+
+	glGenBuffers(1, &color_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 4 * sizeof(float), NULL, GL_STREAM_DRAW);
 
 	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
 	box_shape_obb.r = box_shape * 0.5;
@@ -51,11 +56,21 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	box_shape_obb.axis[2] = rotation * float3::unitZ;
 
 	rnd = LCG(time->RealTimeSinceStartup());
+
+	ColorTimeItem* c_begin = new ColorTimeItem(1.0f, 0.0, color);
+	ColorTimeItem* c_end = new ColorTimeItem(1.0, 100.0, color);
+	color_time.push_back(c_begin);
+	color_time.push_back(c_end);
 }
 
 ComponentParticleSystem::~ComponentParticleSystem()
 {
 	glDeleteBuffers(1, &position_buffer);
+	glDeleteBuffers(1, &color_buffer);
+
+	for (vector<ColorTimeItem*>::iterator it = color_time.begin(); it != color_time.end(); ++it)
+		delete *it;
+	color_time.clear();
 }
 
 void ComponentParticleSystem::OnInspector(bool debug)
@@ -91,6 +106,8 @@ void ComponentParticleSystem::OnInspector(bool debug)
 			}
 		}
 
+		InspectorColorOverTime();
+
 		//Render
 		if (ImGui::CollapsingHeader("Render ###ps_render"))
 		{
@@ -124,6 +141,21 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendBool("play_on_awake", play_on_awake);
 	data.AppendFloat3("color", color.ptr());
 
+	data.AppendBool("color_over_time", color_over_time_active);
+	if (color_over_time_active)
+	{
+		data.AppendArray("colors");
+		
+		for (int c = 0; c < color_time.size(); ++c)
+		{
+			Data colors;
+			colors.AppendFloat3("color", color_time[c]->color.ptr());
+			colors.AppendFloat("alpha", color_time[c]->alpha);
+			colors.AppendFloat("position", color_time[c]->position);
+			data.AppendArrayValue(colors);
+		}
+	}
+
 	data.AppendFloat3("box_shape", box_shape.ptr());
 
 	//Render
@@ -148,6 +180,23 @@ void ComponentParticleSystem::Load(Data & conf)
 	size = conf.GetFloat("size");
 	play_on_awake = conf.GetBool("play_on_awake");
 	color = conf.GetFloat3("color");
+	color_over_time_active = conf.GetBool("color_over_time");
+	if (color_over_time_active)
+	{
+		int c_size = conf.GetArraySize("colors");
+
+		delete color_time[0];
+		delete color_time[1];
+		color_time.clear();
+
+		Data color_item;
+		for (int c = 0; c < c_size; ++c)
+		{
+			color_item = conf.GetArray("colors", c);
+			ColorTimeItem* cti = new ColorTimeItem(color_item.GetFloat("alpha"), color_item.GetFloat("position"), color_item.GetFloat3("color"));
+			color_time.push_back(cti);
+		}
+	}
 
 	box_shape = conf.GetFloat3("box_shape");
 
@@ -199,7 +248,12 @@ void ComponentParticleSystem::PostUpdate()
 
 		Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 
-		//Update positions
+		float item_life;
+		float item_life_pc;
+		float c_pc;
+		ColorTimeItem* previous = nullptr;
+		ColorTimeItem* next = nullptr;
+		//Update positions & color
 		for (int i = 0; i < top_max_particles; ++i)
 		{
 			Particle& p = particles_container[i];
@@ -210,7 +264,23 @@ void ComponentParticleSystem::PostUpdate()
 
 				if (p.life > 0.0f)
 				{
-					p.position = p.origin + (rotation * p.speed) * (life_time - p.life);
+					item_life = life_time - p.life;
+					p.position = p.origin + (rotation * p.speed) * item_life;
+
+					item_life_pc = (item_life / life_time) * 100.0;
+
+					if (color_time[p.next_c_id]->position < item_life_pc)
+						p.next_c_id++;
+
+					previous = color_time[p.next_c_id - 1];
+					next = color_time[p.next_c_id];
+			
+					c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
+					p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
+					p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
+					p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
+					p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+
 					++num_alive_particles;
 				}
 			}
@@ -274,7 +344,8 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 
 	for (int i = 0; i < max_particles; ++i)
 	{
-		particles_container[i].cam_distance = cam_pos.Distance(particles_container[i].position);
+		if (particles_container[i].life > 0.0f)
+			particles_container[i].cam_distance = (cam_pos - particles_container[i].position).Length();
 	}
 
 	std::sort(particles_container.begin(), particles_container.end());
@@ -282,11 +353,37 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 	for (int i = 0; i < num_alive_particles; ++i)
 	{
 		alive_particles_position[i] = particles_container[i].position;
+		alive_particles_color[i] = particles_container[i].color;
+	}
+
+	//Testing sort
+	float previous_cam_dist = 200000.0f;
+	for (int i = 0; i < num_alive_particles; ++i)
+	{
+		if (alive_particles_position[i].x != particles_container[i].position.x && alive_particles_position[i].y != particles_container[i].position.y && alive_particles_position[i].z != particles_container[i].position.z)
+		{
+			LOG("Particle Error: alive particles position not equal to container position");
+		}
+
+		if (particles_container[i].life < 0)
+		{
+			LOG("Particle Error: dead particle in alive particle buffer");
+		}
+
+		if (particles_container[i].cam_distance > previous_cam_dist)
+		{
+			LOG("Particle Error: cam distance wrong");
+		}
+		previous_cam_dist = particles_container[i].cam_distance;
 	}
 
 	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
 	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 3 * sizeof(float), NULL, GL_STREAM_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 3, alive_particles_position.data());
+
+	glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
+	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 4 * sizeof(float), NULL, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 4, alive_particles_color.data());
 }
 
 void ComponentParticleSystem::StopAll()
@@ -356,6 +453,62 @@ void ComponentParticleSystem::InspectorSimulation()
 	ImGui::End();
 }
 
+void ComponentParticleSystem::InspectorColorOverTime()
+{
+	if (ImGui::CollapsingHeader("Color over time"))
+	{
+		ImGui::Text("Active:"); ImGui::SameLine(); ImGui::Checkbox("###ps_cot_active_cb", &color_over_time_active);
+		if (color_over_time_active)
+		{
+			ImGui::Text("WARNING: do not remove while the system is playing");
+			vector<int> items_to_remove;
+			for (int c = 0; c < color_time.size(); ++c)
+			{
+				ImGui::Text("%.2f%%", color_time[c]->position);
+				ImGui::SameLine();
+				ImGui::ColorButton(ImVec4(color_time[c]->color.x, color_time[c]->color.y, color_time[c]->color.z, color_time[c]->alpha));
+				ImGui::SameLine();
+				ImGui::PushID(c);
+				if (ImGui::Button("Remove"))
+				{
+					items_to_remove.push_back(c);
+				}
+				ImGui::PopID();
+			}
+			ImGui::DragFloat("Position:##ps_cti_entry_pos", &cti_entry.position, 0.01, 0, 100.0);
+			ImGui::ColorPicker("Color: ###ps_cti_entry_color", cti_entry.color.ptr());
+			ImGui::DragFloat("Alpha:##ps_cti_entry_alpha", &cti_entry.alpha, 0.01, 0, 1.0);
+			
+			if (ImGui::Button("Add entry ###ps_cot_entry"))
+			{
+				for (vector<ColorTimeItem*>::iterator it = color_time.begin(); it != color_time.end(); ++it)
+				{
+					if (cti_entry.position < (*it)->position)
+					{
+						ColorTimeItem* item = new ColorTimeItem(cti_entry);
+						color_time.insert(it, item);
+						break;
+					}
+				}
+
+				if (color_time.size() < 2)
+				{
+					ColorTimeItem* item = new ColorTimeItem(cti_entry);
+					color_time.push_back(item);
+				}
+
+				cti_entry.alpha = 1.0f;
+				cti_entry.color = float3(1);
+				cti_entry.position = 0.0f;
+			}
+
+			if (items_to_remove.size() > 0)
+				for (int i = 0; i < items_to_remove.size(); ++i)
+					color_time.erase(color_time.begin() + items_to_remove[i]);
+		}
+	}
+}
+
 void ComponentParticleSystem::SpawnParticle()
 {
 	int id = FindUnusedParticle();
@@ -366,6 +519,8 @@ void ComponentParticleSystem::SpawnParticle()
 	p.position = math::float3(0.0f);
 	p.speed = math::float3(0, speed, 0);
 	p.origin = box_shape_obb.RandomPointInside(rnd);
+	p.next_c_id = 0;
+	p.cam_distance = -1.0f;
 }
 
 int ComponentParticleSystem::FindUnusedParticle()
@@ -388,3 +543,6 @@ bool Particle::operator<(Particle & b)
 	if (this->life < 0 && b.life > 0) return false;
 	return this->cam_distance > b.cam_distance;
 }
+
+ColorTimeItem::ColorTimeItem(float alpha, float position, const math::float3 & color) : alpha(alpha), position(position), color(color)
+{}

@@ -179,7 +179,7 @@ update_status ModuleRenderer3D::PreUpdate()
 		UpdateProjectionMatrix(cameras[0]);
 		cameras[0]->properties_modified = false;
 	}
-
+	glViewport(0, 0, App->window->GetScreenWidth(), App->window->GetScreenHeight());
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glLoadIdentity();
 
@@ -307,9 +307,6 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
 
 	glLoadIdentity();
-
-	//glMatrixMode(GL_MODELVIEW);
-	//glLoadMatrixf((float*)cameras[0]->GetViewMatrix().v);
 
 	UpdateProjectionMatrix(cam);
 
@@ -630,10 +627,11 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	GLint texture_location = glGetUniformLocation(shader_id, "tex");
 	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
 	GLint color_location = glGetUniformLocation(shader_id, "s_color");
+	GLint use_color_time_location = glGetUniformLocation(shader_id, "use_color_time");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+	
 	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
 		(*particle)->SortParticles(cam);
@@ -643,6 +641,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 
 		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
 		glUniform3fv(color_location, 1, (*particle)->color.ptr());
+		glUniform1i(use_color_time_location, (*particle)->color_over_time_active);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
@@ -666,14 +665,21 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glVertexAttribDivisor(2, 1);
 
+		glEnableVertexAttribArray(3);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->color_buffer);
+		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(3, 1);
+
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
 		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->num_alive_particles);
+
 	}
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
