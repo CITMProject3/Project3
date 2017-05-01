@@ -690,35 +690,55 @@
                         0
                     ],
                     "turn_over_reset_time": 2,
-                    "acceleration": 1550,
-                    "max_speed": 130,
-                    "min_speed": -55,
-                    "fake_break": 45,
-                    "base_turn_max": 0.400000,
-                    "turn_speed": 2,
-                    "turn_speed_joystick": 2,
-                    "time_to_idle": 0.150000,
-                    "idle_turn_by_interpolation": true,
-                    "velocity_to_change": 1,
-                    "turn_max_limit": 0.070000,
-                    "base_max_turn_change_speed": -0.010000,
-                    "base_max_turn_change_accel": -0.100000,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 1000,
-                    "push_speed_per": 80,
-                    "brakeForce": 150,
-                    "backForce": 1800,
-                    "full_brake_force": 300,
-                    "lean_accel_boost": 25,
-                    "lean_speed_boost": 25,
-                    "lean_turn_strict": 25,
-                    "driftRatio": 0.575000,
-                    "driftMult": 1.450000,
-                    "driftBoost": 1,
-                    "driftMinSpeed": 50,
-                    "drift_turn_max": 0.160000,
+                    "wood_acceleration": 0,
+                    "wood_max_speed": 0,
+                    "wood_min_speed": 0,
+                    "wood_fake_break": 0,
+                    "wood_base_turn_max": 0,
+                    "wood_turn_speed": 0,
+                    "wood_turn_speed_joystick": 0,
+                    "wood_time_to_idle": 0,
+                    "wood_idle_turn_by_interpolation": false,
+                    "wood_velocity_to_change": 0,
+                    "wood_turn_max_limit": 0,
+                    "wood_base_max_turn_change_speed": 0,
+                    "wood_base_max_turn_change_accel": 0,
+                    "wood_push_force": 0,
+                    "wood_push_speed_per": 0,
+                    "wood_brakeForce": 0,
+                    "wood_backForce": 0,
+                    "wood_full_brake_force": 0,
+                    "wood_driftRatio": 0,
+                    "wood_driftMult": 0,
+                    "wood_driftBoost": 0,
+                    "wood_driftMinSpeed": 0,
+                    "wood_drift_turn_max": 0,
+                    "koji_acceleration": 0,
+                    "koji_max_speed": 0,
+                    "koji_min_speed": 0,
+                    "koji_fake_break": 0,
+                    "koji_base_turn_max": 0,
+                    "koji_turn_speed": 0,
+                    "koji_turn_speed_joystick": 0,
+                    "koji_time_to_idle": 0,
+                    "koji_idle_turn_by_interpolation": false,
+                    "koji_velocity_to_change": 0,
+                    "koji_turn_max_limit": 0,
+                    "koji_base_max_turn_change_speed": 0,
+                    "koji_base_max_turn_change_accel": 0,
+                    "koji_push_force": 0,
+                    "koji_push_speed_per": 0,
+                    "koji_brakeForce": 0,
+                    "koji_backForce": 0,
+                    "koji_full_brake_force": 300,
+                    "koji_driftRatio": 0,
+                    "koji_driftMult": 0,
+                    "koji_driftBoost": 0,
+                    "koji_driftMinSpeed": 0,
+                    "koji_drift_turn_max": 0,
                     "miniturbo_accel_boost": 100,
                     "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
@@ -765,7 +785,9 @@
                     "suspensionRestLength": 0.300000,
                     "maxSuspensionTravelCm": 1000.000061,
                     "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000
+                    "maxSuspensionForce": 6000,
+                    "max_hitodamas": 0,
+                    "bonus_hitodamas": 0
                 },
                 {
                     "type": 10,
@@ -785,7 +807,6 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_makibishi": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -9513,35 +9534,55 @@
                         0
                     ],
                     "turn_over_reset_time": 2,
-                    "acceleration": 1550,
-                    "max_speed": 130,
-                    "min_speed": -55,
-                    "fake_break": 45,
-                    "base_turn_max": 0.400000,
-                    "turn_speed": 2,
-                    "turn_speed_joystick": 2,
-                    "time_to_idle": 0.150000,
-                    "idle_turn_by_interpolation": true,
-                    "velocity_to_change": 1,
-                    "turn_max_limit": 0.070000,
-                    "base_max_turn_change_speed": -0.010000,
-                    "base_max_turn_change_accel": -0.100000,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 1000,
-                    "push_speed_per": 80,
-                    "brakeForce": 150,
-                    "backForce": 1800,
-                    "full_brake_force": 300,
-                    "lean_accel_boost": 25,
-                    "lean_speed_boost": 25,
-                    "lean_turn_strict": 25,
-                    "driftRatio": 0.575000,
-                    "driftMult": 1.450000,
-                    "driftBoost": 1,
-                    "driftMinSpeed": 50,
-                    "drift_turn_max": 0.160000,
+                    "wood_acceleration": 0,
+                    "wood_max_speed": 0,
+                    "wood_min_speed": 0,
+                    "wood_fake_break": 0,
+                    "wood_base_turn_max": 0,
+                    "wood_turn_speed": 0,
+                    "wood_turn_speed_joystick": 0,
+                    "wood_time_to_idle": 0,
+                    "wood_idle_turn_by_interpolation": false,
+                    "wood_velocity_to_change": 0,
+                    "wood_turn_max_limit": 0,
+                    "wood_base_max_turn_change_speed": 0,
+                    "wood_base_max_turn_change_accel": 0,
+                    "wood_push_force": 0,
+                    "wood_push_speed_per": 0,
+                    "wood_brakeForce": 0,
+                    "wood_backForce": 0,
+                    "wood_full_brake_force": 0,
+                    "wood_driftRatio": 0,
+                    "wood_driftMult": 0,
+                    "wood_driftBoost": 0,
+                    "wood_driftMinSpeed": 0,
+                    "wood_drift_turn_max": 0,
+                    "koji_acceleration": 0,
+                    "koji_max_speed": 0,
+                    "koji_min_speed": 0,
+                    "koji_fake_break": 0,
+                    "koji_base_turn_max": 0,
+                    "koji_turn_speed": 0,
+                    "koji_turn_speed_joystick": 0,
+                    "koji_time_to_idle": 0,
+                    "koji_idle_turn_by_interpolation": false,
+                    "koji_velocity_to_change": 0,
+                    "koji_turn_max_limit": 0,
+                    "koji_base_max_turn_change_speed": 0,
+                    "koji_base_max_turn_change_accel": 0,
+                    "koji_push_force": 0,
+                    "koji_push_speed_per": 0,
+                    "koji_brakeForce": 0,
+                    "koji_backForce": 0,
+                    "koji_full_brake_force": 300,
+                    "koji_driftRatio": 0,
+                    "koji_driftMult": 0,
+                    "koji_driftBoost": 0,
+                    "koji_driftMinSpeed": 0,
+                    "koji_drift_turn_max": 0,
                     "miniturbo_accel_boost": 100,
                     "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
@@ -9588,7 +9629,9 @@
                     "suspensionRestLength": 0.300000,
                     "maxSuspensionTravelCm": 1000.000061,
                     "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000
+                    "maxSuspensionForce": 6000,
+                    "max_hitodamas": 0,
+                    "bonus_hitodamas": 0
                 },
                 {
                     "type": 10,
@@ -9608,7 +9651,6 @@
                     "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
-                    "throwing_makibishi": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -18435,6 +18477,8 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 100,
                     "last_fov": 40,
+                    "Player_Max_angular_velocity": 0,
+                    "distance": 0,
                     "target": 726386159
                 },
                 {
@@ -18521,6 +18565,8 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
                     "last_fov": 55,
+                    "Player_Max_angular_velocity": 0,
+                    "distance": 0,
                     "target": 2807956156
                 },
                 {
@@ -20537,31 +20583,6 @@
                     "rotation": [
                         180,
                         -87.002388,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "WoodFence",
-            "UUID": 1769363287,
-            "local_UUID": 3768363546,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1769363287,
-            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
-            "components": [
-                {
-                    "position": [
-                        5.982371,
-                        31.737442,
-                        -159.651001
-                    ],
-                    "rotation": [
-                        180,
-                        -85.462868,
                         180
                     ]
                 }
@@ -23415,6 +23436,4380 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 113896437,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 113896437,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -36.038036,
+                        41.384140,
+                        -187.034958
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 3418462886,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3418462886,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -34.941059,
+                        40.496998,
+                        -188.016068
+                    ],
+                    "rotation": [
+                        0,
+                        -56.828888,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "DeformedBamboo",
+            "UUID": 2751341178,
+            "local_UUID": 1554413921,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2751341178,
+            "prefab_path": "\/Library\/643644559\/3260913244\/\/745387873\/745387873.pfb",
+            "components": [
+                {
+                    "position": [
+                        -36.481071,
+                        42.258865,
+                        -189.610062
+                    ],
+                    "rotation": [
+                        180,
+                        -85.252975,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 4268902361,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4268902361,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        5.935314,
+                        24.233603,
+                        -92.994598
+                    ],
+                    "rotation": [
+                        -5.165672,
+                        4.453813,
+                        0.402963
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2187676572,
+            "local_UUID": 1340804865,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2187676572,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -8.773191,
+                        25.664558,
+                        -92.030739
+                    ],
+                    "rotation": [
+                        -5.246601,
+                        -10.989801,
+                        -1.002144
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishRack",
+            "UUID": 1241624175,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.244242,
+                        0,
+                        -0.190908,
+                        -18.566347,
+                        0,
+                        0.310000,
+                        0,
+                        31.643499,
+                        0.190908,
+                        0,
+                        0.244242,
+                        -79.298965,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 1795942864,
+            "local_UUID": 0,
+            "parent": 1241624175,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 1967758485,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.239170,
+                        0,
+                        0.197225,
+                        16.160496,
+                        0,
+                        0.310000,
+                        0,
+                        31.643499,
+                        -0.197225,
+                        0,
+                        0.239170,
+                        -80.016273,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 1202140909,
+            "local_UUID": 0,
+            "parent": 1967758485,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 3554227865,
+            "local_UUID": 3102767157,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3554227865,
+            "prefab_path": "\/Library\/643644559\/1885473006\/\/1306372133\/1306372133.pfb",
+            "components": [
+                {
+                    "position": [
+                        7.134944,
+                        32.083630,
+                        -78.746307
+                    ],
+                    "rotation": [
+                        -180,
+                        -5.203190,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 278092406,
+            "local_UUID": 3102767157,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 278092406,
+            "prefab_path": "\/Library\/643644559\/1885473006\/\/1306372133\/1306372133.pfb",
+            "components": [
+                {
+                    "position": [
+                        -5.846926,
+                        32.275551,
+                        -78.562164
+                    ],
+                    "rotation": [
+                        -180,
+                        15.091855,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat1",
+            "UUID": 1940616599,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1940616599,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        198.118866,
+                        28.893755,
+                        205.704453
+                    ],
+                    "rotation": [
+                        0,
+                        76.854660,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat1",
+            "UUID": 1102068867,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1102068867,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        202.403519,
+                        29.064766,
+                        156.381714
+                    ],
+                    "rotation": [
+                        -180,
+                        82.558792,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat3",
+            "UUID": 1204447346,
+            "local_UUID": 2827035752,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1204447346,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/3366389007\/3366389007.pfb",
+            "components": [
+                {
+                    "position": [
+                        199.115311,
+                        30.109997,
+                        179.072998
+                    ],
+                    "rotation": [
+                        -180,
+                        70.193001,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodenCrate2",
+            "UUID": 3084207804,
+            "local_UUID": 1436449244,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3084207804,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/2719160911\/2719160911.pfb",
+            "components": [
+                {
+                    "position": [
+                        20.383045,
+                        32.627071,
+                        -81.712440
+                    ],
+                    "rotation": [
+                        0,
+                        38.896610,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodenCrate2",
+            "UUID": 2848954338,
+            "local_UUID": 1436449244,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2848954338,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/2719160911\/2719160911.pfb",
+            "components": [
+                {
+                    "position": [
+                        1.984573,
+                        32.733673,
+                        -81.295944
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodenCrate3",
+            "UUID": 641227995,
+            "local_UUID": 649370037,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 641227995,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/1031754119\/1031754119.pfb",
+            "components": [
+                {
+                    "position": [
+                        -13.105082,
+                        32.595284,
+                        -80.585045
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 392028856,
+                    "local_uuid": 2875867025
+                },
+                {
+                    "uuid": 1002107117,
+                    "local_uuid": 357356121
+                },
+                {
+                    "uuid": 2914819211,
+                    "local_uuid": 1168966526
+                },
+                {
+                    "uuid": 443262732,
+                    "local_uuid": 2273056738
+                },
+                {
+                    "uuid": 2409417114,
+                    "local_uuid": 2386950570
+                },
+                {
+                    "uuid": 4226641731,
+                    "local_uuid": 556675474
+                },
+                {
+                    "uuid": 1802925088,
+                    "local_uuid": 2004427637
+                },
+                {
+                    "uuid": 2176236323,
+                    "local_uuid": 2163290478
+                },
+                {
+                    "uuid": 2306585132,
+                    "local_uuid": 3924261570
+                }
+            ]
+        },
+        {
+            "name": "WoodenCrate3",
+            "UUID": 100511767,
+            "local_UUID": 649370037,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 100511767,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/1031754119\/1031754119.pfb",
+            "components": [
+                {
+                    "position": [
+                        -6.549268,
+                        32.542488,
+                        -89.773468
+                    ],
+                    "rotation": [
+                        0,
+                        88.081940,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3573183250,
+                    "local_uuid": 2875867025
+                },
+                {
+                    "uuid": 3954947523,
+                    "local_uuid": 357356121
+                },
+                {
+                    "uuid": 3702270167,
+                    "local_uuid": 1168966526
+                },
+                {
+                    "uuid": 771136759,
+                    "local_uuid": 2273056738
+                },
+                {
+                    "uuid": 2980454679,
+                    "local_uuid": 2386950570
+                },
+                {
+                    "uuid": 734997650,
+                    "local_uuid": 556675474
+                },
+                {
+                    "uuid": 1083297900,
+                    "local_uuid": 2004427637
+                },
+                {
+                    "uuid": 3304734372,
+                    "local_uuid": 2163290478
+                },
+                {
+                    "uuid": 3744923466,
+                    "local_uuid": 3924261570
+                }
+            ]
+        },
+        {
+            "name": "FishStand",
+            "UUID": 777376773,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2638154312,
+                    "active": true,
+                    "matrix": [
+                        0.265746,
+                        0,
+                        -0.229856,
+                        64.800766,
+                        0,
+                        0.351360,
+                        0,
+                        27.476511,
+                        0.229856,
+                        0,
+                        0.265746,
+                        45.369255,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pCube30",
+            "UUID": 426062623,
+            "local_UUID": 0,
+            "parent": 777376773,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3008830166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3093484054,
+                    "active": true,
+                    "path": "\/Library\/603228477\/3186190730\/3797178876.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3144775058,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/603228477\/\/79047088\/79047088.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishStand",
+            "UUID": 1678006260,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2638154312,
+                    "active": true,
+                    "matrix": [
+                        0.341653,
+                        0,
+                        -0.025159,
+                        62.149273,
+                        0,
+                        0.342576,
+                        0,
+                        27.476511,
+                        0.025159,
+                        0,
+                        0.341653,
+                        51.819653,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pCube30",
+            "UUID": 4150101626,
+            "local_UUID": 0,
+            "parent": 1678006260,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3008830166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3093484054,
+                    "active": true,
+                    "path": "\/Library\/603228477\/3186190730\/3797178876.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3144775058,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/603228477\/\/79047088\/79047088.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishStand",
+            "UUID": 3815025591,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2638154312,
+                    "active": true,
+                    "matrix": [
+                        -0.093865,
+                        0,
+                        -0.341631,
+                        77.529137,
+                        0,
+                        0.354288,
+                        0,
+                        27.476511,
+                        0.341631,
+                        0,
+                        -0.093865,
+                        41.942879,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pCube30",
+            "UUID": 1855790853,
+            "local_UUID": 0,
+            "parent": 3815025591,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3008830166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        -0.000000,
+                        -0.481556,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.000000,
+                        0,
+                        1.000000,
+                        -2.838943,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3093484054,
+                    "active": true,
+                    "path": "\/Library\/603228477\/3186190730\/3797178876.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3144775058,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/603228477\/\/79047088\/79047088.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishStand",
+            "UUID": 940222973,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2638154312,
+                    "active": true,
+                    "matrix": [
+                        0.106085,
+                        0,
+                        -0.319575,
+                        70.640823,
+                        0,
+                        0.336720,
+                        0,
+                        27.476511,
+                        0.319575,
+                        0,
+                        0.106085,
+                        42.583210,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pCube30",
+            "UUID": 1333241982,
+            "local_UUID": 0,
+            "parent": 940222973,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3008830166,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -0.481552,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        -2.838959,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3093484054,
+                    "active": true,
+                    "path": "\/Library\/603228477\/3186190730\/3797178876.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3144775058,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/603228477\/\/79047088\/79047088.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 478982054,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 859807579,
+                    "active": true,
+                    "matrix": [
+                        -0.268655,
+                        0.000000,
+                        0.262416,
+                        -29.018517,
+                        0.000000,
+                        0.375530,
+                        0.000000,
+                        32.842308,
+                        -0.262416,
+                        0.000000,
+                        -0.268654,
+                        -78.128166,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 2614972666,
+            "local_UUID": 0,
+            "parent": 478982054,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2241150286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1990086438,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4059223963,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 1711304513,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 859807579,
+                    "active": true,
+                    "matrix": [
+                        -0.013160,
+                        0,
+                        0.375320,
+                        60.183449,
+                        0,
+                        0.375530,
+                        0,
+                        27.132019,
+                        -0.375321,
+                        0,
+                        -0.013160,
+                        59.925026,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 2200999218,
+            "local_UUID": 0,
+            "parent": 1711304513,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2241150286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1990086438,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4059223963,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 2708970700,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 859807579,
+                    "active": true,
+                    "matrix": [
+                        -0.014871,
+                        0,
+                        0.424112,
+                        60.183449,
+                        0,
+                        0.424349,
+                        0,
+                        27.132019,
+                        -0.424113,
+                        0,
+                        -0.014871,
+                        68.204872,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 2348663551,
+            "local_UUID": 0,
+            "parent": 2708970700,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2241150286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1990086438,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4059223963,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 3267799230,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 859807579,
+                    "active": true,
+                    "matrix": [
+                        -0.116618,
+                        0,
+                        0.394778,
+                        60.734196,
+                        0,
+                        0.411618,
+                        0,
+                        27.132017,
+                        -0.394779,
+                        0,
+                        -0.116618,
+                        87.327240,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 1879649712,
+            "local_UUID": 0,
+            "parent": 3267799230,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2241150286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1990086438,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4059223963,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 2468110975,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 859807579,
+                    "active": true,
+                    "matrix": [
+                        -0.014425,
+                        0,
+                        0.411389,
+                        60.183449,
+                        0,
+                        0.411618,
+                        0,
+                        27.132019,
+                        -0.411389,
+                        0,
+                        -0.014425,
+                        77.159851,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 3392748703,
+            "local_UUID": 0,
+            "parent": 2468110975,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2241150286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1990086438,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 4059223963,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 4290416351,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 912551743,
+                    "active": true,
+                    "matrix": [
+                        -0.106279,
+                        0,
+                        0.727580,
+                        73.903442,
+                        0,
+                        0.735300,
+                        0,
+                        26.216238,
+                        -0.727580,
+                        0,
+                        -0.106279,
+                        60.227886,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 2156465650,
+            "local_UUID": 0,
+            "parent": 4290416351,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4247089669,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 460472648,
+            "local_UUID": 0,
+            "parent": 2156465650,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 170505295,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1449721466,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/4118263885.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1200179779,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3043737163\/\/960325743\/960325743.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 2084659006,
+            "local_UUID": 0,
+            "parent": 2156465650,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4161638184,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 533233635,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/3397108548.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1458428543,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 2119911282,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 912551743,
+                    "active": true,
+                    "matrix": [
+                        -0.082386,
+                        0,
+                        0.564016,
+                        73.903442,
+                        0,
+                        0.570000,
+                        0,
+                        26.216238,
+                        -0.564016,
+                        0,
+                        -0.082386,
+                        53.516563,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 1937338453,
+            "local_UUID": 0,
+            "parent": 2119911282,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4247089669,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 3754069065,
+            "local_UUID": 0,
+            "parent": 1937338453,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 170505295,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1449721466,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/4118263885.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1200179779,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3043737163\/\/960325743\/960325743.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 3226571570,
+            "local_UUID": 0,
+            "parent": 1937338453,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 4161638184,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 533233635,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/3397108548.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1458428543,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Boat1",
+            "UUID": 1485837761,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1485837761,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        80.265160,
+                        27.947704,
+                        26.823822
+                    ],
+                    "rotation": [
+                        -180,
+                        89.456787,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Boat1",
+            "UUID": 3828012385,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3828012385,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        88.059113,
+                        28.415627,
+                        39.514244
+                    ],
+                    "rotation": [
+                        166.882889,
+                        -4.313723,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "FishRack",
+            "UUID": 2983344349,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.292859,
+                        0,
+                        -0.101654,
+                        -13.343436,
+                        0,
+                        0.310000,
+                        0,
+                        31.643499,
+                        0.101654,
+                        0,
+                        0.292859,
+                        -76.622597,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 281233962,
+            "local_UUID": 0,
+            "parent": 2983344349,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 3295256272,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.303467,
+                        0,
+                        -0.063307,
+                        94.524193,
+                        0,
+                        0.310000,
+                        0,
+                        27.140718,
+                        0.063307,
+                        0,
+                        0.303467,
+                        47.246902,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 4283571088,
+            "local_UUID": 0,
+            "parent": 3295256272,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 2411535371,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.254940,
+                        0,
+                        -0.176369,
+                        94.524193,
+                        0,
+                        0.310000,
+                        0,
+                        27.140718,
+                        0.176369,
+                        0,
+                        0.254940,
+                        52.274097,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 343520468,
+            "local_UUID": 0,
+            "parent": 2411535371,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 3797404157,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.014217,
+                        0,
+                        -0.309674,
+                        74.211487,
+                        0,
+                        0.310000,
+                        0,
+                        27.140717,
+                        0.309674,
+                        0,
+                        0.014217,
+                        65.517723,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 1630041000,
+            "local_UUID": 0,
+            "parent": 3797404157,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 1866942960,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.202381,
+                        0,
+                        -0.234824,
+                        78.967209,
+                        0,
+                        0.310000,
+                        0,
+                        27.140718,
+                        0.234824,
+                        0,
+                        0.202381,
+                        78.264320,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 1121923214,
+            "local_UUID": 0,
+            "parent": 1866942960,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack",
+            "UUID": 3268222177,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1841932940,
+                    "active": true,
+                    "matrix": [
+                        0.088486,
+                        0,
+                        -0.297104,
+                        74.785950,
+                        0,
+                        0.310000,
+                        0,
+                        27.140717,
+                        0.297104,
+                        0,
+                        0.088486,
+                        72.235443,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingRack",
+            "UUID": 3826211462,
+            "local_UUID": 0,
+            "parent": 3268222177,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1457769670,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1777435737,
+                    "active": true,
+                    "path": "\/Library\/1279625784\/2698989713\/1994861609.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2804935985,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1279625784\/\/4165487902\/4165487902.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Boat1",
+            "UUID": 3272882822,
+            "local_UUID": 3474622301,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3272882822,
+            "prefab_path": "\/Library\/643644559\/1182056115\/\/2965514114\/2965514114.pfb",
+            "components": [
+                {
+                    "position": [
+                        84.022972,
+                        27.779907,
+                        17.692684
+                    ],
+                    "rotation": [
+                        0,
+                        -78.734505,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock1",
+            "UUID": 3603073009,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 388428746,
+                    "active": true,
+                    "matrix": [
+                        0.182754,
+                        0,
+                        0.581981,
+                        61.620190,
+                        0,
+                        0.610000,
+                        0,
+                        27.316645,
+                        -0.581981,
+                        0,
+                        0.182754,
+                        97.283875,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 3881087253,
+            "local_UUID": 0,
+            "parent": 3603073009,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        -0.000000,
+                        64.207260,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.000000,
+                        0,
+                        1.000000,
+                        8.301804,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/3258034947\/3258034947.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "WoodenCrate3",
+            "UUID": 1588235014,
+            "local_UUID": 649370037,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1588235014,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/1031754119\/1031754119.pfb",
+            "components": [
+                {
+                    "position": [
+                        83.654137,
+                        28.276085,
+                        44.551643
+                    ],
+                    "rotation": [
+                        0,
+                        79.728287,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1720818910,
+                    "local_uuid": 2875867025
+                },
+                {
+                    "uuid": 3690523929,
+                    "local_uuid": 357356121
+                },
+                {
+                    "uuid": 1728132265,
+                    "local_uuid": 1168966526
+                },
+                {
+                    "uuid": 1792578476,
+                    "local_uuid": 2273056738
+                },
+                {
+                    "uuid": 2165698766,
+                    "local_uuid": 2386950570
+                },
+                {
+                    "uuid": 268753469,
+                    "local_uuid": 556675474
+                },
+                {
+                    "uuid": 3028064673,
+                    "local_uuid": 2004427637
+                },
+                {
+                    "uuid": 1851163588,
+                    "local_uuid": 2163290478
+                },
+                {
+                    "uuid": 2953209629,
+                    "local_uuid": 3924261570
+                }
+            ]
+        },
+        {
+            "name": "WoodenCrate3",
+            "UUID": 3566515427,
+            "local_UUID": 649370037,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3566515427,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/1031754119\/1031754119.pfb",
+            "components": [
+                {
+                    "position": [
+                        85.187782,
+                        28.244705,
+                        44.761139
+                    ],
+                    "rotation": [
+                        -180,
+                        82.574074,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3064176543,
+                    "local_uuid": 2875867025
+                },
+                {
+                    "uuid": 1506784257,
+                    "local_uuid": 357356121
+                },
+                {
+                    "uuid": 3393772638,
+                    "local_uuid": 1168966526
+                },
+                {
+                    "uuid": 107910824,
+                    "local_uuid": 2273056738
+                },
+                {
+                    "uuid": 1551507148,
+                    "local_uuid": 2386950570
+                },
+                {
+                    "uuid": 3125055605,
+                    "local_uuid": 556675474
+                },
+                {
+                    "uuid": 3436009620,
+                    "local_uuid": 2004427637
+                },
+                {
+                    "uuid": 1272071055,
+                    "local_uuid": 2163290478
+                },
+                {
+                    "uuid": 4085059711,
+                    "local_uuid": 3924261570
+                }
+            ]
+        },
+        {
+            "name": "WoodenCrate3",
+            "UUID": 3302327711,
+            "local_UUID": 649370037,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3302327711,
+            "prefab_path": "\/Library\/643644559\/2898523095\/\/1031754119\/1031754119.pfb",
+            "components": [
+                {
+                    "position": [
+                        84.800980,
+                        29.102224,
+                        45.469673
+                    ],
+                    "rotation": [
+                        0,
+                        -9.380963,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1678585010,
+                    "local_uuid": 2875867025
+                },
+                {
+                    "uuid": 3500485965,
+                    "local_uuid": 357356121
+                },
+                {
+                    "uuid": 2338497400,
+                    "local_uuid": 1168966526
+                },
+                {
+                    "uuid": 4115137132,
+                    "local_uuid": 2273056738
+                },
+                {
+                    "uuid": 30652794,
+                    "local_uuid": 2386950570
+                },
+                {
+                    "uuid": 3861285456,
+                    "local_uuid": 556675474
+                },
+                {
+                    "uuid": 2409001615,
+                    "local_uuid": 2004427637
+                },
+                {
+                    "uuid": 2968592944,
+                    "local_uuid": 2163290478
+                },
+                {
+                    "uuid": 3334923477,
+                    "local_uuid": 3924261570
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 61328379,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.274133,
+                        0,
+                        -0.589367,
+                        44.697716,
+                        0,
+                        0.650000,
+                        0,
+                        34.785378,
+                        0.589367,
+                        0,
+                        0.274133,
+                        -188.179733,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 1187485522,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.557924,
+                        0,
+                        0.333502,
+                        42.939465,
+                        0,
+                        0.650000,
+                        0,
+                        34.785378,
+                        -0.333502,
+                        0,
+                        0.557924,
+                        -190.862579,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 1445924572,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.367458,
+                        0,
+                        0.753699,
+                        25.898790,
+                        0,
+                        0.838500,
+                        0,
+                        34.785378,
+                        -0.753699,
+                        0,
+                        0.367458,
+                        -198.546524,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2156542177,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.497699,
+                        0,
+                        0.474401,
+                        -20.767496,
+                        0,
+                        0.687570,
+                        0,
+                        34.785370,
+                        -0.474401,
+                        0,
+                        -0.497699,
+                        -196.586258,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2426388994,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.579494,
+                        0,
+                        -0.370071,
+                        -41.965172,
+                        0,
+                        0.687570,
+                        0,
+                        34.785370,
+                        0.370071,
+                        0,
+                        -0.579494,
+                        -188.661880,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2204879294,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.615088,
+                        0,
+                        -1.054399,
+                        -13.891706,
+                        0,
+                        1.150167,
+                        0,
+                        34.785374,
+                        0.971903,
+                        0,
+                        0.667297,
+                        -247.142944,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2641347519,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.606950,
+                        0,
+                        0.578538,
+                        16.680626,
+                        0,
+                        0.838500,
+                        0,
+                        34.785378,
+                        -0.578538,
+                        0,
+                        -0.606950,
+                        -192.996048,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 1690205416,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.606950,
+                        0,
+                        0.578538,
+                        58.189125,
+                        0,
+                        0.838500,
+                        0,
+                        28.893396,
+                        -0.578538,
+                        0,
+                        -0.606950,
+                        -159.505753,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 865050375,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.745931,
+                        0,
+                        0.938803,
+                        6.480528,
+                        0,
+                        1.199055,
+                        0,
+                        28.893396,
+                        -0.938803,
+                        0,
+                        0.745931,
+                        -152.063477,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 833693824,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.745931,
+                        0,
+                        0.938803,
+                        -47.612129,
+                        0,
+                        1.199055,
+                        0,
+                        28.893396,
+                        -0.938803,
+                        0,
+                        0.745931,
+                        -117.407448,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 4014650574,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.005934,
+                        0,
+                        1.067155,
+                        -34.030186,
+                        0,
+                        1.067159,
+                        0,
+                        27.958229,
+                        -1.067155,
+                        0,
+                        -0.005934,
+                        -87.939461,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 1795349277,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.005934,
+                        0,
+                        1.067155,
+                        -69.725708,
+                        0,
+                        1.067159,
+                        0,
+                        34.427544,
+                        -1.067155,
+                        0,
+                        -0.005934,
+                        -28.413548,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 3023138057,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.464039,
+                        0,
+                        -0.961013,
+                        -69.103432,
+                        0,
+                        1.067159,
+                        0,
+                        34.427544,
+                        0.961013,
+                        0,
+                        -0.464039,
+                        -33.276817,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 3185584137,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.611165,
+                        0,
+                        0.740934,
+                        -69.978638,
+                        0,
+                        0.960443,
+                        0,
+                        34.427544,
+                        -0.740934,
+                        0,
+                        -0.611165,
+                        -36.538231,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2943789902,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.956523,
+                        -0.000002,
+                        0.643053,
+                        -73.237663,
+                        0.023097,
+                        -1.151835,
+                        -0.034362,
+                        37.807468,
+                        0.642617,
+                        0.041403,
+                        -0.955938,
+                        -44.655125,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 379702755,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        0.956523,
+                        0,
+                        0.643029,
+                        -70.762367,
+                        0,
+                        1.152532,
+                        0,
+                        34.427544,
+                        -0.643029,
+                        0,
+                        0.956523,
+                        -41.493870,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2242259505,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.128402,
+                        0,
+                        -0.926258,
+                        -16.934292,
+                        0,
+                        0.935095,
+                        0,
+                        34.785374,
+                        0.926258,
+                        0,
+                        -0.128402,
+                        -246.692764,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 1838870448,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1455940122,
+                    "active": true,
+                    "matrix": [
+                        -0.788113,
+                        0,
+                        -0.503295,
+                        -19.428780,
+                        0,
+                        0.935095,
+                        0,
+                        34.785374,
+                        0.503295,
+                        0,
+                        -0.788113,
+                        -246.570313,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1453830703,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 388805952,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "RedMushroom",
+            "UUID": 2837680773,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2837680773,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/3263946516\/3263946516.pfb",
+            "components": [
+                {
+                    "position": [
+                        -32.675999,
+                        35.220047,
+                        -190.948502
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "RedMushroom",
+            "UUID": 1651216768,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1651216768,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/3263946516\/3263946516.pfb",
+            "components": [
+                {
+                    "position": [
+                        -30.915907,
+                        35.213688,
+                        -190.661026
+                    ],
+                    "rotation": [
+                        0,
+                        48.770992,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "RedMushroom",
+            "UUID": 3938159129,
+            "local_UUID": 2771057918,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3938159129,
+            "prefab_path": "\/Library\/643644559\/2458741818\/\/3263946516\/3263946516.pfb",
+            "components": [
+                {
+                    "position": [
+                        -31.630329,
+                        35.009174,
+                        -191.644730
+                    ],
+                    "rotation": [
+                        0,
+                        37.673786,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
