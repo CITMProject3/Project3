@@ -15,6 +15,7 @@
 
 //"Actualize publics" is not set by now, since scripts will only be executed once and there
 //is no need to keep an update of the variables
+enum CAR_TYPE;
 
 namespace PlayerObjectSelector
 {
@@ -101,16 +102,26 @@ namespace PlayerObjectSelector
 
 	void PlayerObjectSelector_Start(GameObject* game_object)
 	{
+		
 		//Team 1
+		ComponentCar* comp1 = nullptr;
 		if (car1)
 		{
-			ComponentCar* comp = (ComponentCar*)car1->GetComponent(C_CAR);
-			comp->SetFrontPlayer(App->go_manager->team1_front);
-			comp->SetBackPlayer(App->go_manager->team1_back);
+			comp1 = (ComponentCar*)car1->GetComponent(C_CAR);
+			comp1->SetFrontPlayer(App->go_manager->team1_front);
+			comp1->SetBackPlayer(App->go_manager->team1_back);
 		}
 
-		if (team1_car1) team1_car1->SetActive(App->go_manager->team1_car == 0);
-		if (team1_car2) team1_car2->SetActive(App->go_manager->team1_car == 1);
+		if (team1_car1)
+		{
+			team1_car1->SetActive(App->go_manager->team1_car == 0);
+			comp1->SetCarType(CAR_TYPE(0));
+		}
+		if (team1_car2)
+		{
+			team1_car2->SetActive(App->go_manager->team1_car == 1);
+			comp1->SetCarType(CAR_TYPE(1));
+		}
 
 		if (team1_p1_c1) team1_p1_c1->SetActive(App->go_manager->team1_p1_c == 0);
 		if (team1_p1_c2) team1_p1_c2->SetActive(App->go_manager->team1_p1_c == 1);
@@ -119,15 +130,24 @@ namespace PlayerObjectSelector
 		if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
 
 		//Team 2
+		ComponentCar* comp2 = nullptr;
 		if (car2)
 		{
-			ComponentCar* comp = (ComponentCar*)car2->GetComponent(C_CAR);
-			comp->SetFrontPlayer(App->go_manager->team2_front);
-			comp->SetBackPlayer(App->go_manager->team2_back);
+			comp2 = (ComponentCar*)car2->GetComponent(C_CAR);
+			comp2->SetFrontPlayer(App->go_manager->team2_front);
+			comp2->SetBackPlayer(App->go_manager->team2_back);
 		}
 
-		if (team2_car1) team2_car1->SetActive(App->go_manager->team2_car == 0);
-		if (team2_car2) team2_car2->SetActive(App->go_manager->team2_car == 1);
+		if (team2_car1)
+		{
+			team2_car1->SetActive(App->go_manager->team2_car == 0);
+			comp2->SetCarType(CAR_TYPE(0));
+		}
+		if (team2_car2)
+		{
+			team2_car2->SetActive(App->go_manager->team2_car == 1);
+			comp2->SetCarType(CAR_TYPE(1));
+		}
 
 		if (team2_p1_c1) team2_p1_c1->SetActive(App->go_manager->team2_p1_c == 0);
 		if (team2_p1_c2) team2_p1_c2->SetActive(App->go_manager->team2_p1_c == 1);

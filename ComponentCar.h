@@ -18,8 +18,9 @@ class ComponentCollider;
 
 enum CAR_TYPE
 {
-	T_WOOD,
+	
 	T_KOJI,
+	T_WOOD,
 
 };
 enum PLAYER

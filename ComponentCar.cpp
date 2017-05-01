@@ -1306,13 +1306,13 @@ void ComponentCar::SetCarType(CAR_TYPE type)
 {
 	switch (type)
 	{
-	case T_WOOD:
-		kart = &wood;
-		kart->type = T_WOOD;
-		break;
 	case T_KOJI:
 		kart = &koji;
 		kart->type = T_KOJI;
+		break;
+	case T_WOOD:
+		kart = &wood;
+		kart->type = T_WOOD;
 		break;
 	}
 }
