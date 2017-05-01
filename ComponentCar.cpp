@@ -878,9 +878,13 @@ void ComponentCar::CalcDriftForces()
 
 		final_vector.setY(0.0f);
 		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * drift_mult);
-		//vehicle->vehicle->getRigidBody()->applyCentralForce(final_vector);
-		/*final_vector.setY(0);
-		vehicle->vehicle->getRigidBody()->applyTorque(final_vector * 100);*/
+	}
+	else
+	{
+		EndDrift();
+	}
+
+
 
 		//Debugging lines
 		//Front vector
@@ -893,7 +897,7 @@ void ComponentCar::CalcDriftForces()
 		//Force vector
 		end_line = start_line + final_dir;
 		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
-	}
+
 }
 
 void ComponentCar::EndDrift()
@@ -911,7 +915,7 @@ void ComponentCar::EndDrift()
 	drifting = false;
 
 	//New turbo
-	if (to_drift_turbo)
+	if (to_drift_turbo && on_ground)
 	{
 		switch (turbo_drift_lvl)
 		{
