@@ -96,6 +96,9 @@
     <ClCompile Include="Makibishi.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Item_Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ScriptingProject.def">
