@@ -24,6 +24,17 @@ enum PLAYER
 	PLAYER_4,
 };
 
+enum Player1_State
+{
+	P1IDLE,
+	P1TURN,
+	P1MAXTURN_L,
+	P1MAXTURN_R,
+	P1ACROBATICS,
+	P1GET_HIT,
+
+};
+
 enum Player2_State
 {
 	P2IDLE,
@@ -33,6 +44,9 @@ enum Player2_State
 	P2PUSH_LOOP,
 	P2PUSH_END,
 	P2LEANING,
+	P2GET_HIT,
+	P2USE_ITEM,
+	P2ACROBATICS,
 };
 
 enum TURBO
@@ -163,7 +177,7 @@ private:
 
 public:
 	void PickItem();
-	void UseItem(); //provisional
+	void UseItem();
 	void ReleaseItem();
 
 private:
@@ -177,8 +191,10 @@ private:
 
 	void UpdateTurnOver();
 
+	void UpdateP1Animation();
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
+	void OnGetHit();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
@@ -191,6 +207,7 @@ public:
 	bool  on_kick = false;
 
 	bool drift_dir_left = false;
+	Player1_State p1_state = P1IDLE;
 	Player2_State p2_state = P2IDLE;
 
 	bool lock_input = false;

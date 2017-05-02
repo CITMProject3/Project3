@@ -285,7 +285,6 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time, bool keepBl
 				}
 
 				blend_time_duration = blend_time;
-
 			}
 		}
 		current_animation = &animations[index];
