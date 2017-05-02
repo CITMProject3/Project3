@@ -17919,46 +17919,7 @@
                     "Result_Window": 1464473590,
                     "Player1_Finish_Text": 903508031,
                     "Player2_Finish_Text": 792990698
-                },
-                {
-                    "type": 18,
-                    "UUID": 3428501676,
-                    "active": true,
-                    "init_soundbank_lib_path": "\/Library\/1947947391\/4281391400\/4281391400.bnk",
-                    "scale_factor_attenuation": 1,
-                    "audio_events": [
-                        {
-                            "event_id": 1539028611,
-                            "event_name": "Countdown_Go",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
-                        },
-                        {
-                            "event_id": 3138285746,
-                            "event_name": "Countdown_1",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
-                        },
-                        {
-                            "event_id": 3138285745,
-                            "event_name": "Countdown_2",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
-                        },
-                        {
-                            "event_id": 3138285744,
-                            "event_name": "Countdown_3",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
-                        },
-                        {
-                            "event_id": 3568813383,
-                            "event_name": "Play_Main_Theme",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/1407609015\/1407609015.bnk"
-                        }
-                    ]
-                }
+                }                
             ]
         },
         {
