@@ -72,7 +72,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	//Item
 	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
 	
-	
+	inverted_controls = false;
 }
 
 ComponentCar::~ComponentCar()
@@ -185,9 +185,9 @@ void ComponentCar::HandlePlayerInput()
 	
 	if (lock_input == false)
 	{
-		KeyboardControls(&accel, &brake, &turning);
+		KeyboardControls(&accel, &brake, &turning, inverted_controls);
 
-		JoystickControls(&accel, &brake, &turning);
+		JoystickControls(&accel, &brake, &turning, inverted_controls);
 	}
 
 	ApplyTurbo();
@@ -244,7 +244,7 @@ void ComponentCar::HandlePlayerInput()
 	UpdateTurnOver();
 }
 
-void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
+void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning, bool inverse)
 {
 	bool acro_front, acro_back;
 	acro_front = acro_back = false;
@@ -262,11 +262,11 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 
 		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
 		{
-			*turning = Turn(&turning_left, false);
+			inverse ? *turning = Turn(&turning_left, false) : *turning = Turn(&turning_left, true);
 		}
 		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
 		{
-			*turning = Turn(&turning_left, true);
+			inverse ? *turning = Turn(&turning_left, true) : *turning = Turn(&turning_left, false);
 		}
 
 
@@ -333,7 +333,7 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning)
 	}
 }
 
-void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
+void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, bool inverse)
 {
 	//Back player
 	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
@@ -376,11 +376,11 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning)
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			*turning = Turn(&turning_left, false);
+			inverse ? *turning = Turn(&turning_left, false) : *turning = Turn(&turning_left, true);
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			*turning = Turn(&turning_left, true);
+			inverse ? *turning = Turn(&turning_left, true) : *turning = Turn(&turning_left, false);
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
@@ -1221,6 +1221,11 @@ float ComponentCar::GetVelocity()
 float ComponentCar::GetMaxVelocity() const
 {
 	return kart->max_velocity;
+}
+
+void ComponentCar::SetMaxVelocity(float max_vel)
+{
+	kart->max_velocity = max_vel;
 }
 
 float ComponentCar::GetMinVelocity() const

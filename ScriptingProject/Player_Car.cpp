@@ -34,7 +34,11 @@ namespace Player_Car
 	float time_trowing_firecracker = 0.0f;
 	float explosion_radius_firecracker = 5.0f;
 	float velocity_makibishi = 40.0f;
-	//bool have_evil_spirit = false;
+	bool have_evil_spirit = false;
+	bool evil_spirit_effect = false;
+	float evil_spirit_vel_reduction = 0.4f;
+	float evil_spirit_duration = 10.0f;
+	float evil_spirit_current_duration = 0.0f;
 	string item_box_name = "item_box";
 	GameObject* firecracker = nullptr;
 	GameObject* makibishi1 = nullptr;
@@ -56,7 +60,11 @@ namespace Player_Car
 		public_float->insert(pair<const char*, float>("explosion_radius_firecracker", explosion_radius_firecracker));
 		public_float->insert(pair<const char*, float>("velocity_makibishi", velocity_makibishi));
 		public_ints->insert(pair<const char*, int>("makibishi_quantity", makibishi_quantity));
-		//public_bools->insert(pair<const char*, bool>("have_evil_spirit", have_evil_spirit));
+		public_bools->insert(pair<const char*, bool>("have_evil_spirit", have_evil_spirit));
+		public_bools->insert(pair<const char*, bool>("evil_spirit_effect", evil_spirit_effect));
+		public_float->insert(pair<const char*, float>("evil_spirit_vel_reduction", evil_spirit_vel_reduction));
+		public_float->insert(pair<const char*, float>("evil_spirit_duration", evil_spirit_duration));
+		public_float->insert(pair<const char*, float>("evil_spirit_current_duration", evil_spirit_current_duration));
 		public_chars->insert(pair<const char*, string>("item_box_name", item_box_name));
 
 		public_gos->insert(pair<const char*, GameObject*>("firecracker", nullptr));
@@ -82,7 +90,11 @@ namespace Player_Car
 		explosion_radius_firecracker = test_script->public_floats.at("explosion_radius_firecracker");
 		velocity_makibishi = test_script->public_floats.at("velocity_makibishi");
 		makibishi_quantity = test_script->public_ints.at("makibishi_quantity");
-		//have_evil_spirit = test_script->public_bools.at("have_evil_spirit");
+		have_evil_spirit = test_script->public_bools.at("have_evil_spirit");
+		evil_spirit_effect = test_script->public_bools.at("evil_spirit_effect");
+		evil_spirit_vel_reduction = test_script->public_floats.at("evil_spirit_vel_reduction");
+		evil_spirit_duration = test_script->public_floats.at("evil_spirit_duration");
+		evil_spirit_current_duration = test_script->public_floats.at("evil_spirit_current_duration");
 		item_box_name = test_script->public_chars.at("item_box_name");
 
 		firecracker = test_script->public_gos.at("firecracker");
@@ -108,7 +120,11 @@ namespace Player_Car
 		test_script->public_floats.at("explosion_radius_firecracker") = explosion_radius_firecracker;
 		test_script->public_floats.at("velocity_makibishi") = velocity_makibishi;
 		test_script->public_ints.at("makibishi_quantity") = makibishi_quantity;
-		//test_script->public_bools.at("have_evil_spirit") = have_evil_spirit;
+		test_script->public_bools.at("have_evil_spirit") = have_evil_spirit;
+		test_script->public_bools.at("evil_spirit_effect") = evil_spirit_effect;
+		test_script->public_floats.at("evil_spirit_vel_reduction") = evil_spirit_vel_reduction;
+		test_script->public_floats.at("evil_spirit_duration") = evil_spirit_duration;
+		test_script->public_floats.at("evil_spirit_current_duration") = evil_spirit_current_duration;
 		test_script->public_chars.at("item_box_name") = item_box_name;
 
 		test_script->public_gos.at("firecracker") = firecracker;
@@ -133,16 +149,12 @@ namespace Player_Car
 		{
 			if (have_item)
 			{
-				if (have_firecracker || have_makibishi || have_triple_makibishi/* || have_evil_spirit*/)
+				if (have_firecracker || have_makibishi || have_triple_makibishi || have_evil_spirit)
 					have_item = false;
 				else
 				{
 					unsigned int percentage = App->rnd->RandomInt(0, 99);
 
-					if (other_car != nullptr)
-					{
-						//int Player_car_distance = game_object->GetComponent(ComponentType::C_CAR) check distance between cars
-					}
 					have_item = false;
 					Player_Car_PickItem(game_object);
 
@@ -270,6 +282,41 @@ namespace Player_Car
 							}
 							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
 						}
+					}
+				}
+			}
+
+			if (have_evil_spirit && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+			{
+				have_evil_spirit = false;
+
+				if (Player_car->place == 1)
+				{
+					evil_spirit_effect = true;
+					evil_spirit_current_duration = 0.0f;
+				}
+				else
+				{
+					((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
+					((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("evil_spirit_current_duration") = 0.0f;
+				}
+			}
+
+			if (evil_spirit_effect)
+			{
+				if (evil_spirit_current_duration == 0.0f && Player_car->inverted_controls == false)
+				{
+					Player_car->SetMaxVelocity(Player_car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
+					Player_car->inverted_controls = true;
+				}
+				else
+				{
+					evil_spirit_current_duration += time->DeltaTime();
+					if (evil_spirit_current_duration >= evil_spirit_duration)
+					{
+						Player_car->SetMaxVelocity(Player_car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
+						Player_car->inverted_controls = false;
+						evil_spirit_effect = false;
 					}
 				}
 			}
