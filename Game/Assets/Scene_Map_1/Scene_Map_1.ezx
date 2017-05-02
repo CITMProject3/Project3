@@ -577,52 +577,186 @@
         {
             "name": "HarbourRamp",
             "UUID": 27679713,
-            "local_UUID": 964023827,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 27679713,
-            "prefab_path": "\/Library\/1441726200\/\/3520483850\/3520483850.pfb",
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
             "components": [
                 {
-                    "position": [
-                        -46.813782,
-                        12.928927,
-                        -9.499603
+                    "type": 0,
+                    "UUID": 2809215486,
+                    "active": true,
+                    "matrix": [
+                        5.300000,
+                        0,
+                        0,
+                        -47.823193,
+                        0,
+                        3.812532,
+                        0.445354,
+                        13.250000,
+                        0,
+                        -0.535817,
+                        3.168858,
+                        -15.533823,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2554421924,
+                    "active": true,
+                    "path": "\/Library\/2730194168\/3761673407\/979169632.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2315576845,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
                     ],
-                    "rotation": [
-                        -5.902121,
-                        -0.271208,
-                        -0.652865
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2730194168\/\/2168656023\/2168656023.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3361740545,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        31,
+                        40.500000,
+                        18.799999
                     ]
                 }
-            ],
-            "children_uuids": []
+            ]
         },
         {
             "name": "HarbourRamp1",
             "UUID": 963906911,
-            "local_UUID": 964023827,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 963906911,
-            "prefab_path": "\/Library\/1441726200\/\/3520483850\/3520483850.pfb",
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
             "components": [
                 {
-                    "position": [
-                        39.400414,
-                        12.277697,
-                        23.295319
+                    "type": 0,
+                    "UUID": 2959955220,
+                    "active": true,
+                    "matrix": [
+                        5.300000,
+                        0,
+                        0,
+                        39.264221,
+                        0,
+                        3.812532,
+                        -0.445354,
+                        13.250000,
+                        0,
+                        0.535816,
+                        3.168858,
+                        24.566376,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2554421924,
+                    "active": true,
+                    "path": "\/Library\/2730194168\/3761673407\/979169632.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2315576845,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
                     ],
-                    "rotation": [
-                        5.995224,
-                        0.000001,
-                        0.775810
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2730194168\/\/2168656023\/2168656023.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3361740545,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        31,
+                        40.500000,
+                        18.799999
                     ]
                 }
-            ],
-            "children_uuids": []
+            ]
         },
         {
             "name": "Kart_scene 1",
@@ -652,7 +786,7 @@
                         -0.142550,
                         0,
                         0.989801,
-                        -61.231030,
+                        -74.922272,
                         0,
                         0,
                         0,
@@ -688,7 +822,7 @@
                     "wood_time_to_idle": 0.150000,
                     "wood_idle_turn_by_interpolation": true,
                     "wood_velocity_to_change": 1,
-                    "wood_turn_max_limit": 0.700000,
+                    "wood_turn_max_limit": 0.070000,
                     "wood_base_max_turn_change_speed": 0,
                     "wood_base_max_turn_change_accel": 0,
                     "wood_push_force": 1000,
@@ -9496,12 +9630,12 @@
                         -55.961170,
                         0.000001,
                         1,
-                        0,
+                        -0.000000,
                         32.041847,
                         0.035694,
-                        0,
+                        -0.000000,
                         0.999363,
-                        -60.000027,
+                        -74.803261,
                         0,
                         0,
                         0,
@@ -9537,7 +9671,7 @@
                     "wood_time_to_idle": 0.150000,
                     "wood_idle_turn_by_interpolation": true,
                     "wood_velocity_to_change": 1,
-                    "wood_turn_max_limit": 0.700000,
+                    "wood_turn_max_limit": 0.070000,
                     "wood_base_max_turn_change_speed": 0,
                     "wood_base_max_turn_change_accel": 0,
                     "wood_push_force": 1000,
@@ -18438,7 +18572,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 125,
                     "fov": 29.999966,
-                    "aspect_ratio": 3.683559,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -18526,7 +18660,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 40.000008,
-                    "aspect_ratio": 3.683559,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -18614,7 +18748,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.823362,
+                    "aspect_ratio": 1.777778,
                     "color": [
                         0,
                         0,
@@ -35761,6 +35895,190 @@
                         {
                             "path": ""
                         }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "HarbourRamp1",
+            "UUID": 4249589280,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 449578073,
+                    "active": true,
+                    "matrix": [
+                        5.200000,
+                        0,
+                        0,
+                        -47.859459,
+                        0,
+                        3.794810,
+                        -0.162239,
+                        12.650000,
+                        0,
+                        0.198875,
+                        3.095752,
+                        26.607548,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2554421924,
+                    "active": true,
+                    "path": "\/Library\/2730194168\/3761673407\/979169632.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2315576845,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2730194168\/\/2168656023\/2168656023.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3361740545,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        32,
+                        40,
+                        18.600000
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "HarbourRamp1",
+            "UUID": 215820199,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2827396370,
+                    "active": true,
+                    "matrix": [
+                        5.200000,
+                        0,
+                        0,
+                        39.794174,
+                        0,
+                        3.794792,
+                        0.162238,
+                        12.650000,
+                        0,
+                        -0.198872,
+                        3.095752,
+                        -13.789398,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2554421924,
+                    "active": true,
+                    "path": "\/Library\/2730194168\/3761673407\/979169632.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2315576845,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/2730194168\/\/2168656023\/2168656023.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 3361740545,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": false,
+                    "trigger_type": 0,
+                    "is_transparent": false,
+                    "size": [
+                        33.653000,
+                        40.200001,
+                        18.606001
                     ]
                 }
             ]
