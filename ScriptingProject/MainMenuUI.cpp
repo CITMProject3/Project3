@@ -16,6 +16,8 @@
 #include "../Globals.h"
 #include "../ComponentCanvas.h"
 
+#include "../ComponentAudioSource.h"
+
 namespace Main_Menu_UI
 {
 	GameObject* title_menu = nullptr;
@@ -94,6 +96,10 @@ namespace Main_Menu_UI
 		select_vehicle->SetActive(false);
 		select_level->SetActive(false);
 		Main_Menu_UI_ActualizePublics(game_object);
+
+		// Play Logo Intro
+		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(0);
 			
 		//canvas->go_focus = title_menu;
 	}
@@ -104,8 +110,17 @@ namespace Main_Menu_UI
 		{
 			for (int i = 0; i < 4; i++)
 			{
-				if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::X) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::Y) == KEY_DOWN || App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+				if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN ||
+					App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN ||
+					App->input->GetJoystickButton(i, JOY_BUTTON::X) == KEY_DOWN ||
+					App->input->GetJoystickButton(i, JOY_BUTTON::Y) == KEY_DOWN ||
+					App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN ||
+					App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 				{
+					// Play Press Start sound
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(1);
+
 					current_scene = 1;
 				}
 			}
