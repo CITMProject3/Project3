@@ -269,10 +269,6 @@ namespace Character_Selection_UI
 
 	void Character_Selection_UI_Start(GameObject* game_object)
 	{
-		// Play Bell for next menu
-		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(0);
-
 		character_selection[0] = -1;
 		character_selection[1] = -1;
 		character_selection[2] = -1;
@@ -371,7 +367,7 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 1;
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 1:
@@ -380,7 +376,7 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 1;
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 2:
@@ -389,7 +385,7 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] = 1;
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 3:
@@ -398,7 +394,7 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 1;
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				}
@@ -408,7 +404,7 @@ namespace Character_Selection_UI
 			{
 				// Play Move Selection
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				
+				if (a_comp) a_comp->PlayAudio(0);
 
 				switch (id)
 				{
@@ -417,8 +413,7 @@ namespace Character_Selection_UI
 					{
 						rect_driver1->Move(float3(-214, 0, 0));
 						but_Player1->OnPress();
-						p_pos[id] = 0;
-						if (a_comp) a_comp->PlayAudio(1);
+						p_pos[id] = 0;						
 					}
 					break;
 				case 1:
@@ -427,7 +422,6 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(-214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 0;
-						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 2:
@@ -436,7 +430,6 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(-214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] =0;
-						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				case 3:
@@ -445,15 +438,18 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(-214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 0;
-						if (a_comp) a_comp->PlayAudio(1);
 					}
 					break;
 				}
 			}
 
-
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
+
+				// Play Selection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(1);
+
 				switch (id)
 				{
 				case 0:
@@ -487,8 +483,7 @@ namespace Character_Selection_UI
 					break;
 				case 1:
 					if (player2_select == false)
-					{
-						
+					{					
 
 						if (p_pos[id] == 0)
 						{
@@ -574,6 +569,11 @@ namespace Character_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
+
+				// Play Deselection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(2);
+
 				switch (id)
 				{
 				case 0:

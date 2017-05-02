@@ -32,6 +32,24 @@
     "Path": "UI_FX.bnk",
     "IncludedEvents": [
      {
+      "Id": "2989164515",
+      "Name": "Play_CursorMovement",
+      "ObjectPath": "\\Events\\UI\\FX\\Play_CursorMovement",
+      "GUID": "{96EF3D45-30D2-40B5-87BC-4E0A9ECE83E7}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.646667",
+      "DurationMax": "0.646667"
+     },
+     {
+      "Id": "4285633163",
+      "Name": "Play_Deselection",
+      "ObjectPath": "\\Events\\UI\\FX\\Play_Deselection",
+      "GUID": "{8C7387E4-608A-44BA-A6B1-AA812A9B403E}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.341633",
+      "DurationMax": "0.341633"
+     },
+     {
       "Id": "4121431383",
       "Name": "Play_LogoIntro",
       "ObjectPath": "\\Events\\UI\\FX\\Play_LogoIntro",
@@ -60,6 +78,18 @@
      }
     ],
     "IncludedMemoryFiles": [
+     {
+      "Id": "445115088",
+      "Language": "SFX",
+      "ShortName": "Deselection.wav",
+      "Path": "SFX\\Deselection_9E69E797.wem"
+     },
+     {
+      "Id": "596469982",
+      "Language": "SFX",
+      "ShortName": "CursorMovement.wav",
+      "Path": "SFX\\CursorMovement_9E69E797.wem"
+     },
      {
       "Id": "698381521",
       "Language": "SFX",

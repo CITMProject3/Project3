@@ -443,6 +443,10 @@ namespace Start_Menu_UI
 
 					if (player_position[4] == i || player_position[5] == i || player_position[6] == i || player_position[7] == i)
 					{
+						// Playing Deselection Sound
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(2);
+
 						player_position[i] = i + 4; // Reset
 						start_but->SetActive(false);
 					}
@@ -508,35 +512,34 @@ namespace Start_Menu_UI
 					}
 				}
 
-				// Player press AUDIO
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);				
-
 				player_position[y] = requesting_player;
+
+				// Playing Deselection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 
 				switch (y)
 				{
 				case 0:
 					m_p1->SetIdToRender(0);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(2);  // Deselection
 					break;
 				case 1:
 					m_p2->SetIdToRender(0);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(0);	// Movement
 					break;
 				case 2:
 					m_p3->SetIdToRender(0);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				case 3:
 					m_p4->SetIdToRender(0);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				case 4:
 					c_lb->OnPressId(requesting_player);
 					m_lb->SetIdToRender(requesting_player);
 					lb_button_color_selector->SetActive(true);
 					player_order[0] = requesting_player;
-
 					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				case 5:
@@ -544,7 +547,6 @@ namespace Start_Menu_UI
 					m_lt->SetIdToRender(requesting_player);
 					lt_button_color_selector->SetActive(true);
 					player_order[1] = requesting_player;
-
 					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				case 6:
@@ -552,7 +554,6 @@ namespace Start_Menu_UI
 					m_rb->SetIdToRender(requesting_player);
 					rb_button_color_selector->SetActive(true);
 					player_order[2] = requesting_player;
-
 					if (a_comp) a_comp->PlayAudio(0);
 					break; 
 
@@ -561,7 +562,6 @@ namespace Start_Menu_UI
 					m_rt->SetIdToRender(requesting_player);
 					rt_button_color_selector->SetActive(true);
 					player_order[3] = requesting_player;
-
 					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				}
@@ -588,6 +588,10 @@ namespace Start_Menu_UI
 
 					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
 					{
+						// Playing Deselection Sound
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+
 						main_canvas_script->public_ints.at("current_menu") = 2;
 						main_canvas_script->public_ints.at("Player1") = player_order[0];
 						main_canvas_script->public_ints.at("Player2") = player_order[1];
