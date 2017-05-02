@@ -1226,6 +1226,14 @@ void ComponentCar::UpdateP2Animation()
 			}
 			break;
 		}
+		case(P2USE_ITEM):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
 	}
 }
 
