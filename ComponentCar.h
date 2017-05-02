@@ -407,7 +407,6 @@ private:
 	bool drifting = false;
 	btVector3 startDriftSpeed;
 	bool to_drift_turbo = false;
-	bool drift_dir_left = false;
 	int turbo_drift_lvl = 0;
 	int drift_turbo_clicks = 0;
 
