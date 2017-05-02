@@ -350,11 +350,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, b
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-		SetP2AnimationState(P2GET_HIT, 0.0f);
-		p1_state = P1GET_HIT;
-		p1_animation->PlayAnimation(3, 0.5f);
-		//OnGetHit();
+		OnGetHit();
 		//Acrobatics(back_player);
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)

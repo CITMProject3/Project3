@@ -120,7 +120,10 @@ namespace PlayerObjectSelector
 		if (team1_p1_c1) team1_p1_c1->SetActive(App->go_manager->team1_p1_c == 0);
 		if (team1_p1_c2) team1_p1_c2->SetActive(App->go_manager->team1_p1_c == 1);
 		
-		if (comp_car_1) comp_car_1->p1_animation = (ComponentAnimation*)(App->go_manager->team1_p1_c == 0 ? team1_p1_c1 : team1_p1_c2)->GetComponent(C_ANIMATION);
+		if (comp_car_1)
+		{
+			comp_car_1->p1_animation = (ComponentAnimation*)(App->go_manager->team1_p1_c == 0 ? team1_p1_c1 : team1_p1_c2)->GetComponent(C_ANIMATION);
+		}
 
 		if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
 		if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
