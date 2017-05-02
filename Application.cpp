@@ -64,11 +64,11 @@ Application::Application()
 	AddModule(window);
 	AddModule(input);
 	AddModule(g_Debug);
+	AddModule(audio);
 	AddModule(scripting);
 	AddModule(physics);
 	AddModule(go_manager);
-	AddModule(camera);
-	AddModule(audio);
+	AddModule(camera);	
 	AddModule(lighting);
 	
 	// Scenes

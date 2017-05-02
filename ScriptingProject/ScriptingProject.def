@@ -21,6 +21,12 @@ EXPORTS
 	Player_Car_OnCollision
 	Player_Car_PickItem
 	Player_Car_LoseItem
+	
+	Makibishi_GetPublics
+	Makibishi_Start
+	Makibishi_Update
+	Makibishi_UpdatePublics
+	Makibishi_ActualizePublics
 
 	Player_Camera_GetPublics
 	Player_Camera_Start

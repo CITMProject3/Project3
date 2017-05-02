@@ -15,6 +15,7 @@
 
 //"Actualize publics" is not set by now, since scripts will only be executed once and there
 //is no need to keep an update of the variables
+enum CAR_TYPE;
 
 namespace PlayerObjectSelector
 {
@@ -112,8 +113,9 @@ namespace PlayerObjectSelector
 			comp_car_1->SetBackPlayer(App->go_manager->team1_back);
 		}
 
-		if (team1_car1) team1_car1->SetActive(App->go_manager->team1_car == 0);
-		if (team1_car2) team1_car2->SetActive(App->go_manager->team1_car == 1);
+		if (team1_car1)	team1_car1->SetActive(App->go_manager->team1_car == 0);
+		if (team1_car2)	team1_car2->SetActive(App->go_manager->team1_car == 1);
+		comp_car_1->SetCarType(CAR_TYPE(App->go_manager->team1_car));
 
 		if (team1_p1_c1) team1_p1_c1->SetActive(App->go_manager->team1_p1_c == 0);
 		if (team1_p1_c2) team1_p1_c2->SetActive(App->go_manager->team1_p1_c == 1);
@@ -133,8 +135,9 @@ namespace PlayerObjectSelector
 			comp_car_2->SetBackPlayer(App->go_manager->team2_back);
 		}
 
-		if (team2_car1) team2_car1->SetActive(App->go_manager->team2_car == 0);
-		if (team2_car2) team2_car2->SetActive(App->go_manager->team2_car == 1);
+		if (team2_car1)	team2_car1->SetActive(App->go_manager->team2_car == 0);
+		if (team2_car2)	team2_car2->SetActive(App->go_manager->team2_car == 1);
+		comp_car_2->SetCarType(CAR_TYPE(App->go_manager->team2_car));
 
 		if (team2_p1_c1) team2_p1_c1->SetActive(App->go_manager->team2_p1_c == 0);
 		if (team2_p1_c2) team2_p1_c2->SetActive(App->go_manager->team2_p1_c == 1);

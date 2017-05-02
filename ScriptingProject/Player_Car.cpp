@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <list>
 #include "../Application.h"
 #include "../ModuleScripting.h"
 #include "../ModuleInput.h"
@@ -23,55 +24,53 @@
 namespace Player_Car
 {
 	bool have_item = false;
-	bool have_koma = false;
-	bool have_triple_koma = false;
+	bool have_makibishi = false;
+	bool have_triple_makibishi = false;
 	bool have_firecracker = false;
 	bool using_item = false;
 	bool throwing_firecracker = false;
-	bool throwing_koma = false;
-	int koma_quantity = 0;
+	int makibishi_quantity = 0;
 	float velocity_firecracker = 40.0f;
 	float time_trowing_firecracker = 0.0f;
 	float explosion_radius_firecracker = 5.0f;
-	float time_trowing_koma = 100.0f;
-	float current_time_trowing_koma1 = 0.0f;
-	float current_time_trowing_koma2 = 0.0f;
-	float current_time_trowing_koma3 = 0.0f;
-	float velocity_koma = 40.0f;
-	//bool have_makibishi = false;
+	float velocity_makibishi = 40.0f;
+	bool have_evil_spirit = false;
+	bool evil_spirit_effect = false;
+	float evil_spirit_vel_reduction = 0.4f;
+	float evil_spirit_duration = 10.0f;
+	float evil_spirit_current_duration = 0.0f;
 	string item_box_name = "item_box";
 	GameObject* firecracker = nullptr;
-	GameObject* koma1 = nullptr;
-	GameObject* koma2 = nullptr;
-	GameObject* koma3 = nullptr;
+	GameObject* makibishi1 = nullptr;
+	GameObject* makibishi2 = nullptr;
+	GameObject* makibishi3 = nullptr;
 	GameObject* other_car = nullptr;
 	GameObject* scene_manager = nullptr;
 
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_bools->insert(pair<const char*, bool>("have_item", have_item));
-		public_bools->insert(pair<const char*, bool>("have_koma", have_koma));
-		public_bools->insert(pair<const char*, bool>("have_triple_koma", have_triple_koma));
+		public_bools->insert(pair<const char*, bool>("have_makibishi", have_makibishi));
+		public_bools->insert(pair<const char*, bool>("have_triple_makibishi", have_triple_makibishi));
 		public_bools->insert(pair<const char*, bool>("have_firecracker", have_firecracker));
 		public_bools->insert(pair<const char*, bool>("using_item", using_item));
 		public_bools->insert(pair<const char*, bool>("throwing_firecracker", throwing_firecracker));
 		public_float->insert(pair<const char*, float>("velocity_firecracker", velocity_firecracker));
 		public_float->insert(pair<const char*, float>("time_trowing_firecracker", time_trowing_firecracker));
 		public_float->insert(pair<const char*, float>("explosion_radius_firecracker", explosion_radius_firecracker));
-		public_float->insert(pair<const char*, float>("time_trowing_koma", time_trowing_koma));
-		public_float->insert(pair<const char*, float>("current_time_trowing_koma1", current_time_trowing_koma1));
-		public_float->insert(pair<const char*, float>("current_time_trowing_koma2", current_time_trowing_koma2));
-		public_float->insert(pair<const char*, float>("current_time_trowing_koma3", current_time_trowing_koma3));
-		public_float->insert(pair<const char*, float>("velocity_koma", velocity_koma));
-		public_bools->insert(pair<const char*, bool>("throwing_koma", throwing_koma));
-		public_ints->insert(pair<const char*, int>("koma_quantity", koma_quantity));
-		//public_bools->insert(pair<const char*, bool>("have_makibishi", have_makibishi));
+		public_float->insert(pair<const char*, float>("velocity_makibishi", velocity_makibishi));
+		public_ints->insert(pair<const char*, int>("makibishi_quantity", makibishi_quantity));
+		public_bools->insert(pair<const char*, bool>("have_evil_spirit", have_evil_spirit));
+		public_bools->insert(pair<const char*, bool>("evil_spirit_effect", evil_spirit_effect));
+		public_float->insert(pair<const char*, float>("evil_spirit_vel_reduction", evil_spirit_vel_reduction));
+		public_float->insert(pair<const char*, float>("evil_spirit_duration", evil_spirit_duration));
+		public_float->insert(pair<const char*, float>("evil_spirit_current_duration", evil_spirit_current_duration));
 		public_chars->insert(pair<const char*, string>("item_box_name", item_box_name));
 
 		public_gos->insert(pair<const char*, GameObject*>("firecracker", nullptr));
-		public_gos->insert(pair<const char*, GameObject*>("koma1", nullptr));
-		public_gos->insert(pair<const char*, GameObject*>("koma2", nullptr));
-		public_gos->insert(pair<const char*, GameObject*>("koma3", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("makibishi1", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("makibishi2", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("makibishi3", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
 	}
@@ -81,28 +80,27 @@ namespace Player_Car
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		have_item = test_script->public_bools.at("have_item");
-		have_koma = test_script->public_bools.at("have_koma");
-		have_triple_koma = test_script->public_bools.at("have_triple_koma");
+		have_makibishi = test_script->public_bools.at("have_makibishi");
+		have_triple_makibishi = test_script->public_bools.at("have_triple_makibishi");
 		have_firecracker = test_script->public_bools.at("have_firecracker");
 		using_item = test_script->public_bools.at("using_item");
 		throwing_firecracker = test_script->public_bools.at("throwing_firecracker");
 		velocity_firecracker = test_script->public_floats.at("velocity_firecracker");
 		time_trowing_firecracker = test_script->public_floats.at("time_trowing_firecracker");
 		explosion_radius_firecracker = test_script->public_floats.at("explosion_radius_firecracker");
-		time_trowing_koma = test_script->public_floats.at("time_trowing_koma");
-		current_time_trowing_koma1 = test_script->public_floats.at("current_time_trowing_koma1");
-		current_time_trowing_koma2 = test_script->public_floats.at("current_time_trowing_koma2");
-		current_time_trowing_koma3 = test_script->public_floats.at("current_time_trowing_koma3");
-		velocity_koma = test_script->public_floats.at("velocity_koma");
-		throwing_koma = test_script->public_bools.at("throwing_koma");
-		koma_quantity = test_script->public_ints.at("koma_quantity");
-		//have_makibishi = test_script->public_bools.at("have_makibishi");
+		velocity_makibishi = test_script->public_floats.at("velocity_makibishi");
+		makibishi_quantity = test_script->public_ints.at("makibishi_quantity");
+		have_evil_spirit = test_script->public_bools.at("have_evil_spirit");
+		evil_spirit_effect = test_script->public_bools.at("evil_spirit_effect");
+		evil_spirit_vel_reduction = test_script->public_floats.at("evil_spirit_vel_reduction");
+		evil_spirit_duration = test_script->public_floats.at("evil_spirit_duration");
+		evil_spirit_current_duration = test_script->public_floats.at("evil_spirit_current_duration");
 		item_box_name = test_script->public_chars.at("item_box_name");
 
 		firecracker = test_script->public_gos.at("firecracker");
-		koma1 = test_script->public_gos.at("koma1");
-		koma2 = test_script->public_gos.at("koma2");
-		koma3 = test_script->public_gos.at("koma3");
+		makibishi1 = test_script->public_gos.at("makibishi1");
+		makibishi2 = test_script->public_gos.at("makibishi2");
+		makibishi3 = test_script->public_gos.at("makibishi3");
 		other_car = test_script->public_gos.at("other_car");
 		scene_manager = test_script->public_gos.at("scene_manager");
 	}
@@ -112,28 +110,27 @@ namespace Player_Car
 		ComponentScript* test_script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		test_script->public_bools.at("have_item") = have_item;
-		test_script->public_bools.at("have_koma") = have_koma;
-		test_script->public_bools.at("have_triple_koma") = have_triple_koma;
+		test_script->public_bools.at("have_makibishi") = have_makibishi;
+		test_script->public_bools.at("have_triple_makibishi") = have_triple_makibishi;
 		test_script->public_bools.at("have_firecracker") = have_firecracker;
 		test_script->public_bools.at("using_item") = using_item;
 		test_script->public_bools.at("throwing_firecracker") = throwing_firecracker;
 		test_script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		test_script->public_floats.at("time_trowing_firecracker") = time_trowing_firecracker;
 		test_script->public_floats.at("explosion_radius_firecracker") = explosion_radius_firecracker;
-		test_script->public_floats.at("time_trowing_koma") = time_trowing_koma;
-		test_script->public_floats.at("current_time_trowing_koma1") = current_time_trowing_koma1;
-		test_script->public_floats.at("current_time_trowing_koma2") = current_time_trowing_koma2;
-		test_script->public_floats.at("current_time_trowing_koma3") = current_time_trowing_koma3;
-		test_script->public_floats.at("velocity_koma") = velocity_koma;
-		test_script->public_bools.at("throwing_koma") = throwing_koma;
-		test_script->public_ints.at("koma_quantity") = koma_quantity;
-		//test_script->public_bools.at("have_makibishi") = have_makibishi;
+		test_script->public_floats.at("velocity_makibishi") = velocity_makibishi;
+		test_script->public_ints.at("makibishi_quantity") = makibishi_quantity;
+		test_script->public_bools.at("have_evil_spirit") = have_evil_spirit;
+		test_script->public_bools.at("evil_spirit_effect") = evil_spirit_effect;
+		test_script->public_floats.at("evil_spirit_vel_reduction") = evil_spirit_vel_reduction;
+		test_script->public_floats.at("evil_spirit_duration") = evil_spirit_duration;
+		test_script->public_floats.at("evil_spirit_current_duration") = evil_spirit_current_duration;
 		test_script->public_chars.at("item_box_name") = item_box_name;
 
 		test_script->public_gos.at("firecracker") = firecracker;
-		test_script->public_gos.at("koma1") = koma1;
-		test_script->public_gos.at("koma2") = koma2;
-		test_script->public_gos.at("koma3") = koma3;
+		test_script->public_gos.at("makibishi1") = makibishi1;
+		test_script->public_gos.at("makibishi2") = makibishi2;
+		test_script->public_gos.at("makibishi3") = makibishi3;
 		test_script->public_gos.at("other_car") = other_car;
 		test_script->public_gos.at("scene_manager") = scene_manager;
 	}
@@ -152,200 +149,347 @@ namespace Player_Car
 		{
 			if (have_item)
 			{
-				if (have_firecracker || have_koma || have_triple_koma/* || have_makibishi*/)
+				if (have_firecracker || have_makibishi || have_triple_makibishi || have_evil_spirit)
 					have_item = false;
 				else
 				{
 					unsigned int percentage = App->rnd->RandomInt(0, 99);
 
-					if (other_car != nullptr)
-					{
-						//int Player_car_distance = game_object->GetComponent(ComponentType::C_CAR) check distance between cars
-					}
 					have_item = false;
 					Player_Car_PickItem(game_object);
+
+					// TEST
+					//have_triple_makibishi = true;
+					//have_firecracker = false;
+					// /TEST
+
+					if (have_makibishi)
+					{
+						makibishi1 = makibishi2 = makibishi3 = nullptr;
+						for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+						{
+							if ((*item)->name == "Makibishi" && !(*item)->IsActive())
+							{
+								makibishi1 = (*item);
+								break;
+							}
+						}
+						if (makibishi1 == nullptr)
+						{
+							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+							{
+								if ((*item)->name == "Makibishi")
+								{
+									if (makibishi1 == nullptr)
+										makibishi1 = (*item);
+									else
+									{
+										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+											makibishi1 = (*item);
+									}
+								}
+							}
+							((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+						}
+					}
+					else if (have_triple_makibishi)
+					{
+						makibishi_quantity = 3;
+						makibishi1 = makibishi2 = makibishi3 = nullptr;
+						for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+						{
+							if ((*item)->name == "Makibishi" && !(*item)->IsActive())
+							{
+								if (makibishi1 == nullptr)
+								{
+									makibishi1 = (*item);
+								}
+								else if (makibishi2 == nullptr)
+								{
+									makibishi2 = (*item);
+								}
+								else if (makibishi3 == nullptr)
+								{
+									makibishi3 = (*item);
+									break;
+								}
+							}
+						}
+						if (makibishi1 == nullptr)
+						{
+							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+							{
+								if ((*item)->name == "Makibishi")
+								{
+									if (makibishi1 == nullptr)
+										makibishi1 = (*item);
+									else if (makibishi2 == nullptr)
+										makibishi2 = (*item);
+									else if (makibishi3 == nullptr)
+										makibishi3 = (*item);
+									else
+									{
+										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+										{
+											makibishi3 = makibishi2;
+											makibishi2 = makibishi1;
+											makibishi1 = (*item);
+										}
+									}
+								}
+							}
+							((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+							((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+						}
+						else if (makibishi2 == nullptr)
+						{
+							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+							{
+								if ((*item)->name == "Makibishi")
+								{
+									if (makibishi2 == nullptr)
+										makibishi2 = (*item);
+									else if (makibishi3 == nullptr)
+										makibishi3 = (*item);
+									else
+									{
+										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+										{
+											makibishi3 = makibishi2;
+											makibishi2 = (*item);
+										}
+									}
+								}
+							}
+							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+							((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+						}
+						else if (makibishi3 == nullptr)
+						{
+							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+							{
+								if ((*item)->name == "Makibishi")
+								{
+									if (makibishi3 == nullptr)
+										makibishi3 = (*item);
+									else
+									{
+										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+											makibishi3 = (*item);
+									}
+								}
+							}
+							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+						}
+					}
 				}
 			}
 
-			if (have_koma)
+			if (have_evil_spirit && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 			{
-				if (throwing_koma)
+				have_evil_spirit = false;
+
+				if (Player_car->place == 1)
 				{
-					if (!koma1->IsActive())
-					{
-						throwing_koma = false;
-						current_time_trowing_koma1 = 0.0f;
-						have_koma = false;
-					}
-					else
-					{
-						float3 new_pos = koma1->transform->GetPosition();
-						new_pos += koma1->transform->GetForward().Normalized() * velocity_koma * time->DeltaTime();
-						koma1->transform->SetPosition(new_pos);
-						current_time_trowing_koma1 += time->DeltaTime();
-						if (current_time_trowing_koma1 >= time_trowing_koma)
-						{
-							throwing_koma = false;
-							current_time_trowing_koma1 = 0.0f;
-							koma1->SetActive(false);
-							koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-							have_koma = false;
-						}
-					}
+					evil_spirit_effect = true;
+					evil_spirit_current_duration = 0.0f;
 				}
 				else
 				{
-					if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP)
-					{
-						if (koma1 != nullptr)
-						{
-							float3 new_pos = koma1->transform->GetPosition();
-							new_pos += koma1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-							koma1->transform->SetPosition(new_pos);
-							koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-							throwing_koma = true;
-							current_time_trowing_koma1 = 0.0f;
-						}
-					}
+					((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
+					((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("evil_spirit_current_duration") = 0.0f;
+				}
+			}
 
-					if (using_item && App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+			if (evil_spirit_effect)
+			{
+				if (evil_spirit_current_duration == 0.0f && Player_car->inverted_controls == false)
+				{
+					Player_car->SetMaxVelocity(Player_car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
+					Player_car->inverted_controls = true;
+				}
+				else
+				{
+					evil_spirit_current_duration += time->DeltaTime();
+					if (evil_spirit_current_duration >= evil_spirit_duration)
 					{
-						if (koma1 != nullptr)
+						Player_car->SetMaxVelocity(Player_car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
+						Player_car->inverted_controls = false;
+						evil_spirit_effect = false;
+					}
+				}
+			}
+
+			if (have_makibishi)
+			{
+				if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+				{
+					if (makibishi1 != nullptr)
+					{
+						makibishi1->SetActive(true);
+						makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+						float3 new_pos = game_object->transform->GetPosition();
+						new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
+						new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+						((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+						((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+						have_makibishi = false;
+						((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+
+						if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 						{
-							float3 new_pos = koma1->transform->GetPosition();
-							new_pos += koma1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-							koma1->transform->SetPosition(new_pos);
-							koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-							throwing_koma = true;
-							current_time_trowing_koma1 = 0.0f;
+							float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+							((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+						}
+						else
+						{
+							float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+							if (y_joy_input < 0)
+							{
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos -= game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+							}
+							else
+							{
+								float x_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+								float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+								new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+							}
 						}
 					}
 				}
 			}
 
-			if (have_triple_koma)
+			if (have_triple_makibishi)
 			{
-				if (throwing_koma)
+				if (makibishi_quantity > 0)
 				{
-					if (!koma1->IsActive())
+					if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 					{
-						current_time_trowing_koma1 = 0.0f;
-					}
-					else
-					{
-						float3 new_pos = koma1->transform->GetPosition();
-						new_pos += koma1->transform->GetForward().Normalized() * velocity_koma * time->DeltaTime();
-						koma1->transform->SetPosition(new_pos);
-						current_time_trowing_koma1 += time->DeltaTime();
-						if (current_time_trowing_koma1 >= time_trowing_koma)
+						if (makibishi_quantity == 3)
 						{
-							current_time_trowing_koma1 = 0.0f;
-							koma1->SetActive(false);
-							koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-						}
-					}
-					if(koma_quantity <= 1)
-					{
-						if (!koma2->IsActive())
-						{
-							current_time_trowing_koma2 = 0.0f;
-						}
-						else
-						{
-							float3 new_pos = koma2->transform->GetPosition();
-							new_pos += koma2->transform->GetForward().Normalized() * velocity_koma * time->DeltaTime();
-							koma2->transform->SetPosition(new_pos);
-							current_time_trowing_koma2 += time->DeltaTime();
-							if (current_time_trowing_koma2 >= time_trowing_koma)
+							makibishi_quantity--;
+							if (makibishi1 != nullptr)
 							{
-								current_time_trowing_koma2 = 0.0f;
-								koma2->SetActive(false);
-								koma2->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-							}
-						}
-					}
-					if (koma_quantity <= 0)
-					{
-						if (!koma3->IsActive())
-						{
-							throwing_koma = false;
-							current_time_trowing_koma3 = 0.0f;
-							have_triple_koma = false;
-						}
-						else
-						{
-							float3 new_pos = koma3->transform->GetPosition();
-							new_pos += koma3->transform->GetForward().Normalized() * velocity_koma * time->DeltaTime();
-							koma3->transform->SetPosition(new_pos);
-							current_time_trowing_koma3 += time->DeltaTime();
-							if (current_time_trowing_koma3 >= time_trowing_koma)
-							{
-								throwing_koma = false;
-								current_time_trowing_koma3 = 0.0f;
-								koma3->SetActive(false);
-								koma3->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-								have_triple_koma = false;
-							}
-						}
-					}
-				}
-				else if(koma_quantity > 0)
-				{
-					if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP)
-					{
-						if (koma_quantity == 3)
-						{
-							koma_quantity--;
-							if (koma1 != nullptr)
-							{
-								float3 new_pos = koma1->transform->GetPosition();
-								new_pos += koma1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-								koma1->transform->SetPosition(new_pos);
-								koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-								throwing_koma = true;
-								current_time_trowing_koma1 = 0.0f;
-							}
-						}
-						else if(koma_quantity == 2)
-						{
-							koma_quantity--;
-							if (koma2 != nullptr)
-							{
-								float3 new_pos = koma2->transform->GetPosition();
-								new_pos += koma2->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-								koma2->transform->SetPosition(new_pos);
-								koma2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-								throwing_koma = true;
-								current_time_trowing_koma2 = 0.0f;
-							}
-						}
-						else if (koma_quantity == 1)
-						{
-							koma_quantity--;
-							if (koma3 != nullptr)
-							{
-								float3 new_pos = koma3->transform->GetPosition();
-								new_pos += koma3->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-								koma3->transform->SetPosition(new_pos);
-								koma3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-								throwing_koma = true;
-								current_time_trowing_koma3 = 0.0f;
-							}
-						}
-					}
+								makibishi1->SetActive(true);
+								makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+								((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
 
-					if (using_item && App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-					{
-						if (koma_quantity == 3)
+								if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+								{
+									float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+									((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+								}
+								else
+								{
+									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+									if (y_joy_input < 0)
+									{
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos -= game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+									}
+									else
+									{
+										float x_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+										float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+										new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+									}
+								}
+							}
+						}
+						else if (makibishi_quantity == 2)
 						{
-							if (koma1 != nullptr)
+							makibishi_quantity--;
+							if (makibishi2 != nullptr)
 							{
-								float3 new_pos = koma1->transform->GetPosition();
-								new_pos += koma1->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-								koma1->transform->SetPosition(new_pos);
-								koma1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-								throwing_koma = true;
-								current_time_trowing_koma1 = 0.0f;
+								makibishi2->SetActive(true);
+								makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+								((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+
+								if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+								{
+									float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+									((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+								}
+								else
+								{
+									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+									if (y_joy_input < 0)
+									{
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos -= game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+									}
+									else
+									{
+										float x_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+										float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+										new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+									}
+								}
+							}
+						}
+						else if (makibishi_quantity == 1)
+						{
+							makibishi_quantity--;
+							if (makibishi3 != nullptr)
+							{
+								makibishi3->SetActive(true);
+								makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								float3 new_pos = game_object->transform->GetPosition();
+								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+								have_triple_makibishi = false;
+								((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+
+								if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+								{
+									float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+									((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+								}
+								else
+								{
+									float y_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+									if (y_joy_input < 0)
+									{
+										float3 new_pos = game_object->transform->GetPosition();
+										new_pos -= game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+									}
+									else
+									{
+										float x_joy_input = App->input->GetJoystickAxis(Player_car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+										float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+										new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+									}
+								}
 							}
 						}
 					}
@@ -361,9 +505,10 @@ namespace Player_Car
 				}
 				else
 				{
-					float3 new_pos = firecracker->transform->GetPosition();
-					new_pos += firecracker->transform->GetForward().Normalized() * velocity_firecracker * time->DeltaTime();
-					firecracker->transform->SetPosition(new_pos);
+					ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
+					float3 new_pos = firecracker_col->body->GetPosition();
+					new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
+					firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 					time_trowing_firecracker += time->DeltaTime();
 					if (time_trowing_firecracker >= Player_car->rocket_turbo.time)
 					{
@@ -381,6 +526,7 @@ namespace Player_Car
 					firecracker->SetActive(true);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 					float3 last_scale = firecracker->transform->GetScale();
+					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					firecracker->transform->Set(game_object->GetGlobalMatrix());
 					firecracker->transform->SetScale(last_scale);
 				}
@@ -396,7 +542,11 @@ namespace Player_Car
 						Player_Car_LoseItem(game_object);
 
 						using_item = false;
-						if (firecracker) firecracker->SetActive(false);
+						if (firecracker)
+						{
+							firecracker->SetActive(false);
+							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+						}
 						Player_car->ReleaseItem();
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 					}
@@ -415,9 +565,10 @@ namespace Player_Car
 						using_item = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-							firecracker->transform->SetPosition(new_pos);
+							float3 new_pos = game_object->transform->GetPosition();
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -436,9 +587,10 @@ namespace Player_Car
 						using_item = false;
 						if (firecracker != nullptr)
 						{
-							float3 new_pos = firecracker->transform->GetPosition();
-							new_pos += firecracker->transform->GetForward().Normalized() * Player_car->chasis_size.z;
-							firecracker->transform->SetPosition(new_pos);
+							float3 new_pos = game_object->transform->GetPosition();
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
+							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 							throwing_firecracker = true;
 							time_trowing_firecracker = Player_car->GetAppliedTurbo()->timer;
@@ -459,25 +611,36 @@ namespace Player_Car
 			if (!col->IsCar())
 			{
 				ComponentCollider* item_col = col->GetCollider();
+				
+				GameObject* check_go = (GameObject*)item_col->GetGameObject();
+
 				if (item_col->IsActive())
 				{
 					if (item_col->GetGameObject()->name == "Hitodama")
 					{
-						//Do something
+						Player_car->AddHitodama();
+						item_col->GetGameObject()->SetActive(false);
+						item_col->SetActive(false);
 					}
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-						if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
+						Player_car->RemoveHitodama();
+
+						if (other_car != nullptr)
+						{
+							if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
+								((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+						}
 					}
-					else if (item_col->GetGameObject()->name == "Koma")
+					else if (item_col->GetGameObject()->name == "Makibishi")
 					{
 						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-						if (firecracker) firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
+						Player_car->RemoveHitodama();
 					}
 					else if (item_col->GetGameObject()->name == item_box_name.c_str())
 					{
@@ -486,6 +649,67 @@ namespace Player_Car
 				}
 			}
 		}
+	}
+
+	void Player_Car_ChooseItem(GameObject* game_object)
+	{
+		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
+
+		//By position
+		int result = App->rnd->RandomInt(1, 100);
+
+		if (car->place == 1)
+		{
+			if (result <= 5)
+			{
+				//Insert firecracker here
+
+				//
+			}
+			else if (result <= 40)
+			{
+				//Insert triple makibi here
+
+				//
+			}
+			else
+			{
+				//Insert makibi here
+
+				//
+			}
+		}
+		else if (car->place == 2)
+		{
+			//2nd
+			if (result <= 15)
+			{
+				//Insert evil spirit here
+
+				//
+			}
+			else if (result <= 35)
+			{
+				//Insert triple makibi here
+
+				//
+			}
+			else if (result <= 65)
+			{
+				//Insert makibi here
+
+				//
+			}
+			else
+			{
+				//Insert firecracker here
+
+				//
+			}
+		}
+
+
+		//By distance
 	}
 
 	void Player_Car_PickItem(GameObject* game_object)
