@@ -377,11 +377,11 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, b
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		{
-			inverse ? *turning = Turn(&turning_left, false) : *turning = Turn(&turning_left, true);
+			*turning = Turn(&turning_left, inverse);
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
 		{
-			inverse ? *turning = Turn(&turning_left, true) : *turning = Turn(&turning_left, false);
+			*turning = Turn(&turning_left, !inverse);
 		}
 		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
 		{
