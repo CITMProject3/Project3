@@ -127,65 +127,85 @@
                     ],
                     "chasis_offset": [
                         0,
-                        0,
+                        0.690000,
                         0
                     ],
                     "turn_over_reset_time": 2,
-                    "acceleration": 1800,
-                    "max_speed": 120,
-                    "min_speed": -40,
-                    "fake_break": 25,
-                    "base_turn_max": 0.700000,
-                    "turn_speed": 1.500000,
-                    "turn_speed_joystick": 0,
-                    "time_to_idle": 0.200000,
-                    "idle_turn_by_interpolation": true,
-                    "velocity_to_change": 10,
-                    "turn_max_limit": 0.170000,
-                    "base_max_turn_change_speed": -0.010000,
-                    "base_max_turn_change_accel": -0.100000,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 10000,
-                    "push_speed_per": 60,
-                    "brakeForce": 200,
-                    "backForce": 1600,
-                    "full_brake_force": 300,
-                    "lean_accel_boost": 25,
-                    "lean_speed_boost": 25,
-                    "lean_turn_strict": 25,
-                    "driftRatio": 0.500000,
-                    "driftMult": 1.800000,
-                    "driftBoost": 1,
-                    "driftMinSpeed": 20,
-                    "drift_turn_max": 0,
-                    "miniturbo_accel_boost": 0,
-                    "miniturbo_speed_boost": 25,
+                    "wood_acceleration": 1550,
+                    "wood_max_speed": 130,
+                    "wood_min_speed": -55,
+                    "wood_fake_break": 45,
+                    "wood_base_turn_max": 0.400000,
+                    "wood_turn_speed": 2,
+                    "wood_turn_speed_joystick": 2,
+                    "wood_time_to_idle": 0.15,
+                    "wood_idle_turn_by_interpolation": true,
+                    "wood_velocity_to_change": 1,
+                    "wood_turn_max_limit": 0.7,
+                    "wood_base_max_turn_change_speed": 0,
+                    "wood_base_max_turn_change_accel": 0,
+                    "wood_push_force": 1000,
+                    "wood_push_speed_per": 90,
+                    "wood_brakeForce": 150,
+                    "wood_backForce": 1800,
+                    "wood_full_brake_force": 300,
+                    "wood_driftRatio": 0.575,
+                    "wood_driftMult": 1.45,
+                    "wood_driftBoost": 1,
+                    "wood_driftMinSpeed": 50,
+                    "wood_drift_turn_max": 0.16,
+                    "koji_acceleration": 1400,
+                    "koji_max_speed": 145,
+                    "koji_min_speed": -60,
+                    "koji_fake_break": 45,
+                    "koji_base_turn_max": 0.300000,
+                    "koji_turn_speed": 2,
+                    "koji_turn_speed_joystick": 2,
+                    "koji_time_to_idle": 0.150000,
+                    "koji_idle_turn_by_interpolation": true,
+                    "koji_velocity_to_change": 1,
+                    "koji_turn_max_limit": 0.055000,
+                    "koji_base_max_turn_change_speed": 0,
+                    "koji_base_max_turn_change_accel": 0,
+                    "koji_push_force": 1000,
+                    "koji_push_speed_per": 90,
+                    "koji_brakeForce": 175,
+                    "koji_backForce": 1700,
+                    "koji_full_brake_force": 300,
+                    "koji_driftRatio": 0.575000,
+                    "koji_driftMult": 1.450000,
+                    "koji_driftBoost": 1,
+                    "koji_driftMinSpeed": 50,
+                    "koji_drift_turn_max": 0.160000,
+                    "miniturbo_accel_boost": 100,
+                    "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 10,
-                    "miniturbo_time": 2,
-                    "miniturbo_accel_per": false,
-                    "miniturbo_speed_per": true,
-                    "miniturbo_speed_direct": true,
+                    "miniturbo_deceleration": 15,
+                    "miniturbo_time": 1,
+                    "miniturbo_accel_per": true,
+                    "miniturbo_speed_per": false,
+                    "miniturbo_speed_direct": false,
                     "miniturbo_speed_decrease": true,
-                    "drift_turbo_2_accel_boost": 0,
-                    "drift_turbo_2_speed_boost": 30,
+                    "drift_turbo_2_accel_boost": 100,
+                    "drift_turbo_2_speed_boost": 20,
                     "drift_turbo_2_turbo_speed": -431602080,
-                    "drift_turbo_2_deceleration": 10,
-                    "drift_turbo_2_time": 2,
-                    "drift_turbo_2_accel_per": false,
-                    "drift_turbo_2_speed_per": true,
-                    "drift_turbo_2_speed_direct": true,
+                    "drift_turbo_2_deceleration": 15,
+                    "drift_turbo_2_time": 1,
+                    "drift_turbo_2_accel_per": true,
+                    "drift_turbo_2_speed_per": false,
+                    "drift_turbo_2_speed_direct": false,
                     "drift_turbo_2_speed_decrease": true,
-                    "drift_turbo_3_accel_boost": 0,
-                    "drift_turbo_3_speed_boost": 35,
+                    "drift_turbo_3_accel_boost": 100,
+                    "drift_turbo_3_speed_boost": 25,
                     "drift_turbo_3_turbo_speed": -431602080,
-                    "drift_turbo_3_deceleration": 10,
-                    "drift_turbo_3_time": 2,
-                    "drift_turbo_3_accel_per": false,
-                    "drift_turbo_3_speed_per": true,
-                    "drift_turbo_3_speed_direct": true,
+                    "drift_turbo_3_deceleration": 15,
+                    "drift_turbo_3_time": 1,
+                    "drift_turbo_3_accel_per": true,
+                    "drift_turbo_3_speed_per": false,
+                    "drift_turbo_3_speed_direct": false,
                     "drift_turbo_3_speed_decrease": true,
                     "rocket_turbo_accel_boost": 0,
                     "rocket_turbo_speed_boost": 35,
@@ -206,7 +226,9 @@
                     "suspensionRestLength": 0.300000,
                     "maxSuspensionTravelCm": 1000,
                     "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000
+                    "maxSuspensionForce": 6000,
+                    "max_hitodamas": 10,
+                    "bonus_hitodamas": 2
                 },
                 {
                     "type": 10,
@@ -215,13 +237,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
+                    "makibishi_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
+                    "velocity_makibishi": 0,
+                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_duration": 0,
+                    "evil_spirit_current_duration": 0,
                     "have_item": false,
+                    "have_makibishi": false,
+                    "have_triple_makibishi": false,
                     "have_firecracker": false,
-                    "using_firecracker": false,
+                    "using_item": false,
                     "throwing_firecracker": false,
+                    "have_evil_spirit": false,
+                    "evil_spirit_effect": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -358,6 +389,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/295808156\/\/1087503613\/1087503613.dds"
@@ -501,6 +533,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/569807310\/569807310.dds"
@@ -570,6 +603,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/3593477099\/3593477099.dds"
@@ -729,6 +763,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/29241684\/\/2819861780\/2819861780.dds"
@@ -2924,6 +2959,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -2993,6 +3029,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3062,6 +3099,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3131,6 +3169,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3200,6 +3239,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3269,6 +3309,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3338,6 +3379,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3407,6 +3449,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3476,6 +3519,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3545,6 +3589,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3614,6 +3659,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3683,6 +3729,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3752,6 +3799,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3821,6 +3869,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3890,6 +3939,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -3959,6 +4009,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4028,6 +4079,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4097,6 +4149,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4166,6 +4219,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4235,6 +4289,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4304,6 +4359,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4373,6 +4429,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4442,6 +4499,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4511,6 +4569,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4580,6 +4639,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4649,6 +4709,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4718,6 +4779,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4787,6 +4849,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -4946,6 +5009,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/4145300488\/\/1921389166\/1921389166.dds"
@@ -8223,6 +8287,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8292,6 +8357,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8361,6 +8427,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8430,6 +8497,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8499,6 +8567,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8568,6 +8637,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8637,6 +8707,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8706,6 +8777,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8775,6 +8847,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8844,6 +8917,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -8906,61 +8980,81 @@
                         0
                     ],
                     "turn_over_reset_time": 2,
-                    "acceleration": 1675,
-                    "max_speed": 140,
-                    "min_speed": -60,
-                    "fake_break": 30,
-                    "base_turn_max": 0.400000,
-                    "turn_speed": 1.500000,
-                    "turn_speed_joystick": 0,
-                    "time_to_idle": 0.200000,
-                    "idle_turn_by_interpolation": true,
-                    "velocity_to_change": 5,
-                    "turn_max_limit": 0.090000,
-                    "base_max_turn_change_speed": -0.010000,
-                    "base_max_turn_change_accel": -0.100000,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "push_force": 10000,
-                    "push_speed_per": 60,
-                    "brakeForce": 300,
-                    "backForce": 1500,
-                    "full_brake_force": 300,
-                    "lean_accel_boost": 25,
-                    "lean_speed_boost": 25,
-                    "lean_turn_strict": 25,
-                    "driftRatio": 0.500000,
-                    "driftMult": 1.800000,
-                    "driftBoost": 1,
-                    "driftMinSpeed": 20,
-                    "drift_turn_max": 0,
-                    "miniturbo_accel_boost": 300,
-                    "miniturbo_speed_boost": 25.000002,
+                    "wood_acceleration": 1550,
+                    "wood_max_speed": 130,
+                    "wood_min_speed": -55,
+                    "wood_fake_break": 45,
+                    "wood_base_turn_max": 0.400000,
+                    "wood_turn_speed": 2,
+                    "wood_turn_speed_joystick": 2,
+                    "wood_time_to_idle": 0.15,
+                    "wood_idle_turn_by_interpolation": true,
+                    "wood_velocity_to_change": 1,
+                    "wood_turn_max_limit": 0.7,
+                    "wood_base_max_turn_change_speed": 0,
+                    "wood_base_max_turn_change_accel": 0,
+                    "wood_push_force": 1000,
+                    "wood_push_speed_per": 90,
+                    "wood_brakeForce": 150,
+                    "wood_backForce": 1800,
+                    "wood_full_brake_force": 300,
+                    "wood_driftRatio": 0.575,
+                    "wood_driftMult": 1.45,
+                    "wood_driftBoost": 1,
+                    "wood_driftMinSpeed": 50,
+                    "wood_drift_turn_max": 0.16,
+                    "koji_acceleration": 1400,
+                    "koji_max_speed": 145,
+                    "koji_min_speed": -60,
+                    "koji_fake_break": 45,
+                    "koji_base_turn_max": 0.300000,
+                    "koji_turn_speed": 2,
+                    "koji_turn_speed_joystick": 2,
+                    "koji_time_to_idle": 0.150000,
+                    "koji_idle_turn_by_interpolation": true,
+                    "koji_velocity_to_change": 1,
+                    "koji_turn_max_limit": 0.055000,
+                    "koji_base_max_turn_change_speed": 0,
+                    "koji_base_max_turn_change_accel": 0,
+                    "koji_push_force": 1000,
+                    "koji_push_speed_per": 90,
+                    "koji_brakeForce": 175,
+                    "koji_backForce": 1700,
+                    "koji_full_brake_force": 300,
+                    "koji_driftRatio": 0.575000,
+                    "koji_driftMult": 1.450000,
+                    "koji_driftBoost": 1,
+                    "koji_driftMinSpeed": 50,
+                    "koji_drift_turn_max": 0.160000,
+                    "miniturbo_accel_boost": 100,
+                    "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 10,
-                    "miniturbo_time": 2,
-                    "miniturbo_accel_per": false,
-                    "miniturbo_speed_per": true,
-                    "miniturbo_speed_direct": true,
+                    "miniturbo_deceleration": 15,
+                    "miniturbo_time": 1,
+                    "miniturbo_accel_per": true,
+                    "miniturbo_speed_per": false,
+                    "miniturbo_speed_direct": false,
                     "miniturbo_speed_decrease": true,
-                    "drift_turbo_2_accel_boost": 300,
-                    "drift_turbo_2_speed_boost": 30,
+                    "drift_turbo_2_accel_boost": 100,
+                    "drift_turbo_2_speed_boost": 20,
                     "drift_turbo_2_turbo_speed": -431602080,
-                    "drift_turbo_2_deceleration": 10,
-                    "drift_turbo_2_time": 2,
-                    "drift_turbo_2_accel_per": false,
-                    "drift_turbo_2_speed_per": true,
-                    "drift_turbo_2_speed_direct": true,
+                    "drift_turbo_2_deceleration": 15,
+                    "drift_turbo_2_time": 1,
+                    "drift_turbo_2_accel_per": true,
+                    "drift_turbo_2_speed_per": false,
+                    "drift_turbo_2_speed_direct": false,
                     "drift_turbo_2_speed_decrease": true,
-                    "drift_turbo_3_accel_boost": 300,
-                    "drift_turbo_3_speed_boost": 35,
+                    "drift_turbo_3_accel_boost": 100,
+                    "drift_turbo_3_speed_boost": 25,
                     "drift_turbo_3_turbo_speed": -431602080,
-                    "drift_turbo_3_deceleration": 10,
-                    "drift_turbo_3_time": 2,
-                    "drift_turbo_3_accel_per": false,
-                    "drift_turbo_3_speed_per": true,
-                    "drift_turbo_3_speed_direct": true,
+                    "drift_turbo_3_deceleration": 15,
+                    "drift_turbo_3_time": 1,
+                    "drift_turbo_3_accel_per": true,
+                    "drift_turbo_3_speed_per": false,
+                    "drift_turbo_3_speed_direct": false,
                     "drift_turbo_3_speed_decrease": true,
                     "rocket_turbo_accel_boost": 0,
                     "rocket_turbo_speed_boost": 35,
@@ -8974,14 +9068,16 @@
                     "connection_height": 0,
                     "wheel_radius": 0.300000,
                     "wheel_width": 0.200000,
-                    "mass": 500,
+                    "mass": 300,
                     "suspensionStiffness": 100,
                     "suspensionCompression": 0.830000,
                     "suspensionDamping": 20,
                     "suspensionRestLength": 0.300000,
                     "maxSuspensionTravelCm": 1000,
                     "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000
+                    "maxSuspensionForce": 6000,
+                    "max_hitodamas": 10,
+                    "bonus_hitodamas": 2
                 },
                 {
                     "type": 10,
@@ -8990,13 +9086,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
+                    "makibishi_quantity": 0,
                     "velocity_firecracker": 40,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
+                    "velocity_makibishi": 0,
+                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_duration": 0,
+                    "evil_spirit_current_duration": 0,
                     "have_item": false,
+                    "have_makibishi": false,
+                    "have_triple_makibishi": false,
                     "have_firecracker": false,
-                    "using_firecracker": false,
+                    "using_item": false,
                     "throwing_firecracker": false,
+                    "have_evil_spirit": false,
+                    "evil_spirit_effect": false,
                     "scene_manager": 144932385
                 }
             ]
@@ -9133,6 +9238,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/295808156\/\/1087503613\/1087503613.dds"
@@ -9276,6 +9382,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/569807310\/569807310.dds"
@@ -9345,6 +9452,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/551853009\/\/3593477099\/3593477099.dds"
@@ -9504,6 +9612,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/29241684\/\/2819861780\/2819861780.dds"
@@ -11699,6 +11808,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11768,6 +11878,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11837,6 +11948,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11906,6 +12018,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -11975,6 +12088,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12044,6 +12158,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12113,6 +12228,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12182,6 +12298,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12251,6 +12368,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12320,6 +12438,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12389,6 +12508,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12458,6 +12578,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12527,6 +12648,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12596,6 +12718,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12665,6 +12788,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12734,6 +12858,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12803,6 +12928,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12872,6 +12998,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -12941,6 +13068,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13010,6 +13138,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13079,6 +13208,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13148,6 +13278,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13217,6 +13348,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13286,6 +13418,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13355,6 +13488,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13424,6 +13558,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13493,6 +13628,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13562,6 +13698,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/3893961960\/\/629334341\/629334341.dds"
@@ -13721,6 +13858,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/4145300488\/\/1921389166\/1921389166.dds"
@@ -16998,6 +17136,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17067,6 +17206,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17136,6 +17276,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17205,6 +17346,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17274,6 +17416,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17343,6 +17486,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17412,6 +17556,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17481,6 +17626,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17550,6 +17696,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17619,6 +17766,7 @@
                     ],
                     "specular": 0,
                     "texture_changed": false,
+                    "id_to_render": 0,
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
@@ -17728,14 +17876,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1058
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        960,
+                        800,
                         0,
                         1,
                         0,
@@ -17908,6 +18056,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/\/3023199753\/3023199753.dds"
@@ -18006,6 +18155,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/2703596669\/2703596669.dds"
@@ -18104,6 +18254,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/3776832557\/3776832557.dds"
@@ -18202,6 +18353,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1803179270\/1803179270.dds"
@@ -18255,8 +18407,8 @@
                     "UUID": 603773960,
                     "active": true,
                     "rect_size": [
-                        65,
-                        65
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -18284,6 +18436,7 @@
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -18302,6 +18455,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
@@ -18382,8 +18536,8 @@
                     "UUID": 1411524548,
                     "active": true,
                     "rect_size": [
-                        65,
-                        65
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -18411,6 +18565,7 @@
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -18429,6 +18584,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
@@ -18554,6 +18710,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1300728200\/1300728200.dds"
@@ -18652,6 +18809,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1054950941\/1054950941.dds"
@@ -18750,6 +18908,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/2893755813\/2893755813.dds"
@@ -18848,6 +19007,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/1365929905\/1365929905.dds"
@@ -18946,6 +19106,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/\/1163310351\/1163310351.dds"
@@ -19044,6 +19205,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/\/240997167\/240997167.dds"
@@ -19199,14 +19361,14 @@
                     "UUID": 153354415,
                     "active": true,
                     "rect_size": [
-                        300,
-                        300
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        950,
                         0,
                         1,
                         0,
@@ -19228,6 +19390,7 @@
                     "active": true,
                     "text": "3",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19246,6 +19409,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2263021904\/2263021904.dds"
@@ -19377,8 +19541,8 @@
                     "UUID": 450483726,
                     "active": true,
                     "rect_size": [
-                        100,
-                        100
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -19406,6 +19570,7 @@
                     "active": true,
                     "text": "20:20:20",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19424,6 +19589,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
@@ -19549,6 +19715,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/360384015\/360384015.dds"
@@ -19647,6 +19814,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2416372908\/2416372908.dds"
@@ -19700,8 +19868,8 @@
                     "UUID": 1987487917,
                     "active": true,
                     "rect_size": [
-                        200,
-                        200
+                        146,
+                        107
                     ],
                     "matrix": [
                         1,
@@ -19729,6 +19897,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19747,6 +19916,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": ""
@@ -19803,8 +19973,8 @@
                     "UUID": 285135609,
                     "active": true,
                     "rect_size": [
-                        200,
-                        200
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -19832,6 +20002,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19850,6 +20021,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": ""
@@ -19906,8 +20078,8 @@
                     "UUID": 4059428034,
                     "active": true,
                     "rect_size": [
-                        100,
-                        100
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -19935,6 +20107,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -19953,6 +20126,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
@@ -20018,8 +20192,8 @@
                     "UUID": 220680229,
                     "active": true,
                     "rect_size": [
-                        100,
-                        100
+                        0,
+                        0
                     ],
                     "matrix": [
                         1,
@@ -20047,6 +20221,7 @@
                     "active": true,
                     "text": "1",
                     "array_values": "0123456789:k",
+                    "char_offset": 0,
                     "Material": [
                         {
                             "type": 2,
@@ -20065,6 +20240,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/3171502590\/\/3871876971\/\/\/2986587112\/2986587112.dds"
@@ -20175,6 +20351,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
@@ -20273,6 +20450,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2393351110\/2393351110.dds"
@@ -20371,6 +20549,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
@@ -20469,6 +20648,7 @@
                             ],
                             "specular": 0,
                             "texture_changed": false,
+                            "id_to_render": 0,
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/2755989527\/\/2137687889\/2137687889.dds"
@@ -20581,44 +20761,26 @@
                     "type": 18,
                     "UUID": 3960951906,
                     "active": true,
-                    "init_soundbank_lib_path": "\/Library\/1947947391\/4281391400\/4281391400.bnk",
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 1539028611,
-                            "event_name": "Countdown_Go",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                            "event_id": 0
                         },
                         {
-                            "event_id": 3138285746,
-                            "event_name": "Countdown_1",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                            "event_id": 0
                         },
                         {
-                            "event_id": 3138285745,
-                            "event_name": "Countdown_2",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                            "event_id": 0
                         },
                         {
-                            "event_id": 3138285744,
-                            "event_name": "Countdown_3",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                            "event_id": 0
                         },
                         {
-                            "event_id": 1114964412,
-                            "event_name": "Start_Game",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/717717524\/717717524.bnk"
+                            "event_id": 0
                         },
                         {
-                            "event_id": 3568813383,
-                            "event_name": "Play_Main_Theme",
-                            "sound_3D": false,
-                            "soundbank_lib_path": "\/Library\/1947947391\/1407609015\/1407609015.bnk"
+                            "event_id": 0
                         }
                     ]
                 }
@@ -20937,6 +21099,31 @@
                     "car2": 3832415544
                 }
             ]
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1553759285,
+            "local_UUID": 998477620,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1553759285,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -34.192844,
+                        84.871277,
+                        36.272800
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/test_scene.ezx",
