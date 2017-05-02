@@ -134,52 +134,52 @@
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "wood_acceleration": 0,
-                    "wood_max_speed": 0,
-                    "wood_min_speed": 0,
-                    "wood_fake_break": 0,
-                    "wood_base_turn_max": 0,
-                    "wood_turn_speed": 0,
-                    "wood_turn_speed_joystick": 0,
-                    "wood_time_to_idle": 0,
-                    "wood_idle_turn_by_interpolation": false,
-                    "wood_velocity_to_change": 0,
-                    "wood_turn_max_limit": 0,
+                    "wood_acceleration": 1550,
+                    "wood_max_speed": 130,
+                    "wood_min_speed": -55,
+                    "wood_fake_break": 45,
+                    "wood_base_turn_max": 0.400000,
+                    "wood_turn_speed": 2,
+                    "wood_turn_speed_joystick": 2,
+                    "wood_time_to_idle": 0.150000,
+                    "wood_idle_turn_by_interpolation": true,
+                    "wood_velocity_to_change": 1,
+                    "wood_turn_max_limit": 0.070000,
                     "wood_base_max_turn_change_speed": 0,
                     "wood_base_max_turn_change_accel": 0,
-                    "wood_push_force": 0,
-                    "wood_push_speed_per": 0,
-                    "wood_brakeForce": 0,
-                    "wood_backForce": 0,
+                    "wood_push_force": 1000,
+                    "wood_push_speed_per": 90,
+                    "wood_brakeForce": 150,
+                    "wood_backForce": 1800,
                     "wood_full_brake_force": 300,
-                    "wood_driftRatio": 0,
-                    "wood_driftMult": 0,
-                    "wood_driftBoost": 0,
-                    "wood_driftMinSpeed": 0,
-                    "wood_drift_turn_max": 0,
-                    "koji_acceleration": 1800,
-                    "koji_max_speed": 110,
-                    "koji_min_speed": -20,
-                    "koji_fake_break": 300,
-                    "koji_base_turn_max": 0.150000,
-                    "koji_turn_speed": 0.050000,
-                    "koji_turn_speed_joystick": 0,
-                    "koji_time_to_idle": 0,
-                    "koji_idle_turn_by_interpolation": false,
+                    "wood_driftRatio": 0.575000,
+                    "wood_driftMult": 1.450000,
+                    "wood_driftBoost": 1,
+                    "wood_driftMinSpeed": 50,
+                    "wood_drift_turn_max": 0.160000,
+                    "koji_acceleration": 1400,
+                    "koji_max_speed": 145,
+                    "koji_min_speed": -60,
+                    "koji_fake_break": 55,
+                    "koji_base_turn_max": 0.300000,
+                    "koji_turn_speed": 2,
+                    "koji_turn_speed_joystick": 2,
+                    "koji_time_to_idle": 0.150000,
+                    "koji_idle_turn_by_interpolation": true,
                     "koji_velocity_to_change": 1,
-                    "koji_turn_max_limit": 0.100000,
+                    "koji_turn_max_limit": 0.055000,
                     "koji_base_max_turn_change_speed": 0,
                     "koji_base_max_turn_change_accel": 0,
-                    "koji_push_force": 0,
-                    "koji_push_speed_per": 0,
-                    "koji_brakeForce": 1400,
-                    "koji_backForce": 300,
+                    "koji_push_force": 1000,
+                    "koji_push_speed_per": 90,
+                    "koji_brakeForce": 175,
+                    "koji_backForce": 1700,
                     "koji_full_brake_force": 300,
-                    "koji_driftRatio": 0,
-                    "koji_driftMult": 0,
-                    "koji_driftBoost": 0,
-                    "koji_driftMinSpeed": 0,
-                    "koji_drift_turn_max": 0,
+                    "koji_driftRatio": 0.575000,
+                    "koji_driftMult": 1.450000,
+                    "koji_driftBoost": 1,
+                    "koji_driftMinSpeed": 50,
+                    "koji_drift_turn_max": 0.160000,
                     "miniturbo_accel_boost": 100,
                     "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
@@ -224,11 +224,11 @@
                     "suspensionCompression": 0.830000,
                     "suspensionDamping": 20,
                     "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000.000061,
+                    "maxSuspensionTravelCm": 1000,
                     "frictionSlip": 50.500000,
                     "maxSuspensionForce": 6000,
-                    "max_hitodamas": 0,
-                    "bonus_hitodamas": 0
+                    "max_hitodamas": 10,
+                    "bonus_hitodamas": 2
                 },
                 {
                     "type": 10,
@@ -9083,52 +9083,52 @@
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
                     "current_max_turn_change_mode": 1,
-                    "wood_acceleration": 0,
-                    "wood_max_speed": 0,
-                    "wood_min_speed": 0,
-                    "wood_fake_break": 0,
-                    "wood_base_turn_max": 0,
-                    "wood_turn_speed": 0,
-                    "wood_turn_speed_joystick": 0,
-                    "wood_time_to_idle": 0,
-                    "wood_idle_turn_by_interpolation": false,
-                    "wood_velocity_to_change": 0,
-                    "wood_turn_max_limit": 0,
+                    "wood_acceleration": 1550,
+                    "wood_max_speed": 130,
+                    "wood_min_speed": -55,
+                    "wood_fake_break": 45,
+                    "wood_base_turn_max": 0.400000,
+                    "wood_turn_speed": 2,
+                    "wood_turn_speed_joystick": 2,
+                    "wood_time_to_idle": 0.150000,
+                    "wood_idle_turn_by_interpolation": true,
+                    "wood_velocity_to_change": 1,
+                    "wood_turn_max_limit": 0.070000,
                     "wood_base_max_turn_change_speed": 0,
                     "wood_base_max_turn_change_accel": 0,
-                    "wood_push_force": 0,
-                    "wood_push_speed_per": 0,
-                    "wood_brakeForce": 0,
-                    "wood_backForce": 0,
+                    "wood_push_force": 1000,
+                    "wood_push_speed_per": 90,
+                    "wood_brakeForce": 150,
+                    "wood_backForce": 1800,
                     "wood_full_brake_force": 300,
-                    "wood_driftRatio": 0,
-                    "wood_driftMult": 0,
-                    "wood_driftBoost": 0,
-                    "wood_driftMinSpeed": 0,
-                    "wood_drift_turn_max": 0,
-                    "koji_acceleration": 1800,
-                    "koji_max_speed": 110,
-                    "koji_min_speed": -40,
-                    "koji_fake_break": 30,
-                    "koji_base_turn_max": 0.150000,
-                    "koji_turn_speed": 0.050000,
-                    "koji_turn_speed_joystick": 0,
-                    "koji_time_to_idle": 0,
-                    "koji_idle_turn_by_interpolation": false,
+                    "wood_driftRatio": 0.575000,
+                    "wood_driftMult": 1.450000,
+                    "wood_driftBoost": 1,
+                    "wood_driftMinSpeed": 50,
+                    "wood_drift_turn_max": 0.160000,
+                    "koji_acceleration": 1400,
+                    "koji_max_speed": 145,
+                    "koji_min_speed": -60,
+                    "koji_fake_break": 55,
+                    "koji_base_turn_max": 0.300000,
+                    "koji_turn_speed": 2,
+                    "koji_turn_speed_joystick": 2,
+                    "koji_time_to_idle": 0.150000,
+                    "koji_idle_turn_by_interpolation": true,
                     "koji_velocity_to_change": 1,
-                    "koji_turn_max_limit": 0.100000,
+                    "koji_turn_max_limit": 0.055000,
                     "koji_base_max_turn_change_speed": 0,
                     "koji_base_max_turn_change_accel": 0,
-                    "koji_push_force": 0,
-                    "koji_push_speed_per": 0,
-                    "koji_brakeForce": 1400,
-                    "koji_backForce": 200,
+                    "koji_push_force": 1000,
+                    "koji_push_speed_per": 90,
+                    "koji_brakeForce": 175,
+                    "koji_backForce": 1700,
                     "koji_full_brake_force": 300,
-                    "koji_driftRatio": 0,
-                    "koji_driftMult": 0,
-                    "koji_driftBoost": 0,
-                    "koji_driftMinSpeed": 0,
-                    "koji_drift_turn_max": 0,
+                    "koji_driftRatio": 0.575000,
+                    "koji_driftMult": 1.450000,
+                    "koji_driftBoost": 1,
+                    "koji_driftMinSpeed": 50,
+                    "koji_drift_turn_max": 0.160000,
                     "miniturbo_accel_boost": 100,
                     "miniturbo_speed_boost": 15,
                     "miniturbo_turbo_speed": -431602080,
@@ -9173,11 +9173,11 @@
                     "suspensionCompression": 0.830000,
                     "suspensionDamping": 20,
                     "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000.000061,
+                    "maxSuspensionTravelCm": 1000,
                     "frictionSlip": 50.500000,
                     "maxSuspensionForce": 6000,
-                    "max_hitodamas": 0,
-                    "bonus_hitodamas": 0
+                    "max_hitodamas": 10,
+                    "bonus_hitodamas": 2
                 },
                 {
                     "type": 10,
@@ -18458,7 +18458,7 @@
             "UUID": 178660845,
             "local_UUID": 2871570994,
             "parent": 965909917,
-            "active": false,
+            "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 178660845,
             "prefab_path": "\/Library\/4171985717\/\/214048432\/214048432.pfb",
@@ -48998,7 +48998,7 @@
         {
             "name": "Carp",
             "UUID": 2359256407,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49018,21 +49018,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 2875748614,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2606096456,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 1610742632,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49052,21 +49043,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 2428643951,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 798223136,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 105837986,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49086,21 +49068,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 613856078,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2072845515,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 3771320591,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49120,21 +49093,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 4222785506,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1138474882,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 1828453044,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49154,21 +49118,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 3492848700,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3120234819,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 1205790417,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49188,21 +49143,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 4176840515,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1116250419,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 2315804953,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49222,21 +49168,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 3189972931,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 780132596,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 232925930,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49256,21 +49193,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 1585726221,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1556981129,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 2934478403,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49290,21 +49218,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 323253793,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3767602073,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 1073439546,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49324,21 +49243,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 3284607355,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1222386613,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 3033021721,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49358,21 +49268,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 2595910675,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2156638640,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 3024111095,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49392,21 +49293,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 394756519,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2069772067,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 869110637,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49426,21 +49318,12 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 2241003684,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 4275549053,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Carp",
             "UUID": 2708130524,
-            "local_UUID": 2188029298,
+            "local_UUID": 0,
             "parent": 2625208438,
             "active": true,
             "is_prefab": true,
@@ -49460,16 +49343,7 @@
                     ]
                 }
             ],
-            "children_uuids": [
-                {
-                    "uuid": 2503035614,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3494202950,
-                    "local_uuid": 226492452
-                }
-            ]
+            "children_uuids": []
         },
         {
             "name": "Fish Racks",
