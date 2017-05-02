@@ -18908,220 +18908,6 @@
             ]
         },
         {
-            "name": "Rock1",
-            "UUID": 3761449547,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 420666600,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        15.336793,
-                        0,
-                        0,
-                        1,
-                        -120.053665,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Rock1",
-            "UUID": 2587242502,
-            "local_UUID": 0,
-            "parent": 3761449547,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 3978996450,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        -3.179387,
-                        0,
-                        0,
-                        1,
-                        3.715698,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2537097980,
-                    "active": true,
-                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 1995356734,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 650868419,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 2385326042,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        -14.856201,
-                        0,
-                        1,
-                        0,
-                        12.611276,
-                        0,
-                        0,
-                        1,
-                        -109.971893,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2284358667,
-            "local_UUID": 0,
-            "parent": 650868419,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 2196917286,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 383119127,
-                    "active": true,
-                    "path": "\/Library\/4264445463\/1011910075\/1847387470.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3623207799,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/4264445463\/\/2028628565\/2028628565.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "Last checkpoint",
             "UUID": 3647568689,
             "local_UUID": 0,
@@ -19262,2492 +19048,6 @@
                 }
             ],
             "children_uuids": []
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 461802708,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 461802708,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -17.091799,
-                        9.314817,
-                        -52.573982
-                    ],
-                    "rotation": [
-                        0,
-                        33.551880,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3693475616,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 2305384107,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2305384107,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        3.961711,
-                        9.314817,
-                        -52.573982
-                    ],
-                    "rotation": [
-                        0,
-                        -10.662461,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 93408911,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 3658829954,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3658829954,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -10.451359,
-                        9.314817,
-                        -52.573982
-                    ],
-                    "rotation": [
-                        0,
-                        -45.093124,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1024544101,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 2830263939,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2830263939,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -35.907814,
-                        9.314817,
-                        -52.573982
-                    ],
-                    "rotation": [
-                        0,
-                        -23.115562,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1470414474,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 2608251166,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2608251166,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -42.550217,
-                        9.314817,
-                        -54.911152
-                    ],
-                    "rotation": [
-                        0,
-                        -23.115515,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1273656313,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 3549816435,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3549816435,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -61.074806,
-                        9.314817,
-                        -58.361237
-                    ],
-                    "rotation": [
-                        0,
-                        -23.115515,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 89229902,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "FishRack_asi",
-            "UUID": 1779045271,
-            "local_UUID": 461802708,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1779045271,
-            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
-            "components": [
-                {
-                    "position": [
-                        -68.564285,
-                        9.314817,
-                        -54.515781
-                    ],
-                    "rotation": [
-                        0,
-                        41.052528,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2785026109,
-                    "local_uuid": 3693475616
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 2708130524,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2708130524,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -179.848038,
-                        12.614041,
-                        125.107597
-                    ],
-                    "rotation": [
-                        0,
-                        -51.029194,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2503035614,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3494202950,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 869110637,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 869110637,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -160.406860,
-                        12.614041,
-                        106.611130
-                    ],
-                    "rotation": [
-                        0,
-                        -34.384777,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2241003684,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 4275549053,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 3024111095,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3024111095,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -191.252182,
-                        12.614041,
-                        97.569557
-                    ],
-                    "rotation": [
-                        0,
-                        -39.230320,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 394756519,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2069772067,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 3033021721,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3033021721,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        115.299469,
-                        13.102348,
-                        82.216049
-                    ],
-                    "rotation": [
-                        -180,
-                        -58.359673,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2595910675,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2156638640,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 1073439546,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1073439546,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        159.037506,
-                        13.102356,
-                        113.812141
-                    ],
-                    "rotation": [
-                        180,
-                        -63.416389,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3284607355,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1222386613,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 2934478403,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2934478403,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        202.149521,
-                        13.102356,
-                        126.216278
-                    ],
-                    "rotation": [
-                        -180,
-                        -54.722427,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 323253793,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3767602073,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 232925930,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 232925930,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        243.526657,
-                        13.102356,
-                        97.252571
-                    ],
-                    "rotation": [
-                        -180,
-                        -56.639957,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1585726221,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1556981129,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 2315804953,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2315804953,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        124.567154,
-                        13.102356,
-                        38.636215
-                    ],
-                    "rotation": [
-                        180,
-                        -62.769707,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3189972931,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 780132596,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 1205790417,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1205790417,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        189.269867,
-                        13.102356,
-                        31.685440
-                    ],
-                    "rotation": [
-                        180,
-                        -63.804741,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4176840515,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1116250419,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 1828453044,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1828453044,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        78.770050,
-                        18.414124,
-                        -58.282387
-                    ],
-                    "rotation": [
-                        180,
-                        -85.410889,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3492848700,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 3120234819,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 3771320591,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3771320591,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        100.089294,
-                        18.414124,
-                        -67.369690
-                    ],
-                    "rotation": [
-                        180,
-                        -70.859993,
-                        180
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4222785506,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 1138474882,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 105837986,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 105837986,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -132.549103,
-                        15.581192,
-                        -63.632080
-                    ],
-                    "rotation": [
-                        0,
-                        -60.612972,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 613856078,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2072845515,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 1610742632,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1610742632,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -199.397125,
-                        15.581161,
-                        -66.854111
-                    ],
-                    "rotation": [
-                        0,
-                        -65.016205,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2428643951,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 798223136,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Carp",
-            "UUID": 2359256407,
-            "local_UUID": 2188029298,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2359256407,
-            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
-            "components": [
-                {
-                    "position": [
-                        -245.286606,
-                        19.476471,
-                        22.544708
-                    ],
-                    "rotation": [
-                        0,
-                        -69.740692,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2875748614,
-                    "local_uuid": 1249170172
-                },
-                {
-                    "uuid": 2606096456,
-                    "local_uuid": 226492452
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2047739342,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2047739342,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        -18.549664,
-                        11.175838,
-                        -149.880737
-                    ],
-                    "rotation": [
-                        0,
-                        43.970261,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1902189208,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2087820770,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2087820770,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        -9.320305,
-                        11.175838,
-                        -154.098206
-                    ],
-                    "rotation": [
-                        0,
-                        43.970261,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2258813062,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1428519841,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1428519841,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        -29.636929,
-                        11.175838,
-                        -154.637039
-                    ],
-                    "rotation": [
-                        0,
-                        43.970284,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 507122925,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 4220087871,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4220087871,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        -29.636929,
-                        11.175838,
-                        -117.632507
-                    ],
-                    "rotation": [
-                        0,
-                        43.970284,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 677742470,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 455240238,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 455240238,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        -2.627251,
-                        11.175838,
-                        -117.632507
-                    ],
-                    "rotation": [
-                        0,
-                        43.970284,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4140729033,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 535765462,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 535765462,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        9.767563,
-                        13.102356,
-                        -153.215332
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1965436832,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 831722193,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 831722193,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        33.035233,
-                        12.135643,
-                        -113.062698
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3326884598,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3747354200,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3747354200,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        241.228149,
-                        13.102356,
-                        135.036346
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2937295090,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3612064614,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3612064614,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        243.987274,
-                        13.102356,
-                        134.223969
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1715918227,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3745279231,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3745279231,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        245.399231,
-                        13.102356,
-                        138.223373
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1107157870,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 281832045,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 281832045,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        243.331818,
-                        13.102356,
-                        139.326080
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3973051528,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2097871330,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2097871330,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        241.392426,
-                        13.102352,
-                        139.071747
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 737039487,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1277588412,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1277588412,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        237.681671,
-                        13.102356,
-                        138.078415
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3067368340,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3449645424,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3449645424,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        235.227066,
-                        13.102356,
-                        137.952850
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4019797704,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1605961863,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1605961863,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        227.741333,
-                        13.102356,
-                        136.730865
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3613132257,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1681386561,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1681386561,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        222.830643,
-                        13.102356,
-                        137.151337
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2296403267,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3810454182,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3810454182,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        220.363770,
-                        13.102360,
-                        136.953827
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2456657200,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2959609916,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2959609916,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        221.400848,
-                        13.102360,
-                        129.227631
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 384701805,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2262201626,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2262201626,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        229.705780,
-                        15.721115,
-                        133.935989
-                    ],
-                    "rotation": [
-                        -34.642380,
-                        15.980470,
-                        -48.463146
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 287157617,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 551020183,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 551020183,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        230.843872,
-                        15.000710,
-                        133.358032
-                    ],
-                    "rotation": [
-                        59.778870,
-                        -23.961737,
-                        -40.528072
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 439909149,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3496745681,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3496745681,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        236.968658,
-                        17.620987,
-                        135.602402
-                    ],
-                    "rotation": [
-                        5.240695,
-                        1.051242,
-                        22.670311
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2778711924,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1649150609,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1649150609,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        235.214554,
-                        13.102356,
-                        128.519867
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2652082470,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 895476223,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 895476223,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        239.893494,
-                        17.327103,
-                        132.891983
-                    ],
-                    "rotation": [
-                        5.240692,
-                        1.051241,
-                        22.670303
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1866673317,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2162151346,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2162151346,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        228.851334,
-                        13.102354,
-                        125.198021
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 280252197,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2469902834,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2469902834,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        230.059204,
-                        16.467987,
-                        121.939262
-                    ],
-                    "rotation": [
-                        -65.456825,
-                        12.264017,
-                        -18.980045
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1826494936,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 127256973,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 127256973,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        232.664017,
-                        13.881756,
-                        125.443832
-                    ],
-                    "rotation": [
-                        -47.952961,
-                        -20.549524,
-                        44.351849
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1195632177,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2513321198,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2513321198,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        237.350800,
-                        13.102355,
-                        121.054604
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2719335198,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3201590616,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3201590616,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        240.744125,
-                        13.102354,
-                        126.467697
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2292177363,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 830124937,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 830124937,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        244.087387,
-                        13.102354,
-                        125.122108
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2137735785,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1009546448,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1009546448,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        245.407120,
-                        13.102354,
-                        119.647758
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3108826251,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2159071852,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2159071852,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        241.918228,
-                        13.102354,
-                        119.991524
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4119287832,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3364447690,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3364447690,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        241.470749,
-                        15.729926,
-                        116.765205
-                    ],
-                    "rotation": [
-                        -86.688309,
-                        1.594380,
-                        -1.689291
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4272724391,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1166400087,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1166400087,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        226.952362,
-                        13.102354,
-                        126.518112
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2996943217,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2055353086,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2055353086,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        234.447327,
-                        16.550776,
-                        123.481705
-                    ],
-                    "rotation": [
-                        2.778901,
-                        3.403395,
-                        62.395721
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1446721502,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2701048492,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2701048492,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        242.061707,
-                        13.102356,
-                        129.915604
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3068875329,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2294841166,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2294841166,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        247.181473,
-                        13.102356,
-                        129.842743
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2831836335,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3789939429,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3789939429,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        232.476654,
-                        13.102348,
-                        130.167603
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 727454445,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 84202438,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 84202438,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        227.869293,
-                        13.102356,
-                        130.749847
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2687451707,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 460854072,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 460854072,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        225.681915,
-                        13.102356,
-                        132.444000
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3384661447,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1128629793,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1128629793,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        221.331482,
-                        13.102356,
-                        132.955673
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 803890983,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1463566693,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1463566693,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        218.832123,
-                        13.974590,
-                        129.871063
-                    ],
-                    "rotation": [
-                        -47.952961,
-                        -20.549524,
-                        44.351849
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1758315144,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3832053540,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3832053540,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        225.073090,
-                        13.102352,
-                        127.449203
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2847018409,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 560522325,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 560522325,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        232.613663,
-                        16.159473,
-                        118.980682
-                    ],
-                    "rotation": [
-                        15.552992,
-                        -5.095273,
-                        -36.092030
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3639739380,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3360690552,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3360690552,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        236.044968,
-                        13.969067,
-                        124.514755
-                    ],
-                    "rotation": [
-                        -53.748425,
-                        0.103854,
-                        -0.204935
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2461122471,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3582372207,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3582372207,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        236.748535,
-                        13.102352,
-                        116.355469
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2579402816,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3762378766,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3762378766,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        245.703201,
-                        13.102352,
-                        110.203018
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 7832572,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1069217994,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1069217994,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        246.061111,
-                        13.102356,
-                        114.000122
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2723299226,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2854758503,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2854758503,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        246.476410,
-                        13.102356,
-                        115.626228
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 356754209,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 647627895,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 647627895,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        243.514267,
-                        14.980854,
-                        109.330772
-                    ],
-                    "rotation": [
-                        -9.254806,
-                        -6.917825,
-                        73.502258
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3575462390,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 875325713,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 875325713,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        243.302139,
-                        13.102356,
-                        111.286476
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1153144889,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 147004587,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 147004587,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        241.467194,
-                        13.633939,
-                        111.876358
-                    ],
-                    "rotation": [
-                        -75.821976,
-                        -13.896101,
-                        17.787010
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 497781385,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3189386594,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3189386594,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        238.414825,
-                        13.496243,
-                        112.244003
-                    ],
-                    "rotation": [
-                        -92.333878,
-                        0.264476,
-                        -0.253917
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3340160694,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1628437825,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1628437825,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        239.515808,
-                        13.102356,
-                        110.065735
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3753298974,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1424543073,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1424543073,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        240.452087,
-                        13.102356,
-                        111.752258
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3624703218,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 500424247,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 500424247,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        236.339935,
-                        13.361339,
-                        117.649559
-                    ],
-                    "rotation": [
-                        -88.278801,
-                        9.447632,
-                        -9.734429
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3403201685,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 671599158,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 671599158,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        234.338989,
-                        13.102352,
-                        117.471687
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1549297377,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 964167255,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 964167255,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        232.966583,
-                        13.102352,
-                        117.929535
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2708439631,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2050305540,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2050305540,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        228.282333,
-                        15.959973,
-                        117.777679
-                    ],
-                    "rotation": [
-                        -36.677204,
-                        -25.744389,
-                        69.166451
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2853382901,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1144917763,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1144917763,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        215.217499,
-                        13.102354,
-                        135.476898
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3286774949,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2659321344,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2659321344,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        213.975342,
-                        13.102354,
-                        138.974701
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 4256972038,
-                    "local_uuid": 1902189208
-                }
-            ]
         },
         {
             "name": "HUD_Canvas",
@@ -23739,473 +21039,6 @@
                     "radius": 1.332000
                 }
             ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 2660393290,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2660393290,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        225.161072,
-                        15.737854,
-                        -166.465271
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        52.305759
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2239433642,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 259773399,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 259773399,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        221.636765,
-                        15.529411,
-                        -162.206909
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3865959976,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 3577982585,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3577982585,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        220.677094,
-                        15.529419,
-                        -159.795471
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3367779838,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 4288457693,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4288457693,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        222.120514,
-                        15.529404,
-                        -156.165924
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1536115097,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 205221260,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 205221260,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        228.722382,
-                        19.411766,
-                        -165.884811
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1374243806,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1723808160,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1723808160,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        227.852661,
-                        19.348206,
-                        -159.612198
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        23.334169
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3536170464,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1894125148,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1894125148,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        226.218414,
-                        18.400291,
-                        -155.702194
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        52.305782
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1758844612,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1339941760,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1339941760,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        216.222076,
-                        13.058823,
-                        -158.224731
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 123717368,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock1",
-            "UUID": 1393713157,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1577683060,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 606030151,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 606030151,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        214.206940,
-                        14.233902,
-                        -150.170135
-                    ],
-                    "rotation": [
-                        -23.186993,
-                        -7.672248,
-                        36.199558
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1073865741,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 759355152,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 759355152,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        170.623535,
-                        9.647049,
-                        -115.518814
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 1401399539,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock3",
-            "UUID": 1284271978,
-            "local_UUID": 2047739342,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1284271978,
-            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
-            "components": [
-                {
-                    "position": [
-                        217.504318,
-                        15.529411,
-                        -148.084229
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 2740133006,
-                    "local_uuid": 1902189208
-                }
-            ]
-        },
-        {
-            "name": "Rock1",
-            "UUID": 2454919535,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2454919535,
-            "prefab_path": "\/Library\/643644559\/4264445463\/\/4075003341\/4075003341.pfb",
-            "components": [
-                {
-                    "position": [
-                        139.873199,
-                        27.176476,
-                        -219.901871
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Rock1",
-            "UUID": 879343537,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 879343537,
-            "prefab_path": "\/Library\/643644559\/4264445463\/\/4075003341\/4075003341.pfb",
-            "components": [
-                {
-                    "position": [
-                        148.652161,
-                        27.176476,
-                        -221.264343
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Rock2",
-            "UUID": 985321023,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 985321023,
-            "prefab_path": "\/Library\/643644559\/4264445463\/\/3960893556\/3960893556.pfb",
-            "components": [
-                {
-                    "position": [
-                        121.053581,
-                        27.176472,
-                        -228.556778
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Rock2",
-            "UUID": 310651743,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 310651743,
-            "prefab_path": "\/Library\/643644559\/4264445463\/\/3960893556\/3960893556.pfb",
-            "components": [
-                {
-                    "position": [
-                        113.591362,
-                        27.176472,
-                        -221.086670
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
         },
         {
             "name": "Turbos",
@@ -49161,7 +45994,7 @@
                     ],
                     "rotation": [
                         -179.999924,
-                        0.000000,
+                        0,
                         179.999893
                     ]
                 }
@@ -49810,16 +46643,16 @@
                     "active": true,
                     "matrix": [
                         1,
-                        -0.000000,
-                        0.000000,
+                        0,
+                        0,
                         -0.000015,
-                        0.000000,
+                        0,
                         1,
-                        -0.000000,
+                        0,
                         -0.000002,
-                        0.000000,
-                        0.000000,
-                        1.000000,
+                        0,
+                        0,
+                        1,
                         -0.000015,
                         0,
                         0,
@@ -50196,9 +47029,9 @@
                         -63.204926
                     ],
                     "rotation": [
-                        0.000000,
+                        0,
                         0.000007,
-                        0.000000
+                        0
                     ]
                 }
             ],
@@ -50228,6 +47061,3258 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "Rocks",
+            "UUID": 1776963635,
+            "local_UUID": 0,
+            "parent": 843739132,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2082350865,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rocks Zone 1",
+            "UUID": 143901223,
+            "local_UUID": 0,
+            "parent": 1776963635,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2688497499,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1284271978,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1284271978,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        217.504318,
+                        15.529411,
+                        -148.084229
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2740133006,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 759355152,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 759355152,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        170.623535,
+                        9.647049,
+                        -115.518814
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1401399539,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 606030151,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 606030151,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        214.206940,
+                        14.233902,
+                        -150.170135
+                    ],
+                    "rotation": [
+                        -23.187000,
+                        -7.672253,
+                        36.199562
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1073865741,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1339941760,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1339941760,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        216.222076,
+                        13.058823,
+                        -158.224731
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 123717368,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1894125148,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1894125148,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        226.218414,
+                        18.400291,
+                        -155.702194
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        52.305786
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1758844612,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1723808160,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1723808160,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        227.852661,
+                        19.348206,
+                        -159.612198
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        23.334171
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3536170464,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 205221260,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 205221260,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        228.722382,
+                        19.411766,
+                        -165.884811
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1374243806,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 4288457693,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4288457693,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        222.120514,
+                        15.529404,
+                        -156.165924
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1536115097,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3577982585,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3577982585,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        220.677094,
+                        15.529419,
+                        -159.795471
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3367779838,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 259773399,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 259773399,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        221.636765,
+                        15.529411,
+                        -162.206909
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3865959976,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2660393290,
+            "local_UUID": 2047739342,
+            "parent": 143901223,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2660393290,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        225.161072,
+                        15.737854,
+                        -166.465271
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        52.305756
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2239433642,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rocks Zone 2",
+            "UUID": 1357143989,
+            "local_UUID": 0,
+            "parent": 1776963635,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1461669992,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2659321344,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2659321344,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        213.975342,
+                        13.102354,
+                        138.974701
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4256972038,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1144917763,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1144917763,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        215.217499,
+                        13.102354,
+                        135.476898
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3286774949,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2050305540,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2050305540,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        228.282333,
+                        15.959973,
+                        117.777679
+                    ],
+                    "rotation": [
+                        -36.677200,
+                        -25.744396,
+                        69.166466
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2853382901,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 964167255,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 964167255,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        232.966583,
+                        13.102352,
+                        117.929535
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2708439631,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 671599158,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 671599158,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        234.338989,
+                        13.102352,
+                        117.471687
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1549297377,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 500424247,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 500424247,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        236.339935,
+                        13.361339,
+                        117.649559
+                    ],
+                    "rotation": [
+                        -88.278816,
+                        9.447636,
+                        -9.734431
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3403201685,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1424543073,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1424543073,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        240.452087,
+                        13.102356,
+                        111.752258
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3624703218,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1628437825,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1628437825,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        239.515808,
+                        13.102356,
+                        110.065735
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3753298974,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3189386594,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3189386594,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        238.414825,
+                        13.496243,
+                        112.244003
+                    ],
+                    "rotation": [
+                        -92.333870,
+                        0.264476,
+                        -0.253917
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3340160694,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 147004587,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 147004587,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.467194,
+                        13.633939,
+                        111.876358
+                    ],
+                    "rotation": [
+                        -75.821991,
+                        -13.896102,
+                        17.787010
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 497781385,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 875325713,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 875325713,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        243.302139,
+                        13.102356,
+                        111.286476
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1153144889,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 647627895,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 647627895,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        243.514267,
+                        14.980854,
+                        109.330772
+                    ],
+                    "rotation": [
+                        -9.254806,
+                        -6.917827,
+                        73.502266
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3575462390,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2854758503,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2854758503,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        246.476410,
+                        13.102356,
+                        115.626228
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 356754209,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1069217994,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1069217994,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        246.061111,
+                        13.102356,
+                        114.000122
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2723299226,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3762378766,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3762378766,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        245.703201,
+                        13.102352,
+                        110.203018
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 7832572,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3582372207,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3582372207,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        236.748535,
+                        13.102352,
+                        116.355469
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2579402816,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3360690552,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3360690552,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        236.044968,
+                        13.969067,
+                        124.514755
+                    ],
+                    "rotation": [
+                        -53.748432,
+                        0.103854,
+                        -0.204935
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2461122471,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 560522325,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 560522325,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        232.613663,
+                        16.159473,
+                        118.980682
+                    ],
+                    "rotation": [
+                        15.552992,
+                        -5.095273,
+                        -36.092037
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3639739380,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3832053540,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3832053540,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        225.073090,
+                        13.102352,
+                        127.449203
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2847018409,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1463566693,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1463566693,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        218.832123,
+                        13.974590,
+                        129.871063
+                    ],
+                    "rotation": [
+                        -47.952961,
+                        -20.549519,
+                        44.351852
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1758315144,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1128629793,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1128629793,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        221.331482,
+                        13.102356,
+                        132.955673
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 803890983,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 460854072,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 460854072,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        225.681915,
+                        13.102356,
+                        132.444000
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3384661447,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 84202438,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 84202438,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        227.869293,
+                        13.102356,
+                        130.749847
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2687451707,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3789939429,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3789939429,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        232.476654,
+                        13.102348,
+                        130.167603
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 727454445,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2294841166,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2294841166,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        247.181473,
+                        13.102356,
+                        129.842743
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2831836335,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2701048492,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2701048492,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        242.061707,
+                        13.102356,
+                        129.915604
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3068875329,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2055353086,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2055353086,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        234.447327,
+                        16.550776,
+                        123.481705
+                    ],
+                    "rotation": [
+                        2.778901,
+                        3.403394,
+                        62.395721
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1446721502,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1166400087,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1166400087,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        226.952362,
+                        13.102354,
+                        126.518112
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2996943217,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2159071852,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2159071852,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.918228,
+                        13.102354,
+                        119.991524
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4119287832,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3364447690,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3364447690,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.470749,
+                        15.729926,
+                        116.765205
+                    ],
+                    "rotation": [
+                        -86.688309,
+                        1.594380,
+                        -1.689291
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4272724391,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1009546448,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1009546448,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        245.407120,
+                        13.102354,
+                        119.647758
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3108826251,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 830124937,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 830124937,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        244.087387,
+                        13.102354,
+                        125.122108
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2137735785,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3201590616,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3201590616,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        240.744125,
+                        13.102354,
+                        126.467697
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2292177363,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 127256973,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 127256973,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        232.664017,
+                        13.881756,
+                        125.443832
+                    ],
+                    "rotation": [
+                        -47.952961,
+                        -20.549519,
+                        44.351852
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1195632177,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2513321198,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2513321198,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        237.350800,
+                        13.102355,
+                        121.054604
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2719335198,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2469902834,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2469902834,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        230.059204,
+                        16.467987,
+                        121.939262
+                    ],
+                    "rotation": [
+                        -65.456818,
+                        12.264016,
+                        -18.980043
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1826494936,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2162151346,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2162151346,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        228.851334,
+                        13.102354,
+                        125.198021
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 280252197,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 895476223,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 895476223,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        239.893494,
+                        17.327103,
+                        132.891983
+                    ],
+                    "rotation": [
+                        5.240693,
+                        1.051241,
+                        22.670303
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1866673317,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1649150609,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1649150609,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        235.214554,
+                        13.102356,
+                        128.519867
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2652082470,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3496745681,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3496745681,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        236.968658,
+                        17.620987,
+                        135.602402
+                    ],
+                    "rotation": [
+                        5.240695,
+                        1.051242,
+                        22.670311
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2778711924,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 551020183,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 551020183,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        230.843872,
+                        15.000710,
+                        133.358032
+                    ],
+                    "rotation": [
+                        59.778866,
+                        -23.961735,
+                        -40.528072
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 439909149,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2262201626,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2262201626,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        229.705780,
+                        15.721115,
+                        133.935989
+                    ],
+                    "rotation": [
+                        -34.642380,
+                        15.980470,
+                        -48.463146
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 287157617,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2959609916,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2959609916,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        221.400848,
+                        13.102360,
+                        129.227631
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 384701805,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3810454182,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3810454182,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        220.363770,
+                        13.102360,
+                        136.953827
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2456657200,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1681386561,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1681386561,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        222.830643,
+                        13.102356,
+                        137.151337
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2296403267,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1605961863,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1605961863,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        227.741333,
+                        13.102356,
+                        136.730865
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3613132257,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3449645424,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3449645424,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        235.227066,
+                        13.102356,
+                        137.952850
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4019797704,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1277588412,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1277588412,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        237.681671,
+                        13.102356,
+                        138.078415
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3067368340,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2097871330,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2097871330,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.392426,
+                        13.102352,
+                        139.071747
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 737039487,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 281832045,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 281832045,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        243.331818,
+                        13.102356,
+                        139.326080
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3973051528,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3745279231,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3745279231,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        245.399231,
+                        13.102356,
+                        138.223373
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1107157870,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3612064614,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3612064614,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        243.987274,
+                        13.102356,
+                        134.223969
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1715918227,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 3747354200,
+            "local_UUID": 2047739342,
+            "parent": 1357143989,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3747354200,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        241.228149,
+                        13.102356,
+                        135.036346
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2937295090,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rocks Zone 3",
+            "UUID": 2295220802,
+            "local_UUID": 0,
+            "parent": 1776963635,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3521184954,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 831722193,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 831722193,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        33.035233,
+                        12.135643,
+                        -113.062698
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3326884598,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 535765462,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 535765462,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        9.767563,
+                        13.102356,
+                        -153.215332
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1965436832,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 455240238,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 455240238,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        -2.627251,
+                        11.175838,
+                        -117.632507
+                    ],
+                    "rotation": [
+                        0,
+                        43.970280,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4140729033,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 4220087871,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4220087871,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        -29.636929,
+                        11.175838,
+                        -117.632507
+                    ],
+                    "rotation": [
+                        0,
+                        43.970280,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 677742470,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 1428519841,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1428519841,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        -29.636929,
+                        11.175838,
+                        -154.637039
+                    ],
+                    "rotation": [
+                        0,
+                        43.970280,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 507122925,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2087820770,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2087820770,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        -9.320305,
+                        11.175838,
+                        -154.098206
+                    ],
+                    "rotation": [
+                        0,
+                        43.970261,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2258813062,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2047739342,
+            "local_UUID": 2047739342,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2047739342,
+            "prefab_path": "\/Library\/3645291025\/\/1894069407\/1894069407.pfb",
+            "components": [
+                {
+                    "position": [
+                        -18.549664,
+                        11.175838,
+                        -149.880737
+                    ],
+                    "rotation": [
+                        0,
+                        43.970261,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1902189208,
+                    "local_uuid": 1902189208
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 650868419,
+            "local_UUID": 0,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2385326042,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -14.856201,
+                        0,
+                        1,
+                        0,
+                        12.611276,
+                        0,
+                        0,
+                        1,
+                        -109.971893,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock3",
+            "UUID": 2284358667,
+            "local_UUID": 0,
+            "parent": 650868419,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2196917286,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 383119127,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/1011910075\/1847387470.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3623207799,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2028628565\/2028628565.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 3761449547,
+            "local_UUID": 0,
+            "parent": 2295220802,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 420666600,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        15.336793,
+                        0,
+                        0,
+                        1,
+                        -120.053665,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2587242502,
+            "local_UUID": 0,
+            "parent": 3761449547,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3978996450,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -3.179387,
+                        0,
+                        0,
+                        1,
+                        3.715698,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2537097980,
+                    "active": true,
+                    "path": "\/Library\/4264445463\/2337613641\/3011624937.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1995356734,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Carps",
+            "UUID": 2625208438,
+            "local_UUID": 0,
+            "parent": 843739132,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3238799994,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 2359256407,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2359256407,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -9.678192,
+                        19.476471,
+                        22.544708
+                    ],
+                    "rotation": [
+                        0,
+                        -69.740715,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2875748614,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 2606096456,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 1610742632,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1610742632,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -199.397125,
+                        15.581161,
+                        -66.854111
+                    ],
+                    "rotation": [
+                        0,
+                        -65.016197,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2428643951,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 798223136,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 105837986,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 105837986,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -132.549103,
+                        15.581192,
+                        -63.632080
+                    ],
+                    "rotation": [
+                        0,
+                        -60.612972,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 613856078,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 2072845515,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 3771320591,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3771320591,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        100.089294,
+                        18.414124,
+                        -67.369690
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -70.859993,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4222785506,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 1138474882,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 1828453044,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1828453044,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        78.770050,
+                        18.414124,
+                        -58.282387
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -85.410843,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3492848700,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 3120234819,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 1205790417,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1205790417,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        189.269867,
+                        13.102356,
+                        31.685440
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -63.804733,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 4176840515,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 1116250419,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 2315804953,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2315804953,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        124.567154,
+                        13.102356,
+                        38.636215
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -62.769695,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3189972931,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 780132596,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 232925930,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 232925930,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        243.526657,
+                        13.102356,
+                        97.252571
+                    ],
+                    "rotation": [
+                        179.999985,
+                        -56.639965,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1585726221,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 1556981129,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 2934478403,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2934478403,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        202.149521,
+                        13.102356,
+                        126.216278
+                    ],
+                    "rotation": [
+                        179.999985,
+                        -54.722439,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 323253793,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 3767602073,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 1073439546,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1073439546,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        159.037506,
+                        13.102356,
+                        113.812141
+                    ],
+                    "rotation": [
+                        -179.999985,
+                        -63.416389,
+                        -179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3284607355,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 1222386613,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 3033021721,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3033021721,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        115.299469,
+                        13.102348,
+                        82.216049
+                    ],
+                    "rotation": [
+                        179.999985,
+                        -58.359669,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2595910675,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 2156638640,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 3024111095,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3024111095,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -191.252182,
+                        12.614041,
+                        97.569557
+                    ],
+                    "rotation": [
+                        0,
+                        -39.230320,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 394756519,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 2069772067,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 869110637,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 869110637,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -160.406860,
+                        12.614041,
+                        106.611130
+                    ],
+                    "rotation": [
+                        0,
+                        -34.384777,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2241003684,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 4275549053,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 2708130524,
+            "local_UUID": 2188029298,
+            "parent": 2625208438,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2708130524,
+            "prefab_path": "\/Library\/643644559\/3043737163\/\/3639644439\/3639644439.pfb",
+            "components": [
+                {
+                    "position": [
+                        -179.848038,
+                        12.614041,
+                        125.107597
+                    ],
+                    "rotation": [
+                        0,
+                        -51.029186,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2503035614,
+                    "local_uuid": 1249170172
+                },
+                {
+                    "uuid": 3494202950,
+                    "local_uuid": 226492452
+                }
+            ]
+        },
+        {
+            "name": "Fish Racks",
+            "UUID": 3273014577,
+            "local_UUID": 0,
+            "parent": 843739132,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3572626141,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 1779045271,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1779045271,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -68.564285,
+                        9.314817,
+                        -54.515781
+                    ],
+                    "rotation": [
+                        0,
+                        41.052521,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 2785026109,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 3549816435,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3549816435,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -61.074806,
+                        9.314817,
+                        -58.361237
+                    ],
+                    "rotation": [
+                        0,
+                        -23.115515,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 89229902,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 2608251166,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2608251166,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -42.550217,
+                        9.314817,
+                        -54.911152
+                    ],
+                    "rotation": [
+                        0,
+                        -23.115515,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1273656313,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 2830263939,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2830263939,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -35.907814,
+                        9.314817,
+                        -52.573982
+                    ],
+                    "rotation": [
+                        0,
+                        -23.115562,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1470414474,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 3658829954,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3658829954,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -10.451359,
+                        9.314817,
+                        -52.573982
+                    ],
+                    "rotation": [
+                        0,
+                        -45.093124,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 1024544101,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 2305384107,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2305384107,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        3.961711,
+                        9.314817,
+                        -52.573982
+                    ],
+                    "rotation": [
+                        0,
+                        -10.662461,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 93408911,
+                    "local_uuid": 3693475616
+                }
+            ]
+        },
+        {
+            "name": "FishRack_asi",
+            "UUID": 461802708,
+            "local_UUID": 461802708,
+            "parent": 3273014577,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 461802708,
+            "prefab_path": "\/Library\/3645291025\/\/2948986940\/2948986940.pfb",
+            "components": [
+                {
+                    "position": [
+                        -17.091799,
+                        9.314817,
+                        -52.573982
+                    ],
+                    "rotation": [
+                        0,
+                        33.551880,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3693475616,
+                    "local_uuid": 3693475616
+                }
+            ]
         },
         {
             "name": "Walls",
@@ -52508,7 +52593,7 @@
                         -108.202812
                     ],
                     "rotation": [
-                        -0.000000,
+                        0,
                         -26.743608,
                         -179.999969
                     ]
@@ -52558,7 +52643,7 @@
                         38.381550
                     ],
                     "rotation": [
-                        0.000000,
+                        0,
                         72.729019,
                         -179.999939
                     ]
