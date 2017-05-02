@@ -185,6 +185,7 @@ public:
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
+	void SetMaxVelocity(float max_vel);
 	float GetMinVelocity()const;
 	float GetMaxTurnByCurrentVelocity(float sp);
 	unsigned int GetFrontPlayer();
@@ -200,8 +201,8 @@ public:
 private:
 	void CreateCar();
 	void UpdateGO();
-	void JoystickControls(float* accel, float* brake, bool* turning);
-	void KeyboardControls(float* accel, float* brake, bool* turning);
+	void JoystickControls(float* accel, float* brake, bool* turning, bool inverse = false);
+	void KeyboardControls(float* accel, float* brake, bool* turning, bool inverse = false);
 
 	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
 	void RenderWithoutCar();
@@ -277,6 +278,7 @@ public:
 
 
 	//Car mechanics settings --------
+	bool inverted_controls;
 private:
 
 	//Common in both cars----
