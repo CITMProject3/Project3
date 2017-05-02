@@ -350,7 +350,8 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, b
 	}
 	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
 	{
-		Acrobatics(back_player);
+		OnGetHit();
+		//Acrobatics(back_player);
 	}
 	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 	{
@@ -392,7 +393,7 @@ void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, b
 		}
 		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
 		{
-			//Acrobatics(front_player);
+			//Acrobatics(back_player);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
@@ -658,6 +659,9 @@ void ComponentCar::Acrobatics(PLAYER p)
 			acro_timer = 0.0f;
 
 			acro_on = true;
+			SetP2AnimationState(P2ACROBATICS, 0.5f);
+			p1_state = P1ACROBATICS;
+			p1_animation->PlayAnimation(4, 0.5f);
 		}
 	}
 }
@@ -669,6 +673,8 @@ void ComponentCar::PickItem()
 
 void ComponentCar::UseItem()
 {
+	SetP2AnimationState(P2USE_ITEM, 0.5f);
+
 	//if (has_item)
 	//{
 		current_turbo = T_ROCKET;
@@ -1045,6 +1051,88 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 				p2_state = state;
 				p2_animation->PlayAnimation(7, blend_ratio);
 			}
+			break;
+		}
+		case (P2GET_HIT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(8, blend_ratio);
+			break;
+		}
+		case(P2USE_ITEM):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(9, blend_ratio);
+			break;
+		}
+		case(P2ACROBATICS):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(10, blend_ratio);
+			break;
+		}
+	}
+}
+
+void ComponentCar::UpdateP1Animation()
+{
+	switch (p1_state)
+	{
+		case(P1ACROBATICS):
+		{
+			if (p1_animation->playing == false)
+			{
+				p1_state = P1IDLE;
+			}
+			break;
+		}
+		case(P1GET_HIT):
+		{
+			if (p1_animation->playing == false)
+			{
+				p1_state = P1IDLE;
+			}
+			break;
+		}
+		case(P1MAXTURN_L):
+		{
+			if (turn_current < turn_max + turn_boost)
+				p1_state = P1IDLE;
+			break;
+		}
+		case (P1MAXTURN_R):
+		{
+			if (turn_current > - turn_max - turn_boost)
+				p1_state = P1IDLE;
+			break;
+		}
+		case(P1TURN):
+		{
+			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+			p1_animation->LockAnimationRatio(ratio);
+			if (turn_current >= turn_max + turn_boost || turn_current <= -turn_max - turn_boost) p1_state = P1IDLE;
+			break;
+		}
+		case(P1IDLE):
+		{
+			if (turn_current >= turn_max + turn_boost)
+			{
+				p1_state = P1MAXTURN_L;
+				p1_animation->PlayAnimation(1, 0.5f);
+			}
+			else if (turn_current <= -turn_max - turn_boost)
+			{
+				p1_state = P1MAXTURN_R;
+				p1_animation->PlayAnimation(2, 0.5f);
+			}
+			else
+			{
+				p1_state = P1TURN;
+				p1_animation->PlayAnimation((uint)0, 0.5f);
+				float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+				p1_animation->LockAnimationRatio(ratio);
+			}
+			break;
 		}
 	}
 }
@@ -1065,6 +1153,7 @@ void ComponentCar::UpdateP2Animation()
 			}
 			else
 			{
+				if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE);
 				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (kart->max_velocity + speed_boost));
 			}
 			break;
@@ -1119,8 +1208,33 @@ void ComponentCar::UpdateP2Animation()
 			{
 				SetP2AnimationState(P2IDLE);
 			}
+			break;
+		}
+		case(P2GET_HIT):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE, 0.0f);
+			}
+			break;
+		}
+		case(P2ACROBATICS):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
 		}
 	}
+}
+
+void ComponentCar::OnGetHit()
+{
+	GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	SetP2AnimationState(P2GET_HIT, 0.0f);
+	p1_state = P1GET_HIT;
+	p1_animation->PlayAnimation(3, 0.5f);
 }
 
 void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot)
@@ -1369,18 +1483,6 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 }
 void ComponentCar::CreateCar()
 {
-	std::vector<Component*> components;
-	game_object->GetComponentsInChilds(C_ANIMATION, components);
-	if (p1_animation == nullptr && components.size() > 0)
-	{
-		p1_animation = (ComponentAnimation*)components[0];
-	}
-	if (p2_animation == nullptr && components.size() > 1)
-	{
-		if ((p2_animation = (ComponentAnimation*)components[1]) != nullptr)
-			p2_animation->PlayAnimation(3, 0.0f);
-	}
-
 	car->transform.Set(game_object->transform->GetGlobalMatrix());
 
 	// Car properties ----------------------------------------
@@ -1470,37 +1572,19 @@ void ComponentCar::UpdateGO()
 	}
 	*/
 	//Updating turn animation
-	/*
+
+	//Player 1 animation
 	if (p1_animation != nullptr)
 	{
-		if (turn_current >= turn_max + turn_boost)
-		{
-			if (p1_animation->current_animation->index != 1)
-			{
-				p1_animation->PlayAnimation(1, 0.5f);
-			}
-
-		}
-		else if (turn_current <= -turn_max - turn_boost)
-		{
-			if (p1_animation->current_animation->index != 2)
-			{
-				p1_animation->PlayAnimation(2, 0.5f);
-			}
-		}
-		else
-		{
-			p1_animation->PlayAnimation((uint)0, 0.5f);
-			float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
-			p1_animation->LockAnimationRatio(ratio);
-		}
+		UpdateP1Animation();
 	}
 
 	//Player 2 animation
 	if (p2_animation != nullptr)
 	{
 		UpdateP2Animation();
-	}*/
+	}
+	
 }
 
 void ComponentCar::RenderWithoutCar()

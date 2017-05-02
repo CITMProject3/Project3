@@ -618,9 +618,7 @@ namespace Player_Car
 				{
 					if (item_col->GetGameObject()->name == "Hitodama")
 					{
-						Player_car->AddHitodama();
-						item_col->GetGameObject()->SetActive(false);
-						item_col->SetActive(false);
+						//Player_car->AddHitodama();
 					}
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
