@@ -15,7 +15,7 @@ class ComponentCamera;
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
 
 #define MAX_LISTENERS 8
-#define CHECK_TIME 1			// Seconds
+#define CHECK_TIME 5			// In seconds
 
 class ModuleAudio : public Module
 {

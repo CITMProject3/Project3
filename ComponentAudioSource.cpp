@@ -127,7 +127,7 @@ void ComponentAudioSource::OnPlay()
 
 void ComponentAudioSource::OnStop()
 {
-	StopAllEvents();
+	//StopAllEvents();
 }
 
 long unsigned ComponentAudioSource::GetWiseID() const
@@ -282,8 +282,11 @@ void ComponentAudioSource::ShowAddRemoveButtons()
 	// Remove last audio source added
 	if (ImGui::Button("-") && !list_of_events.empty())
 	{
-		if (list_of_events.back() != nullptr) // Unload Resource
-			list_of_events.back()->Unload();
+		if (list_of_events.back() != nullptr) 
+		{
+			StopEvent(list_of_events.size() - 1);  // With button(-) sound is always stopped
+			list_of_events.back()->Unload();       // Unload Resource
+		}			
 		list_of_events.pop_back(); // Event
 	}
 }
