@@ -32,13 +32,14 @@
 #include <algorithm>
 using namespace std;
 
-ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), color(1), cti_entry(1, 0, float3(1))
+ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1)
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
 	particles_container.resize(top_max_particles);
 	alive_particles_position.resize(top_max_particles);
 	alive_particles_color.resize(top_max_particles);
+	alive_particles_life.resize(top_max_particles);
 
 	glGenBuffers(1, &position_buffer);
 	glBindBuffer(GL_ARRAY_BUFFER, position_buffer);
@@ -48,12 +49,21 @@ ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject*
 	glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
 	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 4 * sizeof(float), NULL, GL_STREAM_DRAW);
 
-	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
+	glGenBuffers(1, &life_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, life_buffer);
+	glBufferData(GL_ARRAY_BUFFER, top_max_particles * sizeof(float), NULL, GL_STREAM_DRAW);
+
+	float3 system_position = game_object->GetGlobalMatrix().TranslatePart();
+	
+	box_shape_obb.pos = system_position;
 	box_shape_obb.r = box_shape * 0.5;
 	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 	box_shape_obb.axis[0] = rotation * float3::unitX;
 	box_shape_obb.axis[1] = rotation * float3::unitY;
 	box_shape_obb.axis[2] = rotation * float3::unitZ;
+
+	sphere_shape.pos = system_position;
+	sphere_shape.r = 1.0f;
 
 	rnd = LCG(time->RealTimeSinceStartup());
 
@@ -94,19 +104,9 @@ void ComponentParticleSystem::OnInspector(bool debug)
 			spawn_timer = 0.0f;
 		}
 
-		//Shape
-		if(ImGui::CollapsingHeader("Shape ##ps_shape"))
-		{
-			ImGui::Text("Shape: Box"); //TODO: add different shape options
-			
-			ImGui::Text("Box X/Y/Z: "); ImGui::SameLine(); 
-			if (ImGui::DragFloat3("##ps_bs", box_shape.ptr(), 0.1, 0.001, 1000))
-			{
-				box_shape_obb.r = box_shape * 0.5f;
-			}
-		}
-
+		InspectorShape();
 		InspectorColorOverTime();
+		InspectorTextureAnimation();
 
 		//Render
 		if (ImGui::CollapsingHeader("Render ###ps_render"))
@@ -156,7 +156,22 @@ void ComponentParticleSystem::Save(Data & file) const
 		}
 	}
 
-	data.AppendFloat3("box_shape", box_shape.ptr());
+	data.AppendInt("shape_type", shape_type);
+	switch (shape_type)
+	{
+	case SHAPE_BOX:
+		data.AppendFloat3("box_shape", box_shape.ptr());
+		break;
+	case SHAPE_SPHERE:
+		data.AppendFloat("sphere_radius", sphere_shape.r);
+		data.AppendBool("sphere_emit_from_shell", sphere_emit_from_shell);
+		break;
+	}
+	
+
+	data.AppendBool("texture_anim", texture_anim);
+	if (texture_anim)
+		data.AppendFloat3("tex_anim_data", tex_anim_data.ptr());
 
 	//Render
 	if (texture)
@@ -198,7 +213,22 @@ void ComponentParticleSystem::Load(Data & conf)
 		}
 	}
 
-	box_shape = conf.GetFloat3("box_shape");
+	shape_type = (ParticleShapeType)conf.GetInt("box_shape");
+	switch (shape_type)
+	{
+	case SHAPE_BOX:
+		box_shape = conf.GetFloat3("box_shape");
+		break;
+	case SHAPE_SPHERE:
+		sphere_shape.r = conf.GetFloat("sphere_radius");
+		sphere_emit_from_shell = conf.GetBool("sphere_emit_from_shell");
+		break;
+	}
+	
+
+	texture_anim = conf.GetBool("texture_anim");
+	if (texture_anim)
+		tex_anim_data = conf.GetFloat3("tex_anim_data");
 
 	string tex_path = conf.GetString("texture");
 	if (tex_path.size() > 0)
@@ -227,7 +257,7 @@ void ComponentParticleSystem::Update()
 			int num_particles_to_spawn = spawn_timer / spawn_time;
 
 			for (int i = 0; i < num_particles_to_spawn; i++)
-				SpawnParticle();
+				SpawnParticle(i);
 
 			spawn_timer -= spawn_time * num_particles_to_spawn;
 		}
@@ -269,7 +299,7 @@ void ComponentParticleSystem::PostUpdate()
 
 					item_life_pc = (item_life / life_time) * 100.0;
 
-					if (color_time[p.next_c_id]->position < item_life_pc)
+					if (color_time[p.next_c_id]->position <= item_life_pc)
 						p.next_c_id++;
 
 					previous = color_time[p.next_c_id - 1];
@@ -283,9 +313,17 @@ void ComponentParticleSystem::PostUpdate()
 
 					++num_alive_particles;
 				}
+				else
+				{
+					p.cam_distance = -1.0f;
+					p.life = -1.0f;
+				}
 			}
 			else
+			{
 				p.cam_distance = -1.0f;
+				p.life = -1.0f;
+			}
 
 		}
 
@@ -304,6 +342,8 @@ void ComponentParticleSystem::OnTransformModified()
 	box_shape_obb.axis[0] = rotation * float3::unitX;
 	box_shape_obb.axis[1] = rotation * float3::unitY;
 	box_shape_obb.axis[2] = rotation * float3::unitZ;
+
+	sphere_shape.pos = game_object->GetGlobalMatrix().TranslatePart();
 }
 
 void ComponentParticleSystem::OnPlay()
@@ -354,6 +394,7 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 	{
 		alive_particles_position[i] = particles_container[i].position;
 		alive_particles_color[i] = particles_container[i].color;
+		alive_particles_life[i] = particles_container[i].life;
 	}
 
 	//Testing sort
@@ -384,6 +425,10 @@ void ComponentParticleSystem::SortParticles(ComponentCamera * cam)
 	glBindBuffer(GL_ARRAY_BUFFER, color_buffer);
 	glBufferData(GL_ARRAY_BUFFER, top_max_particles * 4 * sizeof(float), NULL, GL_STREAM_DRAW);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float) * 4, alive_particles_color.data());
+
+	glBindBuffer(GL_ARRAY_BUFFER, life_buffer);
+	glBufferData(GL_ARRAY_BUFFER, top_max_particles * sizeof(float), NULL, GL_STREAM_DRAW);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, num_alive_particles * sizeof(float), alive_particles_life.data());
 }
 
 void ComponentParticleSystem::StopAll()
@@ -509,18 +554,98 @@ void ComponentParticleSystem::InspectorColorOverTime()
 	}
 }
 
-void ComponentParticleSystem::SpawnParticle()
+void ComponentParticleSystem::InspectorTextureAnimation()
+{
+	if (ImGui::CollapsingHeader("Texture Animation"))
+	{
+		ImGui::Text("Active:"); ImGui::SameLine(); ImGui::Checkbox("###ps_tex_anim_active_cb", &texture_anim);
+		if (texture_anim)
+		{
+			int rows = tex_anim_data.x;
+			int columns = tex_anim_data.y;
+			int cycles = tex_anim_data.z;
+			if (ImGui::InputInt("Rows: ##ps_ta_rows", &rows)) tex_anim_data.x = rows;
+			if (ImGui::InputInt("Columns: ##ps_ta_columns", &columns)) tex_anim_data.y = columns;
+			if (ImGui::InputInt("Cycles: ##ps_ta_cycles", &cycles)) tex_anim_data.z = cycles;
+		}		
+	}
+}
+
+void ComponentParticleSystem::InspectorShape()
+{
+	if (ImGui::CollapsingHeader("Shape ##ps_shape"))
+	{
+		const char* menu_text;
+
+		switch (shape_type)
+		{
+		case SHAPE_BOX:
+			menu_text = "Shape: Box";
+			break;
+		case SHAPE_SPHERE:
+			menu_text = "Shape: Sphere";
+			break;
+		default:
+			menu_text = "Shape: UNKNOWN";
+			break;
+		}
+		if (ImGui::BeginMenu(menu_text))
+		{
+			if (ImGui::MenuItem("Box ##ps_shape_box"))
+				shape_type = SHAPE_BOX;
+
+			if (ImGui::MenuItem("Sphere ##ps_shape_sphere"))
+				shape_type = SHAPE_SPHERE;
+			ImGui::EndMenu();
+		}
+
+		switch (shape_type)
+		{
+		case SHAPE_BOX:
+			ImGui::Text("Box X/Y/Z: "); ImGui::SameLine();
+			if (ImGui::DragFloat3("##ps_bs", box_shape.ptr(), 0.1, 0.001, 1000))
+			{
+				box_shape_obb.r = box_shape * 0.5f;
+			}
+			break;
+		case SHAPE_SPHERE:
+			ImGui::DragFloat("Radius: ##ps_shape_sphere_radius", &sphere_shape.r, 0.1f, 0.00001f, 1000000.0f);
+			ImGui::Checkbox("Emit from Shell: ", &sphere_emit_from_shell);
+			break;
+		}
+		
+	}
+}
+
+void ComponentParticleSystem::SpawnParticle(int delay)
 {
 	int id = FindUnusedParticle();
 
 	Particle& p = particles_container[id];
 
-	p.life = life_time;
+	p.life = life_time - delay * spawn_time + time->RealDeltaTime();
 	p.position = math::float3(0.0f);
-	p.speed = math::float3(0, speed, 0);
-	p.origin = box_shape_obb.RandomPointInside(rnd);
 	p.next_c_id = 0;
 	p.cam_distance = -1.0f;
+
+	switch (shape_type)
+	{
+	case SHAPE_BOX:
+		p.origin = box_shape_obb.RandomPointInside(rnd);
+		p.speed = math::float3(0, speed, 0);
+		break;
+	case SHAPE_SPHERE:
+		if (!sphere_emit_from_shell)
+			p.origin = sphere_shape.RandomPointInside(rnd);
+		else
+			p.origin = sphere_shape.RandomPointOnSurface(rnd);
+		p.speed = (p.origin - game_object->transform->GetPosition()).Normalized() * speed;
+		break;
+	default:
+		p.origin = float3(0.0f);
+		break;
+	}
+	
 }
 
 int ComponentParticleSystem::FindUnusedParticle()
@@ -538,9 +663,6 @@ int ComponentParticleSystem::FindUnusedParticle()
 
 bool Particle::operator<(Particle & b)
 {
-	if (this->life < 0 && b.life < 0) return this->life > b.life;
-	if (this->life > 0 && b.life < 0) return true;
-	if (this->life < 0 && b.life > 0) return false;
 	return this->cam_distance > b.cam_distance;
 }
 

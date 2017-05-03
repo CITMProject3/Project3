@@ -32,6 +32,12 @@ struct ColorTimeItem
 	ColorTimeItem(float alpha, float position, const math::float3& color);
 };
 
+enum ParticleShapeType
+{
+	SHAPE_BOX,
+	SHAPE_SPHERE
+};
+
 class ComponentParticleSystem : public Component
 {
 public:
@@ -61,14 +67,15 @@ private:
 	void InspectorChangeTexture();
 	void InspectorSimulation(); //Play/Stop simulation
 	void InspectorColorOverTime();
+	void InspectorTextureAnimation();
+	void InspectorShape();
 
-	void SpawnParticle();
+	void SpawnParticle(int delay);
 	int FindUnusedParticle();
 
 private:
 
 	//Properties
-	float life_time = 5.0f;
 	int max_particles = 1000;
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
@@ -82,9 +89,18 @@ private:
 	ColorTimeItem cti_entry;
 
 	//Shape
+	ParticleShapeType shape_type = SHAPE_BOX;
 	math::float3 box_shape = math::float3(1);
 	math::OBB box_shape_obb;
+	math::Sphere sphere_shape;
+	bool sphere_emit_from_shell = false;
+
+	//Animated texture
+public:
+	bool texture_anim = false;
+	math::float3 tex_anim_data; //x-rows y-columns z-cycles
 	
+private:
 	ResourceFileTexture* texture = nullptr;
 
 	float spawn_time = 0.1f; // 1 / emission rate
@@ -105,16 +121,19 @@ private:
 public:
 	std::vector<math::float3> alive_particles_position;
 	std::vector<math::float4> alive_particles_color;
+	std::vector<float> alive_particles_life;
 
 	//Buffers
 	unsigned int position_buffer = 0;
 	unsigned int color_buffer = 0;
+	unsigned int life_buffer = 0;
 
 	int num_alive_particles = 0; //Number of particles alive
 
 	//Properites
 	float size = 1.0f;
 	math::float3 color;
+	float life_time = 5.0f;
 };
 
 #endif // !__COMPONENTPARTICLESYTEM_H__

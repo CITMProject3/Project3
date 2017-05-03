@@ -629,6 +629,10 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	GLint color_location = glGetUniformLocation(shader_id, "s_color");
 	GLint use_color_time_location = glGetUniformLocation(shader_id, "use_color_time");
 
+	GLint texture_anim_location = glGetUniformLocation(shader_id, "texture_anim");
+	GLint lifetime_location = glGetUniformLocation(shader_id, "life_time");
+	GLint tex_anim_data_location = glGetUniformLocation(shader_id, "tex_anim_data");
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	
@@ -642,6 +646,11 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
 		glUniform3fv(color_location, 1, (*particle)->color.ptr());
 		glUniform1i(use_color_time_location, (*particle)->color_over_time_active);
+
+		glUniform1i(texture_anim_location, (*particle)->texture_anim);
+		glUniform1f(lifetime_location, (*particle)->life_time);
+		if((*particle)->texture_anim)
+			glUniform3fv(tex_anim_data_location, 1, (*particle)->tex_anim_data.ptr());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
@@ -670,6 +679,11 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 		glVertexAttribDivisor(3, 1);
 
+		glEnableVertexAttribArray(4);
+		glBindBuffer(GL_ARRAY_BUFFER, (*particle)->life_buffer);
+		glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribDivisor(4, 1);
+
 		//Index buffer
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bil_mesh->id_indices);
 		glDrawElementsInstanced(GL_TRIANGLES, bil_mesh->num_indices, GL_UNSIGNED_INT, 0, (*particle)->num_alive_particles);
@@ -680,6 +694,7 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
 	glDisableVertexAttribArray(3);
+	glDisableVertexAttribArray(4);
 	
 	glBindTexture(GL_TEXTURE_2D, 0);
 
