@@ -148,7 +148,7 @@ namespace Player_Car
 		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 		if (Player_car)
 		{
-			if (have_item)
+			/*if (have_item)
 			{
 				if (have_firecracker || have_makibishi || have_triple_makibishi || have_evil_spirit)
 					have_item = false;
@@ -281,7 +281,7 @@ namespace Player_Car
 						}
 					}
 				}
-			}
+			}*/
 
 			if (have_evil_spirit && (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP))
 			{
@@ -317,7 +317,7 @@ namespace Player_Car
 					}
 				}
 			}
-
+			/*
 			if (have_makibishi)
 			{
 				if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
@@ -598,7 +598,7 @@ namespace Player_Car
 						Player_car->ReleaseItem();
 					}
 				}
-			}
+			}*/
 		}
 	}
 
@@ -622,20 +622,20 @@ namespace Player_Car
 					}
 					else if (item_col->GetGameObject()->name == "Firecracker")
 					{
-						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+						//Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
 						Player_car->RemoveHitodama();
 
 						if (other_car != nullptr)
 						{
-							if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
-								((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+							//if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
+							//	((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						}
 					}
 					else if (item_col->GetGameObject()->name == "Makibishi")
 					{
-						Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+						//Player_car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 						item_col->GetGameObject()->SetActive(false);
 						item_col->SetActive(false);
 						Player_car->RemoveHitodama();
