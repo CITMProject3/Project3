@@ -5,6 +5,7 @@
 FPSGraph::FPSGraph()
 {
 	App->SetMaxFPS(max_fps);
+	time->SetMaxFPS(max_fps);
 }
 
 FPSGraph::~FPSGraph()

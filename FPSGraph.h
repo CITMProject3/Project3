@@ -15,7 +15,7 @@ public:
 	void Draw();
 private:
 	vector<float> frames;
-	int max_fps = 60;
+	int max_fps = 30;
 };
 
 #endif
