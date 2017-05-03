@@ -778,7 +778,7 @@
                         0.989801,
                         0,
                         0.142550,
-                        -50.275688,
+                        -41.715118,
                         0,
                         1,
                         0,
@@ -786,7 +786,7 @@
                         -0.142550,
                         0,
                         0.989801,
-                        -74.922272,
+                        48.777027,
                         0,
                         0,
                         0,
@@ -9627,15 +9627,15 @@
                         0.999363,
                         -0.000001,
                         -0.035694,
-                        -55.961170,
+                        -53.557404,
                         0.000001,
                         1,
-                        -0.000000,
+                        0,
                         32.041847,
                         0.035694,
-                        -0.000000,
+                        0,
                         0.999363,
-                        -74.803261,
+                        48.457161,
                         0,
                         0,
                         0,
@@ -18614,7 +18614,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -18702,7 +18702,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -36080,6 +36080,743 @@
                         40.200001,
                         18.606001
                     ]
+                }
+            ]
+        },
+        {
+            "name": "Checkpoints",
+            "UUID": 246889977,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3452327709,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 3348585771,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        0.682543,
+                        0,
+                        0,
+                        -48.274376,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        0,
+                        0,
+                        1,
+                        44.475777,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.200001,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Finish_lane",
+                    "script_num": 0,
+                    "CheckpointN": 6
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 1688938050,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        0.027750,
+                        0,
+                        0.999173,
+                        -3.553427,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        -0.681979,
+                        0,
+                        0.040657,
+                        176.961761,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.200001,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 1
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 526195270,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        -0.682524,
+                        0,
+                        -0.010227,
+                        39.316254,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        0.006981,
+                        0,
+                        -0.999961,
+                        73.725594,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.200001,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 2
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 3074948485,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        -0.682545,
+                        0,
+                        -0.010228,
+                        40.051228,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        0.006981,
+                        0,
+                        -0.999973,
+                        -41.956085,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.200001,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 3
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 3341029367,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        -0.001812,
+                        0,
+                        -1.000034,
+                        6.760983,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        0.681834,
+                        0,
+                        -0.002657,
+                        -222.570633,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        41.100002,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 1722629424,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        -0.001814,
+                        0,
+                        -1.000034,
+                        6.760983,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        0.682587,
+                        0,
+                        -0.002657,
+                        -173.817230,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        33.200001,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 4
+                }
+            ]
+        },
+        {
+            "name": "Checkpoint",
+            "UUID": 314836102,
+            "local_UUID": 0,
+            "parent": 246889977,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1781119148,
+                    "active": true,
+                    "matrix": [
+                        0.682524,
+                        0,
+                        0.013745,
+                        -53.957840,
+                        0,
+                        1,
+                        0,
+                        37.000843,
+                        -0.009382,
+                        0,
+                        0.999942,
+                        -62.325535,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": false,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2615553679,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 919087832,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        35.600002,
+                        11.100000,
+                        4.600000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 491381619,
+                    "active": true,
+                    "script_path": "Checkpoint",
+                    "script_num": 0,
+                    "CheckpointN": 5
                 }
             ]
         }
