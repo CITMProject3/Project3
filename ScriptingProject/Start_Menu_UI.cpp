@@ -183,7 +183,7 @@ namespace Start_Menu_UI
 
 		controller[0][1] = PP_DriverLeft;
 		controller[1][1] = PP_GunnerLeft;
-		controller[2][1] = PP_DriverRight;
+		controller[2][1] = PP_DriverRight; 
 		controller[3][1] = PP_GunnerRight;
 		for (int i = 0; i <= 3; ++i)
 		{
