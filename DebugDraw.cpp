@@ -434,6 +434,18 @@ void DebugDraw::AddArrow(const math::float3 & origin, const math::float3& direct
 	draw_list.push_back(d_prim);
 }
 
+void DebugDraw::AddOBB(const math::OBB & obb, math::float3 color, float size, float line_width, float duration, bool depth_enabled)
+{
+	DebugPrimitive* d_prim = new DebugPrimitive();
+
+	FillCommonPrimitiveValues(d_prim, color, line_width, duration, depth_enabled, id_vertices_cube, id_indices_cube, num_indices_cube);
+
+	d_prim->global_matrix =  obb.LocalToWorld();
+
+	draw_list.push_back(d_prim);
+
+}
+
 void DebugDraw::Draw()
 {
 	
