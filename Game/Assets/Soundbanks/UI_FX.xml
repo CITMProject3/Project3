@@ -15,11 +15,16 @@
 			<IncludedEvents>
 				<Event Id="2989164515" Name="Play_CursorMovement" ObjectPath="\Events\UI\FX\Play_CursorMovement" GUID="{96EF3D45-30D2-40B5-87BC-4E0A9ECE83E7}" DurationType="OneShot" DurationMin="0.646667" DurationMax="0.646667"/>
 				<Event Id="4285633163" Name="Play_Deselection" ObjectPath="\Events\UI\FX\Play_Deselection" GUID="{8C7387E4-608A-44BA-A6B1-AA812A9B403E}" DurationType="OneShot" DurationMin="0.341633" DurationMax="0.341633"/>
+				<Event Id="949269160" Name="Play_LoadingGame" ObjectPath="\Events\UI\FX\Play_LoadingGame" GUID="{5EB06474-B67C-488C-8F61-A3AC34D0424C}" DurationType="OneShot" DurationMin="3.997165" DurationMax="3.997165"/>
 				<Event Id="4121431383" Name="Play_LogoIntro" ObjectPath="\Events\UI\FX\Play_LogoIntro" GUID="{9A775442-E513-4CB9-8C6D-2CD2151BEFE1}" DurationType="OneShot" DurationMin="5.867256" DurationMax="5.867256"/>
 				<Event Id="1085325237" Name="Play_PressStart" ObjectPath="\Events\UI\FX\Play_PressStart" GUID="{FD7739D6-54E5-4ACE-BF32-A14613E171B7}" DurationType="OneShot" DurationMin="3.720000" DurationMax="3.720000"/>
 				<Event Id="3659285072" Name="Play_Selection" ObjectPath="\Events\UI\FX\Play_Selection" GUID="{22F5CFBF-071C-4F73-A105-6F9992B494D7}" DurationType="OneShot" DurationMin="0.312925" DurationMax="0.312925"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
+				<File Id="390271277" Language="SFX">
+					<ShortName>LoadingGame.wav</ShortName>
+					<Path>SFX\LoadingGame_9E69E797.wem</Path>
+				</File>
 				<File Id="445115088" Language="SFX">
 					<ShortName>Deselection.wav</ShortName>
 					<Path>SFX\Deselection_9E69E797.wem</Path>

@@ -432,7 +432,7 @@ namespace Start_Menu_UI
 
 					if ((App->input->GetJoystickButton(i, JOY_BUTTON::START) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN) && main_canvas_script->public_ints.at("current_menu") == 1)
 					{
-						// Playing Deselection Sound
+						// Playing Selection Sound
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 						if (a_comp) a_comp->PlayAudio(1);
 

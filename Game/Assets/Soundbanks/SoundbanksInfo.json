@@ -50,6 +50,15 @@
       "DurationMax": "0.341633"
      },
      {
+      "Id": "949269160",
+      "Name": "Play_LoadingGame",
+      "ObjectPath": "\\Events\\UI\\FX\\Play_LoadingGame",
+      "GUID": "{5EB06474-B67C-488C-8F61-A3AC34D0424C}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.997165",
+      "DurationMax": "3.997165"
+     },
+     {
       "Id": "4121431383",
       "Name": "Play_LogoIntro",
       "ObjectPath": "\\Events\\UI\\FX\\Play_LogoIntro",
@@ -78,6 +87,12 @@
      }
     ],
     "IncludedMemoryFiles": [
+     {
+      "Id": "390271277",
+      "Language": "SFX",
+      "ShortName": "LoadingGame.wav",
+      "Path": "SFX\\LoadingGame_9E69E797.wem"
+     },
      {
       "Id": "445115088",
       "Language": "SFX",

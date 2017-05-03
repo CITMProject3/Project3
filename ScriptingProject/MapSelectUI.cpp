@@ -128,10 +128,6 @@ namespace MapSelectUI
 
 	void MapSelectUI_Start(GameObject* game_object)
 	{
-		// Play Move Selection
-		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(0);
-
 		for (int i = 0; i <= 3; ++i)
 		{
 			right_pressed[i] = false;
@@ -169,6 +165,10 @@ namespace MapSelectUI
 			}
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
+				// Play Loading Game Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(3);
+
 				switch (current_level)
 				{
 				case 0:
@@ -189,6 +189,10 @@ namespace MapSelectUI
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
+				// Play Deselection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(2);
+
 				if (players_ready[id])
 				{
 					c_players_vote[id]->OnPressId(votes[id]);
@@ -203,9 +207,9 @@ namespace MapSelectUI
 				{
 					left_pressed[playerID] = true;
 
-					// Play Move Selection
+					// Play Move Sound
 					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(0);
 
 					current_level--;
 					if (current_level < 0)
@@ -248,9 +252,9 @@ namespace MapSelectUI
 				{
 					right_pressed[playerID] = true;
 
-					// Play Move Selection
+					// Play Move Sound
 					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
+					if (a_comp) a_comp->PlayAudio(0);
 
 					current_level++;
 					if (current_level > 2)
@@ -312,6 +316,10 @@ namespace MapSelectUI
 				if (total >= 1)
 				{
 					unsigned int k = App->rnd->RandomInt(1, 4);
+
+					// Play Loading Game Sound
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(3);
 
 					switch (votes[k])
 					{
