@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 2483514124,
+                    "UUID": 3539929386,
                     "active": true,
                     "matrix": [
                         1,
@@ -121,7 +121,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -166,7 +166,7 @@
                     "active": true,
                     "near_plane": 0.300000,
                     "far_plane": 300,
-                    "fov": 40,
+                    "fov": 35,
                     "aspect_ratio": 3.591470,
                     "color": [
                         0,
@@ -181,7 +181,7 @@
                     "viewport_rel_size_x": 1,
                     "viewport_rel_size_y": 0.495000,
                     "followSmooth": true,
-                    "followMovSpeed": 0.500000,
+                    "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
                     "render_terrain": true
                 },
@@ -191,15 +191,15 @@
                     "active": true,
                     "script_path": "Player_Camera",
                     "script_num": 0,
-                    "dist_y": 4,
-                    "dist_z": -7.900000,
-                    "camera_y": 2.200000,
+                    "dist_y": 3.900000,
+                    "dist_z": -8.500000,
+                    "camera_y": 2,
                     "inclination y max min": 1,
                     "inclination z max min": 1,
-                    "fov change boost": 3.500000,
-                    "fov_increment": 1.250000,
+                    "fov change boost": 3,
+                    "fov_increment": 1,
                     "fov_decrement": 3.500000,
-                    "max_vel_relative": 120,
+                    "max_vel_relative": 110,
                     "last_fov": 55,
                     "Player_Max_angular_velocity": 2.900000,
                     "distance": 0,
@@ -209,7 +209,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
