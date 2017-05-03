@@ -35,11 +35,7 @@ namespace Start_Menu_UI
 
 	GameObject* controller_focus[4][4];
 
-
-	GameObject* p1_indicator = nullptr;
-	GameObject* p2_indicator = nullptr;
-	GameObject* p3_indicator = nullptr;
-	GameObject* p4_indicator = nullptr;
+	GameObject* roles_portrait[4] = { nullptr, nullptr, nullptr, nullptr };
 
 	GameObject* players = nullptr;
 	GameObject* start_but = nullptr;
@@ -49,8 +45,6 @@ namespace Start_Menu_UI
 	ComponentMaterial* m_rt = nullptr;
 	ComponentMaterial* m_lb = nullptr;
 	ComponentMaterial* m_lt = nullptr;
-
-	ComponentMaterial* m_p[4];
 
 	bool b_pressed[4];
 	bool up_pressed[4];
@@ -84,10 +78,10 @@ namespace Start_Menu_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("C2 GunnerRight", controller_focus[1][3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("C3 GunnerRight", controller_focus[2][3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("C4 GunnerRight", controller_focus[3][3]));
-		public_gos->insert(std::pair<const char*, GameObject*>("P1 indicator", p1_indicator));
-		public_gos->insert(std::pair<const char*, GameObject*>("P2 indicator", p2_indicator));
-		public_gos->insert(std::pair<const char*, GameObject*>("P3 indicator", p3_indicator));
-		public_gos->insert(std::pair<const char*, GameObject*>("P4 indicator", p4_indicator));
+		public_gos->insert(std::pair<const char*, GameObject*>("DriverL Grid", roles_portrait[0]));
+		public_gos->insert(std::pair<const char*, GameObject*>("GunnerL Grid", roles_portrait[1]));
+		public_gos->insert(std::pair<const char*, GameObject*>("DriverR Grid", roles_portrait[2]));
+		public_gos->insert(std::pair<const char*, GameObject*>("GunnerR Grid", roles_portrait[3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start Button", start_but));
 		public_gos->insert(std::pair<const char*, GameObject*>("Choose team", choose_team));
 		public_gos->insert(std::pair<const char*, GameObject*>("Players", players));
@@ -117,10 +111,10 @@ namespace Start_Menu_UI
 		controller_focus[1][3] = test_script->public_gos.at("C2 GunnerRight");
 		controller_focus[2][3] = test_script->public_gos.at("C3 GunnerRight");
 		controller_focus[3][3] = test_script->public_gos.at("C4 GunnerRight");
-		p1_indicator = test_script->public_gos.at("P1 indicator");
-		p2_indicator = test_script->public_gos.at("P2 indicator");
-		p3_indicator = test_script->public_gos.at("P3 indicator");
-		p4_indicator = test_script->public_gos.at("P4 indicator");
+		roles_portrait[0] = test_script->public_gos.at("DriverL Grid");
+		roles_portrait[1] = test_script->public_gos.at("GunnerL Grid");
+		roles_portrait[2] = test_script->public_gos.at("DriverR Grid");
+		roles_portrait[3] = test_script->public_gos.at("GunnerR Grid");
 		players = test_script->public_gos.at("Players");
 		start_but = test_script->public_gos.at("Start Button");
 		choose_team = test_script->public_gos.at("Choose team");
@@ -128,11 +122,6 @@ namespace Start_Menu_UI
 		player_order[1] = test_script->public_ints.at("Player2");
 		player_order[2] = test_script->public_ints.at("Player3");
 		player_order[3] = test_script->public_ints.at("Player4");
-
-		m_p[0] = ((ComponentUiImage*)p1_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[1] = ((ComponentUiImage*)p2_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[2] = ((ComponentUiImage*)p3_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[3] = ((ComponentUiImage*)p4_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
 	}
 
 	void Start_Menu_UI_ActualizePublics(GameObject* game_object)
@@ -155,10 +144,10 @@ namespace Start_Menu_UI
 		test_script->public_gos.at("C2 GunnerRight") = controller_focus[1][3];
 		test_script->public_gos.at("C3 GunnerRight") = controller_focus[2][3];
 		test_script->public_gos.at("C4 GunnerRight") = controller_focus[3][3];
-		test_script->public_gos.at("P1 indicator") = p1_indicator;
-		test_script->public_gos.at("P2 indicator") = p2_indicator;
-		test_script->public_gos.at("P3 indicator") = p3_indicator;
-		test_script->public_gos.at("P4 indicator") = p4_indicator;
+		test_script->public_gos.at("DriverL Grid") = roles_portrait[0];
+		test_script->public_gos.at("GunnerL Grid") = roles_portrait[1];
+		test_script->public_gos.at("DriverR Grid") = roles_portrait[2];
+		test_script->public_gos.at("GunnerR Grid") = roles_portrait[3];
 		test_script->public_gos.at("Players") = players;
 		test_script->public_gos.at("Start Button") = start_but;
 		test_script->public_gos.at("Choose team") = choose_team;
@@ -167,10 +156,7 @@ namespace Start_Menu_UI
 		test_script->public_ints.at("Player3") = player_order[2];
 		test_script->public_ints.at("Player4") = player_order[3];
 
-		m_p[0] = ((ComponentUiImage*)p1_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[1] = ((ComponentUiImage*)p2_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[2] = ((ComponentUiImage*)p3_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
-		m_p[3] = ((ComponentUiImage*)p4_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
+		//m_p[0] = ((ComponentUiImage*)p1_indicator->GetComponent(C_UI_IMAGE))->UImaterial;
 	}
 
 	void Start_Menu_UI_UpdatePublics(GameObject* game_object);
@@ -382,7 +368,6 @@ namespace Start_Menu_UI
 				switch (controller[k][1])
 				{
 				case PP_StandBy:
-					m_p[k]->SetIdToRender(0);
 					if (a_comp) a_comp->PlayAudio(2);  // Deselection
 					break;
 				case PP_DriverLeft:
@@ -392,12 +377,10 @@ namespace Start_Menu_UI
 					break;
 				case PP_GunnerLeft:
 					controller_focus[k][1]->SetActive(true);
-					player_order[1] = k;
 					if (a_comp) a_comp->PlayAudio(0);
 					break;
 				case PP_DriverRight:
 					controller_focus[k][2]->SetActive(true);
-					player_order[2] = k;
 					if (a_comp) a_comp->PlayAudio(0);
 					break;
 
@@ -409,6 +392,7 @@ namespace Start_Menu_UI
 				controller[k][0] = controller[k][1];
 			}
 			
+			//((ComponentUiImage*)roles_portrait[k]->GetComponent(C_UI_IMAGE))->UImaterial->SetIdToRender(0);
 
 			switch (controller[k][0])
 			{
@@ -425,7 +409,6 @@ namespace Start_Menu_UI
 				player_order[3] = k;
 				break;
 			}
-			LOG("Driver Left: %i, Gunner Left: %i, Driver Right: %i, Gunner Right: %i", player_order[0], player_order[1], player_order[2], player_order[3]);
 		}
 	
 
