@@ -982,7 +982,7 @@ void ModuleRenderer3D::DrawUIImage(GameObject * obj) const
 		glBindBuffer(GL_ARRAY_BUFFER, mesh->id_uvs);
 		glTexCoordPointer(2, GL_FLOAT, 0, NULL);
 
-		if (m->texture_ids.size()>0 )
+		if (m->texture_ids.size()>m->GetIdToRender())
 		{
 			// Texture
 			glEnable(GL_TEXTURE_2D);
