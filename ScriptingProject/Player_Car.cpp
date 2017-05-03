@@ -141,6 +141,7 @@ namespace Player_Car
 
 	void Player_Car_LoseItem(GameObject* game_object);
 	void Player_Car_PickItem(GameObject* game_object);
+	void Player_Car_ChooseItem(GameObject* game_object);
 
 	void Player_Car_Update(GameObject* game_object)
 	{
@@ -157,11 +158,7 @@ namespace Player_Car
 
 					have_item = false;
 					Player_Car_PickItem(game_object);
-
-					// TEST
-					//have_triple_makibishi = true;
-					//have_firecracker = false;
-					// /TEST
+					Player_Car_ChooseItem(game_object);
 
 					if (have_makibishi)
 					{
@@ -286,7 +283,7 @@ namespace Player_Car
 				}
 			}
 
-			if (have_evil_spirit && App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+			if (have_evil_spirit && (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP))
 			{
 				have_evil_spirit = false;
 
@@ -542,6 +539,7 @@ namespace Player_Car
 						Player_Car_LoseItem(game_object);
 
 						using_item = false;
+						have_firecracker = false;
 						if (firecracker)
 						{
 							firecracker->SetActive(false);
@@ -563,6 +561,7 @@ namespace Player_Car
 					{
 						Player_Car_LoseItem(game_object);
 						using_item = false;
+						have_firecracker = false;
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
@@ -585,6 +584,7 @@ namespace Player_Car
 					{
 						Player_Car_LoseItem(game_object);
 						using_item = false;
+						have_firecracker = false;
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
@@ -660,21 +660,15 @@ namespace Player_Car
 		{
 			if (result <= 5)
 			{
-				//Insert firecracker here
-
-				//
+				have_firecracker = true;
 			}
 			else if (result <= 40)
 			{
-				//Insert triple makibi here
-
-				//
+				have_triple_makibishi = true;
 			}
 			else
 			{
-				//Insert makibi here
-
-				//
+				have_makibishi = true;
 			}
 		}
 		else if (car->place == 2)
@@ -682,37 +676,25 @@ namespace Player_Car
 			//2nd
 			if (result <= 15)
 			{
-				//Insert evil spirit here
-
-				//
+				have_evil_spirit = true;
 			}
 			else if (result <= 35)
 			{
-				//Insert triple makibi here
-
-				//
+				have_triple_makibishi = true;
 			}
 			else if (result <= 65)
 			{
-				//Insert makibi here
-
-				//
+				have_makibishi = true;
 			}
 			else
 			{
-				//Insert firecracker here
-
-				//
+				have_firecracker = true;
 			}
 		}
-
-
-		//By distance
 	}
 
 	void Player_Car_PickItem(GameObject* game_object)
 	{
-		have_firecracker = true;
 		if (scene_manager != nullptr)
 		{
 			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
@@ -730,7 +712,6 @@ namespace Player_Car
 
 	void Player_Car_LoseItem(GameObject* game_object)
 	{
-		have_firecracker = false;
 		if (scene_manager != nullptr)
 		{
 			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();

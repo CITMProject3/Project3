@@ -19,6 +19,7 @@ EXPORTS
 	Player_Car_UpdatePublics
 	Player_Car_ActualizePublics
 	Player_Car_OnCollision
+	Player_Car_ChooseItem
 	Player_Car_PickItem
 	Player_Car_LoseItem
 	
