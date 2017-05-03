@@ -640,7 +640,7 @@ namespace Player_Car
 						item_col->SetActive(false);
 						Player_car->RemoveHitodama();
 					}
-					else if (item_col->GetGameObject()->name == item_box_name.c_str())
+					else if (item_col->GetGameObject()->name == item_box_name.c_str() || item_col->GetGameObject()->name == "item_box")
 					{
 						have_item = true;
 					}
