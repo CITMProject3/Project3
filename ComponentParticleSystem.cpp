@@ -218,6 +218,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	{
 	case SHAPE_BOX:
 		box_shape = conf.GetFloat3("box_shape");
+		box_shape_obb.r = box_shape * 0.5f;
 		break;
 	case SHAPE_SPHERE:
 		sphere_shape.r = conf.GetFloat("sphere_radius");

@@ -7,6 +7,7 @@
 #include "../ComponentCollider.h"
 #include "../ComponentCar.h"
 #include "../ComponentMesh.h"
+#include "../ComponentParticleSystem.h"
 #include "../Time.h"
 #include "../Globals.h"
 #include "../PhysBody3D.h"
@@ -16,6 +17,7 @@ float timer = 0.0f;
 float max_time = 0.0f;
 ComponentCollider* go_col = nullptr;
 ComponentMesh* go_mesh = nullptr;
+ComponentParticleSystem* go_part = nullptr;
 bool taken = false;
 
 void Item_Timer_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
@@ -35,7 +37,15 @@ void Item_Timer_UpdatePublics(GameObject* game_object)
 void Item_Timer_Start(GameObject* game_object)
 {
 	go_col = (ComponentCollider*)game_object->GetComponent(C_COLLIDER);
-	go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
+	if (isHitodama)
+	{
+		go_part = (ComponentParticleSystem*)game_object->GetComponent(C_PARTICLE_SYSTEM);
+	}
+	else
+	{
+		go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
+	}
+	
 	taken = false;
 }
 
@@ -51,7 +61,7 @@ void Item_Timer_Update(GameObject* game_object)
 			{
 				go_col->SetActive(true);
 				//Particle sytem here no mesh
-				go_mesh->SetActive(true);
+				go_part->SetActive(true);
 				taken = false;
 				timer = 0.0f;
 			}
@@ -80,12 +90,12 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 		{
 			if (isHitodama)
 			{
-				taken = car->AddHitodama();
+ 				taken = car->AddHitodama();
 				if (taken)
 				{
 					go_col->SetActive(false);
 					//Particle sytem here no mesh
-					go_mesh->SetActive(false);
+					go_part->SetActive(false);
 				}
 			}
 			else
