@@ -52,6 +52,9 @@ namespace Vehicle_Selection_UI
 	ComponentMaterial* mat_blue_car_select = nullptr;
 	ComponentMaterial* mat_red_car_select = nullptr;
 
+	bool left_pressed[4];
+	bool right_pressed[4];
+
 	bool team_blue_selected = false;
 	bool team_red_selected = false;
 	int player_order[4];
@@ -158,6 +161,12 @@ namespace Vehicle_Selection_UI
 		mat_blue_car->color[1] = 0.6f;
 		mat_blue_car->color[2] = 0.6f;
 
+		for (int i = 0; i <= 3; ++i)
+		{
+			right_pressed[i] = false;
+			left_pressed[i] = false;
+		}
+
 		mat_red_car->color[0] = 0.6f;
 		mat_red_car->color[1] = 0.6f;
 		mat_red_car->color[2] = 0.6f;
@@ -185,90 +194,104 @@ namespace Vehicle_Selection_UI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
-				
-
-				if (team_blue_selected == false && (id == 0 || id == 1))
+				if (!right_pressed[i])
 				{
-					// Play Move Selection
-					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
-					but_blue_car_portrait->OnPress();
+					right_pressed[i] = true;
 
-					if (blue_counter_right == time)
+					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
-						but_blue_arrow_right->OnPress();
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+						but_blue_car_portrait->OnPress();
+
+						if (blue_counter_right == time)
+						{
+							but_blue_arrow_right->OnPress();
+						}
+						blue_counter_right = 0;
+
+						if (p_pos[0] == 1)
+							p_pos[0] = 0;
+						else
+							p_pos[0] = 1;
 					}
-					blue_counter_right = 0;
-					
-					if (p_pos[0] == 1)
-						p_pos[0] = 0;
-					else
-						p_pos[0] = 1;
-				}
 
-				if (team_red_selected == false && (id == 2 || id == 3))
-				{
-					// Play Move Selection
-					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
-					but_red_car_portrait->OnPress();
-
-					if (red_counter_right == time)
+					if (team_red_selected == false && (id == 2 || id == 3))
 					{
-						but_red_arrow_right->OnPress();
-					}
-					red_counter_right = 0;
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+						but_red_car_portrait->OnPress();
 
-					if (p_pos[1] == 1)
-						p_pos[1] = 0;
-					else
-						p_pos[1] = 1;
+						if (red_counter_right == time)
+						{
+							but_red_arrow_right->OnPress();
+						}
+						red_counter_right = 0;
+
+						if (p_pos[1] == 1)
+							p_pos[1] = 0;
+						else
+							p_pos[1] = 1;
+					}
 				}
+			}
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			{
+				right_pressed[i] = false;
 			}
 
 			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				if (team_blue_selected == false && (id == 0 || id == 1))
+				if (!left_pressed[i])
 				{
-					// Play Move Selection
-					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
-					but_blue_car_portrait->OnPress();					
-
-					if (blue_counter_left == time)
+					left_pressed[i] = true;
+					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
-						but_blue_arrow_left->OnPress();
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+						but_blue_car_portrait->OnPress();
+
+						if (blue_counter_left == time)
+						{
+							but_blue_arrow_left->OnPress();
+						}
+						blue_counter_left = 0;
+
+						if (p_pos[0] == 1)
+							p_pos[0] = 0;
+						else
+							p_pos[0] = 1;
 					}
-					blue_counter_left = 0;
 
-					if (p_pos[0] == 1)
-						p_pos[0] = 0;
-					else
-						p_pos[0] = 1;
-				}
-
-				if (team_red_selected == false && (id == 2 || id == 3))
-				{
-					// Play Move Selection
-					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp) a_comp->PlayAudio(1);
-					but_red_car_portrait->OnPress();
-
-					if (red_counter_left == time)
+					if (team_red_selected == false && (id == 2 || id == 3))
 					{
-						but_red_arrow_left->OnPress();
-					}
-					red_counter_left = 0;
+						// Play Move Selection
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(1);
+						but_red_car_portrait->OnPress();
 
-					if (p_pos[1] == 1)
-						p_pos[1] = 0;
-					else
-						p_pos[1] = 1;
+						if (red_counter_left == time)
+						{
+							but_red_arrow_left->OnPress();
+						}
+						red_counter_left = 0;
+
+						if (p_pos[1] == 1)
+							p_pos[1] = 0;
+						else
+							p_pos[1] = 1;
+					}
 				}
 			}
-
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > -0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			{
+				left_pressed[i] = false;
+			}
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
