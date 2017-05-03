@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Window cpp file</Title>
+      <Author>Traguill</Author>
+      <Description>Creates the cpp file for a window in imgui</Description>
+      <Shortcut>windowcpp</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CPP">
+        <![CDATA[
+        #include "Name.h"
+        
+        Name::Name()
+        {}
+        
+        Name::~Name()
+        {}
+        
+        void Name::Draw()
+        {
+            if (!active)
+		          return;
+
+	          ImGui::Begin("Name", &active);
+            
+            ImGui::End();
+        }
+        
+  ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

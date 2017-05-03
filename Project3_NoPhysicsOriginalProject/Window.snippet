@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets
+    xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Window</Title>
+      <Author>Traguill</Author>
+      <Description>Creates a window for the imgui.</Description>
+      <Shortcut>window</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CPP">
+        <![CDATA[
+        #ifndef __NAME_H__
+        #define __NAME_H__
+        
+        #include "Window.h"
+        
+        class Name : public Window
+        {
+        public:
+              Name();
+              ~Name();
+              
+              void Draw();
+        };
+        
+        #endif
+  ]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
