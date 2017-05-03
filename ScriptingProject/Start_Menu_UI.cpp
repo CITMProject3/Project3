@@ -194,7 +194,7 @@ namespace Start_Menu_UI
 
 	void Start_Menu_UI_Update(GameObject* game_object)
 	{
-		for (int i = 0; i < 4; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			// DOWN INPUT ------------------------
 			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) )
@@ -348,19 +348,19 @@ namespace Start_Menu_UI
 				case PP_DriverLeft:
 					controller_focus[k][0]->SetActive(false);
 					//m_lb->SetIdToRender(k);
-					//player_order[0][0] = -1;
+					player_order[0][0] = -1;
 					break;
 				case PP_GunnerLeft:
 					controller_focus[k][1]->SetActive(false);
-					//player_order[1][0] = -1;
+					player_order[1][0] = -1;
 					break;
 				case PP_DriverRight:
 					controller_focus[k][2]->SetActive(false);
-					//player_order[2][0] = -1;
+					player_order[2][0] = -1;
 					break;
 				case PP_GunnerRight:
 					controller_focus[k][3]->SetActive(false);
-					//player_order[3][0] = -1;
+					player_order[3][0] = -1;
 					break;
 				}
 
@@ -400,25 +400,45 @@ namespace Start_Menu_UI
 				if (player_order[0][0] == -1)
 					player_order[0][0] = k;
 				else if (player_order[0][0] != k)
-					player_order[0][0] = -1;
+				{
+					if (player_order[0][0] != (k + 4))
+						player_order[0][0] = k + 4;
+					else
+						player_order[0][0] = k;
+				}
 				break;
 			case PP_GunnerLeft:
 				if (player_order[1][0] == -1)
 					player_order[1][0] = k;
 				else if (player_order[1][0] != k)
-					player_order[1][0] = -1;
+				{
+					if (player_order[1][0] != (k + 4))
+						player_order[1][0] = k + 4;
+					else
+						player_order[1][0] = k;
+				}
 				break;
 			case PP_DriverRight:
 				if (player_order[2][0] == -1)
 					player_order[2][0] = k;
 				else if (player_order[2][0] != k)
-					player_order[2][0] = -1;
+				{
+					if (player_order[2][0] != (k + 4))
+						player_order[2][0] = k + 4;
+					else
+						player_order[2][0] = k;
+				}
 				break;
 			case PP_GunnerRight:
 				if (player_order[3][0] == -1)
 					player_order[3][0] = k;
 				else if (player_order[3][0] != k)
-					player_order[3][0] = -1;
+				{
+					if (player_order[3][0] != (k + 4))
+						player_order[3][0] = k + 4;
+					else
+						player_order[3][0] = k;
+				}
 				break;
 			}
 		}
@@ -444,12 +464,20 @@ namespace Start_Menu_UI
 					case 3:
 						((ComponentUiImage*)roles_portrait[i]->GetComponent(C_UI_IMAGE))->UImaterial->SetIdToRender(player_order[i][1]);
 						break;
+					case 4:
+					case 5:
+					case 6:
+					case 7:
+						break;
 					}
 				}
 
-				((ComponentUiImage*)roles_portrait[i]->GetComponent(C_UI_IMAGE))->UImaterial->SetIdToRender(player_order[i][0]+1);
+				if (player_order[i][0] <= 3)
+					((ComponentUiImage*)roles_portrait[i]->GetComponent(C_UI_IMAGE))->UImaterial->SetIdToRender(player_order[i][0]+1);
+				else 
+					((ComponentUiImage*)roles_portrait[i]->GetComponent(C_UI_IMAGE))->UImaterial->SetIdToRender(0);
 				player_order[i][1] = player_order[i][0];
-				LOG("%i", player_order[1][0]);
+				LOG("%i", player_order[i][0]);
 			}
 		}
 		
@@ -459,7 +487,7 @@ namespace Start_Menu_UI
 		int total = 0;
 		for (int j = 0; j < 4; j++)
 		{
-			if (player_order[j][0] >= 0)
+			if (player_order[j][0] >= 0 && player_order[j][0] <= 3)
 			{
 				total++;
 			}
