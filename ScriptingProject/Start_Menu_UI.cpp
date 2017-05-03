@@ -206,10 +206,10 @@ namespace Start_Menu_UI
 
 	void Start_Menu_UI_Update(GameObject* game_object)
 	{
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			// DOWN INPUT ------------------------
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) )
 			{
 				if (!down_pressed[i])
 				{
@@ -350,25 +350,6 @@ namespace Start_Menu_UI
 		// Delete previous position
 		for (int k = 0; k <= 3; ++k)
 		{
-			player_order[k] = -1;
-
-			switch (controller[k][0])
-			{
-			case PP_DriverLeft:
-				player_order[0] = k;
-				break;
-			case PP_GunnerLeft:
-				player_order[1] = k;
-				break;
-			case PP_DriverRight:
-				player_order[2] = k;
-				break;
-			case PP_GunnerRight:
-				player_order[3] = k;
-				break;
-
-			}
-
 			if (controller[k][0] != controller[k][1])
 			{
 				switch (controller[k][0])
@@ -427,6 +408,24 @@ namespace Start_Menu_UI
 				}
 				controller[k][0] = controller[k][1];
 			}
+			
+
+			switch (controller[k][0])
+			{
+			case PP_DriverLeft:
+				player_order[0] = k;
+				break;
+			case PP_GunnerLeft:
+				player_order[1] = k;
+				break;
+			case PP_DriverRight:
+				player_order[2] = k;
+				break;
+			case PP_GunnerRight:
+				player_order[3] = k;
+				break;
+			}
+			LOG("Driver Left: %i, Gunner Left: %i, Driver Right: %i, Gunner Right: %i", player_order[0], player_order[1], player_order[2], player_order[3]);
 		}
 	
 
