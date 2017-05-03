@@ -29,24 +29,11 @@
 #include "SDL\include\SDL_scancode.h"
 #include "Brofiler\include\Brofiler.h"
 
-ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1.0f, 0.2f, 2.0f), chasis_offset(0.0f, 0.0f, 0.0f)
+ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
 
-	car = new VehicleInfo();
-	
-	car->mass = 400.0f;
-	car->suspensionStiffness = 100.0f;
-	car->suspensionCompression = 0.83f;
-	car->suspensionDamping = 20.0f;
-	car->maxSuspensionTravelCm = 1000.0f;
-	car->frictionSlip = 50.5;
-	car->maxSuspensionForce = 6000.0f;
-
-	car->num_wheels = 4;
-	car->wheels = new Wheel[4];
-
-	turn_max = kart->base_turn_max;
+	//turn_max = kart->base_turn_max;
 	
 	//
 	reset_pos = { 0.0f, 0.0f, 0.0f };
@@ -77,56 +64,39 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 
 ComponentCar::~ComponentCar()
 {
-	delete car;
+
 }
 
 void ComponentCar::Update()
 {
 	BROFILER_CATEGORY("ComponentCar::Update", Profiler::Color::GhostWhite)
 
-	if (App->IsGameRunning())
-	{
-		if (vehicle)
-		{		
+		if (App->IsGameRunning())
+		{
 			CheckGroundCollision();
 			HandlePlayerInput();
-			if (App->StartInGame() == false)
-			{
-				vehicle->Render();
-			}
 			UpdateGO();
 			GameLoopCheck();
-
 		}
-		else
-			CreateCar();
-	}
-	else
-	{
-		vehicle = nullptr;
-		RenderWithoutCar();
-	}
-
 }
 
 
 
 void ComponentCar::OnPlay()
 {
-	if (vehicle == nullptr)
-		CreateCar();
-
-	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	if (trs)
+	kart_trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+	if (kart_trs)
 	{
-		reset_pos = trs->GetPosition();
-		reset_rot = trs->GetRotation();
+		reset_pos = kart_trs->GetPosition();
+		reset_rot = kart_trs->GetRotation();
 	}
 	checkpoints = MAXUINT - 10;
-	lap = 0;
+	lap = 1;
 	raceStarted = false;
 	finished = false;
 	n_checkpoints = 0;
+	speed = 0.0f;
+	fallSpeed = 0.0f;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -158,37 +128,29 @@ void ComponentCar::TestFunction()
 
 float ComponentCar::GetVelocity() const
 {
-	return vehicle->GetKmh();
+	//TODO multiply by the conversion units -> km/h
+	return speed;
 }
 
 void ComponentCar::HandlePlayerInput()
 {
 	BROFILER_CATEGORY("ComponentCar::HandlePlayerInput", Profiler::Color::HoneyDew)
-	turn_max = GetMaxTurnByCurrentVelocity(GetVelocity());
 
 	float brake;
 	bool turning = false;
 	leaning = false;
 	accel_boost = speed_boost = turn_boost = 0.0f;
 	
-	accel = brake = 0.0f;
+	brake = 0.0f;
 
 	if (pushing)
 	{
 		PushUpdate(&accel_boost);
 	}
 
-	if (drifting == true)
-	{
-		turn_max = kart->drift_turn_max;
-	}
+	//TODO: drifting
 	
-	if (lock_input == false)
-	{
-		KeyboardControls(&accel, &brake, &turning, inverted_controls);
-
-		JoystickControls(&accel, &brake, &turning, inverted_controls);
-	}
+	//TODO: Handle Lock Input
 
 	ApplyTurbo();
 
@@ -207,13 +169,6 @@ void ComponentCar::HandlePlayerInput()
 	}
 	
 	//---------------------
-	LimitTurn();
-
-	if (!turning)
-		IdleTurn();
-
-	if (drifting )
-		CalcDriftForces();
 
 	if (p2_animation != nullptr && p2_animation->current_animation != nullptr)
 	{
@@ -222,24 +177,6 @@ void ComponentCar::HandlePlayerInput()
 			//PushUpdate(&accel);
 		}
 	}
-
-	if (vehicle)
-	{
-		accel += accel_boost;
-		//Doing this so it doesn't stop from braking
-		vehicle->Turn(turn_current);
-		vehicle->ApplyEngineForce(accel);
-		vehicle->Brake(brake);
-
-		if (!accel && !brake)
-		{
-			vehicle->Brake(kart->decel_brake);
-		}
-
-		LimitSpeed();
-	}
-
-
 
 	UpdateTurnOver();
 }
@@ -257,38 +194,6 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning, b
 		if (drifting)
 			trn_player = back_player;
 
-		float x_joy_input = App->input->GetJoystickAxis(trn_player, JOY_AXIS::LEFT_STICK_X);
-		*turning = JoystickTurn(&turning_left, x_joy_input);
-
-		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_RIGHT) == KEY_REPEAT)
-		{
-			inverse ? *turning = Turn(&turning_left, false) : *turning = Turn(&turning_left, true);
-		}
-		if (App->input->GetJoystickButton(trn_player, JOY_BUTTON::DPAD_LEFT) == KEY_REPEAT)
-		{
-			inverse ? *turning = Turn(&turning_left, true) : *turning = Turn(&turning_left, false);
-		}
-
-
-		//Y back
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::Y) == KEY_REPEAT)
-		{
-
-		}
-
-		//X front
-		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_DOWN)
-		{
-			if (on_ground && *turning == true)
-				StartDrift();
-			else if (on_ground == false)
-				Acrobatics(front_player);
-		}
-		else if (drifting == true && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_UP)
-		{
-			EndDrift();
-		}
-
 		//X back
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::X) == KEY_DOWN)
 		{
@@ -303,263 +208,10 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning, b
 			else
 				Push(accel);
 		}
-
-		//Front RT
-		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER))
-		{
-			float rt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
-			Accelerate(accel, true, rt_joy_axis);
-		}
-
-		//Front LT
-		if (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER))
-		{
-			float lt_joy_axis = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
-			Brake(accel, brake, true, lt_joy_axis);
-		}
-
-
-		//Power Up
-		/*if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_REPEAT)
-		{
-		UseItem();
-		}
-
-		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::B) == KEY_UP)
-		{
-		ReleaseItem();
-		}*/
-
 	}
 }
 
-void ComponentCar::KeyboardControls(float* accel, float* brake, bool* turning, bool inverse)
-{
-	//Back player
-	if (App->input->GetKey(SDL_SCANCODE_K) == KEY_DOWN)
-	{
-		//StartPush();
-		if (drifting)
-			DriftTurbo();
-		else
-			Push(accel);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_J) == KEY_REPEAT)
-	{
-		//Leaning(*accel);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_L) == KEY_DOWN)
-	{
-		OnGetHit();
-		//Acrobatics(back_player);
-	}
-	/*if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
-	{
-		//current_turbo = T_MINI;
-		UseItem();
-	}
-	if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-	{
-		//current_turbo = T_MINI;
-		ReleaseItem();
-	}*/
-
-		if (App->input->GetKey(SDL_SCANCODE_X) == KEY_REPEAT)
-		{
-			FullBrake(brake);
-		}
-
-
-		//Front player
-		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_W : SDL_SCANCODE_UP) == KEY_REPEAT)
-		{
-			Accelerate(accel);
-		}
-		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_D : SDL_SCANCODE_RIGHT) == KEY_REPEAT)
-		{
-			*turning = Turn(&turning_left, inverse);
-		}
-		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_A : SDL_SCANCODE_LEFT) == KEY_REPEAT)
-		{
-			*turning = Turn(&turning_left, !inverse);
-		}
-		if (App->input->GetKey(front_player == PLAYER_1 ? SDL_SCANCODE_S : SDL_SCANCODE_DOWN) == KEY_REPEAT)
-		{
-			Brake(accel, brake);
-		}
-		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
-		{
-			Reset();
-		}
-		if (App->input->GetKey(SDL_SCANCODE_E) == KEY_DOWN)
-		{
-			//Acrobatics(back_player);
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN && *turning == true)
-		{
-			if (on_ground && *turning == true)
-				StartDrift();
-			else if(on_ground == false)
-				Acrobatics(front_player);
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP && drifting == true)
-		{
-			EndDrift();
-		}
-	}
 // CONTROLS-----------------------------
-bool ComponentCar::Turn(bool* left_turn, bool left)
-{
-	bool ret = true;
-	float t_speed = kart->turn_speed;
-
-	float top_turn = turn_max + turn_boost;
-
-	if (drifting == false)
-	{
-		if (left)
-		{
-			*left_turn = true;
-		}
-		else
-		{
-			*left_turn = false;
-			t_speed = -t_speed;
-		}
-	}
-	else if (left == false)
-		t_speed = -t_speed;
-
-	turn_current += t_speed * time->DeltaTime();
-
-	if (drifting == false)
-	{
-		if (turn_current > top_turn)
-			turn_current = top_turn;
-
-		else if(turn_current < -top_turn)
-			turn_current = -top_turn;
-	}
-	else
-	{
-		//Drifting wheel limitation 0 -> top_current
-		if (drift_dir_left == false)
-			top_turn = -top_turn;
-		if (drift_dir_left ? turn_current < 0 : turn_current > 0)
-			turn_current = 0;
-		if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
-			turn_current = top_turn;
-	}
-	return true;
-}
-
-bool ComponentCar::JoystickTurn(bool* left_turn, float x_joy_input)
-{
-	float top_turn = turn_max + turn_boost;
-
-	if (math::Abs(x_joy_input) > 0.2f)
-	{
-		x_joy_input < 0.0f ? *left_turn = true : *left_turn = false;
-
-		if (drifting == false)
-		{
-			turn_current += (kart->turn_speed_joystick * -x_joy_input) * time->DeltaTime();
-
-		}
-		else
-		{
-			//Normalizing x_joy_input to 0-1 vlau
-
-			if (drift_dir_left == true)
-			{
-				turn_current = -top_turn * x_joy_input;
-			}
-			else
-			{
-				turn_current = -top_turn * x_joy_input;
-			}
-
-			
-			//Turn limitation
-			if (drift_dir_left == false)
-				top_turn = -top_turn;
-			if (drift_dir_left ? turn_current < 0 : turn_current > 0)
-				turn_current = 0;
-			if (drift_dir_left ? turn_current > top_turn : turn_current < top_turn)
-				turn_current = top_turn;
-		}
-		return true;
-	}
-	return false;
-}
-
-void ComponentCar::LimitTurn()
-{
-	float top_turn = turn_max + turn_boost;
-
-	if (turn_current > top_turn)
-		turn_current = top_turn;
-
-	else if (turn_current < -top_turn)
-		turn_current = -top_turn;
-}
-
-void ComponentCar::Brake(float* accel, float* brake, bool with_trigger, float lt_joy_axis)
-{
-	float ba_force = kart->back_force;
-	float br_force = kart->brake_force;
-
-	if (with_trigger)
-	{
-		lt_joy_axis++;
-		lt_joy_axis /= 2;
-		if (math::Abs(lt_joy_axis) > 0.2f)
-		{
-			ba_force *= lt_joy_axis;
-			br_force *= lt_joy_axis;
-
-			if (vehicle->GetKmh() <= 0)
-				*accel = -ba_force;
-
-			else
-				*brake = br_force;
-		}
-
-	}
-
-	else
-	{
-		if (vehicle->GetKmh() <= 0)
-			*accel = -ba_force;
-
-		else
-			*brake = br_force;
-	}
-}
-
-void ComponentCar::FullBrake(float* brake)
-{
-	if (vehicle->GetKmh() > 0)
-		*brake = kart->full_brake_force;
-}
-void ComponentCar::Accelerate(float* accel, bool with_trigger, float rt_joy_axis)
-{
-	if (with_trigger)
-	{
-		rt_joy_axis++;
-		rt_joy_axis /= 2;
-
-		if (math::Abs(rt_joy_axis) > 0.2f)
-		{
-			*accel += kart->accel_force * rt_joy_axis;
-		}
-	}
-	else
-	{
-		*accel += kart->accel_force;
-	}
-}
 
 void ComponentCar::StartPush()
 {
@@ -570,7 +222,7 @@ void ComponentCar::StartPush()
 bool ComponentCar::Push(float* accel)
 {
 	bool ret = false;
-	if (vehicle->GetKmh() < (kart->max_velocity / 100)* kart->push_speed_per)
+	if (GetVelocity() < (kart->max_velocity / 100)* kart->push_speed_per)
 	{
 		pushing = true;
 	}
@@ -592,7 +244,7 @@ void ComponentCar::PushUpdate(float* accel)
 
 void ComponentCar::Leaning(float accel)
 {
-	if (vehicle->GetKmh() > 0.0f && current_turbo == T_IDLE)
+	if (GetVelocity() > 0.0f && current_turbo == T_IDLE)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
@@ -604,7 +256,7 @@ void ComponentCar::Leaning(float accel)
 
 void ComponentCar::Acrobatics(PLAYER p)
 {
-	if (!on_ground)
+	if (!onTheGround)
 	{
 		bool tmp_front = acro_front;
 		bool tmp_back = acro_back;
@@ -621,27 +273,6 @@ void ComponentCar::Acrobatics(PLAYER p)
 
 		if (acro_back && acro_front)
 		{
-			//Applieds for the drifting turbo at VS3
-			//Apply turbo
-			//current_turbo = T_MINI;
-			/*
-			if (drifting)
-			{
-				switch (turbo_drift_lvl)
-				{
-				case 0:
-					turbo_drift_lvl = 1;
-					break;
-				case 1:
-					turbo_drift_lvl = 2;
-					break;
-				case 2:
-					turbo_drift_lvl = 3;
-					break;
-				}
-
-				to_drift_turbo = true;
-			}*/
 			//Normal acrobatics
 			acro_done = true;
 
@@ -684,7 +315,8 @@ void ComponentCar::UseItem()
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
 			ReleaseItem();
-			vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+			//TODO whatever this is
+			//vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 			current_turbo = T_IDLE;
 		}
 	}
@@ -706,6 +338,7 @@ bool ComponentCar::AddHitodama()
 	}
 	return false;
 }
+
 bool ComponentCar::RemoveHitodama()
 {
 	if (num_hitodamas > 0)
@@ -715,36 +348,16 @@ bool ComponentCar::RemoveHitodama()
 	}
 	return false;
 }
+
 int ComponentCar::GetNumHitodamas() const
 {
 	return num_hitodamas;
 }
-void ComponentCar::IdleTurn()
-{
-	//By turn interpolation
-	float  t_idle_speed = kart->turn_speed;
-
-	if(kart->idle_turn_by_interpolation)
-		 t_idle_speed = turn_max / kart->time_to_idle;
-
-	//By turn speed
-	if (turn_current > 0)
-	{
-		turn_current -= t_idle_speed * time->DeltaTime();
-		if (turn_current < 0)
-			turn_current = 0;
-	}
-	else if (turn_current < 0)
-	{
-		turn_current += t_idle_speed * time->DeltaTime();
-		if (turn_current > 0)
-			turn_current = 0;
-	}
-}
 
 void ComponentCar::ApplyTurbo()
 {
-	bool start = false;
+	// TODO turbo
+	/*bool start = false;
 
 	if (start = (last_turbo != current_turbo))
 	{
@@ -850,108 +463,12 @@ void ComponentCar::ApplyTurbo()
 			turbo_speed_boost -= turbo_deceleration * time->DeltaTime();
 			speed_boost += turbo_speed_boost;
 		}
-	}
+	}*/
 }
 
-void ComponentCar::StartDrift()
-{
-	
-	if (GetVelocity() >= kart->drift_min_speed)
-	{
-		drifting = true;
-		drift_dir_left = turning_left;
-		startDriftSpeed = vehicle->vehicle->getRigidBody()->getLinearVelocity();
-		vehicle->SetFriction(0);
-	}
-	
-}
+//TODO drift
 
-void ComponentCar::CalcDriftForces()
-{
-	if (on_ground)
-	{
-
-		vehicle->vehicle->getRigidBody()->clearForces();
-
-		float4x4 matrix;
-		vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-		matrix.Transpose();
-
-		float3 front = matrix.WorldZ();
-		float3 left = matrix.WorldX();
-		float3 final_dir;
-		if (drift_dir_left == true)
-			left = -left;
-
-
-		final_dir = left.Lerp(front, kart->drift_ratio);
-
-		btVector3 vector(final_dir.x, final_dir.y, final_dir.z);
-		float l = startDriftSpeed.length();
-		btVector3 final_vector = vector * l * kart->drift_mult;
-		btVector3 zero = { 0,0,0 };
-
-		final_vector.setY(0.0f);
-		vehicle->vehicle->getRigidBody()->setLinearVelocity(vector * l * kart->drift_mult);
-	}
-	else
-	{
-		EndDrift();
-	}
-
-
-
-		//Debugging lines
-		//Front vector
-		/*float3 start_line = matrix.TranslatePart();
-		float3 end_line = start_line + front;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 0, 0, 1));
-		//Left vector
-		end_line = start_line + left;
-		App->renderer3D->DrawLine(start_line, end_line, float4(0, 1, 0, 1));
-		//Force vector
-		end_line = start_line + final_dir;
-		App->renderer3D->DrawLine(start_line, end_line, float4(1, 1, 1, 1));*/
-
-}
-
-void ComponentCar::EndDrift()
-{
-	vehicle->Turn(0);
-	turn_current = 0;
-	vehicle->SetFriction(car->frictionSlip);
-	float4x4 matrix;
-	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
-	matrix.Transpose();
-
-	float3 out_vector = matrix.WorldZ() * (float)startDriftSpeed.length();
-	vehicle->vehicle->getRigidBody()->setLinearVelocity(btVector3(out_vector.x, out_vector.y, out_vector.z));
-	//vehicle->SetLinearSpeed(startDriftSpeed);
-	drifting = false;
-
-	//New turbo
-	if (to_drift_turbo && on_ground)
-	{
-		switch (turbo_drift_lvl)
-		{
-		case 0:
-			break;
-		case 1:
-			current_turbo = T_MINI;
-			break;
-		case 2:
-			current_turbo = T_DRIFT_MACH_2;
-			break;
-		case 3:
-			current_turbo = T_DRIFT_MACH_3;
-			break;
-
-		}
-
-		turbo_drift_lvl = 0;
-		to_drift_turbo = false;
-	}
-}
+//TODO drift turbos
 
 void ComponentCar::DriftTurbo()
 {
@@ -973,7 +490,7 @@ void ComponentCar::DriftTurbo()
 void ComponentCar::UpdateTurnOver()
 {
 	float4x4 matrix;
-	vehicle->GetRealTransform().getOpenGLMatrix(matrix.ptr());
+	matrix = kart_trs->GetTransformMatrix();
 	float3 up_vector = matrix.WorldY();
 
 	if (up_vector.y < 0 && turned == false)
@@ -1074,7 +591,7 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 
 void ComponentCar::UpdateP1Animation()
 {
-	switch (p1_state)
+	/*switch (p1_state)
 	{
 		case(P1ACROBATICS):
 		{
@@ -1132,12 +649,12 @@ void ComponentCar::UpdateP1Animation()
 			}
 			break;
 		}
-	}
+	}*/
 }
 
 void ComponentCar::UpdateP2Animation()
 {
-	switch (p2_state)
+	/*switch (p2_state)
 	{
 		case(P2IDLE):
 		{
@@ -1232,12 +749,13 @@ void ComponentCar::UpdateP2Animation()
 			}
 			break;
 		}
-	}
+	}*/
 }
 
 void ComponentCar::OnGetHit()
 {
-	GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	//TODO
+	//GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
 	SetP2AnimationState(P2GET_HIT, 0.0f);
 	p1_state = P1GET_HIT;
 	p1_animation->PlayAnimation(3, 0.5f);
@@ -1301,41 +819,24 @@ void ComponentCar::Reset()
 {
 	if (checkpoints >= MAXUINT - 20)
 	{
-		vehicle->SetPos(reset_pos.x, reset_pos.y, reset_pos.z);
-		vehicle->SetRotation(reset_rot.x, reset_rot.y, reset_rot.z);
+		kart_trs->SetPosition(reset_pos);
+		kart_trs->SetRotation(reset_rot);
 	}
 	else
 	{
-		vehicle->SetPos(last_check_pos.x, last_check_pos.y, last_check_pos.z);
-		vehicle->SetRotation(last_check_rot);
+		kart_trs->SetPosition(last_check_pos);
+		kart_trs->SetRotation(last_check_rot);
 	}
-	vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-	vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
-}
-
-void ComponentCar::LimitSpeed()
-{
-	//Tmp convertor
-	float KmhToMs = 0.277;
-
-	if (vehicle)
-	{
-		top_velocity = kart->max_velocity + speed_boost + (num_hitodamas*bonus_hitodamas);
-		//Here went definition of top_velocity
-		if (GetVelocity() > top_velocity)
-		{
-			vehicle->SetModularSpeed(top_velocity * KmhToMs);
-		}
-		else if (GetVelocity() < kart->min_velocity)
-		{
-			vehicle->SetModularSpeed(-(kart->min_velocity * KmhToMs));
-		}
-	}
+	//TODO
+	//vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	//vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
 }
 
 float ComponentCar::GetVelocity()
 {
-	return vehicle->GetKmh();
+	//TODO
+	//Multiply this by the conversion units -> KM/h
+	return speed;
 }
 
 float ComponentCar::GetMaxVelocity() const
@@ -1353,50 +854,6 @@ float ComponentCar::GetMinVelocity() const
 	return kart->min_velocity;
 }
 
-float ComponentCar::GetMaxTurnByCurrentVelocity(float sp)
-{
-	float max_t = kart->base_turn_max;
-
-
-	if (sp <= kart->velocity_to_begin_change)
-	{
-		return max_t;
-	}
-	else
-	{
-		if (current_max_turn_change_mode == M_SPEED)
-		{
-			float velocity_dif = sp - kart->velocity_to_begin_change;
-			
-			max_t += (velocity_dif * kart->base_max_turn_change_speed);
-
-			if (accelerated_change)
-			{
-				max_t += ((kart->base_max_turn_change_accel / 2) * velocity_dif * velocity_dif);
-			}
-
-			if (max_t < kart->turn_max_limit)
-			{
-				max_t = kart->turn_max_limit;
-			}
-
-		}
-
-		else if (current_max_turn_change_mode == M_INTERPOLATION)
-		{
-			float turn_max_change_dif = kart->turn_max_limit - kart->base_turn_max;
-			float velocity_dif = kart->max_velocity - kart->velocity_to_begin_change;
-
-			max_t += (turn_max_change_dif / velocity_dif) * (sp - kart->velocity_to_begin_change);
-		}
-
-		
-	}
-
-
-	return max_t;
-}
-
 unsigned int ComponentCar::GetFrontPlayer()
 {
 	return front_player;
@@ -1407,22 +864,14 @@ unsigned int ComponentCar::GetBackPlayer()
 	return back_player;
 }
 
-PhysVehicle3D* ComponentCar::GetVehicle()
-{
-	return vehicle;
-}
-
 bool ComponentCar::GetGroundState() const
 {
-	return on_ground;
+	return onTheGround;
 }
 
 float ComponentCar::GetAngularVelocity() const
 {
-	if (vehicle->vehicle->getRigidBody() != nullptr)
-	{
-		return vehicle->vehicle->getRigidBody()->getAngularVelocity().length();
-	}
+	return currentSteer * maxSteer;
 }
 
 TURBO ComponentCar::GetCurrentTurbo() const
@@ -1453,17 +902,19 @@ void ComponentCar::SetCarType(CAR_TYPE type)
 void ComponentCar::CheckGroundCollision()
 {
 	BROFILER_CATEGORY("ComponentCar::CheckGroundCollision", Profiler::Color::HoneyDew)
-	bool last_contact = on_ground;
+	//bool last_contact = on_ground;
 
-	on_ground = vehicle->IsVehicleInContact();
+	//on_ground = vehicle->IsVehicleInContact();
 
-	if (on_ground != last_contact)
+	//TODO
+	//Send ground hit events
+	/*if (on_ground != last_contact)
 	{
 		if (last_contact)
 			OnGroundCollision(G_EXIT);
 		else
 			OnGroundCollision(G_BEGIN);
-	}
+	}*/
 
 	//We don't need repeat nor none for now
 
@@ -1487,71 +938,6 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 		//Changes when entres ground contact
 	}
 }
-void ComponentCar::CreateCar()
-{
-	car->transform.Set(game_object->transform->GetGlobalMatrix());
-
-	// Car properties ----------------------------------------
-	car->chassis_size.Set(chasis_size.x, chasis_size.y, chasis_size.z);
-	car->chassis_offset.Set(chasis_offset.x, chasis_offset.y, chasis_offset.z);
-
-
-	float half_width = car->chassis_size.x*0.5f;
-	float half_length = car->chassis_size.z*0.5f;
-
-	float3 direction(0, -1, 0);
-	float3 axis(-1, 0, 0);
-
-	// FRONT-LEFT ------------------------
-	car->wheels[0].connection.Set(half_width - 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, half_length - wheel_radius + chasis_offset.z);
-	car->wheels[0].direction = direction;
-	car->wheels[0].axis = axis;
-	car->wheels[0].suspensionRestLength = suspensionRestLength;
-	car->wheels[0].radius = wheel_radius;
-	car->wheels[0].width = wheel_width;
-	car->wheels[0].front = true;
-	car->wheels[0].drive = false;
-	car->wheels[0].brake = false;
-	car->wheels[0].steering = true;
-
-	// FRONT-RIGHT ------------------------
-	car->wheels[1].connection.Set(-half_width + 0.1 * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, half_length - wheel_radius + chasis_offset.z);
-	car->wheels[1].direction = direction;
-	car->wheels[1].axis = axis;
-	car->wheels[1].suspensionRestLength = suspensionRestLength;
-	car->wheels[1].radius = wheel_radius;
-	car->wheels[1].width = wheel_width;
-	car->wheels[1].front = true;
-	car->wheels[1].drive = false;
-	car->wheels[1].brake = false;
-	car->wheels[1].steering = true;
-
-	// REAR-LEFT ------------------------
-	car->wheels[2].connection.Set(half_width - 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, -half_length + wheel_radius + chasis_offset.z);
-	car->wheels[2].direction = direction;
-	car->wheels[2].axis = axis;
-	car->wheels[2].suspensionRestLength = suspensionRestLength;
-	car->wheels[2].radius = wheel_radius;
-	car->wheels[2].width = wheel_width;
-	car->wheels[2].front = false;
-	car->wheels[2].drive = true;
-	car->wheels[2].brake = true;
-	car->wheels[2].steering = false;
-
-	// REAR-RIGHT ------------------------
-	car->wheels[3].connection.Set(-half_width + 0.1f * wheel_width + chasis_offset.x, connection_height + chasis_offset.y, -half_length + wheel_radius + chasis_offset.z);
-	car->wheels[3].direction = direction;
-	car->wheels[3].axis = axis;
-	car->wheels[3].suspensionRestLength = suspensionRestLength;
-	car->wheels[3].radius = wheel_radius;
-	car->wheels[3].width = wheel_width;
-	car->wheels[3].front = false;
-	car->wheels[3].drive = true;
-	car->wheels[3].brake = true;
-	car->wheels[3].steering = false;
-
-	vehicle = App->physics->AddVehicle(*car, this);
-}
 
 void ComponentCar::OnTransformModified()
 {}
@@ -1559,24 +945,7 @@ void ComponentCar::OnTransformModified()
 void ComponentCar::UpdateGO()
 {
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
-	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::DarkBlue);
-	game_object->transform->Set(vehicle->GetTransform().Transposed());
-	/*
-	for (uint i = 0; i < wheels_go.size(); i++)
-	{
-		if (wheels_go[i] != nullptr)
-		{
-			ComponentTransform* w_trs = (ComponentTransform*)wheels_go[i]->GetComponent(C_TRANSFORM);
-			float4x4 trans;
-			vehicle->vehicle->getWheelInfo(i).m_worldTransform.getOpenGLMatrix(*trans.v);
-			trans.Transpose();
-
-			float3 scale = trans.GetScale();
-			w_trs->SetGlobal(trans);
-			w_trs->SetScale(scale);
-		}
-	}
-	*/
+	
 	//Updating turn animation
 
 	//Player 1 animation
@@ -1593,50 +962,6 @@ void ComponentCar::UpdateGO()
 	
 }
 
-void ComponentCar::RenderWithoutCar()
-{
-	//RENDERING CHASIS
-
-	Cube_P chasis;
-	chasis.size = chasis_size;
-	chasis.transform = game_object->transform->GetGlobalMatrix().Transposed();
-	float3 pos, scal;
-	float3x3 rot;
-	chasis.transform.Decompose(pos, rot, scal);
-	float3 realOffset = rot * chasis_offset;
-	chasis.transform = chasis.transform.Transposed() * chasis.transform.Translate(chasis_offset);
-	chasis.transform.Transpose();
-	chasis.Render();
-
-	//RENDERING WHEELS
-
-	Cylinder_P wheel;
-	float3 wheelOffset;
-	int _x, _z;
-	for (int i = 0; i < 4; i++)
-	{
-		wheel.radius = wheel_radius;
-		wheel.height = wheel_width;
-
-		wheel.transform = game_object->transform->GetGlobalMatrix().Transposed();
-		if (i == 0) { _x = 1; _z = 1; }
-		else if (i == 1) { _x = -1; _z = -1; }
-		else if (i == 2) { _x = -1; _z = 1; }
-		else { _x = 1; _z = -1; }
-
-		wheelOffset = chasis_offset;
-		wheelOffset += float3((-chasis_size.x / 2.0f + 0.1f * wheel_width) * _x, connection_height - chasis_size.y / 2.0f, (-chasis_size.z / 2.0f + wheel_radius) * _z);
-
-		realOffset = rot * wheelOffset;
-		wheel.transform = wheel.transform.Transposed() * wheel.transform.Translate(wheelOffset);
-		wheel.transform.Transpose();
-
-		wheel.transform.Translate(realOffset);
-
-		wheel.Render();
-	}
-}
-
 void ComponentCar::Save(Data& file) const
 {
 	Data data;
@@ -1647,10 +972,6 @@ void ComponentCar::Save(Data& file) const
 	//Common on both cars
 	//Game loop settings
 	data.AppendFloat("lose_height", lose_height);
-
-	//Chassis settings
-	data.AppendFloat3("chasis_size", chasis_size.ptr());
-	data.AppendFloat3("chasis_offset", chasis_offset.ptr());
 
 	//Turn over
 	data.AppendFloat("turn_over_reset_time", turn_over_reset_time);
@@ -1807,26 +1128,12 @@ void ComponentCar::Save(Data& file) const
 	//data.AppendFloat("kick_cooldown", kickCooldown);
 	//--------------------------------------------------
 	//Wheel settings
-	data.AppendFloat("connection_height", connection_height);
-	data.AppendFloat("wheel_radius", wheel_radius);
-	data.AppendFloat("wheel_width", wheel_width);
 
 	// Saving UUID's GameObjects linked as wheels on Component Car
 	if (wheels_go[0]) data.AppendUInt("Wheel Front Left", wheels_go[0]->GetUUID());
 	if (wheels_go[1]) data.AppendUInt("Wheel Front Right", wheels_go[1]->GetUUID());
 	if (wheels_go[2]) data.AppendUInt("Wheel Back Left", wheels_go[2]->GetUUID());
 	if (wheels_go[3]) data.AppendUInt("Wheel Back Right", wheels_go[3]->GetUUID());	
-
-	//Car physics settings
-	data.AppendFloat("mass", car->mass);
-	data.AppendFloat("suspensionStiffness", car->suspensionStiffness);
-	data.AppendFloat("suspensionCompression", car->suspensionCompression);
-	data.AppendFloat("suspensionDamping", car->suspensionDamping);
-	data.AppendFloat("suspensionRestLength", suspensionRestLength);
-	data.AppendFloat("maxSuspensionTravelCm", car->maxSuspensionTravelCm);
-	data.AppendFloat("frictionSlip", car->frictionSlip);
-	data.AppendFloat("maxSuspensionForce", car->maxSuspensionForce);
-
 
 	//Hitodamas
 	data.AppendInt("max_hitodamas", max_hitodamas);
@@ -1842,10 +1149,6 @@ void ComponentCar::Load(Data& conf)
 
 	//Game loop settings
 	lose_height = conf.GetFloat("lose_height");
-
-	//Chassis settings
-	chasis_size = conf.GetFloat3("chasis_size");
-	chasis_offset = conf.GetFloat3("chasis_offset");
 
 	//Turn change over time
 	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
@@ -1996,9 +1299,6 @@ void ComponentCar::Load(Data& conf)
 
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings
-	connection_height = conf.GetFloat("connection_height");
-	wheel_radius = conf.GetFloat("wheel_radius");
-	wheel_width = conf.GetFloat("wheel_width");
 
 	// Posting events to further loading of GameObject wheels when all have been loaded)
 	if (conf.GetUInt("Wheel Front Left") != 0)
@@ -2025,16 +1325,6 @@ void ComponentCar::Load(Data& conf)
 		App->event_queue->PostEvent(ev);
 	}
 
-	//Car settings
-	car->mass = conf.GetFloat("mass");
-	car->suspensionStiffness = conf.GetFloat("suspensionStiffness");
-	car->suspensionCompression = conf.GetFloat("suspensionCompression");
-	car->suspensionDamping = conf.GetFloat("suspensionDamping");
-	suspensionRestLength = conf.GetFloat("suspensionRestLength");
-	car->maxSuspensionTravelCm = conf.GetFloat("maxSuspensionTravelCm");
-	car->frictionSlip = conf.GetFloat("frictionSlip");
-	car->maxSuspensionForce = conf.GetFloat("maxSuspensionForce");
-
 	//Hitodamas
 	max_hitodamas = conf.GetInt("max_hitodamas");
 	bonus_hitodamas = conf.GetInt("bonus_hitodamas");
@@ -2060,8 +1350,23 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 		
-
-		//Choos car type popup
+		if (ImGui::CollapsingHeader("No physics car"))
+		{
+			ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
+			ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
+			ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
+			ImGui::DragFloat("Maneuverability", &maneuverability, 0.1f, 0.1f, 20.0f);
+			ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
+			ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
+			ImGui::NewLine();
+			ImGui::Separator();
+			ImGui::Text("Just for display, do not touch");
+			ImGui::DragFloat("Speed", &speed);
+			ImGui::DragFloat("Current Steer", &currentSteer);
+			ImGui::Checkbox("Steering", &steering);
+		}
+		/*
+		//Choose car type popup
 		if (ImGui::Button("Kart Type :"))
 			ImGui::OpenPopup("Kart Type");
 		ImGui::SameLine();
@@ -2321,32 +1626,6 @@ void ComponentCar::OnInspector(bool debug)
 				}
 				if (ImGui::TreeNode("Turbos"))
 				{
-					/*for (int i = 0; i < turbos.size(); i++)
-					{
-					Turbo* tmp = &turbos[i];
-
-					if (ImGui::TreeNode(tmp->name.c_str()))
-					{
-					ImGui::Checkbox("Accel %", &(tmp->per_ac));
-					ImGui::SameLine();
-					ImGui::Checkbox("Speed %", &(tmp->per_sp));
-
-					ImGui::DragFloat("Accel boost", &(tmp->accel_boost), 1.0f, 0.0f);
-					ImGui::DragFloat("Speed boost", &(tmp->speed_boost), 1.0f, 0.0f);
-					ImGui::DragFloat("Duration", &(tmp->time));
-
-					ImGui::Checkbox("Speed decrease", &(tmp->speed_decrease));
-					if (tmp->speed_decrease == true)
-					{
-					ImGui::DragFloat("Deceleration", &(tmp->deceleration), 1.0f, 0.0f);
-					}
-					ImGui::Checkbox("Direct speed", &(tmp->speed_direct));
-
-
-					ImGui::TreePop();
-					}
-					}*/
-
 					if (ImGui::TreeNode("mini turbo"))
 					{
 						ImGui::Checkbox("Accel %", &mini_turbo.per_ac);
@@ -2364,16 +1643,6 @@ void ComponentCar::OnInspector(bool debug)
 						}
 
 						ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
-						/*if (mini_turbo.speed_direct == true)
-						{
-						ImGui::Checkbox("Speed increase", &mini_turbo.speed_increase);
-
-						if (mini_turbo.speed_increase)
-						{
-						ImGui::DragFloat("Fake acceleration", &mini_turbo.fake_accel, 1.0f, 0.0f);
-						}
-						}*/
-
 
 						ImGui::TreePop();
 					}
@@ -2395,15 +1664,6 @@ void ComponentCar::OnInspector(bool debug)
 						}
 
 						ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
-						/*if (drift_turbo_2.speed_direct == true)
-						{
-						ImGui::Checkbox("Speed increase", &drift_turbo_2.speed_increase);
-
-						if (drift_turbo_2.speed_increase)
-						{
-						ImGui::DragFloat("Fake acceleration", &drift_turbo_2.fake_accel, 1.0f, 0.0f);
-						}
-						}*/
 
 						ImGui::TreePop();
 					}
@@ -2425,16 +1685,6 @@ void ComponentCar::OnInspector(bool debug)
 							ImGui::DragFloat("Deceleration", &drift_turbo_3.deceleration, 1.0f, 0.0f);
 						}
 						ImGui::Checkbox("Direct speed", &drift_turbo_3.speed_direct);
-
-						/*if (drift_turbo_3.speed_direct == true)
-						{
-						ImGui::Checkbox("Speed increase", &drift_turbo_3.speed_increase);
-
-						if (drift_turbo_3.speed_increase)
-						{
-						ImGui::DragFloat("Fake acceleration", &drift_turbo_3.fake_accel, 1.0f, 0.0f);
-						}
-						}*/
 
 						ImGui::TreePop();
 					}
@@ -2471,16 +1721,6 @@ void ComponentCar::OnInspector(bool debug)
 								ImGui::DragFloat("Deceleration", &rocket_turbo.deceleration, 1.0f, 0.0f);
 							}
 							ImGui::Checkbox("Direct speed", &rocket_turbo.speed_direct);
-
-							/*if (rocket_turbo.speed_direct == true)
-							{
-							ImGui::Checkbox("Speed increase", &rocket_turbo.speed_increase);
-
-							if (rocket_turbo.speed_increase)
-							{
-							ImGui::DragFloat("Fake acceleration", &rocket_turbo.fake_accel, 1.0f, 0.0f);
-							}
-							}*/
 
 							ImGui::TreePop();
 						}
@@ -2643,7 +1883,7 @@ void ComponentCar::OnInspector(bool debug)
 			App->editor->assign_item = true;
 			App->editor->to_assign_item = this;
 		}
-
+		*/
 	}//Endof Collapsing header
 }
 

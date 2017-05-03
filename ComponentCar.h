@@ -11,24 +11,22 @@
 
 using namespace std;
 
-struct VehicleInfo;
-class PhysVehicle3D;
 class ComponentAnimation;
 class ComponentCollider;
+class ComponentTransform;
 
 enum CAR_TYPE
 {
-	
 	T_KOJI,
-	T_WOOD,
-
+	T_WOOD
 };
+
 enum PLAYER
 {
 	PLAYER_1,
 	PLAYER_2,
 	PLAYER_3,
-	PLAYER_4,
+	PLAYER_4
 };
 
 enum Player1_State
@@ -38,8 +36,7 @@ enum Player1_State
 	P1MAXTURN_L,
 	P1MAXTURN_R,
 	P1ACROBATICS,
-	P1GET_HIT,
-
+	P1GET_HIT
 };
 
 enum Player2_State
@@ -53,7 +50,7 @@ enum Player2_State
 	P2LEANING,
 	P2GET_HIT,
 	P2USE_ITEM,
-	P2ACROBATICS,
+	P2ACROBATICS
 };
 
 enum TURBO
@@ -62,13 +59,13 @@ enum TURBO
 	T_MINI,
 	T_DRIFT_MACH_2,
 	T_DRIFT_MACH_3,
-	T_ROCKET,
+	T_ROCKET
 };
 
 enum MAX_TURN_CHANGE_MODE
 {
 	M_SPEED,
-	M_INTERPOLATION,
+	M_INTERPOLATION
 };
 
 enum GROUND_CONTACT
@@ -76,7 +73,7 @@ enum GROUND_CONTACT
 	G_NONE,
 	G_BEGIN,
 	G_REPEAT,
-	G_EXIT,
+	G_EXIT
 };
 
 struct Car
@@ -128,6 +125,7 @@ struct Car
 	//Full brake
 	float full_brake_force = 300.0f;
 };
+
 struct Turbo
 {
 	string name;
@@ -159,6 +157,28 @@ struct Turbo
 
 class ComponentCar : public Component
 {
+	//Car status info
+	bool onTheGround = true;
+	bool steering = false;
+
+	//Car functionality values
+	float maxSpeed = 0.5f;
+	float maxAcceleration = 0.2f;
+	float brakePower = 0.5f;
+	float maneuverability = 6.0f;
+	float maxSteer = 160.0f;
+	float drag = 0.3f;
+	//Time that takes a car on the air to put itself straight again
+	float recoveryTime = 2.0f;
+
+private:
+	float speed = 0.0f;
+	float currentSteer = 0.0f;
+
+	float horizontalSpeed = 0.0f;
+	float fallSpeed = 0.0f;
+
+	ComponentTransform* kart_trs = nullptr;
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
@@ -195,16 +215,13 @@ public:
 	void GameLoopCheck();
 	void TurnOver();
 	void Reset();
-	void LimitSpeed();
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	void SetMaxVelocity(float max_vel);
 	float GetMinVelocity()const;
-	float GetMaxTurnByCurrentVelocity(float sp);
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
-	PhysVehicle3D* GetVehicle();
 	bool GetGroundState() const;
 	float GetAngularVelocity() const;
 	TURBO GetCurrentTurbo()const;
@@ -213,21 +230,10 @@ public:
 	void SetCarType(CAR_TYPE type);
 
 private:
-	void CreateCar();
 	void UpdateGO();
 	void JoystickControls(float* accel, float* brake, bool* turning, bool inverse = false);
-	void KeyboardControls(float* accel, float* brake, bool* turning, bool inverse = false);
-
-	//Render how the car will be. No need for the bullet car to be created, it's just a simulation
-	void RenderWithoutCar();
 
 	//Controls methods (to use in different parts)
-	void Brake(float* accel, float* brake, bool with_trigger = false, float lt_joy_axis = 0);
-	void FullBrake(float* brake);
-	bool Turn(bool* left_turn, bool left);
-	bool JoystickTurn(bool* left_turn, float x_joy_input);
-	void LimitTurn();
-	void Accelerate(float* accel, bool with_trigger = false, float rt_joy_axis = 0);
 	void StartPush();
 	bool Push(float* accel);
 	void PushUpdate(float* accel);
@@ -244,12 +250,8 @@ public:
 	int GetNumHitodamas() const;
 
 private:
-	void IdleTurn();
 	void ApplyTurbo();
 
-	void StartDrift();
-	void CalcDriftForces();
-	void EndDrift();
 	void DriftTurbo();
 
 	void UpdateTurnOver();
@@ -284,17 +286,6 @@ private:
 	bool raceStarted = false;
 
 public:
-	//Game Setting (Previous configuration) ----------------------------------------------------------------
-
-	//Game Car settings ---------
-	float3 chasis_size;
-	float3 chasis_offset;
-
-	float connection_height = 0.1f;
-	float wheel_radius = 0.3f;
-	float wheel_width = 0.2f;
-	float suspensionRestLength = 0.3f;
-
 	//Car mechanics settings --------
 	bool inverted_controls;
 private:
@@ -314,77 +305,19 @@ private:
 	int clicks_to_drift_turbo = 3;
 
 	//Reset
-	float lose_height = 0.0f;
+	float lose_height = -50.0f;
 
 	//Turbos
 	Turbo mini_turbo;
 	Turbo drift_turbo_2;
 	Turbo drift_turbo_3;
 
-	//Unique for car type----
-
-	//Turn direction
-	/*float base_turn_max = 0.7f;
-	float turn_speed = 1.5f;
-	float turn_speed_joystick = 1.5f;
-	float time_to_idle = 0.2f;
-	bool  idle_turn_by_interpolation =	true;
-	
-	//----Max turn change 
-	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.01f;
-
-	//By speed
-	float base_max_turn_change_speed = -0.01f;
-	float base_max_turn_change_accel = -0.1f;
-
-	//----
-
-
-	//Acceleration
-	float accel_force = 1000.0f;
-	float decel_brake = 100.0f;
-	float max_velocity = 80.0f;
-	float min_velocity = -20.0f;
-
-	//Drifting
-	float drift_turn_boost = 0.15f;
-	float drift_turn_max = 0.7;
-	float drift_min_speed = 20.0f;
-	float drift_ratio = 0.5f;
-	float drift_mult = 1.8f;
-	float drift_boost = 1.0f;
-
-	//Push
-	float push_force = 10000.0f;
-	float push_speed_per = 60.0f;
-
-	//Acrobatics
-	float acro_time = 0.5f;
-
-	//Brake
-	float brake_force = 20.0f;
-	float back_force = 500.0f;
-
-	//Full brake
-	float full_brake_force = 300.0f;*/
-
-
-
-
-
-	//Rocket item
 public:
+	//Rocket item
 	Turbo rocket_turbo;
 private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
-
-	//Car  general variables------
-	float velocity_current = 0.0f;
-
-	//Car mechanics variables --------
-	float top_velocity = 0.0f;
 
 	//Turn over
 	bool turned = false;
@@ -394,14 +327,6 @@ private:
 	float accel_boost = 0.0f;
 	float speed_boost = 0.0f;
 	float turn_boost = 0.0f;
-
-	//Acceleration
-	float accel = 0.0f;
-
-	//Turn
-	float turn_max;
-	float turn_current = 0.0f;
-	bool turning_left = false;
 
 	//Drift
 	bool drifting = false;
@@ -439,9 +364,6 @@ private:
 	bool to_turbo_speed = false;
 	bool to_turbo_decelerate = false;
 
-	VehicleInfo* car = nullptr;
-	PhysVehicle3D* vehicle = nullptr;
-
 	std::vector<GameObject*> wheels_go;
 
 	//2 Player configuration
@@ -450,9 +372,6 @@ private:
 
 	//Items! - provisional
 	bool has_item = false;
-
-	//Ground contact
-	bool on_ground = false;
 
 	//Reset
 	float3 reset_pos;
