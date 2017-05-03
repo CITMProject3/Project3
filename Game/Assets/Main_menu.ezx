@@ -77,14 +77,14 @@
                     "UUID": 2471300271,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1536,
+                        841
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        768,
                         0,
                         1,
                         0,
@@ -130,7 +130,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,
@@ -320,6 +320,33 @@
                     "Red arrow right": 1869263203,
                     "Red car": 1429455215,
                     "red_car_portrait_selected": 3511565641
+                },
+                {
+                    "type": 18,
+                    "UUID": 3276824019,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 2989164515,
+                            "event_name": "Play_CursorMovement",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        },
+                        {
+                            "event_id": 3659285072,
+                            "event_name": "Play_Selection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        },
+                        {
+                            "event_id": 4285633163,
+                            "event_name": "Play_Deselection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -1312,7 +1339,10 @@
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 0
+                            "event_id": 2989164515,
+                            "event_name": "Play_CursorMovement",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         },
                         {
                             "event_id": 3659285072,
@@ -1321,7 +1351,10 @@
                             "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         },
                         {
-                            "event_id": 0
+                            "event_id": 4285633163,
+                            "event_name": "Play_Deselection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         }
                     ]
                 }
@@ -4366,6 +4399,39 @@
                     "P2-Blue Vote": 4022420604,
                     "R-Arrow": 687012574,
                     "L-Arrow": 248195747
+                },
+                {
+                    "type": 18,
+                    "UUID": 851727605,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 2989164515,
+                            "event_name": "Play_CursorMovement",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        },
+                        {
+                            "event_id": 3659285072,
+                            "event_name": "Play_Selection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        },
+                        {
+                            "event_id": 4285633163,
+                            "event_name": "Play_Deselection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        },
+                        {
+                            "event_id": 949269160,
+                            "event_name": "Play_LoadingGame",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -6246,7 +6312,10 @@
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 0
+                            "event_id": 2989164515,
+                            "event_name": "Play_CursorMovement",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         },
                         {
                             "event_id": 3659285072,
@@ -6255,7 +6324,10 @@
                             "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         },
                         {
-                            "event_id": 0
+                            "event_id": 4285633163,
+                            "event_name": "Play_Deselection",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/3390108665\/3390108665.bnk"
                         }
                     ]
                 }
