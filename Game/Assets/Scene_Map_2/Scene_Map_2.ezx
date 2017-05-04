@@ -207,6 +207,15 @@
                     "drift_turbo_3_speed_per": false,
                     "drift_turbo_3_speed_direct": false,
                     "drift_turbo_3_speed_decrease": true,
+                    "turbo_pad_accel_boost": 300,
+                    "turbo_pad_speed_boost": 200,
+                    "turbo_pad_turbo_speed": 0,
+                    "turbo_pad_deceleration": 1,
+                    "turbo_pad_time": 1.500000,
+                    "turbo_pad_accel_per": false,
+                    "turbo_pad_speed_per": false,
+                    "turbo_pad_speed_direct": false,
+                    "turbo_pad_speed_decrease": false,
                     "rocket_turbo_accel_boost": 0,
                     "rocket_turbo_speed_boost": 35,
                     "rocket_turbo_turbo_speed": -431602080,
@@ -9156,6 +9165,15 @@
                     "drift_turbo_3_speed_per": false,
                     "drift_turbo_3_speed_direct": false,
                     "drift_turbo_3_speed_decrease": true,
+                    "turbo_pad_accel_boost": 300,
+                    "turbo_pad_speed_boost": 200,
+                    "turbo_pad_turbo_speed": 0.000000,
+                    "turbo_pad_deceleration": 1,
+                    "turbo_pad_time": 1.500000,
+                    "turbo_pad_accel_per": false,
+                    "turbo_pad_speed_per": false,
+                    "turbo_pad_speed_direct": false,
+                    "turbo_pad_speed_decrease": false,
                     "rocket_turbo_accel_boost": 0,
                     "rocket_turbo_speed_boost": 35,
                     "rocket_turbo_turbo_speed": -431602080,
@@ -18134,6 +18152,39 @@
                     "Team2_timer_Text": 2794836964,
                     "Win_team1_button": 1708373164,
                     "Win_team2_button": 3948780143
+                },
+                {
+                    "type": 18,
+                    "UUID": 3190122558,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 1313592992,
+                            "event_name": "Play_RiKarts_main_theme",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2175797879,
+                            "event_name": "Play_Countdown",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2279634092,
+                            "event_name": "Play_Go",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3054248522,
+                            "event_name": "Stop_RiKarts_main_theme",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -45103,7 +45154,7 @@
         {
             "name": "FishingCottage",
             "UUID": 882168410,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45128,7 +45179,7 @@
         {
             "name": "FishingCottage",
             "UUID": 2355012462,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45153,7 +45204,7 @@
         {
             "name": "FishingCottage",
             "UUID": 2916723188,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45178,7 +45229,7 @@
         {
             "name": "FishingCottage",
             "UUID": 3374693844,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45203,7 +45254,7 @@
         {
             "name": "FishingCottage",
             "UUID": 744640871,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45228,7 +45279,7 @@
         {
             "name": "FishingCottage",
             "UUID": 39385163,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45253,7 +45304,7 @@
         {
             "name": "FishingCottage",
             "UUID": 437913498,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 254310615,
             "active": true,
             "is_prefab": true,
@@ -45665,7 +45716,7 @@
         {
             "name": "FishingCottage",
             "UUID": 2900707697,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 2761576449,
             "active": true,
             "is_prefab": true,
@@ -45690,7 +45741,7 @@
         {
             "name": "FishingCottage",
             "UUID": 3225943497,
-            "local_UUID": 3102767157,
+            "local_UUID": 0,
             "parent": 2761576449,
             "active": true,
             "is_prefab": true,

@@ -16,27 +16,67 @@
   "MediaFilesNotInAnyBank": [],
   "SoundBanks": [
    {
-    "Id": "743991111",
-    "GUID": "{D478AC3A-170E-44D9-8289-DE7375E111D3}",
+    "Id": "984691642",
+    "GUID": "{8F4E4074-ECBC-423A-B086-1D1D21BFFAA2}",
     "Language": "SFX",
-    "ObjectPath": "\\SoundBanks\\UI\\UI_Music",
-    "ShortName": "UI_Music",
-    "Path": "UI_Music.bnk",
+    "ObjectPath": "\\SoundBanks\\InGame\\InGame",
+    "ShortName": "InGame",
+    "Path": "InGame.bnk",
     "IncludedEvents": [
      {
-      "Id": "1976156205",
-      "Name": "Play_UI_Music_Loop",
-      "ObjectPath": "\\Events\\UI\\Music\\Play_UI_Music_Loop",
-      "GUID": "{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}",
+      "Id": "2175797879",
+      "Name": "Play_Countdown",
+      "ObjectPath": "\\Events\\InGame\\FX\\Play_Countdown",
+      "GUID": "{F775C297-3A39-4AD7-89F1-EF18A9450959}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.017483",
+      "DurationMax": "1.017483"
+     },
+     {
+      "Id": "2279634092",
+      "Name": "Play_Go",
+      "ObjectPath": "\\Events\\InGame\\FX\\Play_Go",
+      "GUID": "{BA69F920-8566-4A70-B47C-4300E5C54269}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.084195",
+      "DurationMax": "2.084195"
+     },
+     {
+      "Id": "1313592992",
+      "Name": "Play_RiKarts_main_theme",
+      "ObjectPath": "\\Events\\InGame\\Music\\Play_RiKarts_main_theme",
+      "GUID": "{497B20D8-53C9-47F4-8094-65B9D473F1F1}",
       "DurationType": "Infinite"
+     },
+     {
+      "Id": "3054248522",
+      "Name": "Stop_RiKarts_main_theme",
+      "ObjectPath": "\\Events\\InGame\\Music\\Stop_RiKarts_main_theme",
+      "GUID": "{8083B93C-AD34-47CD-B13E-76E9DABB5ABB}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
      }
     ],
     "IncludedMemoryFiles": [
      {
-      "Id": "432115999",
+      "Id": "427291038",
       "Language": "SFX",
-      "ShortName": "UI_Music_Loop.wav",
-      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
+      "ShortName": "RiKarts_main_theme.wav",
+      "Path": "SFX\\RiKarts_main_theme_5F599105.wem"
+     },
+     {
+      "Id": "547640341",
+      "Language": "SFX",
+      "ShortName": "Countdown_Go.wav",
+      "Path": "SFX\\Countdown_Go_9E69E797.wem"
+     },
+     {
+      "Id": "726579198",
+      "Language": "SFX",
+      "ShortName": "Countdown.wav",
+      "Path": "SFX\\Countdown_9E69E797.wem"
      }
     ]
    },
@@ -49,12 +89,12 @@
     "Path": "Init.bnk"
    },
    {
-    "Id": "1919201456",
+    "Id": "1551306167",
     "GUID": "{82E5F0BB-AA6C-4696-8900-18B5098C5188}",
     "Language": "SFX",
-    "ObjectPath": "\\SoundBanks\\UI\\UI_FX",
-    "ShortName": "UI_FX",
-    "Path": "UI_FX.bnk",
+    "ObjectPath": "\\SoundBanks\\UI\\UI",
+    "ShortName": "UI",
+    "Path": "UI.bnk",
     "IncludedEvents": [
      {
       "Id": "2989164515",

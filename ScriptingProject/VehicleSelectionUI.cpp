@@ -198,13 +198,13 @@ namespace Vehicle_Selection_UI
 
 					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
+						// Play Move Sound
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
 						but_blue_car_portrait->OnPress();
 
 						if (blue_counter_right == time)
-						{
-							// Play Move Sound
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
+						{							
 							but_blue_arrow_right->OnPress();
 						}
 						blue_counter_right = 0;
@@ -217,15 +217,17 @@ namespace Vehicle_Selection_UI
 
 					if (team_red_selected == false && (id == 2 || id == 3))
 					{
+						// Play Move Sound
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						but_red_car_portrait->OnPress();
 
 						if (red_counter_right == time)
 						{
-							but_red_arrow_right->OnPress();
-							// Play Move Sound
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
+							but_red_arrow_right->OnPress();							
 						}
+
 						red_counter_right = 0;
 
 						if (p_pos[1] == 1)
@@ -247,13 +249,14 @@ namespace Vehicle_Selection_UI
 					left_pressed[i] = true;
 					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
+						// Play Move Sound
+						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						but_blue_car_portrait->OnPress();
 
 						if (blue_counter_left == time)
 						{
-							// Play Move Sound
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
 							but_blue_arrow_left->OnPress();
 						}
 						blue_counter_left = 0;
@@ -274,9 +277,6 @@ namespace Vehicle_Selection_UI
 
 						if (red_counter_left == time)
 						{
-							// Play Move Sound
-							ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-							if (a_comp) a_comp->PlayAudio(0);
 							but_red_arrow_left->OnPress();
 						}
 						red_counter_left = 0;
