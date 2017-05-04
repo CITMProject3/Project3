@@ -194,7 +194,7 @@ namespace Start_Menu_UI
 
 	void Start_Menu_UI_Update(GameObject* game_object)
 	{
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 4; i++)
 		{
 			// DOWN INPUT ------------------------
 			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_Y) > 0.6 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_Y) > 0.6 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) )
@@ -363,7 +363,7 @@ namespace Start_Menu_UI
 					player_order[3][0] = -1;
 					break;
 				}
-
+				 
 				// Player press AUDIO
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 
