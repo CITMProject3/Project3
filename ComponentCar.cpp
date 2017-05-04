@@ -88,22 +88,26 @@ void ComponentCar::KartLogic()
 {
 	float3 pos = kart_trs->GetPosition();
 	float3 newPos = pos;
-	float3 kartY = kart_trs->GetGlobalMatrix().WorldY();
-	kartY.Normalize();
+	float3 kartX = kart_trs->GetGlobalMatrix().WorldX().Normalized();
+	float3 kartY = kart_trs->GetGlobalMatrix().WorldY().Normalized();
+	float3 kartZ = kart_trs->GetGlobalMatrix().WorldZ().Normalized();
+
 
 	//Setting the two rays, Front and Back
 	math::Ray rayF, rayB;
 	rayB.dir = rayF.dir = -kartY;
 	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY;
-	rayF.pos += kart_trs->GetGlobalMatrix().WorldZ().Normalized();
-	rayB.pos -= kart_trs->GetGlobalMatrix().WorldZ().Normalized();
+	rayF.pos += kartZ;
+	rayB.pos -= kartZ;
 
 	//Raycasting, checking only for the NavMesh layer
 	
 	RaycastHit hitF;
 	bool frontHit = App->physics->RayCast(rayF, hitF);
+	float frontAngle = hitF.normal.AngleBetween(float3(0, 1, 0));
 	RaycastHit hitB;
 	bool backHit = App->physics->RayCast(rayB, hitB);
+	float backAngle = hitB.normal.AngleBetween(float3(0, 1, 0));
 
 	bool checkOffTrack = false;
 
@@ -117,7 +121,7 @@ void ComponentCar::KartLogic()
 		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
 		newPos = hitB.point + (hitF.point - hitB.point) / 2;
 	}
-	else if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND / 2.0 + 1) && !(backHit && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
+	else if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && !(backHit && hitB.distance < DISTANCE_FROM_GROUND / 2.0 + 1))
 	{
 		//Only the front ray collided. We'll need more comprovations to make sure the kart is not going off track
 		onTheGround = true;
@@ -139,35 +143,12 @@ void ComponentCar::KartLogic()
 		math::Ray rayN;
 		rayN.dir = float3(0, -1, 0);
 		rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
-		//Raycasting, checking only for the NavMesh layer
 		RaycastHit hitN;
 		bool Nhit = App->physics->RayCast(rayN, hitN);
 
-		if (Nhit == false)
+		if (hitN.distance > DISTANCE_FROM_GROUND + 0.2f)
 		{
-			//It didn't hit! Simulate a collision!
-			rayN.pos += kart_trs->GetGlobalMatrix().WorldX();
-			RaycastHit hitR = App->go_manager->Raycast(rayN, std::vector<int>(1, NAVMESH_LAYER));
-			rayN.pos -= kart_trs->GetGlobalMatrix().WorldX() * 2;
-			RaycastHit hitL = App->go_manager->Raycast(rayN, std::vector<int>(1, NAVMESH_LAYER));
-
-			newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
-
-			speed -= speed / 3.0f;
-
-			/*if (hitL.object)
-			{
-				horizontalSpeed = speed * -1.5f;
-			}
-			else if (hitR.object)
-			{
-				horizontalSpeed = speed * 1.5f;
-			}
-			else
-			{
-				speed = -speed;
-				newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
-			}*/
+			onTheGround = false;
 		}
 	}
 
@@ -250,9 +231,17 @@ void ComponentCar::KartLogic()
 		newPos.y -= fallSpeed;
 	}
 
+	//Checking if one of the rays was cast onto a wall
+	if ((frontAngle > 50.0f * DEGTORAD && hitF.normal.y > 0.1f) || (backAngle > 50.0f * DEGTORAD && hitB.normal.y > 0.1f) || frontHit == false || backHit == false)
+	{
+		newPos -= speed * kartZ;
+		speed = -speed / 3;
+	}
+
+
 	//And finally, we move the kart!
-	newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
-	newPos += kart_trs->GetGlobalMatrix().WorldX() * horizontalSpeed;
+	newPos += kartZ * speed;
+	newPos += kartX * horizontalSpeed;
 	kart_trs->SetPosition(newPos);
 
 
