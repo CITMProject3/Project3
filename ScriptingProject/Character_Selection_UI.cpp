@@ -176,10 +176,10 @@ namespace Character_Selection_UI
 		but_Player3 = (ComponentUiButton*)Player3->GetComponent(C_UI_BUTTON);
 		but_Player4 = (ComponentUiButton*)Player4->GetComponent(C_UI_BUTTON);
 
-		mat_driver1 = ((ComponentUiImage*)driver1_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_support1 = ((ComponentUiImage*)support1_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_driver2 = ((ComponentUiImage*)driver2_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_support2 = ((ComponentUiImage*)support2_port->GetComponent(C_UI_IMAGE))->UImaterial;
+		mat_driver1 = ((ComponentUiImage*)driver1->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_support1 = ((ComponentUiImage*)support1->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_driver2 = ((ComponentUiImage*)driver2->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_support2 = ((ComponentUiImage*)support2->GetComponent(C_UI_BUTTON))->UImaterial;
 
 		mat_Player1_num = ((ComponentUiImage*)Player1_num->GetComponent(C_UI_IMAGE))->UImaterial;
 		mat_Player2_num = ((ComponentUiImage*)Player2_num->GetComponent(C_UI_IMAGE))->UImaterial;
@@ -244,10 +244,10 @@ namespace Character_Selection_UI
 		rect_driver2 = (ComponentRectTransform*)driver2->GetComponent(C_RECT_TRANSFORM);
 		rect_support2 = (ComponentRectTransform*)support2->GetComponent(C_RECT_TRANSFORM);
 
-		mat_driver1 = ((ComponentUiImage*)driver1_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_support1 = ((ComponentUiImage*)support1_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_driver2 = ((ComponentUiImage*)driver2_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_support2 = ((ComponentUiImage*)support2_port->GetComponent(C_UI_IMAGE))->UImaterial;
+		mat_driver1 = ((ComponentUiImage*)driver1->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_support1 = ((ComponentUiImage*)support1->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_driver2 = ((ComponentUiImage*)driver2->GetComponent(C_UI_BUTTON))->UImaterial;
+		mat_support2 = ((ComponentUiImage*)support2->GetComponent(C_UI_BUTTON))->UImaterial;
 
 		mat_Player1_num = ((ComponentUiImage*)Player1_num->GetComponent(C_UI_IMAGE))->UImaterial;
 		mat_Player2_num = ((ComponentUiImage*)Player2_num->GetComponent(C_UI_IMAGE))->UImaterial;
@@ -456,16 +456,16 @@ namespace Character_Selection_UI
 				case 0:
 					if (player1_select == false)
 					{
-						
+						mat_driver1->color[0] = 0.4f;
+						mat_driver1->color[1] = 0.4f;
+						mat_driver1->color[2] = 0.4f;
 						if (p_pos[id] == 0)
 						{
 							player1_select = true;
 							mat_Player1->color[0] = 1.0f;
 							mat_Player1->color[1] = 1.0f;
 							mat_Player1->color[2] = 1.0f;
-							mat_driver1->color[0] = 0.4f;
-							mat_driver1->color[1] = 0.4f;
-							mat_driver1->color[2] = 0.4f;
+							
 							champ1_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -475,9 +475,7 @@ namespace Character_Selection_UI
 							mat_Player1->color[0] = 1.0f;
 							mat_Player1->color[1] = 1.0f;
 							mat_Player1->color[2] = 1.0f;
-							mat_driver2->color[0] = 0.4f;
-							mat_driver2->color[1] = 0.4f;
-							mat_driver2->color[2] = 0.4f;
+							
 							champ3_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -487,16 +485,15 @@ namespace Character_Selection_UI
 				case 1:
 					if (player2_select == false)
 					{					
-
+							mat_support1->color[0] = 0.4f;
+							mat_support1->color[1] = 0.4f;
+							mat_support1->color[2] = 0.4f;
 						if (p_pos[id] == 0)
 						{
 							player2_select = true;
 							mat_Player2->color[0] = 1.0f;
 							mat_Player2->color[1] = 1.0f;
 							mat_Player2->color[2] = 1.0f;
-							mat_support1->color[0] = 0.4f;
-							mat_support1->color[1] = 0.4f;
-							mat_support1->color[2] = 0.4f;
 							champ2_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -506,9 +503,6 @@ namespace Character_Selection_UI
 							mat_Player2->color[0] = 1.0f;
 							mat_Player2->color[1] = 1.0f;
 							mat_Player2->color[2] = 1.0f;
-							mat_support2->color[0] = 0.4f;
-							mat_support2->color[1] = 0.4f;
-							mat_support2->color[2] = 0.4f;
 							champ4_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -517,15 +511,15 @@ namespace Character_Selection_UI
 				case 2:
 					if (player3_select == false)
 					{
+						mat_driver2->color[0] = 0.4f;
+						mat_driver2->color[1] = 0.4f;
+						mat_driver2->color[2] = 0.4f;
 						if (p_pos[id] == 0)
 						{
 							player3_select = true;
 							mat_Player3->color[0] = 1.0f;
 							mat_Player3->color[1] = 1.0f;
 							mat_Player3->color[2] = 1.0f;
-							mat_driver1->color[0] = 0.4f;
-							mat_driver1->color[1] = 0.4f;
-							mat_driver1->color[2] = 0.4f;
 							champ1_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -535,9 +529,6 @@ namespace Character_Selection_UI
 							mat_Player3->color[0] = 1.0f;
 							mat_Player3->color[1] = 1.0f;
 							mat_Player3->color[2] = 1.0f;
-							mat_driver2->color[0] = 0.4f;
-							mat_driver2->color[1] = 0.4f;
-							mat_driver2->color[2] = 0.4f;
 							champ3_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -546,16 +537,16 @@ namespace Character_Selection_UI
 				case 3:
 					if(player4_select == false)
 					{
-
+						mat_support2->color[0] = 0.4f;
+						mat_support2->color[1] = 0.4f;
+						mat_support2->color[2] = 0.4f;
 						if (p_pos[id] == 0)
 						{
 							player4_select = true;
 							mat_Player4->color[0] = 1.0f;
 							mat_Player4->color[1] = 1.0f;
 							mat_Player4->color[2] = 1.0f;
-							mat_support1->color[0] = 0.4f;
-							mat_support1->color[1] = 0.4f;
-							mat_support1->color[2] = 0.4f;
+
 							champ2_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -565,9 +556,7 @@ namespace Character_Selection_UI
 							mat_Player4->color[0] = 1.0f;
 							mat_Player4->color[1] = 1.0f;
 							mat_Player4->color[2] = 1.0f;
-							mat_support2->color[0] = 0.4f;
-							mat_support2->color[1] = 0.4f;
-							mat_support2->color[2] = 0.4f;
+							
 							champ4_select = true;
 							if (a_comp) a_comp->PlayAudio(1);
 						}
@@ -590,6 +579,11 @@ namespace Character_Selection_UI
 						mat_Player1->color[0] = 0.4f;
 						mat_Player1->color[1] = 0.4f;
 						mat_Player1->color[2] = 0.4f;
+
+						mat_driver1->color[0] = 1.0f;
+						mat_driver1->color[1] = 1.0f;
+						mat_driver1->color[2] = 1.0f;
+
 						if (a_comp) a_comp->PlayAudio(2);
 						if (p_pos[id] == 0)
 						{
@@ -614,6 +608,9 @@ namespace Character_Selection_UI
 						mat_Player2->color[0] = 0.4f;
 						mat_Player2->color[1] = 0.4f;
 						mat_Player2->color[2] = 0.4f;
+						mat_support1->color[0] = 1.0f;
+						mat_support1->color[1] = 1.0f;
+						mat_support1->color[2] = 1.0f;
 						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)
@@ -639,6 +636,11 @@ namespace Character_Selection_UI
 						mat_Player3->color[0] = 0.4f;
 						mat_Player3->color[1] = 0.4f;
 						mat_Player3->color[2] = 0.4f;
+
+						mat_driver2->color[0] = 1.0f;
+						mat_driver2->color[1] = 1.0f;
+						mat_driver2->color[2] = 1.0f;
+
 						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)
@@ -664,6 +666,9 @@ namespace Character_Selection_UI
 						mat_Player4->color[0] = 0.4f;
 						mat_Player4->color[1] = 0.4f;
 						mat_Player4->color[2] = 0.4f;
+						mat_support2->color[0] = 1.0f;
+						mat_support2->color[1] = 1.0f;
+						mat_support2->color[2] = 1.0f;
 						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)

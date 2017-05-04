@@ -142,12 +142,14 @@ namespace MapSelectUI
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
 		player_order[3] = App->go_manager->team2_back;
+
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
 		if (!just_once)
 		{
+			map_fields->SetActive(true);
 			map_umi->SetActive(false);
 			map_ricing->SetActive(false);
 			just_once = true;
@@ -201,7 +203,7 @@ namespace MapSelectUI
 				}
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75|| App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (!left_pressed[playerID])
 				{
@@ -241,12 +243,12 @@ namespace MapSelectUI
 					arrow_counter_left = 0;
 				}
 			}
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > -0.1 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > -0.25 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 			{
 				left_pressed[playerID] = false;
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				if (!right_pressed[playerID])
 				{
@@ -286,7 +288,7 @@ namespace MapSelectUI
 					arrow_counter_right = 0;
 				}
 			}
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < 0.25 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[playerID] = false;
 			}

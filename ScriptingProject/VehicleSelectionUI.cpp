@@ -235,7 +235,7 @@ namespace Vehicle_Selection_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.25 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[i] = false;
 			}
@@ -288,7 +288,7 @@ namespace Vehicle_Selection_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > -0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > -0.25 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 			{
 				left_pressed[i] = false;
 			}
