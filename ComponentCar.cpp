@@ -69,6 +69,9 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO), chasis_size(1
 	drift_turbo_3.SetTurbo("Drift turbo 3", 300.0f, 45.0f, 2.0f);
 	turbos.push_back(drift_turbo_3);
 
+	turbo_pad.SetTurbo("Turbo Pad", 300.0f, 200.0f, 1.5f);
+	turbos.push_back(turbo_pad);
+
 	//Item
 	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
 	
@@ -123,7 +126,7 @@ void ComponentCar::OnPlay()
 		reset_rot = trs->GetRotation();
 	}
 	checkpoints = MAXUINT - 10;
-	lap = 0;
+	lap = 1;
 	raceStarted = false;
 	finished = false;
 	n_checkpoints = 0;
@@ -761,6 +764,9 @@ void ComponentCar::ApplyTurbo()
 			break;
 		case T_DRIFT_MACH_3:
 			applied_turbo = &drift_turbo_3;
+			break;
+		case T_TURBOPAD:
+			applied_turbo = &turbo_pad;
 			break;
 		case T_ROCKET:
 			applied_turbo = &rocket_turbo;
@@ -1787,6 +1793,19 @@ void ComponentCar::Save(Data& file) const
 		data.AppendBool("drift_turbo_3_speed_per", drift_turbo_3.per_sp);
 		data.AppendBool("drift_turbo_3_speed_direct", drift_turbo_3.speed_direct);
 		data.AppendBool("drift_turbo_3_speed_decrease", drift_turbo_3.speed_decrease);
+
+		//TurboPad
+		data.AppendFloat("turbo_pad_accel_boost", turbo_pad.accel_boost);
+						  
+		data.AppendFloat("turbo_pad_speed_boost", turbo_pad.speed_boost);
+		data.AppendFloat("turbo_pad_turbo_speed", turbo_pad.turbo_speed);
+		data.AppendFloat("turbo_pad_deceleration", turbo_pad.deceleration);
+		data.AppendFloat("turbo_pad_time", turbo_pad.time);
+
+		data.AppendBool("turbo_pad_accel_per", turbo_pad.per_ac);
+		data.AppendBool("turbo_pad_speed_per", turbo_pad.per_sp);
+		data.AppendBool("turbo_pad_speed_direct", turbo_pad.speed_direct);
+		data.AppendBool("turbo_pad_speed_decrease", turbo_pad.speed_decrease);
 
 		//Rocket turbo 
 

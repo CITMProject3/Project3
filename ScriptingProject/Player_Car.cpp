@@ -654,43 +654,46 @@ namespace Player_Car
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
 
 		//By position
-		int result = App->rnd->RandomInt(1, 100);
+		//int result = App->rnd->RandomInt(1, 100);
 
-		if (car->place == 1)
-		{
-			if (result <= 5)
-			{
-				have_firecracker = true;
-			}
-			else if (result <= 40)
-			{
-				have_triple_makibishi = true;
-			}
-			else
-			{
-				have_makibishi = true;
-			}
-		}
-		else if (car->place == 2)
-		{
-			//2nd
-			if (result <= 15)
-			{
-				have_evil_spirit = true;
-			}
-			else if (result <= 35)
-			{
-				have_triple_makibishi = true;
-			}
-			else if (result <= 65)
-			{
-				have_makibishi = true;
-			}
-			else
-			{
-				have_firecracker = true;
-			}
-		}
+		have_firecracker = true;
+
+		//Just to have all time firecracker, uncomment this to have a good system :D #firecrackerworks #Just1Item
+		//if (car->place == 1)
+		//{
+		//	if (result <= 5)
+		//	{
+		//		have_firecracker = true;
+		//	}
+		//	else if (result <= 40)
+		//	{
+		//		have_triple_makibishi = true;
+		//	}
+		//	else
+		//	{
+		//		have_makibishi = true;
+		//	}
+		//}
+		//else if (car->place == 2)
+		//{
+		//	//2nd
+		//	if (result <= 15)
+		//	{
+		//		have_evil_spirit = true;
+		//	}
+		//	else if (result <= 35)
+		//	{
+		//		have_triple_makibishi = true;
+		//	}
+		//	else if (result <= 65)
+		//	{
+		//		have_makibishi = true;
+		//	}
+		//	else
+		//	{
+		//		have_firecracker = true;
+		//	}
+		//}
 	}
 
 	void Player_Car_PickItem(GameObject* game_object)
