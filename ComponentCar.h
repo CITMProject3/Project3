@@ -474,7 +474,7 @@ private:
 		uint checkpoints = MAXUINT - 10;
 		float3 last_check_pos = float3::zero;
 		Quat last_check_rot = Quat::identity;
-		unsigned int lap = 0;
+		unsigned int lap = 1;
 
 		unsigned int n_checkpoints = 0;
 

@@ -123,7 +123,7 @@ void ComponentCar::OnPlay()
 		reset_rot = trs->GetRotation();
 	}
 	checkpoints = MAXUINT - 10;
-	lap = 0;
+	lap = 1;
 	raceStarted = false;
 	finished = false;
 	n_checkpoints = 0;
