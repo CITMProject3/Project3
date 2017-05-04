@@ -690,6 +690,10 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 
 	}
 
+	glVertexAttribDivisor(2, 0);
+	glVertexAttribDivisor(3, 0);
+	glVertexAttribDivisor(4, 0);
+
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
