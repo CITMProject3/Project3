@@ -357,7 +357,6 @@ namespace Character_Selection_UI
 			{
 				// Play Move Selection
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(0);
 
 				switch (id)
 				{
@@ -367,7 +366,7 @@ namespace Character_Selection_UI
 						rect_driver1->Move(float3(214, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 1;
-						//if (a_comp) a_comp->PlayAudio(0);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 1:
@@ -376,7 +375,7 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 1;
-						//if (a_comp) a_comp->PlayAudio(0);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 2:
@@ -385,7 +384,7 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] = 1;
-						//if (a_comp) a_comp->PlayAudio(0);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 3:
@@ -394,7 +393,7 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 1;
-						//if (a_comp) a_comp->PlayAudio(0);
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				}
@@ -402,9 +401,8 @@ namespace Character_Selection_UI
 
 			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
-				// Play Move Selection
+				// Play Move Selection (index 0)
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(0);
 
 				switch (id)
 				{
@@ -413,7 +411,8 @@ namespace Character_Selection_UI
 					{
 						rect_driver1->Move(float3(-214, 0, 0));
 						but_Player1->OnPress();
-						p_pos[id] = 0;						
+						p_pos[id] = 0;	
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 1:
@@ -422,6 +421,7 @@ namespace Character_Selection_UI
 						rect_support1->Move(float3(-214, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 0;
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 2:
@@ -430,6 +430,7 @@ namespace Character_Selection_UI
 						rect_driver2->Move(float3(-214, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] =0;
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				case 3:
@@ -438,6 +439,7 @@ namespace Character_Selection_UI
 						rect_support2->Move(float3(-214, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 0;
+						if (a_comp) a_comp->PlayAudio(0);
 					}
 					break;
 				}
@@ -446,9 +448,8 @@ namespace Character_Selection_UI
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
 
-				// Play Selection Sound
+				// Play Selection Sound (index 1)
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
 
 				switch (id)
 				{
@@ -466,6 +467,7 @@ namespace Character_Selection_UI
 							mat_driver1->color[1] = 0.4f;
 							mat_driver1->color[2] = 0.4f;
 							champ1_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 						else if (p_pos[id] == 1 )
 						{
@@ -477,6 +479,7 @@ namespace Character_Selection_UI
 							mat_driver2->color[1] = 0.4f;
 							mat_driver2->color[2] = 0.4f;
 							champ3_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 						
 					}
@@ -495,6 +498,7 @@ namespace Character_Selection_UI
 							mat_support1->color[1] = 0.4f;
 							mat_support1->color[2] = 0.4f;
 							champ2_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 						else if (p_pos[id] == 1)
 						{
@@ -506,6 +510,7 @@ namespace Character_Selection_UI
 							mat_support2->color[1] = 0.4f;
 							mat_support2->color[2] = 0.4f;
 							champ4_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 					}
 					break;
@@ -522,6 +527,7 @@ namespace Character_Selection_UI
 							mat_driver1->color[1] = 0.4f;
 							mat_driver1->color[2] = 0.4f;
 							champ1_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 						else if (p_pos[id] == 1)
 						{
@@ -533,6 +539,7 @@ namespace Character_Selection_UI
 							mat_driver2->color[1] = 0.4f;
 							mat_driver2->color[2] = 0.4f;
 							champ3_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 					}
 					break;
@@ -550,6 +557,7 @@ namespace Character_Selection_UI
 							mat_support1->color[1] = 0.4f;
 							mat_support1->color[2] = 0.4f;
 							champ2_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 						else if (p_pos[id] == 1)
 						{
@@ -561,6 +569,7 @@ namespace Character_Selection_UI
 							mat_support2->color[1] = 0.4f;
 							mat_support2->color[2] = 0.4f;
 							champ4_select = true;
+							if (a_comp) a_comp->PlayAudio(1);
 						}
 					}
 					break;
@@ -569,9 +578,8 @@ namespace Character_Selection_UI
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
-				// Play Deselection Sound
+				// Play Deselection Sound (index 2)
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(2);
 
 				switch (id)
 				{
@@ -582,6 +590,7 @@ namespace Character_Selection_UI
 						mat_Player1->color[0] = 0.4f;
 						mat_Player1->color[1] = 0.4f;
 						mat_Player1->color[2] = 0.4f;
+						if (a_comp) a_comp->PlayAudio(2);
 						if (p_pos[id] == 0)
 						{
 							mat_driver1->color[0] = 1.0f;
@@ -605,6 +614,7 @@ namespace Character_Selection_UI
 						mat_Player2->color[0] = 0.4f;
 						mat_Player2->color[1] = 0.4f;
 						mat_Player2->color[2] = 0.4f;
+						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)
 						{
@@ -629,6 +639,7 @@ namespace Character_Selection_UI
 						mat_Player3->color[0] = 0.4f;
 						mat_Player3->color[1] = 0.4f;
 						mat_Player3->color[2] = 0.4f;
+						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)
 						{
@@ -653,6 +664,7 @@ namespace Character_Selection_UI
 						mat_Player4->color[0] = 0.4f;
 						mat_Player4->color[1] = 0.4f;
 						mat_Player4->color[2] = 0.4f;
+						if (a_comp) a_comp->PlayAudio(2);
 
 						if (p_pos[id] == 0)
 						{
