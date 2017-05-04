@@ -11,6 +11,20 @@
 	<StreamedFiles/>
 	<MediaFilesNotInAnyBank/>
 	<SoundBanks>
+		<SoundBank Id="743991111" GUID="{D478AC3A-170E-44D9-8289-DE7375E111D3}" Language="SFX">
+			<ObjectPath>\SoundBanks\UI\UI_Music</ObjectPath>
+			<ShortName>UI_Music</ShortName>
+			<Path>UI_Music.bnk</Path>
+			<IncludedEvents>
+				<Event Id="1976156205" Name="Play_UI_Music_Loop" ObjectPath="\Events\UI\Music\Play_UI_Music_Loop" GUID="{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}" DurationType="Infinite"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="432115999" Language="SFX">
+					<ShortName>UI_Music_Loop.wav</ShortName>
+					<Path>SFX\UI_Music_Loop_4B8CC0C5.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
 		<SoundBank Id="1355168291" GUID="{701ECBBD-9C7B-4030-8CDB-749EE5D1C7B9}" Language="SFX">
 			<ObjectPath>Init</ObjectPath>
 			<ShortName>Init</ShortName>
@@ -27,11 +41,17 @@
 				<Event Id="4121431383" Name="Play_LogoIntro" ObjectPath="\Events\UI\FX\Play_LogoIntro" GUID="{9A775442-E513-4CB9-8C6D-2CD2151BEFE1}" DurationType="OneShot" DurationMin="5.867256" DurationMax="5.867256"/>
 				<Event Id="1085325237" Name="Play_PressStart" ObjectPath="\Events\UI\FX\Play_PressStart" GUID="{FD7739D6-54E5-4ACE-BF32-A14613E171B7}" DurationType="OneShot" DurationMin="3.720000" DurationMax="3.720000"/>
 				<Event Id="3659285072" Name="Play_Selection" ObjectPath="\Events\UI\FX\Play_Selection" GUID="{22F5CFBF-071C-4F73-A105-6F9992B494D7}" DurationType="OneShot" DurationMin="0.312925" DurationMax="0.312925"/>
+				<Event Id="1976156205" Name="Play_UI_Music_Loop" ObjectPath="\Events\UI\Music\Play_UI_Music_Loop" GUID="{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}" DurationType="Infinite"/>
+				<Event Id="2486230223" Name="Stop_UI_Music_Loop" ObjectPath="\Events\UI\Music\Stop_UI_Music_Loop" GUID="{D4364878-F695-45E0-95E8-13E6AD3DC1EE}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
 				<File Id="390271277" Language="SFX">
 					<ShortName>LoadingGame.wav</ShortName>
 					<Path>SFX\LoadingGame_9E69E797.wem</Path>
+				</File>
+				<File Id="432115999" Language="SFX">
+					<ShortName>UI_Music_Loop.wav</ShortName>
+					<Path>SFX\UI_Music_Loop_4B8CC0C5.wem</Path>
 				</File>
 				<File Id="445115088" Language="SFX">
 					<ShortName>Deselection.wav</ShortName>

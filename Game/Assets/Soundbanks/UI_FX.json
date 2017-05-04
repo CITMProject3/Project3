@@ -73,6 +73,23 @@
       "DurationType": "OneShot",
       "DurationMin": "0.312925",
       "DurationMax": "0.312925"
+     },
+     {
+      "Id": "1976156205",
+      "Name": "Play_UI_Music_Loop",
+      "ObjectPath": "\\Events\\UI\\Music\\Play_UI_Music_Loop",
+      "GUID": "{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}",
+      "DurationType": "Infinite"
+     },
+     {
+      "Id": "2486230223",
+      "Name": "Stop_UI_Music_Loop",
+      "ObjectPath": "\\Events\\UI\\Music\\Stop_UI_Music_Loop",
+      "GUID": "{D4364878-F695-45E0-95E8-13E6AD3DC1EE}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
      }
     ],
     "IncludedMemoryFiles": [
@@ -81,6 +98,12 @@
       "Language": "SFX",
       "ShortName": "LoadingGame.wav",
       "Path": "SFX\\LoadingGame_9E69E797.wem"
+     },
+     {
+      "Id": "432115999",
+      "Language": "SFX",
+      "ShortName": "UI_Music_Loop.wav",
+      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
      },
      {
       "Id": "445115088",

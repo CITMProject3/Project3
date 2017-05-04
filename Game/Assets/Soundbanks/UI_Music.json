@@ -1,0 +1,42 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "11",
+  "SoundbankVersion": "120",
+  "RootPaths": {
+   "ProjectRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\",
+   "SourceFilesRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\.cache\\Windows\\",
+   "SoundBanksRoot": "C:\\Users\\Carlos\\Documents\\GitHub\\Project3\\Game\\Assets\\Soundbanks\\",
+   "ExternalSourcesInputFile": "",
+   "ExternalSourcesOutputRoot": "C:\\Users\\Carlos\\Documents\\WwiseProjects\\Project3_Karts\\GeneratedSoundBanks\\Windows\\"
+  },
+  "SoundBanks": [
+   {
+    "Id": "743991111",
+    "GUID": "{D478AC3A-170E-44D9-8289-DE7375E111D3}",
+    "Language": "SFX",
+    "ObjectPath": "\\SoundBanks\\UI\\UI_Music",
+    "ShortName": "UI_Music",
+    "Path": "UI_Music.bnk",
+    "IncludedEvents": [
+     {
+      "Id": "1976156205",
+      "Name": "Play_UI_Music_Loop",
+      "ObjectPath": "\\Events\\UI\\Music\\Play_UI_Music_Loop",
+      "GUID": "{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}",
+      "DurationType": "Infinite"
+     }
+    ],
+    "IncludedMemoryFiles": [
+     {
+      "Id": "432115999",
+      "Language": "SFX",
+      "ShortName": "UI_Music_Loop.wav",
+      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
+     }
+    ]
+   }
+  ]
+ }
+}
