@@ -312,7 +312,7 @@ namespace Start_Menu_UI
 			}
 
 			// B INPUT ------------------------
-			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
+			/*if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
 				if (!b_pressed[i])
 				{
@@ -332,7 +332,7 @@ namespace Start_Menu_UI
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_B) == KEY_UP)
 			{
 				b_pressed[i] = false;
-			}
+			}*/
 		}
 		// Resolve
 		// Delete previous position
