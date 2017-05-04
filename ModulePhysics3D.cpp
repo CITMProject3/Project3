@@ -631,7 +631,7 @@ bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 	if (App->IsGameRunning())
 	{
 		btVector3 Start(raycast.pos.x, raycast.pos.y, raycast.pos.z);
-		btVector3 End(raycast.pos.x + raycast.dir.x * 10.0f, raycast.pos.y + raycast.dir.y * 10.0f, raycast.pos.z + raycast.dir.z * 10.0f);
+		btVector3 End(raycast.pos.x + raycast.dir.x * 100.0f, raycast.pos.y + raycast.dir.y * 100.0f, raycast.pos.z + raycast.dir.z * 100.0f);
 
 		btCollisionWorld::ClosestRayResultCallback RayCallback(Start, End);
 

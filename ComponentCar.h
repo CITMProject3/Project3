@@ -10,9 +10,7 @@
 #include "Bullet\include\btBulletCollisionCommon.h"
 
 
-#define CAR_GRAVITY 1.5f
-
-#define NAVMESH_LAYER 20
+#define CAR_GRAVITY 0.8f
 
 //TODO fix conversion Units to KM/H
 #define UNITS_TO_KMH 1000.0f
@@ -171,9 +169,9 @@ class ComponentCar : public Component
 	bool steering = false;
 
 	//Car functionality values
-	float maxSpeed = 0.5f;
-	float maxAcceleration = 0.2f;
-	float brakePower = 0.5f;
+	float maxSpeed = 0.9f;
+	float maxAcceleration = 0.3f;
+	float brakePower = 0.6f;
 	float maneuverability = 6.0f;
 	float maxSteer = 160.0f;
 	float drag = 0.3f;
