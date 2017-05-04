@@ -14,6 +14,10 @@
 
 #define NAVMESH_LAYER 20
 
+//TODO fix conversion Units to KM/H
+#define UNITS_TO_KMH 1000.0f
+#define KMH_TO_UNITS 0.0001f
+
 using namespace std;
 
 class ComponentAnimation;
@@ -182,6 +186,8 @@ private:
 
 	float horizontalSpeed = 0.0f;
 	float fallSpeed = 0.0f;
+
+	bool lastFrameOnGround = true;
 
 	ComponentTransform* kart_trs = nullptr;
 	//

@@ -247,20 +247,6 @@ void ComponentCar::KartLogic()
 		newPos.y -= fallSpeed;
 	}
 
-#pragma region Esthetic_rotation_chasis_wheels
-	//TODO chasis rotation
-	/*if (chasis)
-	{
-		ComponentTransform* chasis_trs = (ComponentTransform*)chasis->GetComponent(C_TRANSFORM);
-		chasis_trs->SetRotation(float3(0, -currentSteer * 15 * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f), 0));
-	}
-	if (frontWheel)
-	{
-		ComponentTransform* wheel_trs = (ComponentTransform*)frontWheel->GetComponent(C_TRANSFORM);
-		wheel_trs->SetRotation(float3(0, -currentSteer * 15, 0));
-	}*/
-#pragma endregion
-
 	//And finally, we move the kart!
 	newPos += kart_trs->GetGlobalMatrix().WorldZ() * speed;
 	newPos += kart_trs->GetGlobalMatrix().WorldX() * horizontalSpeed;
@@ -593,8 +579,7 @@ void ComponentCar::UseItem()
 		if (applied_turbo->timer >= applied_turbo->time)
 		{
 			ReleaseItem();
-			//TODO whatever this is
-			//vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+			speed = 0.0f;
 			current_turbo = T_IDLE;
 		}
 	}
@@ -1032,8 +1017,9 @@ void ComponentCar::UpdateP2Animation()
 
 void ComponentCar::OnGetHit()
 {
-	//TODO
-	//GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);
+	speed = 0.0;
+	horizontalSpeed = 0.0f;
+
 	SetP2AnimationState(P2GET_HIT, 0.0f);
 	p1_state = P1GET_HIT;
 	p1_animation->PlayAnimation(3, 0.5f);
@@ -1086,11 +1072,6 @@ void ComponentCar::GameLoopCheck()
 void ComponentCar::TurnOver()
 {
 	Reset();
-	/*float3 current_pos = vehicle->GetPos();
-	current_pos.y += 2;
-	float4x4 matrix = float4x4::identity;
-	matrix.Translate(current_pos);
-	vehicle->SetTransform(matrix.ptr());*/
 }
 
 void ComponentCar::Reset()
@@ -1109,16 +1090,11 @@ void ComponentCar::Reset()
 	fallSpeed = 0.0f;
 	horizontalSpeed = 0.0f;
 	currentSteer = 0;
-	//TODO
-	//vehicle->SetLinearSpeed(0.0f, 0.0f, 0.0f);
-	//vehicle->SetAngularSpeed(0.0f, 0.0f, 0.0f);
 }
 
 float ComponentCar::GetVelocity()
 {
-	//TODO
-	//Multiply this by the conversion units -> KM/h
-	return speed;
+	return speed * UNITS_TO_KMH;
 }
 
 float ComponentCar::GetMaxVelocity() const
@@ -1184,22 +1160,19 @@ void ComponentCar::SetCarType(CAR_TYPE type)
 void ComponentCar::CheckGroundCollision()
 {
 	BROFILER_CATEGORY("ComponentCar::CheckGroundCollision", Profiler::Color::HoneyDew)
-	//bool last_contact = on_ground;
-
-	//on_ground = vehicle->IsVehicleInContact();
-
-	//TODO
-	//Send ground hit events
-	/*if (on_ground != last_contact)
-	{
-		if (last_contact)
-			OnGroundCollision(G_EXIT);
-		else
-			OnGroundCollision(G_BEGIN);
-	}*/
-
+		if (lastFrameOnGround != onTheGround)
+		{
+			if (onTheGround)
+			{
+				OnGroundCollision(G_BEGIN);
+			}
+			else
+			{
+				OnGroundCollision(G_EXIT);
+			}
+			lastFrameOnGround = onTheGround;
+		}
 	//We don't need repeat nor none for now
-
 }
 
 void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
