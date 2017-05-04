@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3086540896,
+                    "UUID": 3635641729,
                     "active": true,
                     "matrix": [
                         1,
@@ -79,7 +79,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.685659,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -121,7 +121,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 2
+                    "listener ID": 0
                 }
             ]
         },
@@ -167,7 +167,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.685659,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -209,7 +209,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 3
+                    "listener ID": 1
                 }
             ]
         },
@@ -235,12 +235,12 @@
                         0,
                         0,
                         0,
-                        1,
+                        -0.000000,
+                        -1.000000,
+                        -118.000008,
                         0,
-                        0,
-                        0,
-                        0,
-                        1,
+                        1.000000,
+                        -0.000000,
                         0,
                         0,
                         0,
@@ -255,7 +255,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.824401,
+                    "aspect_ratio": 1.777778,
                     "color": [
                         0,
                         0,
