@@ -18606,7 +18606,7 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
                     "last_fov": 29.999966,
-                    "Player_Max_angular_velocity": 6,
+                    "Player_Max_angular_velocity": 3.5,
                     "distance": 12.685755,
                     "target": 726386159
                 },
@@ -18694,7 +18694,7 @@
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
                     "last_fov": 40.000008,
-                    "Player_Max_angular_velocity": 6,
+                    "Player_Max_angular_velocity": 3.5,
                     "distance": 0,
                     "target": 2807956156
                 },
