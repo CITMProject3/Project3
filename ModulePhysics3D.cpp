@@ -626,57 +626,74 @@ void ModulePhysics3D::CreateGround()
 bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::Terrain_Raycast", Profiler::Color::HoneyDew);
-
 	RaycastHit hit_info;
 	bool ret = false;
-
-	std::map<float, chunk> firstPass;
-	float dNear = 0;
-	float dFar = 0;
-
-	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	if (App->IsGameRunning())
 	{
-		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
-		{			
-			if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
-			{
-				firstPass.insert(std::pair<float, chunk>(dNear,it_x->second));
-			}
+		btVector3 Start(raycast.pos.x, raycast.pos.y, raycast.pos.z);
+		btVector3 End(raycast.pos.x + raycast.dir.x * 10.0f, raycast.pos.y + raycast.dir.y * 10.0f, raycast.pos.z + raycast.dir.z * 10.0f);
+
+		btCollisionWorld::ClosestRayResultCallback RayCallback(Start, End);
+
+		// Perform raycast
+		world->rayTest(Start, End, RayCallback);
+		if (RayCallback.hasHit()) {
+			hit_OUT.normal = float3(RayCallback.m_hitNormalWorld.x(), RayCallback.m_hitNormalWorld.y(), RayCallback.m_hitNormalWorld.z());
+			hit_OUT.point = float3(RayCallback.m_hitPointWorld.x(), RayCallback.m_hitPointWorld.y(), RayCallback.m_hitPointWorld.z());
+			hit_OUT.distance = hit_OUT.point.Distance(raycast.pos);
+			return true;
 		}
 	}
-
-	uint u1, u2, u3;
-	float distance;
-	vec hit_point;
-	Triangle triangle;
-
-	for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
+	else
 	{
-		for (uint n = 0; n < it->second.GetNIndices(); n += 3)
-		{
-			u1 = it->second.indices[n];
-			u2 = it->second.indices[n + 1];
-			u3 = it->second.indices[n + 2];
-			triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+		std::map<float, chunk> firstPass;
+		float dNear = 0;
+		float dFar = 0;
 
-			if (raycast.Intersects(triangle, &distance, &hit_point))
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
 			{
-				ret = true;
-				if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+				if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
 				{
-					hit_OUT.distance = distance;
-					hit_OUT.point = hit_point;
-					hit_OUT.normal = triangle.NormalCCW();
+					firstPass.insert(std::pair<float, chunk>(dNear, it_x->second));
 				}
 			}
 		}
-		if (ret == true)
+
+		uint u1, u2, u3;
+		float distance;
+		vec hit_point;
+		Triangle triangle;
+
+		for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
 		{
-			hit_OUT.object = nullptr;
-			hit_OUT.normal.Normalize();
-			return true;
+			for (uint n = 0; n < it->second.GetNIndices(); n += 3)
+			{
+				u1 = it->second.indices[n];
+				u2 = it->second.indices[n + 1];
+				u3 = it->second.indices[n + 2];
+				triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+
+				if (raycast.Intersects(triangle, &distance, &hit_point))
+				{
+					ret = true;
+					if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+					{
+						hit_OUT.distance = distance;
+						hit_OUT.point = hit_point;
+						hit_OUT.normal = triangle.NormalCCW();
+					}
+				}
+			}
+			if (ret == true)
+			{
+				hit_OUT.object = nullptr;
+				hit_OUT.normal.Normalize();
+				return true;
+			}
 		}
-	}	
+	}
 	return false;
 }
 
