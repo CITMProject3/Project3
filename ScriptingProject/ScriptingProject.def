@@ -13,27 +13,27 @@ EXPORTS
 	Test2_Start
 	Test2_Update
 
-	Player_Car_GetPublics
-	Player_Car_Start
-	Player_Car_Update
-	Player_Car_UpdatePublics
-	Player_Car_ActualizePublics
-	Player_Car_OnCollision
-	Player_Car_ChooseItem
-	Player_Car_PickItem
-	Player_Car_LoseItem
+	;Player_Car_GetPublics
+	;Player_Car_Start
+	;Player_Car_Update
+	;Player_Car_UpdatePublics
+	;Player_Car_ActualizePublics
+	;Player_Car_OnCollision
+	;Player_Car_ChooseItem
+	;Player_Car_PickItem
+	;Player_Car_LoseItem
 	
-	Makibishi_GetPublics
-	Makibishi_Start
-	Makibishi_Update
-	Makibishi_UpdatePublics
-	Makibishi_ActualizePublics
+	;Makibishi_GetPublics
+	;Makibishi_Start
+	;Makibishi_Update
+	;Makibishi_UpdatePublics
+	;Makibishi_ActualizePublics
 
-	Player_Camera_GetPublics
-	Player_Camera_Start
-	Player_Camera_Update
-	Player_Camera_UpdatePublics
-	Player_Camera_ActualizePublics
+	;Player_Camera_GetPublics
+	;Player_Camera_Start
+	;Player_Camera_Update
+	;Player_Camera_UpdatePublics
+	;Player_Camera_ActualizePublics
 
 	Scene_Manager_GetPublics
 	Scene_Manager_UpdatePublics

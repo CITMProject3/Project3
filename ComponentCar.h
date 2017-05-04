@@ -9,6 +9,11 @@
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
+
+#define CAR_GRAVITY 1.5f
+
+#define NAVMESH_LAYER 20
+
 using namespace std;
 
 class ComponentAnimation;
@@ -210,6 +215,12 @@ public:
 private:
 	void CheckGroundCollision();
 	void OnGroundCollision(GROUND_CONTACT state);
+
+	void KartLogic();
+	float AccelerationInput();
+	void Steer(float amount);
+	void AutoSteer();
+
 public:
 	void HandlePlayerInput();
 	void GameLoopCheck();
