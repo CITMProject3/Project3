@@ -40,8 +40,8 @@ extern "C"
 
 			//TODO
 			//script_names->push_back("Player_Car");
-			//script_names->push_back("Makibishi");
-			//script_names->push_back("Player_Camera");
+			script_names->push_back("Makibishi");
+			script_names->push_back("Player_Camera");
 
 			script_names->push_back("Scene_Manager");
 
@@ -52,7 +52,7 @@ extern "C"
 			script_names->push_back("MapSelectUI");
 			script_names->push_back("PlayerObjectSelector");
 
-			//script_names->push_back("Kmh_Counter");
+			script_names->push_back("Kmh_Counter");
 			script_names->push_back("Item_Timer");
 			// Audio related...
 			script_names->push_back("Audio_PlaySound");

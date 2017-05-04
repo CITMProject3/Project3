@@ -217,9 +217,12 @@ void ComponentCar::KartLogic()
 	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
 
 	//Steering
-	if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-	if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
-	Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
+	if (lock_input == false)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
+	}
 
 	//Returning steer to 0 gradually if the player isn't inputting anything
 	if (steering == false)
@@ -264,7 +267,7 @@ float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
 	//Accelerating
-	if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::A))
+	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::A)))
 	{
 		if (speed < -0.01f)
 		{
@@ -283,7 +286,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::B))
+	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::B)))
 	{
 		if (speed > 0.01f)
 		{
@@ -543,9 +546,6 @@ void ComponentCar::Acrobatics(PLAYER p)
 			acro_front = false;
 			acro_back = false;
 		}
-
-
-
 		else if (tmp_back != acro_back || tmp_front != acro_front)
 		{
 			//Start timer
@@ -1129,7 +1129,8 @@ bool ComponentCar::GetGroundState() const
 
 float ComponentCar::GetAngularVelocity() const
 {
-	return currentSteer * maxSteer;
+	float a = currentSteer * maxSteer * DEGTORAD;
+	return currentSteer * maxSteer * DEGTORAD;
 }
 
 TURBO ComponentCar::GetCurrentTurbo() const
