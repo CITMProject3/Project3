@@ -267,7 +267,7 @@
                     "active": true,
                     "rect_size": [
                         1600,
-                        900
+                        877
                     ],
                     "matrix": [
                         1,
@@ -4188,7 +4188,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0.000000,
+                    "turbo_pad_turbo_speed": 0,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -4226,12 +4226,12 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "makibishi_quantity": 0,
-                    "velocity_firecracker": 40,
+                    "velocity_firecracker": 120,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 0,
-                    "evil_spirit_vel_reduction": 0,
-                    "evil_spirit_duration": 0,
+                    "velocity_makibishi": 25,
+                    "evil_spirit_vel_reduction": 0.400000,
+                    "evil_spirit_duration": 10,
                     "evil_spirit_current_duration": 0,
                     "have_item": false,
                     "have_makibishi": false,
@@ -13084,12 +13084,12 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "makibishi_quantity": 0,
-                    "velocity_firecracker": 40,
+                    "velocity_firecracker": 120,
                     "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 0,
-                    "evil_spirit_vel_reduction": 0,
-                    "evil_spirit_duration": 0,
+                    "velocity_makibishi": 25,
+                    "evil_spirit_vel_reduction": 0.400000,
+                    "evil_spirit_duration": 10,
                     "evil_spirit_current_duration": 0,
                     "have_item": false,
                     "have_makibishi": false,
@@ -21891,7 +21891,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.685659,
                     "color": [
                         0,
                         0,
@@ -21933,7 +21933,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -21979,7 +21979,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.685659,
                     "color": [
                         0,
                         0,
@@ -22021,7 +22021,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -22067,7 +22067,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.824401,
                     "color": [
                         0,
                         0,
