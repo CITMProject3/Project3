@@ -98,7 +98,6 @@ bool ModulePhysics3D::Start()
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
 	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
-	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 	CreateGround();
 	GetShaderLocations();
 	return true;
@@ -1382,6 +1381,7 @@ PhysBody3D* ModulePhysics3D::AddVehicle(const Cube_P& cube, ComponentCar* col)
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 
 	body->setUserPointer(pbody);
