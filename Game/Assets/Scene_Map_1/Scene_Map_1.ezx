@@ -4188,7 +4188,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0,
+                    "turbo_pad_turbo_speed": 0.000000,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -4241,6 +4241,7 @@
                     "throwing_firecracker": false,
                     "have_evil_spirit": false,
                     "evil_spirit_effect": false,
+                    "firecracker": 1230011776,
                     "scene_manager": 144932385
                 }
             ]
@@ -13099,6 +13100,7 @@
                     "throwing_firecracker": false,
                     "have_evil_spirit": false,
                     "evil_spirit_effect": false,
+                    "firecracker": 717367660,
                     "scene_manager": 144932385
                 }
             ]
@@ -45815,7 +45817,7 @@
             "UUID": 1230011776,
             "local_UUID": 0,
             "parent": 4097799886,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
