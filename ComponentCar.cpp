@@ -32,6 +32,29 @@
 
 #define DISTANCE_FROM_GROUND 1.0
 
+void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
+{
+	//speed = -speed / 3;
+	float3 fw, side;
+
+	normal.Decompose(kartZ, fw, side);
+
+	Plane p;
+	p.Set(kart_trs->GetPosition(), kartX);
+
+	if (p.IsInPositiveDirection(normal))
+	{
+		horizontalSpeed += side.Length();
+	}
+	else
+	{
+		horizontalSpeed -= side.Length();
+	}
+
+	speed -= fw.Length();
+
+}
+
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
@@ -175,7 +198,7 @@ void ComponentCar::KartLogic()
 		newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 		if (speed >= 0.0f)
 		{
-			speed = -speed / 3;
+			WallHit(hitF.normal, kartZ, kartX);
 		}
 		desiredUp = hitB.normal.Normalized();
 	}
@@ -184,7 +207,7 @@ void ComponentCar::KartLogic()
 		newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 		if (speed <= 0.0f)
 		{
-			speed = -speed / 3;
+			WallHit(hitB.normal, kartZ, kartX);
 		}
 		desiredUp = hitF.normal.Normalized();
 	}

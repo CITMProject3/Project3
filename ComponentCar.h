@@ -192,6 +192,8 @@ private:
 	ComponentTransform* kart_trs = nullptr;
 
 	PhysBody3D* collider = nullptr;
+
+	void WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX);
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
