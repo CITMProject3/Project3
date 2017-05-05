@@ -1656,21 +1656,20 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::EndPopup();
 		}
 		
-		if (ImGui::CollapsingHeader("No physics car"))
-		{
 			ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
 			ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
 			ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
 			ImGui::DragFloat("Maneuverability", &maneuverability, 0.1f, 0.1f, 20.0f);
 			ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 			ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
+			ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
 			ImGui::NewLine();
 			ImGui::Separator();
 			ImGui::Text("Just for display, do not touch");
 			ImGui::DragFloat("Speed", &speed);
 			ImGui::DragFloat("Current Steer", &currentSteer);
 			ImGui::Checkbox("Steering", &steering);
-		}
+
 		/*
 		//Choose car type popup
 		if (ImGui::Button("Kart Type :"))
