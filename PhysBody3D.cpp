@@ -168,3 +168,8 @@ bool PhysBody3D::IsTrigger() const
 {
 	return is_trigger;
 }
+
+void PhysBody3D::SetActivationState(int state)
+{
+	body->forceActivationState(state);
+}

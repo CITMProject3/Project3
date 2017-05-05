@@ -326,6 +326,7 @@ namespace Player_Car
 					{
 						makibishi1->SetActive(true);
 						makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+						((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 						float3 new_pos = game_object->transform->GetPosition();
 						new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 						new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -375,6 +376,7 @@ namespace Player_Car
 							{
 								makibishi1->SetActive(true);
 								makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -415,6 +417,7 @@ namespace Player_Car
 							{
 								makibishi2->SetActive(true);
 								makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -455,6 +458,7 @@ namespace Player_Car
 							{
 								makibishi3->SetActive(true);
 								makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -565,7 +569,7 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
@@ -588,7 +592,7 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
@@ -654,46 +658,43 @@ namespace Player_Car
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
 
 		//By position
-		//int result = App->rnd->RandomInt(1, 100);
+		int result = App->rnd->RandomInt(1, 100);
 
-		have_firecracker = true;
-
-		//Just to have all time firecracker, uncomment this to have a good system :D #firecrackerworks #Just1Item
-		//if (car->place == 1)
-		//{
-		//	if (result <= 5)
-		//	{
-		//		have_firecracker = true;
-		//	}
-		//	else if (result <= 40)
-		//	{
-		//		have_triple_makibishi = true;
-		//	}
-		//	else
-		//	{
-		//		have_makibishi = true;
-		//	}
-		//}
-		//else if (car->place == 2)
-		//{
-		//	//2nd
-		//	if (result <= 15)
-		//	{
-		//		have_evil_spirit = true;
-		//	}
-		//	else if (result <= 35)
-		//	{
-		//		have_triple_makibishi = true;
-		//	}
-		//	else if (result <= 65)
-		//	{
-		//		have_makibishi = true;
-		//	}
-		//	else
-		//	{
-		//		have_firecracker = true;
-		//	}
-		//}
+		if (car->place == 1)
+		{
+			if (result <= 5)
+			{
+				have_firecracker = true;
+			}
+			else if (result <= 40)
+			{
+				have_triple_makibishi = true;
+			}
+			else
+			{
+				have_makibishi = true;
+			}
+		}
+		else if (car->place == 2)
+		{
+			//2nd
+			if (result <= 15)
+			{
+				have_evil_spirit = true;
+			}
+			else if (result <= 35)
+			{
+				have_triple_makibishi = true;
+			}
+			else if (result <= 65)
+			{
+				have_makibishi = true;
+			}
+			else
+			{
+				have_firecracker = true;
+			}
+		}
 	}
 
 	void Player_Car_PickItem(GameObject* game_object)
