@@ -374,7 +374,6 @@ bool ModulePhysics3D::CleanUp()
 		terrainOriginalUvBuffer = 0;
 	}
 
-	delete vehicle_raycaster;
 	delete world;
 
 	return true;
@@ -633,8 +632,6 @@ bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 		btVector3 End(raycast.pos.x + raycast.dir.x * 100.0f, raycast.pos.y + raycast.dir.y * 100.0f, raycast.pos.z + raycast.dir.z * 100.0f);
 
 		btCollisionWorld::ClosestRayResultCallback RayCallback(Start, End);
-
-
 
 		// Perform raycast
 		world->rayTest(Start, End, RayCallback);
