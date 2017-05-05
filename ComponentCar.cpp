@@ -290,8 +290,8 @@ void ComponentCar::KartLogic()
 	else
 	{
 		//Falling. Magic. Gravity. So much wow.
-		fallSpeed += CAR_GRAVITY * time->DeltaTime();
-		newPos.y -= fallSpeed;
+		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
+		newPos.y += fallSpeed;
 	}
 
 
@@ -413,7 +413,7 @@ void ComponentCar::OnPlay()
 	Cube_P collShape;
 	collShape.size = math::vec(1, 2, 2);
 
-	//collider = App->physics->AddVehicle(collShape, this);
+	collider = App->physics->AddVehicle(collShape, this);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -1231,6 +1231,8 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	if (state == G_EXIT)
 	{
 		//Changes when exits ground contact
+		float3 realSpeed = kart_trs->GetGlobalMatrix().WorldZ().Normalized() * speed;
+		fallSpeed = realSpeed.y;
 	}
 	else if (state == G_BEGIN)
 	{

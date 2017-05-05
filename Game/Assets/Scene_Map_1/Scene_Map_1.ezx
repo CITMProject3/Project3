@@ -596,12 +596,12 @@
                         0,
                         -47.823193,
                         0,
-                        3.812532,
-                        0.445354,
-                        13.250000,
+                        3.757660,
+                        0.696645,
+                        14.212789,
                         0,
-                        -0.535817,
-                        3.168858,
+                        -0.838151,
+                        3.123250,
                         -15.533823,
                         0,
                         0,
@@ -688,12 +688,12 @@
                         0,
                         39.264221,
                         0,
-                        3.812532,
-                        -0.445354,
-                        13.250000,
+                        3.703608,
+                        -0.874035,
+                        14.527987,
                         0,
-                        0.535816,
-                        3.168858,
+                        1.051573,
+                        3.078323,
                         24.566376,
                         0,
                         0,
@@ -798,16 +798,6 @@
                     "UUID": 3162055570,
                     "active": true,
                     "lose_height": 2,
-                    "chasis_size": [
-                        1.750000,
-                        0.200000,
-                        2.800000
-                    ],
-                    "chasis_offset": [
-                        0,
-                        0.690000,
-                        0
-                    ],
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
@@ -894,17 +884,6 @@
                     "rocket_turbo_speed_per": true,
                     "rocket_turbo_speed_direct": true,
                     "rocket_turbo_speed_decrease": true,
-                    "connection_height": -0.200000,
-                    "wheel_radius": 0.400000,
-                    "wheel_width": 0.400000,
-                    "mass": 300,
-                    "suspensionStiffness": 100,
-                    "suspensionCompression": 0.830000,
-                    "suspensionDamping": 20,
-                    "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000,
-                    "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -913,25 +892,7 @@
                     "UUID": 1380419276,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0,
-                    "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
-                    "velocity_firecracker": 40,
-                    "time_trowing_firecracker": 0,
-                    "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 0,
-                    "evil_spirit_vel_reduction": 0,
-                    "evil_spirit_duration": 0,
-                    "evil_spirit_current_duration": 0,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
-                    "have_evil_spirit": false,
-                    "evil_spirit_effect": false,
-                    "scene_manager": 144932385
+                    "script_num": 0
                 }
             ]
         },
@@ -9647,16 +9608,6 @@
                     "UUID": 1556886816,
                     "active": true,
                     "lose_height": 2,
-                    "chasis_size": [
-                        1.750000,
-                        0.200000,
-                        2.800000
-                    ],
-                    "chasis_offset": [
-                        0,
-                        0.690000,
-                        0
-                    ],
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
@@ -9743,17 +9694,6 @@
                     "rocket_turbo_speed_per": true,
                     "rocket_turbo_speed_direct": true,
                     "rocket_turbo_speed_decrease": true,
-                    "connection_height": -0.200000,
-                    "wheel_radius": 0.400000,
-                    "wheel_width": 0.400000,
-                    "mass": 300,
-                    "suspensionStiffness": 100,
-                    "suspensionCompression": 0.830000,
-                    "suspensionDamping": 20,
-                    "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000,
-                    "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -9762,25 +9702,7 @@
                     "UUID": 1371071367,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0,
-                    "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
-                    "velocity_firecracker": 40,
-                    "time_trowing_firecracker": 0,
-                    "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 0,
-                    "evil_spirit_vel_reduction": 0,
-                    "evil_spirit_duration": 0,
-                    "evil_spirit_current_duration": 0,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
-                    "have_evil_spirit": false,
-                    "evil_spirit_effect": false,
-                    "scene_manager": 144932385
+                    "script_num": 0
                 }
             ]
         },
@@ -18614,7 +18536,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 2
+                    "listener ID": 0
                 }
             ]
         },
@@ -18702,7 +18624,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 3
+                    "listener ID": 1
                 }
             ]
         },
