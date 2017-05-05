@@ -121,6 +121,7 @@ void ComponentCar::KartLogic()
 	RaycastHit hitF;
 	bool frontHit = App->physics->RayCast(rayF, hitF);
 	float frontAngle = hitF.normal.AngleBetween(float3(0, 1, 0));
+
 	RaycastHit hitB;
 	bool backHit = App->physics->RayCast(rayB, hitB);
 	float backAngle = hitB.normal.AngleBetween(float3(0, 1, 0));
@@ -166,6 +167,26 @@ void ComponentCar::KartLogic()
 		{
 			onTheGround = false;
 		}
+	}
+
+	//Checking if one of the rays was cast onto a wall
+	if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f)) || frontHit == false)
+	{
+		newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+		if (speed >= 0.0f)
+		{
+			speed = -speed / 3;
+		}
+		desiredUp = hitB.normal.Normalized();
+	}
+	else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f)) || backHit == false)
+	{
+		newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+		if (speed <= 0.0f)
+		{
+			speed = -speed / 3;
+		}
+		desiredUp = hitF.normal.Normalized();
 	}
 
 	desiredUp.Normalize();
@@ -245,20 +266,6 @@ void ComponentCar::KartLogic()
 		//Falling. Magic. Gravity. So much wow.
 		fallSpeed += CAR_GRAVITY * time->DeltaTime();
 		newPos.y -= fallSpeed;
-	}
-
-	//Checking if one of the rays was cast onto a wall
-	if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f))  || frontHit == false)
-	{
-		newPos -= math::Abs(speed) * kartZ;
-		speed = -speed / 3;
-		speed = CAP(speed, -maxSpeed, -maxSpeed / 10.0f);
-	}
-	else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f)) || backHit == false)
-	{
-		newPos += math::Abs(speed) * kartZ;
-		speed = -speed / 3;
-		speed = CAP(speed, maxSpeed / 10.0f, maxSpeed);
 	}
 
 
