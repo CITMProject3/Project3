@@ -180,6 +180,7 @@ class ComponentCar : public Component
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
+	float WallsBounciness = 0.6f;
 private:
 	float speed = 0.0f;
 	float currentSteer = 0.0f;

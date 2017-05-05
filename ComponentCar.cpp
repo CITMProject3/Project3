@@ -44,14 +44,14 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (p.IsInPositiveDirection(normal))
 	{
-		horizontalSpeed += side.Length();
+		horizontalSpeed += side.Length() * (speed / maxSpeed) * WallsBounciness;
 	}
 	else
 	{
-		horizontalSpeed -= side.Length();
+		horizontalSpeed -= side.Length() * (speed / maxSpeed) * WallsBounciness;
 	}
 
-	speed -= fw.Length();
+	speed -= fw.Length() * (speed / maxSpeed) * WallsBounciness;
 
 }
 
