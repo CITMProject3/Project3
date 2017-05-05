@@ -132,7 +132,7 @@ public:
 	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
 	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
 	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER, btConvexHullShape** OUT_shape = nullptr);
-	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
+	PhysBody3D* AddVehicle(const Cube_P& cube, ComponentCar* car);
 
 	void Sculpt(int x, int y, bool inverse = false);
 	void PlaceGO(float3 pos, Quat rot = ::Quat::identity);

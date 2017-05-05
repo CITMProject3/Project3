@@ -22,6 +22,8 @@ class ComponentAnimation;
 class ComponentCollider;
 class ComponentTransform;
 
+class PhysBody3D;
+
 enum CAR_TYPE
 {
 	T_KOJI,
@@ -188,6 +190,8 @@ private:
 	bool lastFrameOnGround = true;
 
 	ComponentTransform* kart_trs = nullptr;
+
+	PhysBody3D* collider = nullptr;
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
@@ -220,6 +224,7 @@ private:
 	void CheckGroundCollision();
 	void OnGroundCollision(GROUND_CONTACT state);
 
+	void UpdateCollider();
 	void KartLogic();
 	float AccelerationInput();
 	void Steer(float amount);

@@ -76,12 +76,22 @@ void ComponentCar::Update()
 
 		if (App->IsGameRunning())
 		{
+			UpdateCollider();
+
 			KartLogic();
 			CheckGroundCollision();
 			HandlePlayerInput();
 			UpdateGO();
 			GameLoopCheck();
 		}
+}
+
+void ComponentCar::UpdateCollider()
+{
+	if (collider != nullptr)
+	{
+		collider->SetTransform(kart_trs->GetTransformMatrix().ptr());
+	}
 }
 
 void ComponentCar::KartLogic()
@@ -96,7 +106,13 @@ void ComponentCar::KartLogic()
 	//Setting the two rays, Front and Back
 	math::Ray rayF, rayB;
 	rayB.dir = rayF.dir = -kartY;
-	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY;
+	rayF.dir += kartZ / 1.5f;
+	rayF.dir.Normalize();
+
+	rayB.dir -= kartZ / 1.5f;
+	rayB.dir.Normalize();
+
+	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY * 1.5f;
 	rayF.pos += kartZ;
 	rayB.pos -= kartZ;
 
@@ -232,10 +248,17 @@ void ComponentCar::KartLogic()
 	}
 
 	//Checking if one of the rays was cast onto a wall
-	if ((frontAngle > 50.0f * DEGTORAD && hitF.normal.y > 0.1f) || (backAngle > 50.0f * DEGTORAD && hitB.normal.y > 0.1f) || frontHit == false || backHit == false)
+	if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f))  || frontHit == false)
 	{
-		newPos -= speed * kartZ;
+		newPos -= math::Abs(speed) * kartZ;
 		speed = -speed / 3;
+		speed = CAP(speed, -maxSpeed, -maxSpeed / 10.0f);
+	}
+	else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f)) || backHit == false)
+	{
+		newPos += math::Abs(speed) * kartZ;
+		speed = -speed / 3;
+		speed = CAP(speed, maxSpeed / 10.0f, maxSpeed);
 	}
 
 
@@ -353,6 +376,11 @@ void ComponentCar::OnPlay()
 	n_checkpoints = 0;
 	speed = 0.0f;
 	fallSpeed = 0.0f;
+
+	Cube_P collShape;
+	collShape.size = math::vec(1, 2, 2);
+
+	//collider = App->physics->AddVehicle(collShape, this);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)

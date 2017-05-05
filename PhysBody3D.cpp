@@ -14,6 +14,7 @@ PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
 {
 	car = col;
 	body->setUserPointer(this);
+	SetCar(true);
 }
 
 // ---------------------------------------------------------
