@@ -52,7 +52,11 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 	}
 
 	speed -= fw.Length() * (speed / maxSpeed) * WallsBounciness;
+}
 
+void ComponentCar::WallHit(const float3 & normal)
+{
+	WallHit(normal, kart_trs->GetGlobalMatrix().WorldZ().Normalized(), kart_trs->GetGlobalMatrix().WorldX().Normalized())
 }
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)

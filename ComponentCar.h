@@ -195,6 +195,7 @@ private:
 	PhysBody3D* collider = nullptr;
 
 	void WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX);
+	void WallHit(const float3 &normal);
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
