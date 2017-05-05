@@ -1,0 +1,18 @@
+
+//Indispebsable
+
+Fix Car values (Speed, maneuverability, acceleration, bounciness...)
+Drift
+Turbo
+Fix camera FOV (it's probably deppendant on the speed, and now it's recieving a different number than before).
+Attach a collider to the car that can detect bullet interactions
+Fix item interactions
+Second player Push
+
+
+//Secondary
+
+Fix animation calls
+Make the car slide slightly on it's side when turning too much?
+Collision between cars (OnCollision between cars, probably call the function WallHit())
+Fix jump (upon leaving ground contact, the kart Y speed becomes 0. It should keep the speed it had previously)
