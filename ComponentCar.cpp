@@ -193,23 +193,26 @@ void ComponentCar::KartLogic()
 	}
 
 	//Checking if one of the rays was cast onto a wall
-	if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f)) || frontHit == false)
+	if (onTheGround)
 	{
-		newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-		if (speed >= 0.0f)
+		if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f) && hitF.distance < DISTANCE_FROM_GROUND + 1.0f) || frontHit == false)
 		{
-			WallHit(hitF.normal, kartZ, kartX);
+			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+			if (speed >= 0.0f)
+			{
+				WallHit(hitF.normal, kartZ, kartX);
+			}
+			desiredUp = hitB.normal.Normalized();
 		}
-		desiredUp = hitB.normal.Normalized();
-	}
-	else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f)) || backHit == false)
-	{
-		newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-		if (speed <= 0.0f)
+		else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f) && hitB.distance < DISTANCE_FROM_GROUND + 1.0f) || backHit == false)
 		{
-			WallHit(hitB.normal, kartZ, kartX);
+			newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+			if (speed <= 0.0f)
+			{
+				WallHit(hitB.normal, kartZ, kartX);
+			}
+			desiredUp = hitF.normal.Normalized();
 		}
-		desiredUp = hitF.normal.Normalized();
 	}
 
 	desiredUp.Normalize();
