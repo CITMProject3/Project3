@@ -30,10 +30,10 @@ namespace Player_Car
 	bool using_item = false;
 	bool throwing_firecracker = false;
 	int makibishi_quantity = 0;
-	float velocity_firecracker = 40.0f;
+	float velocity_firecracker = 120.0f;
 	float time_trowing_firecracker = 0.0f;
 	float explosion_radius_firecracker = 5.0f;
-	float velocity_makibishi = 40.0f;
+	float velocity_makibishi = 25.0f;
 	bool have_evil_spirit = false;
 	bool evil_spirit_effect = false;
 	float evil_spirit_vel_reduction = 0.4f;
