@@ -618,7 +618,7 @@ void ModulePhysics3D::CreateGround()
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	world->addRigidBody(body);
+	world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
 }
 
 bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
@@ -1245,7 +1245,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* 
 
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1274,7 +1281,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col,
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1303,7 +1317,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollid
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1354,7 +1375,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollide
 	delete colShape;
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1382,7 +1410,7 @@ PhysBody3D* ModulePhysics3D::AddVehicle(const Cube_P& cube, ComponentCar* col)
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
 	bodies.push_back(pbody);
 
 	pbody->SetTrigger(true, TriggerType::T_ON_ENTER);
@@ -1547,7 +1575,7 @@ void ModulePhysics3D::AddTerrain()
 
 		btRigidBody* body = new btRigidBody(rbInfo);
 
-		world->addRigidBody(body);
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
 	}
 }
 

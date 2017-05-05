@@ -28,6 +28,15 @@
 
 #define TERRAIN_VERSION 3
 
+#define BIT(x) (1<<(x))
+
+enum collision_types {
+	COL_NOTHING = 0, //<Collide with nothing
+	COL_RAYTEST = BIT(0),
+	COL_TRANSPARENT = BIT(1), //<Collide with ships
+	COL_SOLID = BIT(2), //<Collide with walls
+};
+
 class PhysBody3D;
 class PhysVehicle3D;
 struct VehicleInfo;
