@@ -143,6 +143,7 @@ EXPORTS
 
 	Item_Timer_GetPublics
 	Item_Timer_UpdatePublics
+	Item_Timer_ActualizePublics
 	Item_Timer_Start
 	Item_Timer_Update
 	Item_Timer_OnCollision

@@ -97,7 +97,7 @@
                     "UUID": 1604246270,
                     "active": true,
                     "matrix": [
-                        1.000000,
+                        1,
                         0,
                         0,
                         -180.784821,
@@ -209,7 +209,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0.010000,
+                    "turbo_pad_turbo_speed": 0,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -257,7 +257,7 @@
                     "have_item": false,
                     "have_makibishi": false,
                     "have_triple_makibishi": false,
-                    "have_firecracker": true,
+                    "have_firecracker": false,
                     "using_item": false,
                     "throwing_firecracker": false,
                     "have_evil_spirit": false,
@@ -9167,7 +9167,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0,
+                    "turbo_pad_turbo_speed": 0.000000,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -18508,168 +18508,6 @@
                 }
             ],
             "children_uuids": []
-        },
-        {
-            "name": "HUD_Canvas",
-            "UUID": 178660845,
-            "local_UUID": 2871570994,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 178660845,
-            "prefab_path": "\/Library\/4171985717\/\/214048432\/214048432.pfb",
-            "components": [
-                {
-                    "position": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 3769951345,
-                    "local_uuid": 2125961208
-                },
-                {
-                    "uuid": 543149093,
-                    "local_uuid": 4129946361
-                },
-                {
-                    "uuid": 1708373164,
-                    "local_uuid": 1487181577
-                },
-                {
-                    "uuid": 3948780143,
-                    "local_uuid": 2755027748
-                },
-                {
-                    "uuid": 2838578354,
-                    "local_uuid": 3963698497
-                },
-                {
-                    "uuid": 2794836964,
-                    "local_uuid": 3735213079
-                },
-                {
-                    "uuid": 543407527,
-                    "local_uuid": 515583811
-                },
-                {
-                    "uuid": 217316845,
-                    "local_uuid": 3621243803
-                },
-                {
-                    "uuid": 1957920748,
-                    "local_uuid": 1769843870
-                },
-                {
-                    "uuid": 264420483,
-                    "local_uuid": 3618617057
-                },
-                {
-                    "uuid": 1528288194,
-                    "local_uuid": 678809583
-                },
-                {
-                    "uuid": 3976785440,
-                    "local_uuid": 666785297
-                },
-                {
-                    "uuid": 1464473590,
-                    "local_uuid": 445700002
-                },
-                {
-                    "uuid": 196995447,
-                    "local_uuid": 2475628546
-                },
-                {
-                    "uuid": 941818233,
-                    "local_uuid": 1553165272
-                },
-                {
-                    "uuid": 3895526521,
-                    "local_uuid": 833299389
-                },
-                {
-                    "uuid": 3431552705,
-                    "local_uuid": 2597338925
-                },
-                {
-                    "uuid": 2610169321,
-                    "local_uuid": 361432611
-                },
-                {
-                    "uuid": 528464418,
-                    "local_uuid": 1033624433
-                },
-                {
-                    "uuid": 111198867,
-                    "local_uuid": 3169063516
-                },
-                {
-                    "uuid": 1424885142,
-                    "local_uuid": 3974201536
-                },
-                {
-                    "uuid": 101099895,
-                    "local_uuid": 837065514
-                },
-                {
-                    "uuid": 1443513751,
-                    "local_uuid": 208574500
-                },
-                {
-                    "uuid": 1799642278,
-                    "local_uuid": 3457380248
-                },
-                {
-                    "uuid": 3530163586,
-                    "local_uuid": 2455455361
-                },
-                {
-                    "uuid": 903508031,
-                    "local_uuid": 3805687474
-                },
-                {
-                    "uuid": 792990698,
-                    "local_uuid": 2844830127
-                },
-                {
-                    "uuid": 2830191156,
-                    "local_uuid": 3431741592
-                },
-                {
-                    "uuid": 2217913542,
-                    "local_uuid": 823870525
-                },
-                {
-                    "uuid": 2422527594,
-                    "local_uuid": 41868166
-                },
-                {
-                    "uuid": 3795527231,
-                    "local_uuid": 2777290059
-                },
-                {
-                    "uuid": 1204979850,
-                    "local_uuid": 560522107
-                },
-                {
-                    "uuid": 2584894643,
-                    "local_uuid": 575695556
-                },
-                {
-                    "uuid": 3248639491,
-                    "local_uuid": 274882976
-                }
-            ]
         },
         {
             "name": "Items",
@@ -54674,320 +54512,57 @@
             ]
         },
         {
-            "name": "Hitodama",
-            "UUID": 2267583195,
-            "local_UUID": 998477620,
+            "name": "Hitodamas_Folder",
+            "UUID": 2839658078,
+            "local_UUID": 0,
             "parent": 965909917,
             "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2267583195,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
             "components": [
                 {
-                    "position": [
-                        -113.018341,
-                        12.767449,
-                        80.800003
-                    ],
-                    "rotation": [
+                    "type": 0,
+                    "UUID": 3723359597,
+                    "active": true,
+                    "matrix": [
+                        1,
                         0,
                         0,
-                        0
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
                     ]
                 }
-            ],
-            "children_uuids": []
+            ]
         },
         {
             "name": "Hitodama",
-            "UUID": 1300493159,
+            "UUID": 3325491986,
             "local_UUID": 998477620,
-            "parent": 965909917,
+            "parent": 2839658078,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 1300493159,
+            "prefab_root_uuid": 3325491986,
             "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
             "components": [
                 {
                     "position": [
-                        -86.927979,
-                        13.082208,
-                        112.997322
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 352907524,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 352907524,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        -13.495535,
-                        13.095249,
-                        149.465302
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 1596714556,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1596714556,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        81.965439,
-                        10.748313,
-                        57.078526
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 2264741867,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2264741867,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        87.204247,
-                        10.680634,
-                        71.458336
-                    ],
-                    "rotation": [
-                        0,
-                        24.655746,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 4092090218,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4092090218,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        236.280182,
-                        10.911364,
-                        84.571243
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 1760638566,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1760638566,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        138.363235,
-                        11.416832,
-                        -6.630770
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 3420338031,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3420338031,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        117.092377,
-                        10.875390,
-                        -12.741907
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 4114546279,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4114546279,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        197.807083,
-                        10.775778,
-                        -175.846375
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 1979234264,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1979234264,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        30.345411,
-                        10.761267,
-                        -162.908676
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 2206931982,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2206931982,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        30.703032,
-                        10.883167,
-                        -172.388794
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 1017020790,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1017020790,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        35.420475,
-                        10.991053,
-                        -102.238968
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Hitodama",
-            "UUID": 1324497597,
-            "local_UUID": 998477620,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1324497597,
-            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
-            "components": [
-                {
-                    "position": [
-                        33.400944,
-                        11.092204,
-                        -86.005745
+                        -150.408859,
+                        11.320416,
+                        -86.098457
                     ],
                     "rotation": [
                         0,
@@ -55002,7 +54577,7 @@
             "name": "Hitodama",
             "UUID": 1857552844,
             "local_UUID": 998477620,
-            "parent": 965909917,
+            "parent": 2839658078,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 1857552844,
@@ -55025,19 +54600,19 @@
         },
         {
             "name": "Hitodama",
-            "UUID": 3325491986,
+            "UUID": 1324497597,
             "local_UUID": 998477620,
-            "parent": 965909917,
+            "parent": 2839658078,
             "active": true,
             "is_prefab": true,
-            "prefab_root_uuid": 3325491986,
+            "prefab_root_uuid": 1324497597,
             "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
             "components": [
                 {
                     "position": [
-                        -150.408859,
-                        11.320416,
-                        -86.098457
+                        33.400944,
+                        11.092204,
+                        -86.005745
                     ],
                     "rotation": [
                         0,
@@ -55047,6 +54622,468 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1017020790,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1017020790,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        35.420475,
+                        10.991053,
+                        -102.238968
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2206931982,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2206931982,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        30.703032,
+                        10.883167,
+                        -172.388794
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1979234264,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1979234264,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        30.345411,
+                        10.761267,
+                        -162.908676
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 4114546279,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4114546279,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        197.807083,
+                        10.775778,
+                        -175.846375
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 3420338031,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3420338031,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        117.092377,
+                        10.875390,
+                        -12.741907
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1760638566,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1760638566,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        138.363235,
+                        11.416832,
+                        -6.630770
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 4092090218,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4092090218,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        236.280182,
+                        10.911364,
+                        84.571243
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2264741867,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2264741867,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        87.204247,
+                        10.680634,
+                        71.458336
+                    ],
+                    "rotation": [
+                        0,
+                        24.655745,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1596714556,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1596714556,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        81.965439,
+                        10.748313,
+                        57.078526
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 352907524,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 352907524,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -13.495535,
+                        13.095249,
+                        149.465302
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1300493159,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1300493159,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -86.927979,
+                        13.082208,
+                        112.997322
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2267583195,
+            "local_UUID": 998477620,
+            "parent": 2839658078,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2267583195,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -113.018341,
+                        12.767449,
+                        80.800003
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HUD_Canvas",
+            "UUID": 178660845,
+            "local_UUID": 2871570994,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 178660845,
+            "prefab_path": "\/Library\/4171985717\/\/214048432\/214048432.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 3769951345,
+                    "local_uuid": 2125961208
+                },
+                {
+                    "uuid": 543149093,
+                    "local_uuid": 4129946361
+                },
+                {
+                    "uuid": 1708373164,
+                    "local_uuid": 1487181577
+                },
+                {
+                    "uuid": 3948780143,
+                    "local_uuid": 2755027748
+                },
+                {
+                    "uuid": 2838578354,
+                    "local_uuid": 3963698497
+                },
+                {
+                    "uuid": 2794836964,
+                    "local_uuid": 3735213079
+                },
+                {
+                    "uuid": 543407527,
+                    "local_uuid": 515583811
+                },
+                {
+                    "uuid": 217316845,
+                    "local_uuid": 3621243803
+                },
+                {
+                    "uuid": 1957920748,
+                    "local_uuid": 1769843870
+                },
+                {
+                    "uuid": 264420483,
+                    "local_uuid": 3618617057
+                },
+                {
+                    "uuid": 1528288194,
+                    "local_uuid": 678809583
+                },
+                {
+                    "uuid": 3976785440,
+                    "local_uuid": 666785297
+                },
+                {
+                    "uuid": 1464473590,
+                    "local_uuid": 445700002
+                },
+                {
+                    "uuid": 196995447,
+                    "local_uuid": 2475628546
+                },
+                {
+                    "uuid": 941818233,
+                    "local_uuid": 1553165272
+                },
+                {
+                    "uuid": 3895526521,
+                    "local_uuid": 833299389
+                },
+                {
+                    "uuid": 3431552705,
+                    "local_uuid": 2597338925
+                },
+                {
+                    "uuid": 2610169321,
+                    "local_uuid": 361432611
+                },
+                {
+                    "uuid": 528464418,
+                    "local_uuid": 1033624433
+                },
+                {
+                    "uuid": 111198867,
+                    "local_uuid": 3169063516
+                },
+                {
+                    "uuid": 1424885142,
+                    "local_uuid": 3974201536
+                },
+                {
+                    "uuid": 101099895,
+                    "local_uuid": 837065514
+                },
+                {
+                    "uuid": 1443513751,
+                    "local_uuid": 208574500
+                },
+                {
+                    "uuid": 1799642278,
+                    "local_uuid": 3457380248
+                },
+                {
+                    "uuid": 3530163586,
+                    "local_uuid": 2455455361
+                },
+                {
+                    "uuid": 903508031,
+                    "local_uuid": 3805687474
+                },
+                {
+                    "uuid": 792990698,
+                    "local_uuid": 2844830127
+                },
+                {
+                    "uuid": 2830191156,
+                    "local_uuid": 3431741592
+                },
+                {
+                    "uuid": 2217913542,
+                    "local_uuid": 823870525
+                },
+                {
+                    "uuid": 2422527594,
+                    "local_uuid": 41868166
+                },
+                {
+                    "uuid": 3795527231,
+                    "local_uuid": 2777290059
+                },
+                {
+                    "uuid": 1204979850,
+                    "local_uuid": 560522107
+                },
+                {
+                    "uuid": 2584894643,
+                    "local_uuid": 575695556
+                },
+                {
+                    "uuid": 3248639491,
+                    "local_uuid": 274882976
+                }
+            ]
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",
