@@ -9,6 +9,7 @@
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
+#include "Primitive.h"
 
 #define CAR_GRAVITY 0.8f
 
@@ -193,6 +194,8 @@ private:
 
 	ComponentTransform* kart_trs = nullptr;
 
+	Cube_P collShape;
+	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
 
 	void WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX);
@@ -229,7 +232,6 @@ private:
 	void CheckGroundCollision();
 	void OnGroundCollision(GROUND_CONTACT state);
 
-	void UpdateCollider();
 	void KartLogic();
 	float AccelerationInput();
 	void Steer(float amount);

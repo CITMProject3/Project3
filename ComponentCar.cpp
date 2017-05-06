@@ -66,6 +66,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 	//turn_max = kart->base_turn_max;
 	
 	//
+	collShape.size = float3(1.8f, 1.6f, 3.1f);
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
 
@@ -104,24 +105,31 @@ void ComponentCar::Update()
 {
 	BROFILER_CATEGORY("ComponentCar::Update", Profiler::Color::GhostWhite)
 
+		if (kart_trs)
+		{
+			float4x4 tmp = kart_trs->GetGlobalMatrix();
+			tmp = tmp * float4x4::Translate(collOffset);
+			if (collider != nullptr)
+			{
+				collider->SetTransform(tmp.ptr());
+			}
+			tmp.Transpose();
+			collShape.transform = tmp;
+			collShape.Render();
+		}
+		else
+		{
+			kart_trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+		}
+
 		if (App->IsGameRunning())
 		{
-			UpdateCollider();
-
 			KartLogic();
 			CheckGroundCollision();
 			HandlePlayerInput();
 			UpdateGO();
 			GameLoopCheck();
 		}
-}
-
-void ComponentCar::UpdateCollider()
-{
-	if (collider != nullptr)
-	{
-		collider->SetTransform(kart_trs->GetTransformMatrix().ptr());
-	}
 }
 
 void ComponentCar::KartLogic()
@@ -403,7 +411,6 @@ void ComponentCar::AutoSteer()
 
 void ComponentCar::OnPlay()
 {
-	kart_trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 	if (kart_trs)
 	{
 		reset_pos = kart_trs->GetPosition();
@@ -416,9 +423,6 @@ void ComponentCar::OnPlay()
 	n_checkpoints = 0;
 	speed = 0.0f;
 	fallSpeed = 0.0f;
-
-	Cube_P collShape;
-	collShape.size = math::vec(1, 2, 2);
 
 	collider = App->physics->AddVehicle(collShape, this);
 }
@@ -1314,6 +1318,12 @@ void ComponentCar::Save(Data& file) const
 	data.AppendBool("active", active);
 
 	//Common on both cars
+
+	//Physics 2.0 data
+
+	data.AppendFloat3("collider_offset", collOffset.ptr());
+	data.AppendFloat3("collider_size", collShape.size.ptr());
+
 	//Game loop settings
 	data.AppendFloat("lose_height", lose_height);
 
@@ -1503,6 +1513,12 @@ void ComponentCar::Load(Data& conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
+
+
+	//Physics 2.0 values
+
+	collOffset = conf.GetFloat3("collider_offset");
+	collShape.size = conf.GetFloat3("collider_size");
 
 	//Game loop settings
 	lose_height = conf.GetFloat("lose_height");
@@ -1714,6 +1730,13 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 			ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 			ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+			ImGui::Separator();
+			ImGui::Text("Collider:");
+			if (App->IsGameRunning() == false)
+			{
+				ImGui::DragFloat3("Collider Size", collShape.size.ptr(), 0.1f, 0.2f, 100.0f);
+			}
+			ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f,50.0f);
 			ImGui::NewLine();
 			ImGui::Separator();
 			ImGui::Text("Just for display, do not touch");
