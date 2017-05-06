@@ -1406,13 +1406,12 @@ PhysBody3D* ModulePhysics3D::AddVehicle(const Cube_P& cube, ComponentCar* col)
 	btRigidBody* body = new btRigidBody(rbInfo);
 	PhysBody3D* pbody = new PhysBody3D(body, col);
 
-	//body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	body->setActivationState(DISABLE_DEACTIVATION);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
-	//world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
 	bodies.push_back(pbody);
 
 	pbody->SetTrigger(true, TriggerType::T_ON_ENTER);

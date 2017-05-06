@@ -109,11 +109,11 @@ void ComponentCar::Update()
 		{
 			float4x4 tmp = kart_trs->GetGlobalMatrix();
 			tmp = tmp * float4x4::Translate(collOffset);
+			tmp.Transpose();
 			if (collider != nullptr)
 			{
 				collider->SetTransform(tmp.ptr());
-			}
-			tmp.Transpose();
+			}			
 			collShape.transform = tmp;
 			collShape.Render();
 		}

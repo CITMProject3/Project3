@@ -53,7 +53,8 @@ void PhysBody3D::SetTransform(const float* matrix) const
 	{
 		btTransform t;
 		t.setFromOpenGLMatrix(matrix);
-		body->setWorldTransform(t);
+		//body->setWorldTransform(t);
+		body->getMotionState()->setWorldTransform(t);
 	}
 }
 
