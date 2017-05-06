@@ -43,7 +43,7 @@ namespace TurboPad
 		ComponentCar* car = col->GetCar();
 		if (car)
 		{
-			car->current_turbo = T_DRIFT_MACH_2;
+			car->current_turbo = T_TURBOPAD;
 		}
 	}
 }

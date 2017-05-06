@@ -89,6 +89,13 @@ void ComponentParticleSystem::OnInspector(bool debug)
 	{
 		InspectorDelete();
 
+		//Active
+		bool is_active = IsActive();
+		if (ImGui::Checkbox("###active_particle", &is_active))
+		{
+			SetActive(is_active);
+		}
+
 		//Main Options
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
@@ -248,6 +255,8 @@ void ComponentParticleSystem::Load(Data & conf)
 void ComponentParticleSystem::Update()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Update", Profiler::Color::Navy);
+	if (active == false)
+		return;
 
 	if (playing_editor || is_playing)
 	{

@@ -100,6 +100,7 @@ namespace Scene_Manager
 	//"Private" variables
 	double start_timer;
 	bool start_timer_on;
+	uint current_countdown_number;
 
 	RaceTimer timer;
 	int race_timer_number = 4;
@@ -207,18 +208,13 @@ namespace Scene_Manager
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
 	void Scene_Manager_SetStartTimerText(unsigned int number, GameObject* game_object)
 	{
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-
-		if (a_comp)
+		if (current_countdown_number != number)
 		{
-			switch (number)
-			{
-			case(2): a_comp->PlayAudio(2); break;
-			case(1): a_comp->PlayAudio(1); break;
-			case(0): a_comp->PlayAudio(0); break;
-			}
-		}
-
+			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(1);  // Second and third countdown
+			current_countdown_number = number;
+		}		
+		
 		if (start_timer_text != nullptr && start_timer_text2 != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
@@ -226,7 +222,7 @@ namespace Scene_Manager
 		}
 	}
 
-	void Scene_Manager_StartRace()
+	void Scene_Manager_StartRace(GameObject* game_object)
 	{
 		if (car_1 != nullptr)
 			car_1->BlockInput(false);
@@ -234,6 +230,9 @@ namespace Scene_Manager
 			car_2->BlockInput(false);
 		if (car_1 == nullptr || car_2 == nullptr)
 			LOG("Error: Could not find the cars in the scene!");
+
+		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (a_comp) a_comp->PlayAudio(2);  // GO
 
 		timer.Start();
 	}
@@ -243,7 +242,7 @@ namespace Scene_Manager
 	{
 		music_played = false;
 		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp)	a_comp->PlayAudio(3);
+		if (a_comp)	a_comp->PlayAudio(1);  // First countdown
 
 		race_timer_number = 4;
 		finish_timer = 0;
@@ -345,7 +344,7 @@ namespace Scene_Manager
 		if (!music_played)
 		{
 			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(4);
+			if (a_comp)	a_comp->PlayAudio(0);   // Playing Music
 			music_played = true;
 		}
 
@@ -359,6 +358,8 @@ namespace Scene_Manager
 			{
 				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 				{
+					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
 					App->LoadScene(main_menu_scene.c_str());
 					return;
 				}
@@ -439,7 +440,7 @@ namespace Scene_Manager
 			}
 			if (race_timer_number == 1)
 			{
-				Scene_Manager_StartRace();
+				Scene_Manager_StartRace(game_object);
 			}
 		}
 

@@ -146,10 +146,6 @@ namespace Vehicle_Selection_UI
 
 	void Vehicle_Selection_UI_Start(GameObject* game_object)
 	{
-		// Play Move Selection
-		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(0);
-
 		blue_car_portrait_selected->SetActive(false);
 		red_car_portrait_selected->SetActive(false);
 		player_order[0] = App->go_manager->team1_front;
@@ -194,7 +190,7 @@ namespace Vehicle_Selection_UI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > 0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				if (!right_pressed[i])
 				{
@@ -202,13 +198,13 @@ namespace Vehicle_Selection_UI
 
 					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
-						// Play Move Selection
+						// Play Move Sound
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
 						but_blue_car_portrait->OnPress();
 
 						if (blue_counter_right == time)
-						{
+						{							
 							but_blue_arrow_right->OnPress();
 						}
 						blue_counter_right = 0;
@@ -221,15 +217,17 @@ namespace Vehicle_Selection_UI
 
 					if (team_red_selected == false && (id == 2 || id == 3))
 					{
-						// Play Move Selection
+						// Play Move Sound
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						but_red_car_portrait->OnPress();
 
 						if (red_counter_right == time)
 						{
-							but_red_arrow_right->OnPress();
+							but_red_arrow_right->OnPress();							
 						}
+
 						red_counter_right = 0;
 
 						if (p_pos[1] == 1)
@@ -239,21 +237,22 @@ namespace Vehicle_Selection_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < 0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < 0.25 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
 			{
 				right_pressed[i] = false;
 			}
 
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (!left_pressed[i])
 				{
 					left_pressed[i] = true;
 					if (team_blue_selected == false && (id == 0 || id == 1))
 					{
-						// Play Move Selection
+						// Play Move Sound
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						but_blue_car_portrait->OnPress();
 
 						if (blue_counter_left == time)
@@ -270,9 +269,10 @@ namespace Vehicle_Selection_UI
 
 					if (team_red_selected == false && (id == 2 || id == 3))
 					{
-						// Play Move Selection
+						// Play Move Sound
 						ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (a_comp) a_comp->PlayAudio(1);
+						if (a_comp) a_comp->PlayAudio(0);
+
 						but_red_car_portrait->OnPress();
 
 						if (red_counter_left == time)
@@ -288,13 +288,16 @@ namespace Vehicle_Selection_UI
 					}
 				}
 			}
-			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > -0.1 || App->input->GetJoystickAxis(i, JOY_AXIS::RIGHT_STICK_X) > -0.1 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			if (App->input->GetJoystickAxis(i, JOY_AXIS::LEFT_STICK_X) > -0.25 || App->input->GetJoystickButton(i, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
 			{
 				left_pressed[i] = false;
 			}
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
+				// Play Selection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+
 				if (team_blue_selected == false && (id == 0 || id == 1))
 				{
 					team_blue_selected = true;
@@ -303,6 +306,7 @@ namespace Vehicle_Selection_UI
 					blue_car_portrait_selected->SetActive(true);
 					mat_blue_car_select->SetIdToRender(p_pos[0]);
 					blue_car_portrait->SetActive(false);
+					if (a_comp) a_comp->PlayAudio(1);
 				}
 
 				if (team_red_selected == false && (id == 2 || id == 3))
@@ -313,11 +317,15 @@ namespace Vehicle_Selection_UI
 					red_car_portrait_selected->SetActive(true);
 					mat_red_car_select->SetIdToRender(p_pos[1]);
 					red_car_portrait->SetActive(false);
+					if (a_comp) a_comp->PlayAudio(1);
 				}
 			}
 
 			if (App->input->GetJoystickButton(i, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
+				// Play Deselection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+
 				if (team_blue_selected == true && (id == 0 || id == 1))
 				{
 					team_blue_selected = false;
@@ -325,6 +333,7 @@ namespace Vehicle_Selection_UI
 					blue_arrow_right->SetActive(true);
 					blue_car_portrait_selected->SetActive(false);
 					blue_car_portrait->SetActive(true);
+					if (a_comp) a_comp->PlayAudio(2);
 				}
 
 				if (team_red_selected == true && (id == 2 || id == 3))
@@ -334,6 +343,7 @@ namespace Vehicle_Selection_UI
 					red_arrow_right->SetActive(true);
 					red_car_portrait_selected->SetActive(false);
 					red_car_portrait->SetActive(true);
+					if (a_comp) a_comp->PlayAudio(2);
 				}
 			}
 		}

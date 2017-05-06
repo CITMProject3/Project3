@@ -30,10 +30,10 @@ namespace Player_Car
 	bool using_item = false;
 	bool throwing_firecracker = false;
 	int makibishi_quantity = 0;
-	float velocity_firecracker = 40.0f;
+	float velocity_firecracker = 120.0f;
 	float time_trowing_firecracker = 0.0f;
 	float explosion_radius_firecracker = 5.0f;
-	float velocity_makibishi = 40.0f;
+	float velocity_makibishi = 25.0f;
 	bool have_evil_spirit = false;
 	bool evil_spirit_effect = false;
 	float evil_spirit_vel_reduction = 0.4f;
@@ -326,6 +326,7 @@ namespace Player_Car
 					{
 						makibishi1->SetActive(true);
 						makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+						((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 						float3 new_pos = game_object->transform->GetPosition();
 						new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 						new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -375,6 +376,7 @@ namespace Player_Car
 							{
 								makibishi1->SetActive(true);
 								makibishi1->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -415,6 +417,7 @@ namespace Player_Car
 							{
 								makibishi2->SetActive(true);
 								makibishi2->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -455,6 +458,7 @@ namespace Player_Car
 							{
 								makibishi3->SetActive(true);
 								makibishi3->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+								((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetActivationState(1);
 								float3 new_pos = game_object->transform->GetPosition();
 								new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
@@ -565,7 +569,7 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
@@ -588,7 +592,7 @@ namespace Player_Car
 						if (firecracker != nullptr)
 						{
 							float3 new_pos = game_object->transform->GetPosition();
-							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 1);
+							new_pos += game_object->transform->GetForward().Normalized() * (Player_car->chasis_size.z + 2);
 							//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 							((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 							firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);

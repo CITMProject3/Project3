@@ -68,7 +68,8 @@ enum TURBO
 	T_MINI,
 	T_DRIFT_MACH_2,
 	T_DRIFT_MACH_3,
-	T_ROCKET
+	T_ROCKET,
+	T_TURBOPAD
 };
 
 enum MAX_TURN_CHANGE_MODE
@@ -335,6 +336,7 @@ private:
 	Turbo mini_turbo;
 	Turbo drift_turbo_2;
 	Turbo drift_turbo_3;
+	Turbo turbo_pad;
 
 public:
 	//Rocket item
@@ -417,7 +419,7 @@ private:
 		uint checkpoints = MAXUINT - 10;
 		float3 last_check_pos = float3::zero;
 		Quat last_check_rot = Quat::identity;
-		unsigned int lap = 0;
+		unsigned int lap = 1;
 
 		unsigned int n_checkpoints = 0;
 

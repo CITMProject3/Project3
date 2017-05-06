@@ -24,14 +24,25 @@ void Item_Timer_GetPublics(map<const char*, string>* public_chars, map<const cha
 {
 	public_float->insert(pair<const char*, float>("max_time",max_time));
 	public_bools->insert(pair<const char*, bool>("isHitodama", isHitodama));
+	public_bools->insert(pair<const char*, bool>("taken", taken));
 }
 
 void Item_Timer_UpdatePublics(GameObject* game_object)
 {
 	ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-
+	go_col = (ComponentCollider*)game_object->GetComponent(C_COLLIDER);
+	go_part = (ComponentParticleSystem*)game_object->GetComponent(C_PARTICLE_SYSTEM);
+	go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 	isHitodama = script->public_bools.at("isHitodama");
+	taken = script->public_bools.at("taken");
 	max_time = script->public_floats.at("max_time");
+}
+
+void Item_Timer_ActualizePublics(GameObject* game_object)
+{
+	ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+	script->public_bools.at("taken") = taken;
+	
 }
 
 void Item_Timer_Start(GameObject* game_object)
@@ -84,8 +95,9 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 {
 	ComponentCar* car = col->GetCar();
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	if (car && trs)
+	if (car && trs && taken == false)
 	{
+		Item_Timer_UpdatePublics(game_object);
 		if (go_col->IsActive())
 		{
 			if (isHitodama)
