@@ -139,9 +139,9 @@ void ComponentCar::KartLogic()
 {
 	float3 pos = kart_trs->GetPosition();
 	float3 newPos = pos;
-	float3 kartX = kart_trs->GetGlobalMatrix().WorldX().Normalized();
-	float3 kartY = kart_trs->GetGlobalMatrix().WorldY().Normalized();
-	float3 kartZ = kart_trs->GetGlobalMatrix().WorldZ().Normalized();
+	kartX = kart_trs->GetGlobalMatrix().WorldX().Normalized();
+	kartY = kart_trs->GetGlobalMatrix().WorldY().Normalized();
+	kartZ = kart_trs->GetGlobalMatrix().WorldZ().Normalized();
 
 
 	//Setting the two rays, Front and Back
@@ -194,20 +194,10 @@ void ComponentCar::KartLogic()
 		checkOffTrack = true;
 	}
 
+
 	if (checkOffTrack && onTheGround)
 	{
-		//Checking if the kart is still on the track
-		//This ray shoots from the center of the kart, vertically down. It checks if the kart is still on the track or is about to fall off and should simulate a collision
-		math::Ray rayN;
-		rayN.dir = float3(0, -1, 0);
-		rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
-		RaycastHit hitN;
-		bool Nhit = App->physics->RayCast(rayN, hitN);
-
-		if (hitN.distance > DISTANCE_FROM_GROUND + 0.2f)
-		{
-			onTheGround = false;
-		}
+		CheckOnTheGround();
 	}
 
 	//Checking if one of the rays was cast onto a wall
@@ -233,79 +223,20 @@ void ComponentCar::KartLogic()
 		}
 	}
 
-	desiredUp.Normalize();
+	RotateKart(desiredUp);
 
-	//If the kart's Y is different from the "desired up", we slowly rotate the kart
-	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
-	{
-		//Interpolating to obtain the desired rotation
-		float3 nextStep;
-		if (onTheGround)
-		{
-			nextStep = kartY.Lerp(desiredUp, 2.0f * time->DeltaTime());
-		}
-		else
-		{
-			nextStep = kartY.Lerp(desiredUp, (1.0f / recoveryTime) * time->DeltaTime());
-		}
-		Quat normal_rot = Quat::RotateFromTo(kartY, nextStep);
-		kart_trs->Rotate(normal_rot);
-	}
+	PlayersInput();
 
-
-#pragma region drag_for_horizontalSpeed
-	if (math::Abs(horizontalSpeed) > drag * 4.0f * time->DeltaTime())
-	{
-		if (horizontalSpeed > 0)
-		{
-			horizontalSpeed -= drag * 4.0f * time->DeltaTime();
-		}
-		else
-		{
-			horizontalSpeed += drag * 4.0f * time->DeltaTime();
-		}
-	}
-	else
-	{
-		horizontalSpeed = 0.0f;
-	}
-#pragma endregion
-
-	//Manage Input to accelerate/brake. Returns acceleration
-	if (onTheGround)
-	{
-		speed += AccelerationInput();
-		speed = math::Clamp(speed, -maxSpeed, maxSpeed);
-	}
-	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
-
-	//Steering
-	if (lock_input == false)
-	{
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
-		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
-	}
-
-
-
-	//Returning steer to 0 gradually if the player isn't inputting anything
 	if (steering == false)
 	{
+		//Returning steer to 0 gradually if the player isn't inputting anything
 		AutoSteer();
 	}
 	steering = false;
 
 	if (onTheGround)
 	{
-		//This simply translataes current steer into a Quaterion we can rotate the kart with
-		//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
-		//The "Clamp" thing is to allow less rotation the less the kart is moving
-		//The kart can rotate the maximum amount when it goes faster than maxSpeed / 3
-		float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
-		Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
-		kart_trs->Rotate(tmp);
-
+		SteerKart();
 		fallSpeed = 0.0f;
 	}
 	else
@@ -323,7 +254,7 @@ void ComponentCar::KartLogic()
 
 
 	//Safety mesure. Resetting the kart if it falls off the world. jej
-	if (kart_trs->GetPosition().y < -200)
+	if (kart_trs->GetPosition().y < lose_height)
 	{
 		Reset();		
 	}
@@ -333,7 +264,7 @@ float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
 	//Accelerating
-	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::A)))
+	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::A)))
 	{
 		if (speed < -0.01f)
 		{
@@ -352,7 +283,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(0, JOY_BUTTON::B)))
+	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::B)))
 	{
 		if (speed > 0.01f)
 		{
@@ -414,6 +345,103 @@ void ComponentCar::AutoSteer()
 	}
 	else { currentSteer = 0; }
 }
+
+void ComponentCar::CheckOnTheGround()
+{
+	//Checking if the kart is still on the track
+	//This ray shoots from the center of the kart, vertically down. It checks if the kart is still on the track or is about to fall off and should simulate a collision
+	math::Ray rayN;
+	rayN.dir = float3(0, -1, 0);
+	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
+	RaycastHit hitN;
+	bool Nhit = App->physics->RayCast(rayN, hitN);
+
+	if (hitN.distance > DISTANCE_FROM_GROUND + 0.2f)
+	{
+		onTheGround = false;
+	}
+}
+
+void ComponentCar::Drift()
+{
+}
+
+void ComponentCar::PlayersInput()
+{
+	//Horizontally, the kart will always try to slow down, no matter the inputs
+	HorizontalDrag();
+
+	//Manage Input to accelerate/brake. Returns acceleration
+	if (onTheGround)
+	{
+		speed += AccelerationInput();
+		speed = math::Clamp(speed, -maxSpeed, maxSpeed);
+	}
+	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
+
+	//Steering
+	if (lock_input == false)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
+	}
+
+	Drift();
+}
+
+void ComponentCar::SteerKart()
+{
+	//This simply translataes current steer into a Quaterion we can rotate the kart with
+	//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
+	//The "Clamp" thing is to allow less rotation the less the kart is moving
+	//The kart can rotate the maximum amount when it goes faster than maxSpeed / 3
+	float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
+	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
+	kart_trs->Rotate(tmp);
+}
+
+void ComponentCar::RotateKart(float3 desiredUp)
+{
+	desiredUp.Normalize();
+
+	//If the kart's Y is different from the "desired up", we slowly rotate the kart
+	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
+	{
+		//Interpolating to obtain the desired rotation
+		float3 nextStep;
+		if (onTheGround)
+		{
+			nextStep = kartY.Lerp(desiredUp, 2.0f * time->DeltaTime());
+		}
+		else
+		{
+			nextStep = kartY.Lerp(desiredUp, (1.0f / recoveryTime) * time->DeltaTime());
+		}
+		Quat normal_rot = Quat::RotateFromTo(kartY, nextStep);
+		kart_trs->Rotate(normal_rot);
+	}
+}
+
+void ComponentCar::HorizontalDrag()
+{
+	if (math::Abs(horizontalSpeed) > drag * 4.0f * time->DeltaTime())
+	{
+		if (horizontalSpeed > 0)
+		{
+			horizontalSpeed -= drag * 4.0f * time->DeltaTime();
+		}
+		else
+		{
+			horizontalSpeed += drag * 4.0f * time->DeltaTime();
+		}
+	}
+	else
+	{
+		horizontalSpeed = 0.0f;
+	}
+}
+
 
 void ComponentCar::OnPlay()
 {

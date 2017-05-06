@@ -192,6 +192,8 @@ private:
 
 	bool lastFrameOnGround = true;
 
+	float3 kartX, kartY, kartZ;
+
 	ComponentTransform* kart_trs = nullptr;
 
 	Cube_P collShape;
@@ -236,6 +238,13 @@ private:
 	float AccelerationInput();
 	void Steer(float amount);
 	void AutoSteer();
+	void CheckOnTheGround();
+	void Drift();
+	void PlayersInput();
+
+	void SteerKart();
+	void RotateKart(float3 desiredUp);
+	void HorizontalDrag();
 
 public:
 	void HandlePlayerInput();
