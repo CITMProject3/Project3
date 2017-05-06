@@ -7,7 +7,7 @@ Turbo
 Fix camera FOV (it's probably deppendant on the speed, and now it's recieving a different number than before).
 Fix item interactions
 Second player Push
-
+Save & Load new variables, used for the new kart
 
 //Secondary
 
