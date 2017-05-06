@@ -797,6 +797,16 @@
                     "type": 9,
                     "UUID": 3162055570,
                     "active": true,
+                    "collider_offset": [
+                        0,
+                        0.800000,
+                        0
+                    ],
+                    "collider_size": [
+                        1.600000,
+                        1.600000,
+                        3.100000
+                    ],
                     "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
@@ -9616,6 +9626,16 @@
                     "type": 9,
                     "UUID": 1556886816,
                     "active": true,
+                    "collider_offset": [
+                        0,
+                        0.800000,
+                        0
+                    ],
+                    "collider_size": [
+                        1.600000,
+                        1.600000,
+                        3.100000
+                    ],
                     "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
@@ -18554,7 +18574,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -18642,7 +18662,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },

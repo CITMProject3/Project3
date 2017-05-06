@@ -119,17 +119,17 @@
                     "type": 9,
                     "UUID": 3162055570,
                     "active": true,
-                    "lose_height": 2,
-                    "chasis_size": [
-                        1.750000,
-                        0.200000,
-                        2.800000
-                    ],
-                    "chasis_offset": [
+                    "collider_offset": [
                         0,
-                        0.690000,
+                        0.800000,
                         0
                     ],
+                    "collider_size": [
+                        1.600000,
+                        1.600000,
+                        3.600000
+                    ],
+                    "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
@@ -209,7 +209,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0.010000,
+                    "turbo_pad_turbo_speed": 128,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -225,17 +225,6 @@
                     "rocket_turbo_speed_per": true,
                     "rocket_turbo_speed_direct": true,
                     "rocket_turbo_speed_decrease": true,
-                    "connection_height": -0.200000,
-                    "wheel_radius": 0.400000,
-                    "wheel_width": 0.400000,
-                    "mass": 300,
-                    "suspensionStiffness": 100,
-                    "suspensionCompression": 0.830000,
-                    "suspensionDamping": 20,
-                    "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000,
-                    "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -244,27 +233,7 @@
                     "UUID": 1380419276,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0,
-                    "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
-                    "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
-                    "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0.400000,
-                    "evil_spirit_duration": 10,
-                    "evil_spirit_current_duration": 0,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
-                    "have_evil_spirit": false,
-                    "evil_spirit_effect": false,
-                    "firecracker": 1275364142,
-                    "other_car": 3832415544,
-                    "scene_manager": 144932385
+                    "script_num": 0
                 }
             ]
         },
@@ -9077,17 +9046,17 @@
                     "type": 9,
                     "UUID": 1556886816,
                     "active": true,
-                    "lose_height": 2,
-                    "chasis_size": [
-                        1.750000,
-                        0.200000,
-                        2.800000
-                    ],
-                    "chasis_offset": [
+                    "collider_offset": [
                         0,
-                        0.690000,
+                        0.800000,
                         0
                     ],
+                    "collider_size": [
+                        1.600000,
+                        1.600000,
+                        3.100000
+                    ],
+                    "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
                     "accelerated_change": false,
@@ -9167,7 +9136,7 @@
                     "drift_turbo_3_speed_decrease": true,
                     "turbo_pad_accel_boost": 300,
                     "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0.010000,
+                    "turbo_pad_turbo_speed": 0.000000,
                     "turbo_pad_deceleration": 1,
                     "turbo_pad_time": 1.500000,
                     "turbo_pad_accel_per": false,
@@ -9183,17 +9152,6 @@
                     "rocket_turbo_speed_per": true,
                     "rocket_turbo_speed_direct": true,
                     "rocket_turbo_speed_decrease": true,
-                    "connection_height": -0.200000,
-                    "wheel_radius": 0.400000,
-                    "wheel_width": 0.400000,
-                    "mass": 300,
-                    "suspensionStiffness": 100,
-                    "suspensionCompression": 0.830000,
-                    "suspensionDamping": 20,
-                    "suspensionRestLength": 0.300000,
-                    "maxSuspensionTravelCm": 1000,
-                    "frictionSlip": 50.500000,
-                    "maxSuspensionForce": 6000,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -9202,27 +9160,7 @@
                     "UUID": 1371071367,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0,
-                    "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
-                    "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
-                    "explosion_radius_firecracker": 5,
-                    "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0.400000,
-                    "evil_spirit_duration": 10,
-                    "evil_spirit_current_duration": 0,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
-                    "have_evil_spirit": false,
-                    "evil_spirit_effect": false,
-                    "firecracker": 1842911390,
-                    "other_car": 3082689746,
-                    "scene_manager": 144932385
+                    "script_num": 0
                 }
             ]
         },

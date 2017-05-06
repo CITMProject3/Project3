@@ -18,8 +18,8 @@ Make wheels turn
 
 
 // In Progress
-Attach a collider to the car that can detect bullet interactions  (David)
 
 
 //Done
 Fix jump (upon leaving ground contact, the kart Y speed becomes 0. It should keep the speed it had previously)
+Attach a collider to the car that can detect bullet interactions
