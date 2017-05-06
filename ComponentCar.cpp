@@ -235,6 +235,7 @@ void ComponentCar::KartLogic()
 
 	desiredUp.Normalize();
 
+	//If the kart's Y is different from the "desired up", we slowly rotate the kart
 	if (desiredUp.AngleBetweenNorm(kartY) > DEGTORAD * 3.0f)
 	{
 		//Interpolating to obtain the desired rotation
@@ -285,6 +286,8 @@ void ComponentCar::KartLogic()
 		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
 		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
 	}
+
+
 
 	//Returning steer to 0 gradually if the player isn't inputting anything
 	if (steering == false)
@@ -459,8 +462,7 @@ void ComponentCar::TestFunction()
 
 float ComponentCar::GetVelocity() const
 {
-	//TODO multiply by the conversion units -> km/h
-	return speed;
+	return speed * UNITS_TO_KMH;
 }
 
 void ComponentCar::HandlePlayerInput()
@@ -478,10 +480,6 @@ void ComponentCar::HandlePlayerInput()
 	{
 		PushUpdate(&accel_boost);
 	}
-
-	//TODO: drifting
-	
-	//TODO: Handle Lock Input
 
 	ApplyTurbo();
 
@@ -689,7 +687,6 @@ int ComponentCar::GetNumHitodamas() const
 
 void ComponentCar::ApplyTurbo()
 {
-	// TODO turbo
 	/*bool start = false;
 
 	if (start = (last_turbo != current_turbo))
@@ -1726,53 +1723,53 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-		
-			ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
-			ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
-			ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
-			ImGui::DragFloat("Maneuverability", &maneuverability, 0.1f, 0.1f, 20.0f);
-			ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
-			ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
-			ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
-			ImGui::Separator();
-			ImGui::Text("Collider:");
-			if (App->IsGameRunning() == false)
-			{
-				ImGui::DragFloat3("Collider Size", collShape.size.ptr(), 0.1f, 0.2f, 100.0f);
-			}
-			ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f,50.0f);
-			ImGui::NewLine();
-			ImGui::Separator();
-			ImGui::Text("Just for display, do not touch");
-			ImGui::DragFloat("Speed", &speed);
-			ImGui::DragFloat("Current Steer", &currentSteer);
-			ImGui::Checkbox("Steering", &steering);
 
-			ImGui::Separator();
-			ImGui::NewLine();
-			ImGui::Text("Old configuration");
-			ImGui::Separator();
-		
+		ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
+		ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Maneuverability", &maneuverability, 0.1f, 0.1f, 20.0f);
+		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
+		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
+		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+		ImGui::Separator();
+		ImGui::Text("Collider:");
+		if (App->IsGameRunning() == false)
+		{
+			ImGui::DragFloat3("Collider Size", collShape.size.ptr(), 0.1f, 0.2f, 100.0f);
+		}
+		ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f, 50.0f);
+		ImGui::NewLine();
+		ImGui::Separator();
+		ImGui::Text("Just for display, do not touch");
+		ImGui::DragFloat("Speed", &speed);
+		ImGui::DragFloat("Current Steer", &currentSteer);
+		ImGui::Checkbox("Steering", &steering);
+
+		ImGui::Separator();
+		ImGui::NewLine();
+		ImGui::Text("Old configuration");
+		ImGui::Separator();
+
 		//Choose car type popup
 		if (ImGui::Button("Kart Type :"))
 			ImGui::OpenPopup("Kart Type");
 		ImGui::SameLine();
-		switch(kart->type)
+		switch (kart->type)
 		{
-			case T_WOOD:
-				ImGui::Text(" Wood ");
-				break;
-			case T_KOJI:
-				ImGui::Text(" Koji Lion ");
-				break;
+		case T_WOOD:
+			ImGui::Text(" Wood ");
+			break;
+		case T_KOJI:
+			ImGui::Text(" Koji Lion ");
+			break;
 		}
 		if (ImGui::BeginPopup("Kart Type"))
 		{
-			if(ImGui::Selectable("Wood"))
+			if (ImGui::Selectable("Wood"))
 			{
 				SetCarType(T_WOOD);
 			}
-			if(ImGui::Selectable("Koji Lion"))
+			if (ImGui::Selectable("Koji Lion"))
 			{
 				SetCarType(T_KOJI);
 			}
@@ -1824,7 +1821,7 @@ void ComponentCar::OnInspector(bool debug)
 				ImGui::Text("Turn boost (%): %f", turn_boost);
 				ImGui::Text("");
 
-		
+
 				ImGui::Checkbox("On ground", &on_ground);
 
 				bool on_t = current_turbo != T_IDLE;
@@ -2117,73 +2114,9 @@ void ComponentCar::OnInspector(bool debug)
 				}
 				ImGui::TreePop();
 			}
-
+*/
 			ImGui::TreePop();
 		}
-
-		if (App->IsGameRunning() == false)
-		{
-			if (ImGui::TreeNode("Chasis settings"))
-			{
-				ImGui::Text("Size");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Chasis size", chasis_size.ptr(), 0.1f, 0.1f, 5.0f);
-
-				ImGui::Text("Offset");
-				ImGui::SameLine();
-				ImGui::DragFloat3("##Chasis offset", chasis_offset.ptr(), 0.1f, 0.1f, 5.0f);
-
-				ImGui::Text("Mass");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Mass", &car->mass, 1.0f, 0.1f, floatMax);
-
-				ImGui::TreePop();
-			}
-			if (ImGui::TreeNode("Suspension"))
-			{
-				ImGui::Text("Rest length");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Suspension rest length", &suspensionRestLength, 0.1f, 0.1f, floatMax);
-
-				ImGui::Text("Max travel (Cm)");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Max suspension travel Cm", &car->maxSuspensionTravelCm, 1.0f, 0.1f, floatMax);
-
-				ImGui::Text("Stiffness");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Suspension stiffness", &car->suspensionStiffness, 0.1f, 0.1f, floatMax);
-
-				ImGui::Text("Damping");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Suspension Damping", &car->suspensionDamping, 1.0f, 0.1f, floatMax);
-
-				ImGui::Text("Max force");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Max suspension force", &car->maxSuspensionForce, 1.0f, 0.1f, floatMax);
-
-				ImGui::TreePop();
-			}
-
-			if (ImGui::TreeNode("Wheel settings"))
-			{
-				ImGui::Text("Connection height");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Connection height", &connection_height, 0.1f, floatMin, floatMax);
-
-				ImGui::Text("Radius");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Wheel radius", &wheel_radius, 0.1f, 0.1f, floatMax);
-
-				ImGui::Text("Width");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Wheel width", &wheel_width, 0.1f, 0.1f, floatMax);
-				ImGui::TreePop();
-			}
-
-			ImGui::Text("Friction Slip");
-			ImGui::SameLine();
-			ImGui::DragFloat("##Friction Slip", &car->frictionSlip, 1.0f, 0.1f, floatMax);
-		}//Endof IsGameRunning() == false
 
 		ImGui::Separator();
 		ImGui::Text("Drifting settings");
@@ -2203,8 +2136,6 @@ void ComponentCar::OnInspector(bool debug)
 
 		ImGui::Text("Drift angle ratio");
 		ImGui::DragFloat("##Dr_angle_ratio", &kart->drift_ratio, 0.001, 0.0f, 1.0f);
-
-		ImGui::TreePop();
 
 	} //Endof Car settings
 
@@ -2272,9 +2203,7 @@ void ComponentCar::OnInspector(bool debug)
 		App->editor->assign_item = true;
 		App->editor->to_assign_item = this;
 	}
-	*/
-		}
-	}//Endof Collapsing header
-}
+}//Endof Collapsing header
+
 
 

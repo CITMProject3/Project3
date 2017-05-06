@@ -14,8 +14,8 @@
 #define CAR_GRAVITY 0.8f
 
 //TODO fix conversion Units to KM/H
-#define UNITS_TO_KMH 1000.0f
-#define KMH_TO_UNITS 0.0001f
+#define UNITS_TO_KMH 133.0f
+#define KMH_TO_UNITS 0.0075f
 
 using namespace std;
 
