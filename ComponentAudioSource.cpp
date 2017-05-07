@@ -127,7 +127,8 @@ void ComponentAudioSource::OnPlay()
 
 void ComponentAudioSource::OnStop()
 {
-	//StopAllEvents();
+	if(!App->StartInGame())
+		StopAllEvents();
 }
 
 long unsigned ComponentAudioSource::GetWiseID() const
