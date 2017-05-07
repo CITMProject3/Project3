@@ -123,7 +123,7 @@ public:
 		case Turbo::turbo_deaccelerating:
 		{
 			//Making the speed bonus go to 0 while the time goes on
-			ret.maxSpeedBonus = math::Lerp(0.0f, maxSpeedBonus, timer / times[turbo_deaccelerating]);
+			ret.maxSpeedBonus = math::Lerp(maxSpeedBonus, 0.0f, timer / times[turbo_deaccelerating]);
 			break;
 		}
 		case Turbo::turbo_done:
@@ -151,13 +151,13 @@ public:
 class turboPicker_class {
 
 public:
-	Turbo turboPad = Turbo(0.1f, 0.2f, 0.5f, 0.8f, 0.4f, 0.6f);
+	Turbo turboPad = Turbo(0.2f, 1.0f, 1.5f, 0.8f, 0.5f, 1.2f);
 	Turbo acrobatic = Turbo(0.5f, 1.2f, 1.4f, 0.5f, 0.6f, 0.8f);
 
 	//We have two turbos for the rocket: One that will activate when using the item. If this turbo goes into (turbo_done), the rocket will explode.
 	//If the player releases the rocket, we'll apply rocket_deacceleration to slow the player down
-	Turbo rocket = Turbo(0.5f, 0.5f, 0.0f, 0.3f, 0.2f, 0.4f);
-	Turbo rocket_deacceleration = Turbo(0.0f, 0.0f, 0.5f, 0.3f, 0.2f, 0.4f);
+	Turbo rocket = Turbo(1.5f, 3.5f, 0.0f, 0.8f, 0.6f, 2.0f);
+	Turbo rocket_deacceleration = Turbo(0.0f, 0.0f, 1.5f, 0.3f, 0.2f, 2.0f);
 };
 
 /*
