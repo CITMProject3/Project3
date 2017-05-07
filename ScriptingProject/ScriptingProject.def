@@ -20,9 +20,13 @@ EXPORTS
 	Player_Car_ActualizePublics
 	Player_Car_OnCollision
 	Player_Car_ChooseItem
-	Player_Car_PickItem
+	Player_Car_OnPickItem
 	Player_Car_LoseItem
-	
+	Player_Car_UpdateEvilSpirit
+	Player_Car_UpdateMakibishi
+	Player_Car_UpdateFirecracker
+	Player_Car_UpdateSpiritEffect
+
 	Makibishi_GetPublics
 	Makibishi_Start
 	Makibishi_Update
@@ -147,3 +151,9 @@ EXPORTS
 	Item_Timer_Start
 	Item_Timer_Update
 	Item_Timer_OnCollision
+
+	MakibishiManager_GetPublics
+	MakibishiManager_UpdatePublics
+	MakibishiManager_Start
+	MakibishiManager_Update
+	MakibishiManager_GetMakibishi

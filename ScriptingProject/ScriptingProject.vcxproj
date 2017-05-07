@@ -187,6 +187,7 @@
     <ClCompile Include="Finish_lane.cpp" />
     <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Makibishi.cpp" />
+    <ClCompile Include="MakibishiManager.cpp" />
     <ClCompile Include="MapSelectUI.cpp" />
     <ClCompile Include="Kmh_Counter.cpp" />
     <ClCompile Include="OutOfBounds.cpp" />
