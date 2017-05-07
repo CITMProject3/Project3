@@ -36,10 +36,6 @@ void log(const char file[], int line, const char* format, ...);
 
 typedef unsigned int uint;
 
-//Changes the correspondant value from the container and returns the modified value
-unsigned char SetFlag(unsigned char container, uint flag, bool value);
-bool ReadFlag(unsigned char container, uint flag);
-
 enum update_status
 {
 	UPDATE_CONTINUE = 1,
@@ -49,13 +45,7 @@ enum update_status
 
 // Configuration -----------
 #define SCREEN_SIZE 1
-//#define WIN_FULLSCREEN false
-//#define WIN_MAXIMIZED true
-//#define WIN_RESIZABLE false
-//#define WIN_BORDERLESS false
-//#define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-//#define TITLE "Ezwix Engine"
 
 //Folders
 #define ASSETS_FOLDER "/Assets/"
