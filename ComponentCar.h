@@ -132,8 +132,11 @@ struct Car
 
 class ComponentCar : public Component
 {
+private:
 	//Car status info
 	bool onTheGround = true;
+	bool lastFrameOnGround = true;
+
 	bool steering = false;
 
 	//Car functionality values
@@ -147,25 +150,23 @@ class ComponentCar : public Component
 	float recoveryTime = 2.0f;
 
 	float WallsBounciness = 0.6f;
-private:
+
+	//Variable values that directly affect the car frame by frame
 	float speed = 0.0f;
 	float currentSteer = 0.0f;
-
 	float horizontalSpeed = 0.0f;
-	float fallSpeed = 0.0f;
-
-	bool lastFrameOnGround = true;
+	float fallSpeed = 0.0f;	
 
 	float3 kartX, kartY, kartZ;
 
 	ComponentTransform* kart_trs = nullptr;
 
+	//Collider
 	Cube_P collShape;
 	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
 
-	void WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX);
-	void WallHit(const float3 &normal);
+
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
@@ -188,13 +189,14 @@ public:
 	void SetBackPlayer(PLAYER player);
 
 	void BlockInput(bool block);
-	void TestFunction();
 
 	//Getters
 	float GetVelocity()const;
 
 	
 private:
+	void DebugInput();
+
 	void CheckGroundCollision();
 	void OnGroundCollision(GROUND_CONTACT state);
 
@@ -210,7 +212,10 @@ private:
 	void RotateKart(float3 desiredUp);
 	void HorizontalDrag();
 
+	void WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX);
 public:
+	void WallHit(const float3 &normal);
+
 	void HandlePlayerInput();
 	void GameLoopCheck();
 	void TurnOver();
@@ -303,7 +308,7 @@ private:
 	int clicks_to_drift_turbo = 3;
 
 	//Reset
-	float lose_height = -50.0f;
+	float loose_height = -100.0f;
 
 	
 	//Update variables (change during game)----------------------------------------------------------------
@@ -312,9 +317,6 @@ private:
 	bool turned = false;
 	float timer_start_turned = 0.0f;
 
-	//Boosts
-	float accel_boost = 0.0f;
-	float speed_boost = 0.0f;
 	float turn_boost = 0.0f;
 
 	//Drift

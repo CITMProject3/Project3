@@ -111,13 +111,9 @@ void ComponentCar::Update()
 
 		if (App->IsGameRunning())
 		{
+			DebugInput();
+
 			turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
-
-			if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
-			{
-				NewTurbo(turboPicker.acrobatic);
-			}
-
 			KartLogic();
 			CheckGroundCollision();
 			HandlePlayerInput();			
@@ -245,7 +241,7 @@ void ComponentCar::KartLogic()
 
 
 	//Safety mesure. Resetting the kart if it falls off the world. jej
-	if (kart_trs->GetPosition().y < lose_height)
+	if (kart_trs->GetPosition().y < loose_height)
 	{
 		Reset();		
 	}
@@ -482,12 +478,6 @@ void ComponentCar::BlockInput(bool block)
 	lock_input = block;
 }
 
-void ComponentCar::TestFunction()
-{
-	LOG("Test function");
-	return;
-}
-
 float ComponentCar::GetVelocity() const
 {
 	return speed * UNITS_TO_KMH;
@@ -500,14 +490,14 @@ void ComponentCar::HandlePlayerInput()
 	float brake;
 	bool turning = false;
 	leaning = false;
-	accel_boost = speed_boost = turn_boost = 0.0f;
+	turn_boost = 0.0f;
 	
 	brake = 0.0f;
 
-	if (pushing)
+	/*if (pushing)
 	{
 		PushUpdate(&accel_boost);
-	}
+	}*/
 
 	//Acrobactics control
 	if (acro_on)
@@ -1058,7 +1048,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 void ComponentCar::GameLoopCheck()
 {
 	BROFILER_CATEGORY("ComponentCar::GameLoopCheck", Profiler::Color::HoneyDew)
-	if (game_object->transform->GetPosition().y <= lose_height)
+	if (game_object->transform->GetPosition().y <= loose_height)
 		TurnOver();
 }
 
@@ -1147,6 +1137,18 @@ void ComponentCar::SetCarType(CAR_TYPE type)
 	}
 }
 
+void ComponentCar::DebugInput()
+{
+	if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+	{
+		NewTurbo(turboPicker.acrobatic);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		Reset();
+	}
+}
+
 void ComponentCar::CheckGroundCollision()
 {
 	BROFILER_CATEGORY("ComponentCar::CheckGroundCollision", Profiler::Color::HoneyDew)
@@ -1224,7 +1226,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat3("collider_size", collShape.size.ptr());
 
 	//Game loop settings
-	data.AppendFloat("lose_height", lose_height);
+	data.AppendFloat("lose_height", loose_height);
 
 	//Turn over
 	data.AppendFloat("turn_over_reset_time", turn_over_reset_time);
@@ -1348,7 +1350,7 @@ void ComponentCar::Load(Data& conf)
 	collShape.size = conf.GetFloat3("collider_size");
 
 	//Game loop settings
-	lose_height = conf.GetFloat("lose_height");
+	loose_height = conf.GetFloat("lose_height");
 
 	//Turn change over time
 	limit_to_a_turn_max = conf.GetBool("limit_to_a_turn_max");
