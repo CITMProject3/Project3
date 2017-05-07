@@ -22,7 +22,6 @@ public:
 	Turbo(float accel_phase, float turbo_phase, float deccel_phase, float accel_bonus, float accel_min, float speed_bonus) :
 		accelerationBonus(accel_bonus), accelerationMinimum(accel_min), maxSpeedBonus(speed_bonus), currentPhase(turbo_done)
 	{
-		times = new float[turbo_done + 1];
 		times[turbo_accelerating] = accel_phase;
 		times[turbo_running] = turbo_phase;
 		times[turbo_deaccelerating] = deccel_phase;
@@ -30,7 +29,6 @@ public:
 
 	Turbo()
 	{
-		times = new float[turbo_done + 1];
 		times[turbo_accelerating] = 0.0f;
 		times[turbo_running] = 0.0f;
 		times[turbo_deaccelerating] = 0.0f;
@@ -38,7 +36,6 @@ public:
 
 	~Turbo()
 	{
-		RELEASE_ARRAY(times);
 	}
 
 private:
@@ -50,7 +47,7 @@ private:
 	};
 	turbo_phases currentPhase = turbo_done;
 
-	float* times = nullptr;
+	float times[turbo_done + 1];
 	//First phase
 	//The kart gains a huge acceleration bonus for a short duration
 	//Amount the acceleration of the kart increases
@@ -76,6 +73,8 @@ public:
 	{
 		currentPhase = (turbo_phases)0;
 	}
+
+	turbo_phases GetCurrentPhase() { return currentPhase; }
 
 	bool IsActive() { return currentPhase != turbo_done; }
 
@@ -134,12 +133,12 @@ public:
 		}
 		}
 
+		timer += dt;
 		while (currentPhase < turbo_done && timer >= times[currentPhase])
 		{
 			timer = 0.0f;
 			currentPhase = (turbo_phases)(currentPhase + 1);
-		}
-		timer += dt;
+		}		
 
 		return ret;
 	}
@@ -153,7 +152,7 @@ class turboPicker_class {
 
 public:
 	Turbo turboPad = Turbo(0.1f, 0.2f, 0.5f, 0.8f, 0.4f, 0.6f);
-	Turbo acrobatic = Turbo(0.1f, 0.2f, 0.4f, 0.2f, 0.3f, 0.2f);
+	Turbo acrobatic = Turbo(0.5f, 1.2f, 1.4f, 0.5f, 0.6f, 0.8f);
 
 	//We have two turbos for the rocket: One that will activate when using the item. If this turbo goes into (turbo_done), the rocket will explode.
 	//If the player releases the rocket, we'll apply rocket_deacceleration to slow the player down

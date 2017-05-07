@@ -1521,6 +1521,11 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Speed", &speed);
 		ImGui::DragFloat("Current Steer", &currentSteer);
 		ImGui::Checkbox("Steering", &steering);
+		if (ImGui::TreeNode("Turbo display"))
+		{
+			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);
+			ImGui::TreePop();
+		}
 
 		ImGui::Separator();
 		ImGui::NewLine();
