@@ -1058,9 +1058,6 @@
     <ClCompile Include="EventLinkGos.cpp">
       <Filter>Sources\Modules\EventQueue\EventTypes</Filter>
     </ClCompile>
-    <ClCompile Include="flags.cpp">
-      <Filter>Sources\Tools</Filter>
-    </ClCompile>
     <ClCompile Include="RaceTimer.cpp">
       <Filter>Sources\VerticalSlice3</Filter>
     </ClCompile>
