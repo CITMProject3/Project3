@@ -1225,6 +1225,16 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat3("collider_offset", collOffset.ptr());
 	data.AppendFloat3("collider_size", collShape.size.ptr());
 
+	data.AppendFloat("maxSpeed", maxSpeed);
+	data.AppendFloat("maxAcceleration", maxAcceleration);
+	data.AppendFloat("brakePower", brakePower);
+	data.AppendFloat("maneuverability", maneuverability);
+	data.AppendFloat("maxSteer", maxSteer);
+	data.AppendFloat("drag", drag);
+
+	data.AppendFloat("recoveryTime", recoveryTime);
+	data.AppendFloat("WallsBounciness", WallsBounciness);
+
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
 
@@ -1348,6 +1358,26 @@ void ComponentCar::Load(Data& conf)
 
 	collOffset = conf.GetFloat3("collider_offset");
 	collShape.size = conf.GetFloat3("collider_size");
+
+	//I know this is weird and ugly... but if we don't check the 0.0 value, the car will always be with all stats on 0 on older scenes, making them unlpayable
+	float tmp;
+	tmp = conf.GetFloat("maxSpeed");
+	if (tmp != 0.0f) { maxSpeed = tmp; }
+	tmp = conf.GetFloat("maxAcceleration");
+	if (tmp != 0.0f) { maxAcceleration = tmp; }
+	tmp = conf.GetFloat("brakePower");
+	if (tmp != 0.0f) { brakePower = tmp; }
+	tmp = conf.GetFloat("maneuverability");
+	if (tmp != 0.0f) { maneuverability = tmp; }
+	tmp = conf.GetFloat("maxSteer");
+	if (tmp != 0.0f) { maxSteer = tmp; }
+	tmp = conf.GetFloat("drag");
+	if (tmp != 0.0f) { drag = tmp; }
+
+	tmp = conf.GetFloat("recoveryTime");
+	if (tmp != 0.0f) { recoveryTime = tmp; }
+	tmp = conf.GetFloat("WallsBounciness");
+	if (tmp != 0.0f) { WallsBounciness = tmp; }
 
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
