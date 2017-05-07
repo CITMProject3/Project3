@@ -209,6 +209,20 @@ void ComponentCar::KartLogic()
 			desiredUp = hitF.normal.Normalized();
 		}
 	}
+	else
+	{
+		math::Ray frontRay;
+		frontRay.dir = kartZ;
+
+		frontRay.pos = kart_trs->GetPosition();
+
+		RaycastHit frontHit;
+		bool hit = App->physics->RayCast(frontRay, frontHit);
+		if (hit && frontHit.distance < 1.5f)
+		{
+			WallHit(frontHit.normal, kartZ, kartX);
+		}
+	}
 
 	RotateKart(desiredUp);
 
@@ -371,7 +385,7 @@ void ComponentCar::PlayersInput()
 	if (onTheGround)
 	{
 		speed += AccelerationInput();
-		speed = math::Clamp(speed, -maxSpeed - turbo_mods.maxSpeedBonus, maxSpeed + turbo_mods.maxSpeedBonus);
+		speed = math::Clamp(speed, (-maxSpeed - turbo_mods.maxSpeedBonus) / 3.0f, maxSpeed + turbo_mods.maxSpeedBonus);
 	}
 	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
 
@@ -390,19 +404,24 @@ void ComponentCar::SteerKart()
 {
 	//This simply translataes current steer into a Quaterion we can rotate the kart with
 	//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
-	
+
 	float steerReduction = 1.0f;
 	if (speed < maxSpeed * 0.75f)
 	{
 		//The "Clamp" thing is to allow less rotation the less the kart is moving
 		//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
-		steerReduction = math::Clamp(speed / (maxSpeed / 2), 0.0f, 1.0f);
+		steerReduction = math::Clamp(math::Abs(speed) / (maxSpeed / 2), 0.0f, 1.0f);
 	}
 	else
 	{
 		float diference = speed - maxSpeed * 0.75f;
 		steerReduction = 1 - (diference / (maxSpeed*0.75f));
 		steerReduction = Clamp(steerReduction, 0.4f, 1.0f);
+	}
+
+	if (speed < 0.0f)
+	{
+		steerReduction *= -1;
 	}
 	float rotateAngle = maxSteer * steerReduction * currentSteer * time->DeltaTime();
 	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
