@@ -79,6 +79,18 @@ enum GROUND_CONTACT
 	G_EXIT
 };
 
+enum DRIFT_STATE
+{
+	drift_none = 0,
+	drift_failed,
+	drift_right_0,
+	drift_right_1,
+	drift_right_2,
+	drift_left_0,
+	drift_left_1,
+	drift_left_2
+};
+
 struct Car
 {
 	CAR_TYPE type = T_KOJI;
@@ -105,14 +117,6 @@ struct Car
 	float decel_brake = 100.0f;
 	float max_velocity = 80.0f;
 	float min_velocity = -20.0f;
-
-	//Drifting
-	float drift_turn_boost = 0.15f;
-	float drift_turn_max = 0.7;
-	float drift_min_speed = 20.0f;
-	float drift_ratio = 0.5f;
-	float drift_mult = 1.8f;
-	float drift_boost = 1.0f;
 
 	//Push
 	float push_force = 10000.0f;
@@ -167,6 +171,14 @@ private:
 	PhysBody3D* collider = nullptr;
 
 
+
+	//Drifting
+	DRIFT_STATE drifting;
+	DRIFT_STATE lastFrame_drifting;
+
+	float driftingTimer = 0.0f;
+	float driftPhaseDuration = 2.0f;
+
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
@@ -205,7 +217,8 @@ private:
 	void Steer(float amount);
 	void AutoSteer();
 	void CheckOnTheGround();
-	void Drift();
+	void Drift(float dir);
+	void DriftManagement();
 	void PlayersInput();
 
 	void SteerKart();
@@ -253,7 +266,6 @@ public:
 	void NewTurbo(Turbo turboToApply);
 	void TurboPad();
 private:
-	void DriftTurbo();
 
 	void UpdateTurnOver();
 
@@ -269,8 +281,6 @@ public:
 	Car* kart = nullptr;
 	Car wood;
 	Car koji;
-
-	bool drift_dir_left = false;
 
 	Player1_State p1_state = P1IDLE;
 	Player2_State p2_state = P2IDLE;
@@ -302,9 +312,6 @@ private:
 	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
 	bool show_graph = false;
 
-	//Drift Turbo
-	int clicks_to_drift_turbo = 3;
-
 	//Reset
 	float loose_height = -100.0f;
 
@@ -316,13 +323,6 @@ private:
 	float timer_start_turned = 0.0f;
 
 	float turn_boost = 0.0f;
-
-	//Drift
-	bool drifting = false;
-	btVector3 startDriftSpeed;
-	bool to_drift_turbo = false;
-	int turbo_drift_lvl = 0;
-	int drift_turbo_clicks = 0;
 
 	//Leaning
 	bool leaning = false;

@@ -87,21 +87,20 @@ public:
 		accelerationBonus = accel_bonus;
 		accelerationMinimum = accel_min;
 
-		maxSpeedBonus = speed_bonus;
+		if (currentPhase == turbo_done)
+		{
+			maxSpeedBonus = speed_bonus;
+		}
+		else
+		{
+			maxSpeedBonus = max(speed_bonus, maxSpeedBonus);
+		}
+		currentPhase = (turbo_phases)0;
 	}
 
 	void SetTurbo(const Turbo& copy)
 	{
-		times[turbo_accelerating] = copy.times[turbo_accelerating];
-		times[turbo_running] = copy.times[turbo_running];
-		times[turbo_deaccelerating] = copy.times[turbo_deaccelerating];
-
-		accelerationBonus = copy.accelerationBonus;
-		accelerationMinimum = copy.accelerationMinimum;
-
-		maxSpeedBonus = copy.maxSpeedBonus;
-
-		currentPhase = turbo_done;
+		SetTurbo(copy.times[turbo_accelerating], copy.times[turbo_running], copy.times[turbo_deaccelerating], copy.accelerationBonus, copy.accelerationMinimum, copy.maxSpeedBonus);
 	}
 
 	turboOutput UpdateTurbo(float dt)

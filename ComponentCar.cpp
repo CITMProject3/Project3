@@ -34,7 +34,6 @@
 
 void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
 {
-	//speed = -speed / 3;
 	float3 fw, side;
 
 	normal.Decompose(kartZ, fw, side);
@@ -44,21 +43,26 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (p.IsInPositiveDirection(normal))
 	{
-		horizontalSpeed += side.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
 	}
 	else
 	{
-		horizontalSpeed -= side.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
 	}
 
 	p.Set(kart_trs->GetPosition(), kartZ);
 	if (p.IsInPositiveDirection(normal))
 	{
-		speed += fw.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
 	}
 	else
 	{
-		speed -= fw.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
+	}
+
+	if (drifting != drift_none)
+	{
+		drifting = drift_failed;
 	}
 }
 
@@ -285,7 +289,7 @@ float ComponentCar::AccelerationInput()
 			}
 			else
 			{
-				speed = 0;
+				speed = 0.0f;
 			}
 		}
 		else
@@ -304,7 +308,7 @@ float ComponentCar::AccelerationInput()
 			}
 			else
 			{
-				speed = 0;
+				speed = 0.0f;
 			}
 		}
 		else
@@ -326,11 +330,11 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			speed = 0;
+			speed = 0.0f;
 		}
 	}
 
-	if (turbo_mods.alive && acceleration < turbo_mods.accelerationMin)
+	if (turbo_mods.alive == true && acceleration < turbo_mods.accelerationMin)
 	{
 		acceleration = turbo_mods.accelerationMin;
 	}
@@ -340,13 +344,21 @@ float ComponentCar::AccelerationInput()
 
 void ComponentCar::Steer(float amount)
 {
-	amount = math::Clamp(amount, -1.0f, 1.0f);
-	if (amount < -0.1 || amount > 0.1)
+	if (drifting == drift_none)
 	{
-		currentSteer += maneuverability * time->DeltaTime() * amount;
-		amount = math::Abs(amount);
-		currentSteer = math::Clamp(currentSteer, -amount, amount);
+		amount = math::Clamp(amount, -1.0f, 1.0f);
+		if (amount < -0.1 || amount > 0.1)
+		{
+			currentSteer += maneuverability * time->DeltaTime() * amount;
+			amount = math::Abs(amount);
+			currentSteer = math::Clamp(currentSteer, -amount, amount);
+			steering = true;
+		}
+	}
+	else
+	{
 		steering = true;
+		Drift(amount);
 	}
 }
 
@@ -380,8 +392,87 @@ void ComponentCar::CheckOnTheGround()
 	}
 }
 
-void ComponentCar::Drift()
+void ComponentCar::Drift(float dir)
 {
+
+	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
+	{
+		dir += 0.5f;
+		dir *= -1;
+		currentSteer = -0.75f;
+	}
+	else
+	{
+		dir -= 0.5f;
+		currentSteer = 0.75f;
+	}
+
+	//horizontalSpeed -= drag * 5.0f * time->DeltaTime() * dir;
+
+	if (drifting == drift_right_0)
+	{
+		LOG("DriftingRIght");
+	}
+	if (drifting == drift_left_0)
+	{
+		LOG("Drifting left");
+	}
+
+}
+
+void ComponentCar::DriftManagement()
+{
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		//Checking we have enough speed to drift
+		if (speed > maxSpeed / 3.0f)
+		{
+			//If we weren't drifting, we enter the state of drift
+			if (drifting == drift_none)
+			{
+				if (currentSteer > 0.6f)
+				{
+					drifting = drift_right_0;
+				}
+				else if (currentSteer < -0.6f)
+				{
+					drifting = drift_left_0;
+				}
+			}
+		}
+		else if (lastFrame_drifting != drift_none && drifting != drift_none)
+		{
+			//If we don't have enough speed, the drift is considered a failure
+			drifting = drift_failed;
+		}
+		else
+		{
+			drifting = drift_none;
+		}
+	}
+	else
+	{
+		//If the player stops pressing the input, we stop drifting
+		drifting = drift_none;
+	}
+
+	//When we exit a drift, apply the correspondant turbo
+	if (drifting == drift_none && lastFrame_drifting != drift_none && lastFrame_drifting != drift_failed)
+	{
+		switch (lastFrame_drifting)
+		{
+		case drift_right_1:
+		case drift_left_1:
+			NewTurbo(turboPicker.acrobatic);
+			break;
+		case drift_right_2:
+		case drift_left_2:
+			NewTurbo(turboPicker.acrobatic);
+			break;
+		}
+		drifting = drift_none;
+	}
+	lastFrame_drifting = drifting;
 }
 
 void ComponentCar::PlayersInput()
@@ -408,7 +499,7 @@ void ComponentCar::PlayersInput()
 		Steer(App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X));
 	}
 
-	Drift();
+	DriftManagement();
 }
 
 void ComponentCar::SteerKart()
@@ -497,6 +588,8 @@ void ComponentCar::OnPlay()
 	fallSpeed = 0.0f;
 
 	collider = App->physics->AddVehicle(collShape, this);
+
+	lastFrame_drifting = drifting = drift_none;
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -590,9 +683,6 @@ void ComponentCar::JoystickControls(float* accel, float* brake, bool* turning, b
 		//A back
 		if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN)
 		{
-			if (drifting)
-				DriftTurbo();
-			else
 				Push(accel);
 		}
 	}
@@ -736,23 +826,6 @@ void ComponentCar::NewTurbo(Turbo turboToApply)
 void ComponentCar::TurboPad()
 {
 	NewTurbo(turboPicker.turboPad);
-}
-
-void ComponentCar::DriftTurbo()
-{
-	if (drifting)
-	{
-		drift_turbo_clicks++;
-
-		if (drift_turbo_clicks >= clicks_to_drift_turbo)
-		{
-			drift_turbo_clicks = 0;
-			to_drift_turbo = true;
-
-			if (turbo_drift_lvl < 3)
-				turbo_drift_lvl++;
-		}
-	}
 }
 
 void ComponentCar::UpdateTurnOver()
@@ -1115,6 +1188,7 @@ void ComponentCar::Reset()
 	fallSpeed = 0.0f;
 	horizontalSpeed = 0.0f;
 	currentSteer = 0;
+	lastFrame_drifting = drifting = drift_none;
 }
 
 float ComponentCar::GetVelocity()
@@ -1313,13 +1387,6 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("wood_full_brake_force", wood.full_brake_force);
 
 
-	//Drift 
-	data.AppendFloat("wood_driftRatio", wood.drift_ratio);
-	data.AppendFloat("wood_driftMult", wood.drift_mult);
-	data.AppendFloat("wood_driftBoost", wood.drift_boost);
-	data.AppendFloat("wood_driftMinSpeed", wood.drift_min_speed);
-	data.AppendFloat("wood_drift_turn_max", wood.drift_turn_max); 
-
 	//Koji -------------------------------
 	//Acceleration
 	data.AppendFloat("koji_acceleration", koji.accel_force);
@@ -1353,13 +1420,6 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("koji_backForce", koji.back_force);
 	data.AppendFloat("koji_full_brake_force", koji.full_brake_force);
 
-
-	//Drift 
-	data.AppendFloat("koji_driftRatio", koji.drift_ratio);
-	data.AppendFloat("koji_driftMult", koji.drift_mult);
-	data.AppendFloat("koji_driftBoost", koji.drift_boost);
-	data.AppendFloat("koji_driftMinSpeed", koji.drift_min_speed);
-	data.AppendFloat("koji_drift_turn_max", koji.drift_turn_max);
 
 	//data.AppendFloat("kick_cooldown", kickCooldown);
 	//--------------------------------------------------
@@ -1458,13 +1518,6 @@ void ComponentCar::Load(Data& conf)
 	wood.brake_force = conf.GetFloat("wood_brakeForce");
 	wood.back_force = conf.GetFloat("wood_backForce");
 	wood.full_brake_force = conf.GetFloat("wood_full_brake_force");
-
-	//Drifting settings
-	wood.drift_ratio = conf.GetFloat("wood_driftRatio");
-	wood.drift_mult = conf.GetFloat("wood_driftMult");
-	wood.drift_boost = conf.GetFloat("wood_driftBoost");
-	wood.drift_min_speed = conf.GetFloat("wood_driftMinSpeed");
-	wood.drift_turn_max = conf.GetFloat("wood_drift_turn_max");
 	//-----------------------------------------
 
 
@@ -1500,13 +1553,6 @@ void ComponentCar::Load(Data& conf)
 	koji.brake_force = conf.GetFloat("koji_brakeForce");
 	koji.back_force = conf.GetFloat("koji_backForce");
 	wood.full_brake_force = conf.GetFloat("koji_full_brake_force");
-
-	//Drifting settings
-	koji.drift_ratio = conf.GetFloat("koji_driftRatio");
-	koji.drift_mult = conf.GetFloat("koji_driftMult");
-	koji.drift_boost = conf.GetFloat("koji_driftBoost");
-	koji.drift_min_speed = conf.GetFloat("koji_driftMinSpeed");
-	koji.drift_turn_max = conf.GetFloat("koji_drift_turn_max");
 	//-----------------------------------------
 
 
@@ -1961,26 +2007,6 @@ void ComponentCar::OnInspector(bool debug)
 */
 			ImGui::TreePop();
 		}
-
-		ImGui::Separator();
-		ImGui::Text("Drifting settings");
-		ImGui::NewLine();
-
-		ImGui::Text("Drift exit boost");
-		ImGui::InputFloat("Drift exit boost", &kart->drift_boost);
-
-		ImGui::Text("Drift turn max");
-		ImGui::InputFloat("Drift turn max", &kart->drift_turn_max);
-
-		ImGui::Text("Drift min speed");
-		ImGui::InputFloat("Drift min speed", &kart->drift_min_speed);
-
-		ImGui::Text("Drift multiplier");
-		ImGui::InputFloat("Drift mult", &kart->drift_mult);
-
-		ImGui::Text("Drift angle ratio");
-		ImGui::DragFloat("##Dr_angle_ratio", &kart->drift_ratio, 0.001, 0.0f, 1.0f);
-
 	} //Endof Car settings
 
 	if (ImGui::TreeNode("Wheels"))
