@@ -94,6 +94,9 @@
     <Filter Include="Sources\Helpers\Audio">
       <UniqueIdentifier>{94366cd0-49b4-4b90-a4d6-e49511569013}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\GameObjects\Components\CarHelpers">
+      <UniqueIdentifier>{50f033df-213a-4e3b-bd3a-99c94139457f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -660,6 +663,9 @@
     <ClInclude Include="ComponentParticleSystem.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
+    <ClInclude Include="Turbos.h">
+      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1099,7 +1105,7 @@
     </ClCompile>
     <ClCompile Include="ComponentParticleSystem.cpp">
       <Filter>Sources\GameObjects\Components</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="AudioEvent.cpp">
       <Filter>Sources\Helpers\Audio</Filter>
     </ClCompile>
