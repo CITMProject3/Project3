@@ -303,11 +303,16 @@ bool MeshImporter::ImportMesh(const aiMesh * mesh_to_load, const char* folder_pa
 	}
 
 	//Tangents  --------------------------------------------------------------------------------------------------------
-	if (mesh_to_load->HasTangentsAndBitangents())
-	{
+
 		mesh.tangents = new float[mesh.num_vertices * 3];
-		memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
-	}
+		if (mesh_to_load->HasTangentsAndBitangents())
+		{
+			memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
+		}
+		else
+		{
+			memset(mesh.tangents, 0, mesh.num_vertices * 3);
+		}
 		
 	return Save(mesh, folder_path, output_name, msh_uuid);
 }
@@ -982,10 +987,15 @@ bool MeshImporter::ImportMeshUUID(const aiMesh * mesh_to_load, const char * fold
 	}
 
 	//Tangents  --------------------------------------------------------------------------------------------------------
+
+	mesh.tangents = new float[mesh.num_vertices * 3];
 	if (mesh_to_load->HasTangentsAndBitangents())
 	{
-		mesh.tangents = new float[mesh.num_vertices * 3];
 		memcpy(mesh.tangents, mesh_to_load->mTangents, sizeof(float)*mesh.num_vertices * 3);
+	}
+	else
+	{
+		memset(mesh.tangents, 0, mesh.num_vertices * 3);
 	}
 
 	return SaveUUID(mesh, folder_path, output_name, uuid);
