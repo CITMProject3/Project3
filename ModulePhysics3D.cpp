@@ -1414,7 +1414,7 @@ PhysBody3D* ModulePhysics3D::AddVehicle(const Cube_P& cube, ComponentCar* col)
 	world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
 	bodies.push_back(pbody);
 
-	pbody->SetTrigger(true, TriggerType::T_ON_ENTER);
+	pbody->SetTrigger(true, TriggerType::T_ON_TRIGGER);
 	pbody->SetCar(true);
 
 	return pbody;

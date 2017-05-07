@@ -44,14 +44,22 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (p.IsInPositiveDirection(normal))
 	{
-		horizontalSpeed += side.Length() * (speed / maxSpeed) * WallsBounciness;
+		horizontalSpeed += side.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
 	}
 	else
 	{
-		horizontalSpeed -= side.Length() * (speed / maxSpeed) * WallsBounciness;
+		horizontalSpeed -= side.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
 	}
 
-	speed -= fw.Length() * (speed / maxSpeed) * WallsBounciness;
+	p.Set(kart_trs->GetPosition(), kartZ);
+	if (p.IsInPositiveDirection(normal))
+	{
+		speed += fw.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+	}
+	else
+	{
+		speed -= fw.Length() * Clamp((speed / maxSpeed), 0.2f, 1.0f) * WallsBounciness;
+	}
 }
 
 void ComponentCar::WallHit(const float3 & normal)
@@ -192,7 +200,7 @@ void ComponentCar::KartLogic()
 	{
 		if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f) && hitF.distance < DISTANCE_FROM_GROUND + 1.0f) || frontHit == false)
 		{
-			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+			newPos -= max(math::Abs(speed), maxSpeed / 4.0f) * kartZ;
 			if (speed >= 0.0f)
 			{
 				WallHit(hitF.normal, kartZ, kartX);
@@ -201,7 +209,7 @@ void ComponentCar::KartLogic()
 		}
 		else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f) && hitB.distance < DISTANCE_FROM_GROUND + 1.0f) || backHit == false)
 		{
-			newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+			newPos += max(math::Abs(speed), maxSpeed / 4.0f) * kartZ;
 			if (speed <= 0.0f)
 			{
 				WallHit(hitB.normal, kartZ, kartX);
@@ -397,7 +405,7 @@ void ComponentCar::PlayersInput()
 			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
 		}
-		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
+		Steer(App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X));
 	}
 
 	Drift();

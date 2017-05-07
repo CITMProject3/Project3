@@ -614,7 +614,7 @@ namespace Player_Car
 		{
 			float3 otherCarPos = ((ComponentTransform*)(col->GetCar()->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
 			float3 myPos = ((ComponentTransform*)(Player_car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
-			float3 norm = otherCarPos - myPos;
+			float3 norm = myPos - otherCarPos;
 			Player_car->WallHit(norm.Normalized());
 		}
 
