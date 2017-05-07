@@ -251,7 +251,7 @@ float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
 	//Accelerating
-	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::A)))
+	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::RB)))
 	{
 		//We recieved the order to move forward
 		if (speed < -0.01f)
@@ -272,7 +272,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::B)))
+	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::LB)))
 	{
 		if (speed > 0.01f)
 		{
@@ -390,9 +390,21 @@ void ComponentCar::SteerKart()
 {
 	//This simply translataes current steer into a Quaterion we can rotate the kart with
 	//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
-	//The "Clamp" thing is to allow less rotation the less the kart is moving
-	//The kart can rotate the maximum amount when it goes faster than maxSpeed / 3
-	float rotateAngle = maxSteer * math::Clamp(speed / (maxSpeed / 3), -1.0f, 1.0f) * currentSteer * time->DeltaTime();
+	
+	float steerReduction = 1.0f;
+	if (speed < maxSpeed * 0.75f)
+	{
+		//The "Clamp" thing is to allow less rotation the less the kart is moving
+		//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
+		steerReduction = math::Clamp(speed / (maxSpeed / 2), 0.0f, 1.0f);
+	}
+	else
+	{
+		float diference = speed - maxSpeed * 0.75f;
+		steerReduction = 1 - (diference / (maxSpeed*0.75f));
+		steerReduction = Clamp(steerReduction, 0.4f, 1.0f);
+	}
+	float rotateAngle = maxSteer * steerReduction * currentSteer * time->DeltaTime();
 	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
 	kart_trs->Rotate(tmp);
 }
@@ -1113,7 +1125,6 @@ bool ComponentCar::GetGroundState() const
 
 float ComponentCar::GetAngularVelocity() const
 {
-	float a = currentSteer * maxSteer * DEGTORAD;
 	return currentSteer * maxSteer * DEGTORAD;
 }
 

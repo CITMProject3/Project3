@@ -140,16 +140,16 @@ private:
 	bool steering = false;
 
 	//Car functionality values
-	float maxSpeed = 0.9f;
+	float maxSpeed = 1.2f;
 	float maxAcceleration = 0.3f;
-	float brakePower = 0.6f;
-	float maneuverability = 6.0f;
-	float maxSteer = 160.0f;
+	float brakePower = 0.8f;
+	float maneuverability = 5.0f;
+	float maxSteer = 120.0f;
 	float drag = 0.3f;
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
-	float WallsBounciness = 0.6f;
+	float WallsBounciness = 0.75f;
 
 	//Variable values that directly affect the car frame by frame
 	float speed = 0.0f;
