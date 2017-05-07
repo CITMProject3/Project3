@@ -265,7 +265,7 @@ float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
 	//Accelerating
-	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::RB)))
+	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickButton(front_player, JOY_BUTTON::RB)))
 	{
 		//We recieved the order to move forward
 		if (speed < -0.01f)
@@ -286,7 +286,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::LB)))
+	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickButton(front_player, JOY_BUTTON::LB)))
 	{
 		if (speed > 0.01f)
 		{
@@ -392,8 +392,11 @@ void ComponentCar::PlayersInput()
 	//Steering
 	if (lock_input == false)
 	{
-		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+		if (front_player == PLAYER_1)
+		{
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+		}
 		Steer(App->input->GetJoystickAxis(0, JOY_AXIS::LEFT_STICK_X));
 	}
 
@@ -1115,17 +1118,6 @@ float ComponentCar::GetMaxVelocity() const
 {
 	return kart->max_velocity * UNITS_TO_KMH;
 }
-
-void ComponentCar::SetMaxVelocity(float max_vel)
-{
-	kart->max_velocity = max_vel * KMH_TO_UNITS;
-}
-
-float ComponentCar::GetMinVelocity() const
-{
-	return kart->min_velocity;
-}
-
 
 unsigned int ComponentCar::GetFrontPlayer()
 {

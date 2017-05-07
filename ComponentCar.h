@@ -155,7 +155,7 @@ private:
 	float speed = 0.0f;
 	float currentSteer = 0.0f;
 	float horizontalSpeed = 0.0f;
-	float fallSpeed = 0.0f;	
+	float fallSpeed = 0.0f;
 
 	float3 kartX, kartY, kartZ;
 
@@ -193,7 +193,7 @@ public:
 	//Getters
 	float GetVelocity()const;
 
-	
+
 private:
 	void DebugInput();
 
@@ -223,8 +223,6 @@ public:
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
-	void SetMaxVelocity(float max_vel);
-	float GetMinVelocity()const;
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	bool GetGroundState() const;
@@ -310,7 +308,7 @@ private:
 	//Reset
 	float loose_height = -100.0f;
 
-	
+
 	//Update variables (change during game)----------------------------------------------------------------
 
 	//Turn over
@@ -339,11 +337,13 @@ private:
 	bool acro_on = false;
 	bool acro_done = false;
 	float acro_timer = 0.0f;
-	
+
 	//Turbo
-	private:
+private:
 	Turbo turbo;
 	turboOutput turbo_mods;
+
+	turboPicker_class turboPicker;
 
 	std::vector<GameObject*> wheels_go;
 
@@ -364,18 +364,15 @@ private:
 	int bonus_hitodamas = 2;
 
 	//  Checkpoint variables----------------------------------------------------------------------------------------------------------------------------------------
-	public:
-		void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
-		void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
-		uint checkpoints = MAXUINT - 10;
-		float3 last_check_pos = float3::zero;
-		Quat last_check_rot = Quat::identity;
-		unsigned int lap = 1;
+public:
+	void WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot);
+	void WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot);
+	uint checkpoints = MAXUINT - 10;
+	float3 last_check_pos = float3::zero;
+	Quat last_check_rot = Quat::identity;
+	unsigned int lap = 1;
 
-		unsigned int n_checkpoints = 0;
-
-		turboPicker_class turboPicker;
-
+	unsigned int n_checkpoints = 0;
 };
 
 

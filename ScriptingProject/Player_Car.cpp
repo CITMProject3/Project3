@@ -299,7 +299,7 @@ namespace Player_Car
 				}
 			}
 
-			if (evil_spirit_effect)
+			/*if (evil_spirit_effect)
 			{
 				if (evil_spirit_current_duration == 0.0f && Player_car->inverted_controls == false)
 				{
@@ -316,7 +316,7 @@ namespace Player_Car
 						evil_spirit_effect = false;
 					}
 				}
-			}
+			}*/
 			/*
 			if (have_makibishi)
 			{
@@ -609,6 +609,14 @@ namespace Player_Car
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
 	{
 		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
+
+		if (col->IsCar())
+		{
+			float3 otherCarPos = ((ComponentTransform*)(col->GetCar()->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
+			float3 myPos = ((ComponentTransform*)(Player_car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
+			float3 norm = otherCarPos - myPos;
+			Player_car->WallHit(norm.Normalized());
+		}
 
 		if (col->IsTrigger())
 		{

@@ -39,7 +39,7 @@ extern "C"
 			script_names->push_back("Test2");
 
 			//TODO
-			//script_names->push_back("Player_Car");
+			script_names->push_back("Player_Car");
 			script_names->push_back("Makibishi");
 			script_names->push_back("Player_Camera");
 
