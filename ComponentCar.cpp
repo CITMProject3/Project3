@@ -394,30 +394,26 @@ void ComponentCar::CheckOnTheGround()
 
 void ComponentCar::Drift(float dir)
 {
+	if (drifting == drift_none || drifting == drift_failed)
+	{
+		return;
+	}
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		dir += 0.5f;
+		currentSteer =  -0.75f - (dir / 6);
+		dir += 0.6f;
 		dir *= -1;
-		currentSteer = -0.75f;
 	}
 	else
 	{
-		dir -= 0.5f;
-		currentSteer = 0.75f;
+		currentSteer = 0.75f - (dir / 6);
+		dir -= 0.6f;
 	}
+	dir *= 2.0f;
 
-	//horizontalSpeed -= drag * 5.0f * time->DeltaTime() * dir;
-
-	if (drifting == drift_right_0)
-	{
-		LOG("DriftingRIght");
-	}
-	if (drifting == drift_left_0)
-	{
-		LOG("Drifting left");
-	}
-
+	horizontalSpeed += drag * 3.0f * time->DeltaTime() * dir;
+//	horizontalSpeed = Clamp(horizontalSpeed, -maxSpeed / 2.0f, maxSpeed / 2.0f);
 }
 
 void ComponentCar::DriftManagement()
@@ -448,6 +444,7 @@ void ComponentCar::DriftManagement()
 		else
 		{
 			drifting = drift_none;
+			currentSteer = 0.0f;
 		}
 	}
 	else
