@@ -76,22 +76,6 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 	//Player config
 	front_player = PLAYER_1;
 	back_player = PLAYER_2;
-
-	//Turbo
-	mini_turbo.SetTurbo("Mini turbo", 300.0f, 25.0f, 1.0f);
-	turbos.push_back(mini_turbo);
-
-	drift_turbo_2.SetTurbo("Drift turbo 2", 300.0f, 35.0f, 1.0f);
-	turbos.push_back(drift_turbo_2);
-
-	drift_turbo_3.SetTurbo("Drift turbo 3", 300.0f, 45.0f, 2.0f);
-	turbos.push_back(drift_turbo_3);
-
-	turbo_pad.SetTurbo("Turbo Pad", 300.0f, 200.0f, 1.5f);
-	turbos.push_back(turbo_pad);
-
-	//Item
-	rocket_turbo.SetTurbo("Rocket turbo", 0.0f, 50.0f, 5.0f);
 	
 	inverted_controls = false;
 }
@@ -127,9 +111,16 @@ void ComponentCar::Update()
 
 		if (App->IsGameRunning())
 		{
+			turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
+
+			if (App->input->GetKey(SDL_SCANCODE_X) == KEY_DOWN)
+			{
+				NewTurbo(turboPicker.acrobatic);
+			}
+
 			KartLogic();
 			CheckGroundCollision();
-			HandlePlayerInput();
+			HandlePlayerInput();			
 			UpdateGO();
 			GameLoopCheck();
 		}
@@ -266,11 +257,13 @@ float ComponentCar::AccelerationInput()
 	//Accelerating
 	if (lock_input == false && (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::A)))
 	{
+		//We recieved the order to move forward
 		if (speed < -0.01f)
 		{
+			//If we're going backwards, we apply the brakePower instead of the acceleration
 			if (speed < -brakePower * time->DeltaTime())
 			{
-				acceleration += brakePower * time->DeltaTime();
+				acceleration += (brakePower + turbo_mods.accelerationBonus) * time->DeltaTime();
 			}
 			else
 			{
@@ -279,7 +272,7 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			acceleration += maxAcceleration * time->DeltaTime();
+			acceleration += (maxAcceleration + turbo_mods.accelerationBonus) * time->DeltaTime();
 		}
 	}
 	//Braking
@@ -289,7 +282,7 @@ float ComponentCar::AccelerationInput()
 		{
 			if (speed > brakePower * time->DeltaTime())
 			{
-				acceleration -= brakePower * time->DeltaTime();
+				acceleration -= (brakePower + turbo_mods.accelerationBonus) * time->DeltaTime();
 			}
 			else
 			{
@@ -298,7 +291,8 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			acceleration -= (maxAcceleration / 2.0f) * time->DeltaTime();
+			//We divide the result by 4, this way the kart accelerates way slower when going backwards
+			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus)/ 2.0f) * time->DeltaTime();
 		}
 	}
 	//If there's no input, drag force slows car down
@@ -317,6 +311,12 @@ float ComponentCar::AccelerationInput()
 			speed = 0;
 		}
 	}
+
+	if (turbo_mods.alive && acceleration < turbo_mods.accelerationMin)
+	{
+		acceleration = turbo_mods.accelerationMin;
+	}
+
 	return acceleration;
 }
 
@@ -375,7 +375,7 @@ void ComponentCar::PlayersInput()
 	if (onTheGround)
 	{
 		speed += AccelerationInput();
-		speed = math::Clamp(speed, -maxSpeed, maxSpeed);
+		speed = math::Clamp(speed, -maxSpeed - turbo_mods.maxSpeedBonus, maxSpeed + turbo_mods.maxSpeedBonus);
 	}
 	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
 
@@ -509,8 +509,6 @@ void ComponentCar::HandlePlayerInput()
 		PushUpdate(&accel_boost);
 	}
 
-	ApplyTurbo();
-
 	//Acrobactics control
 	if (acro_on)
 	{
@@ -601,7 +599,7 @@ void ComponentCar::PushUpdate(float* accel)
 
 void ComponentCar::Leaning(float accel)
 {
-	if (GetVelocity() > 0.0f && current_turbo == T_IDLE)
+	if (GetVelocity() > 0.0f)
 	{
 		SetP2AnimationState(P2LEANING, 0.5f);
 		leaning = true;
@@ -664,30 +662,14 @@ void ComponentCar::UseItem()
 {
 	SetP2AnimationState(P2USE_ITEM, 0.5f);
 
-	//if (has_item)
-	//{
-		current_turbo = T_ROCKET;
+	if (has_item)
+	{
+		turbo.SetTurbo(turboPicker.rocket);
+		turbo.TurnOn();
 		has_item = false;
-	//}
-
-	if (applied_turbo && current_turbo)
-	{
-		if (applied_turbo->timer >= applied_turbo->time)
-		{
-			ReleaseItem();
-			speed = 0.0f;
-			current_turbo = T_IDLE;
-		}
 	}
 }
 
-void ComponentCar::ReleaseItem()
-{
-	if (current_turbo = T_ROCKET)
-	{
-		current_turbo = T_IDLE;
-	}
-}
 bool ComponentCar::AddHitodama()
 {
 	if (num_hitodamas < max_hitodamas)
@@ -713,123 +695,16 @@ int ComponentCar::GetNumHitodamas() const
 	return num_hitodamas;
 }
 
-void ComponentCar::ApplyTurbo()
+void ComponentCar::NewTurbo(Turbo turboToApply)
 {
-	/*bool start = false;
-
-	if (start = (last_turbo != current_turbo))
-	{
-		switch (current_turbo)
-		{
-		case T_IDLE:
-			applied_turbo = nullptr;
-			break;
-		case T_MINI:
-			applied_turbo = &mini_turbo;
-			break;
-		case T_DRIFT_MACH_2:
-			applied_turbo = &drift_turbo_2;
-			break;
-		case T_DRIFT_MACH_3:
-			applied_turbo = &drift_turbo_3;
-			break;
-		case T_TURBOPAD:
-			applied_turbo = &turbo_pad;
-			break;
-		case T_ROCKET:
-			applied_turbo = &rocket_turbo;
-			break;
-		}
-	}
-
-	last_turbo = current_turbo;
-
-	//If there's a turbo on, apply it
-	if (applied_turbo)
-	{
-	
-
-		//Changes applied when turbo started
-		if (start)
-		{
-			applied_turbo->timer = 0.0f;
-
-			if (applied_turbo->per_ac)
-				turbo_accel_boost = ((kart->accel_force / 100) * applied_turbo->accel_boost);
-			else
-				turbo_accel_boost = applied_turbo->accel_boost;
-
-			if (applied_turbo->per_sp)
-				turbo_speed_boost = ((kart->max_velocity / 100) * applied_turbo->speed_boost);
-			else
-				turbo_speed_boost = applied_turbo->speed_boost;
-
-
-			if (applied_turbo->speed_direct && !applied_turbo->speed_increase)
-			{
-				float3 fv = game_object->transform->GetForward();
-				float s_offset = 0.5;
-				vehicle->SetVelocity(fv.x, fv.y, fv.z, kart->max_velocity + turbo_speed_boost - s_offset);
-			}
-
-			turbo_deceleration = applied_turbo->deceleration;
-			turbo_acceleration = applied_turbo->fake_accel;
-			to_turbo_decelerate = applied_turbo->speed_decrease;
-			current_speed_boost = 0.0f;
-			speed_boost_reached = false;
-
-		}
-
-		//Turbo applied every frame till it's time finish and then go to idle turbo
-		if (applied_turbo->timer < applied_turbo->time)
-		{
-			if (!speed_boost_reached)
-			{
-				if (applied_turbo->speed_direct && applied_turbo->speed_increase)
-				{
-					//Testing inn progress of progressive acceleration
-					current_speed_boost += turbo_acceleration * time->DeltaTime();
-
-					if (vehicle->GetKmh() > top_velocity)
-					{
-						speed_boost_reached = true;
-					}
-
-					float3 fv = game_object->transform->GetForward();
-					float s_offset = 0.5;
-					float current_velocity = GetVelocity();
-					float desired_velocity = GetVelocity() + turbo_acceleration; //* time->DeltaTime();
-					vehicle->SetVelocity(fv.x, fv.y, fv.z, desired_velocity);
-				}
-
-			}
-			
-
-			accel_boost += turbo_accel_boost;
-			speed_boost += turbo_speed_boost;
-
-			applied_turbo->timer += time->DeltaTime();
-		}
-		else
-		{
-			current_turbo = T_IDLE;
-		}
-	}
-
-	//Deceleration (without brake)
-	if (current_turbo == T_IDLE && to_turbo_decelerate)
-	{
-		if (turbo_speed_boost > 0.0f)
-		{
-			turbo_speed_boost -= turbo_deceleration * time->DeltaTime();
-			speed_boost += turbo_speed_boost;
-		}
-	}*/
+	turbo.SetTurbo(turboToApply);
+	turbo.TurnOn();
 }
 
-//TODO drift
-
-//TODO drift turbos
+void ComponentCar::TurboPad()
+{
+	NewTurbo(turboPicker.turboPad);
+}
 
 void ComponentCar::DriftTurbo()
 {
@@ -1252,14 +1127,9 @@ float ComponentCar::GetAngularVelocity() const
 	return currentSteer * maxSteer * DEGTORAD;
 }
 
-TURBO ComponentCar::GetCurrentTurbo() const
+Turbo ComponentCar::GetAppliedTurbo() const
 {
-	return current_turbo;
-}
-
-Turbo* ComponentCar::GetAppliedTurbo() const
-{
-	return applied_turbo;
+	return turbo;
 }
 
 void ComponentCar::SetCarType(CAR_TYPE type)
@@ -1307,7 +1177,7 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	{
 		if (acro_done)
 		{
-			current_turbo = T_MINI;
+			NewTurbo(turboPicker.acrobatic);
 			acro_done = false;
 		}
 		else if (acro_on)
@@ -1449,78 +1319,6 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("koji_driftMinSpeed", koji.drift_min_speed);
 	data.AppendFloat("koji_drift_turn_max", koji.drift_turn_max);
 
-	//Turbos-------
-	//Mini turbo
-	
-		data.AppendFloat("miniturbo_accel_boost", mini_turbo.accel_boost);
-
-		data.AppendFloat("miniturbo_speed_boost", mini_turbo.speed_boost);
-		data.AppendFloat("miniturbo_turbo_speed", mini_turbo.turbo_speed);
-		data.AppendFloat("miniturbo_deceleration", mini_turbo.deceleration);
-		data.AppendFloat("miniturbo_time", mini_turbo.time);
-
-		data.AppendBool("miniturbo_accel_per", mini_turbo.per_ac);
-		data.AppendBool("miniturbo_speed_per", mini_turbo.per_sp);
-		data.AppendBool("miniturbo_speed_direct", mini_turbo.speed_direct);
-		data.AppendBool("miniturbo_speed_decrease", mini_turbo.speed_decrease);
-
-		//Drift turbo 2
-
-		data.AppendFloat("drift_turbo_2_accel_boost", drift_turbo_2.accel_boost);
-
-		data.AppendFloat("drift_turbo_2_speed_boost", drift_turbo_2.speed_boost);
-		data.AppendFloat("drift_turbo_2_turbo_speed", drift_turbo_2.turbo_speed);
-		data.AppendFloat("drift_turbo_2_deceleration", drift_turbo_2.deceleration);
-		data.AppendFloat("drift_turbo_2_time", drift_turbo_2.time);
-
-		data.AppendBool("drift_turbo_2_accel_per", drift_turbo_2.per_ac);
-		data.AppendBool("drift_turbo_2_speed_per", drift_turbo_2.per_sp);
-		data.AppendBool("drift_turbo_2_speed_direct", drift_turbo_2.speed_direct);
-		data.AppendBool("drift_turbo_2_speed_decrease", drift_turbo_2.speed_decrease);
-
-		//Drift turbo 3
-
-		data.AppendFloat("drift_turbo_3_accel_boost", drift_turbo_3.accel_boost);
-
-		data.AppendFloat("drift_turbo_3_speed_boost", drift_turbo_3.speed_boost);
-		data.AppendFloat("drift_turbo_3_turbo_speed", drift_turbo_3.turbo_speed);
-		data.AppendFloat("drift_turbo_3_deceleration", drift_turbo_3.deceleration);
-		data.AppendFloat("drift_turbo_3_time", drift_turbo_3.time);
-
-		data.AppendBool("drift_turbo_3_accel_per", drift_turbo_3.per_ac);
-		data.AppendBool("drift_turbo_3_speed_per", drift_turbo_3.per_sp);
-		data.AppendBool("drift_turbo_3_speed_direct", drift_turbo_3.speed_direct);
-		data.AppendBool("drift_turbo_3_speed_decrease", drift_turbo_3.speed_decrease);
-
-		//TurboPad
-		data.AppendFloat("turbo_pad_accel_boost", turbo_pad.accel_boost);
-						  
-		data.AppendFloat("turbo_pad_speed_boost", turbo_pad.speed_boost);
-		data.AppendFloat("turbo_pad_turbo_speed", turbo_pad.turbo_speed);
-		data.AppendFloat("turbo_pad_deceleration", turbo_pad.deceleration);
-		data.AppendFloat("turbo_pad_time", turbo_pad.time);
-
-		data.AppendBool("turbo_pad_accel_per", turbo_pad.per_ac);
-		data.AppendBool("turbo_pad_speed_per", turbo_pad.per_sp);
-		data.AppendBool("turbo_pad_speed_direct", turbo_pad.speed_direct);
-		data.AppendBool("turbo_pad_speed_decrease", turbo_pad.speed_decrease);
-
-		//Rocket turbo 
-
-		data.AppendFloat("rocket_turbo_accel_boost", rocket_turbo.accel_boost);
-
-		data.AppendFloat("rocket_turbo_speed_boost", rocket_turbo.speed_boost);
-		data.AppendFloat("rocket_turbo_turbo_speed", rocket_turbo.turbo_speed);
-		data.AppendFloat("rocket_turbo_deceleration", rocket_turbo.deceleration);
-		data.AppendFloat("rocket_turbo_time", rocket_turbo.time);
-
-		data.AppendBool("rocket_turbo_accel_per", rocket_turbo.per_ac);
-		data.AppendBool("rocket_turbo_speed_per", rocket_turbo.per_sp);
-		data.AppendBool("rocket_turbo_speed_direct", rocket_turbo.speed_direct);
-		data.AppendBool("rocket_turbo_speed_decrease", rocket_turbo.speed_decrease);
-	
-
-
 	//data.AppendFloat("kick_cooldown", kickCooldown);
 	//--------------------------------------------------
 	//Wheel settings
@@ -1649,55 +1447,6 @@ void ComponentCar::Load(Data& conf)
 	koji.drift_turn_max = conf.GetFloat("koji_drift_turn_max");
 	//-----------------------------------------
 
-	//Turbo
-	//Mini turbo
-	mini_turbo.accel_boost = conf.GetFloat("miniturbo_accel_boost");
-	mini_turbo.speed_boost = conf.GetFloat("miniturbo_speed_boost");
-	mini_turbo.turbo_speed = conf.GetFloat("miniturbo_turbo_speed");
-	mini_turbo.deceleration = conf.GetFloat("miniturbo_deceleration");
-	mini_turbo.time = conf.GetFloat("miniturbo_time");
-	
-	mini_turbo.per_ac = conf.GetBool("miniturbo_accel_per");
-	mini_turbo.per_sp = conf.GetBool("miniturbo_speed_per");
-	mini_turbo.speed_direct = conf.GetBool("miniturbo_speed_direct");
-	mini_turbo.speed_decrease = conf.GetBool("miniturbo_speed_decrease");
-
-	//Drift turbo 2
-	drift_turbo_2.accel_boost = conf.GetFloat("drift_turbo_2_accel_boost");
-	drift_turbo_2.speed_boost = conf.GetFloat("drift_turbo_2_speed_boost");
-	drift_turbo_2.turbo_speed = conf.GetFloat("drift_turbo_2_turbo_speed");
-	drift_turbo_2.deceleration = conf.GetFloat("drift_turbo_2_deceleration");
-	drift_turbo_2.time = conf.GetFloat("drift_turbo_2_time");
-
-	drift_turbo_2.per_ac = conf.GetBool("drift_turbo_2_accel_per");
-	drift_turbo_2.per_sp = conf.GetBool("drift_turbo_2_speed_per");
-	drift_turbo_2.speed_direct = conf.GetBool("drift_turbo_2_speed_direct");
-	drift_turbo_2.speed_decrease = conf.GetBool("drift_turbo_2_speed_decrease");
-
-	//Drift turbo 3
-	drift_turbo_3.accel_boost = conf.GetFloat("drift_turbo_3_accel_boost");
-	drift_turbo_3.speed_boost = conf.GetFloat("drift_turbo_3_speed_boost");
-	drift_turbo_3.turbo_speed = conf.GetFloat("drift_turbo_3_turbo_speed");
-	drift_turbo_3.deceleration = conf.GetFloat("drift_turbo_3_deceleration");
-	drift_turbo_3.time = conf.GetFloat("drift_turbo_3_time");
-
-	drift_turbo_3.per_ac = conf.GetBool("drift_turbo_3_accel_per");
-	drift_turbo_3.per_sp = conf.GetBool("drift_turbo_3_speed_per");
-	drift_turbo_3.speed_direct = conf.GetBool("drift_turbo_3_speed_direct");
-	drift_turbo_3.speed_decrease = conf.GetBool("drift_turbo_3_speed_decrease");
-
-	//Rocket
-	rocket_turbo.accel_boost = conf.GetFloat("rocket_turbo_accel_boost");
-	rocket_turbo.speed_boost = conf.GetFloat("rocket_turbo_speed_boost");
-	rocket_turbo.turbo_speed = conf.GetFloat("rocket_turbo_turbo_speed");
-	rocket_turbo.deceleration = conf.GetFloat("rocket_turbo_deceleration");
-	rocket_turbo.time = conf.GetFloat("rocket_turbo_time");
-
-	rocket_turbo.per_ac = conf.GetBool("rocket_turbo_accel_per");
-	rocket_turbo.per_sp = conf.GetBool("rocket_turbo_speed_per");
-	rocket_turbo.speed_direct = conf.GetBool("rocket_turbo_speed_direct");
-	rocket_turbo.speed_decrease = conf.GetBool("rocket_turbo_speed_decrease");
-	
 
 	//kickCooldown = conf.GetFloat("kick_cooldown");
 	//Wheel settings

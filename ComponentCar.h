@@ -9,6 +9,8 @@
 #include "Bullet\include\btBulletDynamicsCommon.h"
 #include "Bullet\include\btBulletCollisionCommon.h"
 
+#include "Turbos.h"
+
 #include "Primitive.h"
 
 #define CAR_GRAVITY 0.8f
@@ -61,16 +63,6 @@ enum Player2_State
 	P2GET_HIT,
 	P2USE_ITEM,
 	P2ACROBATICS
-};
-
-enum TURBO
-{
-	T_IDLE,
-	T_MINI,
-	T_DRIFT_MACH_2,
-	T_DRIFT_MACH_3,
-	T_ROCKET,
-	T_TURBOPAD
 };
 
 enum MAX_TURN_CHANGE_MODE
@@ -137,34 +129,6 @@ struct Car
 	float full_brake_force = 300.0f;
 };
 
-struct Turbo
-{
-	string name;
-
-	float accel_boost;
-	float speed_boost;
-	float turbo_speed;
-	float deceleration = 1.0f;
-	float fake_accel = 10.0f;
-
-	bool per_ac = false;
-	bool per_sp = false;
-	bool speed_direct = false;
-	bool speed_decrease = false;
-	bool speed_increase = false;
-
-
-	float time;
-	float timer = 0.0;
-
-	void SetTurbo(string n, float a, float v, float t)
-	{
-		name = n;
-		accel_boost = a;
-		speed_boost = v;
-		time = t;
-	}
-};
 
 class ComponentCar : public Component
 {
@@ -260,8 +224,7 @@ public:
 	unsigned int GetBackPlayer();
 	bool GetGroundState() const;
 	float GetAngularVelocity() const;
-	TURBO GetCurrentTurbo()const;
-	Turbo* GetAppliedTurbo()const;
+	Turbo GetAppliedTurbo()const;
 
 	void SetCarType(CAR_TYPE type);
 
@@ -279,15 +242,14 @@ private:
 public:
 	void PickItem();
 	void UseItem();
-	void ReleaseItem();
 
 	bool AddHitodama();
 	bool RemoveHitodama();
 	int GetNumHitodamas() const;
 
+	void NewTurbo(Turbo turboToApply);
+	void TurboPad();
 private:
-	void ApplyTurbo();
-
 	void DriftTurbo();
 
 	void UpdateTurnOver();
@@ -343,16 +305,6 @@ private:
 	//Reset
 	float lose_height = -50.0f;
 
-	//Turbos
-	Turbo mini_turbo;
-	Turbo drift_turbo_2;
-	Turbo drift_turbo_3;
-	Turbo turbo_pad;
-
-public:
-	//Rocket item
-	Turbo rocket_turbo;
-private:
 	
 	//Update variables (change during game)----------------------------------------------------------------
 
@@ -387,19 +339,9 @@ private:
 	float acro_timer = 0.0f;
 	
 	//Turbo
-	public:
-	TURBO current_turbo = T_IDLE;
 	private:
-	TURBO last_turbo = T_IDLE;
-	Turbo* applied_turbo = nullptr;
-	float turbo_accel_boost = 0.0f;
-	float turbo_speed_boost = 0.0f;
-	float turbo_deceleration = 0.0f;
-	float turbo_acceleration = 0.0f;
-	float current_speed_boost = 0.0f;
-	bool speed_boost_reached = false;
-	bool to_turbo_speed = false;
-	bool to_turbo_decelerate = false;
+	Turbo turbo;
+	turboOutput turbo_mods;
 
 	std::vector<GameObject*> wheels_go;
 
@@ -413,10 +355,6 @@ private:
 	//Reset
 	float3 reset_pos;
 	Quat reset_rot;
-
-	//Turbos vector
-	//NOTE: this exist because i'm to lazy to write all the stats of the turbos on the inspector, save and load
-	vector<Turbo> turbos;
 
 	//Hitodamas
 	int num_hitodamas = 0;
@@ -433,6 +371,8 @@ private:
 		unsigned int lap = 1;
 
 		unsigned int n_checkpoints = 0;
+
+		turboPicker_class turboPicker;
 
 };
 
