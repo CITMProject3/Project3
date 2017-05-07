@@ -49,13 +49,13 @@ enum update_status
 
 // Configuration -----------
 #define SCREEN_SIZE 1
-#define WIN_FULLSCREEN false
-#define WIN_MAXIMIZED true
-#define WIN_RESIZABLE false
-#define WIN_BORDERLESS false
-#define WIN_FULLSCREEN_DESKTOP false
+//#define WIN_FULLSCREEN false
+//#define WIN_MAXIMIZED true
+//#define WIN_RESIZABLE false
+//#define WIN_BORDERLESS false
+//#define WIN_FULLSCREEN_DESKTOP false
 #define VSYNC true
-#define TITLE "Ezwix Engine"
+//#define TITLE "Ezwix Engine"
 
 //Folders
 #define ASSETS_FOLDER "/Assets/"

@@ -39,7 +39,6 @@ bool ModuleFileSystem::Init(Data& config)
 	// Add all paths in configuration in order
 	//AddPath() manually
 
-
 	if (PHYSFS_setWriteDir(".") == 0)
 	{
 		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
