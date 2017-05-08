@@ -288,7 +288,7 @@ namespace Player_Car
 	{
 		switch (current_item)
 		{
-			case(MAKIBISHI):
+			/*case(MAKIBISHI):
 			{
 				string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 				path.append("_GetMakibishi");
@@ -302,7 +302,7 @@ namespace Player_Car
 					}
 				}
 				break;
-			}
+			}*/
 			case(FIRECRACKER):
 			{
 				if (firecracker != nullptr)

@@ -118,6 +118,19 @@ public:
 
 };
 
+struct CarAttributeModifier
+{
+	float bonusMaxSpeed = 0.0f;
+	float bonusBrakePower = 0.0f;
+	float bonusMaxAcceleration = 0.0f;
+	float bonusManeuverability = 0.0f;
+	float bonusMaxSteering = 0.0f;
+	float bonusDrag = 0.0f;
+	float bonusWallBounciness = 0.0f;
+
+	void Reset() { *this = CarAttributeModifier(); }
+};
+
 
 class ComponentCar : public Component
 {
@@ -140,6 +153,7 @@ private:
 
 	float WallsBounciness = 0.75f;
 
+
 	//Variable values that directly affect the car frame by frame
 	float speed = 0.0f;
 	float currentSteer = 0.0f;
@@ -149,6 +163,8 @@ private:
 	ComponentTransform* kart_trs = nullptr;
 
 public:
+	CarAttributeModifier mods;
+
 	float3 kartX, kartY, kartZ;	
 
 	//Collider

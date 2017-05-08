@@ -42,21 +42,21 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (p.IsInPositiveDirection(normal))
 	{
-		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
+		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
 	}
 	else
 	{
-		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
+		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
 	}
 
 	p.Set(kart_trs->GetPosition(), kartZ);
 	if (p.IsInPositiveDirection(normal))
 	{
-		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
+		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
 	}
 	else
 	{
-		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * WallsBounciness;
+		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
 	}
 
 	if (drifting != drift_none)
@@ -198,7 +198,7 @@ void ComponentCar::KartLogic()
 	{
 		if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f) && hitF.distance < DISTANCE_FROM_GROUND + 1.0f) || frontHit == false)
 		{
-			newPos -= max(math::Abs(speed), maxSpeed / 4.0f) * kartZ;
+			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 			if (speed >= 0.0f)
 			{
 				WallHit(hitF.normal, kartZ, kartX);
@@ -207,7 +207,7 @@ void ComponentCar::KartLogic()
 		}
 		else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f) && hitB.distance < DISTANCE_FROM_GROUND + 1.0f) || backHit == false)
 		{
-			newPos += max(math::Abs(speed), maxSpeed / 4.0f) * kartZ;
+			newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 			if (speed <= 0.0f)
 			{
 				WallHit(hitB.normal, kartZ, kartX);
@@ -270,16 +270,20 @@ void ComponentCar::KartLogic()
 float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
+	float rTrigger = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
+	float lTrigger = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
+	
 	//Accelerating
-	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) > 0.5f))
+	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
 	{
+		if (rTrigger < 0.15f) { rTrigger = 1.0f; }
 		//We recieved the order to move forward
 		if (speed < -0.01f)
 		{
 			//If we're going backwards, we apply the brakePower instead of the acceleration
-			if (speed < -brakePower * time->DeltaTime())
+			if (speed < -(brakePower + mods.bonusBrakePower) * time->DeltaTime())
 			{
-				acceleration += (brakePower + turbo_mods.accelerationBonus) * time->DeltaTime();
+				acceleration += ((brakePower + mods.bonusBrakePower) + turbo_mods.accelerationBonus) * time->DeltaTime() * rTrigger;
 			}
 			else
 			{
@@ -288,17 +292,18 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			acceleration += (maxAcceleration + turbo_mods.accelerationBonus) * time->DeltaTime();
+			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
 		}
 	}
 	//Braking
-	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) > 0.5f))
+	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || lTrigger > 0.2f))
 	{
+		if (lTrigger < 0.15f) { lTrigger = 1.0f; }
 		if (speed > 0.01f)
 		{
-			if (speed > brakePower * time->DeltaTime())
+			if (speed > (brakePower + mods.bonusBrakePower) * time->DeltaTime())
 			{
-				acceleration -= (brakePower + turbo_mods.accelerationBonus) * time->DeltaTime();
+				acceleration -= ((brakePower + mods.bonusBrakePower) + turbo_mods.accelerationBonus) * time->DeltaTime() * lTrigger;
 			}
 			else
 			{
@@ -308,19 +313,19 @@ float ComponentCar::AccelerationInput()
 		else
 		{
 			//We divide the result by 4, this way the kart accelerates way slower when going backwards
-			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus)/ 2.0f) * time->DeltaTime();
+			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration)/ 4.0f) * time->DeltaTime() * lTrigger;
 		}
 	}
 	//If there's no input, drag force slows car down
 	else
 	{
-		if (speed > drag * time->DeltaTime())
+		if (speed > (drag + mods.bonusDrag) * time->DeltaTime())
 		{
-			acceleration = -drag * time->DeltaTime();
+			acceleration = -(drag + mods.bonusDrag) * time->DeltaTime();
 		}
-		else if (speed < -drag * time->DeltaTime())
+		else if (speed < -(drag + mods.bonusDrag) * time->DeltaTime())
 		{
-			acceleration += drag * time->DeltaTime();
+			acceleration += (drag + mods.bonusDrag) * time->DeltaTime();
 		}
 		else
 		{
@@ -343,7 +348,7 @@ void ComponentCar::Steer(float amount)
 		amount = math::Clamp(amount, -1.0f, 1.0f);
 		if (amount < -0.1 || amount > 0.1)
 		{
-			currentSteer += maneuverability * time->DeltaTime() * amount;
+			currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime() * amount;
 			amount = math::Abs(amount);
 			currentSteer = math::Clamp(currentSteer, -amount, amount);
 			steering = true;
@@ -359,13 +364,13 @@ void ComponentCar::Steer(float amount)
 void ComponentCar::AutoSteer()
 {
 	//Whenever the player isn't steering, bring slowly the wheels back to the neutral position
-	if (currentSteer > maneuverability * time->DeltaTime())
+	if (currentSteer > (maneuverability + mods.bonusManeuverability) * time->DeltaTime())
 	{
-		currentSteer -= maneuverability * time->DeltaTime();
+		currentSteer -= (maneuverability + mods.bonusManeuverability) * time->DeltaTime();
 	}
-	else if (currentSteer < -maneuverability * time->DeltaTime())
+	else if (currentSteer < -(maneuverability + mods.bonusManeuverability) * time->DeltaTime())
 	{
-		currentSteer += maneuverability * time->DeltaTime();
+		currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime();
 	}
 	else { currentSteer = 0; }
 }
@@ -421,7 +426,7 @@ void ComponentCar::Drift(float dir)
 	}
 	dir *= 2.0f;
 
-	horizontalSpeed += drag * 3.0f * time->DeltaTime() * -dir;
+	horizontalSpeed += (drag + mods.bonusDrag) * 3.0f * time->DeltaTime() * -dir;
 }
 
 void ComponentCar::DriftManagement()
@@ -494,7 +499,7 @@ void ComponentCar::PlayersInput()
 	if (onTheGround)
 	{
 		speed += AccelerationInput();
-		speed = math::Clamp(speed, (-maxSpeed - turbo_mods.maxSpeedBonus) / 3.0f, maxSpeed + turbo_mods.maxSpeedBonus);
+		speed = math::Clamp(speed, (-maxSpeed - turbo_mods.maxSpeedBonus - mods.bonusMaxSpeed) / 3.0f, maxSpeed + turbo_mods.maxSpeedBonus + mods.bonusMaxSpeed);
 	}
 	horizontalSpeed = math::Clamp(horizontalSpeed, -maxSpeed, maxSpeed);
 
@@ -528,14 +533,14 @@ void ComponentCar::SteerKart()
 	{
 		float diference = speed - maxSpeed * 0.75f;
 		steerReduction = 1 - (diference / (maxSpeed*0.75f));
-		steerReduction = Clamp(steerReduction, 0.4f, 1.0f);
+		steerReduction = Clamp(steerReduction, 0.5f, 1.0f);
 	}
 
 	if (speed < 0.0f)
 	{
 		steerReduction *= -1;
 	}
-	float rotateAngle = maxSteer * steerReduction * currentSteer * time->DeltaTime();
+	float rotateAngle = (maxSteer + mods.bonusMaxSteering) * steerReduction * currentSteer * time->DeltaTime();
 	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
 	kart_trs->Rotate(tmp);
 }
@@ -564,15 +569,15 @@ void ComponentCar::RotateKart(float3 desiredUp)
 
 void ComponentCar::HorizontalDrag()
 {
-	if (math::Abs(horizontalSpeed) > drag * 4.0f * time->DeltaTime())
+	if (math::Abs(horizontalSpeed) > (drag + mods.bonusDrag) * 4.0f * time->DeltaTime())
 	{
 		if (horizontalSpeed > 0)
 		{
-			horizontalSpeed -= drag * 4.0f * time->DeltaTime();
+			horizontalSpeed -= (drag + mods.bonusDrag) * 4.0f * time->DeltaTime();
 		}
 		else
 		{
-			horizontalSpeed += drag * 4.0f * time->DeltaTime();
+			horizontalSpeed += (drag + mods.bonusDrag) * 4.0f * time->DeltaTime();
 		}
 	}
 	else
@@ -931,6 +936,7 @@ void ComponentCar::OnGetHit()
 {
 	speed = 0.0;
 	horizontalSpeed = 0.0f;
+	fallSpeed = 10.0f;
 
 	SetP2AnimationState(P2GET_HIT, 0.0f);
 	p1_state = P1GET_HIT;
@@ -1011,7 +1017,7 @@ float ComponentCar::GetVelocity()
 
 float ComponentCar::GetMaxVelocity() const
 {
-	return maxSpeed * UNITS_TO_KMH;
+	return (maxSpeed + turbo_mods.maxSpeedBonus + mods.bonusMaxSpeed) * UNITS_TO_KMH;
 }
 
 unsigned int ComponentCar::GetFrontPlayer()
@@ -1031,7 +1037,7 @@ bool ComponentCar::GetGroundState() const
 
 float ComponentCar::GetAngularVelocity() const
 {
-	return currentSteer * maxSteer * DEGTORAD;
+	return currentSteer * (maxSteer + mods.bonusMaxSteering) * DEGTORAD;
 }
 
 Turbo ComponentCar::GetAppliedTurbo() const
@@ -1064,6 +1070,10 @@ void ComponentCar::DebugInput()
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
 	{
 		Reset();
+	}
+	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
+	{
+		OnGetHit();
 	}
 }
 
