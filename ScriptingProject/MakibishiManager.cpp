@@ -30,6 +30,7 @@ namespace MakibishiManager
 
 	void MakibishiManager_Start(GameObject* game_object)
 	{
+		makibishis.clear();
 		const std::vector<GameObject*>* childs = makibishi_parent->GetChilds();
 		for (uint i = 0; i < childs->size(); i++)
 		{
