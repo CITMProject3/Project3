@@ -162,6 +162,8 @@ private:
 
 	float maxSteerReduction = 0.5f;
 
+	float testVar = 0.0f;
+
 	ComponentTransform* kart_trs = nullptr;
 
 public:
