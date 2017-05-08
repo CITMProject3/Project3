@@ -338,6 +338,12 @@ namespace Player_Car
 	{
 		GameObject* makibishi = (*makibishis.begin());
 
+		if (makibishi == nullptr)
+		{
+			current_item = -1;
+			return;
+		}
+
 		//Activating everything
 		makibishi->SetActive(true);
 		makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
