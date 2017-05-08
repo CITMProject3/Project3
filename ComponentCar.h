@@ -189,12 +189,14 @@ private:
 	float horizontalSpeed = 0.0f;
 	float fallSpeed = 0.0f;
 
-	float3 kartX, kartY, kartZ;
-
 	ComponentTransform* kart_trs = nullptr;
+
+public:
+	float3 kartX, kartY, kartZ;	
 
 	//Collider
 	Cube_P collShape;
+private:
 	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
 
@@ -205,7 +207,7 @@ private:
 	DRIFT_STATE lastFrame_drifting;
 
 	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 2.0f;
+	float driftPhaseDuration = 4.0f;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
@@ -300,6 +302,7 @@ private:
 	void UpdateP1Animation();
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
+public:
 	void OnGetHit();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//

@@ -398,11 +398,26 @@ void ComponentCar::Drift(float dir)
 		return;
 	}
 
+	driftingTimer += time->DeltaTime();
+	if (driftingTimer > driftPhaseDuration)
+	{
+		driftingTimer = 0.0f;
+
+		switch (drifting)
+		{
+		case drift_right_0:
+			drifting = drift_right_1;
+			break;
+		case drift_left_0:
+			drifting = drift_left_1;
+			break;
+		}
+	}
+
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
 		currentSteer =  -0.75f - (dir / 6);
 		dir += 0.6f;
-		//dir *= -1;
 	}
 	else
 	{
@@ -412,7 +427,6 @@ void ComponentCar::Drift(float dir)
 	dir *= 2.0f;
 
 	horizontalSpeed += drag * 3.0f * time->DeltaTime() * -dir;
-//	horizontalSpeed = Clamp(horizontalSpeed, -maxSpeed / 2.0f, maxSpeed / 2.0f);
 }
 
 void ComponentCar::DriftManagement()
@@ -428,10 +442,12 @@ void ComponentCar::DriftManagement()
 				if (currentSteer > 0.6f)
 				{
 					drifting = drift_right_0;
+					driftingTimer = 0.0f;
 				}
 				else if (currentSteer < -0.6f)
 				{
 					drifting = drift_left_0;
+					driftingTimer = 0.0f;
 				}
 			}
 		}
@@ -443,12 +459,17 @@ void ComponentCar::DriftManagement()
 		else
 		{
 			drifting = drift_none;
-			currentSteer = 0.0f;
+			horizontalSpeed = 0.0f;
 		}
+	}
+	else if (lastFrame_drifting != drift_none && drifting != drift_none)
+	{
+		//If the player stops pressing the input, we stop drifting
+		drifting = drift_none;
+		horizontalSpeed = 0.0f;
 	}
 	else
 	{
-		//If the player stops pressing the input, we stop drifting
 		drifting = drift_none;
 	}
 
