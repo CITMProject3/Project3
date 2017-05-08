@@ -533,7 +533,7 @@ void ComponentCar::SteerKart()
 	{
 		float diference = speed - maxSpeed * 0.75f;
 		steerReduction = 1 - (diference / (maxSpeed*0.75f));
-		steerReduction = Clamp(steerReduction, 0.5f, 1.0f);
+		steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
 	}
 
 	if (speed < 0.0f)
@@ -1156,6 +1156,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
 
+	data.AppendFloat("maxSteerReduction", maxSteerReduction);
+
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
 
@@ -1199,6 +1201,9 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("WallsBounciness");
 	if (tmp != 0.0f) { WallsBounciness = tmp; }
 
+	tmp = conf.GetFloat("maxSteerReduction");
+	if (tmp != 0.0f) { maxSteerReduction = tmp; }
+
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
 
@@ -1236,6 +1241,8 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+		ImGui::Text("Maximum maneuverability reduction (percentual):");
+		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
 		ImGui::Text("Collider:");
 		if (App->IsGameRunning() == false)
