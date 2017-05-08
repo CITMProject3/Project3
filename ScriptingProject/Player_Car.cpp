@@ -142,6 +142,7 @@ namespace Player_Car
 	void Player_Car_LoseItem(GameObject* game_object);
 	void Player_Car_PickItem(GameObject* game_object);
 	void Player_Car_ChooseItem(GameObject* game_object);
+	void Player_Car_Set_Makibishis(GameObject* game_object);
 
 	void Player_Car_Update(GameObject* game_object)
 	{
@@ -160,126 +161,7 @@ namespace Player_Car
 					Player_Car_PickItem(game_object);
 					Player_Car_ChooseItem(game_object);
 
-					if (have_makibishi)
-					{
-						makibishi1 = makibishi2 = makibishi3 = nullptr;
-						for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-						{
-							if ((*item)->name == "Makibishi" && !(*item)->IsActive())
-							{
-								makibishi1 = (*item);
-								break;
-							}
-						}
-						if (makibishi1 == nullptr)
-						{
-							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-							{
-								if ((*item)->name == "Makibishi")
-								{
-									if (makibishi1 == nullptr)
-										makibishi1 = (*item);
-									else
-									{
-										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
-											makibishi1 = (*item);
-									}
-								}
-							}
-							((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-						}
-					}
-					else if (have_triple_makibishi)
-					{
-						makibishi_quantity = 3;
-						makibishi1 = makibishi2 = makibishi3 = nullptr;
-						for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-						{
-							if ((*item)->name == "Makibishi" && !(*item)->IsActive())
-							{
-								if (makibishi1 == nullptr)
-								{
-									makibishi1 = (*item);
-								}
-								else if (makibishi2 == nullptr)
-								{
-									makibishi2 = (*item);
-								}
-								else if (makibishi3 == nullptr)
-								{
-									makibishi3 = (*item);
-									break;
-								}
-							}
-						}
-						if (makibishi1 == nullptr)
-						{
-							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-							{
-								if ((*item)->name == "Makibishi")
-								{
-									if (makibishi1 == nullptr)
-										makibishi1 = (*item);
-									else if (makibishi2 == nullptr)
-										makibishi2 = (*item);
-									else if (makibishi3 == nullptr)
-										makibishi3 = (*item);
-									else
-									{
-										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
-										{
-											makibishi3 = makibishi2;
-											makibishi2 = makibishi1;
-											makibishi1 = (*item);
-										}
-									}
-								}
-							}
-							((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-							((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-						}
-						else if (makibishi2 == nullptr)
-						{
-							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-							{
-								if ((*item)->name == "Makibishi")
-								{
-									if (makibishi2 == nullptr)
-										makibishi2 = (*item);
-									else if (makibishi3 == nullptr)
-										makibishi3 = (*item);
-									else
-									{
-										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
-										{
-											makibishi3 = makibishi2;
-											makibishi2 = (*item);
-										}
-									}
-								}
-							}
-							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-							((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-						}
-						else if (makibishi3 == nullptr)
-						{
-							for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
-							{
-								if ((*item)->name == "Makibishi")
-								{
-									if (makibishi3 == nullptr)
-										makibishi3 = (*item);
-									else
-									{
-										if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
-											makibishi3 = (*item);
-									}
-								}
-							}
-							((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-						}
-					}
+					Player_Car_Set_Makibishis(game_object);
 				}
 			}
 
@@ -318,9 +200,18 @@ namespace Player_Car
 				}
 			}
 
+			//TMP
+			if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_UP || App->input->GetKey(SDL_SCANCODE_E) == KEY_UP)
+			{
+				have_makibishi = true;
+				Player_Car_Set_Makibishis(game_object);
+			}
+			//---------------
+
 			if (have_makibishi)
 			{
-				if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+				if (App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP 
+					/*tmp*/|| App->input->GetJoystickButton(Player_car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_UP || App->input->GetKey(SDL_SCANCODE_E) == KEY_UP)
 				{
 					if (makibishi1 != nullptr)
 					{
@@ -335,7 +226,7 @@ namespace Player_Car
 						have_makibishi = false;
 						((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
 
-						if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+						if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP || App->input->GetKey(SDL_SCANCODE_E) == KEY_UP)
 						{
 							float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 							((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
@@ -727,6 +618,130 @@ namespace Player_Car
 			else
 			{
 				LOG("Scripting error: %s", GetLastError());
+			}
+		}
+	}
+
+	void Player_Car_Set_Makibishis(GameObject* game_object)
+	{
+		if (have_makibishi)
+		{
+			makibishi1 = makibishi2 = makibishi3 = nullptr;
+			for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+			{
+				if ((*item)->name == "Makibishi" && !(*item)->IsActive())
+				{
+					makibishi1 = (*item);
+					break;
+				}
+			}
+			if (makibishi1 == nullptr)
+			{
+				for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+				{
+					if ((*item)->name == "Makibishi")
+					{
+						if (makibishi1 == nullptr)
+							makibishi1 = (*item);
+						else
+						{
+							if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+								makibishi1 = (*item);
+						}
+					}
+				}
+				((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+			}
+		}
+		else if (have_triple_makibishi)
+		{
+			makibishi_quantity = 3;
+			makibishi1 = makibishi2 = makibishi3 = nullptr;
+			for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+			{
+				if ((*item)->name == "Makibishi" && !(*item)->IsActive())
+				{
+					if (makibishi1 == nullptr)
+					{
+						makibishi1 = (*item);
+					}
+					else if (makibishi2 == nullptr)
+					{
+						makibishi2 = (*item);
+					}
+					else if (makibishi3 == nullptr)
+					{
+						makibishi3 = (*item);
+						break;
+					}
+				}
+			}
+			if (makibishi1 == nullptr)
+			{
+				for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+				{
+					if ((*item)->name == "Makibishi")
+					{
+						if (makibishi1 == nullptr)
+							makibishi1 = (*item);
+						else if (makibishi2 == nullptr)
+							makibishi2 = (*item);
+						else if (makibishi3 == nullptr)
+							makibishi3 = (*item);
+						else
+						{
+							if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+							{
+								makibishi3 = makibishi2;
+								makibishi2 = makibishi1;
+								makibishi1 = (*item);
+							}
+						}
+					}
+				}
+				((ComponentScript*)makibishi1->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+				((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+				((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+			}
+			else if (makibishi2 == nullptr)
+			{
+				for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+				{
+					if ((*item)->name == "Makibishi")
+					{
+						if (makibishi2 == nullptr)
+							makibishi2 = (*item);
+						else if (makibishi3 == nullptr)
+							makibishi3 = (*item);
+						else
+						{
+							if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+							{
+								makibishi3 = makibishi2;
+								makibishi2 = (*item);
+							}
+						}
+					}
+				}
+				((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+				((ComponentScript*)makibishi2->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+			}
+			else if (makibishi3 == nullptr)
+			{
+				for (list<GameObject*>::iterator item = App->go_manager->dynamic_gameobjects.begin(); item != App->go_manager->dynamic_gameobjects.end(); item++)
+				{
+					if ((*item)->name == "Makibishi")
+					{
+						if (makibishi3 == nullptr)
+							makibishi3 = (*item);
+						else
+						{
+							if (((ComponentScript*)(*item)->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") > ((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi"))
+								makibishi3 = (*item);
+						}
+					}
+				}
+				((ComponentScript*)makibishi3->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
 			}
 		}
 	}

@@ -22,6 +22,7 @@ EXPORTS
 	Player_Car_ChooseItem
 	Player_Car_PickItem
 	Player_Car_LoseItem
+	Player_Car_Set_Makibishis
 	
 	Makibishi_GetPublics
 	Makibishi_Start
