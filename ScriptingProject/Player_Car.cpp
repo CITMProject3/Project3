@@ -288,7 +288,7 @@ namespace Player_Car
 	{
 		switch (current_item)
 		{
-			/*case(MAKIBISHI):
+			case(MAKIBISHI):
 			{
 				string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 				path.append("_GetMakibishi");
@@ -302,7 +302,7 @@ namespace Player_Car
 					}
 				}
 				break;
-			}*/
+			}
 			case(FIRECRACKER):
 			{
 				if (firecracker != nullptr)
@@ -351,7 +351,7 @@ namespace Player_Car
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
 
-		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		{
 			float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
