@@ -134,6 +134,34 @@ struct Car
 };
 
 
+class Wheel
+{
+public:
+	Wheel(float2 _posOffset, float3 _dir, ComponentCar* _kart) : posOffset(_posOffset), dir(_dir), kart(_kart) {}
+
+	/*void Cast()
+	{
+		math::Ray Ray;
+		Ray.pos = kart->
+		RaycastHit hitResult;
+
+
+	}*/
+
+private:
+	float2 posOffset;
+	float3 dir;
+	ComponentCar* kart;
+public:
+	bool hit = false;
+	float angleFromY = 0.0f;
+	float distance = 0.0f;
+	float3 hitNormal;
+	float3 hitPoint;
+
+};
+
+
 class ComponentCar : public Component
 {
 private:
