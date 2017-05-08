@@ -734,15 +734,6 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 				p2_animation->PlayAnimation(6, blend_ratio);
 				break;
 			}
-			case(P2LEANING):
-			{
-				if (p2_state != P2LEANING)
-				{
-					p2_state = state;
-					p2_animation->PlayAnimation(7, blend_ratio);
-				}
-				break;
-			}
 			case (P2GET_HIT):
 			{
 				p2_state = state;
@@ -768,7 +759,7 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 void ComponentCar::UpdateP1Animation()
 {
 	//TODO animations
-	/*if (p1_animation != nullptr)
+	if (p1_animation != nullptr)
 	{
 		switch (p1_state)
 		{
@@ -790,31 +781,31 @@ void ComponentCar::UpdateP1Animation()
 			}
 			case(P1MAXTURN_L):
 			{
-				if (turn_current < turn_max + turn_boost)
+				if (steering > -0.85f)
 					p1_state = P1IDLE;
 				break;
 			}
 			case (P1MAXTURN_R):
 			{
-				if (turn_current > - turn_max - turn_boost)
+				if (currentSteer < 0.85f)
 					p1_state = P1IDLE;
 				break;
 			}
 			case(P1TURN):
 			{
-				float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+				float ratio = (currentSteer + 1.0f) / 2.0f;
 				p1_animation->LockAnimationRatio(ratio);
-				if (turn_current >= turn_max + turn_boost || turn_current <= -turn_max - turn_boost) p1_state = P1IDLE;
+				if (currentSteer >= 9.0f || currentSteer <= -0.9f) p1_state = P1IDLE;
 				break;
 			}
 			case(P1IDLE):
 			{
-				if (turn_current >= turn_max + turn_boost)
+				if (currentSteer <= -0.9f )
 				{
 					p1_state = P1MAXTURN_L;
 					p1_animation->PlayAnimation(1, 0.5f);
 				}
-				else if (turn_current <= -turn_max - turn_boost)
+				else if (currentSteer >= 0.9f)
 				{
 					p1_state = P1MAXTURN_R;
 					p1_animation->PlayAnimation(2, 0.5f);
@@ -823,27 +814,38 @@ void ComponentCar::UpdateP1Animation()
 				{
 					p1_state = P1TURN;
 					p1_animation->PlayAnimation((uint)0, 0.5f);
-					float ratio = (-turn_current + turn_max + turn_boost) / (turn_max + turn_boost + (turn_max + turn_boost));
+					float ratio = (currentSteer + 1.0f) / 2.0f;
 					p1_animation->LockAnimationRatio(ratio);
 				}
 				break;
 			}
 		}
-	}*/
+	}
 }
 
 void ComponentCar::UpdateP2Animation()
 {
-	//TODO animations
-	/*if (p2_animation != nullptr)
+	if (p2_animation != nullptr)
 	{
 		switch (p2_state)
 		{
 			case(P2IDLE):
 			{
-				if (drifting == true)
+				if (drifting != drift_none)
 				{
-					SetP2AnimationState(drift_dir_left ? P2DRIFT_LEFT : P2DRIFT_RIGHT);
+					switch (drifting)
+					{
+					case drift_right_0:
+					case drift_right_1:
+					case drift_right_2:
+						SetP2AnimationState(P2DRIFT_RIGHT);
+						break;
+					case drift_left_0:
+					case drift_left_1:
+					case drift_left_2:
+						SetP2AnimationState(P2DRIFT_LEFT);
+						break;
+					}
 				}
 				else if (pushing == true)
 				{
@@ -852,7 +854,7 @@ void ComponentCar::UpdateP2Animation()
 				else
 				{
 					if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE);
-					p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * (GetVelocity() / (kart->max_velocity + speed_boost));
+					p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * Clamp((speed / maxSpeed), 0.3f, 1.5f);
 				}
 				break;
 			}
@@ -900,14 +902,6 @@ void ComponentCar::UpdateP2Animation()
 				}
 				break;
 			}
-			case(P2LEANING):
-			{
-				if (leaning == false)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
-			}
 			case(P2GET_HIT):
 			{
 				if (p2_animation->playing == false)
@@ -933,7 +927,7 @@ void ComponentCar::UpdateP2Animation()
 				break;
 			}
 		}
-	}*/
+	}
 }
 
 void ComponentCar::OnGetHit()

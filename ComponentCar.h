@@ -59,7 +59,6 @@ enum Player2_State
 	P2PUSH_START,
 	P2PUSH_LOOP,
 	P2PUSH_END,
-	P2LEANING,
 	P2GET_HIT,
 	P2USE_ITEM,
 	P2ACROBATICS
@@ -185,6 +184,8 @@ private:
 
 	float driftingTimer = 0.0f;
 	float driftPhaseDuration = 4.0f;
+
+	bool pushing = false;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
