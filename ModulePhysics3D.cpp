@@ -19,7 +19,6 @@
 #include "ComponentScript.h"
 
 #include "PhysBody3D.h"
-#include "PhysVehicle3D.h"
 #include "Primitive.h"
 
 #include "Assets.h"
@@ -587,14 +586,6 @@ void ModulePhysics3D::CleanWorld()
 	}		
 
 	bodies.clear();
-
-	for (list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
-	{
-		world->removeVehicle((*item)->vehicle);
-		delete *item;
-	}
-
-	vehicles.clear();
 
 	for (list<TriggerState*>::iterator item = triggers.begin(); item != triggers.end(); item++)
 	{

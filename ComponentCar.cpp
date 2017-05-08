@@ -13,7 +13,6 @@
 #include "imgui/imgui.h"
 
 #include "Primitive.h"
-#include "PhysVehicle3D.h"
 #include "EventQueue.h"
 #include "EventLinkGos.h"
 
@@ -403,16 +402,16 @@ void ComponentCar::Drift(float dir)
 	{
 		currentSteer =  -0.75f - (dir / 6);
 		dir += 0.6f;
-		dir *= -1;
+		//dir *= -1;
 	}
 	else
 	{
-		currentSteer = 0.75f - (dir / 6);
+		currentSteer = 0.75f + (dir / 6);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
 
-	horizontalSpeed += drag * 3.0f * time->DeltaTime() * dir;
+	horizontalSpeed += drag * 3.0f * time->DeltaTime() * -dir;
 //	horizontalSpeed = Clamp(horizontalSpeed, -maxSpeed / 2.0f, maxSpeed / 2.0f);
 }
 

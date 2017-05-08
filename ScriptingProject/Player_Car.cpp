@@ -17,7 +17,6 @@
 #include "../ComponentCollider.h"
 #include "../ComponentCar.h"
 #include "../Globals.h"
-#include "../PhysVehicle3D.h"
 #include "../Random.h"
 #include "../Time.h"
 
@@ -61,6 +60,174 @@ namespace Player_Car
 	GameObject* makibishi_manager = nullptr;
 
 	std::vector<GameObject*> makibishis;
+
+	void Player_Car_LoseItem(GameObject* game_object)
+	{
+		if (scene_manager != nullptr)
+		{
+			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
+			function_path.append("_UpdateItems");
+			if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, function_path.c_str()))
+			{
+				update_items(((ComponentCar*)game_object->GetComponent(C_CAR))->team, false);
+			}
+			else
+			{
+				LOG("Scripting error: %s", GetLastError());
+			}
+		}
+	}
+
+	void Player_Car_UpdateEvilSpirit(GameObject* game_object, ComponentCar* car)
+	{
+		if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+		{
+			current_item = -1;
+
+			if (car->place == 2)
+			{
+				((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
+				((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("evil_spirit_current_duration") = 0.0f;
+			}
+		}
+	}
+
+	void Player_Car_UpdateMakibishi(GameObject* game_object, ComponentCar* car)
+	{
+		if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+		{
+			GameObject* makibishi = (*makibishis.begin());
+
+			//Activating everything
+			makibishi->SetActive(true);
+			makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+			ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
+			((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
+			makibishi_collider->body->SetActivationState(1);
+
+			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+			{
+				float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+			}
+			else
+			{
+				float y_joy_input = App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+				//Leaving makibishi behind
+				if (y_joy_input < 0)
+				{
+					float3 new_pos = game_object->transform->GetPosition();
+					//new_pos -= game_object->transform->GetForward().Normalized() * (car->chasis_size.z + 1);					//TODO: add kart Z size
+					//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (car->chasis_size.y + 2);	//TODO: add kart Y size
+					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+				}
+				//Throwing makibishi forward
+				else
+				{
+					//Setting position
+					float3 new_pos = game_object->transform->GetPosition();
+					//new_pos += game_object->transform->GetForward().Normalized() * (car->kart->chasis_size.z + 2);			//TODO: add kart Z size
+					//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (car->chasis_size.y + 2);	//TODO: add kart Y size
+					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+
+					float x_joy_input = App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+					float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+					new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
+					makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+				}
+			}
+			makibishis.erase(makibishis.begin());
+		}
+	}
+
+	void Player_Car_UpdateFirecracker(GameObject* game_object, ComponentCar* car)
+	{
+		if ((App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN))
+		{
+			car->UseItem();
+			using_item = true;
+		}
+	}
+
+	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
+	{
+		if (spirit_duration == 0.0f && car->inverted_controls == false)
+		{
+			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
+			car->inverted_controls = true;
+		}
+		else
+		{
+			spirit_duration += time->DeltaTime();
+			if (spirit_duration >= spirit_max_duration)
+			{
+				//car->SetMaxVelocity(car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
+				car->inverted_controls = false;
+				evil_spirit_effect = false;
+			}
+		}
+	}
+
+	void Player_Car_UpdateFirecrackerEffect(GameObject* game_object, ComponentCar* car)
+	{
+		int tmp = 0;
+		//When the time gets out
+		if (/*TODO: check if turbo or firecracker is in use*/tmp)
+		{
+			if (/*TODO: check if turbo current time is over max time*/tmp)
+			{
+				if (other_car != nullptr)
+				{
+					if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
+						//((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);				//TODO: stun enemy car
+						tmp = 0;
+				}
+				Player_Car_LoseItem(game_object);
+				current_item = -1;
+				if (firecracker)
+				{
+					firecracker->SetActive(false);
+					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+				}
+				//car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);			//TODO: "stun" ally car
+			}
+			else if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
+			{
+				Player_Car_LoseItem(game_object);
+				using_item = false;
+				have_firecracker = false;
+				current_item = -1;
+				if (firecracker != nullptr)
+				{
+					float3 new_pos = game_object->transform->GetPosition();
+					//new_pos += game_object->transform->GetForward().Normalized() * (car->chasis_size.z + 2);			//TODO: add car Z size
+					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
+					throwing_firecracker = true;
+					//time_trowing_firecracker = car->GetAppliedTurbo()->timer;				//TODO: get time using turbo
+				}
+			}
+		}
+	}
+
+	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car)
+	{
+		ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
+		float3 new_pos = firecracker_col->body->GetPosition();
+		new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
+		firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+		time_trowing_firecracker += time->DeltaTime();
+
+		if (/*time_trowing_firecracker >= car->rocket_turbo.time*/true)				//TODO: check if firecracker launch ends
+		{
+			throwing_firecracker = false;
+			time_trowing_firecracker = 0.0f;
+			firecracker->SetActive(false);
+			firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+		}
+	}
 
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -367,171 +534,5 @@ namespace Player_Car
 		}
 	}
 
-	void Player_Car_UpdateEvilSpirit(GameObject* game_object, ComponentCar* car)
-	{
-		if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-		{
-			current_item = -1;
 
-			if (car->place == 2)
-			{
-				((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
-				((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("evil_spirit_current_duration") = 0.0f;
-			}
-		}
-	}
-
-	void Player_Car_UpdateMakibishi(GameObject* game_object, ComponentCar* car)
-	{
-		if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-		{
-			GameObject* makibishi = (*makibishis.begin());
-
-			//Activating everything
-			makibishi->SetActive(true);
-			makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-			ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
-			((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_trowing_makibishi") = 0.0f;
-			makibishi_collider->body->SetActivationState(1);
-
-			if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-			{
-				float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
-				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
-			}
-			else
-			{
-				float y_joy_input = App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
-				//Leaving makibishi behind
-				if (y_joy_input < 0)
-				{
-					float3 new_pos = game_object->transform->GetPosition();
-					//new_pos -= game_object->transform->GetForward().Normalized() * (car->chasis_size.z + 1);					//TODO: add kart Z size
-					//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (car->chasis_size.y + 2);	//TODO: add kart Y size
-					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
-					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-				}
-				//Throwing makibishi forward
-				else
-				{
-					//Setting position
-					float3 new_pos = game_object->transform->GetPosition();
-					//new_pos += game_object->transform->GetForward().Normalized() * (car->kart->chasis_size.z + 2);			//TODO: add kart Z size
-					//new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (car->chasis_size.y + 2);	//TODO: add kart Y size
-					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
-					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-
-					float x_joy_input = App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
-					float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
-					new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
-					makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
-				}
-			}
-			makibishis.erase(makibishis.begin());
-		}
-	}
-
-	void Player_Car_UpdateFirecracker(GameObject* game_object, ComponentCar* car)
-	{
-		if ((App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN))
-		{
-			car->UseItem();
-			using_item = true;
-		}
-	}
-
-	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
-	{
-		if (spirit_duration == 0.0f && car->inverted_controls == false)
-		{
-			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
-			car->inverted_controls = true;
-		}
-		else
-		{
-			spirit_duration += time->DeltaTime();
-			if (spirit_duration >= spirit_max_duration)
-			{
-				//car->SetMaxVelocity(car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
-				car->inverted_controls = false;
-				evil_spirit_effect = false;
-			}
-		}
-	}
-
-	void Player_Car_UpdateFirecrackerEffect(GameObject* game_object, ComponentCar* car)
-	{
-		int tmp = 0;
-		//When the time gets out
-		if (/*TODO: check if turbo or firecracker is in use*/tmp)
-		{
-			if (/*TODO: check if turbo current time is over max time*/tmp)
-			{
-				if (other_car != nullptr)
-				{
-					if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
-						//((ComponentCar*)other_car->GetComponent(ComponentType::C_CAR))->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);				//TODO: stun enemy car
-						tmp = 0;
-				}
-				Player_Car_LoseItem(game_object);
-				current_item = -1;
-				if (firecracker)
-				{
-					firecracker->SetActive(false);
-					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-				}
-				//car->GetVehicle()->SetLinearSpeed(0.0f, 0.0f, 0.0f);			//TODO: "stun" ally car
-			}
-			else if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-			{
-				Player_Car_LoseItem(game_object);
-				using_item = false;
-				have_firecracker = false;
-				current_item = -1;
-				if (firecracker != nullptr)
-				{
-					float3 new_pos = game_object->transform->GetPosition();
-					//new_pos += game_object->transform->GetForward().Normalized() * (car->chasis_size.z + 2);			//TODO: add car Z size
-					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-					throwing_firecracker = true;
-					//time_trowing_firecracker = car->GetAppliedTurbo()->timer;				//TODO: get time using turbo
-				}
-			}
-		}
-	}
-
-	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car)
-	{
-		ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
-		float3 new_pos = firecracker_col->body->GetPosition();
-		new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
-		firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-		time_trowing_firecracker += time->DeltaTime();
-		
-		if (/*time_trowing_firecracker >= car->rocket_turbo.time*/true)				//TODO: check if firecracker launch ends
-		{
-			throwing_firecracker = false;
-			time_trowing_firecracker = 0.0f;
-			firecracker->SetActive(false);
-			firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-		}
-	}
-
-	void Player_Car_LoseItem(GameObject* game_object)
-	{
-		if (scene_manager != nullptr)
-		{
-			string function_path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
-			function_path.append("_UpdateItems");
-			if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, function_path.c_str()))
-			{
-				update_items(((ComponentCar*)game_object->GetComponent(C_CAR))->team, false);
-			}
-			else
-			{
-				LOG("Scripting error: %s", GetLastError());
-			}
-		}
-	}
 }

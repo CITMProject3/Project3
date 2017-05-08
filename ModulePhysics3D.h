@@ -38,8 +38,6 @@ enum collision_types {
 };
 
 class PhysBody3D;
-class PhysVehicle3D;
-struct VehicleInfo;
 
 class DebugDrawer;
 class ComponentMesh;
@@ -236,7 +234,6 @@ private:
 	std::list<PhysBody3D*> bodies;
 	std::list<btDefaultMotionState*> motions;
 	std::list<btTypedConstraint*> constraints;
-	std::list<PhysVehicle3D*> vehicles;
 
 	std::list<TriggerState*> triggers;
 	

@@ -137,7 +137,7 @@ struct Car
 class Wheel
 {
 public:
-	Wheel(float2 _posOffset, float3 _dir, ComponentCar* _kart) : posOffset(_posOffset), dir(_dir), kart(_kart) {}
+	Wheel(float2 _posOffset, float3 _dir) : posOffset(_posOffset), dir(_dir){}
 
 	/*void Cast()
 	{
@@ -146,12 +146,12 @@ public:
 		RaycastHit hitResult;
 
 
-	}*/
-
+	}
+ComponentCar* kart;*/
 private:
 	float2 posOffset;
 	float3 dir;
-	ComponentCar* kart;
+	
 public:
 	bool hit = false;
 	float angleFromY = 0.0f;
