@@ -888,7 +888,7 @@ void ComponentCar::UpdateP2Animation()
 			}
 			case(P2DRIFT_LEFT):
 			{
-				if (drifting == false)
+				if (drifting == drift_none)
 				{
 					SetP2AnimationState(P2IDLE);
 				}
@@ -896,7 +896,7 @@ void ComponentCar::UpdateP2Animation()
 			}
 			case(P2DRIFT_RIGHT):
 			{
-				if (drifting == false)
+				if (drifting == drift_none)
 				{
 					SetP2AnimationState(P2IDLE);
 				}
