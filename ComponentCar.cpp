@@ -271,7 +271,7 @@ float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
 	//Accelerating
-	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickButton(front_player, JOY_BUTTON::RB)))
+	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) > 0.5f))
 	{
 		//We recieved the order to move forward
 		if (speed < -0.01f)
@@ -292,7 +292,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickButton(front_player, JOY_BUTTON::LB)))
+	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) > 0.5f))
 	{
 		if (speed > 0.01f)
 		{
@@ -454,14 +454,12 @@ void ComponentCar::DriftManagement()
 		else
 		{
 			drifting = drift_none;
-			horizontalSpeed = 0.0f;
 		}
 	}
 	else if (lastFrame_drifting != drift_none && drifting != drift_none)
 	{
 		//If the player stops pressing the input, we stop drifting
 		drifting = drift_none;
-		horizontalSpeed = 0.0f;
 	}
 	else
 	{
