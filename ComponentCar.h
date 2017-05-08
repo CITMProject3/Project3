@@ -91,49 +91,6 @@ enum DRIFT_STATE
 	drift_left_2
 };
 
-struct Car
-{
-	CAR_TYPE type = T_KOJI;
-	//Turn direction
-	float base_turn_max = 0.7f;
-	float turn_speed = 1.5f;
-	float turn_speed_joystick = 1.5f;
-	float time_to_idle = 0.2f;
-	bool  idle_turn_by_interpolation = true;
-
-	//----Max turn change 
-	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.01f;
-
-	//By speed
-	float base_max_turn_change_speed = -0.01f;
-	float base_max_turn_change_accel = -0.1f;
-
-	//----
-
-
-	//Acceleration
-	float accel_force = 1000.0f;
-	float decel_brake = 100.0f;
-	float max_velocity = 80.0f;
-	float min_velocity = -20.0f;
-
-	//Push
-	float push_force = 10000.0f;
-	float push_speed_per = 60.0f;
-
-	//Acrobatics
-	float acro_time = 0.5f;
-
-	//Brake
-	float brake_force = 20.0f;
-	float back_force = 500.0f;
-
-	//Full brake
-	float full_brake_force = 300.0f;
-};
-
-
 class Wheel
 {
 public:
@@ -259,9 +216,6 @@ private:
 public:
 	void WallHit(const float3 &normal);
 
-	void HandlePlayerInput();
-	void GameLoopCheck();
-	void TurnOver();
 	void Reset();
 
 	float GetVelocity();
@@ -275,15 +229,7 @@ public:
 	void SetCarType(CAR_TYPE type);
 
 private:
-	void UpdateGO();
-	void JoystickControls(float* accel, float* brake, bool* turning, bool inverse = false);
-
-	//Controls methods (to use in different parts)
-	void StartPush();
-	bool Push(float* accel);
-	void PushUpdate(float* accel);
-	void Leaning(float accel);
-	void Acrobatics(PLAYER p);
+	void UpdateAnims();
 
 public:
 	void PickItem();
@@ -297,8 +243,6 @@ public:
 	void TurboPad();
 private:
 
-	void UpdateTurnOver();
-
 	void UpdateP1Animation();
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
@@ -309,9 +253,6 @@ public:
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
 	//
 public:
-	Car* kart = nullptr;
-	Car wood;
-	Car koji;
 
 	Player1_State p1_state = P1IDLE;
 	Player2_State p2_state = P2IDLE;
@@ -333,15 +274,6 @@ public:
 private:
 
 	//Common in both cars----
-	//Turn over
-	float turn_over_reset_time = 5.0f;
-
-	//Turn max change
-	bool limit_to_a_turn_max = false;
-	bool accelerated_change = false;
-
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
-	bool show_graph = false;
 
 	//Reset
 	float loose_height = -100.0f;
@@ -349,34 +281,12 @@ private:
 
 	//Update variables (change during game)----------------------------------------------------------------
 
-	//Turn over
-	bool turned = false;
-	float timer_start_turned = 0.0f;
-
-	float turn_boost = 0.0f;
-
-	//Leaning
-	bool leaning = false;
-
-	//Pushing
-	double pushStartTime = 0.0f;
-	bool pushing = false;
-
-	//Acrobatics
-	bool acro_front = false;
-	bool acro_back = false;
-	bool acro_on = false;
-	bool acro_done = false;
-	float acro_timer = 0.0f;
-
 	//Turbo
 private:
 	Turbo turbo;
 	turboOutput turbo_mods;
 
 	turboPicker_class turboPicker;
-
-	std::vector<GameObject*> wheels_go;
 
 	//2 Player configuration
 	PLAYER front_player;
