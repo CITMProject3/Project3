@@ -270,13 +270,17 @@ void ComponentCar::KartLogic()
 float ComponentCar::AccelerationInput()
 {
 	float acceleration = 0.0f;
-	float rTrigger = App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER);
-	float lTrigger = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER);
+	float rTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::RIGHT_TRIGGER) + 1.0f) / 2.0f;
+	if (rTrigger == 0.5f) { rTrigger = 0.0f; }
+	float lTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) + 1.0f) / 2.0f;
+	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
 	
+	testVar = rTrigger;
+
 	//Accelerating
 	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
 	{
-		if (rTrigger < 0.15f) { rTrigger = 1.0f; }
+		if (rTrigger < 0.1f) { rTrigger = 1.0f; }
 		//We recieved the order to move forward
 		if (speed < -0.01f)
 		{
@@ -298,7 +302,7 @@ float ComponentCar::AccelerationInput()
 	//Braking
 	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || lTrigger > 0.2f))
 	{
-		if (lTrigger < 0.15f) { lTrigger = 1.0f; }
+		if (lTrigger < 0.1f) { lTrigger = 1.0f; }
 		if (speed > 0.01f)
 		{
 			if (speed > (brakePower + mods.bonusBrakePower) * time->DeltaTime())
@@ -533,7 +537,7 @@ void ComponentCar::SteerKart()
 	{
 		float diference = speed - maxSpeed * 0.75f;
 		steerReduction = 1 - (diference / (maxSpeed*0.75f));
-		steerReduction = Clamp(steerReduction, 0.5f, 1.0f);
+		steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
 	}
 
 	if (speed < 0.0f)
@@ -1156,6 +1160,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
 
+	data.AppendFloat("maxSteerReduction", maxSteerReduction);
+
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
 
@@ -1199,6 +1205,9 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("WallsBounciness");
 	if (tmp != 0.0f) { WallsBounciness = tmp; }
 
+	tmp = conf.GetFloat("maxSteerReduction");
+	if (tmp != 0.0f) { maxSteerReduction = tmp; }
+
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
 
@@ -1236,6 +1245,8 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+		ImGui::Text("Maximum maneuverability reduction (percentual):");
+		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
 		ImGui::Text("Collider:");
 		if (App->IsGameRunning() == false)
@@ -1248,6 +1259,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::Text("Just for display, do not touch");
 		ImGui::DragFloat("Speed", &speed);
 		ImGui::DragFloat("Current Steer", &currentSteer);
+		ImGui::DragFloat("Test", &testVar);
 		ImGui::Checkbox("Steering", &steering);
 		if (ImGui::TreeNode("Turbo display"))
 		{
@@ -1263,7 +1275,7 @@ void ComponentCar::OnInspector(bool debug)
 		//Choose car type popup
 		if (ImGui::Button("Kart Type :"))
 			ImGui::OpenPopup("Kart Type");
-		ImGui::SameLine();
+
 		if (ImGui::BeginPopup("Kart Type"))
 		{
 			if (ImGui::Selectable("Wood"))

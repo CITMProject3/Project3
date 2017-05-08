@@ -160,6 +160,10 @@ private:
 	float horizontalSpeed = 0.0f;
 	float fallSpeed = 0.0f;
 
+	float maxSteerReduction = 0.5f;
+
+	float testVar = 0.0f;
+
 	ComponentTransform* kart_trs = nullptr;
 
 public:
