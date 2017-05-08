@@ -241,6 +241,8 @@ namespace Player_Car
 								new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+								float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
+								((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 							}
 							else
 							{
@@ -290,6 +292,8 @@ namespace Player_Car
 										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+										float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
+										((ComponentCollider*)makibishi1->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 									}
 									else
 									{
@@ -331,6 +335,8 @@ namespace Player_Car
 										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+										float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
+										((ComponentCollider*)makibishi2->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 									}
 									else
 									{
@@ -373,6 +379,8 @@ namespace Player_Car
 										new_pos += game_object->transform->GetGlobalMatrix().WorldY().Normalized() * (Player_car->chasis_size.y + 2);
 										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+										float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
+										((ComponentCollider*)makibishi3->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 									}
 									else
 									{
