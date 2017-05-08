@@ -47,7 +47,7 @@ private:
 	};
 	turbo_phases currentPhase = turbo_done;
 
-	float times[turbo_done + 1];
+	float times[turbo_done];
 	//First phase
 	//The kart gains a huge acceleration bonus for a short duration
 	//Amount the acceleration of the kart increases
@@ -141,6 +141,27 @@ public:
 
 		return ret;
 	}
+
+	float TotalTurboDuration()
+	{
+		float ret = 0.0f;
+		for (uint n = 0; n < turbo_done; n++)
+		{
+			ret += times[n];
+		}
+		return ret;
+	}
+
+	float TimePassed()
+	{
+		float ret = timer;
+		for (uint n = currentPhase - 1; n >= 0; n--)
+		{
+			ret += times[n];
+		}
+		return ret;
+	}
+
 };
 
 
@@ -150,8 +171,8 @@ public:
 class turboPicker_class {
 
 public:
-	Turbo turboPad = Turbo(0.2f, 1.0f, 1.5f, 0.8f, 0.5f, 1.2f);
-	Turbo acrobatic = Turbo(0.5f, 1.2f, 1.4f, 0.5f, 0.6f, 0.8f);
+	Turbo turboPad = Turbo(0.1f, 0.3f, 1.5f, 0.6f, 0.5f, 1.0f);
+	Turbo acrobatic = Turbo(0.5f, 0.5f, 1.0f, 0.6f, 0.3f, 0.6f);
 
 	//We have two turbos for the rocket: One that will activate when using the item. If this turbo goes into (turbo_done), the rocket will explode.
 	//If the player releases the rocket, we'll apply rocket_deacceleration to slow the player down

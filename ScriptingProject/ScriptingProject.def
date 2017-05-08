@@ -21,7 +21,6 @@ EXPORTS
 	Player_Car_OnCollision
 	Player_Car_ChooseItem
 	Player_Car_OnPickItem
-	Player_Car_LoseItem
 	Player_Car_UseEvilSpirit
 	Player_Car_UseMakibishi
 	Player_Car_UseFirecracker

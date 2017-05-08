@@ -510,7 +510,10 @@ namespace Scene_Manager
 					position_ui_1->SetDisplayText(std::to_string(car_1->place));
 				}
 				//Update items
-				if (((ComponentScript*)car_1->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] 
+				if (((ComponentScript*)car_1->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] != car_1_item)
+				{
+					//TODO: Update item UI
+				}
 			}
 
 			//Updating invidual HUD
@@ -551,6 +554,11 @@ namespace Scene_Manager
 				if (position_ui_2 != nullptr && std::to_string(car_2->place) != position_ui_2->GetText())
 				{
 					position_ui_2->SetDisplayText(std::to_string(car_2->place));
+				}
+				//Update items
+				if (((ComponentScript*)car_2->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] != car_2_item)
+				{
+					//TODO: Update item UI
 				}
 			}
 

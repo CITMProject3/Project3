@@ -342,7 +342,6 @@
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="PhysBody3D.h" />
-    <ClInclude Include="PhysVehicle3D.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Random.h" />
@@ -494,7 +493,6 @@
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="PhysBody3D.cpp" />
-    <ClCompile Include="PhysVehicle3D.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Random.cpp" />

@@ -137,7 +137,7 @@ struct Car
 class Wheel
 {
 public:
-	Wheel(float2 _posOffset, float3 _dir, ComponentCar* _kart) : posOffset(_posOffset), dir(_dir), kart(_kart) {}
+	Wheel(float2 _posOffset, float3 _dir) : posOffset(_posOffset), dir(_dir){}
 
 	/*void Cast()
 	{
@@ -146,12 +146,12 @@ public:
 		RaycastHit hitResult;
 
 
-	}*/
-
+	}
+ComponentCar* kart;*/
 private:
 	float2 posOffset;
 	float3 dir;
-	ComponentCar* kart;
+	
 public:
 	bool hit = false;
 	float angleFromY = 0.0f;
@@ -189,12 +189,14 @@ private:
 	float horizontalSpeed = 0.0f;
 	float fallSpeed = 0.0f;
 
-	float3 kartX, kartY, kartZ;
-
 	ComponentTransform* kart_trs = nullptr;
+
+public:
+	float3 kartX, kartY, kartZ;	
 
 	//Collider
 	Cube_P collShape;
+private:
 	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
 
@@ -205,7 +207,7 @@ private:
 	DRIFT_STATE lastFrame_drifting;
 
 	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 2.0f;
+	float driftPhaseDuration = 4.0f;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
@@ -300,6 +302,7 @@ private:
 	void UpdateP1Animation();
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
+public:
 	void OnGetHit();
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//

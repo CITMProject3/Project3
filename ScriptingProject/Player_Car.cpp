@@ -17,7 +17,6 @@
 #include "../ComponentCollider.h"
 #include "../ComponentCar.h"
 #include "../Globals.h"
-#include "../PhysVehicle3D.h"
 #include "../Random.h"
 #include "../Time.h"
 
@@ -319,6 +318,7 @@ namespace Player_Car
 		}
 	}
 
+
 	void Player_Car_UseEvilSpirit(GameObject* game_object, ComponentCar* car)
 	{
 		current_item = -1;
@@ -368,7 +368,7 @@ namespace Player_Car
 				//Setting position
 				float3 new_pos = game_object->transform->GetPosition();
 				new_pos += car->kartZ * (car->collShape.size.z + 2);
-				new_pos += car->kartY * (car->collShape.y + 2);
+				new_pos += car->kartY * (car->collShape.size.y + 2);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
@@ -437,7 +437,7 @@ namespace Player_Car
 					new_pos += car->kartZ * (car->collShape.size.z + 2);
 					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-					launched_firecracker_lifetime = 10.0f - car->GetAppliedTurbo().global_timer;
+					launched_firecracker_lifetime = 10.0f - car->GetAppliedTurbo().TimePassed();
 				}
 			}
 		}
@@ -445,16 +445,25 @@ namespace Player_Car
 
 	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car)
 	{
-		ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
-		float3 new_pos = firecracker_col->body->GetPosition();
-		new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
-		firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-		launched_firecracker_lifetime -= time->DeltaTime();
-		
-		if (launched_firecracker_lifetime <= 0.0f)				//TODO: check if firecracker launch ends
+		if (firecracker != nullptr)
 		{
-			firecracker->SetActive(false);
-			firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+			ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
+			float3 new_pos = firecracker_col->body->GetPosition();
+			new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
+			firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+			launched_firecracker_lifetime -= time->DeltaTime();
+		
+			if (launched_firecracker_lifetime <= 0.0f)
+			{
+				firecracker->SetActive(false);
+				firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+				launched_firecracker_lifetime = -1.0f;
+			}
 		}
+		else
+		{
+			launched_firecracker_lifetime = -1.0f;
+		}
+
 	}
 }
