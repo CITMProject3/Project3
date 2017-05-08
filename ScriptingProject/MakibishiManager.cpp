@@ -54,7 +54,7 @@ namespace MakibishiManager
 			{
 				return (*it);
 			}
-			else if (current_script->public_floats["current_time_trowing_makibishi"] > older->public_floats["current_time_trowing_makibishi"])
+			else if (current_script->public_floats["current_time_throwing_makibishi"] > older->public_floats["current_time_throwing_makibishi"])
 			{
 				older = current_script;
 			}

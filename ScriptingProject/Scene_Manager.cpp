@@ -115,6 +115,9 @@ namespace Scene_Manager
 	string team1_text = "";
 	string team2_text = "";
 
+	int car_1_item = -1;
+	int car_2_item = -1;
+
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
@@ -506,6 +509,8 @@ namespace Scene_Manager
 				{
 					position_ui_1->SetDisplayText(std::to_string(car_1->place));
 				}
+				//Update items
+				if (((ComponentScript*)car_1->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] 
 			}
 
 			//Updating invidual HUD

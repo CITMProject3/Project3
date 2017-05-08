@@ -22,9 +22,9 @@ EXPORTS
 	Player_Car_ChooseItem
 	Player_Car_OnPickItem
 	Player_Car_LoseItem
-	Player_Car_UpdateEvilSpirit
-	Player_Car_UpdateMakibishi
-	Player_Car_UpdateFirecracker
+	Player_Car_UseEvilSpirit
+	Player_Car_UseMakibishi
+	Player_Car_UseFirecracker
 	Player_Car_UpdateSpiritEffect
 
 	Makibishi_GetPublics
