@@ -361,6 +361,8 @@ namespace Player_Car
 				new_pos += car->kartY * (car->collShape.size.y + 2);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+				float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
+				((ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER))->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			}
 			//Throwing makibishi forward
 			else
@@ -379,6 +381,8 @@ namespace Player_Car
 			}
 		}
 		makibishis.erase(makibishis.begin());
+		if (makibishis.size() == 0)
+			current_item = -1;
 	}
 
 	void Player_Car_UseFirecracker(GameObject* game_object, ComponentCar* car)

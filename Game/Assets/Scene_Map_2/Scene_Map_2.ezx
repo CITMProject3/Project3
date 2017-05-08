@@ -129,6 +129,14 @@
                         1.600000,
                         3.600000
                     ],
+                    "maxSpeed": 1.200000,
+                    "maxAcceleration": 0.300000,
+                    "brakePower": 0.800000,
+                    "maneuverability": 5,
+                    "maxSteer": 120,
+                    "drag": 0.300000,
+                    "recoveryTime": 2,
+                    "WallsBounciness": 0.750000,
                     "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
@@ -152,11 +160,6 @@
                     "wood_brakeForce": 150,
                     "wood_backForce": 1800,
                     "wood_full_brake_force": 300,
-                    "wood_driftRatio": 0.650000,
-                    "wood_driftMult": 1.400000,
-                    "wood_driftBoost": 1,
-                    "wood_driftMinSpeed": 50,
-                    "wood_drift_turn_max": 0.120000,
                     "koji_acceleration": 1400,
                     "koji_max_speed": 130,
                     "koji_min_speed": -60,
@@ -175,56 +178,6 @@
                     "koji_brakeForce": 175,
                     "koji_backForce": 1700,
                     "koji_full_brake_force": 300,
-                    "koji_driftRatio": 0.650000,
-                    "koji_driftMult": 1.400000,
-                    "koji_driftBoost": 1,
-                    "koji_driftMinSpeed": 50,
-                    "koji_drift_turn_max": 0.120000,
-                    "miniturbo_accel_boost": 100,
-                    "miniturbo_speed_boost": 15,
-                    "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 15,
-                    "miniturbo_time": 1,
-                    "miniturbo_accel_per": true,
-                    "miniturbo_speed_per": false,
-                    "miniturbo_speed_direct": false,
-                    "miniturbo_speed_decrease": true,
-                    "drift_turbo_2_accel_boost": 100,
-                    "drift_turbo_2_speed_boost": 20,
-                    "drift_turbo_2_turbo_speed": -431602080,
-                    "drift_turbo_2_deceleration": 15,
-                    "drift_turbo_2_time": 1,
-                    "drift_turbo_2_accel_per": true,
-                    "drift_turbo_2_speed_per": false,
-                    "drift_turbo_2_speed_direct": false,
-                    "drift_turbo_2_speed_decrease": true,
-                    "drift_turbo_3_accel_boost": 100,
-                    "drift_turbo_3_speed_boost": 25,
-                    "drift_turbo_3_turbo_speed": -431602080,
-                    "drift_turbo_3_deceleration": 15,
-                    "drift_turbo_3_time": 1,
-                    "drift_turbo_3_accel_per": true,
-                    "drift_turbo_3_speed_per": false,
-                    "drift_turbo_3_speed_direct": false,
-                    "drift_turbo_3_speed_decrease": true,
-                    "turbo_pad_accel_boost": 300,
-                    "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 128,
-                    "turbo_pad_deceleration": 1,
-                    "turbo_pad_time": 1.500000,
-                    "turbo_pad_accel_per": false,
-                    "turbo_pad_speed_per": false,
-                    "turbo_pad_speed_direct": false,
-                    "turbo_pad_speed_decrease": false,
-                    "rocket_turbo_accel_boost": 0,
-                    "rocket_turbo_speed_boost": 35,
-                    "rocket_turbo_turbo_speed": -431602080,
-                    "rocket_turbo_deceleration": 10,
-                    "rocket_turbo_time": 5,
-                    "rocket_turbo_accel_per": false,
-                    "rocket_turbo_speed_per": true,
-                    "rocket_turbo_speed_direct": true,
-                    "rocket_turbo_speed_decrease": true,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -233,7 +186,19 @@
                     "UUID": 1380419276,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "current_item": -1,
+                    "launched_firecracker_lifetime": 0,
+                    "velocity_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "velocity_makibishi": 25,
+                    "evil_spirit_vel_reduction": 0,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
+                    "makibishi_manager": 450853128
                 }
             ]
         },
@@ -9056,6 +9021,14 @@
                         1.600000,
                         3.100000
                     ],
+                    "maxSpeed": 1.200000,
+                    "maxAcceleration": 0.300000,
+                    "brakePower": 0.800000,
+                    "maneuverability": 5,
+                    "maxSteer": 120,
+                    "drag": 0.300000,
+                    "recoveryTime": 2,
+                    "WallsBounciness": 0.750000,
                     "lose_height": 2,
                     "turn_over_reset_time": 2,
                     "limit_to_a_turn_max": false,
@@ -9079,11 +9052,6 @@
                     "wood_brakeForce": 150,
                     "wood_backForce": 1800,
                     "wood_full_brake_force": 300,
-                    "wood_driftRatio": 0.650000,
-                    "wood_driftMult": 1.400000,
-                    "wood_driftBoost": 1,
-                    "wood_driftMinSpeed": 50,
-                    "wood_drift_turn_max": 0.120000,
                     "koji_acceleration": 1400,
                     "koji_max_speed": 130,
                     "koji_min_speed": -60,
@@ -9102,56 +9070,6 @@
                     "koji_brakeForce": 175,
                     "koji_backForce": 1700,
                     "koji_full_brake_force": 300,
-                    "koji_driftRatio": 0.650000,
-                    "koji_driftMult": 1.400000,
-                    "koji_driftBoost": 1,
-                    "koji_driftMinSpeed": 50,
-                    "koji_drift_turn_max": 0.120000,
-                    "miniturbo_accel_boost": 100,
-                    "miniturbo_speed_boost": 15,
-                    "miniturbo_turbo_speed": -431602080,
-                    "miniturbo_deceleration": 15,
-                    "miniturbo_time": 1,
-                    "miniturbo_accel_per": true,
-                    "miniturbo_speed_per": false,
-                    "miniturbo_speed_direct": false,
-                    "miniturbo_speed_decrease": true,
-                    "drift_turbo_2_accel_boost": 100,
-                    "drift_turbo_2_speed_boost": 20,
-                    "drift_turbo_2_turbo_speed": -431602080,
-                    "drift_turbo_2_deceleration": 15,
-                    "drift_turbo_2_time": 1,
-                    "drift_turbo_2_accel_per": true,
-                    "drift_turbo_2_speed_per": false,
-                    "drift_turbo_2_speed_direct": false,
-                    "drift_turbo_2_speed_decrease": true,
-                    "drift_turbo_3_accel_boost": 100,
-                    "drift_turbo_3_speed_boost": 25,
-                    "drift_turbo_3_turbo_speed": -431602080,
-                    "drift_turbo_3_deceleration": 15,
-                    "drift_turbo_3_time": 1,
-                    "drift_turbo_3_accel_per": true,
-                    "drift_turbo_3_speed_per": false,
-                    "drift_turbo_3_speed_direct": false,
-                    "drift_turbo_3_speed_decrease": true,
-                    "turbo_pad_accel_boost": 300,
-                    "turbo_pad_speed_boost": 200,
-                    "turbo_pad_turbo_speed": 0.000000,
-                    "turbo_pad_deceleration": 1,
-                    "turbo_pad_time": 1.500000,
-                    "turbo_pad_accel_per": false,
-                    "turbo_pad_speed_per": false,
-                    "turbo_pad_speed_direct": false,
-                    "turbo_pad_speed_decrease": false,
-                    "rocket_turbo_accel_boost": 0,
-                    "rocket_turbo_speed_boost": 35,
-                    "rocket_turbo_turbo_speed": -431602080,
-                    "rocket_turbo_deceleration": 10,
-                    "rocket_turbo_time": 5,
-                    "rocket_turbo_accel_per": false,
-                    "rocket_turbo_speed_per": true,
-                    "rocket_turbo_speed_direct": true,
-                    "rocket_turbo_speed_decrease": true,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -9160,7 +9078,19 @@
                     "UUID": 1371071367,
                     "active": true,
                     "script_path": "Player_Car",
-                    "script_num": 0
+                    "script_num": 0,
+                    "item_box_name": "item_box",
+                    "current_item": -1,
+                    "launched_firecracker_lifetime": 0,
+                    "velocity_firecracker": 0,
+                    "explosion_radius_firecracker": 0,
+                    "velocity_makibishi": 25,
+                    "evil_spirit_vel_reduction": 0,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
+                    "makibishi_manager": 450853128
                 }
             ]
         },
@@ -18743,381 +18673,6 @@
             ]
         },
         {
-            "name": "Makibishi",
-            "UUID": 1537299720,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 1537299720,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 1985088992,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 1985088992,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 1732915161,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 1732915161,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 2413763989,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 2413763989,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 1804844099,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 1804844099,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 912864834,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 912864834,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 4249860731,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 4249860731,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 3565895463,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 3565895463,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 3628379301,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 3628379301,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 3571610755,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 3571610755,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 2865189392,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 2865189392,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 1318451526,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 1318451526,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 2112378606,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 2112378606,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 3770522425,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 3770522425,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "Makibishi",
-            "UUID": 2939728487,
-            "local_UUID": 2596882937,
-            "parent": 977062925,
-            "active": false,
-            "is_prefab": true,
-            "prefab_root_uuid": 2939728487,
-            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
-            "components": [
-                {
-                    "position": [
-                        -0.110091,
-                        2.160625,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
             "name": "item_box",
             "UUID": 4232420733,
             "local_UUID": 3266121098,
@@ -19536,6 +19091,426 @@
                     "rotation": [
                         0,
                         22.571243,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi Manager",
+            "UUID": 450853128,
+            "local_UUID": 0,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 228995850,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 3758345032,
+                    "active": true,
+                    "script_path": "MakibishiManager",
+                    "script_num": 0,
+                    "makibishi_parent": 450853128
+                }
+            ]
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 2939728487,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2939728487,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 3770522425,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3770522425,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 2112378606,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2112378606,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 1318451526,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1318451526,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 2865189392,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2865189392,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 3571610755,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3571610755,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 3628379301,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3628379301,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 3565895463,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3565895463,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 912864834,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 912864834,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 4249860731,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 4249860731,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 1804844099,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1804844099,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 2413763989,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2413763989,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 1732915161,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1732915161,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 1985088992,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1985088992,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Makibishi",
+            "UUID": 1537299720,
+            "local_UUID": 2596882937,
+            "parent": 450853128,
+            "active": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1537299720,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
+            "components": [
+                {
+                    "position": [
+                        -0.110091,
+                        2.160625,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
                         0
                     ]
                 }
