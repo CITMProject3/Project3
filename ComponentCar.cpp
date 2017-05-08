@@ -514,6 +514,19 @@ void ComponentCar::PlayersInput()
 			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
 		}
 		Steer(App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X));
+
+		//Turbo
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT)
+		{
+			if (turbo.IsActive() == false)
+			{
+				NewTurbo(Turbo(0.5f, 1000.0f, 0.0f, 0.6f, 0.5f, 1.0f));
+			}
+		}
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_UP)
+		{
+			NewTurbo(turboPicker.rocket_deacceleration);
+		}
 	}
 
 	DriftManagement();
