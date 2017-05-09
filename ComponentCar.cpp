@@ -780,7 +780,6 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 
 void ComponentCar::UpdateP1Animation()
 {
-	//TODO animations
 	if (p1_animation != nullptr)
 	{
 		switch (p1_state)

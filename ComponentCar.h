@@ -256,7 +256,7 @@ public:
 public:
 
 	Player1_State p1_state = P1IDLE;
-	Player2_State p2_state = P2IDLE;
+	Player2_State p2_state = P2DRIFT_RIGHT;
 
 	ComponentAnimation* p1_animation = nullptr;
 	ComponentAnimation* p2_animation = nullptr;
