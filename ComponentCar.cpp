@@ -402,22 +402,24 @@ void ComponentCar::Drift(float dir)
 		switch (drifting)
 		{
 		case drift_right_0:
-			drifting = drift_right_1;
-			break;
+			drifting = drift_right_1; break;
+		case drift_right_1:
+			drifting = drift_right_2; break;
 		case drift_left_0:
-			drifting = drift_left_1;
-			break;
+			drifting = drift_left_1; break;
+		case drift_left_1:
+			drifting = drift_left_2; break;
 		}
 	}
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		currentSteer =  -0.75f - (dir / 6);
+		currentSteer =  -0.8f + (dir * 0.75f);
 		dir += 0.6f;
 	}
 	else
 	{
-		currentSteer = 0.75f + (dir / 6);
+		currentSteer = 0.8f + (dir * 0.75f);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
@@ -519,17 +521,20 @@ void ComponentCar::SteerKart()
 	//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
 
 	float steerReduction = 1.0f;
-	if (speed < maxSpeed * 0.75f)
+	if (drifting == drift_none)
 	{
-		//The "Clamp" thing is to allow less rotation the less the kart is moving
-		//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
-		steerReduction = math::Clamp(math::Abs(speed) / (maxSpeed / 2), 0.0f, 1.0f);
-	}
-	else
-	{
-		float diference = speed - maxSpeed * 0.75f;
-		steerReduction = 1 - (diference / (maxSpeed*0.75f));
-		steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
+		if (speed < maxSpeed * 0.75f)
+		{
+			//The "Clamp" thing is to allow less rotation the less the kart is moving
+			//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
+			steerReduction = math::Clamp(math::Abs(speed) / (maxSpeed / 2), 0.0f, 1.0f);
+		}
+		else
+		{
+			float diference = speed - maxSpeed * 0.75f;
+			steerReduction = 1 - (diference / (maxSpeed*0.75f));
+			steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
+		}
 	}
 
 	if (speed < 0.0f)
