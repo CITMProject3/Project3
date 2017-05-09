@@ -147,6 +147,7 @@ private:
 	float maneuverability = 5.0f;
 	float maxSteer = 120.0f;
 	float drag = 0.3f;
+	float push_force = 0.1f;
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 

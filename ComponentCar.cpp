@@ -296,7 +296,9 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
+			// Pushing
 			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
+			LOG("%f", acceleration);
 		}
 	}
 	//Braking
@@ -1150,6 +1152,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("maneuverability", maneuverability);
 	data.AppendFloat("maxSteer", maxSteer);
 	data.AppendFloat("drag", drag);
+	data.AppendFloat("push_force", push_force);
 
 	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
@@ -1193,6 +1196,8 @@ void ComponentCar::Load(Data& conf)
 	if (tmp != 0.0f) { maxSteer = tmp; }
 	tmp = conf.GetFloat("drag");
 	if (tmp != 0.0f) { drag = tmp; }
+	tmp = conf.GetFloat("push_force");
+	if (tmp != 0.0f) { push_force = tmp; }
 
 	tmp = conf.GetFloat("recoveryTime");
 	if (tmp != 0.0f) { recoveryTime = tmp; }
@@ -1239,6 +1244,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
