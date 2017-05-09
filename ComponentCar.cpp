@@ -277,9 +277,17 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			// Pushing
-			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
-			LOG("%f", acceleration);
+			// Pushing only when forward acceleration is applied
+			if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_REPEAT || (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && front_player == PLAYER::PLAYER_1))
+			{
+				if (speed / maxSpeed < push_threshold)
+				{
+					//LOG("Applying Force! (Speed %f, Ratio %f)", speed, speed / maxSpeed);
+					acceleration += push_force;
+				}
+			}
+
+			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;			
 		}
 	}
 	//Braking
@@ -1143,6 +1151,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("maxSteer", maxSteer);
 	data.AppendFloat("drag", drag);
 	data.AppendFloat("push_force", push_force);
+	data.AppendFloat("push_threshold", push_threshold);
 
 	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
@@ -1188,6 +1197,8 @@ void ComponentCar::Load(Data& conf)
 	if (tmp != 0.0f) { drag = tmp; }
 	tmp = conf.GetFloat("push_force");
 	if (tmp != 0.0f) { push_force = tmp; }
+	tmp = conf.GetFloat("push_threshold");
+	if (tmp != 0.0f) { push_threshold = tmp; }
 
 	tmp = conf.GetFloat("recoveryTime");
 	if (tmp != 0.0f) { recoveryTime = tmp; }
@@ -1235,6 +1246,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
 		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
+		ImGui::DragFloat("Push threshold", &push_threshold, 0.5f, 0.1f, 1.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();

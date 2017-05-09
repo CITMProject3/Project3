@@ -121,6 +121,7 @@ private:
 	float maxSteer = 120.0f;
 	float drag = 0.3f;
 	float push_force = 0.1f;
+	float push_threshold = 0.5f; // Ratio below which push is applied
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
