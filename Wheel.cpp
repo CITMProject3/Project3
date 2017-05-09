@@ -23,4 +23,11 @@ void Wheel::Cast()
 		hitPoint = hitResult.point;
 		angleFromY = hitResult.normal.AngleBetween(float3(0, 1, 0));
 	}
+	else
+	{
+		distance = floatMax - 10.0f;
+		hitNormal = float3(0, 1, 0);
+		hitPoint = float3(0, 0, 0);
+		angleFromY = 0.0f;
+	}
 }
