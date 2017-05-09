@@ -31,6 +31,8 @@
 
 #define DISTANCE_FROM_GROUND 1.0
 
+#define ITERATE_WHEELS for (std::vector<Wheel>::iterator it = wheels.begin(); wheels.empty() == false && it != wheels.end(); it++)
+
 void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
 {
 	float3 fw, side;
@@ -136,57 +138,42 @@ void ComponentCar::KartLogic()
 	kartY = kart_trs->GetGlobalMatrix().WorldY().Normalized();
 	kartZ = kart_trs->GetGlobalMatrix().WorldZ().Normalized();
 
-
-	//Setting the two rays, Front and Back
-	math::Ray rayF, rayB;
-	rayB.dir = rayF.dir = -kartY;
-	rayF.dir += kartZ / 1.5f;
-	rayF.dir.Normalize();
-
-	rayB.dir -= kartZ / 1.5f;
-	rayB.dir.Normalize();
-
-	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY * 1.5f;
-	rayF.pos += kartZ;
-	rayB.pos -= kartZ;
-
-	//Raycasting, checking only for the NavMesh layer
-	
-	RaycastHit hitF;
-	bool frontHit = App->physics->RayCast(rayF, hitF);
-	float frontAngle = hitF.normal.AngleBetween(float3(0, 1, 0));
-
-	RaycastHit hitB;
-	bool backHit = App->physics->RayCast(rayB, hitB);
-	float backAngle = hitB.normal.AngleBetween(float3(0, 1, 0));
-
 	bool checkOffTrack = false;
-
-	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
-	float3 desiredUp = float3(0, 1, 0);
 	onTheGround = false;
-	if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND + 1) && (backHit && hitB.distance < DISTANCE_FROM_GROUND + 1))
+	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
+	float3 desiredUp = float3(0, 0, 0);
+	ITERATE_WHEELS
 	{
-		//In this case, both rays hit an object and are close enough to it to be considered "On The ground". Desired up is an interpolation of the normal output of both raycasts
-		onTheGround = true;
-		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
-		newPos = hitB.point + (hitF.point - hitB.point) / 2;
-	}
-	else if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && !(backHit && hitB.distance < DISTANCE_FROM_GROUND / 2.0 + 1))
-	{
-		//Only the front ray collided. We'll need more comprovations to make sure the kart is not going off track
-		onTheGround = true;
-		desiredUp = hitF.normal;
-		checkOffTrack = true;
-	}
-	else if (!(frontHit && hitF.distance < DISTANCE_FROM_GROUND / 2.0 + 1) && (backHit && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
-	{
-		//Only the back ray collided. We'll need more comprovations to make sure the kart is not going off track
-		onTheGround = true;
-		desiredUp = hitB.normal;
-		checkOffTrack = true;
+		it->Cast();
+
+		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
+		{
+			onTheGround = true;
+			desiredUp += it->hitNormal;
+		}
+		else
+		{
+			checkOffTrack = true;
+		}
 	}
 
+	//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
+	if (checkOffTrack == false && onTheGround)
+	{
+		newPos.y = 0.0f;
+		ITERATE_WHEELS
+		{
+			newPos.y += it->hitPoint.y;
+		}
+		newPos.y /= wheels.size();
+	}
+
+	//We use on the ground, 'cause it's true if at least one of the
+	if (onTheGround == false)
+	{
+		desiredUp = float3(0, 1, 0);
+	}
+	desiredUp.Normalize();
 
 	if (checkOffTrack && onTheGround)
 	{
@@ -196,23 +183,17 @@ void ComponentCar::KartLogic()
 	//Checking if one of the rays was cast onto a wall
 	if (onTheGround)
 	{
-		if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f) && hitF.distance < DISTANCE_FROM_GROUND + 1.0f) || frontHit == false)
+		ITERATE_WHEELS
+		{
+		if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
 		{
 			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 			if (speed >= 0.0f)
 			{
-				WallHit(hitF.normal, kartZ, kartX);
+				WallHit(it->hitNormal, kartZ, kartX);
 			}
-			desiredUp = hitB.normal.Normalized();
+			//desiredUp = hitB.normal.Normalized();
 		}
-		else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f) && hitB.distance < DISTANCE_FROM_GROUND + 1.0f) || backHit == false)
-		{
-			newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-			if (speed <= 0.0f)
-			{
-				WallHit(hitB.normal, kartZ, kartX);
-			}
-			desiredUp = hitF.normal.Normalized();
 		}
 	}
 	else
@@ -593,6 +574,15 @@ void ComponentCar::HorizontalDrag()
 
 void ComponentCar::OnPlay()
 {
+	//Front left
+	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(-0.7, -1, 0.7)));
+	//Front Right
+	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(0.7, -1, 0.7)));
+	//Back left
+	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(-0.7, -1, -0.7)));
+	//Back Right
+	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(0.7, -1, -0.7)));
+
 	if (kart_trs)
 	{
 		reset_pos = kart_trs->GetPosition();
@@ -1254,7 +1244,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Speed", &speed);
 		ImGui::DragFloat("Current Steer", &currentSteer);
 		ImGui::DragFloat("Test", &testVar);
-		ImGui::Checkbox("Steering", &steering);
+		ImGui::Text("Steering: %s\nOnTheGround: %s", steering ? "true" : "false", onTheGround ? "true" : "false");
 		if (ImGui::TreeNode("Turbo display"))
 		{
 			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);

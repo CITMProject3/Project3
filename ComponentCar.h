@@ -12,6 +12,7 @@
 #include "Turbos.h"
 
 #include "Primitive.h"
+#include "Wheel.h"
 
 #define CAR_GRAVITY 0.8f
 
@@ -90,33 +91,6 @@ enum DRIFT_STATE
 	drift_left_2
 };
 
-class Wheel
-{
-public:
-	Wheel(float2 _posOffset, float3 _dir) : posOffset(_posOffset), dir(_dir){}
-
-	/*void Cast()
-	{
-		math::Ray Ray;
-		Ray.pos = kart->
-		RaycastHit hitResult;
-
-
-	}
-ComponentCar* kart;*/
-private:
-	float2 posOffset;
-	float3 dir;
-	
-public:
-	bool hit = false;
-	float angleFromY = 0.0f;
-	float distance = 0.0f;
-	float3 hitNormal;
-	float3 hitPoint;
-
-};
-
 struct CarAttributeModifier
 {
 	float bonusMaxSpeed = 0.0f;
@@ -129,7 +103,6 @@ struct CarAttributeModifier
 
 	void Reset() { *this = CarAttributeModifier(); }
 };
-
 
 class ComponentCar : public Component
 {
@@ -164,6 +137,8 @@ private:
 	float testVar = 0.0f;
 
 	ComponentTransform* kart_trs = nullptr;
+
+	std::vector<Wheel> wheels;
 
 public:
 	CarAttributeModifier mods;
@@ -212,7 +187,7 @@ public:
 
 	//Getters
 	float GetVelocity()const;
-
+	ComponentTransform* GetKartTRS() { return kart_trs; }
 
 private:
 	void DebugInput();
