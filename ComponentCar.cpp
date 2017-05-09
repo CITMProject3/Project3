@@ -88,6 +88,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 	back_player = PLAYER_2;
 	
 	inverted_controls = false;
+	invert_value = 1;
 }
 
 ComponentCar::~ComponentCar()
@@ -536,7 +537,7 @@ void ComponentCar::SteerKart()
 		steerReduction *= -1;
 	}
 	float rotateAngle = (maxSteer + mods.bonusMaxSteering) * steerReduction * currentSteer * time->DeltaTime();
-	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
+	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -(rotateAngle* invert_value) * DEGTORAD);
 	kart_trs->Rotate(tmp);
 }
 
@@ -653,6 +654,27 @@ void ComponentCar::UseItem()
 		turbo.SetTurbo(turboPicker.rocket);
 		turbo.TurnOn();
 		has_item = false;
+	}
+}
+
+bool ComponentCar::GetInvertStatus() const
+{
+	return inverted_controls;
+}
+
+void ComponentCar::SetInvertStatus(bool status)
+{
+	if (status != inverted_controls)
+	{
+		inverted_controls = status;
+		if (status)
+		{
+			invert_value = -1;
+		}
+		else
+		{
+			invert_value = 1;
+		}
 	}
 }
 

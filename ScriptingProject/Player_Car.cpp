@@ -171,6 +171,12 @@ namespace Player_Car
 			}
 		}
 
+		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN ) && evil_spirit_effect == false)
+		{
+			evil_spirit_effect = true;
+		}
+
+
 		if (evil_spirit_effect)
 		{
 			Player_Car_UpdateSpiritEffect(game_object, car);
@@ -399,10 +405,13 @@ namespace Player_Car
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
 	{
-		if (spirit_duration == 0.0f && car->inverted_controls == false)
+		if (spirit_duration == 0.0f && car->GetInvertStatus() == false)
 		{
 			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
-			car->inverted_controls = true;
+			car->SetInvertStatus(true);
+			float vel = (evil_spirit_vel_reduction * (car->GetVelocity()/133.0f));
+			Turbo a = Turbo(3.0f, 3.0f, 4.0f, -vel, -0.3f, -vel);
+			car->NewTurbo(a);
 		}
 		else
 		{
@@ -410,8 +419,9 @@ namespace Player_Car
 			if (spirit_duration >= spirit_max_duration)
 			{
 				//car->SetMaxVelocity(car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
-				car->inverted_controls = false;
+				car->SetInvertStatus(false);
 				evil_spirit_effect = false;
+				spirit_duration = 0.0f;
 			}
 		}
 	}

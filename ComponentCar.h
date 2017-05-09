@@ -233,6 +233,9 @@ public:
 	void PickItem();
 	void UseItem();
 
+	bool GetInvertStatus() const;
+	void SetInvertStatus(bool status);
+
 	bool AddHitodama();
 	bool RemoveHitodama();
 	int GetNumHitodamas() const;
@@ -266,13 +269,12 @@ public:
 private:
 	bool raceStarted = false;
 
-public:
-	//Car mechanics settings --------
-	bool inverted_controls;
 private:
 
 	//Common in both cars----
-
+	//Car mechanics settings --------
+	bool inverted_controls = false;
+	int invert_value = 1;
 	//Reset
 	float loose_height = -100.0f;
 
