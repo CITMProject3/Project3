@@ -1240,11 +1240,15 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f, 50.0f);
 		ImGui::NewLine();
 		ImGui::Separator();
-		ImGui::Text("Just for display, do not touch");
-		ImGui::DragFloat("Speed", &speed);
-		ImGui::DragFloat("Current Steer", &currentSteer);
-		ImGui::DragFloat("Test", &testVar);
-		ImGui::Text("Steering: %s\nOnTheGround: %s", steering ? "true" : "false", onTheGround ? "true" : "false");
+		ImGui::Text(
+			"Speed: %f\n"
+			"Horizontal speed: %f\n"
+			"Vertical speed: %f\n"
+			"Current Steer: %f\n"
+			"Steering: %s\n"
+			"On The Ground: %s\n"
+			"TestVar: %f"
+			,speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
 		if (ImGui::TreeNode("Turbo display"))
 		{
 			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);
