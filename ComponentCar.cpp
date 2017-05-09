@@ -1238,17 +1238,36 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::DragFloat3("Collider Size", collShape.size.ptr(), 0.1f, 0.2f, 100.0f);
 		}
 		ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f, 50.0f);
-		ImGui::NewLine();
-		ImGui::Separator();
-		ImGui::Text(
-			"Speed: %f\n"
-			"Horizontal speed: %f\n"
-			"Vertical speed: %f\n"
-			"Current Steer: %f\n"
-			"Steering: %s\n"
-			"On The Ground: %s\n"
-			"TestVar: %f"
-			,speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
+		if (ImGui::TreeNode("Debug output"))
+		{
+			ImGui::Text(
+				"Speed: %f\n"
+				"Horizontal speed: %f\n"
+				"Vertical speed: %f\n"
+				"Current Steer: %f\n"
+				"Steering: %s\n"
+				"On The Ground: %s\n"
+				"TestVar: %f"
+				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
+
+
+			string currentDriftPhase;
+			switch (drifting)
+			{
+			case drift_none: currentDriftPhase = "None"; break;
+			case drift_failed: currentDriftPhase = "Failed"; break;
+			case drift_right_0: currentDriftPhase = "Drift Right"; break;
+			case drift_right_1: currentDriftPhase = "Drift Right T1"; break;
+			case drift_right_2: currentDriftPhase = "Drift Right T2"; break;
+			case drift_left_0: currentDriftPhase = "Drift Left"; break;
+			case drift_left_1: currentDriftPhase = "Drift Left T1"; break;
+			case drift_left_2: currentDriftPhase = "Drift Left T2"; break;
+			}
+			ImGui::NewLine();
+			ImGui::Text("Current drift phase:\n%s", currentDriftPhase.data());
+			ImGui::TreePop();
+		}
+
 		if (ImGui::TreeNode("Turbo display"))
 		{
 			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);
