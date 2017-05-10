@@ -160,7 +160,7 @@ private:
 	DRIFT_STATE lastFrame_drifting;
 
 	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 2.5f;
+	float driftPhaseDuration = 2.0f;
 
 	bool pushing = false;
 
