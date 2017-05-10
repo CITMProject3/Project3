@@ -63,6 +63,7 @@ namespace Makibishi
 			if (current_time_throwing_makibishi >= time_trowing_makibishi)
 			{
 				current_time_throwing_makibishi = 0.0f;
+				((ComponentCollider*)game_object->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
 				game_object->SetActive(false);
 				game_object->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 			}

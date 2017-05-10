@@ -293,6 +293,7 @@ namespace Player_Car
 					else if (item->name == "Makibishi")
 					{
 						car->OnGetHit();
+						((ComponentCollider*)item->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
 						item->SetActive(false);
 						item->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						car->RemoveHitodama();
