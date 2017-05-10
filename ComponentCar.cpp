@@ -726,7 +726,10 @@ void ComponentCar::NewTurbo(Turbo turboToApply)
 
 void ComponentCar::TurboPad()
 {
-	NewTurbo(turboPicker.turboPad);
+	if(inverted_controls == false)
+		NewTurbo(turboPicker.turboPad);
+	else
+		NewTurbo(turboPicker.turboPadOnEvil);	
 }
 
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
