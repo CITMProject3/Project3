@@ -293,7 +293,9 @@ namespace Player_Car
 					else if (item->name == "Makibishi")
 					{
 						car->OnGetHit();
+						((ComponentCollider*)item->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
 						item->SetActive(false);
+						item->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						car->RemoveHitodama();
 					}
 					else if (current_item == -1 && item->name == item_box_name.c_str())
@@ -429,7 +431,6 @@ namespace Player_Car
 		{
 			//Setting position
 			float3 new_pos = game_object->transform->GetPosition();
-			new_pos += car->kartZ * (car->collShape.size.z + 2);
 			new_pos += car->kartY * (car->collShape.size.y + 2);
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -458,7 +459,6 @@ namespace Player_Car
 			{
 				//Setting position
 				float3 new_pos = game_object->transform->GetPosition();
-				new_pos += car->kartZ * (car->collShape.size.z + 2);
 				new_pos += car->kartY * (car->collShape.size.y + 2);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -603,7 +603,7 @@ namespace Player_Car
 
 	void Player_Car_TMP_Use_Makibishi(GameObject* game_object, ComponentCar* car)
 	{
-		if (App->input->GetJoystickButton(car->GetFrontPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		if (App->input->GetJoystickButton(car->GetFrontPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 		{
 			string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 			path.append("_GetMakibishi");
@@ -632,7 +632,6 @@ namespace Player_Car
 				{
 					//Setting position
 					float3 new_pos = game_object->transform->GetPosition();
-					new_pos += car->kartZ * (car->collShape.size.z + 2);
 					new_pos += car->kartY * (car->collShape.size.y + 2);
 					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -642,7 +641,11 @@ namespace Player_Car
 				}
 				else
 				{
-					float y_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_Y);
+					float y_joy_input = 0.0f;
+					if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_DOWN)
+						y_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_Y);
+					else
+						y_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_Y);
 					//Leaving makibishi behind
 					if (y_joy_input < 0)
 					{
@@ -659,12 +662,15 @@ namespace Player_Car
 					{
 						//Setting position
 						float3 new_pos = game_object->transform->GetPosition();
-						new_pos += car->kartZ * (car->collShape.size.z + 2);
 						new_pos += car->kartY * (car->collShape.size.y + 2);
 						makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 						makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
-						float x_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_X);
+						float x_joy_input = 0.0f;
+						if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_DOWN)
+							x_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
+						else
+							x_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_X);
 						float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
 						new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 						makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);

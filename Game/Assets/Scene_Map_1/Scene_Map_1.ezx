@@ -47494,190 +47494,6 @@
         },
         {
             "name": "item_box",
-            "UUID": 1909394348,
-            "local_UUID": 0,
-            "parent": 4097799886,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1077322401,
-                    "active": true,
-                    "matrix": [
-                        0.249865,
-                        0,
-                        -0.010266,
-                        -11.670568,
-                        0,
-                        0.250000,
-                        0,
-                        34,
-                        0.010266,
-                        0,
-                        0.249865,
-                        -179.532806,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 3012988712,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/1861855588\/1678825217\/1582274846.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 2434360531,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/1861855588\/\/3280726912\/3280726912.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 1651442220,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        -0.063250,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        2.893000,
-                        2.754000,
-                        2.885000
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "item_box",
-            "UUID": 4269625273,
-            "local_UUID": 0,
-            "parent": 4097799886,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 529736057,
-                    "active": true,
-                    "matrix": [
-                        0.249707,
-                        0,
-                        -0.013560,
-                        -15.699560,
-                        0,
-                        0.250000,
-                        0,
-                        34,
-                        0.013560,
-                        0,
-                        0.249707,
-                        -169.391388,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 3012988712,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/1861855588\/1678825217\/1582274846.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 2434360531,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/1861855588\/\/3280726912\/3280726912.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 1651442220,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        -0.063250,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        2.893000,
-                        2.754000,
-                        2.885000
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "item_box",
             "UUID": 780985902,
             "local_UUID": 0,
             "parent": 4097799886,
@@ -48073,190 +47889,6 @@
                         0,
                         -0.010890,
                         -131.342682,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 3012988712,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/1861855588\/1678825217\/1582274846.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 2434360531,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/1861855588\/\/3280726912\/3280726912.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 1651442220,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        -0.063250,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        2.893000,
-                        2.754000,
-                        2.885000
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "item_box",
-            "UUID": 1252434645,
-            "local_UUID": 0,
-            "parent": 4097799886,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 298987068,
-                    "active": true,
-                    "matrix": [
-                        -0.058636,
-                        0,
-                        -0.243105,
-                        52.104328,
-                        0,
-                        0.250000,
-                        0,
-                        34,
-                        0.243105,
-                        0,
-                        -0.058636,
-                        135.971695,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 3012988712,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/1861855588\/1678825217\/1582274846.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 2434360531,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/1861855588\/\/3280726912\/3280726912.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 1651442220,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        -0.063250,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        2.893000,
-                        2.754000,
-                        2.885000
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "item_box",
-            "UUID": 2275266506,
-            "local_UUID": 0,
-            "parent": 4097799886,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 298987068,
-                    "active": true,
-                    "matrix": [
-                        0.250076,
-                        0,
-                        0,
-                        40.242165,
-                        0,
-                        0.250000,
-                        0,
-                        34,
-                        0,
-                        0,
-                        0.250076,
-                        124.505028,
                         0,
                         0,
                         0,
@@ -48791,9 +48423,9 @@
             "components": [
                 {
                     "position": [
-                        -9.481001,
+                        41.132195,
                         36.225002,
-                        172.865662
+                        121.096085
                     ],
                     "rotation": [
                         0,
@@ -48816,9 +48448,9 @@
             "components": [
                 {
                     "position": [
-                        -9.481000,
+                        49.496952,
                         36.224998,
-                        183.647995
+                        136.910675
                     ],
                     "rotation": [
                         0,
@@ -48841,7 +48473,7 @@
             "components": [
                 {
                     "position": [
-                        37.588203,
+                        -39.590866,
                         36.224998,
                         -176.628036
                     ],
@@ -48866,7 +48498,7 @@
             "components": [
                 {
                     "position": [
-                        49.469532,
+                        45.071323,
                         36.255001,
                         -176.531372
                     ],
