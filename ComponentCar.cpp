@@ -1029,13 +1029,13 @@ void ComponentCar::Reset()
 {
 	if (checkpoints >= MAXUINT - 20)
 	{
-		kart_trs->SetPosition(reset_pos);
 		kart_trs->SetRotation(reset_rot);
+		kart_trs->SetPosition(reset_pos + float3(kartX * front_player * 0.3f));
 	}
 	else
 	{
-		kart_trs->SetPosition(last_check_pos);
 		kart_trs->SetRotation(last_check_rot);
+		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.3f));
 	}
 	OnGetHit();
 	speed = 0.0f;
