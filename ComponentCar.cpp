@@ -529,22 +529,31 @@ void ComponentCar::PlayersInput()
 	DriftManagement();
 
 	//Acrobatics
-	if (onTheGround == false)
+	if (onTheGround == false && acrobaticsDone == false)
 	{
 		KEY_STATE state = App->input->GetJoystickButton(front_player, JOY_BUTTON::X);
 		if (state == KEY_DOWN || state == KEY_REPEAT)
 		{
-			p1AcrobaticsPress.Start();
+			if (p2AcrobaticsPress.ReadSec() < acrobaticsDelay)
+			{
+				acrobaticsDone = true;
+			}
+			else
+			{
+				p1AcrobaticsPress.Start();
+			}
 		}
 		state = App->input->GetJoystickButton(back_player, JOY_BUTTON::X);
 		if (state == KEY_DOWN || state == KEY_REPEAT)
 		{
-			p2AcrobaticsPress.Start();
-		}
-
-		if (math::Abs(p1AcrobaticsPress.ReadSec() - p2AcrobaticsPress.ReadSec()) < acrobaticsDelay)
-		{
-			acrobaticsDone = true;
+			if (p1AcrobaticsPress.ReadSec() < acrobaticsDelay)
+			{
+				acrobaticsDone = true;
+			}
+			else
+			{
+				p2AcrobaticsPress.Start();
+			}
 		}
 	}
 
@@ -1060,12 +1069,12 @@ void ComponentCar::Reset()
 	if (checkpoints >= MAXUINT - 20)
 	{
 		kart_trs->SetRotation(reset_rot);
-		kart_trs->SetPosition(reset_pos + float3(kartX * front_player * 0.3f));
+		kart_trs->SetPosition(reset_pos + float3(kartX * front_player * 0.5f));
 	}
 	else
 	{
 		kart_trs->SetRotation(last_check_rot);
-		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.3f));
+		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.5f));
 	}
 	currentSteer = 0;
 	OnGetHit();
