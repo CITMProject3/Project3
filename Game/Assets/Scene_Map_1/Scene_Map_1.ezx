@@ -267,7 +267,7 @@
                     "active": true,
                     "rect_size": [
                         1920,
-                        1058
+                        1053
                     ],
                     "matrix": [
                         1,
@@ -4138,9 +4138,9 @@
                     "velocity_firecracker": 120,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
+                    "spirit_max_duration": 10,
                     "turbo_max_acc_time": 0,
                     "turbo_acc_bonus_over_time": 0,
                     "turbo_speed_bonus": 0,
@@ -12825,6 +12825,113 @@
             ]
         },
         {
+            "name": "EvilSpirit",
+            "UUID": 2338192384,
+            "local_UUID": 0,
+            "parent": 726386159,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3652960211,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -0.000004,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        -0.000004,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cube",
+            "UUID": 1544013713,
+            "local_UUID": 0,
+            "parent": 2338192384,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3800907848,
+                    "active": true,
+                    "matrix": [
+                        0.399747,
+                        -0.000001,
+                        0.014236,
+                        1.183296,
+                        0.000001,
+                        0.400000,
+                        0,
+                        2.022343,
+                        -0.014236,
+                        0,
+                        0.399747,
+                        -0.042473,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2060135372,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Kart_scene 2",
             "UUID": 2807956156,
             "local_UUID": 0,
@@ -12897,15 +13004,15 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": 0,
-                    "car_id": 0,
+                    "car_id": 1,
                     "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
+                    "spirit_max_duration": 10,
                     "turbo_max_acc_time": 0,
                     "turbo_acc_bonus_over_time": 0,
                     "turbo_speed_bonus": 0,
@@ -21627,6 +21734,113 @@
             ]
         },
         {
+            "name": "EvilSpirit",
+            "UUID": 1027649178,
+            "local_UUID": 0,
+            "parent": 2807956156,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3652960211,
+                    "active": true,
+                    "matrix": [
+                        0.999847,
+                        -0.000002,
+                        0.017849,
+                        0,
+                        0.000002,
+                        1,
+                        0,
+                        0,
+                        -0.017849,
+                        0,
+                        0.999847,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cube",
+            "UUID": 2368884410,
+            "local_UUID": 0,
+            "parent": 1027649178,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3800907848,
+                    "active": true,
+                    "matrix": [
+                        0.399962,
+                        -0.000001,
+                        0.005694,
+                        1.223682,
+                        0.000001,
+                        0.400000,
+                        0,
+                        2.126884,
+                        -0.005694,
+                        0,
+                        0.399962,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2060135372,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Cameras",
             "UUID": 3275154307,
             "local_UUID": 0,
@@ -21705,7 +21919,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.666151,
+                    "aspect_ratio": 3.683559,
                     "color": [
                         0,
                         0,
@@ -21748,7 +21962,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -21794,7 +22008,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.666151,
+                    "aspect_ratio": 3.683559,
                     "color": [
                         0,
                         0,
@@ -21837,7 +22051,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -21883,7 +22097,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.814745,
+                    "aspect_ratio": 1.823362,
                     "color": [
                         0,
                         0,
