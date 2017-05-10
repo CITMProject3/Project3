@@ -1002,10 +1002,6 @@ void ComponentCar::OnGetHit()
 	horizontalSpeed = 0.0f;
 	fallSpeed = 7.0f;
 
-	SetP2AnimationState(P2GET_HIT, 0.0f);
-	p1_state = P1GET_HIT;
-	p1_animation->PlayAnimation(3, 0.5f);
-
 	if (p2_animation != nullptr)
 	{
 		SetP2AnimationState(P2GET_HIT, 0.0f);
