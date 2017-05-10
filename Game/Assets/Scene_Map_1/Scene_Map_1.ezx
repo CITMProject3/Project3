@@ -231,7 +231,7 @@
             "UUID": 3682601324,
             "local_UUID": 0,
             "parent": 965909917,
-            "active": true,
+            "active": false,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -266,14 +266,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1536,
-                        841
+                        1920,
+                        1057
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        768,
+                        960,
                         0,
                         1,
                         0,
@@ -21691,7 +21691,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.689691,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -21733,7 +21733,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -21779,7 +21779,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.689691,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -21821,7 +21821,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -21867,7 +21867,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.826397,
+                    "aspect_ratio": 1.816462,
                     "color": [
                         0,
                         0,
@@ -38268,7 +38268,7 @@
                         0,
                         -0.198872,
                         3.095752,
-                        -13.789398,
+                        -12.322011,
                         0,
                         0,
                         0,
@@ -47492,18 +47492,18 @@
                     "UUID": 1077322401,
                     "active": true,
                     "matrix": [
-                        0.168327,
+                        0.249865,
                         0,
-                        -0.184943,
-                        25.879345,
+                        -0.010266,
+                        -11.670568,
                         0,
                         0.250000,
                         0,
                         34,
-                        0.184943,
+                        0.010266,
                         0,
-                        0.168327,
-                        -228.564880,
+                        0.249865,
+                        -179.532806,
                         0,
                         0,
                         0,
@@ -47584,18 +47584,18 @@
                     "UUID": 529736057,
                     "active": true,
                     "matrix": [
-                        0.224081,
+                        0.249707,
                         0,
-                        -0.111019,
-                        5.825080,
+                        -0.013560,
+                        -15.699560,
                         0,
                         0.250000,
                         0,
                         34,
-                        0.111019,
+                        0.013560,
                         0,
-                        0.224081,
-                        -211.629288,
+                        0.249707,
+                        -169.391388,
                         0,
                         0,
                         0,
@@ -48304,216 +48304,6 @@
             ]
         },
         {
-            "name": "Empty GameObject",
-            "UUID": 1806720627,
-            "local_UUID": 0,
-            "parent": 2275266506,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1935937039,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "Empty GameObject",
-            "UUID": 3869835393,
-            "local_UUID": 0,
-            "parent": 1806720627,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 3517691561,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                }
-            ]
-        },
-        {
-            "name": "TurboProp",
-            "UUID": 83523106,
-            "local_UUID": 0,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 1667889523,
-                    "active": true,
-                    "matrix": [
-                        0,
-                        0,
-                        0.999997,
-                        6.920091,
-                        0,
-                        1,
-                        0,
-                        32.273144,
-                        -0.999997,
-                        0,
-                        0,
-                        -175.614853,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 8,
-                    "UUID": 800481159,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": true,
-                    "mass": 10,
-                    "offset_pos": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": true,
-                    "size": [
-                        6.500000,
-                        2.800000,
-                        9.500000
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 2942341426,
-                    "active": true,
-                    "script_path": "TurboPad",
-                    "script_num": 0
-                }
-            ]
-        },
-        {
-            "name": "pCube4",
-            "UUID": 902709605,
-            "local_UUID": 0,
-            "parent": 83523106,
-            "active": true,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
-            "components": [
-                {
-                    "type": 0,
-                    "UUID": 3831328183,
-                    "active": true,
-                    "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 157944849,
-                    "active": true,
-                    "path": "\/Library\/1832981425\/2684698193\/3933510948.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 780235821,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
-                    ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/1832981425\/\/2620845066\/2620845066.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                }
-            ]
-        },
-        {
             "name": "TurboProp",
             "UUID": 2309955486,
             "local_UUID": 0,
@@ -48835,8 +48625,33 @@
                 {
                     "position": [
                         31.835337,
-                        40.114651,
-                        7.956139
+                        38,
+                        0.600000
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2788404462,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2788404462,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -39.011662,
+                        38,
+                        12
                     ],
                     "rotation": [
                         0,
@@ -48851,7 +48666,7 @@
             "name": "Hitodama",
             "UUID": 4275655835,
             "local_UUID": 998477620,
-            "parent": 965909917,
+            "parent": 3360510740,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 4275655835,
@@ -48860,8 +48675,8 @@
                 {
                     "position": [
                         39.676285,
-                        38.250145,
-                        8.245507
+                        39.967487,
+                        0.600000
                     ],
                     "rotation": [
                         0,
@@ -48876,7 +48691,7 @@
             "name": "Hitodama",
             "UUID": 2101537820,
             "local_UUID": 998477620,
-            "parent": 965909917,
+            "parent": 3360510740,
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 2101537820,
@@ -48885,8 +48700,158 @@
                 {
                     "position": [
                         47.861637,
-                        38.082085,
-                        6.772385
+                        38,
+                        0.600000
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2604545167,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2604545167,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -47.600113,
+                        40,
+                        12
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1995538895,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1995538895,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -56.224510,
+                        38,
+                        12
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 1559298767,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1559298767,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -9.481001,
+                        36.225002,
+                        172.865662
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 2381459891,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2381459891,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        -9.481000,
+                        36.224998,
+                        183.647995
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 3744653038,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3744653038,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        37.588203,
+                        36.224998,
+                        -176.628036
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Hitodama",
+            "UUID": 31680530,
+            "local_UUID": 998477620,
+            "parent": 3360510740,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 31680530,
+            "prefab_path": "\/Library\/4171985717\/\/1260929214\/1260929214.pfb",
+            "components": [
+                {
+                    "position": [
+                        49.469532,
+                        36.255001,
+                        -176.531372
                     ],
                     "rotation": [
                         0,
@@ -51946,6 +51911,278 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "TurboProp",
+            "UUID": 83523106,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1667889523,
+                    "active": true,
+                    "matrix": [
+                        0.362203,
+                        0,
+                        0.932084,
+                        53.593346,
+                        0,
+                        1,
+                        0,
+                        32.273144,
+                        -0.932084,
+                        0,
+                        0.362203,
+                        -212.337006,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 800481159,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        6.500000,
+                        2.800000,
+                        9.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2942341426,
+                    "active": true,
+                    "script_path": "TurboPad",
+                    "script_num": 0
+                }
+            ]
+        },
+        {
+            "name": "pCube4",
+            "UUID": 902709605,
+            "local_UUID": 0,
+            "parent": 83523106,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3831328183,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 157944849,
+                    "active": true,
+                    "path": "\/Library\/1832981425\/2684698193\/3933510948.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 780235821,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1832981425\/\/2620845066\/2620845066.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "TurboProp",
+            "UUID": 3712158076,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1667889523,
+                    "active": true,
+                    "matrix": [
+                        -0.439510,
+                        0,
+                        0.898219,
+                        -41.977726,
+                        0,
+                        1,
+                        0,
+                        32.273144,
+                        -0.898219,
+                        0,
+                        -0.439510,
+                        -214.069061,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 8,
+                    "UUID": 800481159,
+                    "active": true,
+                    "CheckpointN": 0,
+                    "shape": 1,
+                    "static": true,
+                    "mass": 10,
+                    "offset_pos": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "is_trigger": true,
+                    "trigger_type": 0,
+                    "is_transparent": true,
+                    "size": [
+                        6.500000,
+                        2.800000,
+                        9.500000
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 2942341426,
+                    "active": true,
+                    "script_path": "TurboPad",
+                    "script_num": 0
+                }
+            ]
+        },
+        {
+            "name": "pCube4",
+            "UUID": 3149466313,
+            "local_UUID": 0,
+            "parent": 3712158076,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3831328183,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 157944849,
+                    "active": true,
+                    "path": "\/Library\/1832981425\/2684698193\/3933510948.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 780235821,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1832981425\/\/2620845066\/2620845066.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
