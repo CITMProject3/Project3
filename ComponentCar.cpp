@@ -532,6 +532,7 @@ void ComponentCar::PlayersInput()
 	if (onTheGround == false && acrobaticsDone == false)
 	{
 		KEY_STATE state = App->input->GetJoystickButton(front_player, JOY_BUTTON::X);
+		if (state != KEY_DOWN || state != KEY_REPEAT) { state = App->input->GetKey(SDL_SCANCODE_KP_1); }
 		if (state == KEY_DOWN || state == KEY_REPEAT)
 		{
 			if (p2AcrobaticsPress.ReadSec() < acrobaticsDelay)
@@ -544,6 +545,7 @@ void ComponentCar::PlayersInput()
 			}
 		}
 		state = App->input->GetJoystickButton(back_player, JOY_BUTTON::X);
+		if (state != KEY_DOWN || state != KEY_REPEAT) { state = App->input->GetKey(SDL_SCANCODE_KP_2); }
 		if (state == KEY_DOWN || state == KEY_REPEAT)
 		{
 			if (p1AcrobaticsPress.ReadSec() < acrobaticsDelay)
