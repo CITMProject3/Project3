@@ -69,7 +69,7 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 void ComponentCar::WallHit(const float3 & normal)
 {
-	WallHit(normal, kart_trs->GetGlobalMatrix().WorldZ().Normalized(), kart_trs->GetGlobalMatrix().WorldX().Normalized());
+	WallHit(normal, kartZ, kartX);
 }
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
@@ -145,6 +145,7 @@ void ComponentCar::KartLogic()
 	float3 desiredUp = float3(0, 0, 0);
 	ITERATE_WHEELS
 	{
+		//Casting the weel ray and updating it's values
 		it->Cast();
 
 	if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
@@ -159,7 +160,7 @@ void ComponentCar::KartLogic()
 	}
 
 		//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
-		if (checkOffTrack == false && onTheGround)
+		if (checkOffTrack == false && onTheGround && fallSpeed < 1.5f)
 		{
 			newPos.y = 0.0f;
 			ITERATE_WHEELS
@@ -188,11 +189,9 @@ void ComponentCar::KartLogic()
 		{
 			if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
 			{
-				newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-				if (speed >= 0.0f)
-				{
-					WallHit(it->hitNormal, kartZ, kartX);
-				}
+				//newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+				WallHit(it->hitNormal, kartZ, kartX);
+
 				//desiredUp = hitB.normal.Normalized();
 			}
 		}
@@ -216,6 +215,7 @@ void ComponentCar::KartLogic()
 
 	PlayersInput();
 
+
 	if (steering == false)
 	{
 		//Returning steer to 0 gradually if the player isn't inputting anything
@@ -223,7 +223,7 @@ void ComponentCar::KartLogic()
 	}
 	steering = false;
 
-	if (onTheGround)
+	if (onTheGround && fallSpeed < 1.5f)
 	{
 		SteerKart();
 		fallSpeed = 0.0f;
@@ -231,8 +231,8 @@ void ComponentCar::KartLogic()
 	else
 	{
 		//Falling. Magic. Gravity. So much wow.
-		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
-		newPos.y += fallSpeed;
+		fallSpeed -= CAR_GRAVITY;
+		newPos.y += fallSpeed * time->DeltaTime();
 	}
 
 
@@ -527,6 +527,11 @@ void ComponentCar::PlayersInput()
 	}
 
 	DriftManagement();
+
+	if (App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
+	{
+		Reset();
+	}
 }
 
 void ComponentCar::SteerKart()
@@ -971,7 +976,7 @@ void ComponentCar::OnGetHit()
 {
 	speed = 0.0;
 	horizontalSpeed = 0.0f;
-	fallSpeed = 10.0f;
+	fallSpeed = 7.0f;
 
 	SetP2AnimationState(P2GET_HIT, 0.0f);
 	p1_state = P1GET_HIT;
@@ -1038,11 +1043,8 @@ void ComponentCar::Reset()
 		kart_trs->SetRotation(last_check_rot);
 		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.3f));
 	}
-	OnGetHit();
-	speed = 0.0f;
-	fallSpeed = 0.0f;
-	horizontalSpeed = 0.0f;
 	currentSteer = 0;
+	OnGetHit();
 	lastFrame_drifting = drifting = drift_none;
 }
 
@@ -1136,8 +1138,11 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	if (state == G_EXIT)
 	{
 		//Changes when exits ground contact
-		float3 realSpeed = kart_trs->GetGlobalMatrix().WorldZ().Normalized() * speed;
-		fallSpeed = realSpeed.y;
+		if (fallSpeed < 1.5f)
+		{
+			float3 realSpeed = kart_trs->GetGlobalMatrix().WorldZ().Normalized() * speed;
+			fallSpeed = realSpeed.y;
+		}
 	}
 	else if (state == G_BEGIN)
 	{
