@@ -528,6 +528,27 @@ void ComponentCar::PlayersInput()
 
 	DriftManagement();
 
+	//Acrobatics
+	if (onTheGround == false)
+	{
+		KEY_STATE state = App->input->GetJoystickButton(front_player, JOY_BUTTON::X);
+		if (state == KEY_DOWN || state == KEY_REPEAT)
+		{
+			p1AcrobaticsPress.Start();
+		}
+		state = App->input->GetJoystickButton(back_player, JOY_BUTTON::X);
+		if (state == KEY_DOWN || state == KEY_REPEAT)
+		{
+			p2AcrobaticsPress.Start();
+		}
+
+		if (math::Abs(p1AcrobaticsPress.ReadSec() - p2AcrobaticsPress.ReadSec()) < acrobaticsDelay)
+		{
+			acrobaticsDone = true;
+		}
+	}
+
+	//Reset button
 	if (App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
 	{
 		Reset();
@@ -1149,7 +1170,11 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 	}
 	else if (state == G_BEGIN)
 	{
-
+		if (acrobaticsDone)
+		{
+			acrobaticsDone = false;
+			turbo.SetTurbo(turboPicker.acrobatic);
+		}
 	}
 }
 
