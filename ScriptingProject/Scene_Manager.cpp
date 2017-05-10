@@ -18,6 +18,7 @@
 #include "../ComponentCar.h"
 #include "../ComponentUiText.h"
 #include "../ComponentUiImage.h"
+#include "../ComponentMaterial.h"
 #include "../ComponentAudioSource.h"
 #include "../ComponentUiButton.h"
 
@@ -392,7 +393,7 @@ namespace Scene_Manager
 				item_ui_1->GetGameObject()->SetActive(active);
 				if (active == true)
 				{
-					item_ui_1->id_to_render = image_to_display;
+					item_ui_1->UImaterial->SetIdToRender(image_to_display);
 				}
 			}
 		}
@@ -403,7 +404,7 @@ namespace Scene_Manager
 				item_ui_2->GetGameObject()->SetActive(active);
 				if (active == true)
 				{
-					item_ui_2->id_to_render = image_to_display;
+					item_ui_2->UImaterial->SetIdToRender(image_to_display);
 				}
 			}
 		}
