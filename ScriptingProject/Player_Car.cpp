@@ -375,6 +375,13 @@ namespace Player_Car
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		{
+			//Setting position
+			float3 new_pos = game_object->transform->GetPosition();
+			new_pos += car->kartZ * (car->collShape.size.z + 2);
+			new_pos += car->kartY * (car->collShape.size.y + 2);
+			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
+
 			float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 		}
@@ -514,7 +521,7 @@ namespace Player_Car
 		path.append("_UpdateItems");
 		if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, path.c_str()))
 		{
-			update_items(car_id, current_item, item_size);
+    			update_items(car_id, current_item, item_size);
 		}
 	}
 }
