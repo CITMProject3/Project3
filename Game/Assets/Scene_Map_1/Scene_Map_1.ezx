@@ -267,7 +267,7 @@
                     "active": true,
                     "rect_size": [
                         1920,
-                        1057
+                        1058
                     ],
                     "matrix": [
                         1,
@@ -4119,6 +4119,7 @@
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
+                    "driftPhaseChange": 3,
                     "lose_height": 2,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
@@ -4131,6 +4132,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": 0,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
                     "explosion_radius_firecracker": 5,
@@ -4138,6 +4141,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "firecracker": 1230011776,
@@ -12877,6 +12884,7 @@
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
+                    "driftPhaseChange": 3,
                     "lose_height": 2,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
@@ -12889,6 +12897,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": 0,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
                     "explosion_radius_firecracker": 5,
@@ -12896,6 +12906,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "firecracker": 717367660,
@@ -21691,7 +21705,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.666151,
                     "color": [
                         0,
                         0,
@@ -21707,7 +21721,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -21733,7 +21748,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 2
+                    "listener ID": 0
                 }
             ]
         },
@@ -21779,7 +21794,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.666151,
                     "color": [
                         0,
                         0,
@@ -21795,7 +21810,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -21821,7 +21837,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 3
+                    "listener ID": 1
                 }
             ]
         },
@@ -21867,7 +21883,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.816462,
+                    "aspect_ratio": 1.814745,
                     "color": [
                         0,
                         0,
@@ -21883,7 +21899,8 @@
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": false
+                    "render_terrain": false,
+                    "render_skybox": false
                 }
             ]
         },
