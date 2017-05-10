@@ -434,7 +434,7 @@ namespace Scene_Manager
 
 		string timer_string = min_str + ":" + sec_str + ":" + mil_str;
 		timer_text->SetDisplayText(timer_string);
-		LOG("Text set: %s", timer_string.c_str());
+		//LOG("Text set: %s", timer_string.c_str());
 	}
 
 	void Scene_Manager_UpdateStartCountDown(GameObject* game_object)

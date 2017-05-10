@@ -236,16 +236,19 @@ void ModuleEditor::RemoveSelected()
 
 void ModuleEditor::DisplayWarning(WarningType type, const char *format, ...)
 {
-	static char tmp_string[4096];
-	static char tmp_string2[4096];
-	static va_list ap;
+	if (App->StartInGame() == false)
+	{
+		static char tmp_string[4096];
+		static char tmp_string2[4096];
+		static va_list ap;
 
-	// Construct the string from variable arguments
-	va_start(ap, format);
-	vsprintf_s(tmp_string, 4096, format, ap);
-	va_end(ap);
+		// Construct the string from variable arguments
+		va_start(ap, format);
+		vsprintf_s(tmp_string, 4096, format, ap);
+		va_end(ap);
 
-	if(warning_window) warning_window->AddMessage(tmp_string, type);
+		if (warning_window) warning_window->AddMessage(tmp_string, type);
+	}
 }
 
 update_status ModuleEditor::PreUpdate()

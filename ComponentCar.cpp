@@ -31,6 +31,8 @@
 
 #define DISTANCE_FROM_GROUND 1.0
 
+#define ITERATE_WHEELS for (std::vector<Wheel>::iterator it = wheels.begin(); wheels.empty() == false && it != wheels.end(); it++)
+
 void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
 {
 	float3 fw, side;
@@ -86,6 +88,7 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 	back_player = PLAYER_2;
 	
 	inverted_controls = false;
+	invert_value = 1;
 }
 
 ComponentCar::~ComponentCar()
@@ -136,57 +139,42 @@ void ComponentCar::KartLogic()
 	kartY = kart_trs->GetGlobalMatrix().WorldY().Normalized();
 	kartZ = kart_trs->GetGlobalMatrix().WorldZ().Normalized();
 
-
-	//Setting the two rays, Front and Back
-	math::Ray rayF, rayB;
-	rayB.dir = rayF.dir = -kartY;
-	rayF.dir += kartZ / 1.5f;
-	rayF.dir.Normalize();
-
-	rayB.dir -= kartZ / 1.5f;
-	rayB.dir.Normalize();
-
-	rayB.pos = rayF.pos = kart_trs->GetPosition() + kartY * 1.5f;
-	rayF.pos += kartZ;
-	rayB.pos -= kartZ;
-
-	//Raycasting, checking only for the NavMesh layer
-	
-	RaycastHit hitF;
-	bool frontHit = App->physics->RayCast(rayF, hitF);
-	float frontAngle = hitF.normal.AngleBetween(float3(0, 1, 0));
-
-	RaycastHit hitB;
-	bool backHit = App->physics->RayCast(rayB, hitB);
-	float backAngle = hitB.normal.AngleBetween(float3(0, 1, 0));
-
 	bool checkOffTrack = false;
-
-	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
-	float3 desiredUp = float3(0, 1, 0);
 	onTheGround = false;
-	if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND + 1) && (backHit && hitB.distance < DISTANCE_FROM_GROUND + 1))
+	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
+	float3 desiredUp = float3(0, 0, 0);
+	ITERATE_WHEELS
 	{
-		//In this case, both rays hit an object and are close enough to it to be considered "On The ground". Desired up is an interpolation of the normal output of both raycasts
-		onTheGround = true;
-		desiredUp = hitF.normal.Lerp(hitB.normal, 0.5f);
-		newPos = hitB.point + (hitF.point - hitB.point) / 2;
-	}
-	else if ((frontHit && hitF.distance < DISTANCE_FROM_GROUND + 0.8) && !(backHit && hitB.distance < DISTANCE_FROM_GROUND / 2.0 + 1))
-	{
-		//Only the front ray collided. We'll need more comprovations to make sure the kart is not going off track
-		onTheGround = true;
-		desiredUp = hitF.normal;
-		checkOffTrack = true;
-	}
-	else if (!(frontHit && hitF.distance < DISTANCE_FROM_GROUND / 2.0 + 1) && (backHit && hitB.distance < DISTANCE_FROM_GROUND + 0.8))
-	{
-		//Only the back ray collided. We'll need more comprovations to make sure the kart is not going off track
-		onTheGround = true;
-		desiredUp = hitB.normal;
-		checkOffTrack = true;
+		it->Cast();
+
+		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
+		{
+			onTheGround = true;
+			desiredUp += it->hitNormal;
+		}
+		else
+		{
+			checkOffTrack = true;
+		}
 	}
 
+	//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
+	if (checkOffTrack == false && onTheGround)
+	{
+		newPos.y = 0.0f;
+		ITERATE_WHEELS
+		{
+			newPos.y += it->hitPoint.y;
+		}
+		newPos.y /= wheels.size();
+	}
+
+	//We use on the ground, 'cause it's true if at least one of the
+	if (onTheGround == false)
+	{
+		desiredUp = float3(0, 1, 0);
+	}
+	desiredUp.Normalize();
 
 	if (checkOffTrack && onTheGround)
 	{
@@ -196,23 +184,17 @@ void ComponentCar::KartLogic()
 	//Checking if one of the rays was cast onto a wall
 	if (onTheGround)
 	{
-		if ((frontAngle > 50.0f * DEGTORAD && (hitF.normal.y < 0.3f) && hitF.distance < DISTANCE_FROM_GROUND + 1.0f) || frontHit == false)
+		ITERATE_WHEELS
+		{
+		if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
 		{
 			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
 			if (speed >= 0.0f)
 			{
-				WallHit(hitF.normal, kartZ, kartX);
+				WallHit(it->hitNormal, kartZ, kartX);
 			}
-			desiredUp = hitB.normal.Normalized();
+			//desiredUp = hitB.normal.Normalized();
 		}
-		else if ((backAngle > 50.0f * DEGTORAD && (hitB.normal.y < 0.3f) && hitB.distance < DISTANCE_FROM_GROUND + 1.0f) || backHit == false)
-		{
-			newPos += max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-			if (speed <= 0.0f)
-			{
-				WallHit(hitB.normal, kartZ, kartX);
-			}
-			desiredUp = hitF.normal.Normalized();
 		}
 	}
 	else
@@ -274,8 +256,6 @@ float ComponentCar::AccelerationInput()
 	if (rTrigger == 0.5f) { rTrigger = 0.0f; }
 	float lTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) + 1.0f) / 2.0f;
 	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
-	
-	testVar = rTrigger;
 
 	//Accelerating
 	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
@@ -296,7 +276,17 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
+			// Pushing only when forward acceleration is applied
+			if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_REPEAT || (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && front_player == PLAYER::PLAYER_1))
+			{
+				if (speed / maxSpeed < push_threshold)
+				{
+					//LOG("Applying Force! (Speed %f, Ratio %f)", speed, speed / maxSpeed);
+					acceleration += push_force;
+				}
+			}
+
+			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;			
 		}
 	}
 	//Braking
@@ -347,9 +337,10 @@ float ComponentCar::AccelerationInput()
 
 void ComponentCar::Steer(float amount)
 {
+	amount = math::Clamp(amount, -1.0f, 1.0f);
+	testVar = amount;
 	if (drifting == drift_none)
 	{
-		amount = math::Clamp(amount, -1.0f, 1.0f);
 		if (amount < -0.1 || amount > 0.1)
 		{
 			currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime() * amount;
@@ -410,25 +401,40 @@ void ComponentCar::Drift(float dir)
 		switch (drifting)
 		{
 		case drift_right_0:
-			drifting = drift_right_1;
-			break;
+			drifting = drift_right_1; break;
+		case drift_right_1:
+			drifting = drift_right_2; break;
 		case drift_left_0:
-			drifting = drift_left_1;
-			break;
+			drifting = drift_left_1; break;
+		case drift_left_1:
+			drifting = drift_left_2; break;
 		}
 	}
 
+	float desiredCurrentSteer = 0.0f;
+
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		currentSteer =  -0.75f - (dir / 6);
+		desiredCurrentSteer =  -0.85f + (dir * 0.65f);
 		dir += 0.6f;
 	}
 	else
 	{
-		currentSteer = 0.75f + (dir / 6);
+		desiredCurrentSteer = 0.85f + (dir * 0.65f);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
+
+	float steerChange = 1.5f * time->DeltaTime();
+
+	if (currentSteer < desiredCurrentSteer)
+	{
+		currentSteer += steerChange;
+	}
+	else
+	{
+		currentSteer -= steerChange;
+	}
 
 	horizontalSpeed += (drag + mods.bonusDrag) * 3.0f * time->DeltaTime() * -dir;
 }
@@ -482,11 +488,11 @@ void ComponentCar::DriftManagement()
 		{
 		case drift_right_1:
 		case drift_left_1:
-			NewTurbo(turboPicker.acrobatic);
+			NewTurbo(turboPicker.drift1);
 			break;
 		case drift_right_2:
 		case drift_left_2:
-			NewTurbo(turboPicker.acrobatic);
+			NewTurbo(turboPicker.drift2);
 			break;
 		}
 		drifting = drift_none;
@@ -510,12 +516,13 @@ void ComponentCar::PlayersInput()
 	//Steering
 	if (lock_input == false)
 	{
+		float steerAmount = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
 		if (front_player == PLAYER_1)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { steerAmount += 1; }
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { steerAmount -= 1; }
 		}
-		Steer(App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X));
+		Steer(steerAmount);
 	}
 
 	DriftManagement();
@@ -545,7 +552,7 @@ void ComponentCar::SteerKart()
 		steerReduction *= -1;
 	}
 	float rotateAngle = (maxSteer + mods.bonusMaxSteering) * steerReduction * currentSteer * time->DeltaTime();
-	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -rotateAngle * DEGTORAD);
+	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -(rotateAngle* invert_value) * DEGTORAD);
 	kart_trs->Rotate(tmp);
 }
 
@@ -593,6 +600,15 @@ void ComponentCar::HorizontalDrag()
 
 void ComponentCar::OnPlay()
 {
+	//Front left
+	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(-0.7, -1, 0.7)));
+	//Front Right
+	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(0.7, -1, 0.7)));
+	//Back left
+	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(-0.7, -1, -0.7)));
+	//Back Right
+	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(0.7, -1, -0.7)));
+
 	if (kart_trs)
 	{
 		reset_pos = kart_trs->GetPosition();
@@ -653,6 +669,27 @@ void ComponentCar::UseItem()
 		turbo.SetTurbo(turboPicker.rocket);
 		turbo.TurnOn();
 		has_item = false;
+	}
+}
+
+bool ComponentCar::GetInvertStatus() const
+{
+	return inverted_controls;
+}
+
+void ComponentCar::SetInvertStatus(bool status)
+{
+	if (status != inverted_controls)
+	{
+		inverted_controls = status;
+		if (status)
+		{
+			invert_value = -1;
+		}
+		else
+		{
+			invert_value = 1;
+		}
 	}
 }
 
@@ -758,7 +795,6 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 
 void ComponentCar::UpdateP1Animation()
 {
-	//TODO animations
 	if (p1_animation != nullptr)
 	{
 		switch (p1_state)
@@ -1001,6 +1037,7 @@ void ComponentCar::Reset()
 		kart_trs->SetPosition(last_check_pos);
 		kart_trs->SetRotation(last_check_rot);
 	}
+	OnGetHit();
 	speed = 0.0f;
 	fallSpeed = 0.0f;
 	horizontalSpeed = 0.0f;
@@ -1150,6 +1187,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("maneuverability", maneuverability);
 	data.AppendFloat("maxSteer", maxSteer);
 	data.AppendFloat("drag", drag);
+	data.AppendFloat("push_force", push_force);
+	data.AppendFloat("push_threshold", push_threshold);
 
 	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
@@ -1193,6 +1232,10 @@ void ComponentCar::Load(Data& conf)
 	if (tmp != 0.0f) { maxSteer = tmp; }
 	tmp = conf.GetFloat("drag");
 	if (tmp != 0.0f) { drag = tmp; }
+	tmp = conf.GetFloat("push_force");
+	if (tmp != 0.0f) { push_force = tmp; }
+	tmp = conf.GetFloat("push_threshold");
+	if (tmp != 0.0f) { push_threshold = tmp; }
 
 	tmp = conf.GetFloat("recoveryTime");
 	if (tmp != 0.0f) { recoveryTime = tmp; }
@@ -1239,6 +1282,8 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
+		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
+		ImGui::DragFloat("Push threshold", &push_threshold, 0.5f, 0.1f, 1.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
@@ -1248,13 +1293,36 @@ void ComponentCar::OnInspector(bool debug)
 			ImGui::DragFloat3("Collider Size", collShape.size.ptr(), 0.1f, 0.2f, 100.0f);
 		}
 		ImGui::DragFloat3("Collider Offset", collOffset.ptr(), 0.1f, -50.0f, 50.0f);
-		ImGui::NewLine();
-		ImGui::Separator();
-		ImGui::Text("Just for display, do not touch");
-		ImGui::DragFloat("Speed", &speed);
-		ImGui::DragFloat("Current Steer", &currentSteer);
-		ImGui::DragFloat("Test", &testVar);
-		ImGui::Checkbox("Steering", &steering);
+		if (ImGui::TreeNode("Debug output"))
+		{
+			ImGui::Text(
+				"Speed: %f\n"
+				"Horizontal speed: %f\n"
+				"Vertical speed: %f\n"
+				"Current Steer: %f\n"
+				"Steering: %s\n"
+				"On The Ground: %s\n"
+				"TestVar: %f"
+				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
+
+
+			string currentDriftPhase;
+			switch (drifting)
+			{
+			case drift_none: currentDriftPhase = "None"; break;
+			case drift_failed: currentDriftPhase = "Failed"; break;
+			case drift_right_0: currentDriftPhase = "Drift Right"; break;
+			case drift_right_1: currentDriftPhase = "Drift Right T1"; break;
+			case drift_right_2: currentDriftPhase = "Drift Right T2"; break;
+			case drift_left_0: currentDriftPhase = "Drift Left"; break;
+			case drift_left_1: currentDriftPhase = "Drift Left T1"; break;
+			case drift_left_2: currentDriftPhase = "Drift Left T2"; break;
+			}
+			ImGui::NewLine();
+			ImGui::Text("Current drift phase:\n%s", currentDriftPhase.data());
+			ImGui::TreePop();
+		}
+
 		if (ImGui::TreeNode("Turbo display"))
 		{
 			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);

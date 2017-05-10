@@ -12,6 +12,7 @@
 #include "Turbos.h"
 
 #include "Primitive.h"
+#include "Wheel.h"
 
 #define CAR_GRAVITY 0.8f
 
@@ -90,33 +91,6 @@ enum DRIFT_STATE
 	drift_left_2
 };
 
-class Wheel
-{
-public:
-	Wheel(float2 _posOffset, float3 _dir) : posOffset(_posOffset), dir(_dir){}
-
-	/*void Cast()
-	{
-		math::Ray Ray;
-		Ray.pos = kart->
-		RaycastHit hitResult;
-
-
-	}
-ComponentCar* kart;*/
-private:
-	float2 posOffset;
-	float3 dir;
-	
-public:
-	bool hit = false;
-	float angleFromY = 0.0f;
-	float distance = 0.0f;
-	float3 hitNormal;
-	float3 hitPoint;
-
-};
-
 struct CarAttributeModifier
 {
 	float bonusMaxSpeed = 0.0f;
@@ -129,7 +103,6 @@ struct CarAttributeModifier
 
 	void Reset() { *this = CarAttributeModifier(); }
 };
-
 
 class ComponentCar : public Component
 {
@@ -147,6 +120,8 @@ private:
 	float maneuverability = 5.0f;
 	float maxSteer = 120.0f;
 	float drag = 0.3f;
+	float push_force = 0.1f;
+	float push_threshold = 0.5f; // Ratio below which push is applied
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
@@ -164,6 +139,8 @@ private:
 	float testVar = 0.0f;
 
 	ComponentTransform* kart_trs = nullptr;
+
+	std::vector<Wheel> wheels;
 
 public:
 	CarAttributeModifier mods;
@@ -183,7 +160,7 @@ private:
 	DRIFT_STATE lastFrame_drifting;
 
 	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 4.0f;
+	float driftPhaseDuration = 2.5f;
 
 	bool pushing = false;
 
@@ -212,7 +189,7 @@ public:
 
 	//Getters
 	float GetVelocity()const;
-
+	ComponentTransform* GetKartTRS() { return kart_trs; }
 
 private:
 	void DebugInput();
@@ -256,6 +233,9 @@ public:
 	void PickItem();
 	void UseItem();
 
+	bool GetInvertStatus() const;
+	void SetInvertStatus(bool status);
+
 	bool AddHitodama();
 	bool RemoveHitodama();
 	int GetNumHitodamas() const;
@@ -276,7 +256,7 @@ public:
 public:
 
 	Player1_State p1_state = P1IDLE;
-	Player2_State p2_state = P2IDLE;
+	Player2_State p2_state = P2DRIFT_RIGHT;
 
 	ComponentAnimation* p1_animation = nullptr;
 	ComponentAnimation* p2_animation = nullptr;
@@ -289,13 +269,12 @@ public:
 private:
 	bool raceStarted = false;
 
-public:
-	//Car mechanics settings --------
-	bool inverted_controls;
 private:
 
 	//Common in both cars----
-
+	//Car mechanics settings --------
+	bool inverted_controls = false;
+	int invert_value = 1;
 	//Reset
 	float loose_height = -100.0f;
 
