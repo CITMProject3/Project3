@@ -29,6 +29,9 @@ enum Item_Type
 
 namespace Player_Car
 {
+	//Sorry everyone :(
+	int car_id = 0;
+
 	//New Player_Car
 	int current_item = -1;
 
@@ -51,7 +54,9 @@ namespace Player_Car
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
 
-	std::vector<GameObject*> makibishis;
+	std::vector<GameObject*> makibishis_1;
+	std::vector<GameObject*> makibishis_2;
+	int item_size = 1;
 
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -59,7 +64,8 @@ namespace Player_Car
 		//(*public_ints)["current_item"] = current_item;
 		public_ints->insert(pair<const char*, int>("current_item", current_item));
 		public_float->insert(pair<const char*, float>("launched_firecracker_lifetime", launched_firecracker_lifetime));
-
+		(*public_ints)["car_id"] = car_id;
+		(*public_ints)["item_size"] = item_size;
 
 		public_bools->insert(pair<const char*, bool>("using_firecracker", using_firecracker));
 		public_float->insert(pair<const char*, float>("velocity_firecracker", velocity_firecracker));
@@ -85,6 +91,8 @@ namespace Player_Car
 		//New Player_Car
 		current_item = script->public_ints["current_item"];
 		launched_firecracker_lifetime = script->public_floats["launched_firecracker_lifetime"];
+		car_id = script->public_ints["car_id"];
+		item_size = script->public_ints["item_size"];
 
 		using_firecracker = script->public_bools.at("using_firecracker");
 		velocity_firecracker = script->public_floats.at("velocity_firecracker");
@@ -109,6 +117,9 @@ namespace Player_Car
 
 		script->public_ints["current_item"] = current_item;
 		script->public_floats["launched_firecracker_lifetime"] = launched_firecracker_lifetime;
+		script->public_ints["car_id"] = car_id;
+		script->public_ints["item_size"] = item_size;
+
 
 		script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		script->public_floats.at("explosion_radius_firecracker") = explosion_radius_firecracker;
@@ -139,13 +150,14 @@ namespace Player_Car
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car);
 	void Player_Car_UpdateFirecrackerEffect(GameObject* game_object, ComponentCar* car);
 	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car);
+	void Player_Car_CallUpdateItems();
+
 #pragma endregion
 
 	void Player_Car_Update(GameObject* game_object)
 	{
-		ComponentCar* Player_car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
-		if (Player_car == nullptr)
+		if (car == nullptr)
 			return;
 
 		if (current_item != -1)
@@ -230,6 +242,7 @@ namespace Player_Car
 					{
 						Player_Car_ChooseItem(game_object);
 						Player_Car_OnPickItem(game_object);
+						Player_Car_CallUpdateItems();
 					}
 				}
 			}
@@ -252,12 +265,12 @@ namespace Player_Car
 			else if (result <= 40)
 			{
 				current_item = MAKIBISHI;
-				makibishis.resize(3, nullptr);
+				item_size = 3;
 			}
 			else
 			{
 				current_item = MAKIBISHI;
-				makibishis.resize(1, nullptr);
+				item_size = 1;
 			}
 		}
 		else if (car->place == 2)
@@ -270,12 +283,12 @@ namespace Player_Car
 			else if (result <= 35)
 			{
 				current_item = MAKIBISHI;
-				makibishis.resize(3, nullptr);
+				item_size = 3;
 			}
 			else if (result <= 65)
 			{
 				current_item = MAKIBISHI;
-				makibishis.resize(1, nullptr);
+				item_size = 1;
 			}
 			else
 			{
@@ -294,11 +307,11 @@ namespace Player_Car
 				path.append("_GetMakibishi");
 				if (f_GetMakibishi get_makibishi = (f_GetMakibishi)GetProcAddress(App->scripting->scripts_lib->lib, path.c_str()))
 				{
-					//Makibishis are assigned according to the vector size
-					for (uint i = 0; i < makibishis.size(); i++)
+					(car_id == 0 ? makibishis_1 : makibishis_2).clear();
+					for (uint i = 0; i < item_size; i++)
 					{
-						makibishis[i] = get_makibishi();
-						((ComponentScript*)makibishis.back()->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
+						(car_id == 0 ? makibishis_1 : makibishis_2).push_back(get_makibishi());
+						((ComponentScript*)(car_id == 0 ? makibishis_1 : makibishis_2).back()->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 					}
 				}
 				break;
@@ -322,7 +335,7 @@ namespace Player_Car
 	void Player_Car_UseEvilSpirit(GameObject* game_object, ComponentCar* car)
 	{
 		current_item = -1;
-
+		Player_Car_CallUpdateItems();
 		if (car->place == 2)
 		{
 			((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
@@ -336,11 +349,12 @@ namespace Player_Car
 
 	void Player_Car_UseMakibishi(GameObject* game_object, ComponentCar* car)
 	{
-		GameObject* makibishi = (*makibishis.begin());
+		GameObject* makibishi = (*(car_id == 0 ? makibishis_1 : makibishis_2).begin());
 
 		if (makibishi == nullptr)
 		{
 			current_item = -1;
+			Player_Car_CallUpdateItems();
 			return;
 		}
 
@@ -386,9 +400,12 @@ namespace Player_Car
 				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			}
 		}
-		makibishis.erase(makibishis.begin());
-		if (makibishis.size() == 0)
+		(car_id == 0 ? makibishis_1 : makibishis_2).erase((car_id == 0 ? makibishis_1 : makibishis_2).begin());
+		if ((car_id == 0 ? makibishis_1 : makibishis_2).size() == 0)
+		{
 			current_item = -1;
+			Player_Car_CallUpdateItems();
+		}
 	}
 
 	void Player_Car_UseFirecracker(GameObject* game_object, ComponentCar* car)
@@ -430,6 +447,7 @@ namespace Player_Car
 						((ComponentCar*)other_car->GetComponent(C_CAR))->OnGetHit();
 				}
 				current_item = -1;
+				Player_Car_CallUpdateItems();
 				if (firecracker)
 				{
 					firecracker->SetActive(false);
@@ -441,6 +459,7 @@ namespace Player_Car
 			{
 				using_firecracker = false;
 				current_item = -1;
+				Player_Car_CallUpdateItems();
 				if (firecracker != nullptr)
 				{
 					float3 new_pos = game_object->transform->GetPosition();
@@ -475,5 +494,15 @@ namespace Player_Car
 			launched_firecracker_lifetime = -1.0f;
 		}
 
+	}
+
+	void Player_Car_CallUpdateItems()
+	{
+		string path = ((ComponentScript*)scene_manager->GetComponent(C_SCRIPT))->GetPath();
+		path.append("_UpdateItems");
+		if (f_UpdateItems update_items = (f_UpdateItems)GetProcAddress(App->scripting->scripts_lib->lib, path.c_str()))
+		{
+			update_items(car_id, current_item, item_size);
+		}
 	}
 }

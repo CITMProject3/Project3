@@ -8,13 +8,13 @@
             "active": true,
             "is_prefab": true,
             "prefab_root_uuid": 2871570994,
-            "prefab_path": "",
+            "prefab_path": "\/Library\/4171985717\/\/214048432\/214048432.pfb",
             "layer": 1,
             "static": false,
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1075438789,
+                    "UUID": 467912396,
                     "active": true,
                     "matrix": [
                         1,
@@ -41,7 +41,7 @@
                     "active": true,
                     "rect_size": [
                         1920,
-                        1017
+                        1057
                     ],
                     "matrix": [
                         1,
@@ -2018,10 +2018,19 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                },
+                                {
                                     "path": "\/Library\/4086913788\/2755989527\/\/360384015\/360384015.dds"
                                 },
                                 {
-                                    "path": ""
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2817937274\/2817937274.dds"
                                 }
                             ]
                         }
@@ -2117,10 +2126,19 @@
                             "id_to_render": 0,
                             "textures": [
                                 {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                },
+                                {
                                     "path": "\/Library\/4086913788\/2755989527\/\/360384015\/360384015.dds"
                                 },
                                 {
-                                    "path": ""
+                                    "path": "\/Library\/4086913788\/2755989527\/\/\/2817937274\/2817937274.dds"
                                 }
                             ]
                         }
@@ -2769,7 +2787,7 @@
             "UUID": 3805687474,
             "local_UUID": 3805687474,
             "parent": 560522107,
-            "active": true,
+            "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 2871570994,
             "prefab_path": "",
@@ -2868,7 +2886,7 @@
             "UUID": 2844830127,
             "local_UUID": 2844830127,
             "parent": 560522107,
-            "active": true,
+            "active": false,
             "is_prefab": true,
             "prefab_root_uuid": 2871570994,
             "prefab_path": "",

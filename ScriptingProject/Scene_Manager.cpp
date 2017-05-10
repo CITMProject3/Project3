@@ -115,9 +115,6 @@ namespace Scene_Manager
 	string team1_text = "";
 	string team2_text = "";
 
-	int car_1_item = -1;
-	int car_2_item = -1;
-
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
@@ -370,20 +367,44 @@ namespace Scene_Manager
 		}
 	}
 
-	void Scene_Manager_UpdateItems(unsigned int team, bool has_item)
+	void Scene_Manager_UpdateItems(unsigned int team, int item_id, int item_size)
 	{
+		//Choosing image to display
+		bool active = (item_id != -1);
+		int image_to_display = 0;
+
+		if (active == true)
+		{
+			if (item_id > 0)
+			{
+				image_to_display = item_id + 2;
+			}
+			else
+			{
+				image_to_display = item_size - 1;
+			}
+		}
+
 		if (team == 0 && car_1 != nullptr)
 		{
 			if (item_ui_1 != nullptr)
 			{
-				item_ui_1->GetGameObject()->SetActive(has_item);
+				item_ui_1->GetGameObject()->SetActive(active);
+				if (active == true)
+				{
+					item_ui_1->id_to_render = image_to_display;
+				}
 			}
 		}
 		else if (team == 1 && car_2 != nullptr)
 		{
 			if (item_ui_2 != nullptr)
 			{
-				item_ui_2->GetGameObject()->SetActive(has_item);
+				item_ui_2->GetGameObject()->SetActive(active);
+				if (active == true)
+				{
+					item_ui_2->id_to_render = image_to_display;
+				}
 			}
 		}
 	}
@@ -509,11 +530,6 @@ namespace Scene_Manager
 				{
 					position_ui_1->SetDisplayText(std::to_string(car_1->place));
 				}
-				//Update items
-				if (((ComponentScript*)car_1->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] != car_1_item)
-				{
-					//TODO: Update item UI
-				}
 			}
 
 			//Updating invidual HUD
@@ -554,11 +570,6 @@ namespace Scene_Manager
 				if (position_ui_2 != nullptr && std::to_string(car_2->place) != position_ui_2->GetText())
 				{
 					position_ui_2->SetDisplayText(std::to_string(car_2->place));
-				}
-				//Update items
-				if (((ComponentScript*)car_2->GetGameObject()->GetComponent(C_SCRIPT))->public_ints["current_item"] != car_2_item)
-				{
-					//TODO: Update item UI
 				}
 			}
 
