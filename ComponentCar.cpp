@@ -307,7 +307,7 @@ float ComponentCar::AccelerationInput()
 		else
 		{
 			//We divide the result by 4, this way the kart accelerates way slower when going backwards
-			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) / 4.0f) * time->DeltaTime() * lTrigger;
+			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) / 2.0f) * time->DeltaTime() * lTrigger;
 		}
 	}
 	//If there's no input, drag force slows car down
