@@ -663,6 +663,9 @@
     <ClInclude Include="Turbos.h">
       <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="Wheel.h">
+      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1108,6 +1111,9 @@
     </ClCompile>
     <ClCompile Include="TerrainWindow.cpp">
       <Filter>Sources\Editor\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Wheel.cpp">
+      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -12,6 +12,7 @@
 #include "Turbos.h"
 
 #include "Primitive.h"
+#include "Wheel.h"
 
 #define CAR_GRAVITY 0.8f
 
@@ -59,7 +60,6 @@ enum Player2_State
 	P2PUSH_START,
 	P2PUSH_LOOP,
 	P2PUSH_END,
-	P2LEANING,
 	P2GET_HIT,
 	P2USE_ITEM,
 	P2ACROBATICS
@@ -91,76 +91,18 @@ enum DRIFT_STATE
 	drift_left_2
 };
 
-struct Car
+struct CarAttributeModifier
 {
-	CAR_TYPE type = T_KOJI;
-	//Turn direction
-	float base_turn_max = 0.7f;
-	float turn_speed = 1.5f;
-	float turn_speed_joystick = 1.5f;
-	float time_to_idle = 0.2f;
-	bool  idle_turn_by_interpolation = true;
+	float bonusMaxSpeed = 0.0f;
+	float bonusBrakePower = 0.0f;
+	float bonusMaxAcceleration = 0.0f;
+	float bonusManeuverability = 0.0f;
+	float bonusMaxSteering = 0.0f;
+	float bonusDrag = 0.0f;
+	float bonusWallBounciness = 0.0f;
 
-	//----Max turn change 
-	float velocity_to_begin_change = 10.0f;
-	float turn_max_limit = 0.01f;
-
-	//By speed
-	float base_max_turn_change_speed = -0.01f;
-	float base_max_turn_change_accel = -0.1f;
-
-	//----
-
-
-	//Acceleration
-	float accel_force = 1000.0f;
-	float decel_brake = 100.0f;
-	float max_velocity = 80.0f;
-	float min_velocity = -20.0f;
-
-	//Push
-	float push_force = 10000.0f;
-	float push_speed_per = 60.0f;
-
-	//Acrobatics
-	float acro_time = 0.5f;
-
-	//Brake
-	float brake_force = 20.0f;
-	float back_force = 500.0f;
-
-	//Full brake
-	float full_brake_force = 300.0f;
+	void Reset() { *this = CarAttributeModifier(); }
 };
-
-
-class Wheel
-{
-public:
-	Wheel(float2 _posOffset, float3 _dir) : posOffset(_posOffset), dir(_dir){}
-
-	/*void Cast()
-	{
-		math::Ray Ray;
-		Ray.pos = kart->
-		RaycastHit hitResult;
-
-
-	}
-ComponentCar* kart;*/
-private:
-	float2 posOffset;
-	float3 dir;
-	
-public:
-	bool hit = false;
-	float angleFromY = 0.0f;
-	float distance = 0.0f;
-	float3 hitNormal;
-	float3 hitPoint;
-
-};
-
 
 class ComponentCar : public Component
 {
@@ -178,10 +120,13 @@ private:
 	float maneuverability = 5.0f;
 	float maxSteer = 120.0f;
 	float drag = 0.3f;
+	float push_force = 0.1f;
+	float push_threshold = 0.5f; // Ratio below which push is applied
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
 	float WallsBounciness = 0.75f;
+
 
 	//Variable values that directly affect the car frame by frame
 	float speed = 0.0f;
@@ -189,9 +134,17 @@ private:
 	float horizontalSpeed = 0.0f;
 	float fallSpeed = 0.0f;
 
+	float maxSteerReduction = 0.5f;
+
+	float testVar = 0.0f;
+
 	ComponentTransform* kart_trs = nullptr;
 
+	std::vector<Wheel> wheels;
+
 public:
+	CarAttributeModifier mods;
+
 	float3 kartX, kartY, kartZ;	
 
 	//Collider
@@ -207,7 +160,9 @@ private:
 	DRIFT_STATE lastFrame_drifting;
 
 	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 4.0f;
+	float driftPhaseDuration = 2.0f;
+
+	bool pushing = false;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
@@ -234,7 +189,7 @@ public:
 
 	//Getters
 	float GetVelocity()const;
-
+	ComponentTransform* GetKartTRS() { return kart_trs; }
 
 private:
 	void DebugInput();
@@ -259,9 +214,6 @@ private:
 public:
 	void WallHit(const float3 &normal);
 
-	void HandlePlayerInput();
-	void GameLoopCheck();
-	void TurnOver();
 	void Reset();
 
 	float GetVelocity();
@@ -275,19 +227,14 @@ public:
 	void SetCarType(CAR_TYPE type);
 
 private:
-	void UpdateGO();
-	void JoystickControls(float* accel, float* brake, bool* turning, bool inverse = false);
-
-	//Controls methods (to use in different parts)
-	void StartPush();
-	bool Push(float* accel);
-	void PushUpdate(float* accel);
-	void Leaning(float accel);
-	void Acrobatics(PLAYER p);
+	void UpdateAnims();
 
 public:
 	void PickItem();
 	void UseItem();
+
+	bool GetInvertStatus() const;
+	void SetInvertStatus(bool status);
 
 	bool AddHitodama();
 	bool RemoveHitodama();
@@ -296,8 +243,6 @@ public:
 	void NewTurbo(Turbo turboToApply);
 	void TurboPad();
 private:
-
-	void UpdateTurnOver();
 
 	void UpdateP1Animation();
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
@@ -309,12 +254,9 @@ public:
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
 	//
 public:
-	Car* kart = nullptr;
-	Car wood;
-	Car koji;
 
 	Player1_State p1_state = P1IDLE;
-	Player2_State p2_state = P2IDLE;
+	Player2_State p2_state = P2DRIFT_RIGHT;
 
 	ComponentAnimation* p1_animation = nullptr;
 	ComponentAnimation* p2_animation = nullptr;
@@ -327,47 +269,17 @@ public:
 private:
 	bool raceStarted = false;
 
-public:
-	//Car mechanics settings --------
-	bool inverted_controls;
 private:
 
 	//Common in both cars----
-	//Turn over
-	float turn_over_reset_time = 5.0f;
-
-	//Turn max change
-	bool limit_to_a_turn_max = false;
-	bool accelerated_change = false;
-
-	MAX_TURN_CHANGE_MODE current_max_turn_change_mode = M_INTERPOLATION;
-	bool show_graph = false;
-
+	//Car mechanics settings --------
+	bool inverted_controls = false;
+	int invert_value = 1;
 	//Reset
 	float loose_height = -100.0f;
 
 
 	//Update variables (change during game)----------------------------------------------------------------
-
-	//Turn over
-	bool turned = false;
-	float timer_start_turned = 0.0f;
-
-	float turn_boost = 0.0f;
-
-	//Leaning
-	bool leaning = false;
-
-	//Pushing
-	double pushStartTime = 0.0f;
-	bool pushing = false;
-
-	//Acrobatics
-	bool acro_front = false;
-	bool acro_back = false;
-	bool acro_on = false;
-	bool acro_done = false;
-	float acro_timer = 0.0f;
 
 	//Turbo
 private:
@@ -375,8 +287,6 @@ private:
 	turboOutput turbo_mods;
 
 	turboPicker_class turboPicker;
-
-	std::vector<GameObject*> wheels_go;
 
 	//2 Player configuration
 	PLAYER front_player;

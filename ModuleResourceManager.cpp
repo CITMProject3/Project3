@@ -81,7 +81,7 @@ update_status ModuleResourceManager::Update()
 
 		if (modification_timer >= CHECK_MOD_TIME)
 		{
-			CheckDirectoryModification(App->editor->assets->root);
+			//CheckDirectoryModification(App->editor->assets->root);
 			modification_timer = 0.0f;
 			//App->editor->assets->Refresh();
 		}

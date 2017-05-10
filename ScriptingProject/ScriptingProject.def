@@ -25,6 +25,7 @@ EXPORTS
 	Player_Car_UseMakibishi
 	Player_Car_UseFirecracker
 	Player_Car_UpdateSpiritEffect
+	Player_Car_CallUpdateItems
 
 	Makibishi_GetPublics
 	Makibishi_Start
