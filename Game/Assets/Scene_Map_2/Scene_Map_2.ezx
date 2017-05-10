@@ -152,6 +152,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": -1,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
@@ -161,6 +163,7 @@
                     "spirit_max_duration": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
+                    "scene_manager": 144932385,
                     "makibishi_manager": 450853128
                 }
             ]
@@ -9007,6 +9010,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": -1,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
@@ -9016,6 +9021,7 @@
                     "spirit_max_duration": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
+                    "scene_manager": 144932385,
                     "makibishi_manager": 450853128
                 }
             ]

@@ -301,13 +301,15 @@ namespace Player_Car
 				current_item = FIRECRACKER;
 			}
 		}
+		LOG("Current item: %i", current_item);
+		LOG("Item size: %i", item_size);
 	}
 
 	void Player_Car_OnPickItem(GameObject* game_object)
 	{
 		switch (current_item)
 		{
-			/*case(MAKIBISHI):
+			case(MAKIBISHI):
 			{
 				string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 				path.append("_GetMakibishi");
@@ -321,7 +323,7 @@ namespace Player_Car
 					}
 				}
 				break;
-			}*/
+			}
 			case(FIRECRACKER):
 			{
 				if (firecracker != nullptr)
