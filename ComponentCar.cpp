@@ -256,8 +256,6 @@ float ComponentCar::AccelerationInput()
 	if (rTrigger == 0.5f) { rTrigger = 0.0f; }
 	float lTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) + 1.0f) / 2.0f;
 	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
-	
-	testVar = rTrigger;
 
 	//Accelerating
 	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
@@ -339,9 +337,10 @@ float ComponentCar::AccelerationInput()
 
 void ComponentCar::Steer(float amount)
 {
+	amount = math::Clamp(amount, -1.0f, 1.0f);
+	testVar = amount;
 	if (drifting == drift_none)
 	{
-		amount = math::Clamp(amount, -1.0f, 1.0f);
 		if (amount < -0.1 || amount > 0.1)
 		{
 			currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime() * amount;
@@ -412,17 +411,30 @@ void ComponentCar::Drift(float dir)
 		}
 	}
 
+	float desiredCurrentSteer = 0.0f;
+
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		currentSteer =  -0.8f + (dir * 0.75f);
+		desiredCurrentSteer =  -0.85f + (dir * 0.65f);
 		dir += 0.6f;
 	}
 	else
 	{
-		currentSteer = 0.8f + (dir * 0.75f);
+		desiredCurrentSteer = 0.85f + (dir * 0.65f);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
+
+	float steerChange = 1.5f * time->DeltaTime();
+
+	if (currentSteer < desiredCurrentSteer)
+	{
+		currentSteer += steerChange;
+	}
+	else
+	{
+		currentSteer -= steerChange;
+	}
 
 	horizontalSpeed += (drag + mods.bonusDrag) * 3.0f * time->DeltaTime() * -dir;
 }
@@ -476,11 +488,11 @@ void ComponentCar::DriftManagement()
 		{
 		case drift_right_1:
 		case drift_left_1:
-			NewTurbo(turboPicker.acrobatic);
+			NewTurbo(turboPicker.drift1);
 			break;
 		case drift_right_2:
 		case drift_left_2:
-			NewTurbo(turboPicker.acrobatic);
+			NewTurbo(turboPicker.drift2);
 			break;
 		}
 		drifting = drift_none;
@@ -504,12 +516,13 @@ void ComponentCar::PlayersInput()
 	//Steering
 	if (lock_input == false)
 	{
+		float steerAmount = App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X);
 		if (front_player == PLAYER_1)
 		{
-			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { Steer(1); }
-			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { Steer(-1); }
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) { steerAmount += 1; }
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) { steerAmount -= 1; }
 		}
-		Steer(App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_STICK_X));
+		Steer(steerAmount);
 	}
 
 	DriftManagement();
@@ -521,20 +534,17 @@ void ComponentCar::SteerKart()
 	//currentSteer goes from -1 to 1, and we multiply it by the "Max Steer" value.
 
 	float steerReduction = 1.0f;
-	if (drifting == drift_none)
+	if (speed < maxSpeed * 0.75f)
 	{
-		if (speed < maxSpeed * 0.75f)
-		{
-			//The "Clamp" thing is to allow less rotation the less the kart is moving
-			//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
-			steerReduction = math::Clamp(math::Abs(speed) / (maxSpeed / 2), 0.0f, 1.0f);
-		}
-		else
-		{
-			float diference = speed - maxSpeed * 0.75f;
-			steerReduction = 1 - (diference / (maxSpeed*0.75f));
-			steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
-		}
+		//The "Clamp" thing is to allow less rotation the less the kart is moving
+		//The kart can rotate the maximum amount when it goes faster than maxSpeed / 2
+		steerReduction = math::Clamp(math::Abs(speed) / (maxSpeed / 2), 0.0f, 1.0f);
+	}
+	else
+	{
+		float diference = speed - maxSpeed * 0.75f;
+		steerReduction = 1 - (diference / (maxSpeed*0.75f));
+		steerReduction = Clamp(steerReduction, maxSteerReduction, 1.0f);
 	}
 
 	if (speed < 0.0f)
