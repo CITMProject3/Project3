@@ -1037,6 +1037,7 @@ void ComponentCar::Reset()
 		kart_trs->SetPosition(last_check_pos);
 		kart_trs->SetRotation(last_check_rot);
 	}
+	OnGetHit();
 	speed = 0.0f;
 	fallSpeed = 0.0f;
 	horizontalSpeed = 0.0f;

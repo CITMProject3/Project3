@@ -266,8 +266,8 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1057
+                        1536,
+                        841
                     ],
                     "matrix": [
                         1,
@@ -4100,13 +4100,13 @@
                     "active": true,
                     "collider_offset": [
                         0,
-                        0,
+                        0.800000,
                         0
                     ],
                     "collider_size": [
-                        0,
-                        0,
-                        0
+                        1.600000,
+                        1.600000,
+                        3.600000
                     ],
                     "maxSpeed": 1.200000,
                     "maxAcceleration": 0.300000,
@@ -4130,17 +4130,16 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
+                    "current_item": 0,
+                    "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
+                    "evil_spirit_vel_reduction": 0,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
                     "firecracker": 1230011776,
                     "scene_manager": 144932385
                 }
@@ -12859,13 +12858,13 @@
                     "active": true,
                     "collider_offset": [
                         0,
-                        0,
+                        0.800000,
                         0
                     ],
                     "collider_size": [
-                        0,
-                        0,
-                        0
+                        1.600000,
+                        1.600000,
+                        3.600000
                     ],
                     "maxSpeed": 1.200000,
                     "maxAcceleration": 0.300000,
@@ -12889,17 +12888,16 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
+                    "current_item": 0,
+                    "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
+                    "evil_spirit_vel_reduction": 0,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
                     "firecracker": 717367660,
                     "scene_manager": 144932385
                 }
@@ -21693,7 +21691,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -21781,7 +21779,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 300,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -21869,7 +21867,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.816462,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,
@@ -45945,7 +45943,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46046,7 +46044,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46147,7 +46145,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46248,7 +46246,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46349,7 +46347,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46450,7 +46448,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46551,7 +46549,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46652,7 +46650,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46753,7 +46751,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46854,7 +46852,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46955,7 +46953,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47056,7 +47054,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47157,7 +47155,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47258,7 +47256,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47359,7 +47357,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
