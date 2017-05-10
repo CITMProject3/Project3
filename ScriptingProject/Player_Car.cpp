@@ -59,6 +59,9 @@ namespace Player_Car
 	GameObject* other_car = nullptr;
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
+	GameObject* evil_spirit_object[2];
+
+	float3 evil_spirit_start_pos;
 
 	std::vector<GameObject*> makibishis_1;
 	std::vector<GameObject*> makibishis_2;
@@ -159,7 +162,18 @@ namespace Player_Car
 
 	void Player_Car_Start(GameObject* game_object)
 	{
-
+		evil_spirit_object[car_id] = nullptr;
+		//Get Evilspirit if there is one
+		for (std::vector<GameObject*>::const_iterator it = (*game_object->GetChilds()).begin(); it != (*game_object->GetChilds()).end(); it++)
+		{
+			if ((*it)->name == "EvilSpirit")
+			{
+				evil_spirit_object[car_id] = (*it);
+				evil_spirit_object[car_id]->SetActive(false);
+				evil_spirit_start_pos = evil_spirit_object[car_id]->transform->GetPosition();
+				break;
+			}
+		}	
 	}
 
 #pragma region Forward Declarations
@@ -182,7 +196,7 @@ namespace Player_Car
 		if (car == nullptr)
 			return;
 
-		if (current_item != -1)
+		if (current_item != -1 && evil_spirit_effect == false)
 		{
 			if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 			{
@@ -478,19 +492,38 @@ namespace Player_Car
 		{
 			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
 			car->SetInvertStatus(true);
-			float vel = (evil_spirit_vel_reduction * (car->GetVelocity()/133.0f));
-			Turbo a = Turbo(3.0f, 3.0f, 4.0f, -vel, -0.3f, -vel);
+			float vel = (evil_spirit_vel_reduction * (car->GetMaxVelocity()*KMH_TO_UNITS));
+			Turbo a = Turbo(0.0f, spirit_max_duration*0.6f, spirit_max_duration*0.4f, 0.0f, -0.5f, -vel);
 			car->NewTurbo(a);
+
+			if (evil_spirit_object[car_id] != nullptr)
+			{
+				evil_spirit_object[car_id]->SetActive(true);
+			}
 		}
 		else
 		{
 			spirit_duration += time->DeltaTime();
+
+			if (evil_spirit_object[car_id] != nullptr)
+			{
+				evil_spirit_object[car_id]->transform->Rotate(Quat::Quat(float3(0, 1, 0), 5.0f*time->DeltaTime()));
+				evil_spirit_object[car_id]->transform->SetPosition(evil_spirit_start_pos + float3(0,math::Sin(spirit_duration*10.0f)*0.2f , 0));
+				GameObject* evil_child = (*(*evil_spirit_object[car_id]->GetChilds()).begin());
+				if(evil_child != nullptr)
+					evil_child->transform->Rotate(Quat::Quat(float3(0, 1, 0), 0.5f*time->DeltaTime()));
+			}
+				
 			if (spirit_duration >= spirit_max_duration)
 			{
 				//car->SetMaxVelocity(car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
 				car->SetInvertStatus(false);
 				evil_spirit_effect = false;
 				spirit_duration = 0.0f;
+				if (evil_spirit_object[car_id] != nullptr)
+				{
+					evil_spirit_object[car_id]->SetActive(false);
+				}
 			}
 		}
 	}
