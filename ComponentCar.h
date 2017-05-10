@@ -91,6 +91,18 @@ enum DRIFT_STATE
 	drift_left_2
 };
 
+class MashButtonCounter
+{
+public:
+	MashButtonCounter() {}
+private:
+	uint nTaps = 0;
+public:
+	void Update(uint button, uint player);
+	void Reset() { nTaps = 0; }
+	uint GetNTaps() { return nTaps; }
+};
+
 struct CarAttributeModifier
 {
 	float bonusMaxSpeed = 0.0f;
@@ -153,14 +165,12 @@ private:
 	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
 
-
-
 	//Drifting
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
 
-	float driftingTimer = 0.0f;
-	float driftPhaseDuration = 2.0f;
+	int driftPhaseChange = 3;
+	MashButtonCounter driftButtonMasher;
 
 	bool pushing = false;
 
