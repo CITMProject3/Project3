@@ -14,6 +14,8 @@
 #include "Primitive.h"
 #include "Wheel.h"
 
+#include "Timer.h"
+
 #define CAR_GRAVITY 0.8f
 
 //TODO fix conversion Units to KM/H
@@ -137,7 +139,7 @@ private:
 	//Time that takes a car on the air to put itself straight again
 	float recoveryTime = 2.0f;
 
-	float WallsBounciness = 0.75f;
+	float WallsBounciness = 0.5f;
 
 
 	//Variable values that directly affect the car frame by frame
@@ -171,6 +173,11 @@ private:
 
 	int driftPhaseChange = 3;
 	MashButtonCounter driftButtonMasher;
+
+	float acrobaticsDelay = 0.5f;
+	Timer p1AcrobaticsPress;
+	Timer p2AcrobaticsPress;
+	bool acrobaticsDone = false;
 
 	bool pushing = false;
 
