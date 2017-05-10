@@ -77,16 +77,16 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 	SetCarType(T_KOJI);
 
 	//turn_max = kart->base_turn_max;
-	
+
 	//
 	collShape.size = float3(1.8f, 1.6f, 3.1f);
 	reset_pos = { 0.0f, 0.0f, 0.0f };
-	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f};
+	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f };
 
 	//Player config
 	front_player = PLAYER_1;
 	back_player = PLAYER_2;
-	
+
 	inverted_controls = false;
 	invert_value = 1;
 }
@@ -108,7 +108,7 @@ void ComponentCar::Update()
 			if (collider != nullptr)
 			{
 				collider->SetTransform(tmp.ptr());
-			}			
+			}
 			collShape.transform = tmp;
 			if (App->StartInGame() == false)
 			{
@@ -120,15 +120,15 @@ void ComponentCar::Update()
 			kart_trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		}
 
-		if (App->IsGameRunning())
-		{
-			DebugInput();
+	if (App->IsGameRunning())
+	{
+		DebugInput();
 
-			turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
-			KartLogic();
-			CheckGroundCollision();		
-			UpdateAnims();
-		}
+		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
+		KartLogic();
+		CheckGroundCollision();
+		UpdateAnims();
+	}
 }
 
 void ComponentCar::KartLogic()
@@ -147,27 +147,27 @@ void ComponentCar::KartLogic()
 	{
 		it->Cast();
 
-		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
-		{
-			onTheGround = true;
-			desiredUp += it->hitNormal;
-		}
-		else
-		{
-			checkOffTrack = true;
-		}
+	if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
+	{
+		onTheGround = true;
+		desiredUp += it->hitNormal;
+	}
+	else
+	{
+		checkOffTrack = true;
+	}
 	}
 
-	//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
-	if (checkOffTrack == false && onTheGround)
-	{
-		newPos.y = 0.0f;
-		ITERATE_WHEELS
+		//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
+		if (checkOffTrack == false && onTheGround)
 		{
-			newPos.y += it->hitPoint.y;
+			newPos.y = 0.0f;
+			ITERATE_WHEELS
+			{
+				newPos.y += it->hitPoint.y;
+			}
+			newPos.y /= wheels.size();
 		}
-		newPos.y /= wheels.size();
-	}
 
 	//We use on the ground, 'cause it's true if at least one of the
 	if (onTheGround == false)
@@ -186,15 +186,15 @@ void ComponentCar::KartLogic()
 	{
 		ITERATE_WHEELS
 		{
-		if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
-		{
-			newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-			if (speed >= 0.0f)
+			if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
 			{
-				WallHit(it->hitNormal, kartZ, kartX);
+				newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
+				if (speed >= 0.0f)
+				{
+					WallHit(it->hitNormal, kartZ, kartX);
+				}
+				//desiredUp = hitB.normal.Normalized();
 			}
-			//desiredUp = hitB.normal.Normalized();
-		}
 		}
 	}
 	else
@@ -245,7 +245,7 @@ void ComponentCar::KartLogic()
 	//Safety mesure. Resetting the kart if it falls off the world. jej
 	if (kart_trs->GetPosition().y < loose_height)
 	{
-		Reset();		
+		Reset();
 	}
 }
 
@@ -286,7 +286,7 @@ float ComponentCar::AccelerationInput()
 				}
 			}
 
-			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;			
+			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
 		}
 	}
 	//Braking
@@ -307,7 +307,7 @@ float ComponentCar::AccelerationInput()
 		else
 		{
 			//We divide the result by 4, this way the kart accelerates way slower when going backwards
-			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration)/ 4.0f) * time->DeltaTime() * lTrigger;
+			acceleration -= ((maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) / 4.0f) * time->DeltaTime() * lTrigger;
 		}
 	}
 	//If there's no input, drag force slows car down
@@ -393,10 +393,11 @@ void ComponentCar::Drift(float dir)
 		return;
 	}
 
-	driftingTimer += time->DeltaTime();
-	if (driftingTimer > driftPhaseDuration)
+	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
+
+	if (driftButtonMasher.GetNTaps() > driftPhaseChange)
 	{
-		driftingTimer = 0.0f;
+		driftButtonMasher.Reset();
 
 		switch (drifting)
 		{
@@ -415,7 +416,7 @@ void ComponentCar::Drift(float dir)
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		desiredCurrentSteer =  -0.85f + (dir * 0.65f);
+		desiredCurrentSteer = -0.85f + (dir * 0.65f);
 		dir += 0.6f;
 	}
 	else
@@ -441,7 +442,7 @@ void ComponentCar::Drift(float dir)
 
 void ComponentCar::DriftManagement()
 {
-	if (onTheGround && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT ||App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
+	if (onTheGround && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
 	{
 		//Checking we have enough speed to drift
 		if (speed > maxSpeed / 3.0f)
@@ -452,12 +453,12 @@ void ComponentCar::DriftManagement()
 				if (currentSteer > 0.6f)
 				{
 					drifting = drift_right_0;
-					driftingTimer = 0.0f;
+					driftButtonMasher.Reset();
 				}
 				else if (currentSteer < -0.6f)
 				{
 					drifting = drift_left_0;
-					driftingTimer = 0.0f;
+					driftButtonMasher.Reset();
 				}
 			}
 		}
@@ -738,60 +739,60 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 	{
 		switch (state)
 		{
-			case (P2IDLE):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(3, blend_ratio);
-				break;
-			}
-			case(P2DRIFT_LEFT):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(2, blend_ratio);
-				break;
-			}
-			case(P2DRIFT_RIGHT):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(1, blend_ratio);
-				break;
-			}
-			case(P2PUSH_START):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(4, blend_ratio);
-				break;
-			}
-			case(P2PUSH_LOOP):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(5, blend_ratio);
-				break;
-			}
-			case(P2PUSH_END):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(6, blend_ratio);
-				break;
-			}
-			case (P2GET_HIT):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(8, blend_ratio);
-				break;
-			}
-			case(P2USE_ITEM):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(9, blend_ratio);
-				break;
-			}
-			case(P2ACROBATICS):
-			{
-				p2_state = state;
-				p2_animation->PlayAnimation(10, blend_ratio);
-				break;
-			}
+		case (P2IDLE):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(3, blend_ratio);
+			break;
+		}
+		case(P2DRIFT_LEFT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(2, blend_ratio);
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(1, blend_ratio);
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(4, blend_ratio);
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(5, blend_ratio);
+			break;
+		}
+		case(P2PUSH_END):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(6, blend_ratio);
+			break;
+		}
+		case (P2GET_HIT):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(8, blend_ratio);
+			break;
+		}
+		case(P2USE_ITEM):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(9, blend_ratio);
+			break;
+		}
+		case(P2ACROBATICS):
+		{
+			p2_state = state;
+			p2_animation->PlayAnimation(10, blend_ratio);
+			break;
+		}
 		}
 	}
 }
@@ -802,62 +803,62 @@ void ComponentCar::UpdateP1Animation()
 	{
 		switch (p1_state)
 		{
-			case(P1ACROBATICS):
+		case(P1ACROBATICS):
+		{
+			if (p1_animation->playing == false)
 			{
-				if (p1_animation->playing == false)
-				{
-					p1_state = P1IDLE;
-				}
-				break;
+				p1_state = P1IDLE;
 			}
-			case(P1GET_HIT):
+			break;
+		}
+		case(P1GET_HIT):
+		{
+			if (p1_animation->playing == false)
 			{
-				if (p1_animation->playing == false)
-				{
-					p1_state = P1IDLE;
-				}
-				break;
+				p1_state = P1IDLE;
 			}
-			case(P1MAXTURN_L):
+			break;
+		}
+		case(P1MAXTURN_L):
+		{
+			if (steering > -0.85f)
+				p1_state = P1IDLE;
+			break;
+		}
+		case (P1MAXTURN_R):
+		{
+			if (currentSteer < 0.85f)
+				p1_state = P1IDLE;
+			break;
+		}
+		case(P1TURN):
+		{
+			float ratio = (currentSteer + 1.0f) / 2.0f;
+			p1_animation->LockAnimationRatio(ratio);
+			if (currentSteer >= 9.0f || currentSteer <= -0.9f) p1_state = P1IDLE;
+			break;
+		}
+		case(P1IDLE):
+		{
+			if (currentSteer <= -0.9f)
 			{
-				if (steering > -0.85f)
-					p1_state = P1IDLE;
-				break;
+				p1_state = P1MAXTURN_L;
+				p1_animation->PlayAnimation(1, 0.5f);
 			}
-			case (P1MAXTURN_R):
+			else if (currentSteer >= 0.9f)
 			{
-				if (currentSteer < 0.85f)
-					p1_state = P1IDLE;
-				break;
+				p1_state = P1MAXTURN_R;
+				p1_animation->PlayAnimation(2, 0.5f);
 			}
-			case(P1TURN):
+			else
 			{
+				p1_state = P1TURN;
+				p1_animation->PlayAnimation((uint)0, 0.5f);
 				float ratio = (currentSteer + 1.0f) / 2.0f;
 				p1_animation->LockAnimationRatio(ratio);
-				if (currentSteer >= 9.0f || currentSteer <= -0.9f) p1_state = P1IDLE;
-				break;
 			}
-			case(P1IDLE):
-			{
-				if (currentSteer <= -0.9f )
-				{
-					p1_state = P1MAXTURN_L;
-					p1_animation->PlayAnimation(1, 0.5f);
-				}
-				else if (currentSteer >= 0.9f)
-				{
-					p1_state = P1MAXTURN_R;
-					p1_animation->PlayAnimation(2, 0.5f);
-				}
-				else
-				{
-					p1_state = P1TURN;
-					p1_animation->PlayAnimation((uint)0, 0.5f);
-					float ratio = (currentSteer + 1.0f) / 2.0f;
-					p1_animation->LockAnimationRatio(ratio);
-				}
-				break;
-			}
+			break;
+		}
 		}
 	}
 }
@@ -868,103 +869,103 @@ void ComponentCar::UpdateP2Animation()
 	{
 		switch (p2_state)
 		{
-			case(P2IDLE):
+		case(P2IDLE):
+		{
+			if (drifting != drift_none)
 			{
-				if (drifting != drift_none)
+				switch (drifting)
 				{
-					switch (drifting)
-					{
-					case drift_right_0:
-					case drift_right_1:
-					case drift_right_2:
-						SetP2AnimationState(P2DRIFT_RIGHT);
-						break;
-					case drift_left_0:
-					case drift_left_1:
-					case drift_left_2:
-						SetP2AnimationState(P2DRIFT_LEFT);
-						break;
-					}
+				case drift_right_0:
+				case drift_right_1:
+				case drift_right_2:
+					SetP2AnimationState(P2DRIFT_RIGHT);
+					break;
+				case drift_left_0:
+				case drift_left_1:
+				case drift_left_2:
+					SetP2AnimationState(P2DRIFT_LEFT);
+					break;
 				}
-				else if (pushing == true)
-				{
-					SetP2AnimationState(P2PUSH_START);
-				}
-				else
-				{
-					if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE);
-					p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * Clamp((speed / maxSpeed), 0.3f, 1.5f);
-				}
-				break;
 			}
-			case(P2PUSH_START):
+			else if (pushing == true)
 			{
-				if (p2_animation->playing == false && pushing == true)
-				{
-					SetP2AnimationState(P2PUSH_LOOP);
-				}
-				else if (p2_animation->playing == false)
-				{
-					SetP2AnimationState(P2PUSH_END);
-				}
-				break;
+				SetP2AnimationState(P2PUSH_START);
 			}
-			case(P2PUSH_LOOP):
+			else
 			{
-				if (pushing == false)
-				{
-					SetP2AnimationState(P2PUSH_END);
-				}
-				break;
+				if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE);
+				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * Clamp((speed / maxSpeed), 0.3f, 1.5f);
 			}
-			case (P2PUSH_END):
+			break;
+		}
+		case(P2PUSH_START):
+		{
+			if (p2_animation->playing == false && pushing == true)
 			{
-				if (p2_animation->playing == false)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
+				SetP2AnimationState(P2PUSH_LOOP);
 			}
-			case(P2DRIFT_LEFT):
+			else if (p2_animation->playing == false)
 			{
-				if (drifting == drift_none)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
+				SetP2AnimationState(P2PUSH_END);
 			}
-			case(P2DRIFT_RIGHT):
+			break;
+		}
+		case(P2PUSH_LOOP):
+		{
+			if (pushing == false)
 			{
-				if (drifting == drift_none)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
+				SetP2AnimationState(P2PUSH_END);
 			}
-			case(P2GET_HIT):
+			break;
+		}
+		case (P2PUSH_END):
+		{
+			if (p2_animation->playing == false)
 			{
-				if (p2_animation->playing == false)
-				{
-					SetP2AnimationState(P2IDLE, 0.0f);
-				}
-				break;
+				SetP2AnimationState(P2IDLE);
 			}
-			case(P2ACROBATICS):
+			break;
+		}
+		case(P2DRIFT_LEFT):
+		{
+			if (drifting == drift_none)
 			{
-				if (p2_animation->playing == false)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
+				SetP2AnimationState(P2IDLE);
 			}
-			case(P2USE_ITEM):
+			break;
+		}
+		case(P2DRIFT_RIGHT):
+		{
+			if (drifting == drift_none)
 			{
-				if (p2_animation->playing == false)
-				{
-					SetP2AnimationState(P2IDLE);
-				}
-				break;
+				SetP2AnimationState(P2IDLE);
 			}
+			break;
+		}
+		case(P2GET_HIT):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE, 0.0f);
+			}
+			break;
+		}
+		case(P2ACROBATICS):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
+		case(P2USE_ITEM):
+		{
+			if (p2_animation->playing == false)
+			{
+				SetP2AnimationState(P2IDLE);
+			}
+			break;
+		}
 		}
 	}
 }
@@ -1017,7 +1018,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		checkpoints = 0;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
-		
+
 	}
 	if (lap >= 4)
 	{
@@ -1089,13 +1090,13 @@ void ComponentCar::SetCarType(CAR_TYPE type)
 	/*switch (type)
 	{
 	case T_KOJI:
-		kart = &koji;
-		kart->type = T_KOJI;
-		break;
+	kart = &koji;
+	kart->type = T_KOJI;
+	break;
 	case T_WOOD:
-		kart = &wood;
-		kart->type = T_WOOD;
-		break;
+	kart = &wood;
+	kart->type = T_WOOD;
+	break;
 	}*/
 }
 
@@ -1153,21 +1154,21 @@ void ComponentCar::OnTransformModified()
 void ComponentCar::UpdateAnims()
 {
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
-	
-	//Updating turn animation
 
-	//Player 1 animation
-	if (p1_animation != nullptr)
-	{
-		UpdateP1Animation();
-	}
+		//Updating turn animation
+
+		//Player 1 animation
+		if (p1_animation != nullptr)
+		{
+			UpdateP1Animation();
+		}
 
 	//Player 2 animation
 	if (p2_animation != nullptr)
 	{
 		UpdateP2Animation();
 	}
-	
+
 }
 
 void ComponentCar::Save(Data& file) const
@@ -1197,6 +1198,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("WallsBounciness", WallsBounciness);
 
 	data.AppendFloat("maxSteerReduction", maxSteerReduction);
+
+	data.AppendInt("driftPhaseChange", driftPhaseChange);
 
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
@@ -1248,6 +1251,9 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("maxSteerReduction");
 	if (tmp != 0.0f) { maxSteerReduction = tmp; }
 
+	tmp = conf.GetInt("driftPhaseChange");
+	if (tmp != 0.0) { driftPhaseChange = tmp; }
+
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
 
@@ -1288,6 +1294,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
 		ImGui::DragFloat("Push threshold", &push_threshold, 0.5f, 0.1f, 1.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
+		ImGui::InputInt("Clicks to improve turbo", &driftPhaseChange);
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
 		ImGui::Text("Collider:");
@@ -1305,8 +1312,9 @@ void ComponentCar::OnInspector(bool debug)
 				"Current Steer: %f\n"
 				"Steering: %s\n"
 				"On The Ground: %s\n"
+				"DriftButtonMashing: %u\n"
 				"TestVar: %f"
-				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
+				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
 
 
 			string currentDriftPhase;
@@ -1380,314 +1388,322 @@ void ComponentCar::OnInspector(bool debug)
 		/*
 		if (vehicle)
 		{
-			if (ImGui::TreeNode("Read Stats"))
-			{
-				ImGui::Text("");
+		if (ImGui::TreeNode("Read Stats"))
+		{
+		ImGui::Text("");
 
-				ImGui::Text("Top velocity (Km/h) : %f", top_velocity);
-				ImGui::Text("Current velocity (Km/h): %f", vehicle->GetKmh());
-				ImGui::Text("Velocity boost (%): %f", speed_boost);
-				ImGui::Text("");
+		ImGui::Text("Top velocity (Km/h) : %f", top_velocity);
+		ImGui::Text("Current velocity (Km/h): %f", vehicle->GetKmh());
+		ImGui::Text("Velocity boost (%): %f", speed_boost);
+		ImGui::Text("");
 
-				ImGui::Text("Current engine force : %f", accel);
-				ImGui::Text("Engine force boost (%): %f", accel_boost);
-				ImGui::Text("");
+		ImGui::Text("Current engine force : %f", accel);
+		ImGui::Text("Engine force boost (%): %f", accel_boost);
+		ImGui::Text("");
 
-				ImGui::Text("Current turn: %f", turn_current);
-				ImGui::Text("Current turn max: %f", turn_max);
-				ImGui::Text("Turn boost (%): %f", turn_boost);
-				ImGui::Text("");
+		ImGui::Text("Current turn: %f", turn_current);
+		ImGui::Text("Current turn max: %f", turn_max);
+		ImGui::Text("Turn boost (%): %f", turn_boost);
+		ImGui::Text("");
 
 
-				ImGui::Checkbox("On ground", &on_ground);
+		ImGui::Checkbox("On ground", &on_ground);
 
-				bool on_t = current_turbo != T_IDLE;
-				ImGui::Checkbox("On turbo", &on_t);
+		bool on_t = current_turbo != T_IDLE;
+		ImGui::Checkbox("On turbo", &on_t);
 
-				if (on_t)
-				{
-					ImGui::Text("Time left: %f", (applied_turbo->time - applied_turbo->timer));
-				}
-				bool hasItem = has_item;
-				if (ImGui::Checkbox("Has item", &hasItem))
-				{
-					if (hasItem == true)
-					{
-						PickItem();
-					}
-				}
-				if (turned)
-				{
-					ImGui::Text("Time to reset: %f", (turn_over_reset_time - timer_start_turned));
-				}
+		if (on_t)
+		{
+		ImGui::Text("Time left: %f", (applied_turbo->time - applied_turbo->timer));
+		}
+		bool hasItem = has_item;
+		if (ImGui::Checkbox("Has item", &hasItem))
+		{
+		if (hasItem == true)
+		{
+		PickItem();
+		}
+		}
+		if (turned)
+		{
+		ImGui::Text("Time to reset: %f", (turn_over_reset_time - timer_start_turned));
+		}
 
-				ImGui::Text("");
-				ImGui::TreePop();
-			}
+		ImGui::Text("");
+		ImGui::TreePop();
+		}
 		}
 		if (ImGui::TreeNode("Car settings"))
 		{
-			if (ImGui::TreeNode("Game loop settings"))
-			{
-				ImGui::Text("");
+		if (ImGui::TreeNode("Game loop settings"))
+		{
+		ImGui::Text("");
 
-				ImGui::Text("Lose height");
-				ImGui::SameLine();
-				ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
+		ImGui::Text("Lose height");
+		ImGui::SameLine();
+		ImGui::DragFloat("##Lheight", &lose_height, 0.1f, 0.0f, 2.0f);
 
-				ImGui::Text("");
-				ImGui::TreePop();
-			}
-			*/
+		ImGui::Text("");
+		ImGui::TreePop();
+		}
+		*/
 		if (ImGui::TreeNode("Control settings"))
 		{
 			/*
 			if (ImGui::TreeNode("Acceleration settings"))
 			{
-				ImGui::Text("");
-				ImGui::Text("Max speed");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##MxSpeed", &kart->max_velocity, 1.0f, 0.0f, 1000.0f)) {}
+			ImGui::Text("");
+			ImGui::Text("Max speed");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##MxSpeed", &kart->max_velocity, 1.0f, 0.0f, 1000.0f)) {}
 
-				ImGui::Text("Min speed");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##MnSpeed", &kart->min_velocity, 1.0f, -100.0f, 0.0f)) {}
+			ImGui::Text("Min speed");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##MnSpeed", &kart->min_velocity, 1.0f, -100.0f, 0.0f)) {}
 
-				ImGui::Text("Accel");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##AccForce", &kart->accel_force, 1.0f, 0.0f)) {}
+			ImGui::Text("Accel");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##AccForce", &kart->accel_force, 1.0f, 0.0f)) {}
 
-				ImGui::Text("Deceleration");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##DecelForce", &kart->decel_brake, 1.0f, 0.0f)) {}
+			ImGui::Text("Deceleration");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##DecelForce", &kart->decel_brake, 1.0f, 0.0f)) {}
 
-				ImGui::Text("");
-				ImGui::TreePop();
+			ImGui::Text("");
+			ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Handling settings"))
 			{
-				ImGui::Text("");
+			ImGui::Text("");
 
-				ImGui::Text("Base turn max");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Turnmax", &kart->base_turn_max, 0.1f, 0.0f, 2.0f)) {}
+			ImGui::Text("Base turn max");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##Turnmax", &kart->base_turn_max, 0.1f, 0.0f, 2.0f)) {}
 
 
-				ImGui::Text("Turn speed");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Wheel_turn_speed", &kart->turn_speed, 0.01f, 0.0f, 2.0f)) {}
+			ImGui::Text("Turn speed");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##Wheel_turn_speed", &kart->turn_speed, 0.01f, 0.0f, 2.0f)) {}
 
-				ImGui::Text("Joystick turn speed");
-				if (ImGui::DragFloat("##joystick_turn_speed", &kart->turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
+			ImGui::Text("Joystick turn speed");
+			if (ImGui::DragFloat("##joystick_turn_speed", &kart->turn_speed_joystick, 0.01f, 0.0f, 2.0f)) {}
 
-				ImGui::Checkbox("Idle turn by interpolation", &kart->idle_turn_by_interpolation);
-				if (kart->idle_turn_by_interpolation)
-				{
-					ImGui::Text("Time to idle turn");
-					ImGui::DragFloat("##id_turn_time", &kart->time_to_idle, 0.01f, 0.0f);
-				}
+			ImGui::Checkbox("Idle turn by interpolation", &kart->idle_turn_by_interpolation);
+			if (kart->idle_turn_by_interpolation)
+			{
+			ImGui::Text("Time to idle turn");
+			ImGui::DragFloat("##id_turn_time", &kart->time_to_idle, 0.01f, 0.0f);
+			}
 
-				ImGui::Text("");
-				ImGui::TreePop();
+			ImGui::Text("");
+			ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Max turn change settings"))
 			{
-				ImGui::Text("Velocity to begin change");
-				ImGui::DragFloat("##v_to_change", &kart->velocity_to_begin_change, 0.1f, 0.0f);
+			ImGui::Text("Velocity to begin change");
+			ImGui::DragFloat("##v_to_change", &kart->velocity_to_begin_change, 0.1f, 0.0f);
 
-				ImGui::Text("Limit max turn");
-				ImGui::DragFloat("##l_max_turn", &kart->turn_max_limit, 1.0f, 0.0f);
+			ImGui::Text("Limit max turn");
+			ImGui::DragFloat("##l_max_turn", &kart->turn_max_limit, 1.0f, 0.0f);
 
-				bool by_interpolation = (current_max_turn_change_mode == M_INTERPOLATION);
-				bool by_speed = (current_max_turn_change_mode == M_SPEED);
-				if (ImGui::Checkbox("By interpolation", &by_interpolation))
-					current_max_turn_change_mode = M_INTERPOLATION;
-				ImGui::SameLine();
-				if (ImGui::Checkbox("By speed", &by_speed))
-					current_max_turn_change_mode = M_SPEED;
+			bool by_interpolation = (current_max_turn_change_mode == M_INTERPOLATION);
+			bool by_speed = (current_max_turn_change_mode == M_SPEED);
+			if (ImGui::Checkbox("By interpolation", &by_interpolation))
+			current_max_turn_change_mode = M_INTERPOLATION;
+			ImGui::SameLine();
+			if (ImGui::Checkbox("By speed", &by_speed))
+			current_max_turn_change_mode = M_SPEED;
 
-				if (by_speed)
-				{
-					ImGui::Text("Base speed of max turn change");
-					ImGui::DragFloat("##s_mx_tn_change", &kart->base_max_turn_change_speed, 0.1f);
+			if (by_speed)
+			{
+			ImGui::Text("Base speed of max turn change");
+			ImGui::DragFloat("##s_mx_tn_change", &kart->base_max_turn_change_speed, 0.1f);
 
-					ImGui::Checkbox("Limit to a certain turn max", &limit_to_a_turn_max);
+			ImGui::Checkbox("Limit to a certain turn max", &limit_to_a_turn_max);
 
-					ImGui::Checkbox("Accelerate the change", &accelerated_change);
-					if (accelerated_change)
-					{
-						ImGui::Text("Base accel of max turn change speed");
-						ImGui::DragFloat("##a_mx_tn_change", &kart->base_max_turn_change_accel, 0.01f);
-					}
-				}
+			ImGui::Checkbox("Accelerate the change", &accelerated_change);
+			if (accelerated_change)
+			{
+			ImGui::Text("Base accel of max turn change speed");
+			ImGui::DragFloat("##a_mx_tn_change", &kart->base_max_turn_change_accel, 0.01f);
+			}
+			}
 
 
-				ImGui::Checkbox("Show max turn/ velocity graph", &show_graph);
+			ImGui::Checkbox("Show max turn/ velocity graph", &show_graph);
 
-				if (show_graph)
-				{
-					float values[14];
+			if (show_graph)
+			{
+			float values[14];
 
-					for (int i = 0; i < 14; i++)
-					{
-						values[i] = GetMaxTurnByCurrentVelocity(float(i)* 10.0f);
-					}
+			for (int i = 0; i < 14; i++)
+			{
+			values[i] = GetMaxTurnByCurrentVelocity(float(i)* 10.0f);
+			}
 
-					ImGui::PlotLines("Max turn / Velocity", values, 14);
-				}
+			ImGui::PlotLines("Max turn / Velocity", values, 14);
+			}
 
-				//NOTE: put a graph so the designers know how it  will affect turn max change over time
-				ImGui::TreePop();
+			//NOTE: put a graph so the designers know how it  will affect turn max change over time
+			ImGui::TreePop();
 
 
 			}
 
 			if (ImGui::TreeNode("Brake settings"))
 			{
-				ImGui::Text("");
+			ImGui::Text("");
 
-				ImGui::Text("Brake force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Brake_force", &kart->brake_force, 1.0f, 0.0f, 1000.0f)) {}
+			ImGui::Text("Brake force");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##Brake_force", &kart->brake_force, 1.0f, 0.0f, 1000.0f)) {}
 
-				ImGui::Text("Back force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##Back_force", &kart->back_force, 1.0f, 0.0f)) {}
+			ImGui::Text("Back force");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##Back_force", &kart->back_force, 1.0f, 0.0f)) {}
 
-				ImGui::Text("Full brake force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##full_br_force", &kart->full_brake_force, 1.0f, 0.0f)) {}
+			ImGui::Text("Full brake force");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##full_br_force", &kart->full_brake_force, 1.0f, 0.0f)) {}
 
-				ImGui::Text("");
-				ImGui::TreePop();
+			ImGui::Text("");
+			ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Push settings"))
 			{
-				ImGui::Text("");
+			ImGui::Text("");
 
-				ImGui::Text("Push force");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##push_force", &kart->push_force, 10.0f, 0.0f)) {}
+			ImGui::Text("Push force");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##push_force", &kart->push_force, 10.0f, 0.0f)) {}
 
-				ImGui::Text("Push speed limit");
-				ImGui::SameLine();
-				if (ImGui::DragFloat("##push_sp", &kart->push_speed_per, 1.0f, 0.0f, 100.0f)) {}
+			ImGui::Text("Push speed limit");
+			ImGui::SameLine();
+			if (ImGui::DragFloat("##push_sp", &kart->push_speed_per, 1.0f, 0.0f, 100.0f)) {}
 
-				ImGui::Text("");
-				ImGui::TreePop();
+			ImGui::Text("");
+			ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Turbos"))
 			{
-				if (ImGui::TreeNode("mini turbo"))
-				{
-					ImGui::Checkbox("Accel %", &mini_turbo.per_ac);
-					ImGui::SameLine();
-					ImGui::Checkbox("Speed %", &mini_turbo.per_sp);
+			if (ImGui::TreeNode("mini turbo"))
+			{
+			ImGui::Checkbox("Accel %", &mini_turbo.per_ac);
+			ImGui::SameLine();
+			ImGui::Checkbox("Speed %", &mini_turbo.per_sp);
 
-					ImGui::DragFloat("Accel boost", &mini_turbo.accel_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Speed boost", &mini_turbo.speed_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Duration", &mini_turbo.time);
+			ImGui::DragFloat("Accel boost", &mini_turbo.accel_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Speed boost", &mini_turbo.speed_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Duration", &mini_turbo.time);
 
-					ImGui::Checkbox("Speed decrease", &mini_turbo.speed_decrease);
-					if (mini_turbo.speed_decrease == true)
-					{
-						ImGui::DragFloat("Deceleration", &mini_turbo.deceleration, 1.0f, 0.0f);
-					}
+			ImGui::Checkbox("Speed decrease", &mini_turbo.speed_decrease);
+			if (mini_turbo.speed_decrease == true)
+			{
+			ImGui::DragFloat("Deceleration", &mini_turbo.deceleration, 1.0f, 0.0f);
+			}
 
-					ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
+			ImGui::Checkbox("Direct speed", &mini_turbo.speed_direct);
 
-					ImGui::TreePop();
-				}
+			ImGui::TreePop();
+			}
 
-				if (ImGui::TreeNode("Drift turbo 2"))
-				{
-					ImGui::Checkbox("Accel %", &drift_turbo_2.per_ac);
-					ImGui::SameLine();
-					ImGui::Checkbox("Speed %", &drift_turbo_2.per_sp);
+			if (ImGui::TreeNode("Drift turbo 2"))
+			{
+			ImGui::Checkbox("Accel %", &drift_turbo_2.per_ac);
+			ImGui::SameLine();
+			ImGui::Checkbox("Speed %", &drift_turbo_2.per_sp);
 
-					ImGui::DragFloat("Accel boost", &drift_turbo_2.accel_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Speed boost", &drift_turbo_2.speed_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Duration", &drift_turbo_2.time);
+			ImGui::DragFloat("Accel boost", &drift_turbo_2.accel_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Speed boost", &drift_turbo_2.speed_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Duration", &drift_turbo_2.time);
 
-					ImGui::Checkbox("Speed decrease", &drift_turbo_2.speed_decrease);
-					if (drift_turbo_2.speed_decrease == true)
-					{
-						ImGui::DragFloat("Deceleration", &drift_turbo_2.deceleration, 1.0f, 0.0f);
-					}
+			ImGui::Checkbox("Speed decrease", &drift_turbo_2.speed_decrease);
+			if (drift_turbo_2.speed_decrease == true)
+			{
+			ImGui::DragFloat("Deceleration", &drift_turbo_2.deceleration, 1.0f, 0.0f);
+			}
 
-					ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
+			ImGui::Checkbox("Direct speed", &drift_turbo_2.speed_direct);
 
-					ImGui::TreePop();
-				}
+			ImGui::TreePop();
+			}
 
 
-				if (ImGui::TreeNode("Drift turbo 3"))
-				{
-					ImGui::Checkbox("Accel %", &drift_turbo_3.per_ac);
-					ImGui::SameLine();
-					ImGui::Checkbox("Speed %", &drift_turbo_3.per_sp);
+			if (ImGui::TreeNode("Drift turbo 3"))
+			{
+			ImGui::Checkbox("Accel %", &drift_turbo_3.per_ac);
+			ImGui::SameLine();
+			ImGui::Checkbox("Speed %", &drift_turbo_3.per_sp);
 
-					ImGui::DragFloat("Accel boost", &drift_turbo_3.accel_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Speed boost", &drift_turbo_3.speed_boost, 1.0f, 0.0f);
-					ImGui::DragFloat("Duration", &drift_turbo_3.time);
+			ImGui::DragFloat("Accel boost", &drift_turbo_3.accel_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Speed boost", &drift_turbo_3.speed_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Duration", &drift_turbo_3.time);
 
-					ImGui::Checkbox("Speed decrease", &drift_turbo_3.speed_decrease);
-					if (drift_turbo_3.speed_decrease == true)
-					{
-						ImGui::DragFloat("Deceleration", &drift_turbo_3.deceleration, 1.0f, 0.0f);
-					}
-					ImGui::Checkbox("Direct speed", &drift_turbo_3.speed_direct);
+			ImGui::Checkbox("Speed decrease", &drift_turbo_3.speed_decrease);
+			if (drift_turbo_3.speed_decrease == true)
+			{
+			ImGui::DragFloat("Deceleration", &drift_turbo_3.deceleration, 1.0f, 0.0f);
+			}
+			ImGui::Checkbox("Direct speed", &drift_turbo_3.speed_direct);
 
-					ImGui::TreePop();
-				}
+			ImGui::TreePop();
+			}
 
-				ImGui::TreePop();
+			ImGui::TreePop();
 			}
 
 			if (ImGui::TreeNode("Hitodamas"))
 			{
-				ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
-				ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
-				ImGui::TreePop();
+			ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
+			ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
+			ImGui::TreePop();
 			}
 			if (ImGui::TreeNode("Items"))
 			{
-				ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
-				ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
-				if (ImGui::TreeNode("Rocket"))
-				{
+			ImGui::DragInt("Max hitodamas", &max_hitodamas, 1.0f, 0, 100);
+			ImGui::DragInt("Bonus hitodamas", &bonus_hitodamas, 1.0f, 0, 100);
+			if (ImGui::TreeNode("Rocket"))
+			{
 
-					if (ImGui::TreeNode("Turbo config"))
-					{
-						ImGui::Checkbox("Accel %", &rocket_turbo.per_ac);
-						ImGui::SameLine();
-						ImGui::Checkbox("Speed %", &rocket_turbo.per_sp);
+			if (ImGui::TreeNode("Turbo config"))
+			{
+			ImGui::Checkbox("Accel %", &rocket_turbo.per_ac);
+			ImGui::SameLine();
+			ImGui::Checkbox("Speed %", &rocket_turbo.per_sp);
 
-						ImGui::DragFloat("Accel boost", &rocket_turbo.accel_boost, 1.0f, 0.0f);
-						ImGui::DragFloat("Speed boost", &rocket_turbo.speed_boost, 1.0f, 0.0f);
-						ImGui::DragFloat("Duration", &rocket_turbo.time);
+			ImGui::DragFloat("Accel boost", &rocket_turbo.accel_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Speed boost", &rocket_turbo.speed_boost, 1.0f, 0.0f);
+			ImGui::DragFloat("Duration", &rocket_turbo.time);
 
-						ImGui::Checkbox("Speed decrease", &rocket_turbo.speed_decrease);
-						if (mini_turbo.speed_decrease == true)
-						{
-							ImGui::DragFloat("Deceleration", &rocket_turbo.deceleration, 1.0f, 0.0f);
-						}
-						ImGui::Checkbox("Direct speed", &rocket_turbo.speed_direct);
-
-						ImGui::TreePop();
-					}
-					ImGui::TreePop();
-				}
-				ImGui::TreePop();
+			ImGui::Checkbox("Speed decrease", &rocket_turbo.speed_decrease);
+			if (mini_turbo.speed_decrease == true)
+			{
+			ImGui::DragFloat("Deceleration", &rocket_turbo.deceleration, 1.0f, 0.0f);
 			}
-*/
+			ImGui::Checkbox("Direct speed", &rocket_turbo.speed_direct);
+
+			ImGui::TreePop();
+			}
+			ImGui::TreePop();
+			}
+			ImGui::TreePop();
+			}
+			*/
 			ImGui::TreePop();
 		}
 	} //Endof Car settings
 }//Endof Collapsing header
 
-
-
+void MashButtonCounter::Update(uint button, uint player)
+{
+	if (App->IsGameRunning() && App->IsGamePaused() == false)
+	{
+		if (App->input->GetJoystickButton(player, (JOY_BUTTON)button) == KEY_DOWN)
+		{
+			nTaps++;
+		}
+	}
+}

@@ -95,7 +95,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -183,7 +184,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -271,7 +273,8 @@
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": false
+                    "render_terrain": false,
+                    "render_skybox": false
                 }
             ]
         }
