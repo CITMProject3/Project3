@@ -173,7 +173,7 @@ class turboPicker_class {
 public:
 	Turbo turboPad = Turbo(0.1f, 0.3f, 1.5f, 0.6f, 0.5f, 1.0f);
 	Turbo turboPadOnEvil = Turbo(0.1f, 0.3f, 1.5f, 0.2f, 0.2f, -0.1f);
-	Turbo acrobatic = Turbo(0.5f, 0.5f, 1.0f, 0.8f, 0.6f, 0.8f);
+	Turbo acrobatic = Turbo(0.2f, 0.2f, 0.8f, 0.8f, 0.6f, 0.8f);
 
 	Turbo drift1 = Turbo(0.3f, 0.4f, 1.0f, 0.8f, 0.4f, 0.8f);
 	Turbo drift2 = Turbo(0.6f, 0.8f, 1.0f, 1.0f, 0.6f, 1.2f);
