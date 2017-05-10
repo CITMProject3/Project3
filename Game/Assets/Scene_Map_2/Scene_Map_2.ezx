@@ -135,49 +135,12 @@
                     "maneuverability": 5,
                     "maxSteer": 120,
                     "drag": 0.300000,
+                    "push_force": 0.100000,
+                    "push_threshold": 0.500000,
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
+                    "maxSteerReduction": 0.500000,
                     "lose_height": 2,
-                    "turn_over_reset_time": 2,
-                    "limit_to_a_turn_max": false,
-                    "accelerated_change": false,
-                    "current_max_turn_change_mode": 1,
-                    "wood_acceleration": 1550,
-                    "wood_max_speed": 120,
-                    "wood_min_speed": -55,
-                    "wood_fake_break": 45,
-                    "wood_base_turn_max": 0.300000,
-                    "wood_turn_speed": 2,
-                    "wood_turn_speed_joystick": 2,
-                    "wood_time_to_idle": 0.150000,
-                    "wood_idle_turn_by_interpolation": true,
-                    "wood_velocity_to_change": 1,
-                    "wood_turn_max_limit": 0.060000,
-                    "wood_base_max_turn_change_speed": 0,
-                    "wood_base_max_turn_change_accel": 0,
-                    "wood_push_force": 1000,
-                    "wood_push_speed_per": 90,
-                    "wood_brakeForce": 150,
-                    "wood_backForce": 1800,
-                    "wood_full_brake_force": 300,
-                    "koji_acceleration": 1400,
-                    "koji_max_speed": 130,
-                    "koji_min_speed": -60,
-                    "koji_fake_break": 55,
-                    "koji_base_turn_max": 0.250000,
-                    "koji_turn_speed": 2,
-                    "koji_turn_speed_joystick": 2,
-                    "koji_time_to_idle": 0.150000,
-                    "koji_idle_turn_by_interpolation": true,
-                    "koji_velocity_to_change": 1,
-                    "koji_turn_max_limit": 0.052000,
-                    "koji_base_max_turn_change_speed": 0,
-                    "koji_base_max_turn_change_accel": 0,
-                    "koji_push_force": 1000,
-                    "koji_push_speed_per": 90,
-                    "koji_brakeForce": 175,
-                    "koji_backForce": 1700,
-                    "koji_full_brake_force": 300,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -9027,49 +8990,12 @@
                     "maneuverability": 5,
                     "maxSteer": 120,
                     "drag": 0.300000,
+                    "push_force": 0.100000,
+                    "push_threshold": 0.500000,
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
+                    "maxSteerReduction": 0.500000,
                     "lose_height": 2,
-                    "turn_over_reset_time": 2,
-                    "limit_to_a_turn_max": false,
-                    "accelerated_change": false,
-                    "current_max_turn_change_mode": 1,
-                    "wood_acceleration": 1550,
-                    "wood_max_speed": 120,
-                    "wood_min_speed": -55,
-                    "wood_fake_break": 45,
-                    "wood_base_turn_max": 0.300000,
-                    "wood_turn_speed": 2,
-                    "wood_turn_speed_joystick": 2,
-                    "wood_time_to_idle": 0.150000,
-                    "wood_idle_turn_by_interpolation": true,
-                    "wood_velocity_to_change": 1,
-                    "wood_turn_max_limit": 0.060000,
-                    "wood_base_max_turn_change_speed": 0,
-                    "wood_base_max_turn_change_accel": 0,
-                    "wood_push_force": 1000,
-                    "wood_push_speed_per": 90,
-                    "wood_brakeForce": 150,
-                    "wood_backForce": 1800,
-                    "wood_full_brake_force": 300,
-                    "koji_acceleration": 1400,
-                    "koji_max_speed": 130,
-                    "koji_min_speed": -60,
-                    "koji_fake_break": 55,
-                    "koji_base_turn_max": 0.250000,
-                    "koji_turn_speed": 2,
-                    "koji_turn_speed_joystick": 2,
-                    "koji_time_to_idle": 0.150000,
-                    "koji_idle_turn_by_interpolation": true,
-                    "koji_velocity_to_change": 1,
-                    "koji_turn_max_limit": 0.052000,
-                    "koji_base_max_turn_change_speed": 0,
-                    "koji_base_max_turn_change_accel": 0,
-                    "koji_push_force": 1000,
-                    "koji_push_speed_per": 90,
-                    "koji_brakeForce": 175,
-                    "koji_backForce": 1700,
-                    "koji_full_brake_force": 300,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -44540,14 +44466,14 @@
             "components": [
                 {
                     "position": [
-                        -47.979267,
-                        -8.047462,
-                        74.709221
+                        -35.921783,
+                        -7.670883,
+                        82.549187
                     ],
                     "rotation": [
-                        92.089180,
-                        89.424263,
-                        -92.088509
+                        -152.146423,
+                        70.476616,
+                        150.544968
                     ]
                 }
             ],
@@ -44565,14 +44491,14 @@
             "components": [
                 {
                     "position": [
-                        -69.146065,
-                        -8.139170,
+                        -68.750389,
+                        -7.165562,
                         74.183983
                     ],
                     "rotation": [
-                        179.999985,
-                        89.980209,
-                        179.999985
+                        -90.228340,
+                        84.994331,
+                        90.227478
                     ]
                 }
             ],
@@ -44615,14 +44541,14 @@
             "components": [
                 {
                     "position": [
-                        -24.537350,
-                        -7.777765,
-                        73.899033
+                        -12.523314,
+                        -7.235100,
+                        61.156368
                     ],
                     "rotation": [
-                        -145.948959,
-                        86.541069,
-                        145.997467
+                        -47.231037,
+                        80.716125,
+                        44.013546
                     ]
                 }
             ],
@@ -44640,14 +44566,14 @@
             "components": [
                 {
                     "position": [
-                        -2.101376,
-                        -7.054329,
-                        72.281532
+                        30.700947,
+                        -7.102691,
+                        70.933952
                     ],
                     "rotation": [
-                        -159.347626,
-                        84.826912,
-                        159.886322
+                        -144.128891,
+                        67.687302,
+                        145.271439
                     ]
                 }
             ],
@@ -44790,14 +44716,14 @@
             "components": [
                 {
                     "position": [
-                        20.550980,
-                        -6.475427,
-                        70.438194
+                        4.837841,
+                        -15.632263,
+                        43.474419
                     ],
                     "rotation": [
-                        -167.768143,
-                        85.024048,
-                        168.120117
+                        -42.624496,
+                        61.833290,
+                        12.618375
                     ]
                 }
             ],
@@ -44815,14 +44741,14 @@
             "components": [
                 {
                     "position": [
-                        42.875389,
-                        -6.340981,
-                        68.338409
+                        14.992927,
+                        -15.479736,
+                        85.846634
                     ],
                     "rotation": [
-                        170.332230,
-                        85.067032,
-                        -169.900101
+                        43.847359,
+                        -58.851727,
+                        16.940918
                     ]
                 }
             ],
@@ -53736,15 +53662,15 @@
                         0.008865,
                         0,
                         0.999957,
-                        -24.140064,
+                        -72.381912,
                         0,
                         1,
                         0,
-                        13.661287,
+                        16.187042,
                         -0.999957,
                         0,
                         0.008865,
-                        74.638458,
+                        73.540100,
                         0,
                         0,
                         0,
