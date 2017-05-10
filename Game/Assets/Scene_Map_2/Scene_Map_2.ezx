@@ -140,6 +140,7 @@
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
+                    "driftPhaseChange": 3,
                     "lose_height": 2,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
@@ -161,6 +162,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -8998,6 +9003,7 @@
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
+                    "driftPhaseChange": 3,
                     "lose_height": 2,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
@@ -9019,6 +9025,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -31950,31 +31960,6 @@
         },
         {
             "name": "ThinBamboo",
-            "UUID": 9792676,
-            "local_UUID": 3329638098,
-            "parent": 3781723101,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 9792676,
-            "prefab_path": "\/Library\/643644559\/3260913244\/\/805040327\/805040327.pfb",
-            "components": [
-                {
-                    "position": [
-                        94.920952,
-                        18.920303,
-                        63.938164
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "ThinBamboo",
             "UUID": 2181337209,
             "local_UUID": 3329638098,
             "parent": 3781723101,
@@ -36700,31 +36685,6 @@
         },
         {
             "name": "ThinBamboo",
-            "UUID": 2620515143,
-            "local_UUID": 3329638098,
-            "parent": 3781723101,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2620515143,
-            "prefab_path": "\/Library\/643644559\/3260913244\/\/805040327\/805040327.pfb",
-            "components": [
-                {
-                    "position": [
-                        240.964661,
-                        13.088905,
-                        82.810112
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        20.824217
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "ThinBamboo",
             "UUID": 1946721121,
             "local_UUID": 3329638098,
             "parent": 3781723101,
@@ -36763,31 +36723,6 @@
                         241.975861,
                         13.102352,
                         87.421669
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "ThinBamboo",
-            "UUID": 78272382,
-            "local_UUID": 3329638098,
-            "parent": 3781723101,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 78272382,
-            "prefab_path": "\/Library\/643644559\/3260913244\/\/805040327\/805040327.pfb",
-            "components": [
-                {
-                    "position": [
-                        237.228958,
-                        13.102352,
-                        95.882362
                     ],
                     "rotation": [
                         0,
@@ -38203,31 +38138,6 @@
                     ],
                     "rotation": [
                         0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "ThinBamboo",
-            "UUID": 2747790606,
-            "local_UUID": 3329638098,
-            "parent": 1220658883,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2747790606,
-            "prefab_path": "\/Library\/643644559\/3260913244\/\/805040327\/805040327.pfb",
-            "components": [
-                {
-                    "position": [
-                        193.361145,
-                        13.403967,
-                        76.713478
-                    ],
-                    "rotation": [
-                        89.999977,
                         0,
                         0
                     ]
@@ -44472,14 +44382,14 @@
             "components": [
                 {
                     "position": [
-                        -35.921783,
-                        -7.670883,
-                        82.549187
+                        -58.413090,
+                        -6.145347,
+                        56.926167
                     ],
                     "rotation": [
-                        -152.146423,
-                        70.476616,
-                        150.544968
+                        -11.456457,
+                        57.606583,
+                        4.920224
                     ]
                 }
             ],
@@ -44549,12 +44459,12 @@
                     "position": [
                         -12.523314,
                         -7.235100,
-                        61.156368
+                        59.491112
                     ],
                     "rotation": [
-                        -47.231037,
+                        -47.231003,
                         80.716125,
-                        44.013546
+                        44.013508
                     ]
                 }
             ],
@@ -44574,12 +44484,12 @@
                     "position": [
                         30.700947,
                         -7.102691,
-                        70.933952
+                        72.018532
                     ],
                     "rotation": [
-                        -144.128891,
-                        67.687302,
-                        145.271439
+                        -144.128922,
+                        67.687271,
+                        145.271484
                     ]
                 }
             ],
@@ -44747,14 +44657,14 @@
             "components": [
                 {
                     "position": [
-                        14.992927,
+                        10.539401,
                         -15.479736,
                         85.846634
                     ],
                     "rotation": [
-                        43.847359,
+                        43.847363,
                         -58.851727,
-                        16.940918
+                        16.940929
                     ]
                 }
             ],
@@ -49555,6 +49465,31 @@
                         -180,
                         -52.365120,
                         -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "HarborScene1",
+            "UUID": 2242467821,
+            "local_UUID": 1340804865,
+            "parent": 843739132,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2242467821,
+            "prefab_path": "\/Library\/643644559\/2730194168\/\/3929199350\/3929199350.pfb",
+            "components": [
+                {
+                    "position": [
+                        -35.921783,
+                        -7.670883,
+                        85.374435
+                    ],
+                    "rotation": [
+                        -152.146484,
+                        70.476624,
+                        150.545013
                     ]
                 }
             ],
