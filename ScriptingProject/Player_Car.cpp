@@ -45,6 +45,12 @@ namespace Player_Car
 	float spirit_duration = 0.0f;
 	float spirit_max_duration = 10.0f;
 
+	//Turbo
+	float turbo_max_acc_time = 3.0f; //Time to reach max acceleration with the turbo
+	float turbo_acc_bonus_over_time = 0.1f;
+	float turbo_speed_bonus = 0.5f;
+	float turbo_dec_time = 0.5f;
+
 	string item_box_name = "item_box";
 	GameObject* firecracker = nullptr;
 	GameObject* other_car = nullptr;
@@ -71,6 +77,11 @@ namespace Player_Car
 		public_float->insert(pair<const char*, float>("spirit_max_duration", spirit_max_duration));
 		public_chars->insert(pair<const char*, string>("item_box_name", item_box_name));
 
+		public_float->insert(pair<const char*, float>("turbo_max_acc_time", turbo_max_acc_time));
+		public_float->insert(pair<const char*, float>("turbo_acc_bonus_over_time", turbo_acc_bonus_over_time));
+		public_float->insert(pair<const char*, float>("turbo_speed_bonus", turbo_speed_bonus));	
+		public_float->insert(pair<const char*, float>("turbo_dec_time", turbo_dec_time));
+
 		public_gos->insert(pair<const char*, GameObject*>("firecracker", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
@@ -96,6 +107,11 @@ namespace Player_Car
 		spirit_max_duration = script->public_floats.at("spirit_max_duration");
 		item_box_name = script->public_chars.at("item_box_name");
 
+		turbo_max_acc_time = script->public_floats.at("turbo_max_acc_time");
+		turbo_acc_bonus_over_time = script->public_floats.at("turbo_acc_bonus_over_time");
+		turbo_speed_bonus = script->public_floats.at("turbo_speed_bonus");
+		turbo_dec_time = script->public_floats.at("turbo_dec_time");
+		
 		firecracker = script->public_gos.at("firecracker");
 		other_car = script->public_gos.at("other_car");
 		scene_manager = script->public_gos.at("scene_manager");
@@ -119,6 +135,11 @@ namespace Player_Car
 		script->public_floats.at("spirit_max_duration") = spirit_max_duration;
 		script->public_chars.at("item_box_name") = item_box_name;
 
+		script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
+		script->public_floats.at("turbo_acc_bonus_over_time") = turbo_acc_bonus_over_time;
+		script->public_floats.at("turbo_speed_bonus") = turbo_speed_bonus;
+		script->public_floats.at("turbo_dec_time") = turbo_dec_time;
+		
 		script->public_gos.at("firecracker") = firecracker;
 		script->public_gos.at("other_car") = other_car;
 		script->public_gos.at("scene_manager") = scene_manager;
@@ -182,6 +203,19 @@ namespace Player_Car
 		if (launched_firecracker_lifetime != -1.0f)
 		{
 			Player_Car_UpdateLaunchedFirecracker(game_object, car);
+		}
+
+		//Turbo
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::RB) == KEY_REPEAT)
+		{
+			if (car->GetAppliedTurbo().IsActive() == false)
+			{
+				car->NewTurbo(Turbo(turbo_max_acc_time, 1000.0f, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
+			}
+		}
+		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_UP || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::RB) == KEY_UP)
+		{
+			car->NewTurbo(Turbo(0, 0, turbo_dec_time, 0, 0, 0));
 		}
 	}
 
