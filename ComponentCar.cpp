@@ -393,10 +393,11 @@ void ComponentCar::Drift(float dir)
 		return;
 	}
 
-	driftingTimer += time->DeltaTime();
-	if (driftingTimer > driftPhaseDuration)
+	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
+
+	if (driftButtonMasher.GetNTaps() > driftPhaseChange)
 	{
-		driftingTimer = 0.0f;
+		driftButtonMasher.Reset();
 
 		switch (drifting)
 		{
@@ -452,12 +453,12 @@ void ComponentCar::DriftManagement()
 				if (currentSteer > 0.6f)
 				{
 					drifting = drift_right_0;
-					driftingTimer = 0.0f;
+					driftButtonMasher.Reset();
 				}
 				else if (currentSteer < -0.6f)
 				{
 					drifting = drift_left_0;
-					driftingTimer = 0.0f;
+					driftButtonMasher.Reset();
 				}
 			}
 		}
@@ -1195,6 +1196,8 @@ void ComponentCar::Save(Data& file) const
 
 	data.AppendFloat("maxSteerReduction", maxSteerReduction);
 
+	data.AppendInt("driftPhaseChange", driftPhaseChange);
+
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
 
@@ -1245,6 +1248,9 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("maxSteerReduction");
 	if (tmp != 0.0f) { maxSteerReduction = tmp; }
 
+	tmp = conf.GetInt("driftPhaseChange");
+	if (tmp != 0.0) { driftPhaseChange = tmp; }
+
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
 
@@ -1285,6 +1291,7 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
 		ImGui::DragFloat("Push threshold", &push_threshold, 0.5f, 0.1f, 1.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
+		ImGui::InputInt("Clicks to improve turbo", &driftPhaseChange);
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
 		ImGui::Separator();
 		ImGui::Text("Collider:");
@@ -1302,8 +1309,9 @@ void ComponentCar::OnInspector(bool debug)
 				"Current Steer: %f\n"
 				"Steering: %s\n"
 				"On The Ground: %s\n"
+				"DriftButtonMashing: %u\n"
 				"TestVar: %f"
-				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", testVar);
+				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
 
 
 			string currentDriftPhase;
@@ -1686,4 +1694,13 @@ void ComponentCar::OnInspector(bool debug)
 	} //Endof Car settings
 }//Endof Collapsing header
 
-
+void MashButtonCounter::Update(uint button, uint player)
+{
+	if (App->IsGameRunning() && App->IsGamePaused() == false)
+	{
+		if (App->input->GetJoystickButton(player, (JOY_BUTTON)button) == KEY_DOWN)
+		{
+			nTaps++;
+		}
+	}
+}
