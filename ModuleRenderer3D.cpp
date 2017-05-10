@@ -390,7 +390,8 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 	DrawParticles(cam);
 
-	App->editor->skybox.Render(cam);
+	if(cam->render_skybox)
+		App->editor->skybox.Render(cam);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
