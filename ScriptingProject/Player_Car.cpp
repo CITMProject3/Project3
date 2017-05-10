@@ -431,7 +431,6 @@ namespace Player_Car
 		{
 			//Setting position
 			float3 new_pos = game_object->transform->GetPosition();
-			new_pos += car->kartZ * (car->collShape.size.z + 2);
 			new_pos += car->kartY * (car->collShape.size.y + 2);
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -460,7 +459,6 @@ namespace Player_Car
 			{
 				//Setting position
 				float3 new_pos = game_object->transform->GetPosition();
-				new_pos += car->kartZ * (car->collShape.size.z + 2);
 				new_pos += car->kartY * (car->collShape.size.y + 2);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -634,7 +632,6 @@ namespace Player_Car
 				{
 					//Setting position
 					float3 new_pos = game_object->transform->GetPosition();
-					new_pos += car->kartZ * (car->collShape.size.z + 2);
 					new_pos += car->kartY * (car->collShape.size.y + 2);
 					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
@@ -665,7 +662,6 @@ namespace Player_Car
 					{
 						//Setting position
 						float3 new_pos = game_object->transform->GetPosition();
-						new_pos += car->kartZ * (car->collShape.size.z + 2);
 						new_pos += car->kartY * (car->collShape.size.y + 2);
 						makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 						makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
