@@ -377,6 +377,8 @@ namespace Player_Car
 		{
 			float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+			item_size--;
+			Player_Car_CallUpdateItems();
 		}
 		else
 		{
@@ -406,12 +408,15 @@ namespace Player_Car
 				float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
 				new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
+				Player_Car_CallUpdateItems();
 			}
+			item_size--;
 		}
 		(car_id == 0 ? makibishis_1 : makibishis_2).erase((car_id == 0 ? makibishis_1 : makibishis_2).begin());
-		if ((car_id == 0 ? makibishis_1 : makibishis_2).size() == 0)
+		if (item_size == 0)
 		{
 			current_item = -1;
+			item_size = 1;
 			Player_Car_CallUpdateItems();
 		}
 	}
