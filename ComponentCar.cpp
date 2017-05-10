@@ -277,7 +277,7 @@ float ComponentCar::AccelerationInput()
 		else
 		{
 			// Pushing only when forward acceleration is applied
-			if (App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_REPEAT || (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && front_player == PLAYER::PLAYER_1))
+			if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_REPEAT && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && front_player == PLAYER::PLAYER_1))
 			{
 				if (speed / maxSpeed < push_threshold)
 				{
