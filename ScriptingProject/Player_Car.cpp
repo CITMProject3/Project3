@@ -44,6 +44,12 @@ namespace Player_Car
 	float velocity_makibishi = 25.0f;
 	bool evil_spirit_effect = false;
 	float evil_spirit_vel_reduction = 0.4f;
+	GameObject* evil_spirit_object[2];
+	float3 evil_spirit_start_pos;
+	bool triggers_pressed[2];
+	int last_trigger = 0;
+	float target_defense_value = 0.0f;
+	float current_defense_value = 0.0f;
 
 	float spirit_duration = 0.0f;
 	float spirit_max_duration = 10.0f;
@@ -59,9 +65,7 @@ namespace Player_Car
 	GameObject* other_car = nullptr;
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
-	GameObject* evil_spirit_object[2];
 
-	float3 evil_spirit_start_pos;
 
 	std::vector<GameObject*> makibishis_1;
 	std::vector<GameObject*> makibishis_2;
@@ -84,6 +88,8 @@ namespace Player_Car
 		public_float->insert(pair<const char*, float>("evil_spirit_vel_reduction", evil_spirit_vel_reduction));
 		public_float->insert(pair<const char*, float>("spirit_duration", spirit_duration));
 		public_float->insert(pair<const char*, float>("spirit_max_duration", spirit_max_duration));
+		public_float->insert(pair<const char*, float>("target_defense_value", target_defense_value));
+		public_float->insert(pair<const char*, float>("current_defense_value", current_defense_value));
 		public_chars->insert(pair<const char*, string>("item_box_name", item_box_name));
 
 		public_float->insert(pair<const char*, float>("turbo_max_acc_time", turbo_max_acc_time));
@@ -116,6 +122,8 @@ namespace Player_Car
 		evil_spirit_vel_reduction = script->public_floats.at("evil_spirit_vel_reduction");
 		spirit_duration = script->public_floats.at("spirit_duration");
 		spirit_max_duration = script->public_floats.at("spirit_max_duration");
+		target_defense_value = script->public_floats.at("target_defense_value");
+		current_defense_value = script->public_floats.at("current_defense_value");
 		item_box_name = script->public_chars.at("item_box_name");
 
 		turbo_max_acc_time = script->public_floats.at("turbo_max_acc_time");
@@ -147,6 +155,8 @@ namespace Player_Car
 		script->public_floats.at("evil_spirit_vel_reduction") = evil_spirit_vel_reduction;
 		script->public_floats.at("spirit_duration") = spirit_duration;
 		script->public_floats.at("spirit_max_duration") = spirit_max_duration;
+		script->public_floats.at("target_defense_value") = target_defense_value;
+		script->public_floats.at("current_defense_value") = current_defense_value;
 		script->public_chars.at("item_box_name") = item_box_name;
 
 		script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
@@ -163,6 +173,9 @@ namespace Player_Car
 	void Player_Car_Start(GameObject* game_object)
 	{
 		evil_spirit_object[car_id] = nullptr;
+		triggers_pressed[0] = 0;
+		triggers_pressed[1] = 1;
+		last_trigger = -1;
 		//Get Evilspirit if there is one
 		for (std::vector<GameObject*>::const_iterator it = (*game_object->GetChilds()).begin(); it != (*game_object->GetChilds()).end(); it++)
 		{
@@ -187,7 +200,7 @@ namespace Player_Car
 	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car);
 	void Player_Car_CallUpdateItems();
 	void Player_Car_TMP_Use_Makibishi(GameObject* game_object, ComponentCar* car);
-
+	void Player_Car_SpiritEffectDefense(GameObject* game_object, ComponentCar* car);
 #pragma endregion
 
 	void Player_Car_Update(GameObject* game_object)
@@ -298,7 +311,7 @@ namespace Player_Car
 						item->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 						car->RemoveHitodama();
 					}
-					else if (current_item == -1 && item->name == item_box_name.c_str())
+					else if (item->name == item_box_name.c_str())
 					{
 						Player_Car_ChooseItem(game_object);
 						Player_Car_OnPickItem(game_object);
@@ -401,11 +414,12 @@ namespace Player_Car
 		if (car->place == 2)
 		{
 			((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_bools.at("evil_spirit_effect") = true;
-			((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("evil_spirit_current_duration") = 0.0f;
+			((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("spirit_duration") = 0.0f;
+			((ComponentScript*)other_car->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_defense_value") = 0.0f;
 		}
 		else
 		{
-			//TODO: give some kind of feedback when using evil_spirit being in first place?
+			evil_spirit_effect = true;
 		}
 	}
 
@@ -518,6 +532,8 @@ namespace Player_Car
 		{
 			spirit_duration += time->DeltaTime();
 
+			Player_Car_SpiritEffectDefense(game_object, car);
+
 			if (evil_spirit_object[car_id] != nullptr)
 			{
 				evil_spirit_object[car_id]->transform->Rotate(Quat::Quat(float3(0, 1, 0), 5.0f*time->DeltaTime()));
@@ -527,12 +543,14 @@ namespace Player_Car
 					evil_child->transform->Rotate(Quat::Quat(float3(0, 1, 0), 0.5f*time->DeltaTime()));
 			}
 				
-			if (spirit_duration >= spirit_max_duration)
+			if (spirit_duration >= spirit_max_duration || current_defense_value >= target_defense_value)
 			{
 				//car->SetMaxVelocity(car->GetMaxVelocity() / (1 - evil_spirit_vel_reduction));
 				car->SetInvertStatus(false);
 				evil_spirit_effect = false;
 				spirit_duration = 0.0f;
+				current_defense_value = 0.0f;
+				car->NewTurbo(Turbo(0, 1.0f, turbo_dec_time, 0, 0, 10.0f));
 				if (evil_spirit_object[car_id] != nullptr)
 				{
 					evil_spirit_object[car_id]->SetActive(false);
@@ -711,5 +729,39 @@ namespace Player_Car
 				}
 			}
 		}
+	}
+
+	void Player_Car_SpiritEffectDefense(GameObject* game_object, ComponentCar* car)
+	{
+		float tmp_defense_value = current_defense_value;
+
+		if (App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_TRIGGER) < 0.2f && triggers_pressed[0] == true)
+		{
+			triggers_pressed[0] = false;
+		}
+
+		if (App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::RIGHT_TRIGGER) < 0.2f && triggers_pressed[1] == true)
+		{
+			triggers_pressed[1] = false;
+		}
+
+		if (App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_TRIGGER) > 0.75f && triggers_pressed[1] == false && (last_trigger == 1 || last_trigger == -1))
+		{
+			last_trigger = 0;
+			current_defense_value += 10;
+			triggers_pressed[0] = true;
+		}
+
+		if (App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::RIGHT_TRIGGER) > 0.75f && triggers_pressed[1] == false && (last_trigger == 0 || last_trigger == -1))
+		{
+			last_trigger = 1;
+			current_defense_value += 10;
+			triggers_pressed[1] = true;
+		}
+
+		if (tmp_defense_value == current_defense_value)
+			current_defense_value -= 5.0f * time->DeltaTime();
+
+
 	}
 }
