@@ -507,23 +507,28 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_1 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 1)
+				{
+					car_1->finished = true;
+				}
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
 					if (car_1->lap > 3)
 					{
 						car_1->finished = true;
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 2;
+						}
 					}
 
-					if (car_1->finished == true || (second_position_timer >= 30 && goingToDisqualify == 1))
+					if (car_1->finished == true )
 					{
 						if (team1_finished == false && timer_1_text != nullptr && timer_text != nullptr)
 						{
-							if (goingToDisqualify == 0)
-							{
-								goingToDisqualify = 2;
-							}
-
 							team1_text = timer_text->GetText();
 							if (team2_finished == false && win2_button != nullptr)
 							{
@@ -565,23 +570,28 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_2 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 2)
+				{
+					car_2->finished = true;
+				}
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
 				{
 					if (car_2->lap > 3)
 					{
 						car_2->finished = true;
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 1;
+						}
 					}
 
-					if (car_2->finished == true || (second_position_timer >= 30 && goingToDisqualify == 2))
+					if (car_2->finished == true)
 					{
 						if (team2_finished == false && timer_2_text != nullptr && timer_text != nullptr)
 						{
-							if (goingToDisqualify == 0)
-							{
-								goingToDisqualify = 1;
-							}
-
 							team2_text = timer_text->GetText();
 							if (team1_finished == false && win1_button != nullptr)
 							{

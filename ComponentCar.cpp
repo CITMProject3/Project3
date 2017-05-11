@@ -759,6 +759,7 @@ bool ComponentCar::AddHitodama()
 	if (num_hitodamas < max_hitodamas)
 	{
 		num_hitodamas++;
+		maxSpeed += 0.01f;
 		return true;
 	}
 	return false;
@@ -769,6 +770,7 @@ bool ComponentCar::RemoveHitodama()
 	if (num_hitodamas > 0)
 	{
 		num_hitodamas--;
+		maxSpeed -= 0.01f;
 		return true;
 	}
 	return false;
@@ -807,14 +809,20 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 		}
 		case(P2DRIFT_LEFT):
 		{
-			p2_state = state;
-			p2_animation->PlayAnimation(2, blend_ratio);
+			if (p2_state != P2DRIFT_LEFT)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(2, blend_ratio);
+			}
 			break;
 		}
 		case(P2DRIFT_RIGHT):
 		{
-			p2_state = state;
-			p2_animation->PlayAnimation(1, blend_ratio);
+			if (p2_state != P2DRIFT_RIGHT)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(1, blend_ratio);
+			}
 			break;
 		}
 		case(P2PUSH_START):
@@ -1030,10 +1038,10 @@ void ComponentCar::UpdateP2Animation()
 	}
 }
 
-void ComponentCar::OnGetHit()
+void ComponentCar::OnGetHit(float velocity_reduction)
 {
-	speed = 0.0;
-	horizontalSpeed = 0.0f;
+	speed *= (1.0f - velocity_reduction);
+	horizontalSpeed *= (1.0f - velocity_reduction);
 	fallSpeed = 7.0f;
 
 	if (p2_animation != nullptr)
@@ -1098,7 +1106,7 @@ void ComponentCar::Reset()
 		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.5f));
 	}
 	currentSteer = 0;
-	OnGetHit();
+	OnGetHit(1.0f);
 	lastFrame_drifting = drifting = drift_none;
 }
 
@@ -1165,7 +1173,7 @@ void ComponentCar::DebugInput()
 	}
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
-		OnGetHit();
+		OnGetHit(1.0f);
 	}
 }
 

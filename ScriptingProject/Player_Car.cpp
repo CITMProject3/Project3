@@ -42,6 +42,7 @@ namespace Player_Car
 	float explosion_radius_firecracker = 5.0f;
 
 	float velocity_makibishi = 25.0f;
+	float makibishi_collision_velocity_reduction = 0.6f;
 	bool evil_spirit_effect = false;
 	float evil_spirit_vel_reduction = 0.4f;
 	GameObject* evil_spirit_object[2];
@@ -86,6 +87,7 @@ namespace Player_Car
 		public_float->insert(pair<const char*, float>("velocity_firecracker", velocity_firecracker));
 		public_float->insert(pair<const char*, float>("explosion_radius_firecracker", explosion_radius_firecracker));
 		public_float->insert(pair<const char*, float>("velocity_makibishi", velocity_makibishi));
+		public_float->insert(pair<const char*, float>("makibishi_collision_velocity_reduction", makibishi_collision_velocity_reduction));
 		public_bools->insert(pair<const char*, bool>("evil_spirit_effect", evil_spirit_effect));
 		public_float->insert(pair<const char*, float>("evil_spirit_vel_reduction", evil_spirit_vel_reduction));
 		public_float->insert(pair<const char*, float>("spirit_duration", spirit_duration));
@@ -120,6 +122,7 @@ namespace Player_Car
 		velocity_firecracker = script->public_floats.at("velocity_firecracker");
 		explosion_radius_firecracker = script->public_floats.at("explosion_radius_firecracker");
 		velocity_makibishi = script->public_floats.at("velocity_makibishi");
+		makibishi_collision_velocity_reduction = script->public_floats.at("makibishi_collision_velocity_reduction");
 		evil_spirit_effect = script->public_bools.at("evil_spirit_effect");
 		evil_spirit_vel_reduction = script->public_floats.at("evil_spirit_vel_reduction");
 		spirit_duration = script->public_floats.at("spirit_duration");
@@ -153,6 +156,7 @@ namespace Player_Car
 		script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		script->public_floats.at("explosion_radius_firecracker") = explosion_radius_firecracker;
 		script->public_floats.at("velocity_makibishi") = velocity_makibishi;
+		script->public_floats.at("makibishi_collision_velocity_reduction") = makibishi_collision_velocity_reduction;
 		script->public_bools.at("evil_spirit_effect") = evil_spirit_effect;
 		script->public_floats.at("evil_spirit_vel_reduction") = evil_spirit_vel_reduction;
 		script->public_floats.at("spirit_duration") = spirit_duration;
@@ -225,6 +229,7 @@ namespace Player_Car
 					case(MAKIBISHI):
 					{
 						Player_Car_UseMakibishi(game_object, car);
+						break;
 					}
 					case(FIRECRACKER):
 					{
@@ -282,19 +287,19 @@ namespace Player_Car
 					}
 					else if (item->name == "Firecracker")
 					{
-						car->OnGetHit();
+						car->OnGetHit(makibishi_collision_velocity_reduction);
 						item->SetActive(false);
 						car->RemoveHitodama();
 
 						if (other_car != nullptr)
 						{
 							if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
-								((ComponentCar*)other_car->GetComponent(C_SCRIPT))->OnGetHit();
+								((ComponentCar*)other_car->GetComponent(C_SCRIPT))->OnGetHit(makibishi_collision_velocity_reduction);
 						}
 					}
 					else if (item->name == "Makibishi")
 					{
-						car->OnGetHit();
+						car->OnGetHit(makibishi_collision_velocity_reduction);
 						((ComponentCollider*)item->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
 						item->SetActive(false);
 						item->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
