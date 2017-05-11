@@ -790,14 +790,20 @@ void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 		}
 		case(P2DRIFT_LEFT):
 		{
-			p2_state = state;
-			p2_animation->PlayAnimation(2, blend_ratio);
+			if (p2_state != P2DRIFT_LEFT)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(2, blend_ratio);
+			}
 			break;
 		}
 		case(P2DRIFT_RIGHT):
 		{
-			p2_state = state;
-			p2_animation->PlayAnimation(1, blend_ratio);
+			if (p2_state != P2DRIFT_RIGHT)
+			{
+				p2_state = state;
+				p2_animation->PlayAnimation(1, blend_ratio);
+			}
 			break;
 		}
 		case(P2PUSH_START):
