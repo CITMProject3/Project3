@@ -257,14 +257,14 @@ float ComponentCar::AccelerationInput()
 	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
 
 	// Pushing (always, when going forward and backwards)
-	if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN && front_player == PLAYER::PLAYER_1))
-	{		
+	if (!lock_input && ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN && front_player == PLAYER::PLAYER_1)))
+	{
 		// Pushing is applied when speed / maxSpeed is below push_threshold (60%-70%)
 		if (speed / maxSpeed < push_threshold)
 		{
 			push_timer.Start();
 			pushing = true;
-		}			
+		}
 	}
 
 	if (pushing)
@@ -283,10 +283,10 @@ float ComponentCar::AccelerationInput()
 			push_force = 0.001f;
 			LOG("Stopping Force!");
 		}
-	}	
+	}
 
 	//Accelerating
-	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
+	if (!lock_input && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
 	{
 		if (rTrigger < 0.1f) { rTrigger = 1.0f; }
 		//We recieved the order to move forward
@@ -309,7 +309,7 @@ float ComponentCar::AccelerationInput()
 		}
 	}
 	//Braking
-	else if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || lTrigger > 0.2f))
+	else if (!lock_input && ((App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT && front_player == PLAYER_1) || lTrigger > 0.2f))
 	{
 		if (lTrigger < 0.1f) { lTrigger = 1.0f; }
 		if (speed > 0.01f)
@@ -344,7 +344,7 @@ float ComponentCar::AccelerationInput()
 		{
 			speed = 0.0f;
 		}
-	}
+	}	
 
 	if (turbo_mods.alive == true && acceleration < turbo_mods.accelerationMin)
 	{
