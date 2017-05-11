@@ -159,9 +159,11 @@
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
                     "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
+                    "spirit_max_duration": 10,
+                    "target_defense_value": 100,
+                    "current_defense_value": 0,
                     "turbo_max_acc_time": 0,
                     "turbo_acc_bonus_over_time": 0,
                     "turbo_speed_bonus": 0,
@@ -8944,6 +8946,113 @@
             ]
         },
         {
+            "name": "EvilSpirit",
+            "UUID": 3669860480,
+            "local_UUID": 0,
+            "parent": 3082689746,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3464227725,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cube",
+            "UUID": 1084363865,
+            "local_UUID": 0,
+            "parent": 3669860480,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1819027261,
+                    "active": true,
+                    "matrix": [
+                        0.500000,
+                        0,
+                        0,
+                        1.465897,
+                        0,
+                        0.499999,
+                        0.000855,
+                        2.582359,
+                        0,
+                        -0.000855,
+                        0.499999,
+                        -0.004413,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3202907747,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "Kart 2",
             "UUID": 3832415544,
             "local_UUID": 0,
@@ -9016,15 +9125,17 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": -1,
-                    "car_id": 0,
+                    "car_id": 1,
                     "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
                     "velocity_makibishi": 25,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
+                    "spirit_max_duration": 10,
+                    "target_defense_value": 100,
+                    "current_defense_value": 0,
                     "turbo_max_acc_time": 0,
                     "turbo_acc_bonus_over_time": 0,
                     "turbo_speed_bonus": 0,
@@ -17835,6 +17946,113 @@
                     "textures": [
                         {
                             "path": "\/Library\/2334513546\/\/167549821\/167549821.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "EvilSpirit",
+            "UUID": 241079331,
+            "local_UUID": 0,
+            "parent": 3832415544,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3464227725,
+                    "active": true,
+                    "matrix": [
+                        0.999363,
+                        -0.000001,
+                        0.035694,
+                        0,
+                        0.000001,
+                        1,
+                        0,
+                        0,
+                        -0.035694,
+                        0,
+                        0.999363,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Cube",
+            "UUID": 2948919838,
+            "local_UUID": 0,
+            "parent": 241079331,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1819027261,
+                    "active": true,
+                    "matrix": [
+                        0.500000,
+                        0,
+                        0,
+                        1.465897,
+                        0,
+                        0.499999,
+                        0.000855,
+                        2.582359,
+                        0,
+                        -0.000855,
+                        0.499999,
+                        -0.004413,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000001,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000001.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3202907747,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
                         },
                         {
                             "path": ""
