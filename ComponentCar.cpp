@@ -235,7 +235,6 @@ void ComponentCar::KartLogic()
 		newPos.y += fallSpeed * time->DeltaTime();
 	}
 
-
 	//And finally, we move the kart!
 	newPos += kartZ * speed;
 	newPos += kartX * horizontalSpeed;
@@ -257,11 +256,41 @@ float ComponentCar::AccelerationInput()
 	float lTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) + 1.0f) / 2.0f;
 	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
 
+	// Pushing (always, when going forward and backwards)
+	if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN && front_player == PLAYER::PLAYER_1))
+	{		
+		// Pushing is applied when speed / maxSpeed is below push_threshold (60%-70%)
+		if (speed / maxSpeed < push_threshold)
+		{
+			push_timer.Start();
+			pushing = true;
+		}			
+	}
+
+	if (pushing)
+	{
+		if (push_timer.ReadSec() < time_between_pushes)
+		{
+			if (push_force < max_push_force)
+				push_force *= push_incr;
+
+			acceleration += push_force;
+			LOG("Applying Force! %f", acceleration);
+		}
+		else
+		{
+			pushing = false;
+			push_force = 0.001f;
+			LOG("Stopping Force!");
+		}
+	}	
+
 	//Accelerating
 	if (lock_input == false && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
 	{
 		if (rTrigger < 0.1f) { rTrigger = 1.0f; }
 		//We recieved the order to move forward
+
 		if (speed < -0.01f)
 		{
 			//If we're going backwards, we apply the brakePower instead of the acceleration
@@ -276,16 +305,6 @@ float ComponentCar::AccelerationInput()
 		}
 		else
 		{
-			// Pushing only when forward acceleration is applied
-			if ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_REPEAT && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_REPEAT && front_player == PLAYER::PLAYER_1))
-			{
-				if (speed / maxSpeed < push_threshold)
-				{
-					//LOG("Applying Force! (Speed %f, Ratio %f)", speed, speed / maxSpeed);
-					acceleration += push_force;
-				}
-			}
-
 			acceleration += (maxAcceleration + turbo_mods.accelerationBonus + mods.bonusMaxAcceleration) * time->DeltaTime() * rTrigger;
 		}
 	}
@@ -1232,7 +1251,8 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("maneuverability", maneuverability);
 	data.AppendFloat("maxSteer", maxSteer);
 	data.AppendFloat("drag", drag);
-	data.AppendFloat("push_force", push_force);
+	data.AppendFloat("push_incr", push_incr);
+	data.AppendFloat("max_push_force", max_push_force);
 	data.AppendFloat("push_threshold", push_threshold);
 
 	data.AppendFloat("recoveryTime", recoveryTime);
@@ -1279,11 +1299,12 @@ void ComponentCar::Load(Data& conf)
 	if (tmp != 0.0f) { maxSteer = tmp; }
 	tmp = conf.GetFloat("drag");
 	if (tmp != 0.0f) { drag = tmp; }
-	tmp = conf.GetFloat("push_force");
-	if (tmp != 0.0f) { push_force = tmp; }
+	tmp = conf.GetFloat("push_incr");
+	if (tmp != 0.0f) { push_incr = tmp; }
+	tmp = conf.GetFloat("max_push_force");
+	if (tmp != 0.0f) { max_push_force = tmp; }
 	tmp = conf.GetFloat("push_threshold");
 	if (tmp != 0.0f) { push_threshold = tmp; }
-
 	tmp = conf.GetFloat("recoveryTime");
 	if (tmp != 0.0f) { recoveryTime = tmp; }
 	tmp = conf.GetFloat("WallsBounciness");
@@ -1332,8 +1353,10 @@ void ComponentCar::OnInspector(bool debug)
 		ImGui::DragFloat("Max Steer", &maxSteer, 1.0f, 0.0f, 300.0f);
 		ImGui::DragFloat("Drag", &drag, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Bounciness", &WallsBounciness, 0.1f, 0.1f, 4.0f);
-		ImGui::DragFloat("Push force", &push_force, 0.1f, 0.1f, 4.0f);
-		ImGui::DragFloat("Push threshold", &push_threshold, 0.5f, 0.1f, 1.0f);
+
+		ImGui::DragFloat("Push Incr", &push_incr, 1.05f, 1.0f, 2.0f);
+		ImGui::DragFloat("Max Push force", &max_push_force, 0.1f, 0.1f, 4.0f);
+		ImGui::DragFloat("Push threshold", &push_threshold, 0.70f, 0.1f, 1.0f);
 		ImGui::Text("Maximum maneuverability reduction (percentual):");
 		ImGui::InputInt("Clicks to improve turbo", &driftPhaseChange);
 		ImGui::DragFloat("##maxmanReduction", &maxSteerReduction, 0.05f, 0.0f, 0.95f);
