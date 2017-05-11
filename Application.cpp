@@ -309,10 +309,10 @@ void Application::SaveBeforeClosing()
 	if (App->StartInGame() == false)
 	{
 		uint success = App->file_system->Save("Configuration.json", buf, size);
+	
+		if (success == 0)
+			LOG("Configuration could not be saved before closing");
 	}
-
-	if (success == 0)
-		LOG("Configuration could not be saved before closing");
 
 	delete[] buf;
 }
