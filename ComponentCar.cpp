@@ -740,6 +740,7 @@ bool ComponentCar::AddHitodama()
 	if (num_hitodamas < max_hitodamas)
 	{
 		num_hitodamas++;
+		maxSpeed += 0.01f;
 		return true;
 	}
 	return false;
@@ -750,6 +751,7 @@ bool ComponentCar::RemoveHitodama()
 	if (num_hitodamas > 0)
 	{
 		num_hitodamas--;
+		maxSpeed -= 0.01f;
 		return true;
 	}
 	return false;
