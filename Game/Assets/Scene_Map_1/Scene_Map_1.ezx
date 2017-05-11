@@ -321,14 +321,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1058
+                        1600,
+                        900
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        960,
+                        800,
                         0,
                         1,
                         0,
@@ -421,7 +421,7 @@
             "UUID": 3462909396,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -520,7 +520,7 @@
             "UUID": 4202328928,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -619,7 +619,7 @@
             "UUID": 3858551829,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -718,7 +718,7 @@
             "UUID": 3141153786,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -817,7 +817,7 @@
             "UUID": 2425445746,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -946,7 +946,7 @@
             "UUID": 1275623678,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1075,7 +1075,7 @@
             "UUID": 724240645,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1174,7 +1174,7 @@
             "UUID": 910827961,
             "local_UUID": 0,
             "parent": 724240645,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1273,7 +1273,7 @@
             "UUID": 854564894,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1372,7 +1372,7 @@
             "UUID": 3773907910,
             "local_UUID": 0,
             "parent": 854564894,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1471,7 +1471,7 @@
             "UUID": 360500253,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -1570,7 +1570,7 @@
             "UUID": 4283025068,
             "local_UUID": 0,
             "parent": 2482950945,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -3843,15 +3843,15 @@
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
                     "makibishi_collision_velocity_reduction": 0.600000,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
-                    "target_defense_value": 0,
+                    "spirit_max_duration": 10,
+                    "target_defense_value": 400,
                     "current_defense_value": 0,
-                    "turbo_max_acc_time": 0,
-                    "turbo_acc_bonus_over_time": 0,
-                    "turbo_speed_bonus": 0,
-                    "turbo_dec_time": 0,
+                    "turbo_max_acc_time": 0.500000,
+                    "turbo_acc_bonus_over_time": 1.500000,
+                    "turbo_speed_bonus": 1.800000,
+                    "turbo_dec_time": 1,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "firecracker": 1230011776,
@@ -5760,7 +5760,7 @@
                         0.129977,
                         0.000001,
                         17.639904,
-                        0.000000,
+                        0,
                         0.000010,
                         -1,
                         0.522253,
@@ -11881,8 +11881,8 @@
             ]
         },
         {
-            "name": "Cube",
-            "UUID": 1544013713,
+            "name": "EvilMask",
+            "UUID": 2855469511,
             "local_UUID": 0,
             "parent": 2338192384,
             "active": true,
@@ -11894,21 +11894,21 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3800907848,
+                    "UUID": 2810937333,
                     "active": true,
                     "matrix": [
-                        0.399747,
-                        -0.000001,
-                        0.014236,
-                        1.503746,
-                        0.000001,
-                        0.400000,
-                        0,
-                        1.965313,
-                        -0.014236,
-                        0,
-                        0.399747,
-                        -0.054050,
+                        -0.787947,
+                        0.000000,
+                        0.000000,
+                        1.499996,
+                        -0.000000,
+                        -0.000000,
+                        -0.878228,
+                        1.899998,
+                        -0.000000,
+                        -0.787946,
+                        -0.000000,
+                        -0.000004,
                         0,
                         0,
                         0,
@@ -11917,13 +11917,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2147000001,
+                    "UUID": 1196075198,
                     "active": true,
-                    "path": "Resources\/Primitives\/2147000001.msh"
+                    "path": "\/Library\/1404098253\/1742045485\/4016810545.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 2060135372,
+                    "UUID": 682176323,
                     "active": true,
                     "path": "",
                     "path_assets": "",
@@ -11941,7 +11941,7 @@
                     "id_to_render": 0,
                     "textures": [
                         {
-                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                            "path": "\/Library\/1404098253\/\/1331932541\/1331932541.dds"
                         },
                         {
                             "path": ""
@@ -12031,15 +12031,15 @@
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
                     "makibishi_collision_velocity_reduction": 0.600000,
-                    "evil_spirit_vel_reduction": 0,
+                    "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
-                    "spirit_max_duration": 0,
-                    "target_defense_value": 0,
+                    "spirit_max_duration": 10,
+                    "target_defense_value": 400,
                     "current_defense_value": 0,
-                    "turbo_max_acc_time": 0,
-                    "turbo_acc_bonus_over_time": 0,
-                    "turbo_speed_bonus": 0,
-                    "turbo_dec_time": 0,
+                    "turbo_max_acc_time": 0.500000,
+                    "turbo_acc_bonus_over_time": 1.500000,
+                    "turbo_speed_bonus": 1.800000,
+                    "turbo_dec_time": 1,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "firecracker": 717367660,
@@ -20076,8 +20076,8 @@
             ]
         },
         {
-            "name": "Cube",
-            "UUID": 2368884410,
+            "name": "EvilMask",
+            "UUID": 2765060699,
             "local_UUID": 0,
             "parent": 1027649178,
             "active": true,
@@ -20089,20 +20089,20 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3800907848,
+                    "UUID": 2810937333,
                     "active": true,
                     "matrix": [
-                        0.399962,
-                        -0.000001,
-                        0.005694,
-                        1.743999,
-                        0.000001,
-                        0.400000,
-                        0,
-                        1.965904,
-                        -0.005694,
-                        0,
-                        0.399962,
+                        -0.787948,
+                        -0.000000,
+                        0.000000,
+                        1.700000,
+                        -0.000000,
+                        -0.000000,
+                        -0.878228,
+                        1.900000,
+                        0.000000,
+                        -0.787946,
+                        -0.000000,
                         0,
                         0,
                         0,
@@ -20112,13 +20112,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2147000001,
+                    "UUID": 1196075198,
                     "active": true,
-                    "path": "Resources\/Primitives\/2147000001.msh"
+                    "path": "\/Library\/1404098253\/1742045485\/4016810545.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 2060135372,
+                    "UUID": 682176323,
                     "active": true,
                     "path": "",
                     "path_assets": "",
@@ -20136,7 +20136,7 @@
                     "id_to_render": 0,
                     "textures": [
                         {
-                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                            "path": "\/Library\/1404098253\/\/1331932541\/1331932541.dds"
                         },
                         {
                             "path": ""
@@ -20224,7 +20224,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.666151,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -20267,7 +20267,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 0
                 }
             ]
         },
@@ -20313,7 +20313,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.666151,
+                    "aspect_ratio": 3.591470,
                     "color": [
                         0,
                         0,
@@ -20356,7 +20356,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 2
+                    "listener ID": 1
                 }
             ]
         },
@@ -20402,7 +20402,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.814745,
+                    "aspect_ratio": 1.777778,
                     "color": [
                         0,
                         0,

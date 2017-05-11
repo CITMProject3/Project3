@@ -164,7 +164,7 @@
                     "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
                     "spirit_max_duration": 10,
-                    "target_defense_value": 0,
+                    "target_defense_value": 400,
                     "current_defense_value": 0,
                     "turbo_max_acc_time": 0.500000,
                     "turbo_acc_bonus_over_time": 1.500000,
@@ -9347,8 +9347,8 @@
             ]
         },
         {
-            "name": "Cube",
-            "UUID": 1084363865,
+            "name": "EvilMask",
+            "UUID": 248524197,
             "local_UUID": 0,
             "parent": 3669860480,
             "active": true,
@@ -9360,21 +9360,21 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1819027261,
+                    "UUID": 2810937333,
                     "active": true,
                     "matrix": [
-                        0.500000,
+                        -0.787955,
+                        0.000000,
+                        0.000000,
+                        1.699997,
+                        -0.000000,
+                        -0.001347,
+                        -0.878244,
+                        1.900000,
+                        -0.000000,
+                        -0.787953,
+                        0.001501,
                         0,
-                        0,
-                        1.465897,
-                        0,
-                        0.499999,
-                        0.000855,
-                        2.582359,
-                        0,
-                        -0.000855,
-                        0.499999,
-                        -0.004413,
                         0,
                         0,
                         0,
@@ -9383,13 +9383,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2147000001,
+                    "UUID": 1196075198,
                     "active": true,
-                    "path": "Resources\/Primitives\/2147000001.msh"
+                    "path": "\/Library\/1404098253\/1742045485\/4016810545.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 3202907747,
+                    "UUID": 682176323,
                     "active": true,
                     "path": "",
                     "path_assets": "",
@@ -9407,7 +9407,7 @@
                     "id_to_render": 0,
                     "textures": [
                         {
-                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                            "path": "\/Library\/1404098253\/\/1331932541\/1331932541.dds"
                         },
                         {
                             "path": ""
@@ -9500,7 +9500,7 @@
                     "evil_spirit_vel_reduction": 0.400000,
                     "spirit_duration": 0,
                     "spirit_max_duration": 10,
-                    "target_defense_value": 0,
+                    "target_defense_value": 400,
                     "current_defense_value": 0,
                     "turbo_max_acc_time": 0.500000,
                     "turbo_acc_bonus_over_time": 1.500000,
@@ -18664,8 +18664,8 @@
             ]
         },
         {
-            "name": "Cube",
-            "UUID": 2948919838,
+            "name": "EvilMask",
+            "UUID": 1048681903,
             "local_UUID": 0,
             "parent": 241079331,
             "active": true,
@@ -18677,21 +18677,21 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 1819027261,
+                    "UUID": 2810937333,
                     "active": true,
                     "matrix": [
-                        0.500000,
+                        -0.787955,
+                        -0.000000,
+                        0.000000,
+                        1.700000,
                         0,
+                        -0.001347,
+                        -0.878244,
+                        1.900000,
+                        0.000000,
+                        -0.787953,
+                        0.001501,
                         0,
-                        1.465897,
-                        0,
-                        0.499999,
-                        0.000855,
-                        2.582359,
-                        0,
-                        -0.000855,
-                        0.499999,
-                        -0.004413,
                         0,
                         0,
                         0,
@@ -18700,13 +18700,13 @@
                 },
                 {
                     "type": 1,
-                    "UUID": 2147000001,
+                    "UUID": 1196075198,
                     "active": true,
-                    "path": "Resources\/Primitives\/2147000001.msh"
+                    "path": "\/Library\/1404098253\/1742045485\/4016810545.msh"
                 },
                 {
                     "type": 2,
-                    "UUID": 3202907747,
+                    "UUID": 682176323,
                     "active": true,
                     "path": "",
                     "path_assets": "",
@@ -18724,7 +18724,7 @@
                     "id_to_render": 0,
                     "textures": [
                         {
-                            "path": "\/Library\/643644559\/3001038513\/\/547029348\/547029348.dds"
+                            "path": "\/Library\/1404098253\/\/1331932541\/1331932541.dds"
                         },
                         {
                             "path": ""
