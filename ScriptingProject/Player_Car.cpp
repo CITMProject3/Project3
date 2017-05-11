@@ -324,7 +324,7 @@ namespace Player_Car
 			{
 				current_item = FIRECRACKER;
 			}
-			else if (result <= 40)
+			else if (result <= 65)
 			{
 				current_item = MAKIBISHI;
 				item_size = 3;
@@ -338,7 +338,7 @@ namespace Player_Car
 		else if (car->place == 2)
 		{
 			//2nd
-			if (result <= 15)
+			if (result <= 25)
 			{
 				current_item = EVIL_SPIRIT;
 			}
@@ -347,7 +347,7 @@ namespace Player_Car
 				current_item = MAKIBISHI;
 				item_size = 3;
 			}
-			else if (result <= 65)
+			else if (result <= 55)
 			{
 				current_item = MAKIBISHI;
 				item_size = 1;
