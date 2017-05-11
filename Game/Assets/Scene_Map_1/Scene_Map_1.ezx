@@ -208,19 +208,28 @@
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 0
+                            "event_id": 1313592992,
+                            "event_name": "Play_RiKarts_main_theme",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
-                            "event_id": 0
+                            "event_id": 2175797879,
+                            "event_name": "Play_Countdown",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
-                            "event_id": 0
+                            "event_id": 2279634092,
+                            "event_name": "Play_Go",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
-                            "event_id": 0
-                        },
-                        {
-                            "event_id": 0
+                            "event_id": 3054248522,
+                            "event_name": "Stop_RiKarts_main_theme",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
                 }
@@ -312,14 +321,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1057
+                        1536,
+                        841
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        960,
+                        768,
                         0,
                         1,
                         0,
@@ -3808,8 +3817,9 @@
                     "maneuverability": 3,
                     "maxSteer": 110,
                     "drag": 0.500000,
-                    "push_force": 0.100000,
-                    "push_threshold": 0.500000,
+                    "push_incr": 1.100000,
+                    "max_push_force": 1,
+                    "push_threshold": 0.750000,
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
@@ -11960,8 +11970,9 @@
                     "maneuverability": 3,
                     "maxSteer": 110,
                     "drag": 0.500000,
-                    "push_force": 0.100000,
-                    "push_threshold": 0.500000,
+                    "push_incr": 1.100000,
+                    "max_push_force": 1,
+                    "push_threshold": 0.750000,
                     "recoveryTime": 2,
                     "WallsBounciness": 0.750000,
                     "maxSteerReduction": 0.500000,
@@ -20066,7 +20077,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -20155,7 +20166,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -20244,7 +20255,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.816462,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,
