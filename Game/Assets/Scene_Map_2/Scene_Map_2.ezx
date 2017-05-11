@@ -100,15 +100,15 @@
                         1,
                         0,
                         0,
-                        -401.792938,
+                        -181.995071,
                         0,
-                        0.999993,
+                        0.999979,
                         -0.001709,
-                        12.260136,
+                        9.905857,
                         0,
                         0.001709,
                         0.999999,
-                        14.927341,
+                        12.674677,
                         0,
                         0,
                         0,
@@ -153,6 +153,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": -1,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
@@ -160,6 +162,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -8957,7 +8963,7 @@
                         0.999363,
                         0.000001,
                         -0.035694,
-                        -393.500366,
+                        -189.978378,
                         -0.000001,
                         1,
                         0,
@@ -9010,6 +9016,8 @@
                     "script_num": 0,
                     "item_box_name": "item_box",
                     "current_item": -1,
+                    "car_id": 0,
+                    "item_size": 0,
                     "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 0,
                     "explosion_radius_firecracker": 0,
@@ -9017,6 +9025,10 @@
                     "evil_spirit_vel_reduction": 0,
                     "spirit_duration": 0,
                     "spirit_max_duration": 0,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -18014,7 +18026,7 @@
                         0,
                         0,
                         696.361755,
-                        0,
+                        283.703766,
                         0,
                         0,
                         0,
@@ -18361,18 +18373,18 @@
                     "UUID": 3895595017,
                     "active": true,
                     "matrix": [
-                        0.000463,
-                        0.000001,
-                        0.050004,
-                        -23.455208,
-                        -0.000001,
+                        0.050006,
+                        0,
+                        0,
+                        0,
+                        0,
                         0.050002,
-                        -0.000001,
-                        12.260146,
-                        -0.050004,
-                        -0.000001,
-                        0.000463,
-                        144.130524,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.050006,
+                        0,
                         0,
                         0,
                         0,
@@ -18423,15 +18435,15 @@
                         1,
                         0,
                         0,
+                        -0.016357,
                         0,
                         0,
+                        -0.999982,
+                        -0.000916,
                         0,
-                        -1,
+                        0.999987,
                         0,
-                        0,
-                        1,
-                        0,
-                        0,
+                        -0.243981,
                         0,
                         0,
                         0,
@@ -18478,7 +18490,7 @@
             "UUID": 1842911390,
             "local_UUID": 0,
             "parent": 977062925,
-            "active": false,
+            "active": true,
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
@@ -44370,14 +44382,14 @@
             "components": [
                 {
                     "position": [
-                        -58.413090,
-                        -6.145347,
-                        56.926167
+                        -67.065643,
+                        -8.238804,
+                        53.707134
                     ],
                     "rotation": [
-                        -11.456457,
-                        57.606583,
-                        4.920224
+                        -11.456460,
+                        57.606613,
+                        -10.750295
                     ]
                 }
             ],
@@ -54242,44 +54254,6 @@
             ]
         },
         {
-            "name": "Cameras",
-            "UUID": 2030306015,
-            "local_UUID": 2030306015,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2030306015,
-            "prefab_path": "\/Library\/4171985717\/\/709277553\/709277553.pfb",
-            "components": [
-                {
-                    "position": [
-                        0,
-                        0,
-                        0
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": [
-                {
-                    "uuid": 919851984,
-                    "local_uuid": 919851984
-                },
-                {
-                    "uuid": 3223094229,
-                    "local_uuid": 3223094229
-                },
-                {
-                    "uuid": 3338027922,
-                    "local_uuid": 3338027922
-                }
-            ]
-        },
-        {
             "name": "Hitodamas_Folder",
             "UUID": 2839658078,
             "local_UUID": 0,
@@ -60302,6 +60276,44 @@
                 }
             ],
             "children_uuids": []
+        },
+        {
+            "name": "Cameras",
+            "UUID": 2030306015,
+            "local_UUID": 2030306015,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2030306015,
+            "prefab_path": "\/Library\/4171985717\/\/709277553\/709277553.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": [
+                {
+                    "uuid": 919851984,
+                    "local_uuid": 919851984
+                },
+                {
+                    "uuid": 3223094229,
+                    "local_uuid": 3223094229
+                },
+                {
+                    "uuid": 3338027922,
+                    "local_uuid": 3338027922
+                }
+            ]
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",
