@@ -59,6 +59,8 @@ namespace Player_Car
 	float turbo_acc_bonus_over_time = 0.1f;
 	float turbo_speed_bonus = 0.5f;
 	float turbo_dec_time = 0.5f;
+	float turbo_lifetime = 5.0f;
+	float turbo_timer = 0.0f;
 
 	string item_box_name = "item_box";
 	GameObject* firecracker = nullptr;
@@ -147,7 +149,7 @@ namespace Player_Car
 		script->public_ints["car_id"] = car_id;
 		script->public_ints["item_size"] = item_size;
 
-
+		script->public_bools.at("using_firecracker") = using_firecracker;
 		script->public_floats.at("velocity_firecracker") = velocity_firecracker;
 		script->public_floats.at("explosion_radius_firecracker") = explosion_radius_firecracker;
 		script->public_floats.at("velocity_makibishi") = velocity_makibishi;
@@ -197,7 +199,7 @@ namespace Player_Car
 	void Player_Car_UseFirecracker(GameObject* game_object, ComponentCar* car);
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car);
 	void Player_Car_UpdateFirecrackerEffect(GameObject* game_object, ComponentCar* car);
-	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car);
+	//void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car);
 	void Player_Car_CallUpdateItems();
 	void Player_Car_TMP_Use_Makibishi(GameObject* game_object, ComponentCar* car);
 	void Player_Car_SpiritEffectDefense(GameObject* game_object, ComponentCar* car);
@@ -248,20 +250,7 @@ namespace Player_Car
 		}
 		if (launched_firecracker_lifetime != -1.0f)
 		{
-			Player_Car_UpdateLaunchedFirecracker(game_object, car);
-		}
-
-		//Turbo
-		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_REPEAT || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::RB) == KEY_REPEAT)
-		{
-			if (car->GetAppliedTurbo().IsActive() == false)
-			{
-				car->NewTurbo(Turbo(turbo_max_acc_time, 1000.0f, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
-			}
-		}
-		if (App->input->GetKey(SDL_SCANCODE_O) == KEY_UP || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::RB) == KEY_UP)
-		{
-			car->NewTurbo(Turbo(0, 0, turbo_dec_time, 0, 0, 0));
+			//Player_Car_UpdateLaunchedFirecracker(game_object, car);
 		}
 
 		//TMP Makibishi
@@ -396,9 +385,9 @@ namespace Player_Car
 				if (firecracker != nullptr)
 				{
 					firecracker->SetActive(true);
-					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+					//firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
 					float3 last_scale = firecracker->transform->GetScale();
-					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
+					//((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					firecracker->transform->Set(game_object->GetGlobalMatrix());
 					firecracker->transform->SetScale(last_scale);
 				}
@@ -509,8 +498,10 @@ namespace Player_Car
 
 	void Player_Car_UseFirecracker(GameObject* game_object, ComponentCar* car)
 	{
-		car->UseItem();
+		//car->UseItem();
 		using_firecracker = true;
+		current_item = -1;
+		car->NewTurbo(Turbo(turbo_max_acc_time, turbo_lifetime, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
 	}
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
@@ -561,64 +552,33 @@ namespace Player_Car
 
 	void Player_Car_UpdateFirecrackerEffect(GameObject* game_object, ComponentCar* car)
 	{
-		int tmp = 0;
-		//When the time gets out
-		if (/*TODO: check if turbo or firecracker is in use*/tmp)
-		{
-			if (car->GetAppliedTurbo().IsActive() == false)
-			{
-				if (other_car != nullptr)
-				{
-					if (firecracker && firecracker->transform->GetPosition().Distance(other_car->transform->GetPosition()) <= explosion_radius_firecracker)
-						((ComponentCar*)other_car->GetComponent(C_CAR))->OnGetHit();
-				}
-				current_item = -1;
-				Player_Car_CallUpdateItems();
-				if (firecracker)
-				{
-					firecracker->SetActive(false);
-					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-				}
-				car->OnGetHit();
-			}
-			else if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
-			{
-				using_firecracker = false;
-				current_item = -1;
-				Player_Car_CallUpdateItems();
-				if (firecracker != nullptr)
-				{
-					float3 new_pos = game_object->transform->GetPosition();
-					new_pos += car->kartZ * (car->collShape.size.z + 2);
-					((ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-					firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
-					launched_firecracker_lifetime = 10.0f - car->GetAppliedTurbo().TimePassed();
-				}
-			}
-		}
-	}
 
-	void Player_Car_UpdateLaunchedFirecracker(GameObject* game_object, ComponentCar* car)
-	{
-		if (firecracker != nullptr)
+		if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_UP || App->input->GetKey(SDL_SCANCODE_Q) == KEY_UP)
 		{
-			ComponentCollider* firecracker_col = (ComponentCollider*)firecracker->GetComponent(ComponentType::C_COLLIDER);
-			float3 new_pos = firecracker_col->body->GetPosition();
-			new_pos += firecracker_col->body->GetTransform().WorldZ().Normalized() * velocity_firecracker * time->DeltaTime();
-			firecracker_col->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-			launched_firecracker_lifetime -= time->DeltaTime();
-		
-			if (launched_firecracker_lifetime <= 0.0f)
-			{
+			car->NewTurbo(Turbo(0, 0, 0, 0, 0, 0));
+			turbo_timer = 0.0f;
+			using_firecracker = false;
+			if (firecracker)
 				firecracker->SetActive(false);
-				firecracker->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-				launched_firecracker_lifetime = -1.0f;
-			}
+			current_item = -1;
+			Player_Car_CallUpdateItems();
+			
 		}
 		else
 		{
-			launched_firecracker_lifetime = -1.0f;
-		}
+			turbo_timer += time->DeltaTime();
+			if (turbo_timer >= turbo_lifetime)
+			{
+				car->NewTurbo(Turbo(0, 0, 0, 0, 0, 0));
+				turbo_timer = 0.0f;
+				using_firecracker = false;
+				if(firecracker)
+					firecracker->SetActive(false);
+				current_item = -1;
+				Player_Car_CallUpdateItems();
+				
+			}
+		}		
 
 	}
 
