@@ -268,6 +268,25 @@ void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 	}
 }
 
+void ModuleRenderer3D::CleanCameras()
+{
+	ComponentCamera* editorCam = nullptr;
+	for (int n = 0; n < cameras.size(); n++)
+	{
+		if (cameras[n]->GetGameObject() == nullptr)
+		{
+			editorCam = cameras[n];
+		}
+	}
+
+	cameras.clear();
+
+	if (editorCam)
+	{
+		AddCamera(editorCam);
+	}
+}
+
 void ModuleRenderer3D::AddCamera(ComponentCamera* camera)
 {
 	if (camera != nullptr)

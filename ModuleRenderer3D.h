@@ -38,6 +38,7 @@ public:
 	const ComponentCamera* GetCamera() const;
 	void SetCamera(ComponentCamera* camera);
 	void AddCamera(ComponentCamera* camera);
+	void CleanCameras();
 
 	void AddToDraw(GameObject* obj);
 	void AddToDrawSprite(ComponentSprite* sprite);
