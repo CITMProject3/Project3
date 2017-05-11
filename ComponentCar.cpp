@@ -488,10 +488,14 @@ void ComponentCar::DriftManagement()
 		switch (lastFrame_drifting)
 		{
 		case drift_right_1:
+			NewTurbo(turboPicker.drift1);
+			break;
 		case drift_left_1:
 			NewTurbo(turboPicker.drift1);
 			break;
 		case drift_right_2:
+			NewTurbo(turboPicker.drift2);
+			break;
 		case drift_left_2:
 			NewTurbo(turboPicker.drift2);
 			break;
@@ -1057,7 +1061,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 	{
 		finished = true;
 		BlockInput(true);
-		lap = 3;
+		lap = 4;
 	}
 }
 //--------------------------------------

@@ -438,7 +438,7 @@ namespace Player_Car
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
-			float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			item_size--;
 			Player_Car_CallUpdateItems();
@@ -467,7 +467,7 @@ namespace Player_Car
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
 				float x_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
-				float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+				float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
 				new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 				Player_Car_CallUpdateItems();
@@ -626,8 +626,7 @@ namespace Player_Car
 					new_pos += car->kartY * (car->collShape.size.y + 2);
 					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-
-					float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+					float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
 					makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 				}
 				else
@@ -662,7 +661,7 @@ namespace Player_Car
 							x_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
 						else
 							x_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_X);
-						float3 new_vel = ((game_object->transform->GetForward().Normalized() * (velocity_makibishi / 2)) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+						float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
 						new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 						makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 					}

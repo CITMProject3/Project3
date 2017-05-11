@@ -499,6 +499,9 @@ namespace Scene_Manager
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
+					if (car_1->lap > 3)
+						car_1->finished = true;
+
 					if (car_1->finished == true)
 					{
 						if (team1_finished == false && timer_1_text != nullptr && timer_text != nullptr)
@@ -522,7 +525,15 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap1_text != nullptr)
 					{
-						string str = std::to_string(car_1->lap);
+						string str;
+						if (car_1->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_1->lap);
+						}
 						lap1_text->SetDisplayText(str);
 					}
 				}
@@ -563,8 +574,16 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap2_text != nullptr)
 					{
-						string str = std::to_string(car_2->lap);
-						lap2_text->SetDisplayText(str);
+						string str;
+						if (car_2->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_2->lap);
+						}
+						lap1_text->SetDisplayText(str);
 					}
 				}
 				//Update first//second position
