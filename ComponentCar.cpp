@@ -1061,7 +1061,7 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 	{
 		finished = true;
 		BlockInput(true);
-		lap = 3;
+		lap = 4;
 	}
 }
 //--------------------------------------

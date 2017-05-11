@@ -107,6 +107,10 @@ namespace Scene_Manager
 	int race_timer_number = 4;
 	bool race_finished = false;
 
+	// Disqualification
+	int goingToDisqualify = 0;
+	double second_position_timer = 0;
+
 	double finish_timer = 0;
 	bool finish_timer_on = false;
 	bool team1_finished = false;
@@ -247,6 +251,8 @@ namespace Scene_Manager
 
 		race_timer_number = 4;
 		finish_timer = 0;
+		second_position_timer = 0;
+		goingToDisqualify = 0;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
@@ -473,6 +479,11 @@ namespace Scene_Manager
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object)
 	{
+		if (goingToDisqualify != 0)
+		{
+			second_position_timer += time->DeltaTime();
+		}
+
 		if (finish_timer_on == true)
 		{
 			finish_timer += time->DeltaTime();
@@ -496,10 +507,25 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_1 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 1)
+				{
+					car_1->finished = true;
+				}
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
-					if (car_1->finished == true)
+					if (car_1->lap > 3)
+					{
+						car_1->finished = true;
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 2;
+						}
+					}
+
+					if (car_1->finished == true )
 					{
 						if (team1_finished == false && timer_1_text != nullptr && timer_text != nullptr)
 						{
@@ -522,7 +548,15 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap1_text != nullptr)
 					{
-						string str = std::to_string(car_1->lap);
+						string str;
+						if (car_1->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_1->lap);
+						}
 						lap1_text->SetDisplayText(str);
 					}
 				}
@@ -536,14 +570,28 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_2 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 2)
+				{
+					car_2->finished = true;
+				}
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
 				{
+					if (car_2->lap > 3)
+					{
+						car_2->finished = true;
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 1;
+						}
+					}
+
 					if (car_2->finished == true)
 					{
 						if (team2_finished == false && timer_2_text != nullptr && timer_text != nullptr)
 						{
-
 							team2_text = timer_text->GetText();
 							if (team1_finished == false && win1_button != nullptr)
 							{
@@ -563,7 +611,15 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap2_text != nullptr)
 					{
-						string str = std::to_string(car_2->lap);
+						string str;
+						if (car_2->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_2->lap);
+						}
 						lap2_text->SetDisplayText(str);
 					}
 				}
