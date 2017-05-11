@@ -17999,6 +17999,52 @@
             ]
         },
         {
+            "name": "KartPlace_controller",
+            "UUID": 452273026,
+            "local_UUID": 0,
+            "parent": 144932385,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1351557960,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 456721810,
+                    "active": true,
+                    "script_path": "CarPositionController",
+                    "script_num": 0,
+                    "car1": 3082689746,
+                    "car2": 3832415544
+                }
+            ]
+        },
+        {
             "name": "Water",
             "UUID": 668348311,
             "local_UUID": 0,

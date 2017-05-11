@@ -1343,6 +1343,7 @@ void ComponentCar::OnInspector(bool debug)
 		if (ImGui::TreeNode("Debug output"))
 		{
 			ImGui::Text(
+				"Place: %i\n"
 				"Speed: %f\n"
 				"Horizontal speed: %f\n"
 				"Vertical speed: %f\n"
@@ -1351,7 +1352,7 @@ void ComponentCar::OnInspector(bool debug)
 				"On The Ground: %s\n"
 				"DriftButtonMashing: %u\n"
 				"TestVar: %f"
-				, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
+				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
 
 
 			string currentDriftPhase;

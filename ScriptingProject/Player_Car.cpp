@@ -474,24 +474,16 @@ namespace Player_Car
 		if (car_id == 0)
 		{
 			if (makibishis_1.empty() == false)
-			{
 				makibishis_1.erase(makibishis_1.begin());
-			}
 			else
-			{
 				LOG("Tried to erase an empty list of makibishi1");
-			}
 		}
 		else
 		{
 			if (makibishis_2.empty() == false)
-			{
 				makibishis_2.erase(makibishis_2.begin());
-			}
 			else
-			{
 				LOG("Tried to erase an empty list of makibishi2");
-			}
 		}
 		if (item_size == 0)
 		{
@@ -697,7 +689,21 @@ namespace Player_Car
 						makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 					}
 				}
-				(car_id == 0 ? makibishis_1 : makibishis_2).erase((car_id == 0 ? makibishis_1 : makibishis_2).begin());
+				if (car_id == 0)
+				{
+					if (makibishis_1.empty() == false)
+						makibishis_1.erase(makibishis_1.begin());
+					else
+						LOG("Tried to erase an empty list of makibishi1");
+				}
+				else
+				{
+					if (makibishis_2.empty() == false)
+						makibishis_2.erase(makibishis_2.begin());
+					else
+						LOG("Tried to erase an empty list of makibishi2");
+				}
+
 				if ((car_id == 0 ? makibishis_1 : makibishis_2).size() == 0)
 				{
 					current_item = -1;

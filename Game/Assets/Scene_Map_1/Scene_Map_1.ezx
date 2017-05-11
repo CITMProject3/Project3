@@ -227,6 +227,52 @@
             ]
         },
         {
+            "name": "Kart_Position_Manager",
+            "UUID": 443083044,
+            "local_UUID": 0,
+            "parent": 144932385,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2326459530,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 592707625,
+                    "active": true,
+                    "script_path": "CarPositionController",
+                    "script_num": 0,
+                    "car1": 726386159,
+                    "car2": 2807956156
+                }
+            ]
+        },
+        {
             "name": "HUD_Canvas",
             "UUID": 3682601324,
             "local_UUID": 0,
@@ -21962,7 +22008,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -22051,7 +22097,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -22077,12 +22123,12 @@
                         0,
                         600,
                         0,
-                        -0.000000,
+                        0,
                         -0.999999,
                         -200,
                         0,
                         0.999999,
-                        -0.000000,
+                        0,
                         0,
                         0,
                         0,
