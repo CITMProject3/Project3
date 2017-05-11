@@ -164,10 +164,10 @@
                     "spirit_max_duration": 10,
                     "target_defense_value": 100,
                     "current_defense_value": 0,
-                    "turbo_max_acc_time": 0,
-                    "turbo_acc_bonus_over_time": 0,
-                    "turbo_speed_bonus": 0,
-                    "turbo_dec_time": 0,
+                    "turbo_max_acc_time": 0.500000,
+                    "turbo_acc_bonus_over_time": 1.500000,
+                    "turbo_speed_bonus": 1.800000,
+                    "turbo_dec_time": 1,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -9136,10 +9136,10 @@
                     "spirit_max_duration": 10,
                     "target_defense_value": 100,
                     "current_defense_value": 0,
-                    "turbo_max_acc_time": 0,
-                    "turbo_acc_bonus_over_time": 0,
-                    "turbo_speed_bonus": 0,
-                    "turbo_dec_time": 0,
+                    "turbo_max_acc_time": 0.500000,
+                    "turbo_acc_bonus_over_time": 1.500000,
+                    "turbo_speed_bonus": 1.800000,
+                    "turbo_dec_time": 1,
                     "using_firecracker": false,
                     "evil_spirit_effect": false,
                     "scene_manager": 144932385,
@@ -60578,6 +60578,181 @@
                     "local_uuid": 3338027922
                 }
             ]
+        },
+        {
+            "name": "Rock4",
+            "UUID": 2448798704,
+            "local_UUID": 421051983,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2448798704,
+            "prefab_path": "\/Library\/3645291025\/\/73404640\/73404640.pfb",
+            "components": [
+                {
+                    "position": [
+                        115.457413,
+                        12.096569,
+                        82.060379
+                    ],
+                    "rotation": [
+                        0,
+                        -72.049706,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock4",
+            "UUID": 2760612080,
+            "local_UUID": 421051983,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2760612080,
+            "prefab_path": "\/Library\/3645291025\/\/73404640\/73404640.pfb",
+            "components": [
+                {
+                    "position": [
+                        123.937851,
+                        10.395638,
+                        87.177216
+                    ],
+                    "rotation": [
+                        0,
+                        -41.065399,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock1",
+            "UUID": 4125191069,
+            "local_UUID": 3782274772,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4125191069,
+            "prefab_path": "\/Library\/3645291025\/\/3000312309\/3000312309.pfb",
+            "components": [
+                {
+                    "position": [
+                        124.557854,
+                        8.402339,
+                        83.929703
+                    ],
+                    "rotation": [
+                        -180,
+                        78.917694,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock1",
+            "UUID": 2118129574,
+            "local_UUID": 3782274772,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2118129574,
+            "prefab_path": "\/Library\/3645291025\/\/3000312309\/3000312309.pfb",
+            "components": [
+                {
+                    "position": [
+                        152.501862,
+                        10.171871,
+                        104.797073
+                    ],
+                    "rotation": [
+                        180,
+                        -86.685829,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock2",
+            "UUID": 1898699619,
+            "local_UUID": 3245120247,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1898699619,
+            "prefab_path": "\/Library\/3645291025\/\/4079237343\/4079237343.pfb",
+            "components": [
+                {
+                    "position": [
+                        134.770844,
+                        10.590463,
+                        97.884666
+                    ],
+                    "rotation": [
+                        -180,
+                        40.212852,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock2",
+            "UUID": 1729053968,
+            "local_UUID": 3245120247,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1729053968,
+            "prefab_path": "\/Library\/3645291025\/\/4079237343\/4079237343.pfb",
+            "components": [
+                {
+                    "position": [
+                        131.894806,
+                        9.128184,
+                        87.491234
+                    ],
+                    "rotation": [
+                        0,
+                        81.892105,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Rock2",
+            "UUID": 1966789476,
+            "local_UUID": 3245120247,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1966789476,
+            "prefab_path": "\/Library\/3645291025\/\/4079237343\/4079237343.pfb",
+            "components": [
+                {
+                    "position": [
+                        171.020279,
+                        13.058825,
+                        121.197708
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",
