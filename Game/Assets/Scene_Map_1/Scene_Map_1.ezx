@@ -312,14 +312,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1057
+                        1536,
+                        841
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        960,
+                        768,
                         0,
                         1,
                         0,
@@ -4177,17 +4177,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
+                    "current_item": 0,
+                    "car_id": 0,
+                    "item_size": 0,
+                    "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
+                    "evil_spirit_vel_reduction": 0.400000,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 10,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
                     "firecracker": 1230011776,
                     "scene_manager": 144932385
                 }
@@ -13044,17 +13049,22 @@
                     "script_path": "Player_Car",
                     "script_num": 0,
                     "item_box_name": "item_box",
-                    "makibishi_quantity": 0,
+                    "current_item": 0,
+                    "car_id": 1,
+                    "item_size": 0,
+                    "launched_firecracker_lifetime": 0,
                     "velocity_firecracker": 120,
-                    "time_trowing_firecracker": 0,
                     "explosion_radius_firecracker": 5,
                     "velocity_makibishi": 25,
-                    "have_item": false,
-                    "have_makibishi": false,
-                    "have_triple_makibishi": false,
-                    "have_firecracker": false,
-                    "using_item": false,
-                    "throwing_firecracker": false,
+                    "evil_spirit_vel_reduction": 0.400000,
+                    "spirit_duration": 0,
+                    "spirit_max_duration": 10,
+                    "turbo_max_acc_time": 0,
+                    "turbo_acc_bonus_over_time": 0,
+                    "turbo_speed_bonus": 0,
+                    "turbo_dec_time": 0,
+                    "using_firecracker": false,
+                    "evil_spirit_effect": false,
                     "firecracker": 717367660,
                     "scene_manager": 144932385
                 }
@@ -21955,7 +21965,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -21998,7 +22008,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -22044,7 +22054,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -22087,7 +22097,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -22133,7 +22143,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.816462,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,
@@ -30683,6 +30693,31 @@
                         -33.665863,
                         31.677433,
                         44.699249
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WoodFence",
+            "UUID": 3697902488,
+            "local_UUID": 3768363546,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3697902488,
+            "prefab_path": "\/Library\/1441726200\/\/702703197\/702703197.pfb",
+            "components": [
+                {
+                    "position": [
+                        -33.787769,
+                        31.672356,
+                        51.454857
                     ],
                     "rotation": [
                         0,
@@ -46185,7 +46220,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46286,7 +46321,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46387,7 +46422,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46488,7 +46523,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46589,7 +46624,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46690,7 +46725,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46791,7 +46826,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46892,7 +46927,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -46993,7 +47028,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47094,7 +47129,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47195,7 +47230,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47296,7 +47331,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47397,7 +47432,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47498,7 +47533,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -47599,7 +47634,7 @@
                     "script_path": "Makibishi",
                     "script_num": 0,
                     "time_trowing_makibishi": 90,
-                    "current_time_trowing_makibishi": 0
+                    "current_time_throwing_makibishi": 0
                 },
                 {
                     "type": 8,
@@ -52057,81 +52092,6 @@
                     ]
                 }
             ]
-        },
-        {
-            "name": "FinishLine_Post",
-            "UUID": 3965045356,
-            "local_UUID": 188763947,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3965045356,
-            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
-            "components": [
-                {
-                    "position": [
-                        -34.802860,
-                        39.326752,
-                        51.876842
-                    ],
-                    "rotation": [
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FinishLine_Post",
-            "UUID": 3285241049,
-            "local_UUID": 188763947,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3285241049,
-            "prefab_path": "\/Library\/643644559\/2763406764\/\/2067338234\/2067338234.pfb",
-            "components": [
-                {
-                    "position": [
-                        -60.185280,
-                        39.221096,
-                        52.282120
-                    ],
-                    "rotation": [
-                        -180,
-                        -0.000005,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "FinishLineFlag",
-            "UUID": 3640238917,
-            "local_UUID": 3029197853,
-            "parent": 965909917,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3640238917,
-            "prefab_path": "\/Library\/643644559\/3225563299\/\/3412732374\/3412732374.pfb",
-            "components": [
-                {
-                    "position": [
-                        -47.468147,
-                        41.140091,
-                        52.125252
-                    ],
-                    "rotation": [
-                        -179.999390,
-                        89.097992,
-                        179.999390
-                    ]
-                }
-            ],
-            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",
