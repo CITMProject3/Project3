@@ -38,7 +38,7 @@
             ]
         },
         {
-            "name": "Main_menu_canvas",
+            "name": "UI_Main_menu_canvas",
             "UUID": 732933904,
             "local_UUID": 0,
             "parent": 2545105342,
@@ -77,14 +77,14 @@
                     "UUID": 2471300271,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1536,
+                        841
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        768,
                         0,
                         1,
                         0,
@@ -130,13 +130,13 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,
                         0
                     ],
-                    "layer_mask": -1,
+                    "layer_mask": -2,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
                     "viewport_rel_pos_x": -431602080,
@@ -146,7 +146,8 @@
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": false
+                    "render_terrain": false,
+                    "render_skybox": false
                 },
                 {
                     "type": 17,
