@@ -112,6 +112,7 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 			}
 			else
 			{
+				taken = true;
 				//Pep do your magic
 				if (taken)
 				{
