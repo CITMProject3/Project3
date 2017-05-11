@@ -265,7 +265,7 @@ private:
 	void SetP2AnimationState(Player2_State state, float blend_ratio = 0.0f);
 	void UpdateP2Animation();
 public:
-	void OnGetHit();
+	void OnGetHit(float velocity_reduction);
 	//----------------------------------------------------------------------------------------------------------------------------------------
 	//
 	//ATTRIBUTES----------------------------------------------------------------------------------------------------------------------------
