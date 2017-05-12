@@ -1168,14 +1168,17 @@ void ModuleRenderer3D::RemoveTextureBuffer(unsigned int id)
 
 void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
 {
-	glDisable(GL_LIGHTING);
+	if (App->StartInGame() == false)
+	{
+		glDisable(GL_LIGHTING);
 
-	glColor4f(color.x, color.y, color.z, color.w);
-	glBegin(GL_LINES);
-	glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
-	glEnd();
+		glColor4f(color.x, color.y, color.z, color.w);
+		glBegin(GL_LINES);
+		glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
+		glEnd();
 
-	glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHTING);
+	}
 }
 
 void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
