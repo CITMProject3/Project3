@@ -330,7 +330,7 @@ update_status ModulePhysics3D::Update()
 								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
 							}
 							trs->SetPosition(hit.point);
-							trs->SetRotation(last_placed_rot * rot);
+							trs->SetRotation(Quat::RotateAxisAngle(rot.WorldY(), last_placed_rot) * rot);
 						}
 					}
 					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
@@ -1550,9 +1550,8 @@ void ModulePhysics3D::PlaceGO(float3 pos, Quat rot)
 	last_placed_go = go;
 	trs->SetPosition(pos);
 
-	float randomRot = App->rnd->RandomFloat(0.0f, 360.0f) * DEGTORAD;
-	last_placed_rot = Quat::RotateAxisAngle(rot.WorldY(), randomRot);
-	rot = last_placed_rot * rot;
+	last_placed_rot = App->rnd->RandomFloat(0.0f, 360.0f) * DEGTORAD;
+	rot = Quat::RotateAxisAngle(rot.WorldY(), last_placed_rot) * rot;
 
 	trs->SetRotation(rot);
 }

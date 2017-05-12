@@ -313,6 +313,7 @@ public:
 
 	std::string GO_toPaint_libPath;
 	GameObject* last_placed_go = nullptr;
+	float last_placed_rot;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;
