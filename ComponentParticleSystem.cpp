@@ -32,7 +32,8 @@
 #include <algorithm>
 using namespace std;
 
-ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1)
+ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), 
+color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f)
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
@@ -129,6 +130,8 @@ void ComponentParticleSystem::OnInspector(bool debug)
 			}
 		}
 
+		InspectorBoundingBox();
+
 		InspectorSimulation();
 	}
 }
@@ -186,6 +189,9 @@ void ComponentParticleSystem::Save(Data & file) const
 	else
 		data.AppendString("texture", "");
 
+	//Bounding box
+	data.AppendFloat3("bb_pos_offset", bb_pos_offset.ptr());
+
 	file.AppendArrayValue(data);
 }
 
@@ -232,6 +238,9 @@ void ComponentParticleSystem::Load(Data & conf)
 		sphere_emit_from_shell = conf.GetBool("sphere_emit_from_shell");
 		break;
 	}
+
+	bb_pos_offset = conf.GetFloat3("bb_pos_offset");
+	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
 	
 
 	texture_anim = conf.GetBool("texture_anim");
@@ -339,8 +348,6 @@ void ComponentParticleSystem::PostUpdate()
 
 			}
 
-			
-
 			if (editor_state == PS_PLAYING)
 				simulation_time += dt;
 		}	
@@ -351,6 +358,7 @@ void ComponentParticleSystem::PostUpdate()
 
 void ComponentParticleSystem::OnTransformModified()
 {
+	//TODO:Optimize this only for the current shape
 	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
 	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 	box_shape_obb.axis[0] = rotation * float3::unitX;
@@ -358,6 +366,9 @@ void ComponentParticleSystem::OnTransformModified()
 	box_shape_obb.axis[2] = rotation * float3::unitZ;
 
 	sphere_shape.pos = game_object->GetGlobalMatrix().TranslatePart();
+
+
+	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
 }
 
 void ComponentParticleSystem::OnPlay()
@@ -633,6 +644,23 @@ void ComponentParticleSystem::InspectorShape()
 			break;
 		}
 		
+	}
+}
+
+void ComponentParticleSystem::InspectorBoundingBox()
+{
+	if (ImGui::CollapsingHeader("Bounding Box ###ps_bounding_box"))
+	{
+		if (ImGui::DragFloat3("Size ##ps_size_bb", bb_size.ptr(), 0.01f))
+		{
+			
+		}
+
+		if (ImGui::DragFloat3("Offset ##ps_pos_offset_bb", bb_pos_offset.ptr(), 0.01f))
+		{
+			bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+		}
+		g_Debug->AddAABB(bounding_box, g_Debug->red, 2.0f);		
 	}
 }
 

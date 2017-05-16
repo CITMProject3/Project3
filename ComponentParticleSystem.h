@@ -76,6 +76,7 @@ private:
 	void InspectorColorOverTime();
 	void InspectorTextureAnimation();
 	void InspectorShape();
+	void InspectorBoundingBox();
 
 	void SpawnParticle(int delay);
 	int FindUnusedParticle();
@@ -124,6 +125,11 @@ private:
 	bool is_playing = false;
 
 	math::LCG rnd;
+
+	//Bounding box
+	math::AABB bounding_box;
+	math::float3 bb_size;
+	math::float3 bb_pos_offset;
 
 public:
 	std::vector<math::float3> alive_particles_position;
