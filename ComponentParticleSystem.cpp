@@ -191,6 +191,7 @@ void ComponentParticleSystem::Save(Data & file) const
 
 	//Bounding box
 	data.AppendFloat3("bb_pos_offset", bb_pos_offset.ptr());
+	data.AppendFloat3("bb_size", bb_size.ptr());
 
 	file.AppendArrayValue(data);
 }
@@ -241,6 +242,11 @@ void ComponentParticleSystem::Load(Data & conf)
 
 	bb_pos_offset = conf.GetFloat3("bb_pos_offset");
 	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+	bb_size = conf.GetFloat3("bb_size");
+	float3 center = bounding_box.CenterPoint();
+	float3 half = bb_size * 0.5f;
+	bounding_box.minPoint = center - half;
+	bounding_box.maxPoint = center + half;
 	
 
 	texture_anim = conf.GetBool("texture_anim");
@@ -653,7 +659,10 @@ void ComponentParticleSystem::InspectorBoundingBox()
 	{
 		if (ImGui::DragFloat3("Size ##ps_size_bb", bb_size.ptr(), 0.01f))
 		{
-			
+			float3 center = bounding_box.CenterPoint();
+			float3 half = bb_size * 0.5f;
+			bounding_box.minPoint = center - half;
+			bounding_box.maxPoint = center + half;
 		}
 
 		if (ImGui::DragFloat3("Offset ##ps_pos_offset_bb", bb_pos_offset.ptr(), 0.01f))
