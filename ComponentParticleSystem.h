@@ -127,7 +127,9 @@ private:
 	math::LCG rnd;
 
 	//Bounding box
+public:
 	math::AABB bounding_box;
+private:
 	math::float3 bb_size;
 	math::float3 bb_pos_offset;
 

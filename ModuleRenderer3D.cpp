@@ -658,6 +658,9 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	
 	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
+		if (cam->Intersects((*particle)->bounding_box) == false)
+			continue;
+
 		(*particle)->SortParticles(cam);
 
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
