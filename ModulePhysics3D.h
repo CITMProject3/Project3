@@ -191,7 +191,9 @@ private:
 
 	void GenerateVertices();
 	void DeleteVertices();
+public:
 	void GenerateNormals();
+private:
 	void DeleteNormals();
 	void GenerateUVs();
 	void DeleteUVs();

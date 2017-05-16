@@ -694,6 +694,11 @@ void ModuleEditor::PhysicsMenu()
 		}
 		if (tex != 0)
 		{
+			if (ImGui::Button("Regenerate Normals"))
+			{
+				App->physics->GenerateNormals();
+			}
+			ImGui::NewLine();
 			if (ImGui::Button("Delete heightmap"))
 			{
 				App->physics->DeleteHeightmap();

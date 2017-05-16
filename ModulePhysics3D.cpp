@@ -2458,7 +2458,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z - 1)* w + x];
 				t.c = vertices[(z)* w + x - 1];
-				norm += t.NormalCCW();
+				norm += t.NormalCW();
 			}
 			//Top right
 			if (x + 1 < terrainW && z - 1 > 0)
@@ -2466,7 +2466,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x + 1];
 				t.c = vertices[(z - 1)* w + x];
-				norm += t.NormalCCW();
+				norm += t.NormalCW();
 			}
 			//Bottom left
 			if (x - 1 > 0 && z + 1 < terrainH)
@@ -2474,7 +2474,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z)* w + x - 1];
 				t.c = vertices[(z + 1)* w + x];
-				norm += t.NormalCCW();
+				norm += t.NormalCW();
 			}
 			//Bottom right
 			if (x + 1 < terrainW && z + 1 < terrainH)
@@ -2482,7 +2482,7 @@ void ModulePhysics3D::RegenerateNormals(int x0, int y0, int x1, int y1)
 				t.a = vertices[(z)* w + x];
 				t.b = vertices[(z + 1)* w + x];
 				t.c = vertices[(z)* w + x + 1];
-				norm += t.NormalCCW();
+				norm += t.NormalCW();
 			}
 			norm.Normalize();
 			normals[z * w + x] = norm;
