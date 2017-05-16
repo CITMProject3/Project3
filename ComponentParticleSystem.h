@@ -45,6 +45,14 @@ enum PSEditorState
 	PS_STOP
 };
 
+struct Burst
+{
+	float time = 0.0f;
+	int min_particles = 10;
+	int max_particles = 10;
+	bool completed = false;
+};
+
 class ComponentParticleSystem : public Component
 {
 public:
@@ -77,15 +85,16 @@ private:
 	void InspectorTextureAnimation();
 	void InspectorShape();
 	void InspectorBoundingBox();
+	void InspectorEmission();
 
 	void SpawnParticle(int delay);
 	int FindUnusedParticle();
 
 private:
+	int cycles = 0; //Life cycles of the system
 
 	//Properties
 	int max_particles = 1000;
-	float emission_rate = 10.0f;
 	float speed = 1.0f;
 	bool play_on_awake = true;
 	float duration = 5.0f;
@@ -113,8 +122,11 @@ public:
 private:
 	ResourceFileTexture* texture = nullptr;
 
+	//Emission
+	float emission_rate = 10.0f;
 	float spawn_time = 0.1f; // 1 / emission rate
 	float spawn_timer = 0.0;
+	std::vector<Burst> bursts;
 	
 	const int top_max_particles = 1000; //Maximum number of particles (not editable for the user)
 	std::vector<Particle> particles_container;

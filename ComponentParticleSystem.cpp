@@ -108,13 +108,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 		ImGui::Text("Play On Awake: "); ImGui::SameLine(); ImGui::Checkbox("###ps_play_awake", &play_on_awake);
 
-		ImGui::Text("Emission rate: "); ImGui::SameLine(); 
-		if (ImGui::DragFloat("###ps_emission", &emission_rate, 1.0f, 0.0f, 500.0f))
-		{
-			spawn_time = 1.0f / emission_rate;
-			spawn_timer = 0.0f;
-		}
-
+		InspectorEmission();
 		InspectorShape();
 		InspectorColorOverTime();
 		InspectorTextureAnimation();
@@ -198,6 +192,20 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat3("bb_pos_offset", bb_pos_offset.ptr());
 	data.AppendFloat3("bb_size", bb_size.ptr());
 
+	//Bursts
+	data.AppendArray("bursts");
+	if (bursts.size() > 0)
+	{
+		for (int i = 0; i < bursts.size(); ++i)
+		{
+			Data burst;
+			burst.AppendFloat("time", bursts[i].time);
+			burst.AppendInt("min_particles", bursts[i].min_particles);
+			burst.AppendInt("max_particles", bursts[i].max_particles);
+			data.AppendArrayValue(burst);
+		}
+	}
+
 	file.AppendArrayValue(data);
 }
 
@@ -255,6 +263,21 @@ void ComponentParticleSystem::Load(Data & conf)
 	float3 half = bb_size * 0.5f;
 	bounding_box.minPoint = center - half;
 	bounding_box.maxPoint = center + half;
+
+	if (conf.GetArraySize("bursts") > 0)
+	{
+		Data burst;
+		for (int i = 0; i < conf.GetArraySize("bursts"); ++i)
+		{
+			burst = conf.GetArray("bursts", i);
+			Burst b;
+			b.time = burst.GetFloat("time");
+			b.min_particles = burst.GetInt("min_particles");
+			b.max_particles = burst.GetInt("max_particles");
+
+			bursts.push_back(b);
+		}
+	}
 	
 
 	texture_anim = conf.GetBool("texture_anim");
@@ -283,10 +306,25 @@ void ComponentParticleSystem::Update()
 
 	if (editor_state == PS_PLAYING || is_playing)
 	{
-		if (!looping && system_life >= duration)
-			return;
+		float dt = time->RealDeltaTime();
+		system_life += dt;
 
-		spawn_timer += time->RealDeltaTime();
+		if (system_life >= duration)
+		{
+			if (!looping)
+				return;
+			else
+			{
+				if (duration * cycles < system_life)
+				{
+					++cycles;
+					for (int b = 0; b < bursts.size(); ++b)
+						bursts[b].completed = false;
+				}
+			}
+		}
+
+		spawn_timer += dt;
 
 		if (spawn_timer >= spawn_time)
 		{
@@ -298,6 +336,16 @@ void ComponentParticleSystem::Update()
 			spawn_timer -= spawn_time * num_particles_to_spawn;
 		}
 
+		for (int b = 0; b < bursts.size(); ++b)
+		{
+			if (!bursts[b].completed &&  bursts[b].time < system_life - duration * cycles)
+			{
+				bursts[b].completed = true;
+				int spawn_rate_rnd = App->rnd->RandomInt(bursts[b].min_particles, bursts[b].max_particles);
+				for (int p = 0; p < spawn_rate_rnd; ++p)
+					SpawnParticle(0);
+			}
+		}
 	}
 
 }
@@ -365,7 +413,6 @@ void ComponentParticleSystem::PostUpdate()
 
 			}
 			
-			system_life += dt;
 		}	
 		App->renderer3D->AddToDrawParticle(this);
 	}
@@ -478,6 +525,7 @@ void ComponentParticleSystem::StopAll()
 		particles_container[i].life = -1.0f;
 
 	num_alive_particles = 0;
+	cycles = 0;
 }
 
 void ComponentParticleSystem::InspectorDelete()
@@ -681,6 +729,49 @@ void ComponentParticleSystem::InspectorBoundingBox()
 		}
 		g_Debug->AddAABB(bounding_box, g_Debug->red, 2.0f);		
 	}
+}
+
+void ComponentParticleSystem::InspectorEmission()
+{
+	if (ImGui::CollapsingHeader("Emission ###ps_emission"))
+	{
+		ImGui::Text("Emission rate: "); ImGui::SameLine();
+		if (ImGui::DragFloat("###ps_emission", &emission_rate, 1.0f, 0.0f, 500.0f))
+		{
+			spawn_time = 1.0f / emission_rate;
+			spawn_timer = 0.0f;
+		}
+
+		ImGui::Text("Burst");
+		ImGui::Separator();
+
+		vector<int> bursts_to_remove;
+
+		for (int i = 0; i < bursts.size(); ++i)
+		{
+			ImGui::PushID(i*4);
+			ImGui::DragFloat("Time: ###ps_burst_time", &bursts[i].time);
+			ImGui::PopID(); ImGui::PushID(i * 4 + 1);
+			ImGui::DragInt("Min particles: ###ps_burst_min_p", &bursts[i].min_particles);
+			ImGui::PopID(); ImGui::PushID(i*4 + 2);
+			ImGui::DragInt("Max particles: ###ps_burst_min_p", &bursts[i].max_particles);
+			ImGui::PopID();
+			ImGui::PushID(i * 4 + 3);
+			if (ImGui::Button("Remove ##ps_remove_burst"))
+				bursts_to_remove.push_back(i);
+			ImGui::PopID();
+			ImGui::Separator();
+		}
+
+		if (ImGui::Button("Add burst"))
+		{
+			bursts.push_back(Burst());
+		}
+
+		for (int i = 0; i < bursts_to_remove.size(); ++i)
+			bursts.erase(bursts.begin() + bursts_to_remove[i]);
+		
+	}	
 }
 
 void ComponentParticleSystem::SpawnParticle(int delay)
