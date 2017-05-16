@@ -78,6 +78,7 @@ ComponentParticleSystem::~ComponentParticleSystem()
 {
 	glDeleteBuffers(1, &position_buffer);
 	glDeleteBuffers(1, &color_buffer);
+	glDeleteBuffers(1, &life_buffer);
 
 	for (vector<ColorTimeItem*>::iterator it = color_time.begin(); it != color_time.end(); ++it)
 		delete *it;
@@ -98,6 +99,8 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		}
 
 		//Main Options
+		ImGui::Text("Duration: "); ImGui::SameLine(); ImGui::DragFloat("###ps_duration", &duration, 0.1f);
+		ImGui::Text("Looping: "); ImGui::SameLine(); ImGui::Checkbox("###ps_looping", &looping);
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
@@ -150,6 +153,8 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat("size", size);
 	data.AppendBool("play_on_awake", play_on_awake);
 	data.AppendFloat3("color", color.ptr());
+	data.AppendFloat("duration", duration);
+	data.AppendBool("looping", looping);
 
 	data.AppendBool("color_over_time", color_over_time_active);
 	if (color_over_time_active)
@@ -209,6 +214,9 @@ void ComponentParticleSystem::Load(Data & conf)
 	size = conf.GetFloat("size");
 	play_on_awake = conf.GetBool("play_on_awake");
 	color = conf.GetFloat3("color");
+	duration = conf.GetFloat("duration");
+	looping = conf.GetBool("looping");
+
 	color_over_time_active = conf.GetBool("color_over_time");
 	if (color_over_time_active)
 	{
@@ -275,6 +283,9 @@ void ComponentParticleSystem::Update()
 
 	if (editor_state == PS_PLAYING || is_playing)
 	{
+		if (!looping && system_life >= duration)
+			return;
+
 		spawn_timer += time->RealDeltaTime();
 
 		if (spawn_timer >= spawn_time)
@@ -353,9 +364,8 @@ void ComponentParticleSystem::PostUpdate()
 				}
 
 			}
-
-			if (editor_state == PS_PLAYING)
-				simulation_time += dt;
+			
+			system_life += dt;
 		}	
 		App->renderer3D->AddToDrawParticle(this);
 	}
@@ -527,10 +537,10 @@ void ComponentParticleSystem::InspectorSimulation()
 	if (ImGui::Button("Stop##ps_stop"))
 	{
 		editor_state = PS_STOP;
-		simulation_time = 0.0f;
+		system_life = 0.0f;
 		StopAll();
 	}
-	ImGui::Text("Playback Time: %.2f", simulation_time);
+	ImGui::Text("Playback Time: %.2f", system_life);
 	ImGui::End();
 }
 

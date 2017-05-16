@@ -88,6 +88,8 @@ private:
 	float emission_rate = 10.0f;
 	float speed = 1.0f;
 	bool play_on_awake = true;
+	float duration = 5.0f;
+	bool looping = true;
 
 	//Color over time
 public:
@@ -119,7 +121,7 @@ private:
 	
 
 	//Simulation in editor
-	float simulation_time = 0.0f;
+	float system_life = 0.0f;
 	PSEditorState editor_state;
 
 	bool is_playing = false;
