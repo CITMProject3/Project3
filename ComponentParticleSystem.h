@@ -38,6 +38,13 @@ enum ParticleShapeType
 	SHAPE_SPHERE
 };
 
+enum PSEditorState
+{
+	PS_PLAYING,
+	PS_PAUSE,
+	PS_STOP
+};
+
 class ComponentParticleSystem : public Component
 {
 public:
@@ -112,7 +119,7 @@ private:
 
 	//Simulation in editor
 	float simulation_time = 0.0f;
-	bool playing_editor = false; 
+	PSEditorState editor_state;
 
 	bool is_playing = false;
 

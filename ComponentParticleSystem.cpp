@@ -258,7 +258,7 @@ void ComponentParticleSystem::Update()
 	if (active == false)
 		return;
 
-	if (playing_editor || is_playing)
+	if (editor_state == PS_PLAYING || is_playing)
 	{
 		spawn_timer += time->RealDeltaTime();
 
@@ -280,67 +280,71 @@ void ComponentParticleSystem::PostUpdate()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::PostUpdate", Profiler::Color::Navy);
 
-	if (playing_editor || is_playing)
+	if (is_playing || editor_state == PS_PLAYING || editor_state == PS_PAUSE)
 	{
 		float dt = time->RealDeltaTime();
 
-		num_alive_particles = 0;
-
-		Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
-
-		float item_life;
-		float item_life_pc;
-		float c_pc;
-		ColorTimeItem* previous = nullptr;
-		ColorTimeItem* next = nullptr;
-		//Update positions & color
-		for (int i = 0; i < top_max_particles; ++i)
+		if (is_playing || editor_state == PS_PLAYING)
 		{
-			Particle& p = particles_container[i];
+			num_alive_particles = 0;
 
-			if (p.life > 0.0f)
+			Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+
+			float item_life;
+			float item_life_pc;
+			float c_pc;
+			ColorTimeItem* previous = nullptr;
+			ColorTimeItem* next = nullptr;
+			//Update positions & color
+			for (int i = 0; i < top_max_particles; ++i)
 			{
-				p.life -= dt;
+				Particle& p = particles_container[i];
 
 				if (p.life > 0.0f)
 				{
-					item_life = life_time - p.life;
-					p.position = p.origin + (rotation * p.speed) * item_life;
+					p.life -= dt;
 
-					item_life_pc = (item_life / life_time) * 100.0;
+					if (p.life > 0.0f)
+					{
+						item_life = life_time - p.life;
+						p.position = p.origin + (rotation * p.speed) * item_life;
 
-					if (color_time[p.next_c_id]->position <= item_life_pc)
-						p.next_c_id++;
+						item_life_pc = (item_life / life_time) * 100.0;
 
-					previous = color_time[p.next_c_id - 1];
-					next = color_time[p.next_c_id];
-			
-					c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
-					p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
-					p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
-					p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
-					p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+						if (color_time[p.next_c_id]->position <= item_life_pc)
+							p.next_c_id++;
 
-					++num_alive_particles;
+						previous = color_time[p.next_c_id - 1];
+						next = color_time[p.next_c_id];
+
+						c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
+						p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
+						p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
+						p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
+						p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+
+						++num_alive_particles;
+					}
+					else
+					{
+						p.cam_distance = -1.0f;
+						p.life = -1.0f;
+					}
 				}
 				else
 				{
 					p.cam_distance = -1.0f;
 					p.life = -1.0f;
 				}
-			}
-			else
-			{
-				p.cam_distance = -1.0f;
-				p.life = -1.0f;
+
 			}
 
-		}
+			
 
+			if (editor_state == PS_PLAYING)
+				simulation_time += dt;
+		}	
 		App->renderer3D->AddToDrawParticle(this);
-
-		if(playing_editor)
-			simulation_time += dt;
 	}
 	
 }
@@ -495,12 +499,17 @@ void ComponentParticleSystem::InspectorSimulation()
 	ImGui::Begin("##ps_simulation", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
 	if (ImGui::Button("Play##ps_stop"))
 	{
-		playing_editor = true;
+		editor_state = PS_PLAYING;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Pause##ps_pause"))
+	{
+		editor_state = PS_PAUSE;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Stop##ps_stop"))
 	{
-		playing_editor = false;
+		editor_state = PS_STOP;
 		simulation_time = 0.0f;
 		StopAll();
 	}
