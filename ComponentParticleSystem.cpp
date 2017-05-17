@@ -734,7 +734,7 @@ void ComponentParticleSystem::InspectorEmission()
 	if (ImGui::CollapsingHeader("Emission ###ps_emission"))
 	{
 		ImGui::Text("Emission rate: "); ImGui::SameLine();
-		if (ImGui::DragFloat("###ps_emission", &emission_rate, 1.0f, 0.0f, 500.0f))
+		if (ImGui::DragFloat("###ps_emission_drag", &emission_rate, 1.0f, 0.0f, 500.0f))
 		{
 			spawn_time = 1.0f / emission_rate;
 			spawn_timer = 0.0f;
