@@ -397,6 +397,9 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
+	if (cam->render_skybox)
+		App->editor->skybox.Render(cam);
+
 	std::multimap<float, GameObject*>::reverse_iterator it = alpha_objects.rbegin();
 	for (; it != alpha_objects.rend(); it++)
 	{
@@ -409,8 +412,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 	DrawParticles(cam);
 
-	if(cam->render_skybox)
-		App->editor->skybox.Render(cam);
+	
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
