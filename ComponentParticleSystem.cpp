@@ -309,18 +309,15 @@ void ComponentParticleSystem::Update()
 		float dt = time->RealDeltaTime();
 		system_life += dt;
 
-		if (system_life >= duration)
+		if (!looping && system_life >= duration)
+			return;
+		else
 		{
-			if (!looping)
-				return;
-			else
+			if (duration * cycles < system_life)
 			{
-				if (duration * cycles < system_life)
-				{
-					++cycles;
-					for (int b = 0; b < bursts.size(); ++b)
-						bursts[b].completed = false;
-				}
+				++cycles;
+				for (int b = 0; b < bursts.size(); ++b)
+					bursts[b].completed = false;
 			}
 		}
 
@@ -338,7 +335,7 @@ void ComponentParticleSystem::Update()
 
 		for (int b = 0; b < bursts.size(); ++b)
 		{
-			if (!bursts[b].completed &&  bursts[b].time < system_life - duration * cycles)
+			if (!bursts[b].completed && system_life >= duration * (cycles -1) + bursts[b].time)
 			{
 				bursts[b].completed = true;
 				int spawn_rate_rnd = App->rnd->RandomInt(bursts[b].min_particles, bursts[b].max_particles);
@@ -589,6 +586,7 @@ void ComponentParticleSystem::InspectorSimulation()
 		StopAll();
 	}
 	ImGui::Text("Playback Time: %.2f", system_life);
+	ImGui::Text("Cycles: %i", cycles);
 	ImGui::End();
 }
 
