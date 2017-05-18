@@ -38,7 +38,7 @@ enum ParticleShapeType
 	SHAPE_SPHERE
 };
 
-enum PSEditorState
+enum PSState
 {
 	PS_PLAYING,
 	PS_PAUSE,
@@ -75,6 +75,8 @@ public:
 	void SortParticles(ComponentCamera* cam);
 
 	void StopAll(); //Stops the particle system and removes the alive particles
+	void Play();
+	void Pause();
 
 private:
 
@@ -134,9 +136,7 @@ private:
 
 	//Simulation in editor
 	float system_life = 0.0f;
-	PSEditorState editor_state;
-
-	bool is_playing = false;
+	PSState state;
 
 	math::LCG rnd;
 

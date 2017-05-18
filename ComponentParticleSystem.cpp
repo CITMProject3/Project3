@@ -33,7 +33,7 @@
 using namespace std;
 
 ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), 
-color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f)
+color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f), state(PSState::PS_STOP)
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
@@ -278,7 +278,6 @@ void ComponentParticleSystem::Load(Data & conf)
 			bursts.push_back(b);
 		}
 	}
-	
 
 	texture_anim = conf.GetBool("texture_anim");
 	if (texture_anim)
@@ -304,7 +303,7 @@ void ComponentParticleSystem::Update()
 	if (active == false)
 		return;
 
-	if (editor_state == PS_PLAYING || is_playing)
+	if (state == PS_PLAYING)
 	{
 		float dt = time->RealDeltaTime();
 		system_life += dt;
@@ -351,11 +350,11 @@ void ComponentParticleSystem::PostUpdate()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::PostUpdate", Profiler::Color::Navy);
 
-	if (is_playing || editor_state == PS_PLAYING || editor_state == PS_PAUSE)
+	if (state == PS_PLAYING || state == PS_PAUSE)
 	{
 		float dt = time->RealDeltaTime();
 
-		if (is_playing || editor_state == PS_PLAYING)
+		if (state == PS_PLAYING)
 		{
 			num_alive_particles = 0;
 
@@ -380,19 +379,23 @@ void ComponentParticleSystem::PostUpdate()
 						item_life = life_time - p.life;
 						p.position = p.origin + (rotation * p.speed) * item_life;
 
-						item_life_pc = (item_life / life_time) * 100.0;
+						if (color_over_time_active)
+						{
+							item_life_pc = (item_life / life_time) * 100.0;
 
-						if (color_time[p.next_c_id]->position <= item_life_pc)
-							p.next_c_id++;
+							if (color_time[p.next_c_id]->position <= item_life_pc)
+								p.next_c_id++;
 
-						previous = color_time[p.next_c_id - 1];
-						next = color_time[p.next_c_id];
+							int ct_id = (p.next_c_id - 1 >= 0) ? p.next_c_id - 1 : 0;
+							previous = color_time[ct_id];
+							next = color_time[p.next_c_id];
 
-						c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
-						p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
-						p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
-						p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
-						p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+							c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
+							p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
+							p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
+							p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
+							p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+						}	
 
 						++num_alive_particles;
 					}
@@ -435,22 +438,18 @@ void ComponentParticleSystem::OnPlay()
 {
 	if (play_on_awake)
 	{
-		is_playing = true;
+		state = PSState::PS_PLAYING;
 	}
 }
 
 void ComponentParticleSystem::OnPause()
 {
-	//Do not create new particles and do not update positions
+	state = PSState::PS_PAUSE;
 }
 
 void ComponentParticleSystem::OnStop()
 {
-	if (is_playing)
-	{
-		is_playing = false;
-		StopAll();
-	}
+	StopAll();
 }
 
 unsigned int ComponentParticleSystem::GetTextureId() const
@@ -523,6 +522,22 @@ void ComponentParticleSystem::StopAll()
 
 	num_alive_particles = 0;
 	cycles = 0;
+	state = PSState::PS_STOP;
+}
+
+void ComponentParticleSystem::Play()
+{
+	if (state != PSState::PS_PLAYING)
+	{
+		state = PSState::PS_PLAYING;
+		system_life = 0.0f;
+		cycles = 0;
+	}
+}
+
+void ComponentParticleSystem::Pause()
+{
+	state = PSState::PS_PAUSE;
 }
 
 void ComponentParticleSystem::InspectorDelete()
@@ -571,17 +586,17 @@ void ComponentParticleSystem::InspectorSimulation()
 	ImGui::Begin("##ps_simulation", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
 	if (ImGui::Button("Play##ps_stop"))
 	{
-		editor_state = PS_PLAYING;
+		state = PS_PLAYING;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Pause##ps_pause"))
 	{
-		editor_state = PS_PAUSE;
+		state = PS_PAUSE;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Stop##ps_stop"))
 	{
-		editor_state = PS_STOP;
+		state = PS_STOP;
 		system_life = 0.0f;
 		StopAll();
 	}
@@ -782,6 +797,7 @@ void ComponentParticleSystem::SpawnParticle(int delay)
 	p.position = math::float3(0.0f);
 	p.next_c_id = 0;
 	p.cam_distance = -1.0f;
+	p.color = float4(color, 1.0f);
 
 	switch (shape_type)
 	{
