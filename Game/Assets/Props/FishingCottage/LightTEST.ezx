@@ -1,0 +1,502 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 347781249,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2038711500,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishStandw",
+            "UUID": 884559708,
+            "local_UUID": 1472571034,
+            "parent": 347781249,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 884559708,
+            "prefab_path": "\/Library\/643644559\/603228477\/\/4192794240\/4192794240.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 358879589,
+            "local_UUID": 0,
+            "parent": 347781249,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3240054772,
+                    "active": true,
+                    "matrix": [
+                        0.740893,
+                        -0.073106,
+                        -0.667636,
+                        12.692253,
+                        -0.548730,
+                        0.507294,
+                        -0.664495,
+                        11.241678,
+                        0.387264,
+                        0.858669,
+                        0.335736,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 1587025537,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Sphere",
+            "UUID": 79957030,
+            "local_UUID": 0,
+            "parent": 347781249,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2350635082,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        7.799539,
+                        0,
+                        1,
+                        0,
+                        18.839947,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000004,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000004.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3182478836,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 100,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/4264445463\/\/2218408453\/2218408453.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Carp",
+            "UUID": 972369180,
+            "local_UUID": 0,
+            "parent": 347781249,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1434033714,
+                    "active": true,
+                    "matrix": [
+                        0.584448,
+                        0,
+                        -0.811430,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.811430,
+                        0,
+                        0.584448,
+                        15.007812,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 2404107911,
+            "local_UUID": 0,
+            "parent": 972369180,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2139436762,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 3974776201,
+            "local_UUID": 0,
+            "parent": 2404107911,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 984516741,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2405299951,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/4118263885.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 1558382998,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/643644559\/3043737163\/\/960325743\/960325743.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "polySurface5",
+            "UUID": 625040746,
+            "local_UUID": 0,
+            "parent": 2404107911,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1093339729,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 3784044167,
+                    "active": true,
+                    "path": "\/Library\/643644559\/3043737163\/\/3132412428\/3397108548.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3974024278,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Fishing Cottage",
+            "UUID": 1266093821,
+            "local_UUID": 0,
+            "parent": 347781249,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 460024956,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -7.965784,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        -28.149246,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "FishingCottage",
+            "UUID": 335047560,
+            "local_UUID": 0,
+            "parent": 1266093821,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1145027207,
+                    "active": true,
+                    "matrix": [
+                        0.029962,
+                        0,
+                        0.999551,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        -0.999551,
+                        0,
+                        0.029962,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 933170631,
+                    "active": true,
+                    "path": "\/Library\/1885473006\/519694944\/1107319369.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3663536722,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/1885473006\/\/1948121526\/1948121526.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "current_assets_scene_path": "\/Assets\/Props\/FishingCottage\/LightTEST.ezx",
+    "current_library_scene_path": "\/Library\/643644559\/1885473006\/\/639393132\/639393132.ezx"
+} 

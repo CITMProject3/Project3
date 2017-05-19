@@ -845,26 +845,22 @@ void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentM
 void ModuleRenderer3D::ShaderLightUniforms(unsigned int shader_id, const LightInfo& light) const
 {
 	//Ambient
-	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "Ia");
 	if (ambient_intensity_location != -1)
 		glUniform1f(ambient_intensity_location, light.ambient_intensity);
-	GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+	GLint ambient_color_location = glGetUniformLocation(shader_id, "Ka");
 	if (ambient_color_location != -1)
 		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
-	//Directional
-	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
-	glUniform1i(has_directional_location, light.has_directional);
-
 	if (light.has_directional)
 	{
-		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+		GLint directional_intensity_location = glGetUniformLocation(shader_id, "Id");
 		if (directional_intensity_location != -1)
 			glUniform1f(directional_intensity_location, light.directional_intensity);
-		GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+		GLint directional_color_location = glGetUniformLocation(shader_id, "Kd");
 		if (directional_color_location != -1)
 			glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
+		GLint directional_direction_location = glGetUniformLocation(shader_id, "L");
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 	}
