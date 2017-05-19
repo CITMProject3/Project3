@@ -1104,7 +1104,10 @@ unsigned int ModuleResourceManager::GetUUIDFromLib(const string & library_path)c
 
 void ModuleResourceManager::LoadDefaults()
 {
-	default_shader = ShaderCompiler::LoadDefaultShader();
+	unsigned int def_shader_v = ShaderCompiler::CompileVertex("Resources/Shaders/defaultV.ver");
+	unsigned int def_shader_f = ShaderCompiler::CompileFragment("Resources/Shaders/defaultF.fra");
+	default_shader = ShaderCompiler::CompileShader(def_shader_v, def_shader_f);
+
 	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
 	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
 	default_billboard_shader = ShaderCompiler::LoadDefaultBilboardShader();

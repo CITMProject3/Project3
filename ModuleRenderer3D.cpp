@@ -824,15 +824,16 @@ void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentM
 	}
 
 	//Reset Texture and Normal if doesn't have
-	if (material->texture_ids.size() < 2)
+	if (count < 2)
 	{
 		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
 		glUniform1i(has_normal_location, 0);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+	
 
-	if (material->texture_ids.empty() == true)
+	if (count < 1)
 	{
 		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 		glUniform1i(has_tex_location, 0);

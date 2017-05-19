@@ -141,7 +141,7 @@ void ComponentMaterial::OnInspector(bool debug)
 			ChooseAlphaType();
 
 			ImGui::Text("Specular: "); ImGui::SameLine();
-			ImGui::DragFloat("###mat_specular", &specular, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("###mat_specular", &specular, 0.01f, 0.0f, 1000.0f);
 
 		}
 		else
