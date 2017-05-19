@@ -410,7 +410,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	//DrawParticles(cam);
 
 	if(cam->render_skybox)
-		App->editor->skybox.Render(cam);
+		//App->editor->skybox.Render(cam);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
@@ -937,7 +937,7 @@ void ModuleRenderer3D::ShaderBuiltInUniforms(unsigned int shader_id, ComponentCa
 			material->rc_material->material.has_color = true;
 	}
 	//Specular
-	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
+	GLint specular_location = glGetUniformLocation(shader_id, "Is");
 	if (specular_location != -1)
 		glUniform1f(specular_location, material->specular);
 	//EyeWorld

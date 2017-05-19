@@ -161,7 +161,7 @@
                         1,
                         1
                     ],
-                    "specular": 10,
+                    "specular": 100,
                     "texture_changed": false,
                     "id_to_render": 0,
                     "textures": [
@@ -276,6 +276,6 @@
             "children_uuids": []
         }
     ],
-    "current_assets_scene_path": "\/Assets\/LightTEST.ezx",
-    "current_library_scene_path": "\/Library\/\/497054325\/497054325.ezx"
+    "current_assets_scene_path": "\/Assets\/Props\/LightTEST.ezx",
+    "current_library_scene_path": "\/Library\/643644559\/\/2135193026\/2135193026.ezx"
 } 
