@@ -15,6 +15,7 @@ struct Particle
 	math::float3 position;
 	math::float3 speed;
 	math::float3 origin;
+	math::float3 dst_origin;
 	float life = -1.0f;
 	float cam_distance = -1.0f;
 	int next_c_id = 0;
@@ -163,6 +164,7 @@ public:
 
 	//Properites
 	float size = 1.0f;
+	math::float2 img_size;
 	math::float3 color;
 	float life_time = 5.0f;
 };

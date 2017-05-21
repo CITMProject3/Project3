@@ -668,7 +668,8 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
-		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
+		float2 p_size = (*particle)->img_size * (*particle)->size;
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(p_size.ptr()));
 		glUniform3fv(color_location, 1, (*particle)->color.ptr());
 		glUniform1i(use_color_time_location, (*particle)->color_over_time_active);
 

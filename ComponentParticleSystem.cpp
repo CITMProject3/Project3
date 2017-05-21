@@ -33,7 +33,8 @@
 using namespace std;
 
 ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), 
-color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f), state(PSState::PS_STOP)
+color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f), state(PSState::PS_STOP),
+img_size(1.0f)
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
@@ -246,7 +247,7 @@ void ComponentParticleSystem::Load(Data & conf)
 		}
 	}
 
-	shape_type = (ParticleShapeType)conf.GetInt("box_shape");
+	shape_type = (ParticleShapeType)conf.GetInt("shape_type");
 	switch (shape_type)
 	{
 	case SHAPE_BOX:
@@ -291,7 +292,11 @@ void ComponentParticleSystem::Load(Data & conf)
 	{
 		ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
 		if (rc_tmp)
+		{
 			texture = rc_tmp;
+			img_size.x = rc_tmp->GetWidth() / 100.0f;
+			img_size.y = rc_tmp->GetHeight() / 100.0f;
+		}
 		else
 		{
 			LOG("[ERROR] Loading failure on particle system %s %s", game_object->name.data(), tex_path.data());
@@ -383,7 +388,7 @@ void ComponentParticleSystem::PostUpdate()
 						item_life = life_time - p.life;
 
 						if(simulation_space_local)
-							p.position = sys_position + (rotation * p.speed) * item_life;
+							p.position = sys_position + p.dst_origin + (rotation * p.speed) * item_life;
 						else
 							p.position = p.origin + (rotation * p.speed) * item_life;
 
@@ -577,6 +582,8 @@ void ComponentParticleSystem::InspectorChangeTexture()
 					texture->Unload();
 
 				texture = rc_tmp;
+				img_size.x = rc_tmp->GetWidth() / 100.0f;
+				img_size.y = rc_tmp->GetHeight() / 100.0f;
 			}
 			else
 			{
@@ -830,6 +837,8 @@ void ComponentParticleSystem::SpawnParticle(int delay)
 	{
 	case SHAPE_BOX:
 		p.origin = box_shape_obb.RandomPointInside(rnd);
+		if (simulation_space_local)
+			p.dst_origin = p.origin - game_object->GetGlobalMatrix().TranslatePart();
 		p.speed = math::float3(0, speed, 0);
 		break;
 	case SHAPE_SPHERE:
@@ -837,7 +846,9 @@ void ComponentParticleSystem::SpawnParticle(int delay)
 			p.origin = sphere_shape.RandomPointInside(rnd);
 		else
 			p.origin = sphere_shape.RandomPointOnSurface(rnd);
-		p.speed = (p.origin - game_object->transform->GetPosition()).Normalized() * speed;
+		p.speed = (p.origin - game_object->GetGlobalMatrix().TranslatePart()).Normalized() * speed;
+		if (simulation_space_local)
+			p.dst_origin = p.origin - game_object->GetGlobalMatrix().TranslatePart();
 		break;
 	default:
 		p.origin = float3(0.0f);
