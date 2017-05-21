@@ -88,6 +88,7 @@ private:
 	void InspectorShape();
 	void InspectorBoundingBox();
 	void InspectorEmission();
+	void InspectorSimulationSpace();
 
 	void SpawnParticle(int delay);
 	int FindUnusedParticle();
@@ -101,6 +102,7 @@ private:
 	bool play_on_awake = true;
 	float duration = 5.0f;
 	bool looping = true;
+	bool simulation_space_local = true; //False -> simulation space world
 
 	//Color over time
 public:

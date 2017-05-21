@@ -105,6 +105,7 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
 		if (ImGui::CollapsingHeader("Start color: ")) { ImGui::ColorPicker("###ps_start_color", color.ptr()); }
+		InspectorSimulationSpace();
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 		ImGui::Text("Play On Awake: "); ImGui::SameLine(); ImGui::Checkbox("###ps_play_awake", &play_on_awake);
 
@@ -149,6 +150,7 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat3("color", color.ptr());
 	data.AppendFloat("duration", duration);
 	data.AppendBool("looping", looping);
+	data.AppendBool("simulation_space", simulation_space_local);
 
 	data.AppendBool("color_over_time", color_over_time_active);
 	if (color_over_time_active)
@@ -224,6 +226,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	color = conf.GetFloat3("color");
 	duration = conf.GetFloat("duration");
 	looping = conf.GetBool("looping");
+	simulation_space_local = conf.GetBool("simulation_space");
 
 	color_over_time_active = conf.GetBool("color_over_time");
 	if (color_over_time_active)
@@ -359,6 +362,7 @@ void ComponentParticleSystem::PostUpdate()
 			num_alive_particles = 0;
 
 			Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+			float3 sys_position = game_object->GetGlobalMatrix().TranslatePart();
 
 			float item_life;
 			float item_life_pc;
@@ -377,7 +381,11 @@ void ComponentParticleSystem::PostUpdate()
 					if (p.life > 0.0f)
 					{
 						item_life = life_time - p.life;
-						p.position = p.origin + (rotation * p.speed) * item_life;
+
+						if(simulation_space_local)
+							p.position = sys_position + (rotation * p.speed) * item_life;
+						else
+							p.position = p.origin + (rotation * p.speed) * item_life;
 
 						if (color_over_time_active)
 						{
@@ -785,6 +793,25 @@ void ComponentParticleSystem::InspectorEmission()
 			bursts.erase(bursts.begin() + bursts_to_remove[i]);
 		
 	}	
+}
+
+void ComponentParticleSystem::InspectorSimulationSpace()
+{
+	if (simulation_space_local)
+		ImGui::Text("Simulation Space: Local");
+	else
+		ImGui::Text("Simulation Space: World");
+	ImGui::SameLine();
+	if (ImGui::BeginMenu("###ps_simulation_space_menu"))
+	{
+		if (ImGui::MenuItem("Local Space"))
+			simulation_space_local = true;
+
+		if (ImGui::MenuItem("World Space"))
+			simulation_space_local = false;
+
+		ImGui::EndMenu();
+	}
 }
 
 void ComponentParticleSystem::SpawnParticle(int delay)
