@@ -397,6 +397,9 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
+	if (cam->render_skybox)
+		App->editor->skybox.Render(cam);
+
 	std::multimap<float, GameObject*>::reverse_iterator it = alpha_objects.rbegin();
 	for (; it != alpha_objects.rend(); it++)
 	{
@@ -405,12 +408,11 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	}
 	alpha_objects.clear();
 
-	DrawSprites(cam);
+	//DrawSprites(cam);
 
-	//DrawParticles(cam);
+	DrawParticles(cam);
 
-	if(cam->render_skybox)
-		App->editor->skybox.Render(cam);
+	
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
@@ -658,12 +660,16 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 	
 	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
+		if (cam->Intersects((*particle)->bounding_box) == false)
+			continue;
+
 		(*particle)->SortParticles(cam);
 
 		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
 		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
 
-		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
+		float2 p_size = (*particle)->img_size * (*particle)->size;
+		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(p_size.ptr()));
 		glUniform3fv(color_location, 1, (*particle)->color.ptr());
 		glUniform1i(use_color_time_location, (*particle)->color_over_time_active);
 
