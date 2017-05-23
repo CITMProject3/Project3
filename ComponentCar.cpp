@@ -76,9 +76,6 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
 
-	//turn_max = kart->base_turn_max;
-
-	//
 	collShape.size = float3(1.8f, 1.6f, 3.1f);
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -89,6 +86,8 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 
 	inverted_controls = false;
 	invert_value = 1;
+
+	kartTransform = ((ComponentTransform*)(game_object->GetComponent(ComponentType::C_TRANSFORM)))->GetGlobalMatrix();
 }
 
 ComponentCar::~ComponentCar()
@@ -102,6 +101,9 @@ void ComponentCar::Update()
 
 		if (kart_trs)
 		{
+			kart_trs->Set(kartTransform);
+			kart_trs->UpdateMatrix();
+
 			float4x4 tmp = kart_trs->GetGlobalMatrix();
 			tmp = tmp * float4x4::Translate(collOffset);
 			tmp.Transpose();
@@ -128,6 +130,7 @@ void ComponentCar::Update()
 		KartLogic();
 		CheckGroundCollision();
 		UpdateAnims();
+		UpdateRenderTransform();
 	}
 }
 
@@ -231,7 +234,7 @@ void ComponentCar::KartLogic()
 	else
 	{
 		//Falling. Magic. Gravity. So much wow.
-		fallSpeed -= CAR_GRAVITY;
+		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
 		newPos.y += fallSpeed * time->DeltaTime();
 	}
 
@@ -414,7 +417,7 @@ void ComponentCar::Drift(float dir)
 
 	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
 
-	if (driftButtonMasher.GetNTaps() > driftPhaseChange)
+	if (driftButtonMasher.GetNTaps() > driftPhaseChange || App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 	{
 		driftButtonMasher.Reset();
 
@@ -471,11 +474,13 @@ void ComponentCar::DriftManagement()
 			{
 				if (currentSteer > 0.6f)
 				{
+					fb_jumpSpeed = 8.0f;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
 				}
 				else if (currentSteer < -0.6f)
 				{
+					fb_jumpSpeed = 8.0f;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
 				}
@@ -1237,6 +1242,69 @@ void ComponentCar::UpdateAnims()
 		UpdateP2Animation();
 	}
 
+}
+
+void ComponentCar::UpdateRenderTransform()
+{
+	kart_trs->UpdateMatrix();
+	kartTransform = kart_trs->GetGlobalMatrix();
+
+	//Vertical displacement
+	if (fb_vertical > 0.0f || fb_jumpSpeed > 0.0f)
+	{
+		fb_jumpSpeed -= CAR_GRAVITY * 2.0f * time->DeltaTime();
+		fb_vertical += fb_jumpSpeed * time->DeltaTime();
+		kart_trs->SetPosition(kart_trs->GetPosition() + float3(0, fb_vertical, 0));
+	}
+	else
+	{
+		fb_vertical = 0.0f;
+	}
+	
+	switch (drifting)
+	{
+	case drift_right_0:
+		fb_rotation_Y = -45.0f;
+		fb_rotation_FW = -5.0f;
+		break;
+	case drift_right_1:
+		fb_rotation_Y = -45.0f;
+		fb_rotation_FW = -10.0f;
+		break;
+	case drift_right_2:
+		fb_rotation_Y = -45.0f;
+		fb_rotation_FW = -20.0f;
+		break;
+	case drift_left_0:
+		fb_rotation_Y = 45.0f;
+		fb_rotation_FW = 5.0f;
+		break;
+	case drift_left_1:
+		fb_rotation_Y = 45.0f;
+		fb_rotation_FW = 10.0f;
+		break;
+	case drift_left_2:
+		fb_rotation_Y = 45.0f;
+		fb_rotation_FW = 20.0f;
+		break;
+	default:
+		fb_rotation_Y = 0.0f;
+		fb_rotation_FW = 0.0f;
+		break;
+	}
+
+	if (math::Abs(fb_rotation_Y) > 1.0f)
+		kart_trs->Rotate(Quat::RotateAxisAngle(float3(0, 1, 0), fb_rotation_Y * DEGTORAD));
+	else
+		fb_rotation_Y = 0.0f;
+
+	kart_trs->UpdateMatrix();
+	if (math::Abs(fb_rotation_FW) > 1.0f)
+		kart_trs->Rotate(Quat::RotateAxisAngle(kart_trs->GetForward(), fb_rotation_FW * DEGTORAD));
+	else
+		fb_rotation_FW = 0.0f;
+		
+	kart_trs->UpdateMatrix();
 }
 
 void ComponentCar::Save(Data& file) const

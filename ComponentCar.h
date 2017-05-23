@@ -16,7 +16,7 @@
 
 #include "Timer.h"
 
-#define CAR_GRAVITY 0.8f
+#define CAR_GRAVITY 18.0f
 
 //TODO fix conversion Units to KM/H
 #define UNITS_TO_KMH 133.0f
@@ -183,6 +183,15 @@ private:
 	Timer p2AcrobaticsPress;
 	bool acrobaticsDone = false;
 
+	//Feedback stuff
+	float4x4 kartTransform = float4x4::identity;
+
+	float fb_jumpSpeed = 0.0f;
+	float fb_vertical = 0.0f;
+	float fb_rotation_Y = 0.0f;
+	float fb_rotation_FW = 0.0f;
+
+
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
 	//
@@ -247,6 +256,7 @@ public:
 
 private:
 	void UpdateAnims();
+	void UpdateRenderTransform();
 
 public:
 	void PickItem();
