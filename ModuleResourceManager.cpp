@@ -864,16 +864,6 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 	GenerateMetaFile(path, FileType::MATERIAL, uuid, library_path);
 }
 
-unsigned int ModuleResourceManager::GetDefaultShaderId() const
-{
-	return default_shader;
-}
-
-unsigned int ModuleResourceManager::GetDefaultAnimShaderId() const
-{
-	return default_anim_shader;
-}
-
 unsigned int ModuleResourceManager::GetDefaultTerrainShaderId() const
 {
 	return default_terrain_shader;
@@ -1104,9 +1094,6 @@ unsigned int ModuleResourceManager::GetUUIDFromLib(const string & library_path)c
 
 void ModuleResourceManager::LoadDefaults()
 {
-	
-
-	default_anim_shader = ShaderCompiler::LoadDefaultAnimShader();
 	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
 	default_billboard_shader = ShaderCompiler::LoadDefaultBilboardShader();
 

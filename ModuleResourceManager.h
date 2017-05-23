@@ -81,8 +81,6 @@ public:
 	bool UnlinkChildPrefabs(GameObject* gameObject);
 
 	void SaveMaterial(const Material& material, const char* path, uint uuid = 0);
-	unsigned int GetDefaultShaderId()const;
-	unsigned int GetDefaultAnimShaderId()const;
 	unsigned int GetDefaultTerrainShaderId()const;
 	unsigned int GetDefaultBillboardShaderId()const;
 	Mesh* GetDefaultBillboardMesh()const;
@@ -162,8 +160,6 @@ private:
 	unsigned int mesh_bytes = 0;
 
 	//Defaults
-	unsigned int default_shader = 0;
-	unsigned int default_anim_shader = 0;
 	unsigned int default_terrain_shader = 0;
 	unsigned int default_billboard_shader = 0;
 	Mesh* billboard_mesh = nullptr;

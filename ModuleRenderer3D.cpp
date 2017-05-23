@@ -493,31 +493,16 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	if (material == nullptr)
 		return;
 
-	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-
-	float4 color = { 1.0f,1.0f,1.0f,1.0f };
-	color = float4(material->color);
-
-	uint shader_id = 0;
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultAnimShaderId();
-
 	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
 	if (ret_alpha == false)
 		return;
 
-	//Use shader
-	glUseProgram(shader_id);
+	if (!material->has_normal)
+		ms_render->RenderAnimShader(obj, cam, material, &light);
+	else
+		ms_render->RenderAnimNormalShader(obj, cam, material, &light);
 
-	
-	SetShaderUniforms(shader_id, obj, cam, material, light, color);
-
-	//Array of bone transformations
-	GLint bone_location = glGetUniformLocation(shader_id, "bones");
-	glUniformMatrix4fv(bone_location, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
-
+	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
 
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
