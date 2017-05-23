@@ -81,13 +81,14 @@ public:
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	std::vector<ComponentCamera*> cameras;
 
+	MasterRender* ms_render;
 private:
 
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
 	std::vector<ComponentParticleSystem*> particles_to_draw;
 
-	MasterRender* ms_render;
+	
 };
 
 #endif // !__MODULERENDERER3D_H__

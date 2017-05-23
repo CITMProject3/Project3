@@ -51,6 +51,19 @@ struct AnimNormalShader
 	unsigned int bones;
 };
 
+struct TerrainShader
+{
+	unsigned int id;
+
+	unsigned int model, view, projection;
+	unsigned int Ia, Id;
+	unsigned int Ka, Kd;
+	unsigned int L;
+	unsigned int n_textures;
+	unsigned int texture_distributor;
+	unsigned int tex0, tex1, tex2, tex3;
+};
+
 class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
@@ -74,12 +87,14 @@ private:
 	void InitDefaultNormalShader();
 	void InitAnimShader();
 	void InitAnimNormalShader();
+	void InitTerrainShader();
 
 public:
 	DFShader df_shader;
 	DFNormalShader normal_shader;
 	AnimShader anim_shader;
 	AnimNormalShader anim_normal_shader;
+	TerrainShader terrain_shader;
 };
 
 

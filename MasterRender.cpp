@@ -31,6 +31,7 @@ void MasterRender::Init()
 	InitDefaultNormalShader();
 	InitAnimShader();
 	InitAnimNormalShader();
+	InitTerrainShader();
 }
 
 void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material, const LightInfo* light) const
@@ -255,4 +256,28 @@ void MasterRender::InitAnimNormalShader()
 
 	anim_normal_shader.material_color = glGetUniformLocation(anim_normal_shader.id, "material_color");
 	anim_normal_shader.bones = glGetUniformLocation(anim_normal_shader.id, "bones");
+}
+
+void MasterRender::InitTerrainShader()
+{
+	unsigned int def_shader_v = ShaderCompiler::CompileVertex("Resources/Shaders/terrainV.ver");
+	unsigned int def_shader_f = ShaderCompiler::CompileFragment("Resources/Shaders/terrainF.fra");
+	terrain_shader.id = ShaderCompiler::CompileShader(def_shader_v, def_shader_f);
+
+	terrain_shader.model = glGetUniformLocation(terrain_shader.id, "model");
+	terrain_shader.projection = glGetUniformLocation(terrain_shader.id, "projection");
+	terrain_shader.view = glGetUniformLocation(terrain_shader.id, "view");
+
+	terrain_shader.n_textures = glGetUniformLocation(terrain_shader.id, "_nTextures");
+	terrain_shader.texture_distributor = glGetUniformLocation(terrain_shader.id, "_TextureDistributor");
+	terrain_shader.tex0 = glGetUniformLocation(terrain_shader.id, "_Texture_0");
+	terrain_shader.tex1 = glGetUniformLocation(terrain_shader.id, "_Texture_1");
+	terrain_shader.tex2 = glGetUniformLocation(terrain_shader.id, "_Texture_2");
+	terrain_shader.tex3 = glGetUniformLocation(terrain_shader.id, "_Texture_3");
+
+	terrain_shader.Ia = glGetUniformLocation(terrain_shader.id, "Ia");
+	terrain_shader.Ka = glGetUniformLocation(terrain_shader.id, "Ka");
+	terrain_shader.Id = glGetUniformLocation(terrain_shader.id, "Id");
+	terrain_shader.Kd = glGetUniformLocation(terrain_shader.id, "Kd");
+	terrain_shader.L = glGetUniformLocation(terrain_shader.id, "L");
 }
