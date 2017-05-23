@@ -239,6 +239,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightingWindow.h" />
     <ClInclude Include="LinearAllocator.h" />
+    <ClInclude Include="MasterRender.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="md5.h" />
@@ -422,6 +423,7 @@
     <ClCompile Include="LinearAllocator.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MasterRender.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />

@@ -21,6 +21,7 @@ class ComponentMaterial;
 typedef void *SDL_GLContext;
 class ComponentSprite;
 class ComponentParticleSystem;
+class MasterRender;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -85,6 +86,8 @@ private:
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
 	std::vector<ComponentParticleSystem*> particles_to_draw;
+
+	MasterRender* ms_render;
 };
 
 #endif // !__MODULERENDERER3D_H__

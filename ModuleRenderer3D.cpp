@@ -32,6 +32,8 @@
 
 #include "SDL\include\SDL_opengl.h"
 
+#include "MasterRender.h"
+
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 
@@ -165,6 +167,9 @@ bool ModuleRenderer3D::Init(Data& config)
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight(), 60.0f);
 
 	ImGui_ImplSdlGL3_Init(App->window->window);
+
+	ms_render = new MasterRender();
+	ms_render->Init();
 	
 	return ret;
 }
@@ -220,6 +225,7 @@ update_status ModuleRenderer3D::PostUpdate()
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+	delete ms_render;
 	ImGui_ImplSdlGL3_Shutdown();
 	SDL_GL_DeleteContext(context);
 
@@ -410,7 +416,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	//DrawParticles(cam);
 
 	if(cam->render_skybox)
-		//App->editor->skybox.Render(cam);
+		App->editor->skybox.Render(cam);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
@@ -434,23 +440,13 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	BROFILER_CATEGORY("ModuleRenderer3D::Draw", Profiler::Color::YellowGreen);
 
-	uint shader_id = 0;
-	float4 color = { 1.0f,1.0f,1.0f,1.0f };
-	color = float4(material->color);
-
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultShaderId();
 
 	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
 	if (ret_alpha == false)
 		return;
 	
 	//Use shader
-	glUseProgram(shader_id);
-
-	SetShaderUniforms(shader_id, obj, cam, material, light, color);
+	ms_render->RenderDefaultShader(obj, cam, material, &light);
 
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
