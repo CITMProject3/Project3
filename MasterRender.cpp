@@ -64,6 +64,34 @@ void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCam
 	glUniform4fv(df_shader.material_color, 1, float4(material->color).ptr());	
 }
 
+void MasterRender::RenderNormalShader(const GameObject * obj, const ComponentCamera * cam, const ComponentMaterial * material, const LightInfo * light) const
+{
+	glUseProgram(normal_shader.id);
+
+	glUniformMatrix4fv(normal_shader.model, 1, GL_FALSE, *(obj->GetGlobalMatrix().Transposed()).v);
+	glUniformMatrix4fv(normal_shader.projection, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
+	glUniformMatrix4fv(normal_shader.view, 1, GL_FALSE, *cam->GetViewMatrix().v);
+
+	std::map<std::string, uint>::const_iterator tex = material->texture_ids.find("0");
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, (*tex).second);
+	glUniform1i(normal_shader.texture, 0);
+
+	tex = material->texture_ids.find("1");
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, (*tex).second);
+	glUniform1i(normal_shader.normal, 1);
+	
+	glUniform1f(normal_shader.Ia, light->ambient_intensity);
+	glUniform3f(normal_shader.Ka, light->ambient_color.x, light->ambient_color.y, light->ambient_color.z);
+	glUniform1f(normal_shader.Id, light->directional_intensity);
+	glUniform3f(normal_shader.Kd, light->directional_color.x, light->directional_color.y, light->directional_color.z);
+	glUniform3f(normal_shader.L, light->directional_direction.x, light->directional_direction.y, light->directional_direction.z);
+	glUniform1f(normal_shader.Is, material->specular);
+
+	glUniform4fv(normal_shader.material_color, 1, float4(material->color).ptr());
+}
+
 void MasterRender::InitDefaultShader()
 {
 	unsigned int def_shader_v = ShaderCompiler::CompileVertex("Resources/Shaders/defaultV.ver");
@@ -89,5 +117,23 @@ void MasterRender::InitDefaultShader()
 
 void MasterRender::InitDefaultNormalShader()
 {
-	
+	unsigned int def_shader_v = ShaderCompiler::CompileVertex("Resources/Shaders/defaultNormalV.ver");
+	unsigned int def_shader_f = ShaderCompiler::CompileFragment("Resources/Shaders/defaultNormalF.fra");
+	normal_shader.id = ShaderCompiler::CompileShader(def_shader_v, def_shader_f);
+
+	normal_shader.model = glGetUniformLocation(normal_shader.id, "model");
+	normal_shader.projection = glGetUniformLocation(normal_shader.id, "projection");
+	normal_shader.view = glGetUniformLocation(normal_shader.id, "view");
+
+	normal_shader.texture = glGetUniformLocation(normal_shader.id, "_Texture");
+	normal_shader.normal = glGetUniformLocation(normal_shader.id, "_NormalMap");
+
+	normal_shader.Ia = glGetUniformLocation(normal_shader.id, "Ia");
+	normal_shader.Ka = glGetUniformLocation(normal_shader.id, "Ka");
+	normal_shader.Id = glGetUniformLocation(normal_shader.id, "Id");
+	normal_shader.Kd = glGetUniformLocation(normal_shader.id, "Kd");
+	normal_shader.L = glGetUniformLocation(normal_shader.id, "L");
+	normal_shader.Is = glGetUniformLocation(normal_shader.id, "Is");
+
+	normal_shader.material_color = glGetUniformLocation(normal_shader.id, "material_color");
 }

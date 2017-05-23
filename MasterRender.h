@@ -13,6 +13,18 @@ struct DFShader
 	unsigned int material_color;
 };
 
+struct DFNormalShader
+{
+	unsigned int id;
+
+	unsigned int model, view, projection;
+	unsigned int texture, normal;
+	unsigned int Ia, Id, Is;
+	unsigned int Ka, Kd;
+	unsigned int L;
+	unsigned int material_color;
+};
+
 class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
@@ -27,6 +39,7 @@ public:
 	void Init();
 
 	void RenderDefaultShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material,const LightInfo* light)const;
+	void RenderNormalShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material, const LightInfo* light)const;
 
 private:
 	void InitDefaultShader();
@@ -34,6 +47,7 @@ private:
 
 public:
 	DFShader df_shader;
+	DFNormalShader normal_shader;
 };
 
 

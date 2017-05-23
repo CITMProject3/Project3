@@ -343,6 +343,8 @@ void ComponentMaterial::Load(Data & conf)
 					{
 						texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
 						list_textures_paths[i] = tex_path;
+						if (i == 1)
+							has_normal = true;
 					}
 					else
 					{

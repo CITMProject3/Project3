@@ -446,7 +446,10 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		return;
 	
 	//Use shader
-	ms_render->RenderDefaultShader(obj, cam, material, &light);
+	if (!material->has_normal)
+		ms_render->RenderDefaultShader(obj, cam, material, &light);
+	else
+		ms_render->RenderNormalShader(obj, cam, material, &light);
 
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
