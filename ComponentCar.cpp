@@ -1249,6 +1249,8 @@ void ComponentCar::UpdateRenderTransform()
 	kart_trs->UpdateMatrix();
 	kartTransform = kart_trs->GetGlobalMatrix();
 
+	float desired_Y, desired_FW;
+
 	//Vertical displacement
 	if (fb_vertical > 0.0f || fb_jumpSpeed > 0.0f)
 	{
@@ -1264,33 +1266,52 @@ void ComponentCar::UpdateRenderTransform()
 	switch (drifting)
 	{
 	case drift_right_0:
-		fb_rotation_Y = -45.0f;
-		fb_rotation_FW = -5.0f;
+		desired_Y = -35.0f;
+		desired_FW = -7.0f;
 		break;
 	case drift_right_1:
-		fb_rotation_Y = -45.0f;
-		fb_rotation_FW = -10.0f;
+		desired_Y = -35.0f;
+		desired_FW = -10.0f;
 		break;
 	case drift_right_2:
-		fb_rotation_Y = -45.0f;
-		fb_rotation_FW = -20.0f;
+		desired_Y = -35.0f;
+		desired_FW = -15.0f;
 		break;
 	case drift_left_0:
-		fb_rotation_Y = 45.0f;
-		fb_rotation_FW = 5.0f;
+		desired_Y = 35.0f;
+		desired_FW = 7.0f;
 		break;
 	case drift_left_1:
-		fb_rotation_Y = 45.0f;
-		fb_rotation_FW = 10.0f;
+		desired_Y = 35.0f;
+		desired_FW = 10.0f;
 		break;
 	case drift_left_2:
-		fb_rotation_Y = 45.0f;
-		fb_rotation_FW = 20.0f;
+		desired_Y = 35.0f;
+		desired_FW = 15.0f;
 		break;
 	default:
-		fb_rotation_Y = 0.0f;
-		fb_rotation_FW = 0.0f;
+		desired_Y = 0.0f;
+		desired_FW = 0.0f;
 		break;
+	}
+
+	desired_FW += math::Cos(time->RealTimeSinceStartup() * DEGTORAD) * 5.0f;
+	float rotSpeed = 90.0f * time->DeltaTime();
+
+	if (math::Abs(fb_rotation_Y - desired_Y) < rotSpeed)
+		fb_rotation_Y = desired_Y;
+	else
+	{
+		if (fb_rotation_Y > desired_Y) { fb_rotation_Y -= rotSpeed; }
+		else { fb_rotation_Y += rotSpeed; }
+	}
+
+	if (math::Abs(fb_rotation_FW - desired_FW) < rotSpeed)
+		fb_rotation_FW = desired_FW;
+	else
+	{
+		if (fb_rotation_FW > desired_FW) { fb_rotation_FW -= rotSpeed; }
+		else { fb_rotation_FW += rotSpeed; }
 	}
 
 	if (math::Abs(fb_rotation_Y) > 1.0f)
