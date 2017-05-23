@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SoundBanksInfo Platform="Windows" BasePlatform="Windows" SchemaVersion="11" SoundbankVersion="120">
+	<RootPaths>
+		<ProjectRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\</ProjectRoot>
+		<SourceFilesRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\.cache\Windows\</SourceFilesRoot>
+		<SoundBanksRoot>C:\Users\Carlos\Documents\GitHub\Project3\Game\Assets\Soundbanks\</SoundBanksRoot>
+		<ExternalSourcesInputFile></ExternalSourcesInputFile>
+		<ExternalSourcesOutputRoot>C:\Users\Carlos\Documents\WwiseProjects\Project3_Karts\GeneratedSoundBanks\Windows\</ExternalSourcesOutputRoot>
+	</RootPaths>
+	<SoundBanks>
+		<SoundBank Id="984691642" GUID="{8F4E4074-ECBC-423A-B086-1D1D21BFFAA2}" Language="SFX">
+			<ObjectPath>\SoundBanks\InGame\InGame</ObjectPath>
+			<ShortName>InGame</ShortName>
+			<Path>InGame.bnk</Path>
+			<IncludedEvents>
+				<Event Id="2175797879" Name="Play_Countdown" ObjectPath="\Events\InGame\FX\Play_Countdown" GUID="{F775C297-3A39-4AD7-89F1-EF18A9450959}" DurationType="OneShot" DurationMin="1.017483" DurationMax="1.017483"/>
+				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\FX\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
+				<Event Id="1313592992" Name="Play_RiKarts_main_theme" ObjectPath="\Events\InGame\Music\Play_RiKarts_main_theme" GUID="{497B20D8-53C9-47F4-8094-65B9D473F1F1}" DurationType="Infinite"/>
+				<Event Id="3054248522" Name="Stop_RiKarts_main_theme" ObjectPath="\Events\InGame\Music\Stop_RiKarts_main_theme" GUID="{8083B93C-AD34-47CD-B13E-76E9DABB5ABB}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+			</IncludedEvents>
+			<IncludedMemoryFiles>
+				<File Id="427291038" Language="SFX">
+					<ShortName>RiKarts_main_theme.wav</ShortName>
+					<Path>SFX\RiKarts_main_theme_5F599105.wem</Path>
+				</File>
+				<File Id="547640341" Language="SFX">
+					<ShortName>Countdown_Go.wav</ShortName>
+					<Path>SFX\Countdown_Go_9E69E797.wem</Path>
+				</File>
+				<File Id="726579198" Language="SFX">
+					<ShortName>Countdown.wav</ShortName>
+					<Path>SFX\Countdown_9E69E797.wem</Path>
+				</File>
+			</IncludedMemoryFiles>
+		</SoundBank>
+	</SoundBanks>
+</SoundBanksInfo>
