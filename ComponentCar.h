@@ -187,6 +187,7 @@ private:
 	float4x4 kartTransform = float4x4::identity;
 
 	float fb_jumpSpeed = 0.0f;
+	float fb_verticalCorrection = 0.0f;
 	float fb_vertical = 0.0f;
 	float fb_rotation_Y = 0.0f;
 	float fb_rotation_FW = 0.0f;

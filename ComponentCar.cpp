@@ -506,6 +506,11 @@ void ComponentCar::DriftManagement()
 		drifting = drift_none;
 	}
 
+	if (fb_vertical > 0.01f && (drifting == drift_none || drifting == drift_failed))
+	{
+		drifting = lastFrame_drifting;
+	}
+
 	//When we exit a drift, apply the correspondant turbo
 	if (drifting == drift_none && lastFrame_drifting != drift_none && lastFrame_drifting != drift_failed)
 	{
@@ -1249,14 +1254,15 @@ void ComponentCar::UpdateRenderTransform()
 	kart_trs->UpdateMatrix();
 	kartTransform = kart_trs->GetGlobalMatrix();
 
-	float desired_Y, desired_FW;
+	float desired_Y, desired_FW, up_correction;
+
+	//Setting "ideal" desired values for each rotation and translation
 
 	//Vertical displacement
 	if (fb_vertical > 0.0f || fb_jumpSpeed > 0.0f)
 	{
 		fb_jumpSpeed -= CAR_GRAVITY * 2.0f * time->DeltaTime();
 		fb_vertical += fb_jumpSpeed * time->DeltaTime();
-		kart_trs->SetPosition(kart_trs->GetPosition() + float3(0, fb_vertical, 0));
 	}
 	else
 	{
@@ -1268,36 +1274,71 @@ void ComponentCar::UpdateRenderTransform()
 	case drift_right_0:
 		desired_Y = -35.0f;
 		desired_FW = -7.0f;
+		up_correction = 0.25f;
 		break;
 	case drift_right_1:
 		desired_Y = -35.0f;
 		desired_FW = -10.0f;
+		up_correction = 0.5f;
 		break;
 	case drift_right_2:
 		desired_Y = -35.0f;
 		desired_FW = -15.0f;
+		up_correction = 0.7f;
 		break;
 	case drift_left_0:
 		desired_Y = 35.0f;
 		desired_FW = 7.0f;
+		up_correction = 0.25f;
 		break;
 	case drift_left_1:
 		desired_Y = 35.0f;
 		desired_FW = 10.0f;
+		up_correction += 0.5f;
 		break;
 	case drift_left_2:
 		desired_Y = 35.0f;
 		desired_FW = 15.0f;
+		up_correction = 0.7f;
 		break;
 	default:
 		desired_Y = 0.0f;
 		desired_FW = 0.0f;
+		up_correction = 0.0f;
 		break;
 	}
 
-	desired_FW += math::Cos(time->RealTimeSinceStartup() * DEGTORAD) * 5.0f;
-	float rotSpeed = 90.0f * time->DeltaTime();
+	//Making the kart "Wobble" when it's not flat on the ground
+	if (desired_FW != 0)
+	{
+		desired_FW += math::Cos(time->RealTimeSinceStartup() * 720.0f * DEGTORAD) * 2.0f;
+	}
 
+	//Speed at which the kart goes to the desired values
+	float rotSpeed = 60.0f * time->DeltaTime();
+	float moveSpeed = 10.0f * time->DeltaTime();
+
+	testVar = up_correction;
+	//Moving current vertical position to the desired one
+	if (math::Abs(fb_verticalCorrection - up_correction) < moveSpeed)
+		fb_verticalCorrection = up_correction;
+	else
+	{
+		if (fb_verticalCorrection > up_correction) { fb_verticalCorrection -= moveSpeed; }
+		else { fb_verticalCorrection += moveSpeed; }
+	}
+	//Actually moving the kart to the position
+	if (fb_vertical != 0.0f || fb_verticalCorrection != 0.0f)
+	{
+		kart_trs->SetPosition(kart_trs->GetPosition() + float3(0, fb_vertical + fb_verticalCorrection, 0));
+	}
+	else
+	{
+		fb_verticalCorrection = 0.0f;
+		fb_jumpSpeed = 0.0f;
+	}
+
+	//Moving the rotations to their "desired" values
 	if (math::Abs(fb_rotation_Y - desired_Y) < rotSpeed)
 		fb_rotation_Y = desired_Y;
 	else
@@ -1314,6 +1355,7 @@ void ComponentCar::UpdateRenderTransform()
 		else { fb_rotation_FW += rotSpeed; }
 	}
 
+	//Actually rotating the kart
 	if (math::Abs(fb_rotation_Y) > 1.0f)
 		kart_trs->Rotate(Quat::RotateAxisAngle(float3(0, 1, 0), fb_rotation_Y * DEGTORAD));
 	else
