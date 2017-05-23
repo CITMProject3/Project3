@@ -13,6 +13,7 @@
 
 #include "Primitive.h"
 #include "Wheel.h"
+#include "RaycastHit.h"
 
 #include "Timer.h"
 
@@ -165,6 +166,10 @@ public:
 
 	float3 kartX, kartY, kartZ;	
 
+	//Shadow Ray results
+	bool shadowRayHit;
+	RaycastHit shadowRayResult;
+
 	//Collider
 	Cube_P collShape;
 private:
@@ -256,6 +261,7 @@ public:
 	void SetCarType(CAR_TYPE type);
 
 private:
+	void CastShadowRay();
 	void UpdateAnims();
 	void UpdateRenderTransform();
 

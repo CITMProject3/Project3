@@ -128,6 +128,7 @@ void ComponentCar::Update()
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
 		KartLogic();
+		CastShadowRay();
 		CheckGroundCollision();
 		UpdateAnims();
 		UpdateRenderTransform();
@@ -360,7 +361,6 @@ float ComponentCar::AccelerationInput()
 void ComponentCar::Steer(float amount)
 {
 	amount = math::Clamp(amount, -1.0f, 1.0f);
-	testVar = amount;
 	if (drifting == drift_none)
 	{
 		if (amount < -0.1 || amount > 0.1)
@@ -396,13 +396,7 @@ void ComponentCar::CheckOnTheGround()
 {
 	//Checking if the kart is still on the track
 	//This ray shoots from the center of the kart, vertically down. It checks if the kart is still on the track or is about to fall off and should simulate a collision
-	math::Ray rayN;
-	rayN.dir = float3(0, -1, 0);
-	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
-	RaycastHit hitN;
-	bool Nhit = App->physics->RayCast(rayN, hitN);
-
-	if (hitN.distance > DISTANCE_FROM_GROUND + 0.2f)
+	if (shadowRayHit && shadowRayResult.distance > DISTANCE_FROM_GROUND + 0.2f)
 	{
 		onTheGround = false;
 	}
@@ -1229,6 +1223,15 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 void ComponentCar::OnTransformModified()
 {}
 
+void ComponentCar::CastShadowRay()
+{
+	math::Ray rayN;
+	rayN.dir = float3(0, -1, 0);
+	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
+	shadowRayHit = App->physics->RayCast(rayN, shadowRayResult);
+
+}
+
 void ComponentCar::UpdateAnims()
 {
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
@@ -1259,7 +1262,7 @@ void ComponentCar::UpdateRenderTransform()
 	//Setting "ideal" desired values for each rotation and translation
 
 	//Vertical displacement
-	if (fb_vertical > 0.0f || fb_jumpSpeed > 0.0f)
+	if (fb_vertical > 0.01f || fb_jumpSpeed > 0.01f)
 	{
 		fb_jumpSpeed -= CAR_GRAVITY * 2.0f * time->DeltaTime();
 		fb_vertical += fb_jumpSpeed * time->DeltaTime();
@@ -1318,7 +1321,7 @@ void ComponentCar::UpdateRenderTransform()
 	float rotSpeed = 60.0f * time->DeltaTime();
 	float moveSpeed = 10.0f * time->DeltaTime();
 
-	testVar = up_correction;
+	testVar = fb_vertical;
 	//Moving current vertical position to the desired one
 	if (math::Abs(fb_verticalCorrection - up_correction) < moveSpeed)
 		fb_verticalCorrection = up_correction;
