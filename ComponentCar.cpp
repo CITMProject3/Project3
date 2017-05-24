@@ -76,9 +76,6 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
 
-	//turn_max = kart->base_turn_max;
-
-	//
 	collShape.size = float3(1.8f, 1.6f, 3.1f);
 	reset_pos = { 0.0f, 0.0f, 0.0f };
 	reset_rot = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -89,6 +86,8 @@ ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 
 	inverted_controls = false;
 	invert_value = 1;
+
+	kartTransform = ((ComponentTransform*)(game_object->GetComponent(ComponentType::C_TRANSFORM)))->GetGlobalMatrix();
 }
 
 ComponentCar::~ComponentCar()
@@ -102,6 +101,9 @@ void ComponentCar::Update()
 
 		if (kart_trs)
 		{
+			kart_trs->Set(kartTransform);
+			kart_trs->UpdateMatrix();
+
 			float4x4 tmp = kart_trs->GetGlobalMatrix();
 			tmp = tmp * float4x4::Translate(collOffset);
 			tmp.Transpose();
@@ -126,8 +128,10 @@ void ComponentCar::Update()
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
 		KartLogic();
+		CastShadowRay();
 		CheckGroundCollision();
 		UpdateAnims();
+		UpdateRenderTransform();
 	}
 }
 
@@ -231,7 +235,7 @@ void ComponentCar::KartLogic()
 	else
 	{
 		//Falling. Magic. Gravity. So much wow.
-		fallSpeed -= CAR_GRAVITY;
+		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
 		newPos.y += fallSpeed * time->DeltaTime();
 	}
 
@@ -357,7 +361,6 @@ float ComponentCar::AccelerationInput()
 void ComponentCar::Steer(float amount)
 {
 	amount = math::Clamp(amount, -1.0f, 1.0f);
-	testVar = amount;
 	if (drifting == drift_none)
 	{
 		if (amount < -0.1 || amount > 0.1)
@@ -393,13 +396,7 @@ void ComponentCar::CheckOnTheGround()
 {
 	//Checking if the kart is still on the track
 	//This ray shoots from the center of the kart, vertically down. It checks if the kart is still on the track or is about to fall off and should simulate a collision
-	math::Ray rayN;
-	rayN.dir = float3(0, -1, 0);
-	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
-	RaycastHit hitN;
-	bool Nhit = App->physics->RayCast(rayN, hitN);
-
-	if (hitN.distance > DISTANCE_FROM_GROUND + 0.2f)
+	if (shadowRayHit && shadowRayResult.distance > DISTANCE_FROM_GROUND + 0.2f)
 	{
 		onTheGround = false;
 	}
@@ -414,7 +411,7 @@ void ComponentCar::Drift(float dir)
 
 	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
 
-	if (driftButtonMasher.GetNTaps() > driftPhaseChange)
+	if (driftButtonMasher.GetNTaps() > driftPhaseChange || App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
 	{
 		driftButtonMasher.Reset();
 
@@ -471,11 +468,13 @@ void ComponentCar::DriftManagement()
 			{
 				if (currentSteer > 0.6f)
 				{
+					fb_jumpSpeed = 8.0f;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
 				}
 				else if (currentSteer < -0.6f)
 				{
+					fb_jumpSpeed = 8.0f;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
 				}
@@ -499,6 +498,11 @@ void ComponentCar::DriftManagement()
 	else
 	{
 		drifting = drift_none;
+	}
+
+	if (fb_vertical > 0.01f && (drifting == drift_none || drifting == drift_failed))
+	{
+		drifting = lastFrame_drifting;
 	}
 
 	//When we exit a drift, apply the correspondant turbo
@@ -1219,6 +1223,15 @@ void ComponentCar::OnGroundCollision(GROUND_CONTACT state)
 void ComponentCar::OnTransformModified()
 {}
 
+void ComponentCar::CastShadowRay()
+{
+	math::Ray rayN;
+	rayN.dir = float3(0, -1, 0);
+	rayN.pos = kart_trs->GetPosition() + float3(0, 1, 0);
+	shadowRayHit = App->physics->RayCast(rayN, shadowRayResult);
+
+}
+
 void ComponentCar::UpdateAnims()
 {
 	BROFILER_CATEGORY("ComponentCar::UpdateGO", Profiler::Color::HoneyDew)
@@ -1237,6 +1250,127 @@ void ComponentCar::UpdateAnims()
 		UpdateP2Animation();
 	}
 
+}
+
+void ComponentCar::UpdateRenderTransform()
+{
+	kart_trs->UpdateMatrix();
+	kartTransform = kart_trs->GetGlobalMatrix();
+
+	float desired_Y, desired_FW, up_correction;
+
+	//Setting "ideal" desired values for each rotation and translation
+
+	//Vertical displacement
+	if (fb_vertical > 0.01f || fb_jumpSpeed > 0.01f)
+	{
+		fb_jumpSpeed -= CAR_GRAVITY * 2.0f * time->DeltaTime();
+		fb_vertical += fb_jumpSpeed * time->DeltaTime();
+	}
+	else
+	{
+		fb_vertical = 0.0f;
+	}
+	
+	switch (drifting)
+	{
+	case drift_right_0:
+		desired_Y = -35.0f;
+		desired_FW = -7.0f;
+		up_correction = 0.25f;
+		break;
+	case drift_right_1:
+		desired_Y = -35.0f;
+		desired_FW = -10.0f;
+		up_correction = 0.5f;
+		break;
+	case drift_right_2:
+		desired_Y = -35.0f;
+		desired_FW = -15.0f;
+		up_correction = 0.7f;
+		break;
+	case drift_left_0:
+		desired_Y = 35.0f;
+		desired_FW = 7.0f;
+		up_correction = 0.25f;
+		break;
+	case drift_left_1:
+		desired_Y = 35.0f;
+		desired_FW = 10.0f;
+		up_correction += 0.5f;
+		break;
+	case drift_left_2:
+		desired_Y = 35.0f;
+		desired_FW = 15.0f;
+		up_correction = 0.7f;
+		break;
+	default:
+		desired_Y = 0.0f;
+		desired_FW = 0.0f;
+		up_correction = 0.0f;
+		break;
+	}
+
+	//Making the kart "Wobble" when it's not flat on the ground
+	if (desired_FW != 0)
+	{
+		desired_FW += math::Cos(time->RealTimeSinceStartup() * 720.0f * DEGTORAD) * 2.0f;
+	}
+
+	//Speed at which the kart goes to the desired values
+	float rotSpeed = 60.0f * time->DeltaTime();
+	float moveSpeed = 10.0f * time->DeltaTime();
+
+	testVar = fb_vertical;
+	//Moving current vertical position to the desired one
+	if (math::Abs(fb_verticalCorrection - up_correction) < moveSpeed)
+		fb_verticalCorrection = up_correction;
+	else
+	{
+		if (fb_verticalCorrection > up_correction) { fb_verticalCorrection -= moveSpeed; }
+		else { fb_verticalCorrection += moveSpeed; }
+	}
+	//Actually moving the kart to the position
+	if (fb_vertical != 0.0f || fb_verticalCorrection != 0.0f)
+	{
+		kart_trs->SetPosition(kart_trs->GetPosition() + float3(0, fb_vertical + fb_verticalCorrection, 0));
+	}
+	else
+	{
+		fb_verticalCorrection = 0.0f;
+		fb_jumpSpeed = 0.0f;
+	}
+
+	//Moving the rotations to their "desired" values
+	if (math::Abs(fb_rotation_Y - desired_Y) < rotSpeed)
+		fb_rotation_Y = desired_Y;
+	else
+	{
+		if (fb_rotation_Y > desired_Y) { fb_rotation_Y -= rotSpeed; }
+		else { fb_rotation_Y += rotSpeed; }
+	}
+
+	if (math::Abs(fb_rotation_FW - desired_FW) < rotSpeed)
+		fb_rotation_FW = desired_FW;
+	else
+	{
+		if (fb_rotation_FW > desired_FW) { fb_rotation_FW -= rotSpeed; }
+		else { fb_rotation_FW += rotSpeed; }
+	}
+
+	//Actually rotating the kart
+	if (math::Abs(fb_rotation_Y) > 1.0f)
+		kart_trs->Rotate(Quat::RotateAxisAngle(float3(0, 1, 0), fb_rotation_Y * DEGTORAD));
+	else
+		fb_rotation_Y = 0.0f;
+
+	kart_trs->UpdateMatrix();
+	if (math::Abs(fb_rotation_FW) > 1.0f)
+		kart_trs->Rotate(Quat::RotateAxisAngle(kart_trs->GetForward(), fb_rotation_FW * DEGTORAD));
+	else
+		fb_rotation_FW = 0.0f;
+		
+	kart_trs->UpdateMatrix();
 }
 
 void ComponentCar::Save(Data& file) const

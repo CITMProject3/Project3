@@ -13,10 +13,11 @@
 
 #include "Primitive.h"
 #include "Wheel.h"
+#include "RaycastHit.h"
 
 #include "Timer.h"
 
-#define CAR_GRAVITY 0.8f
+#define CAR_GRAVITY 18.0f
 
 //TODO fix conversion Units to KM/H
 #define UNITS_TO_KMH 133.0f
@@ -165,6 +166,10 @@ public:
 
 	float3 kartX, kartY, kartZ;	
 
+	//Shadow Ray results
+	bool shadowRayHit;
+	RaycastHit shadowRayResult;
+
 	//Collider
 	Cube_P collShape;
 private:
@@ -182,6 +187,16 @@ private:
 	Timer p1AcrobaticsPress;
 	Timer p2AcrobaticsPress;
 	bool acrobaticsDone = false;
+
+	//Feedback stuff
+	float4x4 kartTransform = float4x4::identity;
+
+	float fb_jumpSpeed = 0.0f;
+	float fb_verticalCorrection = 0.0f;
+	float fb_vertical = 0.0f;
+	float fb_rotation_Y = 0.0f;
+	float fb_rotation_FW = 0.0f;
+
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
@@ -246,7 +261,9 @@ public:
 	void SetCarType(CAR_TYPE type);
 
 private:
+	void CastShadowRay();
 	void UpdateAnims();
+	void UpdateRenderTransform();
 
 public:
 	void PickItem();
