@@ -545,6 +545,13 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 void ModulePhysics3D::OnPlay()
 {
 	AddTerrain();
+
+	if (realTerrainData != nullptr)
+	{
+		delete[] realTerrainData;
+		realTerrainData = nullptr;
+	}
+
 }
 
 void ModulePhysics3D::OnStop()
