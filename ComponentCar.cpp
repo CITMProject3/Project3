@@ -1067,7 +1067,7 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
 	}
-	else if (checkpoint < checkpoints)
+	else if (checkpoint != checkpoints)
 	{
 		wrongDirection = true;
 	}
