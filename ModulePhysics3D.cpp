@@ -9,6 +9,7 @@
 #include "ModuleLighting.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGOManager.h"
+#include "MasterRender.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -99,7 +100,6 @@ bool ModulePhysics3D::Start()
 	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
 	CreateGround();
-	GetShaderLocations();
 	return true;
 }
 
@@ -377,36 +377,6 @@ bool ModulePhysics3D::CleanUp()
 	delete world;
 
 	return true;
-}
-
-void ModulePhysics3D::GetShaderLocations()
-{
-	shader_id = App->resource_manager->GetDefaultTerrainShaderId();
-
-	model_location = glGetUniformLocation(shader_id, "model");
-	projection_location = glGetUniformLocation(shader_id, "projection");
-	view_location = glGetUniformLocation(shader_id, "view");
-	n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
-	tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
-	texture_location_0 = glGetUniformLocation(shader_id, "_Texture_0");
-	texture_location_1 = glGetUniformLocation(shader_id, "_Texture_1");
-	texture_location_2 = glGetUniformLocation(shader_id, "_Texture_2");
-	texture_location_3 = glGetUniformLocation(shader_id, "_Texture_3");
-	texture_location_4 = glGetUniformLocation(shader_id, "_Texture_4");
-	texture_location_5 = glGetUniformLocation(shader_id, "_Texture_5");
-	texture_location_6 = glGetUniformLocation(shader_id, "_Texture_6");
-	texture_location_7 = glGetUniformLocation(shader_id, "_Texture_7");
-	texture_location_8 = glGetUniformLocation(shader_id, "_Texture_8");
-	texture_location_9 = glGetUniformLocation(shader_id, "_Texture_9");
-	has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-	texture_location = glGetUniformLocation(shader_id, "_Texture");
-	colorLoc = glGetUniformLocation(shader_id, "material_color");
-	ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
-	ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
-	has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
-	directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
-	directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
-	directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 }
 
 void ModulePhysics3D::UpdateTriggerList()
@@ -1728,22 +1698,21 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
-		uint shader_id = App->resource_manager->GetDefaultTerrainShaderId();
-		//Use shader
-		glUseProgram(shader_id);
+		TerrainShader shader = App->renderer3D->ms_render->terrain_shader;
 
-		//Set uniforms
+		//Use shader
+		glUseProgram(shader.id);
 
 		//Matrices
-		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
+		glUniformMatrix4fv(shader.model, 1, GL_FALSE, *(float4x4::identity).v);
+		glUniformMatrix4fv(shader.projection, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
+		glUniformMatrix4fv(shader.view, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
-		glUniform1i(n_texs_location, textures.size());
+		glUniform1i(shader.n_textures, textures.size());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-		glUniform1i(tex_distributor_location, 0);
+		glUniform1i(shader.texture_distributor, 0);
 
 		int count = 0;
 		if (textures.size() > 0)
@@ -1752,7 +1721,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 0
 			if (0 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_0, 1);
+				glUniform1i(shader.tex0, 1);
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, textures[0].first->GetTexture());
 			}
@@ -1765,7 +1734,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 1			
 			if (1 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_1, 2);
+				glUniform1i(shader.tex1, 2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture(GL_TEXTURE_2D, textures[1].first->GetTexture());
 			}
@@ -1778,7 +1747,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 2
 			if (2 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_2, 3);
+				glUniform1i(shader.tex2, 3);
 				glActiveTexture(GL_TEXTURE3);
 				glBindTexture(GL_TEXTURE_2D, textures[2].first->GetTexture());
 			}
@@ -1791,7 +1760,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 3
 			if (3 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_3, 4);
+				glUniform1i(shader.tex3, 4);
 				glActiveTexture(GL_TEXTURE4);
 				glBindTexture(GL_TEXTURE_2D, textures[3].first->GetTexture());
 			}
@@ -1801,123 +1770,19 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
-			//TEXTURE 4
-			if (4 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_4, 5);
-				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, textures[4].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 5
-			if (5 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_5, 6);
-				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, textures[5].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 6
-			if (6 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_6, 7);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[6].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 7
-			if (7 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_7, 8);
-				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, textures[7].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 8
-			if (8 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_8, 9);
-				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, textures[8].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 9
-			if (9 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_9, 10);
-				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, textures[9].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-		}
-		else
-		{
-			glUniform1i(has_tex_location, 1);
-
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-			glUniform1i(texture_location, 0);
-		}
-
-		if (colorLoc != -1)
-		{
-			float4 color(1.0f, 1.0f, 1.0f, 1.0f);
-			glUniform4fv(colorLoc, 1, color.ptr());
 		}
 
 
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
 		//Ambient
-		if (ambient_intensity_location != -1)
-			glUniform1f(ambient_intensity_location, light.ambient_intensity);
-		if (ambient_color_location != -1)
-			glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
+		glUniform1f(shader.Ia, light.ambient_intensity);
+		glUniform3f(shader.Ka, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
-		//Directional
-		glUniform1i(has_directional_location, light.has_directional);
-
-		if (light.has_directional)
-		{
-			if (directional_intensity_location != -1)
-				glUniform1f(directional_intensity_location, light.directional_intensity);
-			if (directional_color_location != -1)
-				glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-			if (directional_direction_location != -1)
-				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-		}
-
-
+		glUniform1f(shader.Id, light.directional_intensity);
+		glUniform3f(shader.Kd, light.directional_color.x, light.directional_color.y, light.directional_color.z);
+		glUniform3f(shader.L, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
+		
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
@@ -1933,10 +1798,10 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
 
-		//Buffer terrainUVs == 4
-		glEnableVertexAttribArray(4);
+		//Buffer terrainUVs == 3
+		glEnableVertexAttribArray(3);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
-		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 		{
