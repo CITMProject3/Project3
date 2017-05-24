@@ -363,6 +363,7 @@ public:
 	unsigned int lap = 1;
 
 	unsigned int n_checkpoints = 0;
+	bool wrongDirection = false;
 };
 
 

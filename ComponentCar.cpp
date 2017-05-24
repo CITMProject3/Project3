@@ -1059,12 +1059,17 @@ void ComponentCar::OnGetHit(float velocity_reduction)
 
 void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot)
 {
+	wrongDirection = false;
 	if (checkpoint == checkpoints + 1)
 	{
 		n_checkpoints++;
 		last_check_pos = resetPos;
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
+	}
+	else if (checkpoint < checkpoints)
+	{
+		wrongDirection = true;
 	}
 }
 
@@ -1517,7 +1522,7 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
+		ImGui::Checkbox("Wrong direction", &wrongDirection);
 		ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
 		ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
