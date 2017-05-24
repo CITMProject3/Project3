@@ -180,7 +180,6 @@ private:
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
 
-	int driftPhaseChange = 3;
 	MashButtonCounter driftButtonMasher;
 
 	float acrobaticsDelay = 0.5f;
@@ -197,6 +196,20 @@ private:
 	float fb_rotation_Y = 0.0f;
 	float fb_rotation_FW = 0.0f;
 
+	//Inspector variables for drifting
+	int driftPhaseChange = 3;
+
+	float driftingFixedTurn = 0.85f;
+	float driftingAdjustableTurn = 0.65f;
+	float steerChangeSpeed = 1.5f;
+	float horizontalSpeedDrifting = 0.8f;
+
+	float minimumSteerToStartDrifting = 0.6f;
+	float minimumSpeedRatioToStartDrifting = 0.4f;
+
+	float driftJumpSpeed = 10.0f;
+	float driftJumpGravityMultiplier = 3.0f;
+	float driftVisualTurn = 25.0f;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
