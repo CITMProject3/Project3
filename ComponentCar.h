@@ -362,6 +362,9 @@ public:
 	Quat last_check_rot = Quat::identity;
 	unsigned int lap = 1;
 
+	int lastCheckpoint = 0;
+	int last2Checkpoint = 0;
+	bool wentThroughEnd = false;
 	unsigned int n_checkpoints = 0;
 	bool wrongDirection = false;
 };

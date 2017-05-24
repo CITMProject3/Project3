@@ -1059,6 +1059,7 @@ void ComponentCar::OnGetHit(float velocity_reduction)
 
 void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot)
 {
+	bool lastWrongDirection = wrongDirection;
 	wrongDirection = false;
 	if (checkpoint == checkpoints + 1)
 	{
@@ -1067,10 +1068,33 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
 	}
-	else if (checkpoint != checkpoints)
+	else
 	{
-		wrongDirection = true;
+		if (checkpoint != lastCheckpoint)
+		{
+			last2Checkpoint = lastCheckpoint;
+			lastCheckpoint = checkpoint;
+		}
+		if (wentThroughEnd)
+		{
+			if (lastWrongDirection)
+			{
+				lastCheckpoint = checkpoint;
+				last2Checkpoint = lastCheckpoint + 1;
+			}
+			else
+			{
+				last2Checkpoint = lastCheckpoint = checkpoint;
+			}
+			wentThroughEnd = false;
+		}
+
+		if(lastCheckpoint < last2Checkpoint)
+		{
+			wrongDirection = true;
+		}
 	}
+	
 }
 
 void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot)
@@ -1091,6 +1115,8 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		last_check_rot = resetRot;
 
 	}
+	wentThroughEnd = true;
+
 	if (lap >= 4)
 	{
 		finished = true;
@@ -1522,7 +1548,6 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-		ImGui::Checkbox("Wrong direction", &wrongDirection);
 		ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
 		ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
@@ -1555,8 +1580,11 @@ void ComponentCar::OnInspector(bool debug)
 				"Steering: %s\n"
 				"On The Ground: %s\n"
 				"DriftButtonMashing: %u\n"
+				"Wrong direction: %s\n"
+				"Last checkpoint: %i\n"
+				"Last 2checkpoint: %i\n"
 				"TestVar: %f"
-				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
+				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(), wrongDirection ? "true" : "false", lastCheckpoint, last2Checkpoint, testVar);
 
 
 			string currentDriftPhase;
