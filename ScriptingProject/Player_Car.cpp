@@ -456,7 +456,7 @@ namespace Player_Car
 			{
 				float3 new_pos = game_object->transform->GetPosition();
 				new_pos -= car->kartZ  * car->collShape.size.z;
-				new_pos += car->kartY * (car->collShape.size.y + 2);
+				new_pos += car->kartY * (car->collShape.size.y + 1);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 				float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
@@ -646,7 +646,7 @@ namespace Player_Car
 					{
 						float3 new_pos = game_object->transform->GetPosition();
 						new_pos -= car->kartZ  * car->collShape.size.z;
-						new_pos += car->kartY * (car->collShape.size.y + 2);
+						new_pos += car->kartY * (car->collShape.size.y + 1);
 						makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 						makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 						float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
