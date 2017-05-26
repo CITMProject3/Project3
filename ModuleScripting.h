@@ -33,9 +33,12 @@ public:
 	ComponentScript* to_set_var = nullptr;
 
 private:
+
 	DWORD last_error = 0;
+	std::string debug_lib_base_path, release_lib_base_path;
 
 public:
+
 	ResourceScriptsLibrary* scripts_lib = nullptr;
 };
 
