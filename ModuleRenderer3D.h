@@ -21,6 +21,7 @@ class ComponentMaterial;
 typedef void *SDL_GLContext;
 class ComponentSprite;
 class ComponentParticleSystem;
+class MasterRender;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -38,6 +39,7 @@ public:
 	const ComponentCamera* GetCamera() const;
 	void SetCamera(ComponentCamera* camera);
 	void AddCamera(ComponentCamera* camera);
+	void CleanCameras();
 
 	void AddToDraw(GameObject* obj);
 	void AddToDrawSprite(ComponentSprite* sprite);
@@ -79,11 +81,14 @@ public:
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	std::vector<ComponentCamera*> cameras;
 
+	MasterRender* ms_render;
 private:
 
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
 	std::vector<ComponentParticleSystem*> particles_to_draw;
+
+	
 };
 
 #endif // !__MODULERENDERER3D_H__

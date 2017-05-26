@@ -396,6 +396,15 @@ void ComponentAnimation::Update()
 
 	if (App->IsGameRunning())
 	{
+		if (game_started == false)
+		{
+			if (current_animation != nullptr)
+			{
+				PlayAnimation(current_animation->index);
+			}
+			game_started = true;
+		}
+
 		if (playing == true)
 		{
 			if (started == false)

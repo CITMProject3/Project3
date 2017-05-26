@@ -14,6 +14,7 @@ PhysBody3D::PhysBody3D(btRigidBody* body, ComponentCar* col) : body(body)
 {
 	car = col;
 	body->setUserPointer(this);
+	SetCar(true);
 }
 
 // ---------------------------------------------------------
@@ -52,7 +53,8 @@ void PhysBody3D::SetTransform(const float* matrix) const
 	{
 		btTransform t;
 		t.setFromOpenGLMatrix(matrix);
-		body->setWorldTransform(t);
+		//body->setWorldTransform(t);
+		body->getMotionState()->setWorldTransform(t);
 	}
 }
 

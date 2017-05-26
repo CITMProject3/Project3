@@ -32,7 +32,9 @@
 #include <algorithm>
 using namespace std;
 
-ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1)
+ComponentParticleSystem::ComponentParticleSystem(ComponentType type, GameObject* game_object) : Component(type, game_object), 
+color(1), cti_entry(1, 0, float3(1)), tex_anim_data(1), bounding_box(vec(-0.5f), vec(0.5f)), bb_size(1.0f), bb_pos_offset(0.0f), state(PSState::PS_STOP),
+img_size(1.0f)
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::Init", Profiler::Color::Navy);
 
@@ -77,6 +79,7 @@ ComponentParticleSystem::~ComponentParticleSystem()
 {
 	glDeleteBuffers(1, &position_buffer);
 	glDeleteBuffers(1, &color_buffer);
+	glDeleteBuffers(1, &life_buffer);
 
 	for (vector<ColorTimeItem*>::iterator it = color_time.begin(); it != color_time.end(); ++it)
 		delete *it;
@@ -97,20 +100,17 @@ void ComponentParticleSystem::OnInspector(bool debug)
 		}
 
 		//Main Options
+		ImGui::Text("Duration: "); ImGui::SameLine(); ImGui::DragFloat("###ps_duration", &duration, 0.1f);
+		ImGui::Text("Looping: "); ImGui::SameLine(); ImGui::Checkbox("###ps_looping", &looping);
 		ImGui::Text("Lifetime: "); ImGui::SameLine(); ImGui::DragFloat("###ps_lifetime", &life_time, 1.0f, 0.0f, 1000.0f);
 		ImGui::Text("Speed: "); ImGui::SameLine(); ImGui::DragFloat("###ps_speed", &speed, 1.0f, 0.0, 1000.0f);
 		ImGui::Text("Size: "); ImGui::SameLine(); ImGui::DragFloat("###ps_size", &size, 1.0f, 0.0, 1000.0f);
 		if (ImGui::CollapsingHeader("Start color: ")) { ImGui::ColorPicker("###ps_start_color", color.ptr()); }
+		InspectorSimulationSpace();
 		ImGui::Text("Max particles: "); ImGui::SameLine(); ImGui::DragInt("###max_particles", &max_particles, 1, 0, 1000);
 		ImGui::Text("Play On Awake: "); ImGui::SameLine(); ImGui::Checkbox("###ps_play_awake", &play_on_awake);
 
-		ImGui::Text("Emission rate: "); ImGui::SameLine(); 
-		if (ImGui::DragFloat("###ps_emission", &emission_rate, 1.0f, 0.0f, 500.0f))
-		{
-			spawn_time = 1.0f / emission_rate;
-			spawn_timer = 0.0f;
-		}
-
+		InspectorEmission();
 		InspectorShape();
 		InspectorColorOverTime();
 		InspectorTextureAnimation();
@@ -128,6 +128,8 @@ void ComponentParticleSystem::OnInspector(bool debug)
 				ImGui::EndMenu();
 			}
 		}
+
+		InspectorBoundingBox();
 
 		InspectorSimulation();
 	}
@@ -147,6 +149,9 @@ void ComponentParticleSystem::Save(Data & file) const
 	data.AppendFloat("size", size);
 	data.AppendBool("play_on_awake", play_on_awake);
 	data.AppendFloat3("color", color.ptr());
+	data.AppendFloat("duration", duration);
+	data.AppendBool("looping", looping);
+	data.AppendBool("simulation_space", simulation_space_local);
 
 	data.AppendBool("color_over_time", color_over_time_active);
 	if (color_over_time_active)
@@ -186,6 +191,24 @@ void ComponentParticleSystem::Save(Data & file) const
 	else
 		data.AppendString("texture", "");
 
+	//Bounding box
+	data.AppendFloat3("bb_pos_offset", bb_pos_offset.ptr());
+	data.AppendFloat3("bb_size", bb_size.ptr());
+
+	//Bursts
+	data.AppendArray("bursts");
+	if (bursts.size() > 0)
+	{
+		for (int i = 0; i < bursts.size(); ++i)
+		{
+			Data burst;
+			burst.AppendFloat("time", bursts[i].time);
+			burst.AppendInt("min_particles", bursts[i].min_particles);
+			burst.AppendInt("max_particles", bursts[i].max_particles);
+			data.AppendArrayValue(burst);
+		}
+	}
+
 	file.AppendArrayValue(data);
 }
 
@@ -202,6 +225,10 @@ void ComponentParticleSystem::Load(Data & conf)
 	size = conf.GetFloat("size");
 	play_on_awake = conf.GetBool("play_on_awake");
 	color = conf.GetFloat3("color");
+	duration = conf.GetFloat("duration");
+	looping = conf.GetBool("looping");
+	simulation_space_local = conf.GetBool("simulation_space");
+
 	color_over_time_active = conf.GetBool("color_over_time");
 	if (color_over_time_active)
 	{
@@ -220,7 +247,7 @@ void ComponentParticleSystem::Load(Data & conf)
 		}
 	}
 
-	shape_type = (ParticleShapeType)conf.GetInt("box_shape");
+	shape_type = (ParticleShapeType)conf.GetInt("shape_type");
 	switch (shape_type)
 	{
 	case SHAPE_BOX:
@@ -232,7 +259,29 @@ void ComponentParticleSystem::Load(Data & conf)
 		sphere_emit_from_shell = conf.GetBool("sphere_emit_from_shell");
 		break;
 	}
-	
+
+	bb_pos_offset = conf.GetFloat3("bb_pos_offset");
+	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+	bb_size = conf.GetFloat3("bb_size");
+	float3 center = bounding_box.CenterPoint();
+	float3 half = bb_size * 0.5f;
+	bounding_box.minPoint = center - half;
+	bounding_box.maxPoint = center + half;
+
+	if (conf.GetArraySize("bursts") > 0)
+	{
+		Data burst;
+		for (int i = 0; i < conf.GetArraySize("bursts"); ++i)
+		{
+			burst = conf.GetArray("bursts", i);
+			Burst b;
+			b.time = burst.GetFloat("time");
+			b.min_particles = burst.GetInt("min_particles");
+			b.max_particles = burst.GetInt("max_particles");
+
+			bursts.push_back(b);
+		}
+	}
 
 	texture_anim = conf.GetBool("texture_anim");
 	if (texture_anim)
@@ -243,7 +292,11 @@ void ComponentParticleSystem::Load(Data & conf)
 	{
 		ResourceFileTexture* rc_tmp = (ResourceFileTexture*)App->resource_manager->LoadResource(tex_path, ResourceFileType::RES_TEXTURE);
 		if (rc_tmp)
+		{
 			texture = rc_tmp;
+			img_size.x = rc_tmp->GetWidth() / 100.0f;
+			img_size.y = rc_tmp->GetHeight() / 100.0f;
+		}
 		else
 		{
 			LOG("[ERROR] Loading failure on particle system %s %s", game_object->name.data(), tex_path.data());
@@ -258,9 +311,24 @@ void ComponentParticleSystem::Update()
 	if (active == false)
 		return;
 
-	if (playing_editor || is_playing)
+	if (state == PS_PLAYING)
 	{
-		spawn_timer += time->RealDeltaTime();
+		float dt = time->RealDeltaTime();
+		system_life += dt;
+
+		if (!looping && system_life >= duration)
+			return;
+		else
+		{
+			if (duration * cycles < system_life)
+			{
+				++cycles;
+				for (int b = 0; b < bursts.size(); ++b)
+					bursts[b].completed = false;
+			}
+		}
+
+		spawn_timer += dt;
 
 		if (spawn_timer >= spawn_time)
 		{
@@ -272,6 +340,16 @@ void ComponentParticleSystem::Update()
 			spawn_timer -= spawn_time * num_particles_to_spawn;
 		}
 
+		for (int b = 0; b < bursts.size(); ++b)
+		{
+			if (!bursts[b].completed && system_life >= duration * (cycles -1) + bursts[b].time)
+			{
+				bursts[b].completed = true;
+				int spawn_rate_rnd = App->rnd->RandomInt(bursts[b].min_particles, bursts[b].max_particles);
+				for (int p = 0; p < spawn_rate_rnd; ++p)
+					SpawnParticle(0);
+			}
+		}
 	}
 
 }
@@ -280,73 +358,83 @@ void ComponentParticleSystem::PostUpdate()
 {
 	BROFILER_CATEGORY("ComponentParticleSystem::PostUpdate", Profiler::Color::Navy);
 
-	if (playing_editor || is_playing)
+	if (state == PS_PLAYING || state == PS_PAUSE)
 	{
 		float dt = time->RealDeltaTime();
 
-		num_alive_particles = 0;
-
-		Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
-
-		float item_life;
-		float item_life_pc;
-		float c_pc;
-		ColorTimeItem* previous = nullptr;
-		ColorTimeItem* next = nullptr;
-		//Update positions & color
-		for (int i = 0; i < top_max_particles; ++i)
+		if (state == PS_PLAYING)
 		{
-			Particle& p = particles_container[i];
+			num_alive_particles = 0;
 
-			if (p.life > 0.0f)
+			Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
+			float3 sys_position = game_object->GetGlobalMatrix().TranslatePart();
+
+			float item_life;
+			float item_life_pc;
+			float c_pc;
+			ColorTimeItem* previous = nullptr;
+			ColorTimeItem* next = nullptr;
+			//Update positions & color
+			for (int i = 0; i < top_max_particles; ++i)
 			{
-				p.life -= dt;
+				Particle& p = particles_container[i];
 
 				if (p.life > 0.0f)
 				{
-					item_life = life_time - p.life;
-					p.position = p.origin + (rotation * p.speed) * item_life;
+					p.life -= dt;
 
-					item_life_pc = (item_life / life_time) * 100.0;
+					if (p.life > 0.0f)
+					{
+						item_life = life_time - p.life;
 
-					if (color_time[p.next_c_id]->position <= item_life_pc)
-						p.next_c_id++;
+						if(simulation_space_local)
+							p.position = sys_position + p.dst_origin + (rotation * p.speed) * item_life;
+						else
+							p.position = p.origin + (rotation * p.speed) * item_life;
 
-					previous = color_time[p.next_c_id - 1];
-					next = color_time[p.next_c_id];
-			
-					c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
-					p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
-					p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
-					p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
-					p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+						if (color_over_time_active)
+						{
+							item_life_pc = (item_life / life_time) * 100.0;
 
-					++num_alive_particles;
+							if (color_time[p.next_c_id]->position <= item_life_pc)
+								p.next_c_id++;
+
+							int ct_id = (p.next_c_id - 1 >= 0) ? p.next_c_id - 1 : 0;
+							previous = color_time[ct_id];
+							next = color_time[p.next_c_id];
+
+							c_pc = (item_life_pc - previous->position) / (next->position - previous->position);
+							p.color.x = previous->color.x * (1.0f - c_pc) + next->color.x * c_pc;
+							p.color.y = previous->color.y * (1.0f - c_pc) + next->color.y * c_pc;
+							p.color.z = previous->color.z * (1.0f - c_pc) + next->color.z * c_pc;
+							p.color.w = previous->alpha * (1.0f - c_pc) + next->alpha * c_pc;
+						}	
+
+						++num_alive_particles;
+					}
+					else
+					{
+						p.cam_distance = -1.0f;
+						p.life = -1.0f;
+					}
 				}
 				else
 				{
 					p.cam_distance = -1.0f;
 					p.life = -1.0f;
 				}
-			}
-			else
-			{
-				p.cam_distance = -1.0f;
-				p.life = -1.0f;
-			}
 
-		}
-
+			}
+			
+		}	
 		App->renderer3D->AddToDrawParticle(this);
-
-		if(playing_editor)
-			simulation_time += dt;
 	}
 	
 }
 
 void ComponentParticleSystem::OnTransformModified()
 {
+	//TODO:Optimize this only for the current shape
 	box_shape_obb.pos = game_object->GetGlobalMatrix().TranslatePart();
 	Quat rotation = game_object->GetGlobalMatrix().RotatePart().ToQuat();
 	box_shape_obb.axis[0] = rotation * float3::unitX;
@@ -354,28 +442,27 @@ void ComponentParticleSystem::OnTransformModified()
 	box_shape_obb.axis[2] = rotation * float3::unitZ;
 
 	sphere_shape.pos = game_object->GetGlobalMatrix().TranslatePart();
+
+
+	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
 }
 
 void ComponentParticleSystem::OnPlay()
 {
 	if (play_on_awake)
 	{
-		is_playing = true;
+		state = PSState::PS_PLAYING;
 	}
 }
 
 void ComponentParticleSystem::OnPause()
 {
-	//Do not create new particles and do not update positions
+	state = PSState::PS_PAUSE;
 }
 
 void ComponentParticleSystem::OnStop()
 {
-	if (is_playing)
-	{
-		is_playing = false;
-		StopAll();
-	}
+	StopAll();
 }
 
 unsigned int ComponentParticleSystem::GetTextureId() const
@@ -447,6 +534,23 @@ void ComponentParticleSystem::StopAll()
 		particles_container[i].life = -1.0f;
 
 	num_alive_particles = 0;
+	cycles = 0;
+	state = PSState::PS_STOP;
+}
+
+void ComponentParticleSystem::Play()
+{
+	if (state != PSState::PS_PLAYING)
+	{
+		state = PSState::PS_PLAYING;
+		system_life = 0.0f;
+		cycles = 0;
+	}
+}
+
+void ComponentParticleSystem::Pause()
+{
+	state = PSState::PS_PAUSE;
 }
 
 void ComponentParticleSystem::InspectorDelete()
@@ -478,6 +582,8 @@ void ComponentParticleSystem::InspectorChangeTexture()
 					texture->Unload();
 
 				texture = rc_tmp;
+				img_size.x = rc_tmp->GetWidth() / 100.0f;
+				img_size.y = rc_tmp->GetHeight() / 100.0f;
 			}
 			else
 			{
@@ -495,16 +601,22 @@ void ComponentParticleSystem::InspectorSimulation()
 	ImGui::Begin("##ps_simulation", &open, ImVec2(0, 0), 0.6f, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
 	if (ImGui::Button("Play##ps_stop"))
 	{
-		playing_editor = true;
+		state = PS_PLAYING;
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Pause##ps_pause"))
+	{
+		state = PS_PAUSE;
 	}
 	ImGui::SameLine();
 	if (ImGui::Button("Stop##ps_stop"))
 	{
-		playing_editor = false;
-		simulation_time = 0.0f;
+		state = PS_STOP;
+		system_life = 0.0f;
 		StopAll();
 	}
-	ImGui::Text("Playback Time: %.2f", simulation_time);
+	ImGui::Text("Playback Time: %.2f", system_life);
+	ImGui::Text("Cycles: %i", cycles);
 	ImGui::End();
 }
 
@@ -627,6 +739,88 @@ void ComponentParticleSystem::InspectorShape()
 	}
 }
 
+void ComponentParticleSystem::InspectorBoundingBox()
+{
+	if (ImGui::CollapsingHeader("Bounding Box ###ps_bounding_box"))
+	{
+		if (ImGui::DragFloat3("Size ##ps_size_bb", bb_size.ptr(), 0.01f))
+		{
+			float3 center = bounding_box.CenterPoint();
+			float3 half = bb_size * 0.5f;
+			bounding_box.minPoint = center - half;
+			bounding_box.maxPoint = center + half;
+		}
+
+		if (ImGui::DragFloat3("Offset ##ps_pos_offset_bb", bb_pos_offset.ptr(), 0.01f))
+		{
+			bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+		}
+		g_Debug->AddAABB(bounding_box, g_Debug->red, 2.0f);		
+	}
+}
+
+void ComponentParticleSystem::InspectorEmission()
+{
+	if (ImGui::CollapsingHeader("Emission ###ps_emission"))
+	{
+		ImGui::Text("Emission rate: "); ImGui::SameLine();
+		if (ImGui::DragFloat("###ps_emission_drag", &emission_rate, 1.0f, 0.0f, 500.0f))
+		{
+			spawn_time = 1.0f / emission_rate;
+			spawn_timer = 0.0f;
+		}
+
+		ImGui::Text("Burst");
+		ImGui::Separator();
+
+		vector<int> bursts_to_remove;
+
+		for (int i = 0; i < bursts.size(); ++i)
+		{
+			ImGui::PushID(i*4);
+			ImGui::DragFloat("Time: ###ps_burst_time", &bursts[i].time);
+			ImGui::PopID(); ImGui::PushID(i * 4 + 1);
+			ImGui::DragInt("Min particles: ###ps_burst_min_p", &bursts[i].min_particles);
+			ImGui::PopID(); ImGui::PushID(i*4 + 2);
+			ImGui::DragInt("Max particles: ###ps_burst_min_p", &bursts[i].max_particles);
+			ImGui::PopID();
+			ImGui::PushID(i * 4 + 3);
+			if (ImGui::Button("Remove ##ps_remove_burst"))
+				bursts_to_remove.push_back(i);
+			ImGui::PopID();
+			ImGui::Separator();
+		}
+
+		if (ImGui::Button("Add burst"))
+		{
+			bursts.push_back(Burst());
+		}
+
+		for (int i = 0; i < bursts_to_remove.size(); ++i)
+			bursts.erase(bursts.begin() + bursts_to_remove[i]);
+		
+	}	
+}
+
+void ComponentParticleSystem::InspectorSimulationSpace()
+{
+	if (simulation_space_local)
+		ImGui::Text("Simulation Space: Local");
+	else
+		ImGui::Text("Simulation Space: World");
+	ImGui::SameLine();
+	if (ImGui::BeginMenu("###ps_simulation_space_menu"))
+	{
+		if (ImGui::MenuItem("Local Space"))
+			simulation_space_local = true;
+
+		if (ImGui::MenuItem("World Space"))
+			simulation_space_local = false;
+
+		ImGui::EndMenu();
+	}
+}
+
 void ComponentParticleSystem::SpawnParticle(int delay)
 {
 	int id = FindUnusedParticle();
@@ -637,11 +831,14 @@ void ComponentParticleSystem::SpawnParticle(int delay)
 	p.position = math::float3(0.0f);
 	p.next_c_id = 0;
 	p.cam_distance = -1.0f;
+	p.color = float4(color, 1.0f);
 
 	switch (shape_type)
 	{
 	case SHAPE_BOX:
 		p.origin = box_shape_obb.RandomPointInside(rnd);
+		if (simulation_space_local)
+			p.dst_origin = p.origin - game_object->GetGlobalMatrix().TranslatePart();
 		p.speed = math::float3(0, speed, 0);
 		break;
 	case SHAPE_SPHERE:
@@ -649,7 +846,9 @@ void ComponentParticleSystem::SpawnParticle(int delay)
 			p.origin = sphere_shape.RandomPointInside(rnd);
 		else
 			p.origin = sphere_shape.RandomPointOnSurface(rnd);
-		p.speed = (p.origin - game_object->transform->GetPosition()).Normalized() * speed;
+		p.speed = (p.origin - game_object->GetGlobalMatrix().TranslatePart()).Normalized() * speed;
+		if (simulation_space_local)
+			p.dst_origin = p.origin - game_object->GetGlobalMatrix().TranslatePart();
 		break;
 	default:
 		p.origin = float3(0.0f);
