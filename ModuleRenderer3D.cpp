@@ -33,6 +33,7 @@
 #include "SDL\include\SDL_opengl.h"
 
 #include "MasterRender.h"
+#include "ShadowMap.h"
 
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
@@ -170,6 +171,9 @@ bool ModuleRenderer3D::Init(Data& config)
 
 	ms_render = new MasterRender();
 	ms_render->Init();
+
+	shadow_map = new ShadowMap();
+	shadow_map->Init(2048,2048);
 	
 	return ret;
 }
@@ -328,6 +332,8 @@ void ModuleRenderer3D::AddToDrawParticle(ComponentParticleSystem * particle_sys)
 void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
 	BROFILER_CATEGORY("ModuleRenderer3D::DrawScene", Profiler::Color::NavajoWhite);
+
+	shadow_map->Render(App->lighting->GetLightInfo().directional_direction.Normalized(), objects_to_draw);
 
 	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
 

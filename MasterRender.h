@@ -64,6 +64,13 @@ struct TerrainShader
 	unsigned int tex0, tex1, tex2, tex3;
 };
 
+struct ShadowShader
+{
+	unsigned int id;
+	
+	unsigned int mv_matrix, model;
+};
+
 class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
@@ -88,6 +95,7 @@ private:
 	void InitAnimShader();
 	void InitAnimNormalShader();
 	void InitTerrainShader();
+	void InitShadowShader();
 
 public:
 	DFShader df_shader;
@@ -95,6 +103,7 @@ public:
 	AnimShader anim_shader;
 	AnimNormalShader anim_normal_shader;
 	TerrainShader terrain_shader;
+	ShadowShader shadow_shader; //Gets rendered in the ShadowMap class
 };
 
 

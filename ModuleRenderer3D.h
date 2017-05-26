@@ -22,6 +22,7 @@ typedef void *SDL_GLContext;
 class ComponentSprite;
 class ComponentParticleSystem;
 class MasterRender;
+class ShadowMap;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -87,6 +88,8 @@ private:
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
 	std::vector<ComponentParticleSystem*> particles_to_draw;
+
+	ShadowMap* shadow_map;
 
 	
 };

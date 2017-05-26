@@ -258,6 +258,7 @@
     <ClInclude Include="ResourceFileRenderTexture.h" />
     <ClInclude Include="ResourceScriptsLibrary.h" />
     <ClInclude Include="ShaderEditorWindow.h" />
+    <ClInclude Include="ShadowMap.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SoundBank.h" />
     <ClInclude Include="TerrainWindow.h" />
@@ -441,6 +442,7 @@
     <ClCompile Include="ResourceFileRenderTexture.cpp" />
     <ClCompile Include="ResourceScriptsLibrary.cpp" />
     <ClCompile Include="ShaderEditorWindow.cpp" />
+    <ClCompile Include="ShadowMap.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SoundBank.cpp" />
     <ClCompile Include="TerrainWindow.cpp" />

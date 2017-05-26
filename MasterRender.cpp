@@ -32,6 +32,7 @@ void MasterRender::Init()
 	InitAnimShader();
 	InitAnimNormalShader();
 	InitTerrainShader();
+	InitShadowShader();
 }
 
 void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material, const LightInfo* light) const
@@ -280,4 +281,14 @@ void MasterRender::InitTerrainShader()
 	terrain_shader.Id = glGetUniformLocation(terrain_shader.id, "Id");
 	terrain_shader.Kd = glGetUniformLocation(terrain_shader.id, "Kd");
 	terrain_shader.L = glGetUniformLocation(terrain_shader.id, "L");
+}
+
+void MasterRender::InitShadowShader()
+{
+	unsigned int def_shader_v = ShaderCompiler::CompileVertex("Resources/Shaders/shadowV.ver");
+	unsigned int def_shader_f = ShaderCompiler::CompileFragment("Resources/Shaders/shadowF.fra");
+	shadow_shader.id = ShaderCompiler::CompileShader(def_shader_v, def_shader_f);
+
+	shadow_shader.mv_matrix = glGetUniformLocation(shadow_shader.id, "mvMatrix");
+	shadow_shader.model = glGetUniformLocation(shadow_shader.id, "model");
 }
