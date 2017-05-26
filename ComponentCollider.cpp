@@ -73,7 +73,7 @@ void ComponentCollider::Update()
 				primitive->Render();
 			}
 			float3 real_offset = rotation.Transform(offset_pos);
-			game_object->transform->Set(float4x4::FromTRS(translate - real_offset, rotation, game_object->transform->GetScale()));
+			game_object->transform->Set(float4x4::FromTRS(translate + real_offset, rotation, game_object->transform->GetScale()));
 		}
 	}
 
@@ -111,7 +111,7 @@ void ComponentCollider::OnPlay()
 		float3 scale;
 		game_object->transform->GetGlobalMatrix().Decompose(translate, rotation, scale);
 		float3 real_offset = rotation.Transform(offset_pos);
-		translate -= real_offset;
+		translate += real_offset;
 		primitive->SetPos(translate.x, translate.y, translate.z);
 		primitive->SetRotation(rotation.Inverted());
 	}
@@ -141,7 +141,7 @@ void ComponentCollider::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-		if (App->IsGameRunning() == false)
+		if (debug || App->IsGameRunning() == false)
 		{
 			ImGui::NewLine();
 			if (ImGui::BeginMenu("Shape: "))
@@ -302,14 +302,6 @@ void ComponentCollider::SetShape(Collider_Shapes new_shape)
 	convexShape = nullptr;
 
 	ComponentMesh* msh = (ComponentMesh*)game_object->GetComponent(C_MESH);
-	if (msh && shape != new_shape)
-	{
-		offset_pos = msh->GetBoundingBox().CenterPoint() - game_object->transform->GetPosition();
-	}
-	else
-	{
-		offset_pos = float3::zero;
-	}
 	shape = new_shape;
 	switch (new_shape)
 	{

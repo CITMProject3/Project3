@@ -239,6 +239,7 @@
     <ClInclude Include="Light.h" />
     <ClInclude Include="LightingWindow.h" />
     <ClInclude Include="LinearAllocator.h" />
+    <ClInclude Include="MasterRender.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialCreatorWindow.h" />
     <ClInclude Include="md5.h" />
@@ -342,7 +343,6 @@
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="PerfTimer.h" />
     <ClInclude Include="PhysBody3D.h" />
-    <ClInclude Include="PhysVehicle3D.h" />
     <ClInclude Include="PoolAllocator.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Random.h" />
@@ -356,7 +356,9 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Turbos.h" />
     <ClInclude Include="WarningWindow.h" />
+    <ClInclude Include="Wheel.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowOptions.h" />
     <ClInclude Include="Wwise_Library.h" />
@@ -421,6 +423,7 @@
     <ClCompile Include="LinearAllocator.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MasterRender.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialCreatorWindow.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
@@ -493,7 +496,6 @@
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="PerfTimer.cpp" />
     <ClCompile Include="PhysBody3D.cpp" />
-    <ClCompile Include="PhysVehicle3D.cpp" />
     <ClCompile Include="PoolAllocator.cpp" />
     <ClCompile Include="Primitive.cpp" />
     <ClCompile Include="Random.cpp" />
@@ -508,6 +510,7 @@
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="WarningWindow.cpp" />
+    <ClCompile Include="Wheel.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowOptions.cpp" />
     <ClCompile Include="Wwise_Library.cpp" />

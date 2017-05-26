@@ -174,6 +174,8 @@ void ComponentCamera::OnInspector(bool debug)
 			ImGui::EndMenu();
 		}
 
+		ImGui::Checkbox("Render skybox###render_skybox_cam", &render_skybox);
+
 		ImGui::Separator();
 
 		if (ImGui::Button("Remove ###cam_rem"))
@@ -395,6 +397,7 @@ void ComponentCamera::Save(Data & file)const
 	data.AppendFloat("followRotSpeed", followRotateSpeed);
 
 	data.AppendBool("render_terrain", renderTerrain);
+	data.AppendBool("render_skybox", render_skybox);
 
 	file.AppendArrayValue(data);
 }
@@ -424,6 +427,7 @@ void ComponentCamera::Load(Data & conf)
 	followRotateSpeed = conf.GetFloat("followRotSpeed");
 
 	renderTerrain = conf.GetBool("render_terrain");
+	render_skybox = conf.GetBool("render_skybox");
 
 	//Init frustrum
 	float vertical_fov = DegToRad(fov);

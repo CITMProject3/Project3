@@ -148,7 +148,6 @@ void Time::SetMaxFPS(int max_fps)
 	else
 		capped_ms = 1.0f / (double)max_fps;
 
-	LOG("AYYYYYY %f", capped_ms);
 }
 
 float Time::GetUnitaryTime()

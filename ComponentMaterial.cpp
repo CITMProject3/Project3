@@ -141,7 +141,7 @@ void ComponentMaterial::OnInspector(bool debug)
 			ChooseAlphaType();
 
 			ImGui::Text("Specular: "); ImGui::SameLine();
-			ImGui::DragFloat("###mat_specular", &specular, 0.01f, 0.0f, 1.0f);
+			ImGui::DragFloat("###mat_specular", &specular, 0.01f, 0.0f, 1000.0f);
 
 		}
 		else
@@ -343,6 +343,8 @@ void ComponentMaterial::Load(Data & conf)
 					{
 						texture_ids[std::to_string(i)] = rc_tmp->GetTexture();
 						list_textures_paths[i] = tex_path;
+						if (i == 1)
+							has_normal = true;
 					}
 					else
 					{

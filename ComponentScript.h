@@ -15,7 +15,8 @@ using namespace std;
 typedef void(*f_Start)(GameObject* game_object);
 typedef void(*f_Update)(GameObject* game_object);
 typedef void(*f_OnCollision)(GameObject* game_object, PhysBody3D* col);
-typedef void(*f_UpdateItems)(unsigned int player, bool has_item);
+typedef void(*f_UpdateItems)(unsigned int team, int item_id, int item_size);
+typedef GameObject*(*f_GetMakibishi)();
 
 class ComponentScript : public Component
 {
