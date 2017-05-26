@@ -46,7 +46,6 @@ public:
 	float alpha_test = 0.25f;
 	int blend_type = 0;
 	float specular = 0.0f;
-	bool has_normal = false;
 
 	std::vector<std::string> list_textures_paths; //Default textures from fbx
 

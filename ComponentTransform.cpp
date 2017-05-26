@@ -31,7 +31,13 @@ void ComponentTransform::Update()
 {
 	BROFILER_CATEGORY("ComponentTransform::Update", Profiler::Color::Tomato)
 
-	UpdateMatrix();
+	if (transform_modified)
+	{
+		transform_matrix = transform_matrix.FromTRS(position, rotation, scale);
+		CalculateFinalTransform();
+
+		transform_modified = false;
+	}
 }
 
 void ComponentTransform::OnInspector(bool debug)
@@ -284,16 +290,6 @@ void ComponentTransform::SaveAsPrefab(Data & file) const
 	data.AppendFloat3("rotation", rotation_euler.ptr()); //Euler rotation
 
 	file.AppendArrayValue(data);
-}
-
-void ComponentTransform::UpdateMatrix()
-{
-	if (transform_modified)
-	{
-		transform_matrix = transform_matrix.FromTRS(position, rotation, scale);
-		CalculateFinalTransform();
-		transform_modified = false;
-	}
 }
 
 void ComponentTransform::CalculateFinalTransform()

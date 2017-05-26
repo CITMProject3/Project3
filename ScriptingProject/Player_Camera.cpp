@@ -32,7 +32,7 @@ namespace Player_Camera
 	//float Player_Camera_relation_vel_z = 0.5;
 	float Player_Camera_relation_vel_fov = 10.0;
 	float Player_Camera_fov_increment = 5.0;
-	float Player_Camera_fov_decrement = 10.0;
+	float Player_Camera_fov_decrement = 5.0;
 	float Player_Camera_max_vel_relative = 120.0;
 	float Player_Camera_last_fov = 60.0;
 	float Player_Max_angular_velocity = 1.5f;
@@ -156,7 +156,7 @@ namespace Player_Camera
 
 					//total_dist_z += Player_Camera_relation_vel_z * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
 					//total_dist_y += Player_Camera_relation_vel_y * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
-					new_fov += Player_Camera_relation_vel_fov * (Player_Camera_car->GetVelocity() / Player_Camera_car->GetMaxVelocity());
+					new_fov += Player_Camera_relation_vel_fov * (Player_Camera_car->GetVelocity() / Player_Camera_max_vel_relative);
 
 					float3 Player_Camera_target_pos = float3::zero;
 					Player_Camera_target_pos += (float3(game_object->transform->GetForward().Normalized().x, game_object->transform->GetForward().Normalized().y, game_object->transform->GetForward().Normalized().z) * total_dist_z);

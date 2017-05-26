@@ -170,7 +170,7 @@ void ComponentUiText::Load(Data & conf)
 //	text.resize(text.length() + 10);
 	array_values.resize(array_values.length() + 1);
 	OnChangeTexture();
-	//LOG("%d",text.size());
+	LOG("%d",text.size());
 }
 
 int ComponentUiText::GetLenght() const

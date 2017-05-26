@@ -337,7 +337,7 @@ void ResourceFilePrefab::SaveChangesGameObject(Data & file, GameObject* gameobje
 		data.AppendUInt("parent", 0);
 	else
 		data.AppendUInt("parent", gameobject->GetParent()->local_uuid);
-	data.AppendBool("active", *gameobject->GetActiveBoolean());
+	data.AppendBool("active", gameobject->IsActive());
 
 	data.AppendBool("is_prefab", gameobject->IsPrefab());
 	data.AppendUInt("prefab_root_uuid", prefab_root_uuid);

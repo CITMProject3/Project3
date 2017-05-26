@@ -50,7 +50,7 @@ void Item_Timer_Start(GameObject* game_object)
 	go_col = (ComponentCollider*)game_object->GetComponent(C_COLLIDER);
 	if (isHitodama)
 	{
-		go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
+		go_part = (ComponentParticleSystem*)game_object->GetComponent(C_PARTICLE_SYSTEM);
 	}
 	else
 	{
@@ -72,7 +72,7 @@ void Item_Timer_Update(GameObject* game_object)
 			{
 				go_col->SetActive(true);
 				//Particle sytem here no mesh
-				go_mesh->SetActive(true);
+				go_part->SetActive(true);
 				taken = false;
 				timer = 0.0f;
 			}
@@ -107,12 +107,11 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 				{
 					go_col->SetActive(false);
 					//Particle sytem here no mesh
-					go_mesh->SetActive(false);
+					go_part->SetActive(false);
 				}
 			}
 			else
 			{
-				taken = true;
 				//Pep do your magic
 				if (taken)
 				{

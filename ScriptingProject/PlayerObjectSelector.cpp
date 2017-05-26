@@ -125,12 +125,8 @@ namespace PlayerObjectSelector
 			comp_car_1->p1_animation = (ComponentAnimation*)(App->go_manager->team1_p1_c == 0 ? team1_p1_c1 : team1_p1_c2)->GetComponent(C_ANIMATION);
 		}
 
-		//TODO: just to "not allow" picking hitotsume
-		//if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
-		//if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
-
-		//Setting hitotsume pointer as kitsune
-		team1_p2_c2 = team1_p2_c1;
+		if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
+		if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
 
 		if (comp_car_1) comp_car_1->p2_animation = (ComponentAnimation*)(App->go_manager->team1_p2_c == 2 ? team1_p2_c1 : team1_p2_c2)->GetComponent(C_ANIMATION);
 
@@ -151,12 +147,9 @@ namespace PlayerObjectSelector
 
 		if (comp_car_2) comp_car_2->p1_animation = (ComponentAnimation*)(App->go_manager->team2_p1_c == 0 ? team2_p1_c1 : team2_p1_c2)->GetComponent(C_ANIMATION);
 
-		//TODO: just to "not allow" picking hitotsume
-		//if (team2_p2_c1) team2_p2_c1->SetActive(App->go_manager->team2_p2_c == 2);
-		//if (team2_p2_c2) team2_p2_c2->SetActive(App->go_manager->team2_p2_c == 3);
+		if (team2_p2_c1) team2_p2_c1->SetActive(App->go_manager->team2_p2_c == 2);
+		if (team2_p2_c2) team2_p2_c2->SetActive(App->go_manager->team2_p2_c == 3);
 
-		//Setting hitotsume pointer as kitsune
-		team2_p2_c2 = team1_p2_c1;
 		if (comp_car_1) comp_car_2->p2_animation = (ComponentAnimation*)(App->go_manager->team2_p2_c == 2 ? team2_p2_c1 : team2_p2_c2)->GetComponent(C_ANIMATION);
 	}
 }

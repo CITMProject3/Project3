@@ -94,12 +94,6 @@
     <Filter Include="Sources\Helpers\Audio">
       <UniqueIdentifier>{94366cd0-49b4-4b90-a4d6-e49511569013}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources\GameObjects\Components\CarHelpers">
-      <UniqueIdentifier>{50f033df-213a-4e3b-bd3a-99c94139457f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources\Render">
-      <UniqueIdentifier>{2f2ab479-1e3a-4687-be2e-b9bfc9753f77}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -148,6 +142,9 @@
       <Filter>Sources\Modules</Filter>
     </ClInclude>
     <ClInclude Include="PhysBody3D.h">
+      <Filter>Sources\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysVehicle3D.h">
       <Filter>Sources\Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Imgui\imconfig.h">
@@ -663,15 +660,6 @@
     <ClInclude Include="ComponentParticleSystem.h">
       <Filter>Sources\GameObjects\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Turbos.h">
-      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Wheel.h">
-      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
-    </ClInclude>
-    <ClInclude Include="MasterRender.h">
-      <Filter>Sources\Render</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -717,6 +705,9 @@
       <Filter>Sources\Modules</Filter>
     </ClCompile>
     <ClCompile Include="PhysBody3D.cpp">
+      <Filter>Sources\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysVehicle3D.cpp">
       <Filter>Sources\Helpers</Filter>
     </ClCompile>
     <ClCompile Include="Imgui\imgui.cpp">
@@ -1117,12 +1108,6 @@
     </ClCompile>
     <ClCompile Include="TerrainWindow.cpp">
       <Filter>Sources\Editor\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Wheel.cpp">
-      <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
-    </ClCompile>
-    <ClCompile Include="MasterRender.cpp">
-      <Filter>Sources\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

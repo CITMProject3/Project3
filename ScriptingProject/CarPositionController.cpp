@@ -52,37 +52,21 @@ namespace CarPositionController
 	{
 		if (c1 && c2)
 		{
-			if (c1->lap == c2->lap)
+			if (c1->n_checkpoints > c2->n_checkpoints)
 			{
-				if (c1->n_checkpoints > c2->n_checkpoints)
-				{
-					c1->place = 1;
-					c2->place = 2;
-				}
-				else if (c2->n_checkpoints > c1->n_checkpoints)
-				{
-					c2->place = 1;
-					c1->place = 2;
-				}
-				else if (c1->n_checkpoints > 0 && c2->n_checkpoints > 0)
-				{
-					ComponentTransform* trs1 = (ComponentTransform*)car1->GetComponent(C_TRANSFORM);
-					ComponentTransform* trs2 = (ComponentTransform*)car2->GetComponent(C_TRANSFORM);
-					if (c1->last_check_pos.DistanceSq(trs1->GetPosition()) > c2->last_check_pos.DistanceSq(trs2->GetPosition()))
-					{
-						c1->place = 1;
-						c2->place = 2;
-					}
-					else
-					{
-						c2->place = 1;
-						c1->place = 2;
-					}
-				}
+				c1->place = 1;
+				c2->place = 2;
 			}
-			else
+			else if (c2->n_checkpoints > c1->n_checkpoints)
 			{
-				if (c1->lap > c2->lap)
+				c2->place = 1;
+				c1->place = 2;
+			}
+			else if(c1->n_checkpoints > 0 && c2->n_checkpoints > 0)
+			{
+				ComponentTransform* trs1 = (ComponentTransform*)car1->GetComponent(C_TRANSFORM);
+				ComponentTransform* trs2 = (ComponentTransform*)car2->GetComponent(C_TRANSFORM);
+				if (c1->last_check_pos.DistanceSq(trs1->GetPosition()) > c2->last_check_pos.DistanceSq(trs2->GetPosition()))
 				{
 					c1->place = 1;
 					c2->place = 2;

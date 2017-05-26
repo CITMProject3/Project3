@@ -280,8 +280,8 @@ void ComponentMesh::InitAnimBuffers()
 	}
 	else
 	{
-//		LOG("[WARNING] Trying to init animation buffers from '%s' without a mesh", game_object->name);
-//		App->editor->DisplayWarning(WarningType::W_WARNING, "Trying to init animation buffers from '%s' without a mesh", game_object->name);
+		LOG("[WARNING] Trying to init animation buffers from '%s' without a mesh", game_object->name);
+		App->editor->DisplayWarning(WarningType::W_WARNING, "Trying to init animation buffers from '%s' without a mesh", game_object->name);
 	}
 
 }

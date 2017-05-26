@@ -28,6 +28,7 @@ namespace MapSelectUI
 
 	GameObject* map_fields = nullptr;
 	GameObject* map_umi = nullptr;
+	GameObject* map_ricing = nullptr;
 
 	GameObject* players_vote[4];
 	GameObject* right_arrow = nullptr;
@@ -40,6 +41,7 @@ namespace MapSelectUI
 
 	string path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
 	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	string path_map3 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
@@ -47,10 +49,10 @@ namespace MapSelectUI
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
+	bool just_once = false;
 
-	bool current_level = false;
-	bool current_level_lastFrame = true;
-	int current_map = 0; // 1 -   , 2 -  
+	int current_level = 0;
+	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
 	int votes[4] = { 0, 0, 0, 0 };
 
 	bool left_pressed[4];
@@ -64,6 +66,7 @@ namespace MapSelectUI
 	{
 		public_gos->insert(std::pair<const char*, GameObject*>("Map Fields", map_fields));
 		public_gos->insert(std::pair<const char*, GameObject*>("Map Umi", map_umi));
+		public_gos->insert(std::pair<const char*, GameObject*>("Map Ricing", map_ricing));
 		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[2]));
 		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[0]));
@@ -80,6 +83,7 @@ namespace MapSelectUI
 
 		map_fields = test_script->public_gos.at("Map Fields");
 		map_umi = test_script->public_gos.at("Map Umi");
+		map_ricing = test_script->public_gos.at("Map Ricing");
 		players_vote[0] = test_script->public_gos.at("P1-Blue Vote");
 		players_vote[1] = test_script->public_gos.at("P2-Blue Vote");
 		players_vote[2] = test_script->public_gos.at("P1-Red Vote");
@@ -103,6 +107,7 @@ namespace MapSelectUI
 
 		this_script->public_gos.at("Map Fields") = map_fields;
 		this_script->public_gos.at("Map Umi") = map_umi;
+		this_script->public_gos.at("Map Ricing") = map_ricing;
 		this_script->public_gos.at("P1-Blue Vote") = players_vote[0];
 		this_script->public_gos.at("P2-Blue Vote") = players_vote[1];
 		this_script->public_gos.at("P1-Red Vote") = players_vote[2];
@@ -111,7 +116,6 @@ namespace MapSelectUI
 		this_script->public_gos.at("R-Arrow") = right_arrow;
 		this_script->public_gos.at("L-Arrow") = left_arrow;
 		this_script->public_ints.at("Button Cooldown") = time;
-		
 		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
 		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
 		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
@@ -130,12 +134,10 @@ namespace MapSelectUI
 			left_pressed[i] = false;
 		}
 
-		current_level = false;
-		current_level_lastFrame = !current_level;
-
 		arrow_counter_left = time;
 		arrow_counter_right = time;
 		current_map = 0;
+		current_level = 0;
 		player_order[0] = App->go_manager->team1_front;
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
@@ -145,48 +147,12 @@ namespace MapSelectUI
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
-		if (current_level != current_level_lastFrame)
+		if (!just_once)
 		{
-			if (!current_level)
-			{
-				map_fields->SetActive(true);
-				map_umi->SetActive(false);
-			}
-			else
-			{
-				map_fields->SetActive(false);
-				map_umi->SetActive(true);
-			}
-			current_level_lastFrame = current_level;
-		}
-
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
-		{
-			// Play Move Sound
-			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(0);
-
-			current_level = !current_level;
-
-			if (arrow_counter_right >= time)
-			{
-				c_right_arrow->OnPress();
-			}
-			arrow_counter_right = 0;
-		}
-		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
-		{
-			// Play Move Sound
-			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(0);
-
-			current_level = !current_level;
-
-			if (arrow_counter_left >= time)
-			{
-				c_left_arrow->OnPress();
-			}
-			arrow_counter_left = 0;
+			map_fields->SetActive(true);
+			map_umi->SetActive(false);
+			map_ricing->SetActive(false);
+			just_once = true;
 		}
 
 		for (int playerID = 0; playerID < 4; playerID++)
@@ -199,19 +165,27 @@ namespace MapSelectUI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
 			{
 				// Play Loading Game Sound
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 				if (a_comp) a_comp->PlayAudio(3);
 
-				if (!current_level)
+				switch (current_level)
 				{
+				case 0:
 					App->LoadScene(path_map1.data());
-				}
-				else
-				{
+					break;
+				case 1:
 					App->LoadScene(path_map2.data());
+					break;
+				case 2:
+					App->LoadScene(path_map3.data());
+					break;
+				default:
+					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
+					App->LoadScene(path_map1.data());
+					break;
 				}
 			}
 
@@ -229,7 +203,7 @@ namespace MapSelectUI
 				}
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75|| App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75|| App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
 			{
 				if (!left_pressed[playerID])
 				{
@@ -239,7 +213,28 @@ namespace MapSelectUI
 					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 					if (a_comp) a_comp->PlayAudio(0);
 
-					current_level = !current_level;
+					current_level--;
+					if (current_level < 0)
+						current_level = 2;
+
+					switch (current_level)
+					{
+					case 0:
+						map_fields->SetActive(true);
+						map_umi->SetActive(false);
+						map_ricing->SetActive(false);
+						break;
+					case 1:
+						map_fields->SetActive(false);
+						map_umi->SetActive(true);
+						map_ricing->SetActive(false);
+						break;
+					case 2:
+						map_fields->SetActive(false);
+						map_umi->SetActive(false);
+						map_ricing->SetActive(true);
+						break;
+					}
 
 					if (arrow_counter_left >= time)
 					{
@@ -253,7 +248,7 @@ namespace MapSelectUI
 				left_pressed[playerID] = false;
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 			{
 				if (!right_pressed[playerID])
 				{
@@ -263,7 +258,28 @@ namespace MapSelectUI
 					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 					if (a_comp) a_comp->PlayAudio(0);
 
-					current_level = !current_level;
+					current_level++;
+					if (current_level > 2)
+						current_level = 0;
+					switch (current_level)
+					{
+					case 0:
+						map_fields->SetActive(true);
+						map_umi->SetActive(false);
+						map_ricing->SetActive(false);
+						break;
+					case 1:
+						map_fields->SetActive(false);
+						map_umi->SetActive(true);
+						map_ricing->SetActive(false);
+						break;
+					case 2:
+						map_fields->SetActive(false);
+						map_umi->SetActive(false);
+						map_ricing->SetActive(true);
+						break;
+					}
+
 
 					if (arrow_counter_right >= time)
 					{
@@ -314,6 +330,9 @@ namespace MapSelectUI
 						break;
 					case 2:
 						App->LoadScene(path_map2.data());
+						break;
+					case 3:
+						App->LoadScene(path_map3.data());
 						break;
 					default:
 						App->LoadScene(path_map1.data());

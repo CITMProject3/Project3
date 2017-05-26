@@ -13,6 +13,7 @@
 #include "ComponentUiButton.h"
 #include "RaceTimer.h"
 #include "ComponentCar.h"
+#include "PhysVehicle3D.h"
 
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {

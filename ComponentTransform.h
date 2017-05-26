@@ -50,7 +50,6 @@ public:
 	void Remove();
 	void SaveAsPrefab(Data& file)const;
 
-	void UpdateMatrix();
 private:
 	void CalculateFinalTransform();
 

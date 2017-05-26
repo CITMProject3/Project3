@@ -28,16 +28,9 @@
 
 #define TERRAIN_VERSION 3
 
-#define BIT(x) (1<<(x))
-
-enum collision_types {
-	COL_NOTHING = 0, //<Collide with nothing
-	COL_RAYTEST = BIT(0),
-	COL_TRANSPARENT = BIT(1), //<Collide with ships
-	COL_SOLID = BIT(2), //<Collide with walls
-};
-
 class PhysBody3D;
+class PhysVehicle3D;
+struct VehicleInfo;
 
 class DebugDrawer;
 class ComponentMesh;
@@ -123,6 +116,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+	void GetShaderLocations();
+
 	void OnCollision(PhysBody3D* bodyA, PhysBody3D* bodyB);
 	
 	void OnPlay();
@@ -137,7 +132,7 @@ public:
 	PhysBody3D* AddBody(const Cube_P& cube, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
 	PhysBody3D* AddBody(const Cylinder_P& cylinder, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER);
 	PhysBody3D* AddBody(const ComponentMesh& mesh, ComponentCollider* col, float mass = 1.0f, bool is_transparent = false, bool is_trigger = false, TriggerType type = TriggerType::T_ON_TRIGGER, btConvexHullShape** OUT_shape = nullptr);
-	PhysBody3D* AddVehicle(const Cube_P& cube, ComponentCar* car);
+	PhysVehicle3D* AddVehicle(const VehicleInfo& info, ComponentCar* col);
 
 	void Sculpt(int x, int y, bool inverse = false);
 	void PlaceGO(float3 pos, Quat rot = ::Quat::identity);
@@ -189,9 +184,7 @@ private:
 
 	void GenerateVertices();
 	void DeleteVertices();
-public:
 	void GenerateNormals();
-private:
 	void DeleteNormals();
 	void GenerateUVs();
 	void DeleteUVs();
@@ -228,12 +221,14 @@ private:
 	btBroadphaseInterface*				broad_phase;
 	btSequentialImpulseConstraintSolver* solver;
 	btDiscreteDynamicsWorld*			world;
+	btDefaultVehicleRaycaster*			vehicle_raycaster;
 	DebugDrawer*						debug_draw = nullptr;
 
 	std::list<btCollisionShape*> shapes;
 	std::list<PhysBody3D*> bodies;
 	std::list<btDefaultMotionState*> motions;
 	std::list<btTypedConstraint*> constraints;
+	std::list<PhysVehicle3D*> vehicles;
 
 	std::list<TriggerState*> triggers;
 	
@@ -264,6 +259,38 @@ private:
 
 	int terrainSmoothLevels = 1;
 
+	//Shader locations. Saving all of this avoids having to find all them each frame
+	uint shader_id = 0;
+
+	int model_location = 0;
+	int projection_location = 0;
+	int view_location = 0;
+	int n_texs_location = 0;
+	int tex_distributor_location = 0;
+
+	int texture_location_0 = 0;
+	int texture_location_1 = 0;
+	int texture_location_2 = 0;
+	int texture_location_3 = 0;
+	int texture_location_4 = 0;
+	int texture_location_5 = 0;
+	int texture_location_6 = 0;
+	int texture_location_7 = 0;
+	int texture_location_8 = 0;
+	int texture_location_9 = 0;
+
+	int has_tex_location = 0;
+	int texture_location = 0;
+
+	int colorLoc = 0;
+	int ambient_intensity_location = 0;
+	int ambient_color_location = 0;
+	int has_directional_location = 0;
+
+	int directional_intensity_location = 0;
+	int directional_color_location = 0;
+	int directional_direction_location = 0;
+
 	bool sculpted = false;
 	float sculptTimer = 0.0f;
 #pragma endregion
@@ -281,7 +308,6 @@ public:
 
 	std::string GO_toPaint_libPath;
 	GameObject* last_placed_go = nullptr;
-	float last_placed_rot;
 
 	bool renderWiredTerrain = false;
 	bool renderFilledTerrain = true;

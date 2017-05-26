@@ -1,0 +1,243 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 1044425083,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1658788215,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 1984062454,
+            "local_UUID": 0,
+            "parent": 1044425083,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1022409926,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 443481343,
+                    "active": true,
+                    "rect_size": [
+                        1920,
+                        1017
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        960,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 12,
+                    "UUID": 3141827476,
+                    "active": true
+                }
+            ]
+        },
+        {
+            "name": "Empty GameObject",
+            "UUID": 547898444,
+            "local_UUID": 0,
+            "parent": 1984062454,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1576620618,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 600529249,
+                    "active": true,
+                    "rect_size": [
+                        21,
+                        87
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -387.000031,
+                        0,
+                        1,
+                        0,
+                        179.000015,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 14,
+                    "UUID": 4060786882,
+                    "active": true,
+                    "text": "14:42:53",
+                    "array_values": "0123456789:k",
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1695919015,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/735487658\/735487658.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/289277369\/289277369.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/2302565996\/2302565996.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/315225152\/315225152.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3065896251\/3065896251.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/542763112\/542763112.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/4060753295\/4060753295.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1640727251\/1640727251.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/1996375597\/1996375597.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/3854648441\/3854648441.dds"
+                                },
+                                {
+                                    "path": "\/Library\/4086913788\/\/833136902\/\/656548311\/656548311.dds"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "terrain_textures": [],
+    "terrain_scaling": 100,
+    "terrain_tex_scaling": 0.030000,
+    "current_assets_scene_path": "\/Assets\/Untitled.ezx",
+    "current_library_scene_path": "\/Library\/\/1473734930\/1473734930.ezx"
+} 
