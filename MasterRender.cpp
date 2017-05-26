@@ -32,6 +32,7 @@ void MasterRender::Init()
 	InitAnimShader();
 	InitAnimNormalShader();
 	InitTerrainShader();
+	InitParticleShader();
 }
 
 void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material, const LightInfo* light) const
@@ -280,4 +281,24 @@ void MasterRender::InitTerrainShader()
 	terrain_shader.Id = glGetUniformLocation(terrain_shader.id, "Id");
 	terrain_shader.Kd = glGetUniformLocation(terrain_shader.id, "Kd");
 	terrain_shader.L = glGetUniformLocation(terrain_shader.id, "L");
+}
+
+void MasterRender::InitParticleShader()
+{
+	unsigned int vertex = ShaderCompiler::CompileVertex("Resources/Particles/particleV.ver");
+	unsigned int fragment = ShaderCompiler::CompileFragment("Resources/Particles/particleF.fra");
+
+	particle_shader.id = ShaderCompiler::CompileShader(vertex, fragment);
+
+	particle_shader.projection = glGetUniformLocation(particle_shader.id, "projection");
+	particle_shader.view = glGetUniformLocation(particle_shader.id, "view");
+
+	particle_shader.size = glGetUniformLocation(particle_shader.id, "size");
+	particle_shader.tex = glGetUniformLocation(particle_shader.id, "tex");
+	particle_shader.s_color = glGetUniformLocation(particle_shader.id, "s_color");
+	particle_shader.use_color_time = glGetUniformLocation(particle_shader.id, "use_color_time");
+
+	particle_shader.texture_anim = glGetUniformLocation(particle_shader.id, "texture_anim");
+	particle_shader.life_time = glGetUniformLocation(particle_shader.id, "life_time");
+	particle_shader.tex_anim_data = glGetUniformLocation(particle_shader.id, "tex_anim_data");
 }

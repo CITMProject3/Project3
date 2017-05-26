@@ -864,11 +864,6 @@ void ModuleResourceManager::SaveMaterial(const Material & material, const char *
 	GenerateMetaFile(path, FileType::MATERIAL, uuid, library_path);
 }
 
-unsigned int ModuleResourceManager::GetDefaultTerrainShaderId() const
-{
-	return default_terrain_shader;
-}
-
 unsigned int ModuleResourceManager::GetDefaultBillboardShaderId() const
 {
 	return default_billboard_shader;
@@ -879,19 +874,9 @@ Mesh * ModuleResourceManager::GetDefaultBillboardMesh() const
 	return billboard_mesh;
 }
 
-unsigned int ModuleResourceManager::GetDefaultParticlePositionShaderId() const
-{
-	return default_p_position_shader;
-}
-
 Mesh * ModuleResourceManager::GetDefaultQuadParticleMesh() const
 {
 	return quad_particles_mesh;
-}
-
-unsigned int ModuleResourceManager::GetDefaultParticleShaderId() const
-{
-	return default_particle_shader;
 }
 
 string ModuleResourceManager::FindFile(const string & assets_file_path) const
@@ -1094,13 +1079,7 @@ unsigned int ModuleResourceManager::GetUUIDFromLib(const string & library_path)c
 
 void ModuleResourceManager::LoadDefaults()
 {
-	default_terrain_shader = ShaderCompiler::LoadDefaultTerrainShader();
 	default_billboard_shader = ShaderCompiler::LoadDefaultBilboardShader();
-
-	unsigned int ps_update_position_ver = ShaderCompiler::CompileVertex("Resources/Particles/UpdatePositionV.ver");
-	unsigned int ps_update_position_fra = ShaderCompiler::CompileFragment("Resources/Particles/UpdatePositionF.fra");
-
-	default_p_position_shader = ShaderCompiler::CompileShader(ps_update_position_ver, ps_update_position_fra);
 
 	billboard_mesh = MeshImporter::LoadBillboardMesh();
 	quad_particles_mesh = MeshImporter::LoadQuad();
@@ -1108,7 +1087,6 @@ void ModuleResourceManager::LoadDefaults()
 	unsigned int ps_ps_ver = ShaderCompiler::CompileVertex("Resources/Particles/particleV.ver");
 	unsigned int ps_ps_fra = ShaderCompiler::CompileFragment("Resources/Particles/particleF.fra");
 
-	default_particle_shader = ShaderCompiler::CompileShader(ps_ps_ver, ps_ps_fra);
 }
 
 string ModuleResourceManager::CopyOutsideFileToAssetsCurrentDir(const char * path, string base_dir) const

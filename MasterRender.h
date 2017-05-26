@@ -64,6 +64,20 @@ struct TerrainShader
 	unsigned int tex0, tex1, tex2, tex3;
 };
 
+struct ParticleShader
+{
+	unsigned int id;
+
+	unsigned int view, projection;
+	unsigned int size;
+	unsigned int tex;
+	unsigned int s_color;
+	unsigned int use_color_time;
+	unsigned int texture_anim;
+	unsigned int life_time;
+	unsigned int tex_anim_data;
+};
+
 class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
@@ -88,6 +102,7 @@ private:
 	void InitAnimShader();
 	void InitAnimNormalShader();
 	void InitTerrainShader();
+	void InitParticleShader();
 
 public:
 	DFShader df_shader;
@@ -95,6 +110,7 @@ public:
 	AnimShader anim_shader;
 	AnimNormalShader anim_normal_shader;
 	TerrainShader terrain_shader;
+	ParticleShader particle_shader;
 };
 
 
