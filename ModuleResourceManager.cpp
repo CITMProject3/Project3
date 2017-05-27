@@ -632,7 +632,12 @@ void ModuleResourceManager::SaveScene(const char * file_name, string base_librar
 
 bool ModuleResourceManager::LoadSceneFromAssets(const char* file_name)
 {
-	std::string lib_path = FindFile(file_name);
+	std::string lib_path;
+	if (App->StartInGame())
+		lib_path = file_name;				// Using only Library Scene files
+	else
+		lib_path = FindFile(file_name);		// Using Assets Scene files
+
 	if (lib_path != "" && lib_path != " ")
 	{
 		return LoadScene(lib_path.c_str());

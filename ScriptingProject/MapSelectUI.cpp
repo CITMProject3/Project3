@@ -38,8 +38,12 @@ namespace MapSelectUI
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
 
-	string path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
-	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	// On Assets
+	/*string path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
+	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";*/
+	// On Library
+	string path_map1 = "/Library/1441726200/2271634307/2271634307.ezx";
+	string path_map2 = "/Library/3645291025/3212315065/3212315065.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
