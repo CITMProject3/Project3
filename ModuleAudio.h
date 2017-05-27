@@ -92,10 +92,11 @@ private:
 	// Soundbank related
 	bool IsSoundBank(const std::string &file_to_check) const;
 
+	void SaveBeforeClosing(Data& data) const;
+
 	unsigned char active_listeners = 0; // Listeners
 
 	Timer check_timer;
-
 };
 
 #endif // __ModuleAudio_H__

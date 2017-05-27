@@ -14,6 +14,22 @@ ModuleScripting::~ModuleScripting()
 
 bool ModuleScripting::Init(Data &config)
 {
+	#ifdef _DEBUG
+	// Loading library path whether there's one available...
+	if (config.GetString("debug_scripting_library"))
+		debug_lib_base_path.assign(config.GetString("debug_scripting_library"));		// Soundbanks on Library
+
+	if (debug_lib_base_path.empty())  // Not found on Library, look for soundbanks on Assets!
+		debug_lib_base_path = App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll");
+	#else
+	// Loading library path whether there's one available...
+	if (config.GetString("release_scripting_library"))
+		release_lib_base_path.assign(config.GetString("release_scripting_library"));		// Soundbanks on Library
+
+	if (release_lib_base_path.empty())  // Not found on Library, look for soundbanks on Assets!
+		release_lib_base_path = App->resource_manager->FindFile("Assets/Scripts/Release_Game.dll");
+	#endif
+
 	return true;
 }
 
@@ -35,6 +51,8 @@ bool ModuleScripting::CleanUp()
 
 void ModuleScripting::SaveBeforeClosing(Data &data) const
 {
+	debug_lib_base_path.empty() ? data.AppendString("debug_scripting_library", "") : data.AppendString("debug_scripting_library", debug_lib_base_path.c_str());
+	release_lib_base_path.empty() ? data.AppendString("release_scripting_library", "") : data.AppendString("release_scripting_library", release_lib_base_path.c_str());
 }
 
 DWORD ModuleScripting::GetError()
@@ -45,9 +63,9 @@ DWORD ModuleScripting::GetError()
 void ModuleScripting::LoadScriptsLibrary()
 {
 	#ifdef _DEBUG
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Debug_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(debug_lib_base_path, ResourceFileType::RES_SCRIPTS_LIBRARY);
 	#else
-		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(App->resource_manager->FindFile("Assets/Scripts/Release_Game.dll"), ResourceFileType::RES_SCRIPTS_LIBRARY);
+		scripts_lib = (ResourceScriptsLibrary*)App->resource_manager->LoadResource(release_lib_base_path, ResourceFileType::RES_SCRIPTS_LIBRARY);
 	#endif
 
 	if (scripts_lib != nullptr)
