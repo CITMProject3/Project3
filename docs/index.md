@@ -1,5 +1,5 @@
 
-Ri-Karts is a co-op asymmetric karts game ambiented in Yo-Kais world. 
+Ri-Karts is a co-op asymmetric kart racing game set in Yo-Kais world. 
 
 Game developed on CITM-UPC college, in the Project III subject.
 
