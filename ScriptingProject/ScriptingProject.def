@@ -165,3 +165,4 @@ EXPORTS
 	ParticleHit_Start
 	ParticleHit_Update
 	ParticleHit_CarCollision
+	ParticleHit_WallCollision
