@@ -1,9 +1,9 @@
+[HOME](index.md)
 
-Best Producer euw.
+**Role:** Producer
 
-**Author**: Jordi Nunes
-**El travila es un paquete**
+**Name:** Jordi Nunes
 
-[Pene](https://github.com/traguill)
+**My Job:**
 
-![IMAGE ALT TEXT HERE](https://cdnb.artstation.com/p/assets/images/images/005/283/511/large/marti-pinos-melo-portrait-oni-4-4.jpg)
+![IMAGE ALT TEXT HERE](https://cdn.meme.am/cache/instances/folder960/31909960.jpg)
