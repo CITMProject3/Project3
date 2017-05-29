@@ -218,13 +218,12 @@ update_status ModuleInput::PreUpdate()
 			case SDL_JOYDEVICEADDED:
 				CheckJoystick();
 				SDL_FlushEvent(SDL_JOYDEVICEADDED);
-				//SDL_PeepEvents(&e, , SDL_PEEKEVENT);
 			break;
-			/*
+			
 			case SDL_JOYDEVICEREMOVED:
 				CheckJoystick();
 				SDL_FlushEvent(SDL_JOYDEVICEREMOVED);
-			break;*/
+			break;
 
 			case SDL_DROPFILE:
 				char* file_dropped = e.drop.file;
