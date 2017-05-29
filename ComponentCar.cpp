@@ -220,7 +220,7 @@ void ComponentCar::KartLogic()
 	{
 		ITERATE_WHEELS
 		{
-			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.0f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
+			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.65f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
 			{
 				WallHit(it->hitNormal, kartZ, kartX);
 			}
