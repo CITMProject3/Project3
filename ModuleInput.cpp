@@ -215,12 +215,22 @@ update_status ModuleInput::PreUpdate()
 				}
 			break;
 
+			case SDL_JOYDEVICEADDED:
+				CheckJoystick();
+				SDL_FlushEvent(SDL_JOYDEVICEADDED);
+			break;
+			
+			case SDL_JOYDEVICEREMOVED:
+				CheckJoystick();
+				SDL_FlushEvent(SDL_JOYDEVICEREMOVED);
+			break;
+
 			case SDL_DROPFILE:
 				char* file_dropped = e.drop.file;
 				files_dropped.push_back(file_dropped);
 				SDL_free(file_dropped);
-				break;
-			
+			break;
+
 		}
 	}
 
@@ -356,4 +366,43 @@ void ModuleInput::ResetImGuiDrag()
 	ImGui::ResetMouseDragDelta(0);
 
 	ImGui::GetCurrentContext()->ActiveIdIsJustActivated = true;
+}
+
+void ModuleInput::CheckJoystick()
+{
+	SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
+
+	joysticks.clear();
+	
+	if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
+	{
+		LOG("SDL_JOYSTICK could not initialize! SDL_Error: %s\n", SDL_GetError());
+	}
+
+	num_joysticks = SDL_NumJoysticks();
+
+	LOG("Joysticks connected: %d", num_joysticks);
+
+	if (num_joysticks > 0)
+	{
+		SDL_JoystickEventState(SDL_ENABLE);
+		for (int i = 0; i < num_joysticks; i++)
+		{
+			SDL_Joystick* joystick;
+			joystick = SDL_JoystickOpen(i);
+
+			JOYSTICK* j = new JOYSTICK();
+			j->sdl_joystick = joystick;
+
+			int MAX_JOY_BUTTONS = SDL_JoystickNumButtons(joystick);
+			j->button = new KEY_STATE[MAX_JOY_BUTTONS];
+			memset(j->button, KEY_IDLE, sizeof(KEY_STATE) * MAX_JOY_BUTTONS);
+
+			int MAX_JOY_AXES = SDL_JoystickNumAxes(joystick);
+			j->axis = new Sint16[MAX_JOY_AXES];
+			memset(j->axis, 0, sizeof(Sint16) * MAX_JOY_AXES);
+
+			joysticks.push_back(j);
+		}
+	}
 }
