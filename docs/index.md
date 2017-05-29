@@ -1,10 +1,10 @@
 
-Custom enigne created for a subject at university. The engine uses OpenGL and SDL.
+Ri-Karts is a co-op asymmetric karts game ambiented in Yo-Kais world. 
 
-**Author**: Guillem Travila
-**El nunes es un paquete**
+Game developed on CITM-UPC college, in the Project III subject.
 
-[Pene](https://github.com/traguill)
+
+**Studio Developer**: First CITM promotion of videogames degree, also called the heroes.
 
 <dl>
   <a href="https://github.com/CITMProject3/Project3/releases/download/G.0.1/Ri-Karts.G0.1.zip" class="btn">Gold 0.1.zip</a>
