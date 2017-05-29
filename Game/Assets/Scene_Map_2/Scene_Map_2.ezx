@@ -143,6 +143,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -174,7 +183,8 @@
                     "evil_spirit_effect": false,
                     "other_car": 3832415544,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 450853128
+                    "makibishi_manager": 450853128,
+                    "ps_hit_manager": 3883475205
                 }
             ]
         },
@@ -9364,14 +9374,14 @@
                     "active": true,
                     "matrix": [
                         -0.787955,
-                        0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.699997,
-                        -0.000000,
+                        0,
                         -0.001347,
                         -0.878244,
                         1.900000,
-                        -0.000000,
+                        0,
                         -0.787953,
                         0.001501,
                         0,
@@ -9439,10 +9449,10 @@
                         -189.978378,
                         -0.000001,
                         1,
-                        0,
+                        0.000000,
                         9.832056,
                         0.035694,
-                        0,
+                        0.000000,
                         0.999363,
                         11.999986,
                         0,
@@ -9479,6 +9489,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -9510,7 +9529,8 @@
                     "evil_spirit_effect": false,
                     "other_car": 3082689746,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 450853128
+                    "makibishi_manager": 450853128,
+                    "ps_hit_manager": 3883475205
                 }
             ]
         },
@@ -18681,14 +18701,14 @@
                     "active": true,
                     "matrix": [
                         -0.787955,
-                        -0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.700000,
                         0,
                         -0.001347,
                         -0.878244,
                         1.900000,
-                        0.000000,
+                        0,
                         -0.787953,
                         0.001501,
                         0,
@@ -19551,431 +19571,6 @@
             ]
         },
         {
-            "name": "item_box",
-            "UUID": 4232420733,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4232420733,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -133.697678,
-                        12.525912,
-                        69.056725
-                    ],
-                    "rotation": [
-                        179.999969,
-                        -1.665535,
-                        179.999924
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 1592297626,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1592297626,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -192.481522,
-                        11.361928,
-                        43.516415
-                    ],
-                    "rotation": [
-                        0,
-                        84.739693,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 3003537135,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3003537135,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -178.108261,
-                        11.363628,
-                        44.591309
-                    ],
-                    "rotation": [
-                        179.999985,
-                        77.494331,
-                        179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 2127728754,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 2127728754,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -45.226780,
-                        13.723808,
-                        138.729843
-                    ],
-                    "rotation": [
-                        179.999985,
-                        -1.665588,
-                        179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 4027710566,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 4027710566,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -53.916744,
-                        13.680236,
-                        148.156799
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        -0.416286,
-                        -179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 1893708923,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1893708923,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        51.987610,
-                        13.591941,
-                        100.649712
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        -62.838379,
-                        -179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 1943882378,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1943882378,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        166.539017,
-                        11.115524,
-                        93.818527
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        34.535740,
-                        -180
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 97276805,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 97276805,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        172.566116,
-                        11.289773,
-                        85.099007
-                    ],
-                    "rotation": [
-                        -179.999985,
-                        24.210522,
-                        -179.999985
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 778622191,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 778622191,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        155.494766,
-                        11.199146,
-                        -70.859589
-                    ],
-                    "rotation": [
-                        -179.999969,
-                        -80.040070,
-                        -179.999954
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 1547255485,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1547255485,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        142.835938,
-                        11.199146,
-                        -70.859589
-                    ],
-                    "rotation": [
-                        0,
-                        -82.931114,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 3157010272,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3157010272,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        145.270782,
-                        11.199146,
-                        -140.403534
-                    ],
-                    "rotation": [
-                        0.000007,
-                        43.716328,
-                        -0.000008
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 1277047302,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 1277047302,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        140.882553,
-                        11.199146,
-                        -150.316666
-                    ],
-                    "rotation": [
-                        0.000005,
-                        22.093967,
-                        -0.000006
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 457059911,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 457059911,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -43.281734,
-                        11.199146,
-                        -98.036484
-                    ],
-                    "rotation": [
-                        0.000005,
-                        -1.263628,
-                        -0.000004
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 3133856262,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3133856262,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -43.283794,
-                        11.199146,
-                        -89.488853
-                    ],
-                    "rotation": [
-                        0.000005,
-                        1.216758,
-                        -0.000004
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 943018079,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 943018079,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -46.273132,
-                        11.199146,
-                        -166.518173
-                    ],
-                    "rotation": [
-                        0,
-                        1.216757,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 3367119083,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 3367119083,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -170.681213,
-                        11.199146,
-                        -130.381531
-                    ],
-                    "rotation": [
-                        0,
-                        42.411476,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
-            "name": "item_box",
-            "UUID": 356973784,
-            "local_UUID": 3266121098,
-            "parent": 977062925,
-            "active": true,
-            "is_prefab": true,
-            "prefab_root_uuid": 356973784,
-            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
-            "components": [
-                {
-                    "position": [
-                        -178.563004,
-                        11.199146,
-                        -139.668976
-                    ],
-                    "rotation": [
-                        0,
-                        22.571243,
-                        0
-                    ]
-                }
-            ],
-            "children_uuids": []
-        },
-        {
             "name": "Makibishi Manager",
             "UUID": 450853128,
             "local_UUID": 0,
@@ -20389,6 +19984,1031 @@
                     "rotation": [
                         0,
                         0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 4232420733,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4232420733,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -129.940933,
+                        12.525912,
+                        67.304794
+                    ],
+                    "rotation": [
+                        179.999939,
+                        -1.665539,
+                        179.999893
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1592297626,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1592297626,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -192.481522,
+                        11.361928,
+                        45.534012
+                    ],
+                    "rotation": [
+                        0,
+                        84.739693,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3003537135,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3003537135,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -178.635773,
+                        11.363625,
+                        46.793686
+                    ],
+                    "rotation": [
+                        179.999893,
+                        84.882774,
+                        -179.999954
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 2127728754,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2127728754,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -45.226780,
+                        13.723808,
+                        138.729843
+                    ],
+                    "rotation": [
+                        179.999985,
+                        -1.665588,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 4027710566,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4027710566,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -53.916744,
+                        13.680236,
+                        148.156799
+                    ],
+                    "rotation": [
+                        -179.999969,
+                        -0.416286,
+                        -179.999969
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1893708923,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1893708923,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        54.705044,
+                        13.591941,
+                        103.303146
+                    ],
+                    "rotation": [
+                        -179.999969,
+                        -62.838379,
+                        -179.999969
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1943882378,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1943882378,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        169.632751,
+                        11.115524,
+                        95.868111
+                    ],
+                    "rotation": [
+                        -179.999924,
+                        34.535721,
+                        179.999939
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 97276805,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 97276805,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        175.060989,
+                        11.289773,
+                        86.933182
+                    ],
+                    "rotation": [
+                        -179.999939,
+                        30.784256,
+                        -179.999939
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 778622191,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 778622191,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        153.969345,
+                        11.199146,
+                        -74.423210
+                    ],
+                    "rotation": [
+                        -179.999771,
+                        -88.124863,
+                        -179.999756
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1547255485,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1547255485,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        138.988068,
+                        11.199147,
+                        -71.394012
+                    ],
+                    "rotation": [
+                        0,
+                        -86.316864,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3157010272,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3157010272,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        146.965256,
+                        11.199146,
+                        -139.195831
+                    ],
+                    "rotation": [
+                        0.000006,
+                        25.484350,
+                        -0.000006
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1277047302,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1277047302,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        142.674103,
+                        11.199146,
+                        -151.787430
+                    ],
+                    "rotation": [
+                        0.000005,
+                        22.093969,
+                        -0.000006
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 457059911,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 457059911,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -46.028805,
+                        11.199146,
+                        -99.475883
+                    ],
+                    "rotation": [
+                        0.000005,
+                        -1.263628,
+                        -0.000004
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3133856262,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3133856262,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -46.198174,
+                        11.199146,
+                        -89.488853
+                    ],
+                    "rotation": [
+                        0.000005,
+                        1.216758,
+                        -0.000004
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 943018079,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 943018079,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -49.725788,
+                        11.199146,
+                        -164.696838
+                    ],
+                    "rotation": [
+                        0,
+                        31.587765,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3367119083,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3367119083,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -168.091644,
+                        11.199146,
+                        -128.800568
+                    ],
+                    "rotation": [
+                        0,
+                        42.411472,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 356973784,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 356973784,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -179.010605,
+                        11.199146,
+                        -139.683884
+                    ],
+                    "rotation": [
+                        0,
+                        22.571249,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3393648855,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3393648855,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -187.146927,
+                        11.363628,
+                        48.179733
+                    ],
+                    "rotation": [
+                        179.999985,
+                        87.050636,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 4055134842,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4055134842,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -183.807236,
+                        11.363628,
+                        44.613625
+                    ],
+                    "rotation": [
+                        -180,
+                        88.810394,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3422807120,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3422807120,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -174.929718,
+                        11.363628,
+                        43.147018
+                    ],
+                    "rotation": [
+                        -180,
+                        77.068565,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1665437659,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1665437659,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -133.697678,
+                        12.525912,
+                        72.285004
+                    ],
+                    "rotation": [
+                        -180,
+                        -1.665435,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 2311268137,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2311268137,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -129.066071,
+                        12.525912,
+                        76.702568
+                    ],
+                    "rotation": [
+                        179.999985,
+                        -1.665436,
+                        179.999985
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 387002781,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 387002781,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -133.697678,
+                        12.525912,
+                        81.290482
+                    ],
+                    "rotation": [
+                        -180,
+                        -1.665435,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3532524159,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3532524159,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -50.078335,
+                        13.680236,
+                        143.408981
+                    ],
+                    "rotation": [
+                        -180,
+                        -0.416300,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3004184027,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3004184027,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        50.785229,
+                        13.591943,
+                        98.122414
+                    ],
+                    "rotation": [
+                        -179.999969,
+                        -62.838264,
+                        -179.999969
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 466694911,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 466694911,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        44.343494,
+                        13.591943,
+                        99.192307
+                    ],
+                    "rotation": [
+                        180,
+                        -62.838379,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 690261824,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 690261824,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        163.785202,
+                        11.115524,
+                        97.782135
+                    ],
+                    "rotation": [
+                        -180,
+                        34.535683,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 542978549,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 542978549,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        169.563675,
+                        11.115524,
+                        89.275345
+                    ],
+                    "rotation": [
+                        -180,
+                        34.535683,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3856510526,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3856510526,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        176.134247,
+                        11.115524,
+                        81.200089
+                    ],
+                    "rotation": [
+                        -180,
+                        34.535683,
+                        -180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1985538710,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1985538710,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        143.889969,
+                        11.199147,
+                        -74.792412
+                    ],
+                    "rotation": [
+                        -179.999969,
+                        -89.849335,
+                        -179.999969
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3693848449,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3693848449,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        148.972763,
+                        11.199146,
+                        -71.242271
+                    ],
+                    "rotation": [
+                        0,
+                        -87.060013,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 2167065289,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2167065289,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        158.896347,
+                        11.199147,
+                        -70.921051
+                    ],
+                    "rotation": [
+                        180,
+                        -86.332855,
+                        180
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1724503262,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1724503262,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        146.973709,
+                        11.199146,
+                        -143.980927
+                    ],
+                    "rotation": [
+                        0,
+                        30.275255,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3699499143,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3699499143,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        142.965927,
+                        11.199146,
+                        -146.629425
+                    ],
+                    "rotation": [
+                        0,
+                        29.336641,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 1050176662,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1050176662,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.283794,
+                        11.199146,
+                        -84.576881
+                    ],
+                    "rotation": [
+                        0,
+                        1.216742,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 4267629699,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4267629699,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -43.283794,
+                        11.199146,
+                        -94.342834
+                    ],
+                    "rotation": [
+                        0,
+                        1.216712,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3537079572,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3537079572,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -45.952869,
+                        11.199146,
+                        -157.017670
+                    ],
+                    "rotation": [
+                        0,
+                        25.403030,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 246397706,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 246397706,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -44.196934,
+                        11.199146,
+                        -163.094269
+                    ],
+                    "rotation": [
+                        0,
+                        26.161009,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 2110993793,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2110993793,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -48.397926,
+                        11.199148,
+                        -170.289291
+                    ],
+                    "rotation": [
+                        0,
+                        30.495831,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 2207485619,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2207485619,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -173.542786,
+                        11.199146,
+                        -130.675934
+                    ],
+                    "rotation": [
+                        0,
+                        34.831676,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "item_box",
+            "UUID": 3219099234,
+            "local_UUID": 3266121098,
+            "parent": 977062925,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3219099234,
+            "prefab_path": "\/Library\/643644559\/3001038513\/1861855588\/\/2065670171\/2065670171.pfb",
+            "components": [
+                {
+                    "position": [
+                        -173.729156,
+                        11.199146,
+                        -136.398621
+                    ],
+                    "rotation": [
+                        0,
+                        29.966312,
                         0
                     ]
                 }
@@ -63175,6 +63795,113 @@
                     "local_uuid": 3338027922
                 }
             ]
+        },
+        {
+            "name": "Particles",
+            "UUID": 1829202276,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3068561206,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PSHitManager",
+            "UUID": 3883475205,
+            "local_UUID": 0,
+            "parent": 1829202276,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 520982541,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 953847107,
+                    "active": true,
+                    "script_path": "ParticleHit",
+                    "script_num": 0,
+                    "Car Hit": 1352757265
+                }
+            ]
+        },
+        {
+            "name": "Hit_Particle",
+            "UUID": 1352757265,
+            "local_UUID": 403984585,
+            "parent": 3883475205,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1352757265,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",

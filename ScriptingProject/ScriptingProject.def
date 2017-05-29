@@ -158,3 +158,10 @@ EXPORTS
 	MakibishiManager_Start
 	MakibishiManager_Update
 	MakibishiManager_GetMakibishi
+
+	ParticleHit_GetPublics
+	ParticleHit_UpdatePublics
+	ParticleHit_ActualizePublics
+	ParticleHit_Start
+	ParticleHit_Update
+	ParticleHit_CarCollision

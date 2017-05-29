@@ -540,12 +540,9 @@ void ComponentParticleSystem::StopAll()
 
 void ComponentParticleSystem::Play()
 {
-	if (state != PSState::PS_PLAYING)
-	{
-		state = PSState::PS_PLAYING;
-		system_life = 0.0f;
-		cycles = 0;
-	}
+	state = PSState::PS_PLAYING;
+	system_life = 0.0f;
+	cycles = 0;
 }
 
 void ComponentParticleSystem::Pause()
