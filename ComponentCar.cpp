@@ -1153,6 +1153,11 @@ float ComponentCar::GetMaxVelocity() const
 	return (maxSpeed + turbo_mods.maxSpeedBonus + mods.bonusMaxSpeed) * UNITS_TO_KMH;
 }
 
+const float *ComponentCar::GetSpeed() const
+{
+	return &speed;
+}
+
 unsigned int ComponentCar::GetFrontPlayer()
 {
 	return front_player;

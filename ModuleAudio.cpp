@@ -192,6 +192,11 @@ void ModuleAudio::ModifyAttenuationFactor(float factor, unsigned int wwise_go_id
 	AK::SoundEngine::SetAttenuationScalingFactor(wwise_go_id, factor);
 }
 
+void ModuleAudio::SetRTPCValue(const char *name, const float *value, unsigned int wwise_go_id)
+{
+	AK::SoundEngine::SetRTPCValue(name, (AkRtpcValue)*value, wwise_go_id);
+}
+
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 {
 	char *buf;

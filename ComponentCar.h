@@ -265,6 +265,7 @@ public:
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
+	const float *GetSpeed() const; // For RTPC Wwise used
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	bool GetGroundState() const;

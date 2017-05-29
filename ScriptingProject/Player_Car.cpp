@@ -12,6 +12,7 @@
 #include "../GameObject.h"
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
+#include "../ComponentAudioSource.h"
 #include "../SDL/include/SDL_scancode.h"
 #include "../PhysBody3D.h"
 #include "../ComponentCollider.h"
@@ -193,6 +194,10 @@ namespace Player_Car
 				break;
 			}
 		}	
+
+		// Start Sound Engine
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(0);
 	}
 
 #pragma region Forward Declarations
