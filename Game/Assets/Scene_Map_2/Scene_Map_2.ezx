@@ -183,7 +183,8 @@
                     "evil_spirit_effect": false,
                     "other_car": 3832415544,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 450853128
+                    "makibishi_manager": 450853128,
+                    "ps_hit_manager": 3883475205
                 }
             ]
         },
@@ -9528,7 +9529,8 @@
                     "evil_spirit_effect": false,
                     "other_car": 3082689746,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 450853128
+                    "makibishi_manager": 450853128,
+                    "ps_hit_manager": 3883475205
                 }
             ]
         },
@@ -63793,6 +63795,113 @@
                     "local_uuid": 3338027922
                 }
             ]
+        },
+        {
+            "name": "Particles",
+            "UUID": 1829202276,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3068561206,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PSHitManager",
+            "UUID": 3883475205,
+            "local_UUID": 0,
+            "parent": 1829202276,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 520982541,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 953847107,
+                    "active": true,
+                    "script_path": "ParticleHit",
+                    "script_num": 0,
+                    "Car Hit": 1352757265
+                }
+            ]
+        },
+        {
+            "name": "Hit_Particle",
+            "UUID": 1352757265,
+            "local_UUID": 403984585,
+            "parent": 3883475205,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1352757265,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_2\/Scene_Map_2.ezx",

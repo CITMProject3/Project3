@@ -20,6 +20,9 @@
 #include "../Random.h"
 #include "../Time.h"
 
+//To call functions from another script
+typedef void(*PSHit_CarCollision)(const math::float3& point);
+
 enum Item_Type
 {
 	MAKIBISHI = 0,
@@ -68,6 +71,10 @@ namespace Player_Car
 	GameObject* other_car = nullptr;
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
+	GameObject* ps_hit_manager = nullptr;
+
+	//Particles
+	PSHit_CarCollision ps_hit_func = nullptr;
 
 
 	std::vector<GameObject*> makibishis_1;
@@ -105,6 +112,7 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("makibishi_manager", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_hit_manager", nullptr));
 
 	}
 
@@ -140,6 +148,7 @@ namespace Player_Car
 		other_car = script->public_gos.at("other_car");
 		scene_manager = script->public_gos.at("scene_manager");
 		makibishi_manager = script->public_gos.at("makibishi_manager");
+		ps_hit_manager = script->public_gos.at("ps_hit_manager");
 
 	}
 
@@ -174,6 +183,7 @@ namespace Player_Car
 		script->public_gos.at("other_car") = other_car;
 		script->public_gos.at("scene_manager") = scene_manager;
 		script->public_gos.at("makibishi_manager") = makibishi_manager;
+		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -192,7 +202,12 @@ namespace Player_Car
 				evil_spirit_start_pos = evil_spirit_object[car_id]->transform->GetPosition();
 				break;
 			}
-		}	
+		}
+
+		//Init particles
+		string ps_hit_car_collision_path = ((ComponentScript*)ps_hit_manager->GetComponent(C_SCRIPT))->GetPath();
+		ps_hit_car_collision_path.append("_CarCollision");
+		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, ps_hit_car_collision_path.c_str());
 	}
 
 #pragma region Forward Declarations
@@ -272,6 +287,9 @@ namespace Player_Car
 			float3 myPos = ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
 			float3 norm = myPos - otherCarPos;
 			car->WallHit(norm.Normalized());
+
+			float3 col_point = otherCarPos + (norm * 0.5f);
+			ps_hit_func(col_point);
 		}
 
 		if (col->IsTrigger())
