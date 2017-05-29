@@ -92,6 +92,7 @@ public:
 private:
 
 	void ResetImGuiDrag();
+	void CheckJoystick();
 
 private:
 
