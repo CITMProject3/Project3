@@ -5,6 +5,7 @@
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentCar.h"
 #include "Random.h"
 
 #include "AudioEvent.h"
@@ -42,6 +43,9 @@ void ComponentAudioSource::Update()
 		PlayEvent(play_event_pending_index);
 		play_event_pending = false;
 	}
+
+	// Sending RTPC values
+	if (car_linked) App->audio->SetRTPCValue("Car_speed", car_linked->GetSpeed(), wwise_id_go);
 }
 
 void ComponentAudioSource::OnInspector(bool debug)
@@ -122,7 +126,8 @@ void ComponentAudioSource::PlayAudio(unsigned id_audio)
 
 void ComponentAudioSource::OnPlay()
 {
-	//PlayEvent();
+	// Is this audio source on a Car?
+	car_linked = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 }
 
 void ComponentAudioSource::OnStop()
