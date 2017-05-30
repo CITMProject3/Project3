@@ -45,20 +45,24 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 	if (p.IsInPositiveDirection(normal))
 	{
 		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		if (horizontalSpeed < 0) { horizontalSpeed = 0; }
 	}
 	else
 	{
 		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		if (horizontalSpeed > 0) { horizontalSpeed = 0; }
 	}
 
 	p.Set(kart_trs->GetPosition(), kartZ);
 	if (p.IsInPositiveDirection(normal))
 	{
 		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		//if (speed < 0) { speed = 0; }
 	}
 	else
 	{
 		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		//if (speed > 0) { speed = 0; }
 	}
 
 	if (drifting != drift_none)
@@ -186,35 +190,6 @@ void ComponentCar::KartLogic()
 		CheckOnTheGround();
 	}
 
-	//Checking if one of the rays was cast onto a wall
-	if (onTheGround)
-	{
-		ITERATE_WHEELS
-		{
-			if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
-			{
-				//newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-				WallHit(it->hitNormal, kartZ, kartX);
-
-				//desiredUp = hitB.normal.Normalized();
-			}
-		}
-	}
-	else
-	{
-		math::Ray frontRay;
-		frontRay.dir = kartZ;
-
-		frontRay.pos = kart_trs->GetPosition();
-
-		RaycastHit frontHit;
-		bool hit = App->physics->RayCast(frontRay, frontHit);
-		if (hit && frontHit.distance < 1.5f)
-		{
-			WallHit(frontHit.normal, kartZ, kartX);
-		}
-	}
-
 	RotateKart(desiredUp);
 
 	PlayersInput();
@@ -237,6 +212,33 @@ void ComponentCar::KartLogic()
 		//Falling. Magic. Gravity. So much wow.
 		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
 		newPos.y += fallSpeed * time->DeltaTime();
+	}
+
+
+	//Checking if one of the rays was cast onto a wall and, hence, needs to collide
+	if (onTheGround)
+	{
+		ITERATE_WHEELS
+		{
+			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.65f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
+			{
+				WallHit(it->hitNormal, kartZ, kartX);
+			}
+		}
+	}
+	else
+	{
+		math::Ray frontRay;
+		frontRay.dir = kartZ;
+
+		frontRay.pos = kart_trs->GetPosition();
+
+		RaycastHit frontHit;
+		bool hit = App->physics->RayCast(frontRay, frontHit);
+		if (hit && frontHit.distance < 1.5f)
+		{
+			WallHit(frontHit.normal, kartZ, kartX);
+		}
 	}
 
 	//And finally, we move the kart!

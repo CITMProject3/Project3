@@ -19,6 +19,7 @@ public:
 	void OnPlay();
 	void OnInspector(bool debug);
 	void OnTransformModified();
+	void ResizeScreen();
 	// Save
 	void Save(Data& file)const;
 	void Load(Data& conf);
@@ -33,7 +34,8 @@ private:
 
 	vector<GameObject*> GetGameObjectChilds(GameObject* go);
 	vector<GameObject*> go_focus;
-
+	int current_width = 1600;
+	int current_height = 900;
 };
 
 #endif __COMPONENTCANVAS_H__

@@ -4,7 +4,8 @@
 #include "ModuleResourceManager.h"
 #include "ModuleRenderer3D.h"
 #include "ModuleEditor.h"
-
+#include "ModuleGOManager.h"
+#include "ComponentCanvas.h"
 #include "SDL/include/SDL.h"
 
 #include "Imgui\imgui.h"
@@ -212,6 +213,9 @@ update_status ModuleInput::PreUpdate()
 				{
 					App->renderer3D->OnResize(e.window.data1, e.window.data2, 60.0f);
 					App->editor->OnResize(e.window.data1, e.window.data2);
+
+					if(App->go_manager->current_scene_canvas)
+						App->go_manager->current_scene_canvas->ResizeScreen();
 				}
 			break;
 

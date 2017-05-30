@@ -23,6 +23,7 @@
 
 //To call functions from another script
 typedef void(*PSHit_CarCollision)(const math::float3& point);
+typedef void(*PSHit_WallCollision)(int car_id, const math::float3& point);
 
 enum Item_Type
 {
@@ -76,6 +77,7 @@ namespace Player_Car
 
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
+	PSHit_WallCollision ps_hit_wall_func = nullptr;
 
 
 	std::vector<GameObject*> makibishis_1;
@@ -210,9 +212,8 @@ namespace Player_Car
 		if (audio) audio->PlayAudio(0);
 
 		//Init particles
-		string ps_hit_car_collision_path = ((ComponentScript*)ps_hit_manager->GetComponent(C_SCRIPT))->GetPath();
-		ps_hit_car_collision_path.append("_CarCollision");
-		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, ps_hit_car_collision_path.c_str());
+		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
+		ps_hit_wall_func = (PSHit_WallCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_WallCollision");
 	}
 
 #pragma region Forward Declarations
@@ -335,6 +336,13 @@ namespace Player_Car
 						Player_Car_CallUpdateItems();
 					}
 				}
+			}
+		}
+		else
+		{
+			if (col->GetCollider()->GetGameObject()->layer == 2) //Wall
+			{
+				ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 			}
 		}
 	}

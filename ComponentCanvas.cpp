@@ -17,6 +17,8 @@
 ComponentCanvas::ComponentCanvas(ComponentType type, GameObject * game_object) : Component(type, game_object)
 {
 	OnTransformModified();
+	current_width = 1600;
+	current_height = 900;
 }
 
 ComponentCanvas::~ComponentCanvas()
@@ -84,8 +86,15 @@ void ComponentCanvas::OnTransformModified()
 {
 	ComponentRectTransform* c = (ComponentRectTransform*)game_object->GetComponent(C_RECT_TRANSFORM);
 
+	
+	c->SetScale(float2(float(App->window->GetScreenWidth())/float(current_width), float(App->window->GetScreenHeight())/ float(current_height)));
 	c->SetSize(float2(App->window->GetScreenWidth(), App->window->GetScreenHeight()));
 	c->SetLocalPos(float2(App->window->GetScreenWidth(), 0.0f));
+}
+
+void ComponentCanvas::ResizeScreen()
+{
+	game_object->TransformModified();
 }
 
 void ComponentCanvas::Save(Data & file) const

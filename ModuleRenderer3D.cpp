@@ -418,7 +418,7 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 
 	DrawParticles(cam);
 
-	
+	glUseProgram(0);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
