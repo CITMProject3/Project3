@@ -45,20 +45,24 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 	if (p.IsInPositiveDirection(normal))
 	{
 		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		if (horizontalSpeed < 0) { horizontalSpeed = 0; }
 	}
 	else
 	{
 		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		if (horizontalSpeed > 0) { horizontalSpeed = 0; }
 	}
 
 	p.Set(kart_trs->GetPosition(), kartZ);
 	if (p.IsInPositiveDirection(normal))
 	{
 		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		//if (speed < 0) { speed = 0; }
 	}
 	else
 	{
 		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+		//if (speed > 0) { speed = 0; }
 	}
 
 	if (drifting != drift_none)
@@ -186,35 +190,6 @@ void ComponentCar::KartLogic()
 		CheckOnTheGround();
 	}
 
-	//Checking if one of the rays was cast onto a wall
-	if (onTheGround)
-	{
-		ITERATE_WHEELS
-		{
-			if ((it->angleFromY > 50.0f * DEGTORAD && (it->hitNormal.y < 0.3f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
-			{
-				//newPos -= max(math::Abs(speed), maxSpeed / 5.0f) * kartZ;
-				WallHit(it->hitNormal, kartZ, kartX);
-
-				//desiredUp = hitB.normal.Normalized();
-			}
-		}
-	}
-	else
-	{
-		math::Ray frontRay;
-		frontRay.dir = kartZ;
-
-		frontRay.pos = kart_trs->GetPosition();
-
-		RaycastHit frontHit;
-		bool hit = App->physics->RayCast(frontRay, frontHit);
-		if (hit && frontHit.distance < 1.5f)
-		{
-			WallHit(frontHit.normal, kartZ, kartX);
-		}
-	}
-
 	RotateKart(desiredUp);
 
 	PlayersInput();
@@ -237,6 +212,33 @@ void ComponentCar::KartLogic()
 		//Falling. Magic. Gravity. So much wow.
 		fallSpeed -= CAR_GRAVITY * time->DeltaTime();
 		newPos.y += fallSpeed * time->DeltaTime();
+	}
+
+
+	//Checking if one of the rays was cast onto a wall and, hence, needs to collide
+	if (onTheGround)
+	{
+		ITERATE_WHEELS
+		{
+			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.65f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
+			{
+				WallHit(it->hitNormal, kartZ, kartX);
+			}
+		}
+	}
+	else
+	{
+		math::Ray frontRay;
+		frontRay.dir = kartZ;
+
+		frontRay.pos = kart_trs->GetPosition();
+
+		RaycastHit frontHit;
+		bool hit = App->physics->RayCast(frontRay, frontHit);
+		if (hit && frontHit.distance < 1.5f)
+		{
+			WallHit(frontHit.normal, kartZ, kartX);
+		}
 	}
 
 	//And finally, we move the kart!
@@ -361,7 +363,7 @@ float ComponentCar::AccelerationInput()
 void ComponentCar::Steer(float amount)
 {
 	amount = math::Clamp(amount, -1.0f, 1.0f);
-	if (drifting == drift_none)
+	if (drifting == drift_none || drifting == drift_failed)
 	{
 		if (amount < -0.1 || amount > 0.1)
 		{
@@ -432,17 +434,17 @@ void ComponentCar::Drift(float dir)
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		desiredCurrentSteer = -0.85f + (dir * 0.65f);
+		desiredCurrentSteer = -driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir += 0.6f;
 	}
 	else
 	{
-		desiredCurrentSteer = 0.85f + (dir * 0.65f);
+		desiredCurrentSteer = driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
 
-	float steerChange = 1.5f * time->DeltaTime();
+	float steerChange = steerChangeSpeed * time->DeltaTime();
 
 	if (currentSteer < desiredCurrentSteer)
 	{
@@ -453,28 +455,33 @@ void ComponentCar::Drift(float dir)
 		currentSteer -= steerChange;
 	}
 
-	horizontalSpeed += (drag + mods.bonusDrag) * 3.0f * time->DeltaTime() * -dir;
+	horizontalSpeed += horizontalSpeedDrifting * time->DeltaTime() * -dir;
 }
 
 void ComponentCar::DriftManagement()
 {
-	if (onTheGround && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
+	if (drifting == drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) != KEY_REPEAT))
+	{
+		drifting = drift_none;
+	}
+
+	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
 	{
 		//Checking we have enough speed to drift
-		if (speed > maxSpeed / 3.0f)
+		if (onTheGround && speed > maxSpeed * minimumSpeedRatioToStartDrifting)
 		{
 			//If we weren't drifting, we enter the state of drift
 			if (drifting == drift_none)
 			{
-				if (currentSteer > 0.6f)
+				if (currentSteer > minimumSteerToStartDrifting)
 				{
-					fb_jumpSpeed = 8.0f;
+					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
 				}
-				else if (currentSteer < -0.6f)
+				else if (currentSteer < -minimumSteerToStartDrifting)
 				{
-					fb_jumpSpeed = 8.0f;
+					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
 				}
@@ -490,16 +497,12 @@ void ComponentCar::DriftManagement()
 			drifting = drift_none;
 		}
 	}
-	else if (lastFrame_drifting != drift_none && drifting != drift_none)
-	{
-		//If the player stops pressing the input, we stop drifting
-		drifting = drift_none;
-	}
-	else
+	else if(drifting != drift_failed)
 	{
 		drifting = drift_none;
 	}
 
+	//Avoid drifting from stopping when the kart is jumping in the air
 	if (fb_vertical > 0.01f && (drifting == drift_none || drifting == drift_failed))
 	{
 		drifting = lastFrame_drifting;
@@ -943,7 +946,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 		case(P2IDLE):
 		{
-			if (drifting != drift_none)
+			if (drifting != drift_none && drifting != drift_failed)
 			{
 				switch (drifting)
 				{
@@ -999,18 +1002,15 @@ void ComponentCar::UpdateP2Animation()
 			break;
 		}
 		case(P2DRIFT_LEFT):
-		{
-			if (drifting == drift_none)
-			{
-				SetP2AnimationState(P2IDLE);
-			}
-			break;
-		}
 		case(P2DRIFT_RIGHT):
 		{
 			if (drifting == drift_none)
 			{
 				SetP2AnimationState(P2IDLE);
+			}
+			else if (drifting == drift_failed)
+			{
+				SetP2AnimationState(P2GET_HIT);
 			}
 			break;
 		}
@@ -1061,6 +1061,8 @@ void ComponentCar::OnGetHit(float velocity_reduction)
 
 void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat resetRot)
 {
+	bool lastWrongDirection = wrongDirection;
+	wrongDirection = false;
 	if (checkpoint == checkpoints + 1)
 	{
 		n_checkpoints++;
@@ -1068,6 +1070,33 @@ void ComponentCar::WentThroughCheckpoint(int checkpoint, float3 resetPos, Quat r
 		last_check_rot = resetRot;
 		checkpoints = checkpoint;
 	}
+	else
+	{
+		if (checkpoint != lastCheckpoint)
+		{
+			last2Checkpoint = lastCheckpoint;
+			lastCheckpoint = checkpoint;
+		}
+		if (wentThroughEnd)
+		{
+			if (lastWrongDirection)
+			{
+				lastCheckpoint = checkpoint;
+				last2Checkpoint = lastCheckpoint + 1;
+			}
+			else
+			{
+				last2Checkpoint = lastCheckpoint = checkpoint;
+			}
+			wentThroughEnd = false;
+		}
+
+		if(lastCheckpoint < last2Checkpoint)
+		{
+			wrongDirection = true;
+		}
+	}
+	
 }
 
 void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot)
@@ -1088,6 +1117,8 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 		last_check_rot = resetRot;
 
 	}
+	wentThroughEnd = true;
+
 	if (lap >= 4)
 	{
 		finished = true;
@@ -1122,6 +1153,11 @@ float ComponentCar::GetVelocity()
 float ComponentCar::GetMaxVelocity() const
 {
 	return (maxSpeed + turbo_mods.maxSpeedBonus + mods.bonusMaxSpeed) * UNITS_TO_KMH;
+}
+
+const float *ComponentCar::GetSpeed() const
+{
+	return &speed;
 }
 
 unsigned int ComponentCar::GetFrontPlayer()
@@ -1264,7 +1300,7 @@ void ComponentCar::UpdateRenderTransform()
 	//Vertical displacement
 	if (fb_vertical > 0.01f || fb_jumpSpeed > 0.01f)
 	{
-		fb_jumpSpeed -= CAR_GRAVITY * 2.0f * time->DeltaTime();
+		fb_jumpSpeed -= CAR_GRAVITY * driftJumpGravityMultiplier * time->DeltaTime();
 		fb_vertical += fb_jumpSpeed * time->DeltaTime();
 	}
 	else
@@ -1275,32 +1311,32 @@ void ComponentCar::UpdateRenderTransform()
 	switch (drifting)
 	{
 	case drift_right_0:
-		desired_Y = -35.0f;
+		desired_Y = -driftVisualTurn;
 		desired_FW = -7.0f;
 		up_correction = 0.25f;
 		break;
 	case drift_right_1:
-		desired_Y = -35.0f;
+		desired_Y = -driftVisualTurn;
 		desired_FW = -10.0f;
 		up_correction = 0.5f;
 		break;
 	case drift_right_2:
-		desired_Y = -35.0f;
+		desired_Y = -driftVisualTurn;
 		desired_FW = -15.0f;
 		up_correction = 0.7f;
 		break;
 	case drift_left_0:
-		desired_Y = 35.0f;
+		desired_Y = driftVisualTurn;
 		desired_FW = 7.0f;
 		up_correction = 0.25f;
 		break;
 	case drift_left_1:
-		desired_Y = 35.0f;
+		desired_Y = driftVisualTurn;
 		desired_FW = 10.0f;
 		up_correction += 0.5f;
 		break;
 	case drift_left_2:
-		desired_Y = 35.0f;
+		desired_Y = driftVisualTurn;
 		desired_FW = 15.0f;
 		up_correction = 0.7f;
 		break;
@@ -1407,6 +1443,17 @@ void ComponentCar::Save(Data& file) const
 	//Game loop settings
 	data.AppendFloat("lose_height", loose_height);
 
+	//Drifting Values
+	data.AppendFloat("driftingFixedTurn", driftingFixedTurn);
+	data.AppendFloat("driftingAdjustableTurn", driftingAdjustableTurn);
+	data.AppendFloat("steerChangeSpeed", steerChangeSpeed);
+	data.AppendFloat("horizontalSpeedDrifting", horizontalSpeedDrifting);
+	data.AppendFloat("minimumSteerToStartDrifting", minimumSteerToStartDrifting);
+	data.AppendFloat("minimumSpeedRatioToStartDrifting", minimumSpeedRatioToStartDrifting);
+	data.AppendFloat("driftJumpSpeed", driftJumpSpeed);
+	data.AppendFloat("driftJumpGravityMultiplier", driftJumpGravityMultiplier);
+	data.AppendFloat("driftVisualTurn", driftVisualTurn);
+
 	//Controls settings , Unique for each--------------
 
 	//Hitodamas
@@ -1458,6 +1505,27 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetInt("driftPhaseChange");
 	if (tmp != 0.0) { driftPhaseChange = tmp; }
 
+	tmp = conf.GetFloat("driftingFixedTurn");
+	if (tmp != 0.0f) { driftingFixedTurn = tmp; }
+	tmp = conf.GetFloat("driftingAdjustableTurn");
+	if (tmp != 0.0f) { driftingAdjustableTurn = tmp; }
+	tmp = conf.GetFloat("steerChangeSpeed");
+	if (tmp != 0.0f) { steerChangeSpeed = tmp; }
+	tmp = conf.GetFloat("horizontalSpeedDrifting");
+	if (tmp != 0.0f) { horizontalSpeedDrifting = tmp; }
+	tmp = conf.GetFloat("minimumSteerToStartDrifting");
+	if (tmp != 0.0f) { minimumSteerToStartDrifting = tmp; }
+	tmp = conf.GetFloat("minimumSpeedRatioToStartDrifting");
+	if (tmp != 0.0f) { minimumSpeedRatioToStartDrifting = tmp; }
+	tmp = conf.GetFloat("driftJumpSpeed");
+	if (tmp != 0.0f) { driftJumpSpeed = tmp; }
+	tmp = conf.GetFloat("driftJumpGravityMultiplier");
+	if (tmp != 0.0f) { driftJumpGravityMultiplier = tmp; }
+	tmp = conf.GetFloat("driftVisualTurn");
+	if (tmp != 0.0f) { driftVisualTurn = tmp; }
+
+
+
 	//Game loop settings
 	loose_height = conf.GetFloat("lose_height");
 
@@ -1487,7 +1555,6 @@ void ComponentCar::OnInspector(bool debug)
 			}
 			ImGui::EndPopup();
 		}
-
 		ImGui::DragFloat("Max Speed", &maxSpeed, 0.1f, 0.1f, 20.0f);
 		ImGui::DragFloat("Max Acceleration", &maxAcceleration, 0.01f, 0.01f, 20.0f);
 		ImGui::DragFloat("Brake Power", &brakePower, 0.1f, 0.1f, 20.0f);
@@ -1520,8 +1587,11 @@ void ComponentCar::OnInspector(bool debug)
 				"Steering: %s\n"
 				"On The Ground: %s\n"
 				"DriftButtonMashing: %u\n"
+				"Wrong direction: %s\n"
+				"Last checkpoint: %i\n"
+				"Last 2checkpoint: %i\n"
 				"TestVar: %f"
-				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(),testVar);
+				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(), wrongDirection ? "true" : "false", lastCheckpoint, last2Checkpoint, testVar);
 
 
 			string currentDriftPhase;
@@ -1544,6 +1614,79 @@ void ComponentCar::OnInspector(bool debug)
 		if (ImGui::TreeNode("Turbo display"))
 		{
 			ImGui::Text("Phase: %u\nAccel bonus: %f\nAccel min: %f\nMax Speed Bonus: %f", turbo.GetCurrentPhase(), turbo_mods.accelerationBonus, turbo_mods.accelerationMin, turbo_mods.maxSpeedBonus);
+			ImGui::TreePop();
+		}
+
+		if (ImGui::TreeNode("Drifting"))
+		{
+			ImGui::Text("Clicks for phase change");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Number of times the second player has to\n"
+									"press \"X\"in order to give the first player\n"
+									"a 1st or 2nd Tier turbo");
+			ImGui::InputInt("##ClicksForPhaseChange", &driftPhaseChange);
+
+			ImGui::Text("Drifting fixed turn");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"When drifting, if no directions are inputted,\n"
+									"the amount of steering the kart will have\n"
+									"(from 0 to 1)");
+			ImGui::InputFloat("##DriftingFixedturn", &driftingFixedTurn);
+
+			ImGui::Text("Drifting adjustable turn");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"When drifting, the amount that will be added\n"
+									"or substracted from the \"Fixed Turn\" value\n"
+									"currentSteer = FixedTurn + AdjustableTurn * JoystickInput[+-1]");
+			ImGui::InputFloat("##DriftingAdjustableTurn", &driftingAdjustableTurn);
+
+			ImGui::Text("Steer Change Speed");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Speed at which the \"Current Steer\" value\n"
+									"changes. High values make the drift more\n"
+									"responsive, low ones make the turn smoother");
+			ImGui::InputFloat("##SteerChangeSpeed", &steerChangeSpeed);
+
+			ImGui::Text("Horizontal speed");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Horizontal speed when drifting, perpendicular\n"
+									"to the kart. This is what makes it slide.\n"
+									"The value is multipliet by the direction inputted\n"
+									"by the joystick, slightly modified to go from\n"
+									"0 to 1");
+			ImGui::InputFloat("##HorizontalSpeed", &horizontalSpeedDrifting);
+
+			ImGui::Text("Minimum steer to start");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Minimum steering the player must be inputting in\n"
+									"order for the kart to start drifting.");
+			ImGui::InputFloat("##MinimumDriftSteer", &minimumSteerToStartDrifting);
+
+			ImGui::Text("Minimum speed to start");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Minimum ratio (speed/maxSpeed) required for the kart\n"
+									"to start drifting");
+			ImGui::InputFloat("##MinimumDriftSpeed", &minimumSpeedRatioToStartDrifting);
+
+			ImGui::Text("Drift Jump Speed");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Vertical speed the kart gets when starting a drift.\n");
+			ImGui::InputFloat("##DriftJumpSpeed", &driftJumpSpeed);
+
+			ImGui::Text("Drift Jump Gravity Multiplier");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Since the jump must be quick, we multiply the\n"
+									"effect of gravity on the kart when jumping by this");
+			ImGui::InputFloat("##DriftGravityMultiplier", &driftJumpGravityMultiplier);
+
+			ImGui::Text("Visual Turn");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Degrees the kart turns when drifting. Take in\n"
+									"account that this is only visual and won't affect\n"
+									"the drifting itself. Values Too high may result in\n"
+									"an \"unresponsive\" drift ending");
+			ImGui::InputFloat("##DriftVisualTurn", &driftVisualTurn);
+
 			ImGui::TreePop();
 		}
 

@@ -321,14 +321,14 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1920,
+                        1057
                     ],
                     "matrix": [
                         1,
                         0,
                         0,
-                        800,
+                        960,
                         0,
                         1,
                         0,
@@ -3785,10 +3785,10 @@
                         -41.793579,
                         -0.000003,
                         1,
-                        0,
+                        0.000000,
                         32.341846,
                         0.035591,
-                        0,
+                        0.000000,
                         0.999377,
                         44.200470,
                         0,
@@ -3825,6 +3825,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -3857,7 +3866,8 @@
                     "firecracker": 1230011776,
                     "other_car": 2807956156,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463
                 }
             ]
         },
@@ -11898,16 +11908,16 @@
                     "active": true,
                     "matrix": [
                         -0.787947,
-                        0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.499996,
-                        -0.000000,
-                        -0.000000,
+                        0,
+                        0,
                         -0.878228,
                         1.899998,
-                        -0.000000,
+                        0,
                         -0.787946,
-                        -0.000000,
+                        0,
                         -0.000004,
                         0,
                         0,
@@ -11973,10 +11983,10 @@
                         -52.230869,
                         -0.000002,
                         1,
-                        0,
+                        0.000000,
                         32.341846,
                         0.017849,
-                        0,
+                        0.000000,
                         0.999834,
                         47.850910,
                         0,
@@ -12013,6 +12023,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -12045,7 +12064,8 @@
                     "firecracker": 717367660,
                     "other_car": 726386159,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463
                 }
             ]
         },
@@ -20093,16 +20113,16 @@
                     "active": true,
                     "matrix": [
                         -0.787948,
-                        -0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.700000,
-                        -0.000000,
-                        -0.000000,
+                        0,
+                        0,
                         -0.878228,
                         1.900000,
-                        0.000000,
+                        0,
                         -0.787946,
-                        -0.000000,
+                        0,
                         0,
                         0,
                         0,
@@ -20224,7 +20244,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -20267,7 +20287,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -20313,7 +20333,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -20356,7 +20376,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -20402,13 +20422,13 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.816462,
                     "color": [
                         0,
                         0,
                         0
                     ],
-                    "layer_mask": -2,
+                    "layer_mask": -6,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
                     "viewport_rel_pos_x": 0,
@@ -20469,7 +20489,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20561,7 +20581,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20653,7 +20673,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20745,7 +20765,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20837,7 +20857,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20929,7 +20949,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21021,7 +21041,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21113,7 +21133,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21205,7 +21225,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21297,7 +21317,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21389,7 +21409,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21481,7 +21501,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21573,7 +21593,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21665,7 +21685,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21757,7 +21777,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21849,7 +21869,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21941,7 +21961,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22033,7 +22053,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22125,7 +22145,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22217,7 +22237,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22309,7 +22329,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22401,7 +22421,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22493,7 +22513,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22585,7 +22605,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22677,7 +22697,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22769,7 +22789,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22861,7 +22881,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22953,7 +22973,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -54515,6 +54535,242 @@
                     "local_uuid": 1673415026
                 }
             ]
+        },
+        {
+            "name": "Particles",
+            "UUID": 4052763669,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3068561206,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PSHitManager",
+            "UUID": 3896765463,
+            "local_UUID": 0,
+            "parent": 4052763669,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 520982541,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 953847107,
+                    "active": true,
+                    "script_path": "ParticleHit",
+                    "script_num": 0,
+                    "Car Hit": 4257448802,
+                    "Wall Hit 1": 1492875322,
+                    "Wall Hit 2": 3895184671
+                }
+            ]
+        },
+        {
+            "name": "Hit_Particle",
+            "UUID": 4257448802,
+            "local_UUID": 0,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3638982790,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 20,
+                    "UUID": 2594069294,
+                    "active": true,
+                    "life_time": 0.300000,
+                    "max_particles": 1000,
+                    "emission_rate": 200,
+                    "speed": 12,
+                    "size": 0.200000,
+                    "play_on_awake": false,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "duration": 0.100000,
+                    "looping": false,
+                    "simulation_space": true,
+                    "color_over_time": true,
+                    "colors": [
+                        {
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "alpha": 1,
+                            "position": 0
+                        },
+                        {
+                            "color": [
+                                1,
+                                0.941176,
+                                0
+                            ],
+                            "alpha": 1,
+                            "position": 60
+                        },
+                        {
+                            "color": [
+                                1,
+                                0.271357,
+                                0
+                            ],
+                            "alpha": 0.100000,
+                            "position": 100
+                        }
+                    ],
+                    "shape_type": 1,
+                    "sphere_radius": 1,
+                    "sphere_emit_from_shell": false,
+                    "texture_anim": false,
+                    "texture": "\/Library\/2355968024\/\/1272527194\/\/253423466\/253423466.dds",
+                    "bb_pos_offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "bb_size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "bursts": []
+                }
+            ]
+        },
+        {
+            "name": "WallParticle1",
+            "UUID": 1492875322,
+            "local_UUID": 403984585,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1492875322,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WallParticle2",
+            "UUID": 3895184671,
+            "local_UUID": 403984585,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3895184671,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",

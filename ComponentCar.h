@@ -180,7 +180,6 @@ private:
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
 
-	int driftPhaseChange = 3;
 	MashButtonCounter driftButtonMasher;
 
 	float acrobaticsDelay = 0.5f;
@@ -197,6 +196,20 @@ private:
 	float fb_rotation_Y = 0.0f;
 	float fb_rotation_FW = 0.0f;
 
+	//Inspector variables for drifting
+	int driftPhaseChange = 3;
+
+	float driftingFixedTurn = 0.85f;
+	float driftingAdjustableTurn = 0.65f;
+	float steerChangeSpeed = 1.5f;
+	float horizontalSpeedDrifting = 0.8f;
+
+	float minimumSteerToStartDrifting = 0.6f;
+	float minimumSpeedRatioToStartDrifting = 0.4f;
+
+	float driftJumpSpeed = 10.0f;
+	float driftJumpGravityMultiplier = 3.0f;
+	float driftVisualTurn = 25.0f;
 
 	//
 	//METHODS---------------------------------------------------------------------------------------------------------------------------
@@ -252,6 +265,7 @@ public:
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
+	const float *GetSpeed() const; // For RTPC Wwise used
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	bool GetGroundState() const;
@@ -349,7 +363,11 @@ public:
 	Quat last_check_rot = Quat::identity;
 	unsigned int lap = 1;
 
+	int lastCheckpoint = 0;
+	int last2Checkpoint = 0;
+	bool wentThroughEnd = false;
 	unsigned int n_checkpoints = 0;
+	bool wrongDirection = false;
 };
 
 

@@ -86,8 +86,8 @@ private:
 	int layer_mask = -1;
 	
 	///Assets path
-	string render_texture_path;
-	string render_texture_path_lib;
+	std::string render_texture_path;
+	std::string render_texture_path_lib;
 
 	math::float4x4 desiredTransform = float4x4::identity;
 	math::float4x4 currentTransform = float4x4::identity;

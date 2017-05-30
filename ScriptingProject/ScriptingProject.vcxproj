@@ -191,6 +191,7 @@
     <ClCompile Include="MapSelectUI.cpp" />
     <ClCompile Include="Kmh_Counter.cpp" />
     <ClCompile Include="OutOfBounds.cpp" />
+    <ClCompile Include="ParticleHit.cpp" />
     <ClCompile Include="PlayerObjectSelector.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />

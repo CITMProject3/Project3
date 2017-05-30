@@ -95,8 +95,9 @@ namespace Scene_Manager
 	GameObject* topgunner_label = nullptr;
 	GameObject* botdriver_label = nullptr;
 	GameObject* botgunner_label = nullptr;
-
-	string main_menu_scene = "/Assets/Main_menu.ezx";
+	
+	//string main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
+	string main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
 
 	//"Private" variables
 	double start_timer;

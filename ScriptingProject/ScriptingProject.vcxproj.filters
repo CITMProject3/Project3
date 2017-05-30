@@ -22,6 +22,9 @@
     <Filter Include="Source Files\UI">
       <UniqueIdentifier>{d27005bd-c7c0-4f71-95ae-2173572306dd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Particles">
+      <UniqueIdentifier>{757fd077-fff7-43bc-90f3-c23ac098ebe7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="MakibishiManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleHit.cpp">
+      <Filter>Source Files\Particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

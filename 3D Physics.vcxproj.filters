@@ -97,6 +97,9 @@
     <Filter Include="Sources\GameObjects\Components\CarHelpers">
       <UniqueIdentifier>{50f033df-213a-4e3b-bd3a-99c94139457f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources\Render">
+      <UniqueIdentifier>{2f2ab479-1e3a-4687-be2e-b9bfc9753f77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -666,6 +669,9 @@
     <ClInclude Include="Wheel.h">
       <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
     </ClInclude>
+    <ClInclude Include="MasterRender.h">
+      <Filter>Sources\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1114,6 +1120,9 @@
     </ClCompile>
     <ClCompile Include="Wheel.cpp">
       <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
+    </ClCompile>
+    <ClCompile Include="MasterRender.cpp">
+      <Filter>Sources\Render</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
