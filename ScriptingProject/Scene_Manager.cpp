@@ -100,9 +100,11 @@ namespace Scene_Manager
 	string main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
 
 	//"Private" variables
+	float delay_to_start;
 	double start_timer;
 	bool start_timer_on;
-	uint current_countdown_number;
+	uint current_countdown_number = 4;
+	uint countdown_sound = 4;
 
 	RaceTimer timer;
 	int race_timer_number = 4;
@@ -216,8 +218,6 @@ namespace Scene_Manager
 	{
 		if (current_countdown_number != number)
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(1);  // Second and third countdown
 			current_countdown_number = number;
 		}		
 		
@@ -247,16 +247,15 @@ namespace Scene_Manager
 	void Scene_Manager_Start(GameObject* game_object)
 	{
 		music_played = false;
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp)	a_comp->PlayAudio(1);  // First countdown
-
 		race_timer_number = 4;
+		countdown_sound = 3;
 		finish_timer = 0;
 		second_position_timer = 0;
 		goingToDisqualify = 0;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
+		delay_to_start = 0.0f;
 		start_timer_on = true;
 		race_finished = false;
 		team1_finished = false;
@@ -447,6 +446,14 @@ namespace Scene_Manager
 
 	void Scene_Manager_UpdateStartCountDown(GameObject* game_object)
 	{
+		// Sound management
+		if (countdown_sound != race_timer_number && countdown_sound != 2) 
+		{
+			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(1);  // Countdowns
+			countdown_sound = race_timer_number;
+		}
+
 		start_timer += time->DeltaTime();
 		if (start_timer >= 1)
 		{
@@ -495,10 +502,12 @@ namespace Scene_Manager
 		}
 		else
 		{
-			if (start_timer_on == true)
+			if (delay_to_start > 3.0f && start_timer_on == true)
 			{
 				Scene_Manager_UpdateStartCountDown(game_object);
 			}
+			else
+				delay_to_start += time->DeltaTime();
 
 			if (race_timer_number == 0)
 			{
