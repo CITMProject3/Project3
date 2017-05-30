@@ -207,9 +207,9 @@ namespace Player_Car
 			}
 		}	
 
-		// Start Sound Engine
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(0);
+		//// Start Sound Engine
+		//ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		//if (audio) audio->PlayAudio(0);
 
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
@@ -538,6 +538,10 @@ namespace Player_Car
 		using_firecracker = true;
 		current_item = -1;
 		car->NewTurbo(Turbo(turbo_max_acc_time, turbo_lifetime, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
+
+		// Playing Firecracker sound
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(0);
 	}
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
@@ -598,7 +602,10 @@ namespace Player_Car
 				firecracker->SetActive(false);
 			current_item = -1;
 			Player_Car_CallUpdateItems();
-			
+
+			// Stopping Firecracker sound
+			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (audio) audio->PlayAudio(1);			
 		}
 		else
 		{
@@ -612,7 +619,10 @@ namespace Player_Car
 					firecracker->SetActive(false);
 				current_item = -1;
 				Player_Car_CallUpdateItems();
-				
+
+				// Stopping Firecracker sound
+				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio) audio->PlayAudio(1);				
 			}
 		}		
 

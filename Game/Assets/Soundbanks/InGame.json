@@ -30,6 +30,13 @@
       "DurationMax": "1.017483"
      },
      {
+      "Id": "387320433",
+      "Name": "Play_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\FX\\Play_Firecracker",
+      "GUID": "{F429BC6B-73AF-4330-AAD7-0043F197FB9F}",
+      "DurationType": "Infinite"
+     },
+     {
       "Id": "2279634092",
       "Name": "Play_Go",
       "ObjectPath": "\\Events\\InGame\\FX\\Play_Go",
@@ -46,6 +53,16 @@
       "DurationType": "Infinite"
      },
      {
+      "Id": "3898358255",
+      "Name": "Stop_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\FX\\Stop_Firecracker",
+      "GUID": "{EE510AF4-13C5-4156-8259-915079C2344F}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
       "Id": "3054248522",
       "Name": "Stop_RiKarts_main_theme",
       "ObjectPath": "\\Events\\InGame\\Music\\Stop_RiKarts_main_theme",
@@ -57,6 +74,18 @@
      }
     ],
     "IncludedMemoryFiles": [
+     {
+      "Id": "154759909",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop1.wav",
+      "Path": "SFX\\Firecracker_loop1_9E69E797.wem"
+     },
+     {
+      "Id": "207015689",
+      "Language": "SFX",
+      "ShortName": "Firecracker_explosion.wav",
+      "Path": "SFX\\Firecracker_explosion_9E69E797.wem"
+     },
      {
       "Id": "427291038",
       "Language": "SFX",
@@ -74,6 +103,30 @@
       "Language": "SFX",
       "ShortName": "Countdown.wav",
       "Path": "SFX\\Countdown_9E69E797.wem"
+     },
+     {
+      "Id": "919387555",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop4.wav",
+      "Path": "SFX\\Firecracker_loop4_9E69E797.wem"
+     },
+     {
+      "Id": "1026459605",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop2.wav",
+      "Path": "SFX\\Firecracker_loop2_9E69E797.wem"
+     },
+     {
+      "Id": "1060689355",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop3.wav",
+      "Path": "SFX\\Firecracker_loop3_9E69E797.wem"
+     },
+     {
+      "Id": "1065970683",
+      "Language": "SFX",
+      "ShortName": "Firecracker_start.wav",
+      "Path": "SFX\\Firecracker_start_9E69E797.wem"
      }
     ]
    }

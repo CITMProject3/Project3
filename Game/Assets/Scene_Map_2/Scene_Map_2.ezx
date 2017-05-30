@@ -185,6 +185,27 @@
                     "scene_manager": 144932385,
                     "makibishi_manager": 450853128,
                     "ps_hit_manager": 3883475205
+                },
+                {
+                    "type": 18,
+                    "UUID": 1066501672,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -9531,6 +9552,27 @@
                     "scene_manager": 144932385,
                     "makibishi_manager": 450853128,
                     "ps_hit_manager": 3883475205
+                },
+                {
+                    "type": 18,
+                    "UUID": 1580171195,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },

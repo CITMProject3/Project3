@@ -321,16 +321,16 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1920,
-                        1057
+                        1532,
+                        837
                     ],
                     "matrix": [
-                        1,
+                        0.957500,
                         0,
                         0,
-                        960,
+                        766,
                         0,
-                        1,
+                        0.930000,
                         0,
                         0,
                         0,
@@ -3868,6 +3868,27 @@
                     "scene_manager": 144932385,
                     "makibishi_manager": 2937051135,
                     "ps_hit_manager": 3896765463
+                },
+                {
+                    "type": 18,
+                    "UUID": 2617983114,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -12066,6 +12087,27 @@
                     "scene_manager": 144932385,
                     "makibishi_manager": 2937051135,
                     "ps_hit_manager": 3896765463
+                },
+                {
+                    "type": 18,
+                    "UUID": 4277540918,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -20244,7 +20286,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.697670,
                     "color": [
                         0,
                         0,
@@ -20287,7 +20329,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 2
+                    "listener ID": 0
                 }
             ]
         },
@@ -20333,7 +20375,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.669619,
+                    "aspect_ratio": 3.697670,
                     "color": [
                         0,
                         0,
@@ -20376,7 +20418,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 3
+                    "listener ID": 1
                 }
             ]
         },
@@ -20422,7 +20464,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.816462,
+                    "aspect_ratio": 1.830346,
                     "color": [
                         0,
                         0,
