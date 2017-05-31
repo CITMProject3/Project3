@@ -31,4 +31,5 @@ struct LightInfo
 	math::float3 directional_color;
 	float directional_intensity;
 	math::float3 directional_direction;
+	math::float4x4 directional_mat;
 };

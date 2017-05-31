@@ -672,6 +672,9 @@
     <ClInclude Include="MasterRender.h">
       <Filter>Sources\Render</Filter>
     </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>Sources\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ModuleAudio.cpp">
@@ -1122,6 +1125,9 @@
       <Filter>Sources\GameObjects\Components\CarHelpers</Filter>
     </ClCompile>
     <ClCompile Include="MasterRender.cpp">
+      <Filter>Sources\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
       <Filter>Sources\Render</Filter>
     </ClCompile>
   </ItemGroup>

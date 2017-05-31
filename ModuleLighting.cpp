@@ -2,6 +2,8 @@
 
 #include "Application.h"
 #include "ModuleGOManager.h"
+#include "GameObject.h"
+#include "ComponentTransform.h"
 
 #include "ComponentLight.h"
 
@@ -49,6 +51,7 @@ void ModuleLighting::CollectAllLights()
 		light_info.directional_color = directional->GetColor();
 		light_info.directional_intensity = directional->GetIntensity();
 		light_info.directional_direction = directional->GetDirection();
+		light_info.directional_mat = directional->GetGameObject()->transform->GetGlobalMatrix();
 	}
 	else
 		light_info.has_directional = false;

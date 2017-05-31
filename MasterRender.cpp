@@ -14,6 +14,10 @@
 #include "ComponentMaterial.h"
 #include "ComponentMesh.h"
 
+#include "Application.h"
+#include "ModuleRenderer3D.h"
+#include "ShadowMap.h"
+
 #include "Light.h"
 
 
@@ -43,6 +47,9 @@ void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCam
 	glUniformMatrix4fv(df_shader.projection, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
 	glUniformMatrix4fv(df_shader.view, 1, GL_FALSE, *cam->GetViewMatrix().v);
 
+	glUniformMatrix4fv(df_shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+	glUniformMatrix4fv(df_shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
+
 	std::map<std::string, uint>::const_iterator tex = material->texture_ids.find("0");
 	if (tex->second != 0)
 	{
@@ -58,6 +65,10 @@ void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCam
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+	glUniform1i(df_shader.shadowmap, 1);
 	
 	glUniform1f(df_shader.Ia, light->ambient_intensity);
 	glUniform3f(df_shader.Ka, light->ambient_color.x, light->ambient_color.y, light->ambient_color.z);
@@ -175,8 +186,12 @@ void MasterRender::InitDefaultShader()
 	df_shader.projection = glGetUniformLocation(df_shader.id, "projection");
 	df_shader.view = glGetUniformLocation(df_shader.id, "view");
 
+	df_shader.shadow_view = glGetUniformLocation(df_shader.id, "shadowView");
+	df_shader.shadow_projection = glGetUniformLocation(df_shader.id, "shadowProjection");
+
 	df_shader.has_texture = glGetUniformLocation(df_shader.id, "_HasTexture");
 	df_shader.texture = glGetUniformLocation(df_shader.id, "_Texture");
+	df_shader.shadowmap = glGetUniformLocation(df_shader.id, "shadowMap");
 
 	df_shader.Ia = glGetUniformLocation(df_shader.id, "Ia");
 	df_shader.Ka = glGetUniformLocation(df_shader.id, "Ka");
@@ -289,6 +304,7 @@ void MasterRender::InitShadowShader()
 	unsigned int def_shader_f = ShaderCompiler::CompileFragment("Resources/Shaders/shadowF.fra");
 	shadow_shader.id = ShaderCompiler::CompileShader(def_shader_v, def_shader_f);
 
-	shadow_shader.mv_matrix = glGetUniformLocation(shadow_shader.id, "mvMatrix");
+	shadow_shader.projection = glGetUniformLocation(shadow_shader.id, "projection");
+	shadow_shader.view = glGetUniformLocation(shadow_shader.id, "view");
 	shadow_shader.model = glGetUniformLocation(shadow_shader.id, "model");
 }

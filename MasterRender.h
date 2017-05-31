@@ -5,8 +5,8 @@ struct DFShader
 {
 	unsigned int id;
 
-	unsigned int model, view, projection;
-	unsigned int has_texture, texture;
+	unsigned int model, view, projection, shadow_view, shadow_projection;
+	unsigned int has_texture, texture, shadowmap;
 	unsigned int Ia, Id, Is;
 	unsigned int Ka, Kd;
 	unsigned int L; 
@@ -68,7 +68,7 @@ struct ShadowShader
 {
 	unsigned int id;
 	
-	unsigned int mv_matrix, model;
+	unsigned int projection, view, model;
 };
 
 class GameObject;

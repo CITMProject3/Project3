@@ -83,15 +83,12 @@ public:
 	std::vector<ComponentCamera*> cameras;
 
 	MasterRender* ms_render;
+	ShadowMap* shadow_map;
 private:
 
 	std::vector<GameObject*> objects_to_draw;
 	std::vector<ComponentSprite*> sprites_to_draw;
 	std::vector<ComponentParticleSystem*> particles_to_draw;
-
-	ShadowMap* shadow_map;
-
-	
 };
 
 #endif // !__MODULERENDERER3D_H__

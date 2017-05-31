@@ -10,15 +10,39 @@
 #include "ComponentMesh.h"
 #include "DebugDraw.h"
 
+//Testing
+#include "ModuleWindow.h"
+
 using namespace math;
 
 ShadowMap::ShadowMap()
 {
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetOrthographic(5, 7);
+	frustum.SetOrthographic(20, 20);
 
-	frustum.SetViewPlaneDistances(0.3, 500);
+	frustum.SetViewPlaneDistances(0.3, 100);
 	frustum.SetPos(float3(0, 0, 0));
+
+	frustum.SetFront(float3::unitZ);
+	frustum.SetUp(float3::unitY);
+
+	frustum.ComputeProjectionMatrix();
+	frustum.ComputeViewMatrix();
+
+	//Init frustrum
+/*	float vertical_fov = DegToRad(60);
+	float horizontal_fov = 2.0f*atanf(tanf(vertical_fov / 2.0f) * 1.0);
+
+	frustum.SetPerspective(horizontal_fov, vertical_fov);
+	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
+
+	frustum.SetPos(float3(0, 0, 0));
+	frustum.SetFront(float3::unitZ);
+	frustum.SetUp(float3::unitY);
+	
+
+	frustum.SetViewPlaneDistances(0.3, 100);
+	frustum.SetVerticalFovAndAspectRatio(DegToRad(60), 1.0f);*/
 }
 
 ShadowMap::~ShadowMap()
@@ -40,9 +64,21 @@ void ShadowMap::Init(int width, int height)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT16, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, shadow_map_id, 0);
+
+	/*unsigned int texture_id;
+	glGenTextures(1, &texture_id);
+	glBindTexture(GL_TEXTURE_2D, texture_id);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+	glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, texture_id, 0);
+	glDrawBuffer(GL_COLOR_ATTACHMENT0);*/
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
@@ -53,10 +89,10 @@ void ShadowMap::CleanUp()
 	glDeleteTextures(1, &shadow_map_id);
 }
 
-void ShadowMap::Render(const float3& light_dir, const std::vector<GameObject*>& entities)
+void ShadowMap::Render(const float4x4& light_matrix, const std::vector<GameObject*>& entities)
 {
 	//Update cam matrix
-	UpdateShadowBox(light_dir);
+	UpdateShadowBox(light_matrix);
 
 	GLint old_viewport[4];
 	glGetIntegerv(GL_VIEWPORT, old_viewport);
@@ -70,8 +106,8 @@ void ShadowMap::Render(const float3& light_dir, const std::vector<GameObject*>& 
 
 	glUseProgram(shadow_shader.id);
 
-	float4x4 vpMatrix = frustum.ProjectionMatrix().Transposed() * float4x4(frustum.ViewMatrix()).Transposed();
-	glUniformMatrix4fv(shadow_shader.mv_matrix, 1, GL_FALSE, *(vpMatrix).v);
+	glUniformMatrix4fv(shadow_shader.projection, 1, GL_FALSE, *frustum.ProjectionMatrix().Transposed().v);
+	glUniformMatrix4fv(shadow_shader.view, 1, GL_FALSE, *(float4x4(frustum.ViewMatrix()).Transposed()).v);
 
 	for (vector<GameObject*>::const_iterator entity = entities.begin(); entity != entities.end(); ++entity)
 	{
@@ -88,18 +124,27 @@ void ShadowMap::Render(const float3& light_dir, const std::vector<GameObject*>& 
 	glUseProgram(0);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(old_viewport[0], old_viewport[1], old_viewport[2], old_viewport[3]);
+
 }
 
-void ShadowMap::UpdateShadowBox(const float3& light_dir)
+unsigned int ShadowMap::GetShadowMapId() const
 {
-	
-	vec up = Quat::RotateFromTo(vec(0, 0, 1), light_dir) * vec(0, 1, 0);
-	
-	frustum.SetFront(light_dir.Normalized());
-	frustum.SetUp(up.Normalized());
+	return shadow_map_id;
+}
 
-	//Testing
-	vec cam_pos = frustum.Pos();
-	g_Debug->AddLine(cam_pos, cam_pos + frustum.Up() * 2, g_Debug->red, 2.0f);
-	g_Debug->AddLine(cam_pos, cam_pos + frustum.Front() * 2, g_Debug->green, 2.0f);
+math::float4x4 ShadowMap::GetShadowView() const
+{
+	return float4x4(frustum.ViewMatrix()).Transposed();
+}
+
+math::float4x4 ShadowMap::GetShadowProjection() const
+{
+	return frustum.ProjectionMatrix().Transposed();
+}
+
+void ShadowMap::UpdateShadowBox(const float4x4& light_matrix)
+{
+	frustum.SetPos(light_matrix.TranslatePart());
+	frustum.SetFront(light_matrix.WorldZ());
+	frustum.SetUp(light_matrix.WorldY());
 }
