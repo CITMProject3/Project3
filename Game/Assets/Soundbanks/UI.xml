@@ -25,31 +25,31 @@
 			<IncludedMemoryFiles>
 				<File Id="390271277" Language="SFX">
 					<ShortName>LoadingGame.wav</ShortName>
-					<Path>SFX\LoadingGame_9E69E797.wem</Path>
+					<Path>SFX\LoadingGame_4AFEA6D2.wem</Path>
 				</File>
 				<File Id="432115999" Language="SFX">
 					<ShortName>UI_Music_Loop.wav</ShortName>
-					<Path>SFX\UI_Music_Loop_4B8CC0C5.wem</Path>
+					<Path>SFX\UI_Music_Loop_8FDCC4EC.wem</Path>
 				</File>
 				<File Id="445115088" Language="SFX">
 					<ShortName>Deselection.wav</ShortName>
-					<Path>SFX\Deselection_9E69E797.wem</Path>
+					<Path>SFX\Deselection_4AFEA6D2.wem</Path>
 				</File>
 				<File Id="596469982" Language="SFX">
 					<ShortName>CursorMovement.wav</ShortName>
-					<Path>SFX\CursorMovement_9E69E797.wem</Path>
+					<Path>SFX\CursorMovement_4AFEA6D2.wem</Path>
 				</File>
 				<File Id="698381521" Language="SFX">
 					<ShortName>PressStart.wav</ShortName>
-					<Path>SFX\PressStart_9E69E797.wem</Path>
+					<Path>SFX\PressStart_4AFEA6D2.wem</Path>
 				</File>
 				<File Id="761089316" Language="SFX">
 					<ShortName>Selection.wav</ShortName>
-					<Path>SFX\Selection_9E69E797.wem</Path>
+					<Path>SFX\Selection_4AFEA6D2.wem</Path>
 				</File>
 				<File Id="1057882787" Language="SFX">
 					<ShortName>LogoIntro.wav</ShortName>
-					<Path>SFX\LogoIntro_9E69E797.wem</Path>
+					<Path>SFX\LogoIntro_4AFEA6D2.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

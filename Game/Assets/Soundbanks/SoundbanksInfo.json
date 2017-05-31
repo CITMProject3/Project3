@@ -60,6 +60,7 @@
       "Name": "Play_Makibishi",
       "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
       "GUID": "{2E5EE286-7C23-4269-AF77-08C922E43B8D}",
+      "MaxAttenuation": "50.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.236500",
       "DurationMax": "0.257354"
@@ -107,97 +108,97 @@
       "Id": "1056845",
       "Language": "SFX",
       "ShortName": "Firecracker_whistle.wav",
-      "Path": "SFX\\Firecracker_whistle_4B8CC0C5.wem"
+      "Path": "SFX\\Firecracker_whistle_8FDCC4EC.wem"
      },
      {
       "Id": "97393134",
       "Language": "SFX",
       "ShortName": "Engine_ignition.wav",
-      "Path": "SFX\\Engine_ignition_9E69E797.wem"
+      "Path": "SFX\\Engine_ignition_4AFEA6D2.wem"
      },
      {
       "Id": "154759909",
       "Language": "SFX",
       "ShortName": "Firecracker_loop1.wav",
-      "Path": "SFX\\Firecracker_loop1_9E69E797.wem"
+      "Path": "SFX\\Firecracker_loop1_4AFEA6D2.wem"
      },
      {
       "Id": "207015689",
       "Language": "SFX",
       "ShortName": "Firecracker_explosion.wav",
-      "Path": "SFX\\Firecracker_explosion_9E69E797.wem"
+      "Path": "SFX\\Firecracker_explosion_4AFEA6D2.wem"
+     },
+     {
+      "Id": "257147469",
+      "Language": "SFX",
+      "ShortName": "Countdown.wav",
+      "Path": "SFX\\Countdown_4AFEA6D2.wem"
      },
      {
       "Id": "440931321",
       "Language": "SFX",
       "ShortName": "RiKarts_Master_Full.wav",
-      "Path": "SFX\\RiKarts_Master_Full_65D1BB0B.wem"
+      "Path": "SFX\\RiKarts_Master_Full_9A87C55A.wem"
      },
      {
       "Id": "501485239",
       "Language": "SFX",
       "ShortName": "metalic_scrape3.wav",
-      "Path": "SFX\\metalic_scrape3_9E69E797.wem"
+      "Path": "SFX\\metalic_scrape3_4AFEA6D2.wem"
      },
      {
       "Id": "526641992",
       "Language": "SFX",
       "ShortName": "Marine_diesel_engine.wav",
-      "Path": "SFX\\Marine_diesel_engine_4B8CC0C5.wem"
+      "Path": "SFX\\Marine_diesel_engine_8FDCC4EC.wem"
      },
      {
       "Id": "547640341",
       "Language": "SFX",
       "ShortName": "Countdown_Go.wav",
-      "Path": "SFX\\Countdown_Go_9E69E797.wem"
-     },
-     {
-      "Id": "726579198",
-      "Language": "SFX",
-      "ShortName": "Countdown.wav",
-      "Path": "SFX\\Countdown_9E69E797.wem"
+      "Path": "SFX\\Countdown_Go_4AFEA6D2.wem"
      },
      {
       "Id": "750843032",
       "Language": "SFX",
       "ShortName": "metalic_scrape2.wav",
-      "Path": "SFX\\metalic_scrape2_9E69E797.wem"
+      "Path": "SFX\\metalic_scrape2_4AFEA6D2.wem"
      },
      {
       "Id": "919387555",
       "Language": "SFX",
       "ShortName": "Firecracker_loop4.wav",
-      "Path": "SFX\\Firecracker_loop4_9E69E797.wem"
+      "Path": "SFX\\Firecracker_loop4_4AFEA6D2.wem"
      },
      {
       "Id": "961727349",
       "Language": "SFX",
       "ShortName": "metalic_scrape1.wav",
-      "Path": "SFX\\metalic_scrape1_9E69E797.wem"
+      "Path": "SFX\\metalic_scrape1_4AFEA6D2.wem"
      },
      {
       "Id": "966138208",
       "Language": "SFX",
       "ShortName": "makibishi_launch.wav",
-      "Path": "SFX\\makibishi_launch_9E69E797.wem"
+      "Path": "SFX\\makibishi_launch_4AFEA6D2.wem"
      },
      {
       "Id": "1026459605",
       "Language": "SFX",
       "ShortName": "Firecracker_loop2.wav",
-      "Path": "SFX\\Firecracker_loop2_9E69E797.wem"
+      "Path": "SFX\\Firecracker_loop2_4AFEA6D2.wem"
      },
      {
       "Id": "1060689355",
       "Language": "SFX",
       "ShortName": "Firecracker_loop3.wav",
-      "Path": "SFX\\Firecracker_loop3_9E69E797.wem"
+      "Path": "SFX\\Firecracker_loop3_4AFEA6D2.wem"
      },
      {
       "Id": "1065970683",
       "Language": "SFX",
       "ShortName": "Firecracker_start.wav",
-      "Path": "SFX\\Firecracker_start_9E69E797.wem"
+      "Path": "SFX\\Firecracker_start_4AFEA6D2.wem"
      }
     ]
    },
@@ -294,43 +295,43 @@
       "Id": "390271277",
       "Language": "SFX",
       "ShortName": "LoadingGame.wav",
-      "Path": "SFX\\LoadingGame_9E69E797.wem"
+      "Path": "SFX\\LoadingGame_4AFEA6D2.wem"
      },
      {
       "Id": "432115999",
       "Language": "SFX",
       "ShortName": "UI_Music_Loop.wav",
-      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
+      "Path": "SFX\\UI_Music_Loop_8FDCC4EC.wem"
      },
      {
       "Id": "445115088",
       "Language": "SFX",
       "ShortName": "Deselection.wav",
-      "Path": "SFX\\Deselection_9E69E797.wem"
+      "Path": "SFX\\Deselection_4AFEA6D2.wem"
      },
      {
       "Id": "596469982",
       "Language": "SFX",
       "ShortName": "CursorMovement.wav",
-      "Path": "SFX\\CursorMovement_9E69E797.wem"
+      "Path": "SFX\\CursorMovement_4AFEA6D2.wem"
      },
      {
       "Id": "698381521",
       "Language": "SFX",
       "ShortName": "PressStart.wav",
-      "Path": "SFX\\PressStart_9E69E797.wem"
+      "Path": "SFX\\PressStart_4AFEA6D2.wem"
      },
      {
       "Id": "761089316",
       "Language": "SFX",
       "ShortName": "Selection.wav",
-      "Path": "SFX\\Selection_9E69E797.wem"
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
      },
      {
       "Id": "1057882787",
       "Language": "SFX",
       "ShortName": "LogoIntro.wav",
-      "Path": "SFX\\LogoIntro_9E69E797.wem"
+      "Path": "SFX\\LogoIntro_4AFEA6D2.wem"
      }
     ]
    }

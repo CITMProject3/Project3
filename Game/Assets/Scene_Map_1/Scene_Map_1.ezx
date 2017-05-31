@@ -3891,7 +3891,7 @@
                         {
                             "event_id": 104204679,
                             "event_name": "Play_Makibishi",
-                            "sound_3D": false,
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
@@ -12122,7 +12122,7 @@
                         {
                             "event_id": 104204679,
                             "event_name": "Play_Makibishi",
-                            "sound_3D": false,
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
@@ -20353,7 +20353,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -20442,7 +20442,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -24912,1518 +24912,378 @@
         },
         {
             "name": "Makibishi",
-            "UUID": 4028936068,
-            "local_UUID": 0,
+            "UUID": 3900054576,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3900054576,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 3476469481,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        1,
-                        1.205000,
-                        1
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 192739089,
-            "local_UUID": 0,
+            "UUID": 3939910556,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3939910556,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 981267220,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1449597664,
-            "local_UUID": 0,
+            "UUID": 702118582,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 702118582,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1785388064,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3202722747,
-            "local_UUID": 0,
+            "UUID": 2195161326,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2195161326,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2196883169,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2303303522,
-            "local_UUID": 0,
+            "UUID": 2279305498,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2279305498,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 691901569,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3340087499,
-            "local_UUID": 0,
+            "UUID": 983892420,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 983892420,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1411188356,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3001624139,
-            "local_UUID": 0,
+            "UUID": 686829226,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 686829226,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2060838974,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1292998730,
-            "local_UUID": 0,
+            "UUID": 1361599712,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1361599712,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 3127402327,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3031546124,
-            "local_UUID": 0,
+            "UUID": 3344567813,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3344567813,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 69952587,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2959217933,
-            "local_UUID": 0,
+            "UUID": 194738899,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 194738899,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 749854235,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 790061073,
-            "local_UUID": 0,
+            "UUID": 1080636854,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1080636854,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2493558864,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2166854957,
-            "local_UUID": 0,
+            "UUID": 98021805,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 98021805,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1027498677,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3188570542,
-            "local_UUID": 0,
+            "UUID": 3300729155,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3300729155,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 506910035,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1774959173,
-            "local_UUID": 0,
+            "UUID": 1569943159,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1569943159,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1420425540,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3575747148,
-            "local_UUID": 0,
+            "UUID": 3205473342,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3205473342,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1672887961,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Hitodamas",

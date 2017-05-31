@@ -97,43 +97,43 @@
       "Id": "390271277",
       "Language": "SFX",
       "ShortName": "LoadingGame.wav",
-      "Path": "SFX\\LoadingGame_9E69E797.wem"
+      "Path": "SFX\\LoadingGame_4AFEA6D2.wem"
      },
      {
       "Id": "432115999",
       "Language": "SFX",
       "ShortName": "UI_Music_Loop.wav",
-      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
+      "Path": "SFX\\UI_Music_Loop_8FDCC4EC.wem"
      },
      {
       "Id": "445115088",
       "Language": "SFX",
       "ShortName": "Deselection.wav",
-      "Path": "SFX\\Deselection_9E69E797.wem"
+      "Path": "SFX\\Deselection_4AFEA6D2.wem"
      },
      {
       "Id": "596469982",
       "Language": "SFX",
       "ShortName": "CursorMovement.wav",
-      "Path": "SFX\\CursorMovement_9E69E797.wem"
+      "Path": "SFX\\CursorMovement_4AFEA6D2.wem"
      },
      {
       "Id": "698381521",
       "Language": "SFX",
       "ShortName": "PressStart.wav",
-      "Path": "SFX\\PressStart_9E69E797.wem"
+      "Path": "SFX\\PressStart_4AFEA6D2.wem"
      },
      {
       "Id": "761089316",
       "Language": "SFX",
       "ShortName": "Selection.wav",
-      "Path": "SFX\\Selection_9E69E797.wem"
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
      },
      {
       "Id": "1057882787",
       "Language": "SFX",
       "ShortName": "LogoIntro.wav",
-      "Path": "SFX\\LogoIntro_9E69E797.wem"
+      "Path": "SFX\\LogoIntro_4AFEA6D2.wem"
      }
     ]
    }

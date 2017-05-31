@@ -472,9 +472,9 @@ namespace Player_Car
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
 
-		// Playing Makibishi launch
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(2);
+		//// Playing Makibishi launch
+		//ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		//if (audio) audio->PlayAudio(2);
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		{
