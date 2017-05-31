@@ -37,6 +37,15 @@
       "DurationType": "Infinite"
      },
      {
+      "Id": "2703982544",
+      "Name": "Play_Evil_Spirit",
+      "ObjectPath": "\\Events\\InGame\\Play_Evil_Spirit",
+      "GUID": "{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}",
+      "DurationType": "OneShot",
+      "DurationMin": "12.028770",
+      "DurationMax": "12.028770"
+     },
+     {
       "Id": "387320433",
       "Name": "Play_Firecracker",
       "ObjectPath": "\\Events\\InGame\\Play_Firecracker",
@@ -88,6 +97,15 @@
       "DurationType": "OneShot",
       "DurationMin": "0.000000",
       "DurationMax": "0.000000"
+     },
+     {
+      "Id": "2740656682",
+      "Name": "Stop_Evil_Spirit",
+      "ObjectPath": "\\Events\\InGame\\Stop_Evil_Spirit",
+      "GUID": "{8A5DE00B-CA4B-4FE8-88AA-5D1336C5EE6E}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.109292",
+      "DurationMax": "3.109292"
      },
      {
       "Id": "3898358255",
@@ -156,6 +174,12 @@
       "Path": "SFX\\Countdown_Go_4AFEA6D2.wem"
      },
      {
+      "Id": "664393915",
+      "Language": "SFX",
+      "ShortName": "Evil_Spirit.wav",
+      "Path": "SFX\\Evil_Spirit_9E69E797.wem"
+     },
+     {
       "Id": "750843032",
       "Language": "SFX",
       "ShortName": "metalic_scrape2.wav",
@@ -178,6 +202,12 @@
       "Language": "SFX",
       "ShortName": "makibishi_launch.wav",
       "Path": "SFX\\makibishi_launch_4AFEA6D2.wem"
+     },
+     {
+      "Id": "977190329",
+      "Language": "SFX",
+      "ShortName": "Evil_Spirit_cancelled.wav",
+      "Path": "SFX\\Evil_Spirit_cancelled_9E69E797.wem"
      },
      {
       "Id": "1026459605",

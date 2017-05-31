@@ -15,12 +15,14 @@
 			<IncludedEvents>
 				<Event Id="2175797879" Name="Play_Countdown" ObjectPath="\Events\InGame\Play_Countdown" GUID="{F775C297-3A39-4AD7-89F1-EF18A9450959}" DurationType="OneShot" DurationMin="1.017483" DurationMax="1.017483"/>
 				<Event Id="639345804" Name="Play_Engine" ObjectPath="\Events\InGame\Play_Engine" GUID="{208A9721-1FB7-4AD6-93E6-4F44A2ED9E27}" DurationType="Infinite"/>
+				<Event Id="2703982544" Name="Play_Evil_Spirit" ObjectPath="\Events\InGame\Play_Evil_Spirit" GUID="{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}" DurationType="OneShot" DurationMin="12.028770" DurationMax="12.028770"/>
 				<Event Id="387320433" Name="Play_Firecracker" ObjectPath="\Events\InGame\Play_Firecracker" GUID="{F429BC6B-73AF-4330-AAD7-0043F197FB9F}" DurationType="Infinite"/>
 				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
 				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" MaxAttenuation="50.000000" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
 				<Event Id="1300784916" Name="Start_Engine" ObjectPath="\Events\InGame\Start_Engine" GUID="{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="452547817" Name="Stop_All" ObjectPath="\Events\InGame\Stop_All" GUID="{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="2740656682" Name="Stop_Evil_Spirit" ObjectPath="\Events\InGame\Stop_Evil_Spirit" GUID="{8A5DE00B-CA4B-4FE8-88AA-5D1336C5EE6E}" DurationType="OneShot" DurationMin="3.109292" DurationMax="3.109292"/>
 				<Event Id="3898358255" Name="Stop_Firecracker" ObjectPath="\Events\InGame\Stop_Firecracker" GUID="{EE510AF4-13C5-4156-8259-915079C2344F}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
 			<IncludedMemoryFiles>
@@ -60,6 +62,10 @@
 					<ShortName>Countdown_Go.wav</ShortName>
 					<Path>SFX\Countdown_Go_4AFEA6D2.wem</Path>
 				</File>
+				<File Id="664393915" Language="SFX">
+					<ShortName>Evil_Spirit.wav</ShortName>
+					<Path>SFX\Evil_Spirit_9E69E797.wem</Path>
+				</File>
 				<File Id="750843032" Language="SFX">
 					<ShortName>metalic_scrape2.wav</ShortName>
 					<Path>SFX\metalic_scrape2_4AFEA6D2.wem</Path>
@@ -75,6 +81,10 @@
 				<File Id="966138208" Language="SFX">
 					<ShortName>makibishi_launch.wav</ShortName>
 					<Path>SFX\makibishi_launch_4AFEA6D2.wem</Path>
+				</File>
+				<File Id="977190329" Language="SFX">
+					<ShortName>Evil_Spirit_cancelled.wav</ShortName>
+					<Path>SFX\Evil_Spirit_cancelled_9E69E797.wem</Path>
 				</File>
 				<File Id="1026459605" Language="SFX">
 					<ShortName>Firecracker_loop2.wav</ShortName>

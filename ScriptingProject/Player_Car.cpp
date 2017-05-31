@@ -236,10 +236,10 @@ namespace Player_Car
 		if (car == nullptr)
 			return;
 
-		// DEBUG CRZ
+		// DEBUG CRZ for Audio Testing
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			current_item = 1;
+			Player_Car_UseEvilSpirit(game_object, car);
 		}
 
 		if (current_item != -1 && evil_spirit_effect == false)
@@ -452,6 +452,10 @@ namespace Player_Car
 		{
 			evil_spirit_effect = true;
 		}
+
+		// Playing Evil Spirit 
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(4);
 	}
 
 	void Player_Car_UseMakibishi(GameObject* game_object, ComponentCar* car)
@@ -597,6 +601,13 @@ namespace Player_Car
 					evil_spirit_object[car_id]->SetActive(false);
 				}
 			}
+
+			if (!evil_spirit_effect)
+			{
+				// Playing Firecracker sound
+				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio) audio->PlayAudio(5);
+			}
 		}
 	}
 
@@ -611,11 +622,7 @@ namespace Player_Car
 			if (firecracker)
 				firecracker->SetActive(false);
 			current_item = -1;
-			Player_Car_CallUpdateItems();
-
-			// Stopping Firecracker sound
-			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (audio) audio->PlayAudio(1);			
+			Player_Car_CallUpdateItems();		
 		}
 		else
 		{
@@ -628,14 +635,17 @@ namespace Player_Car
 				if(firecracker)
 					firecracker->SetActive(false);
 				current_item = -1;
-				Player_Car_CallUpdateItems();
-
-				// Stopping Firecracker sound
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(1);				
+				Player_Car_CallUpdateItems();							
 			}
-		}		
+		}	
 
+		// If current_item is -1 or using_firecracker is false, firecracker has finished
+		if (!using_firecracker)
+		{
+			// Stopping Firecracker sound
+			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (audio) audio->PlayAudio(1);
+		}
 	}
 
 	void Player_Car_CallUpdateItems()

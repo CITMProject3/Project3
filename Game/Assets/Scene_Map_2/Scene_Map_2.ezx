@@ -208,13 +208,25 @@
                         {
                             "event_id": 104204679,
                             "event_name": "Play_Makibishi",
-                            "sound_3D": false,
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
                             "event_id": 1300784916,
                             "event_name": "Start_Engine",
                             "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2703982544,
+                            "event_name": "Play_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2740656682,
+                            "event_name": "Stop_Evil_Spirit",
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
@@ -9587,13 +9599,25 @@
                         {
                             "event_id": 104204679,
                             "event_name": "Play_Makibishi",
-                            "sound_3D": false,
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
                             "event_id": 1300784916,
                             "event_name": "Start_Engine",
                             "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2703982544,
+                            "event_name": "Play_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2740656682,
+                            "event_name": "Stop_Evil_Spirit",
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
