@@ -96,8 +96,8 @@ namespace Scene_Manager
 	GameObject* botdriver_label = nullptr;
 	GameObject* botgunner_label = nullptr;
 	
-	//string main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
-	string main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
+	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
+	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
 
 	//"Private" variables
 	float delay_to_start;
@@ -125,7 +125,7 @@ namespace Scene_Manager
 
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
-		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
+		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", assets_main_menu_scene));
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Car1", car_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Car2", car_2_go));
@@ -171,7 +171,7 @@ namespace Scene_Manager
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
+		assets_main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
 
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];
@@ -210,7 +210,7 @@ namespace Scene_Manager
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-		script->public_chars.at("Main_Menu_Scene") = main_menu_scene;
+		script->public_chars.at("Main_Menu_Scene") = assets_main_menu_scene;
 	}
 
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
@@ -367,7 +367,13 @@ namespace Scene_Manager
 				{
 					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
-					App->LoadScene(main_menu_scene.c_str());
+
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+
 					return;
 				}
 			}

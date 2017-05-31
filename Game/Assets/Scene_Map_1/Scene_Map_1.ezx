@@ -3887,6 +3887,12 @@
                             "event_name": "Stop_Firecracker",
                             "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
                 }
@@ -12105,6 +12111,12 @@
                             "event_id": 3898358255,
                             "event_name": "Stop_Firecracker",
                             "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]

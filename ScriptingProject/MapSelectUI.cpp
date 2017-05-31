@@ -39,11 +39,11 @@ namespace MapSelectUI
 	ComponentUiButton* c_left_arrow = nullptr;
 
 	// On Assets
-	/*string path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
-	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";*/
+	string assets_path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
+	string assets_path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
 	// On Library
-	string path_map1 = "/Library/1441726200/2271634307/2271634307.ezx";
-	string path_map2 = "/Library/3645291025/3212315065/3212315065.ezx";
+	string library_path_map1 = "/Library/1441726200/2271634307/2271634307.ezx";
+	string library_path_map2 = "/Library/3645291025/3212315065/3212315065.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
@@ -211,11 +211,19 @@ namespace MapSelectUI
 
 				if (!current_level)
 				{
-					App->LoadScene(path_map1.data());
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_path_map1.data());	// Using Library Scene files
+					else
+						App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
 				}
 				else
 				{
-					App->LoadScene(path_map2.data());
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_path_map2.data());	// Using Library Scene files
+					else
+						App->LoadScene(assets_path_map2.data());		// Using Assets Scene files
 				}
 			}
 
@@ -314,13 +322,25 @@ namespace MapSelectUI
 					switch (votes[k])
 					{
 					case 1:
-						App->LoadScene(path_map1.data());
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map1.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
 						break;
 					case 2:
-						App->LoadScene(path_map2.data());
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map2.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map2.data());		// Using Assets Scene files
 						break;
 					default:
-						App->LoadScene(path_map1.data());
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map1.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
 						break;
 
 					}

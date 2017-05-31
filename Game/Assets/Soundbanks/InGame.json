@@ -46,6 +46,15 @@
       "DurationMax": "2.084195"
      },
      {
+      "Id": "104204679",
+      "Name": "Play_Makibishi",
+      "ObjectPath": "\\Events\\InGame\\FX\\Play_Makibishi",
+      "GUID": "{2E5EE286-7C23-4269-AF77-08C922E43B8D}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.236500",
+      "DurationMax": "0.257354"
+     },
+     {
       "Id": "1313592992",
       "Name": "Play_RiKarts_main_theme",
       "ObjectPath": "\\Events\\InGame\\Music\\Play_RiKarts_main_theme",
@@ -75,6 +84,12 @@
     ],
     "IncludedMemoryFiles": [
      {
+      "Id": "1056845",
+      "Language": "SFX",
+      "ShortName": "Firecracker_whistle.wav",
+      "Path": "SFX\\Firecracker_whistle_4B8CC0C5.wem"
+     },
+     {
       "Id": "154759909",
       "Language": "SFX",
       "ShortName": "Firecracker_loop1.wav",
@@ -93,6 +108,12 @@
       "Path": "SFX\\RiKarts_main_theme_5F599105.wem"
      },
      {
+      "Id": "501485239",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape3.wav",
+      "Path": "SFX\\metalic_scrape3_9E69E797.wem"
+     },
+     {
       "Id": "547640341",
       "Language": "SFX",
       "ShortName": "Countdown_Go.wav",
@@ -105,10 +126,28 @@
       "Path": "SFX\\Countdown_9E69E797.wem"
      },
      {
+      "Id": "750843032",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape2.wav",
+      "Path": "SFX\\metalic_scrape2_9E69E797.wem"
+     },
+     {
       "Id": "919387555",
       "Language": "SFX",
       "ShortName": "Firecracker_loop4.wav",
       "Path": "SFX\\Firecracker_loop4_9E69E797.wem"
+     },
+     {
+      "Id": "961727349",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape1.wav",
+      "Path": "SFX\\metalic_scrape1_9E69E797.wem"
+     },
+     {
+      "Id": "966138208",
+      "Language": "SFX",
+      "ShortName": "makibishi_launch.wav",
+      "Path": "SFX\\makibishi_launch_9E69E797.wem"
      },
      {
       "Id": "1026459605",

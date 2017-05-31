@@ -236,6 +236,12 @@ namespace Player_Car
 		if (car == nullptr)
 			return;
 
+		// DEBUG CRZ
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		{
+			current_item = 1;
+		}
+
 		if (current_item != -1 && evil_spirit_effect == false)
 		{
 			if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
@@ -465,6 +471,10 @@ namespace Player_Car
 		ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
+
+		// Playing Makibishi launch
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(2);
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		{
