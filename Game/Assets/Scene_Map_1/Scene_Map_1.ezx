@@ -208,8 +208,8 @@
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 1313592992,
-                            "event_name": "Play_RiKarts_main_theme",
+                            "event_id": 2932040671,
+                            "event_name": "Play_Music",
                             "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
@@ -226,8 +226,8 @@
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
-                            "event_id": 3054248522,
-                            "event_name": "Stop_RiKarts_main_theme",
+                            "event_id": 452547817,
+                            "event_name": "Stop_All",
                             "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
@@ -321,16 +321,16 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1532,
-                        837
+                        1536,
+                        841
                     ],
                     "matrix": [
-                        0.957500,
+                        0.960000,
                         0,
                         0,
-                        766,
+                        768,
                         0,
-                        0.930000,
+                        0.934444,
                         0,
                         0,
                         0,
@@ -3892,6 +3892,12 @@
                             "event_id": 104204679,
                             "event_name": "Play_Makibishi",
                             "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 1300784916,
+                            "event_name": "Start_Engine",
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
@@ -12118,6 +12124,12 @@
                             "event_name": "Play_Makibishi",
                             "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 1300784916,
+                            "event_name": "Start_Engine",
+                            "sound_3D": true,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
                 }
@@ -20298,7 +20310,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.697670,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -20387,7 +20399,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.697670,
+                    "aspect_ratio": 3.689691,
                     "color": [
                         0,
                         0,
@@ -20476,7 +20488,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.830346,
+                    "aspect_ratio": 1.826397,
                     "color": [
                         0,
                         0,

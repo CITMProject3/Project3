@@ -102,7 +102,7 @@ namespace Scene_Manager
 	//"Private" variables
 	float delay_to_start;
 	double start_timer;
-	bool start_timer_on;
+	bool start_timer_on = false;
 	uint current_countdown_number = 4;
 	uint countdown_sound = 4;
 
@@ -256,7 +256,7 @@ namespace Scene_Manager
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
 		delay_to_start = 0.0f;
-		start_timer_on = true;
+		start_timer_on = false;
 		race_finished = false;
 		team1_finished = false;
 		team2_finished = false;
@@ -293,10 +293,12 @@ namespace Scene_Manager
 		if (start_timer_go)
 		{
 			start_timer_text = (ComponentUiText*)start_timer_go->GetComponent(C_UI_TEXT);
+			if (start_timer_text) start_timer_text->GetGameObject()->SetActive(false);
 		}
 		if (start_timer_go2)
 		{
 			start_timer_text2 = (ComponentUiText*)start_timer_go2->GetComponent(C_UI_TEXT);
+			if(start_timer_text2) start_timer_text2->GetGameObject()->SetActive(false);
 		}
 		if (item_ui_1_go)
 		{
@@ -508,12 +510,20 @@ namespace Scene_Manager
 		}
 		else
 		{
-			if (delay_to_start > 3.0f && start_timer_on == true)
+			if (race_timer_number != 1) // When race_timer_number is 1, the race has begun!
 			{
+				if (delay_to_start > 3.0f && !start_timer_on)
+				{
+					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
+					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
+					start_timer_on = true;
+				}
+				else
+					delay_to_start += time->DeltaTime();
+			}			
+
+			if (start_timer_on)
 				Scene_Manager_UpdateStartCountDown(game_object);
-			}
-			else
-				delay_to_start += time->DeltaTime();
 
 			if (race_timer_number == 0)
 			{

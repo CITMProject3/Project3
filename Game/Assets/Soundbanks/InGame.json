@@ -23,23 +23,30 @@
      {
       "Id": "2175797879",
       "Name": "Play_Countdown",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Countdown",
+      "ObjectPath": "\\Events\\InGame\\Play_Countdown",
       "GUID": "{F775C297-3A39-4AD7-89F1-EF18A9450959}",
       "DurationType": "OneShot",
       "DurationMin": "1.017483",
       "DurationMax": "1.017483"
      },
      {
+      "Id": "639345804",
+      "Name": "Play_Engine",
+      "ObjectPath": "\\Events\\InGame\\Play_Engine",
+      "GUID": "{208A9721-1FB7-4AD6-93E6-4F44A2ED9E27}",
+      "DurationType": "Infinite"
+     },
+     {
       "Id": "387320433",
       "Name": "Play_Firecracker",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\Play_Firecracker",
       "GUID": "{F429BC6B-73AF-4330-AAD7-0043F197FB9F}",
       "DurationType": "Infinite"
      },
      {
       "Id": "2279634092",
       "Name": "Play_Go",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Go",
+      "ObjectPath": "\\Events\\InGame\\Play_Go",
       "GUID": "{BA69F920-8566-4A70-B47C-4300E5C54269}",
       "DurationType": "OneShot",
       "DurationMin": "2.084195",
@@ -48,34 +55,44 @@
      {
       "Id": "104204679",
       "Name": "Play_Makibishi",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Makibishi",
+      "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
       "GUID": "{2E5EE286-7C23-4269-AF77-08C922E43B8D}",
       "DurationType": "OneShot",
       "DurationMin": "0.236500",
       "DurationMax": "0.257354"
      },
      {
-      "Id": "1313592992",
-      "Name": "Play_RiKarts_main_theme",
-      "ObjectPath": "\\Events\\InGame\\Music\\Play_RiKarts_main_theme",
-      "GUID": "{497B20D8-53C9-47F4-8094-65B9D473F1F1}",
+      "Id": "2932040671",
+      "Name": "Play_Music",
+      "ObjectPath": "\\Events\\InGame\\Play_Music",
+      "GUID": "{615A9A6B-0C9E-4294-A6CD-50462A8F9721}",
       "DurationType": "Infinite"
      },
      {
-      "Id": "3898358255",
-      "Name": "Stop_Firecracker",
-      "ObjectPath": "\\Events\\InGame\\FX\\Stop_Firecracker",
-      "GUID": "{EE510AF4-13C5-4156-8259-915079C2344F}",
+      "Id": "1300784916",
+      "Name": "Start_Engine",
+      "ObjectPath": "\\Events\\InGame\\Start_Engine",
+      "GUID": "{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}",
       "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.000000",
       "DurationMax": "0.000000"
      },
      {
-      "Id": "3054248522",
-      "Name": "Stop_RiKarts_main_theme",
-      "ObjectPath": "\\Events\\InGame\\Music\\Stop_RiKarts_main_theme",
-      "GUID": "{8083B93C-AD34-47CD-B13E-76E9DABB5ABB}",
+      "Id": "452547817",
+      "Name": "Stop_All",
+      "ObjectPath": "\\Events\\InGame\\Stop_All",
+      "GUID": "{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
+      "Id": "3898358255",
+      "Name": "Stop_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\Stop_Firecracker",
+      "GUID": "{EE510AF4-13C5-4156-8259-915079C2344F}",
       "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.000000",
@@ -90,6 +107,12 @@
       "Path": "SFX\\Firecracker_whistle_4B8CC0C5.wem"
      },
      {
+      "Id": "97393134",
+      "Language": "SFX",
+      "ShortName": "Engine_ignition.wav",
+      "Path": "SFX\\Engine_ignition_9E69E797.wem"
+     },
+     {
       "Id": "154759909",
       "Language": "SFX",
       "ShortName": "Firecracker_loop1.wav",
@@ -102,16 +125,22 @@
       "Path": "SFX\\Firecracker_explosion_9E69E797.wem"
      },
      {
-      "Id": "427291038",
+      "Id": "440931321",
       "Language": "SFX",
-      "ShortName": "RiKarts_main_theme.wav",
-      "Path": "SFX\\RiKarts_main_theme_5F599105.wem"
+      "ShortName": "RiKarts_Master_Full.wav",
+      "Path": "SFX\\RiKarts_Master_Full_65D1BB0B.wem"
      },
      {
       "Id": "501485239",
       "Language": "SFX",
       "ShortName": "metalic_scrape3.wav",
       "Path": "SFX\\metalic_scrape3_9E69E797.wem"
+     },
+     {
+      "Id": "526641992",
+      "Language": "SFX",
+      "ShortName": "Marine_diesel_engine.wav",
+      "Path": "SFX\\Marine_diesel_engine_4B8CC0C5.wem"
      },
      {
       "Id": "547640341",

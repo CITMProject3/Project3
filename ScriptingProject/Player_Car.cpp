@@ -207,9 +207,9 @@ namespace Player_Car
 			}
 		}	
 
-		//// Start Sound Engine
-		//ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		//if (audio) audio->PlayAudio(0);
+		// Start Sound Engine
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(3);
 
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");

@@ -305,8 +305,9 @@ void ModuleAudio::StopEvent(const AudioEvent *ev, unsigned int id)
 {
 	if (ev)
 	{
-		AK::SoundEngine::StopPlayingID(ev->playing_id, 500L, AkCurveInterpolation::AkCurveInterpolation_Log1);
-		//AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+		//AK::SoundEngine::StopPlayingID(ev->playing_id, 500L, AkCurveInterpolation::AkCurveInterpolation_Log1);
+		AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+		//ev->playing_id = 0L;
 	}	
 }
 
