@@ -7,7 +7,7 @@ Game developed on CITM-UPC college, in the Project III subject.
 **Studio Developer**: First CITM videogames degree promotion, also called the heroes.
 
 <dl>
-  <a href="https://github.com/CITMProject3/Project3/releases/download/G.0.1/Ri-Karts.G0.1.zip" class="btn">Current Release</a>
+  <a href="https://github.com/CITMProject3/Project3/releases/download/G.0.1/Ri-Karts.G0.1.zip" class="btn">Download Current Release</a>
 </dl>
 
 [Producer: Jordi Nunes](jnunes.md)
