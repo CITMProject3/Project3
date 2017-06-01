@@ -477,6 +477,7 @@ namespace Player_Car
 		makibishi->SetActive(true);
 		makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 		ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
+		makibishi_collider->body->Stop();
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
 
@@ -682,6 +683,7 @@ namespace Player_Car
 				makibishi->SetActive(true);
 				makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 				ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
+				makibishi_collider->body->Stop();
 				((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 				makibishi_collider->body->SetActivationState(1);
 
