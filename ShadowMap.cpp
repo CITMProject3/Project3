@@ -109,9 +109,30 @@ void ShadowMap::Render(const float4x4& light_matrix, const std::vector<GameObjec
 	glUniformMatrix4fv(shadow_shader.projection, 1, GL_FALSE, *frustum.ProjectionMatrix().Transposed().v);
 	glUniformMatrix4fv(shadow_shader.view, 1, GL_FALSE, *(float4x4(frustum.ViewMatrix()).Transposed()).v);
 
+	ComponentMesh* c_mesh = nullptr;
+
 	for (vector<GameObject*>::const_iterator entity = entities.begin(); entity != entities.end(); ++entity)
 	{
 		glUniformMatrix4fv(shadow_shader.model, 1, GL_FALSE, *((*entity)->GetGlobalMatrix().Transposed()).v);
+
+		c_mesh = (ComponentMesh*)(*entity)->GetComponent(C_MESH);
+		if (c_mesh->HasBones())
+		{
+			glUniform1i(shadow_shader.has_anim, 1);
+			glUniformMatrix4fv(shadow_shader.bones, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
+
+			//Buffer bones id == 1
+			glEnableVertexAttribArray(1);
+			glBindBuffer(GL_ARRAY_BUFFER, c_mesh->bone_id);
+			glVertexAttribIPointer(1, 4, GL_INT, 0, (GLvoid*)0);
+
+			//Buffer weights == 2
+			glEnableVertexAttribArray(2);
+			glBindBuffer(GL_ARRAY_BUFFER, c_mesh->weight_id);
+			glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		}
+		else
+			glUniform1i(shadow_shader.has_anim, 0);
 
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, (*entity)->mesh_to_draw->id_vertices);

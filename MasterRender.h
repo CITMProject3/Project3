@@ -69,6 +69,8 @@ struct ShadowShader
 	unsigned int id;
 	
 	unsigned int projection, view, model;
+	unsigned int has_anim;
+	unsigned int bones;
 };
 
 class GameObject;

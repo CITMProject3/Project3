@@ -312,4 +312,7 @@ void MasterRender::InitShadowShader()
 	shadow_shader.projection = glGetUniformLocation(shadow_shader.id, "projection");
 	shadow_shader.view = glGetUniformLocation(shadow_shader.id, "view");
 	shadow_shader.model = glGetUniformLocation(shadow_shader.id, "model");
+
+	shadow_shader.has_anim = glGetUniformLocation(shadow_shader.id, "has_anim");
+	shadow_shader.bones = glGetUniformLocation(shadow_shader.id, "bones");
 }
