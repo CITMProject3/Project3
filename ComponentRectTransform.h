@@ -45,6 +45,8 @@ public:
 
 	void SetLocalPos(const float2 &local_pos);
 	void SetSize(const float2 &size);
+	void SetScale(const float2 &size);
+	void SetZPlane(float z);
 	float2 GetRectSize()const;
 	void ResizePlane();
 	
