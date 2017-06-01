@@ -209,7 +209,7 @@ namespace Player_Car
 
 		// Start Sound Engine
 		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(3);
+		if (audio) audio->PlayAudio(2);
 
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
@@ -455,7 +455,7 @@ namespace Player_Car
 
 		// Playing Evil Spirit 
 		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(4);
+		if (audio) audio->PlayAudio(3);
 	}
 
 	void Player_Car_UseMakibishi(GameObject* game_object, ComponentCar* car)
@@ -469,16 +469,16 @@ namespace Player_Car
 			return;
 		}
 
+		// Play Makibishi Sound
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		audio->PlayAudio(5);
+
 		//Activating everything
 		makibishi->SetActive(true);
 		makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 		ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
-
-		//// Playing Makibishi launch
-		//ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		//if (audio) audio->PlayAudio(2);
 
 		if (App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 		{
@@ -604,9 +604,9 @@ namespace Player_Car
 
 			if (!evil_spirit_effect)
 			{
-				// Playing Firecracker sound
+				// Stopping Evil Spirit Sound
 				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(5);
+				if (audio) audio->PlayAudio(4);
 			}
 		}
 	}

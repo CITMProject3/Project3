@@ -237,7 +237,8 @@ unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 			if (attenuation != nullptr)
 			{
 				a_event->max_attenuation = std::stof(attenuation);
-				a_event->sound_3D = true;
+				if(a_event->max_attenuation != 0.0f)
+					a_event->sound_3D = true;				
 			}			
 		}
 		

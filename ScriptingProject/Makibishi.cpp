@@ -23,7 +23,6 @@ namespace Makibishi
 {
 	float time_trowing_makibishi = 90.0f;
 	float current_time_throwing_makibishi = 0.0f;
-	bool sound_played = false;
 
 	void Makibishi_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -50,7 +49,7 @@ namespace Makibishi
 
 	void Makibishi_Start(GameObject* game_object)
 	{
-		sound_played = false;
+		
 	}
 
 	void Makibishi_Update(GameObject* game_object)
@@ -61,14 +60,6 @@ namespace Makibishi
 		}
 		else
 		{
-
-			if (!sound_played)
-			{
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				audio->PlayAudio(0);
-				sound_played = true;
-			}
-
 			game_object->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 			current_time_throwing_makibishi += time->DeltaTime();
 			if (current_time_throwing_makibishi >= time_trowing_makibishi)
@@ -77,7 +68,6 @@ namespace Makibishi
 				((ComponentCollider*)game_object->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
 				game_object->SetActive(false);
 				game_object->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
-				sound_played = false;
 			}
 		}
 	}

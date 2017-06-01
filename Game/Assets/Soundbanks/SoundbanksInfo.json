@@ -69,7 +69,6 @@
       "Name": "Play_Makibishi",
       "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
       "GUID": "{2E5EE286-7C23-4269-AF77-08C922E43B8D}",
-      "MaxAttenuation": "50.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.236500",
       "DurationMax": "0.257354"
@@ -126,7 +125,7 @@
       "Id": "1056845",
       "Language": "SFX",
       "ShortName": "Firecracker_whistle.wav",
-      "Path": "SFX\\Firecracker_whistle_8FDCC4EC.wem"
+      "Path": "SFX\\Firecracker_whistle_4B8CC0C5.wem"
      },
      {
       "Id": "97393134",
@@ -138,13 +137,7 @@
       "Id": "154759909",
       "Language": "SFX",
       "ShortName": "Firecracker_loop1.wav",
-      "Path": "SFX\\Firecracker_loop1_4AFEA6D2.wem"
-     },
-     {
-      "Id": "207015689",
-      "Language": "SFX",
-      "ShortName": "Firecracker_explosion.wav",
-      "Path": "SFX\\Firecracker_explosion_4AFEA6D2.wem"
+      "Path": "SFX\\Firecracker_loop1_9E69E797.wem"
      },
      {
       "Id": "257147469",
@@ -189,10 +182,16 @@
       "Path": "SFX\\metalic_scrape2_4AFEA6D2.wem"
      },
      {
+      "Id": "854809436",
+      "Language": "SFX",
+      "ShortName": "Engine_vibrations.wav",
+      "Path": "SFX\\Engine_vibrations_8FDCC4EC.wem"
+     },
+     {
       "Id": "919387555",
       "Language": "SFX",
       "ShortName": "Firecracker_loop4.wav",
-      "Path": "SFX\\Firecracker_loop4_4AFEA6D2.wem"
+      "Path": "SFX\\Firecracker_loop4_9E69E797.wem"
      },
      {
       "Id": "961727349",
@@ -216,19 +215,19 @@
       "Id": "1026459605",
       "Language": "SFX",
       "ShortName": "Firecracker_loop2.wav",
-      "Path": "SFX\\Firecracker_loop2_4AFEA6D2.wem"
+      "Path": "SFX\\Firecracker_loop2_9E69E797.wem"
      },
      {
       "Id": "1060689355",
       "Language": "SFX",
       "ShortName": "Firecracker_loop3.wav",
-      "Path": "SFX\\Firecracker_loop3_4AFEA6D2.wem"
+      "Path": "SFX\\Firecracker_loop3_9E69E797.wem"
      },
      {
       "Id": "1065970683",
       "Language": "SFX",
       "ShortName": "Firecracker_start.wav",
-      "Path": "SFX\\Firecracker_start_4AFEA6D2.wem"
+      "Path": "SFX\\Firecracker_start_9E69E797.wem"
      }
     ]
    },

@@ -18,7 +18,7 @@
 				<Event Id="2703982544" Name="Play_Evil_Spirit" ObjectPath="\Events\InGame\Play_Evil_Spirit" GUID="{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}" DurationType="OneShot" DurationMin="12.028770" DurationMax="12.028770"/>
 				<Event Id="387320433" Name="Play_Firecracker" ObjectPath="\Events\InGame\Play_Firecracker" GUID="{F429BC6B-73AF-4330-AAD7-0043F197FB9F}" DurationType="Infinite"/>
 				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
-				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" MaxAttenuation="50.000000" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
+				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
 				<Event Id="1300784916" Name="Start_Engine" ObjectPath="\Events\InGame\Start_Engine" GUID="{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="452547817" Name="Stop_All" ObjectPath="\Events\InGame\Stop_All" GUID="{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -28,7 +28,7 @@
 			<IncludedMemoryFiles>
 				<File Id="1056845" Language="SFX">
 					<ShortName>Firecracker_whistle.wav</ShortName>
-					<Path>SFX\Firecracker_whistle_8FDCC4EC.wem</Path>
+					<Path>SFX\Firecracker_whistle_4B8CC0C5.wem</Path>
 				</File>
 				<File Id="97393134" Language="SFX">
 					<ShortName>Engine_ignition.wav</ShortName>
@@ -36,11 +36,7 @@
 				</File>
 				<File Id="154759909" Language="SFX">
 					<ShortName>Firecracker_loop1.wav</ShortName>
-					<Path>SFX\Firecracker_loop1_4AFEA6D2.wem</Path>
-				</File>
-				<File Id="207015689" Language="SFX">
-					<ShortName>Firecracker_explosion.wav</ShortName>
-					<Path>SFX\Firecracker_explosion_4AFEA6D2.wem</Path>
+					<Path>SFX\Firecracker_loop1_9E69E797.wem</Path>
 				</File>
 				<File Id="257147469" Language="SFX">
 					<ShortName>Countdown.wav</ShortName>
@@ -70,9 +66,13 @@
 					<ShortName>metalic_scrape2.wav</ShortName>
 					<Path>SFX\metalic_scrape2_4AFEA6D2.wem</Path>
 				</File>
+				<File Id="854809436" Language="SFX">
+					<ShortName>Engine_vibrations.wav</ShortName>
+					<Path>SFX\Engine_vibrations_8FDCC4EC.wem</Path>
+				</File>
 				<File Id="919387555" Language="SFX">
 					<ShortName>Firecracker_loop4.wav</ShortName>
-					<Path>SFX\Firecracker_loop4_4AFEA6D2.wem</Path>
+					<Path>SFX\Firecracker_loop4_9E69E797.wem</Path>
 				</File>
 				<File Id="961727349" Language="SFX">
 					<ShortName>metalic_scrape1.wav</ShortName>
@@ -88,15 +88,15 @@
 				</File>
 				<File Id="1026459605" Language="SFX">
 					<ShortName>Firecracker_loop2.wav</ShortName>
-					<Path>SFX\Firecracker_loop2_4AFEA6D2.wem</Path>
+					<Path>SFX\Firecracker_loop2_9E69E797.wem</Path>
 				</File>
 				<File Id="1060689355" Language="SFX">
 					<ShortName>Firecracker_loop3.wav</ShortName>
-					<Path>SFX\Firecracker_loop3_4AFEA6D2.wem</Path>
+					<Path>SFX\Firecracker_loop3_9E69E797.wem</Path>
 				</File>
 				<File Id="1065970683" Language="SFX">
 					<ShortName>Firecracker_start.wav</ShortName>
-					<Path>SFX\Firecracker_start_4AFEA6D2.wem</Path>
+					<Path>SFX\Firecracker_start_9E69E797.wem</Path>
 				</File>
 			</IncludedMemoryFiles>
 		</SoundBank>

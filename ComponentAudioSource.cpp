@@ -25,17 +25,23 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 ComponentAudioSource::~ComponentAudioSource()
 { 
 	if (attenuation_sphere != nullptr) delete attenuation_sphere;
-	//StopAllEvents();
 	RemoveAllEvents();
 	App->audio->UnregisterGameObject(wwise_id_go);
 }
 
 void ComponentAudioSource::Update()
 { 
-	math::float3 pos = game_object->transform->GetPosition();
-	AkListenerPosition ak_pos;
-	ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
-	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);	
+	// No 3D sound on game
+	/*for (std::vector<AudioEvent*>::iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	{
+		if ((*curr_event) && (*curr_event)->sound_3D)
+		{
+			math::float3 pos = game_object->transform->GetPosition();
+			AkListenerPosition ak_pos;
+			ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+			AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);
+		}		
+	}	*/
 
 	// Scripting needs THIS to properly trigger audio! What the fuck!
 	if (play_event_pending)

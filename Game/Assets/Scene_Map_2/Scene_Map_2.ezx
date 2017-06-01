@@ -202,19 +202,13 @@
                         {
                             "event_id": 3898358255,
                             "event_name": "Stop_Firecracker",
-                            "sound_3D": true,
-                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
-                        },
-                        {
-                            "event_id": 104204679,
-                            "event_name": "Play_Makibishi",
-                            "sound_3D": true,
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
                             "event_id": 1300784916,
                             "event_name": "Start_Engine",
-                            "sound_3D": true,
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
@@ -227,6 +221,12 @@
                             "event_id": 2740656682,
                             "event_name": "Stop_Evil_Spirit",
                             "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
@@ -9593,19 +9593,13 @@
                         {
                             "event_id": 3898358255,
                             "event_name": "Stop_Firecracker",
-                            "sound_3D": true,
-                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
-                        },
-                        {
-                            "event_id": 104204679,
-                            "event_name": "Play_Makibishi",
-                            "sound_3D": true,
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
                             "event_id": 1300784916,
                             "event_name": "Start_Engine",
-                            "sound_3D": true,
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
@@ -9618,6 +9612,12 @@
                             "event_id": 2740656682,
                             "event_name": "Stop_Evil_Spirit",
                             "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": true,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
@@ -18991,7 +18991,7 @@
                         {
                             "event_id": 452547817,
                             "event_name": "Stop_All",
-                            "sound_3D": true,
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
