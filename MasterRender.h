@@ -55,13 +55,13 @@ struct TerrainShader
 {
 	unsigned int id;
 
-	unsigned int model, view, projection;
+	unsigned int model, view, projection, shadow_view, shadow_projection;
 	unsigned int Ia, Id;
 	unsigned int Ka, Kd;
 	unsigned int L;
 	unsigned int n_textures;
 	unsigned int texture_distributor;
-	unsigned int tex0, tex1, tex2, tex3;
+	unsigned int tex0, tex1, tex2, tex3, shadowmap;
 };
 
 struct ShadowShader

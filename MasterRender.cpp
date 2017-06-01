@@ -284,6 +284,11 @@ void MasterRender::InitTerrainShader()
 	terrain_shader.projection = glGetUniformLocation(terrain_shader.id, "projection");
 	terrain_shader.view = glGetUniformLocation(terrain_shader.id, "view");
 
+	terrain_shader.shadow_view = glGetUniformLocation(terrain_shader.id, "shadowView");
+	terrain_shader.shadow_projection = glGetUniformLocation(terrain_shader.id, "shadowProjection");
+
+	terrain_shader.shadowmap = glGetUniformLocation(terrain_shader.id, "shadowMap");
+
 	terrain_shader.n_textures = glGetUniformLocation(terrain_shader.id, "_nTextures");
 	terrain_shader.texture_distributor = glGetUniformLocation(terrain_shader.id, "_TextureDistributor");
 	terrain_shader.tex0 = glGetUniformLocation(terrain_shader.id, "_Texture_0");

@@ -18,7 +18,7 @@ using namespace math;
 ShadowMap::ShadowMap()
 {
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetOrthographic(20, 20);
+	frustum.SetOrthographic(30, 30);
 
 	frustum.SetViewPlaneDistances(0.3, 100);
 	frustum.SetPos(float3(0, 0, 0));

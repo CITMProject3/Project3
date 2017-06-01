@@ -26,6 +26,7 @@
 #include "RaycastHit.h"
 #include "Time.h"
 #include "Random.h"
+#include "ShadowMap.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
@@ -1772,6 +1773,13 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 
 		}
 
+		//Shadows
+		glUniformMatrix4fv(shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+		glUniformMatrix4fv(shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
+
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+		glUniform1i(shader.shadowmap, 5);
 
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
