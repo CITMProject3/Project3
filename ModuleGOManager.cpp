@@ -421,7 +421,7 @@ void ModuleGOManager::ClearScene()
 {
 	if (root != nullptr)
 	{
-		//App->renderer3D->CleanCameras();
+		App->renderer3D->CleanCameras();
 
 		if (App->IsGameRunning())
 		{
