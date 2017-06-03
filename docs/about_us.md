@@ -1,5 +1,7 @@
 [HOME](index.md)
 
+**ABOUT US**
+
 ![IMAGE ALT TEXT HERE](http://i.imgur.com/VABALcI.png)
 
 Ri-Karts is a game developed entirely (engine included) by CITM Videogames degree 3rd course class (2016/17).
