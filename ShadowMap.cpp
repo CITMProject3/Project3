@@ -89,10 +89,10 @@ void ShadowMap::CleanUp()
 	glDeleteTextures(1, &shadow_map_id);
 }
 
-void ShadowMap::Render(const float4x4& light_matrix, const std::vector<GameObject*>& entities)
+void ShadowMap::Render(const float4x4& light_matrix, const std::vector<GameObject*>& entities, const math::Frustum& cam)
 {
 	//Update cam matrix
-	UpdateShadowBox(light_matrix);
+	UpdateShadowBox(light_matrix, cam);
 
 	GLint old_viewport[4];
 	glGetIntegerv(GL_VIEWPORT, old_viewport);
@@ -107,7 +107,8 @@ void ShadowMap::Render(const float4x4& light_matrix, const std::vector<GameObjec
 	glUseProgram(shadow_shader.id);
 
 	glUniformMatrix4fv(shadow_shader.projection, 1, GL_FALSE, *frustum.ProjectionMatrix().Transposed().v);
-	glUniformMatrix4fv(shadow_shader.view, 1, GL_FALSE, *(float4x4(frustum.ViewMatrix()).Transposed()).v);
+	//glUniformMatrix4fv(shadow_shader.view, 1, GL_FALSE, *(float4x4(frustum.ViewMatrix()).Transposed()).v);
+	glUniformMatrix4fv(shadow_shader.view, 1, GL_FALSE, *(float4x4(obb.WorldToLocal()).Transposed()).v);
 
 	ComponentMesh* c_mesh = nullptr;
 
@@ -163,9 +164,26 @@ math::float4x4 ShadowMap::GetShadowProjection() const
 	return frustum.ProjectionMatrix().Transposed();
 }
 
-void ShadowMap::UpdateShadowBox(const float4x4& light_matrix)
+void ShadowMap::UpdateShadowBox(const float4x4& light_matrix, const math::Frustum& cam)
 {
-	frustum.SetPos(light_matrix.TranslatePart());
+	//frustum.SetPos(light_matrix.TranslatePart());
 	frustum.SetFront(light_matrix.WorldZ());
 	frustum.SetUp(light_matrix.WorldY());
+
+	vec points[8];
+	cam.GetCornerPoints(points);
+
+	float4x4 light_inv = light_matrix.Inverted();
+	for (int i = 0; i < 8; ++i)
+		points[i] = (light_inv * float4(points[i], 1.0)).xyz();
+	
+	obb = OBB::FixedOrientationEnclosingOBB(points, 8, light_matrix.WorldZ(), light_matrix.WorldY());
+
+	//Update ligth view matrix
+
+	float4x4 view_matrix = float4x4::identity;
+	float3 direction = light_matrix.WorldZ().Normalized();
+	float3 center = obb.CenterPoint().Neg();
+	float pitch = (float)acos(float2(direction.x, direction.z).Length());
+
 }

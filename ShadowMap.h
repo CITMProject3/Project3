@@ -15,14 +15,14 @@ public:
 	void Init(int width, int height);
 	void CleanUp();
 
-	void Render(const math::float4x4& light_matrix, const std::vector<GameObject*>& entities); //Creates the ShadowMap
+	void Render(const math::float4x4& light_matrix, const std::vector<GameObject*>& entities, const math::Frustum& cam); //Creates the ShadowMap
 	unsigned int GetShadowMapId()const;
 	math::float4x4 GetShadowView()const;
 	math::float4x4 GetShadowProjection()const;
 
 private:
 
-	void UpdateShadowBox(const math::float4x4& light_matrix);
+	void UpdateShadowBox(const math::float4x4& light_matrix, const math::Frustum& cam);
 
 private:
 	unsigned int fbo_id = 0;
@@ -37,6 +37,8 @@ private:
 
 	//Utilities
 	math::float4x4 shadowProjection;
+
+	math::OBB obb;
 };
 
 #endif // !__SHADOWMAP_H_
