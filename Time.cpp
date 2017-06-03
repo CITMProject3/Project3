@@ -1,5 +1,6 @@
 #include "Time.h"
 #include "SDL\include\SDL_timer.h"
+#include "Globals.h"
 
 uint64_t Time::frequency = 0;
 
@@ -23,7 +24,7 @@ void Time::UpdateFrame()
 	//Frame delay to cap FPS
 	if (capped_ms > 0 && real_delta_time < capped_ms)
 	{
-		SDL_Delay(capped_ms - real_delta_time);
+		SDL_Delay((capped_ms - real_delta_time) * 1000.0);
 		real_delta_time = capped_ms;
 	}
 
@@ -50,6 +51,7 @@ void Time::UpdateFrame()
 	{
 		time_unitary = time_unitary - 1.0f;
 	}
+	//LOG("DELTA TIME %f", delta_time);
 }
 
 double Time::RealTimeSinceStartup()const
@@ -115,6 +117,7 @@ int Time::GetMaxFPS()const
 
 float Time::DeltaTime() const
 {
+	
 	return (game_paused || started_at == 0) ? 0 : delta_time;
 }
 
@@ -143,7 +146,8 @@ void Time::SetMaxFPS(int max_fps)
 		capped_ms = 0;
 	}
 	else
-		capped_ms = 1 / (double)max_fps;
+		capped_ms = 1.0f / (double)max_fps;
+
 }
 
 float Time::GetUnitaryTime()

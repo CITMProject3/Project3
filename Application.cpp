@@ -119,9 +119,11 @@ bool Application::Init()
 			root_node.AppendJObject((*i)->GetName());
 			++i;
 		}
-
-		size_t size = root_node.Serialize(&buffer);
-		App->file_system->Save("Configuration.json", buffer, size);
+	if (App->StartInGame() == false)
+		{
+			size_t size = root_node.Serialize(&buffer);	
+			App->file_system->Save("Configuration.json", buffer, size);
+		}
 	}
 	Data config(buffer);
 	delete[] buffer;
@@ -304,10 +306,13 @@ void Application::SaveBeforeClosing()
 	}
 
 	size_t size = root_node.Serialize(&buf);
-	uint success = App->file_system->Save("Configuration.json", buf, size);
-
-	if (success == 0)
-		LOG("Configuration could not be saved before closing");
+	if (App->StartInGame() == false)
+	{
+		uint success = App->file_system->Save("Configuration.json", buf, size);
+	
+		if (success == 0)
+			LOG("Configuration could not be saved before closing");
+	}
 
 	delete[] buf;
 }

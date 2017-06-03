@@ -53,6 +53,14 @@ bool ModuleGOManager::Init(Data & config)
 	team2_front = PLAYER_3;
 	team2_back = PLAYER_4;
 
+	team1_car = 1;
+	team2_car = 1;
+
+	team1_p1_c = 0;
+	team1_p2_c = 2;
+
+	team2_p1_c = 0;
+	team2_p2_c = 2;
 	return true;
 }
 
@@ -406,6 +414,8 @@ void ModuleGOManager::ClearScene()
 {
 	if (root != nullptr)
 	{
+		App->renderer3D->CleanCameras();
+
 		if (App->IsGameRunning())
 		{
 			App->OnStop();

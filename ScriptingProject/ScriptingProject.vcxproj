@@ -187,9 +187,11 @@
     <ClCompile Include="Finish_lane.cpp" />
     <ClCompile Include="MainMenuUI.cpp" />
     <ClCompile Include="Makibishi.cpp" />
+    <ClCompile Include="MakibishiManager.cpp" />
     <ClCompile Include="MapSelectUI.cpp" />
     <ClCompile Include="Kmh_Counter.cpp" />
     <ClCompile Include="OutOfBounds.cpp" />
+    <ClCompile Include="ParticleHit.cpp" />
     <ClCompile Include="PlayerObjectSelector.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
@@ -202,6 +204,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Item_Timer.cpp" />
     <ClCompile Include="TurboPad.cpp" />
     <ClCompile Include="VehicleSelectionUI.cpp" />
   </ItemGroup>

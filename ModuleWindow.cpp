@@ -27,38 +27,23 @@ bool ModuleWindow::Init(Data& config)
 	else
 	{
 		//Create window
-		Uint32 flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
+		flags = SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN;
 
 		//Use OpenGL 2.1
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
 
-		if(WIN_FULLSCREEN == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN;
-		}
+		if (config.GetBool("win_fullscreen")) flags |= SDL_WINDOW_FULLSCREEN;
+		if (config.GetBool("win_maximized")) flags |= SDL_WINDOW_MAXIMIZED;
+		if (config.GetBool("win_resizable")) flags |= SDL_WINDOW_RESIZABLE;
+		if (config.GetBool("win_borderless")) flags |= SDL_WINDOW_BORDERLESS;
+		if (config.GetBool("win_fullscreen_desktop")) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+		
+		sprintf_s(window_title, 128, config.GetString("window_title"));
+		width = config.GetInt("window_width");
+		height = config.GetInt("window_height");
 
-		if(WIN_RESIZABLE == true)
-		{
-			flags |= SDL_WINDOW_RESIZABLE;
-		}
-
-		if(WIN_BORDERLESS == true)
-		{
-			flags |= SDL_WINDOW_BORDERLESS;
-		}
-
-		if(WIN_FULLSCREEN_DESKTOP == true)
-		{
-			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		}
-
-		if (WIN_MAXIMIZED)
-		{
-			flags |= SDL_WINDOW_MAXIMIZED;
-		}
-
-		window = SDL_CreateWindow(TITLE, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(window_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
@@ -147,4 +132,18 @@ void ModuleWindow::SetScreenSize(int width, int height)
 void ModuleWindow::SetResizable(bool value)
 {
 	//TODO save for next time the engine opens
+}
+
+void ModuleWindow::SaveBeforeClosing(Data& data) const
+{
+	data.AppendString("window_title", window_title);
+
+	data.AppendInt("window_width", width);
+	data.AppendInt("window_height", height);
+
+	data.AppendBool("win_fullscreen", (flags & SDL_WINDOW_FULLSCREEN) ? true : false);
+	data.AppendBool("win_maximized", (flags & SDL_WINDOW_MAXIMIZED) ? true : false);
+	data.AppendBool("win_resizable", (flags & SDL_WINDOW_RESIZABLE) ? true : false);
+	data.AppendBool("win_borderless", (flags & SDL_WINDOW_BORDERLESS) ? true : false);
+	data.AppendBool("win_fullscreen_desktop", (flags & SDL_WINDOW_FULLSCREEN_DESKTOP) ? true : false);
 }

@@ -51,7 +51,7 @@ private:
 	float time_unitary = 0.0f;
 	
 	double capped_ms = 0;
-	int max_fps = 60;
+	int max_fps = 30;
 	int last_fps = 60;
 };
 

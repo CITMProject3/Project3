@@ -43,6 +43,7 @@ public:
 	bool *GetActiveBoolean();
 	bool IsActive()const;
 	void SetActive(bool value);
+	void SetAllActive(bool value);
 	bool IsStatic()const;
 	void SetStatic(bool value);
 	void ForceStatic(bool value);

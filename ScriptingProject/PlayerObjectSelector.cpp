@@ -102,57 +102,61 @@ namespace PlayerObjectSelector
 
 	void PlayerObjectSelector_Start(GameObject* game_object)
 	{
-		
+		ComponentCar* comp_car_1 = nullptr;
+		ComponentCar* comp_car_2 = nullptr;
+
 		//Team 1
-		ComponentCar* comp1 = nullptr;
 		if (car1)
 		{
-			comp1 = (ComponentCar*)car1->GetComponent(C_CAR);
-			comp1->SetFrontPlayer(App->go_manager->team1_front);
-			comp1->SetBackPlayer(App->go_manager->team1_back);
+			comp_car_1 = (ComponentCar*)car1->GetComponent(C_CAR);
+			comp_car_1->SetFrontPlayer(App->go_manager->team1_front);
+			comp_car_1->SetBackPlayer(App->go_manager->team1_back);
 		}
 
-		if (team1_car1)
-		{
-			team1_car1->SetActive(App->go_manager->team1_car == 0);
-			comp1->SetCarType(CAR_TYPE(0));
-		}
-		if (team1_car2)
-		{
-			team1_car2->SetActive(App->go_manager->team1_car == 1);
-			comp1->SetCarType(CAR_TYPE(1));
-		}
+		if (team1_car1)	team1_car1->SetActive(App->go_manager->team1_car == 0);
+		if (team1_car2)	team1_car2->SetActive(App->go_manager->team1_car == 1);
+		comp_car_1->SetCarType(CAR_TYPE(App->go_manager->team1_car));
 
 		if (team1_p1_c1) team1_p1_c1->SetActive(App->go_manager->team1_p1_c == 0);
 		if (team1_p1_c2) team1_p1_c2->SetActive(App->go_manager->team1_p1_c == 1);
+		
+		if (comp_car_1)
+		{
+			comp_car_1->p1_animation = (ComponentAnimation*)(App->go_manager->team1_p1_c == 0 ? team1_p1_c1 : team1_p1_c2)->GetComponent(C_ANIMATION);
+		}
 
-		if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
-		if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
+		//TODO: just to "not allow" picking hitotsume
+		//if (team1_p2_c1) team1_p2_c1->SetActive(App->go_manager->team1_p2_c == 2);
+		//if (team1_p2_c2) team1_p2_c2->SetActive(App->go_manager->team1_p2_c == 3);
+
+		//Setting hitotsume pointer as kitsune
+		team1_p2_c2 = team1_p2_c1;
+
+		if (comp_car_1) comp_car_1->p2_animation = (ComponentAnimation*)(App->go_manager->team1_p2_c == 2 ? team1_p2_c1 : team1_p2_c2)->GetComponent(C_ANIMATION);
 
 		//Team 2
-		ComponentCar* comp2 = nullptr;
 		if (car2)
 		{
-			comp2 = (ComponentCar*)car2->GetComponent(C_CAR);
-			comp2->SetFrontPlayer(App->go_manager->team2_front);
-			comp2->SetBackPlayer(App->go_manager->team2_back);
+			comp_car_2 = (ComponentCar*)car2->GetComponent(C_CAR);
+			comp_car_2->SetFrontPlayer(App->go_manager->team2_front);
+			comp_car_2->SetBackPlayer(App->go_manager->team2_back);
 		}
 
-		if (team2_car1)
-		{
-			team2_car1->SetActive(App->go_manager->team2_car == 0);
-			comp2->SetCarType(CAR_TYPE(0));
-		}
-		if (team2_car2)
-		{
-			team2_car2->SetActive(App->go_manager->team2_car == 1);
-			comp2->SetCarType(CAR_TYPE(1));
-		}
+		if (team2_car1)	team2_car1->SetActive(App->go_manager->team2_car == 0);
+		if (team2_car2)	team2_car2->SetActive(App->go_manager->team2_car == 1);
+		comp_car_2->SetCarType(CAR_TYPE(App->go_manager->team2_car));
 
 		if (team2_p1_c1) team2_p1_c1->SetActive(App->go_manager->team2_p1_c == 0);
 		if (team2_p1_c2) team2_p1_c2->SetActive(App->go_manager->team2_p1_c == 1);
 
-		if (team2_p2_c1) team2_p2_c1->SetActive(App->go_manager->team2_p2_c == 2);
-		if (team2_p2_c2) team2_p2_c2->SetActive(App->go_manager->team2_p2_c == 3);
+		if (comp_car_2) comp_car_2->p1_animation = (ComponentAnimation*)(App->go_manager->team2_p1_c == 0 ? team2_p1_c1 : team2_p1_c2)->GetComponent(C_ANIMATION);
+
+		//TODO: just to "not allow" picking hitotsume
+		//if (team2_p2_c1) team2_p2_c1->SetActive(App->go_manager->team2_p2_c == 2);
+		//if (team2_p2_c2) team2_p2_c2->SetActive(App->go_manager->team2_p2_c == 3);
+
+		//Setting hitotsume pointer as kitsune
+		team2_p2_c2 = team1_p2_c1;
+		if (comp_car_1) comp_car_2->p2_animation = (ComponentAnimation*)(App->go_manager->team2_p2_c == 2 ? team2_p2_c1 : team2_p2_c2)->GetComponent(C_ANIMATION);
 	}
 }

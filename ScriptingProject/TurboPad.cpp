@@ -10,6 +10,8 @@
 #include "../GameObject.h"
 #include "../PhysBody3D.h"
 
+#include "../Turbos.h"
+
 namespace TurboPad
 {
 	//Public
@@ -43,7 +45,7 @@ namespace TurboPad
 		ComponentCar* car = col->GetCar();
 		if (car)
 		{
-			car->current_turbo = T_DRIFT_MACH_2;
+			car->TurboPad();
 		}
 	}
 }

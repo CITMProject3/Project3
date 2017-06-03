@@ -38,6 +38,7 @@ public:
 	void AddFrustum(const math::Frustum& frustum, float fake_far_dst, math::float3 color, float line_width = 1.0f, float duration = 0.0f, bool depth_enabled = true);
 	void AddArrow2(const math::float3& from_position, const math::float3& to_position, math::float3 color, float line_width = 1.0f, float duration = 0.0f, bool depth_enabled = true);
 	void AddArrow(const math::float3& origin, const math::float3& direction, math::float3 color, float line_width = 1.0f, float duration = 0.0f, bool depth_enabled = true);
+	void AddOBB(const math::OBB& obb, math::float3 color, float size, float line_width = 1.0f, float duration = 0.0f, bool depth_enabled = true);
 
 	void Draw();
 private:

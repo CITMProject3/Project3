@@ -285,7 +285,6 @@ void ComponentAnimation::PlayAnimation(uint index, float blend_time, bool keepBl
 				}
 
 				blend_time_duration = blend_time;
-
 			}
 		}
 		current_animation = &animations[index];
@@ -397,6 +396,15 @@ void ComponentAnimation::Update()
 
 	if (App->IsGameRunning())
 	{
+		if (game_started == false)
+		{
+			if (current_animation != nullptr)
+			{
+				PlayAnimation(current_animation->index);
+			}
+			game_started = true;
+		}
+
 		if (playing == true)
 		{
 			if (started == false)

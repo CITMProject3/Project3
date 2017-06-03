@@ -28,7 +28,6 @@ namespace MapSelectUI
 
 	GameObject* map_fields = nullptr;
 	GameObject* map_umi = nullptr;
-	GameObject* map_ricing = nullptr;
 
 	GameObject* players_vote[4];
 	GameObject* right_arrow = nullptr;
@@ -39,9 +38,12 @@ namespace MapSelectUI
 	ComponentUiButton* c_right_arrow = nullptr;
 	ComponentUiButton* c_left_arrow = nullptr;
 
-	string path_map1 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
-	string path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
-	string path_map3 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	// On Assets
+	string assets_path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
+	string assets_path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	// On Library
+	string library_path_map1 = "/Library/1441726200/2271634307/2271634307.ezx";
+	string library_path_map2 = "/Library/3645291025/3212315065/3212315065.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
@@ -49,11 +51,14 @@ namespace MapSelectUI
 	bool b_pressed = false;
 	bool dpad_left_pressed = false;
 	bool dpad_right_pressed = false;
-	bool just_once = false;
 
-	int current_level = 0;
-	int current_map = 0; // 1 -   , 2 -   , 3 -   ,
+	bool current_level = false;
+	bool current_level_lastFrame = true;
+	int current_map = 0; // 1 -   , 2 -  
 	int votes[4] = { 0, 0, 0, 0 };
+
+	bool left_pressed[4];
+	bool right_pressed[4];
 
 	int arrow_counter_left = 30;
 	int arrow_counter_right = 30;
@@ -63,7 +68,6 @@ namespace MapSelectUI
 	{
 		public_gos->insert(std::pair<const char*, GameObject*>("Map Fields", map_fields));
 		public_gos->insert(std::pair<const char*, GameObject*>("Map Umi", map_umi));
-		public_gos->insert(std::pair<const char*, GameObject*>("Map Ricing", map_ricing));
 		public_gos->insert(std::pair<const char*, GameObject*>("P1-Red Vote", players_vote[2]));
 		public_gos->insert(std::pair<const char*, GameObject*>("P2-Red Vote", players_vote[3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("P1-Blue Vote", players_vote[0]));
@@ -80,7 +84,6 @@ namespace MapSelectUI
 
 		map_fields = test_script->public_gos.at("Map Fields");
 		map_umi = test_script->public_gos.at("Map Umi");
-		map_ricing = test_script->public_gos.at("Map Ricing");
 		players_vote[0] = test_script->public_gos.at("P1-Blue Vote");
 		players_vote[1] = test_script->public_gos.at("P2-Blue Vote");
 		players_vote[2] = test_script->public_gos.at("P1-Red Vote");
@@ -104,7 +107,6 @@ namespace MapSelectUI
 
 		this_script->public_gos.at("Map Fields") = map_fields;
 		this_script->public_gos.at("Map Umi") = map_umi;
-		this_script->public_gos.at("Map Ricing") = map_ricing;
 		this_script->public_gos.at("P1-Blue Vote") = players_vote[0];
 		this_script->public_gos.at("P2-Blue Vote") = players_vote[1];
 		this_script->public_gos.at("P1-Red Vote") = players_vote[2];
@@ -113,6 +115,7 @@ namespace MapSelectUI
 		this_script->public_gos.at("R-Arrow") = right_arrow;
 		this_script->public_gos.at("L-Arrow") = left_arrow;
 		this_script->public_ints.at("Button Cooldown") = time;
+		
 		c_players_vote[0] = (ComponentUiButton*)players_vote[0]->GetComponent(C_UI_BUTTON);
 		c_players_vote[1] = (ComponentUiButton*)players_vote[1]->GetComponent(C_UI_BUTTON);
 		c_players_vote[2] = (ComponentUiButton*)players_vote[2]->GetComponent(C_UI_BUTTON);
@@ -125,27 +128,69 @@ namespace MapSelectUI
 
 	void MapSelectUI_Start(GameObject* game_object)
 	{
-		// Play Move Selection
-		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(0);
+		for (int i = 0; i <= 3; ++i)
+		{
+			right_pressed[i] = false;
+			left_pressed[i] = false;
+		}
+
+		current_level = false;
+		current_level_lastFrame = !current_level;
 
 		arrow_counter_left = time;
 		arrow_counter_right = time;
 		current_map = 0;
-		current_level = 0;
 		player_order[0] = App->go_manager->team1_front;
 		player_order[1] = App->go_manager->team1_back;
 		player_order[2] = App->go_manager->team2_front;
 		player_order[3] = App->go_manager->team2_back;
+
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
-		if (!just_once)
+		if (current_level != current_level_lastFrame)
 		{
-			map_umi->SetActive(false);
-			map_ricing->SetActive(false);
-			just_once = true;
+			if (!current_level)
+			{
+				map_fields->SetActive(true);
+				map_umi->SetActive(false);
+			}
+			else
+			{
+				map_fields->SetActive(false);
+				map_umi->SetActive(true);
+			}
+			current_level_lastFrame = current_level;
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		{
+			// Play Move Sound
+			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(0);
+
+			current_level = !current_level;
+
+			if (arrow_counter_right >= time)
+			{
+				c_right_arrow->OnPress();
+			}
+			arrow_counter_right = 0;
+		}
+		else if (App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+		{
+			// Play Move Sound
+			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(0);
+
+			current_level = !current_level;
+
+			if (arrow_counter_left >= time)
+			{
+				c_left_arrow->OnPress();
+			}
+			arrow_counter_left = 0;
 		}
 
 		for (int playerID = 0; playerID < 4; playerID++)
@@ -158,28 +203,36 @@ namespace MapSelectUI
 					id = j;
 				}
 			}
-			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_A) == KEY_DOWN)
+			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::A) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 			{
-				switch (current_level)
+				// Play Loading Game Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(3);
+
+				if (!current_level)
 				{
-				case 0:
-					App->LoadScene(path_map1.data());
-					break;
-				case 1:
-					App->LoadScene(path_map2.data());
-					break;
-				case 2:
-					App->LoadScene(path_map3.data());
-					break;
-				default:
-					// Error Reset, but loads map 1 instead (because we need to cover bugs lol lmao pls don't kill me)
-					App->LoadScene(path_map1.data());
-					break;
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_path_map1.data());	// Using Library Scene files
+					else
+						App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
+				}
+				else
+				{
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_path_map2.data());	// Using Library Scene files
+					else
+						App->LoadScene(assets_path_map2.data());		// Using Assets Scene files
 				}
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
 			{
+				// Play Deselection Sound
+				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (a_comp) a_comp->PlayAudio(2);
+
 				if (players_ready[id])
 				{
 					c_players_vote[id]->OnPressId(votes[id]);
@@ -188,125 +241,113 @@ namespace MapSelectUI
 				}
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickAxis(playerID, JOY_AXIS::RIGHT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75|| App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_DOWN)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
-
-				current_level--;
-				if (current_level < 0)
-					current_level = 2;
-
-				switch (current_level)
+				if (!left_pressed[playerID])
 				{
-				case 0:
-					map_fields->SetActive(true);
-					map_umi->SetActive(false);
-					map_ricing->SetActive(false);
-					break;
-				case 1:
-					map_fields->SetActive(false);
-					map_umi->SetActive(true);
-					map_ricing->SetActive(false);
-					break;
-				case 2:
-					map_fields->SetActive(false);
-					map_umi->SetActive(false);
-					map_ricing->SetActive(true);
-					break;
+					left_pressed[playerID] = true;
+
+					// Play Move Sound
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(0);
+
+					current_level = !current_level;
+
+					if (arrow_counter_left >= time)
+					{
+						c_left_arrow->OnPress();
+					}
+					arrow_counter_left = 0;
 				}
+			}
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > -0.25 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_UP)
+			{
+				left_pressed[playerID] = false;
+			}
 
-				if (arrow_counter_left >= time)
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) > 0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN)
+			{
+				if (!right_pressed[playerID])
 				{
+					right_pressed[playerID] = true;
+
+					// Play Move Sound
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(0);
+
+					current_level = !current_level;
+
+					if (arrow_counter_right >= time)
+					{
+						c_right_arrow->OnPress();
+					}
+					arrow_counter_right = 0;
+				}
+			}
+			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < 0.25 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_LEFT) == KEY_UP || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_UP)
+			{
+				right_pressed[playerID] = false;
+			}
+
+			if (arrow_counter_left < time)
+			{
+				arrow_counter_left++;
+
+				if (arrow_counter_left == time)
 					c_left_arrow->OnPress();
-				}
-				arrow_counter_left = 0;
 			}
 
-			if (App->input->GetJoystickAxis(playerID, JOY_AXIS::LEFT_STICK_X) < -0.75 || App->input->GetJoystickAxis(playerID, JOY_AXIS::RIGHT_STICK_X) < -0.75 || App->input->GetJoystickButton(playerID, JOY_BUTTON::DPAD_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+			if (arrow_counter_right < time)
 			{
-				// Play Move Selection
-				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (a_comp) a_comp->PlayAudio(1);
+				arrow_counter_right++;
 
-				current_level++;
-				if (current_level > 2)
-					current_level = 0;
-				switch (current_level)
-				{
-				case 0:
-					map_fields->SetActive(true);
-					map_umi->SetActive(false);
-					map_ricing->SetActive(false);
-					break;
-				case 1:
-					map_fields->SetActive(false);
-					map_umi->SetActive(true);
-					map_ricing->SetActive(false);
-					break;
-				case 2:
-					map_fields->SetActive(false);
-					map_umi->SetActive(false);
-					map_ricing->SetActive(true);
-					break;
-				}
-
-
-				if (arrow_counter_right >= time)
-				{
+				if (arrow_counter_right == time)
 					c_right_arrow->OnPress();
-				}
-				arrow_counter_right = 0;
 			}
-		}
 
-		if (arrow_counter_left < time)
-		{
-			arrow_counter_left++;
-
-			if (arrow_counter_left == time)
-				c_left_arrow->OnPress();
-		}
-
-		if (arrow_counter_right < time)
-		{
-			arrow_counter_right++;
-
-			if (arrow_counter_right == time)
-				c_right_arrow->OnPress();
-		}
-
-		int total = 0;
-		for (int j = 0; j < 4; j++)
-		{
-			if (players_ready[j])
-				total++;
-
-			if (total >= 1)
+			int total = 0;
+			for (int j = 0; j < 4; j++)
 			{
-				unsigned int k = App->rnd->RandomInt(1, 4);
+				if (players_ready[j])
+					total++;
 
-				switch (votes[k])
+				if (total >= 1)
 				{
-				case 1:
-					App->LoadScene(path_map1.data());
-					break;
-				case 2:
-					App->LoadScene(path_map2.data());
-					break;
-				case 3:
-					App->LoadScene(path_map3.data());
-					break;
-				default:
-					App->LoadScene(path_map1.data());
-					break;
+					unsigned int k = App->rnd->RandomInt(1, 4);
 
+					// Play Loading Game Sound
+					ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (a_comp) a_comp->PlayAudio(3);
+
+					switch (votes[k])
+					{
+					case 1:
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map1.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
+						break;
+					case 2:
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map2.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map2.data());		// Using Assets Scene files
+						break;
+					default:
+						// Selecting Assets or Library version depending on Game mode
+						if (App->StartInGame())
+							App->LoadScene(library_path_map1.data());	// Using Library Scene files
+						else
+							App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
+						break;
+
+					}
 				}
 			}
 		}
 	}
-
 	void MapSelectUI_OnFocus()
 	{
 

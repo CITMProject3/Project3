@@ -304,6 +304,15 @@ void GameObject::SetActive(bool value)
 	if (value != active) active = value;
 }
 
+void GameObject::SetAllActive(bool value)
+{
+	if (value != active) active = value;
+	for (uint i = 0; i < childs.size(); i++)
+	{
+		childs[i]->SetAllActive(value);
+	}
+}
+
 bool GameObject::IsStatic() const
 {
 	return is_static;
