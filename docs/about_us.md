@@ -10,27 +10,49 @@ A group of 21 people, divided in 3 departments: Code, Art and Game Design (with 
 [Producer: Jordi Nunes](jnunes.md)
 
 Code:
+
 Marc Garrigó - Lead Programmer
+
 David Hernández
+
 Ausiàs Dalmau
+
 Carlos Randino
+
 Guillem Travila
+
 Josep Atencia
+
 Aleix Borrell
 
+
 Art:
+
 Martí Pinós - Lead Artist
+
 Iván Pérez
+
 Adrià Gómez
+
 Roger Olasz
+
 Ian Trueba
+
 Miquel Gironés
+
 Aleix Bueso
 
+
 Game Design:
+
 Sergi Pérez - Lead Game Designer
+
 Alexis Cosano
+
 Samuel Navarro
+
 Roger Homedes
+
 Asier Iglesias
+
 Miquel Sans
