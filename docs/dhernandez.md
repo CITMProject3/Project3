@@ -1,8 +1,10 @@
 [HOME](index.md)
-
+    
 **Role:** Programmer    
 
 **Name:** David Hernandez    
+![Profile picture](http://i.imgur.com/cq5nlcU.jpg)      
+      
 
 **Contact:**     
 [Linkedin](https://www.linkedin.com/in/davidhlazaro/)    
