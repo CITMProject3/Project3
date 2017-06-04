@@ -53,6 +53,8 @@ Alexis Cosano
 
 Samuel Navarro
 
+Laura Ripoll
+
 Roger Homedes
 
 Asier Iglesias
