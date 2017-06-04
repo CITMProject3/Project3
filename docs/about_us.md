@@ -1,4 +1,4 @@
-[HOME](index.md)
+﻿[HOME](index.md)
 
 **ABOUT US**
 
@@ -15,7 +15,7 @@ A group of 21 people, divided in 3 departments: Code, Art and Game Design (with 
 
 Marc Garrigó - Lead Programmer
 
-David Hernández
+[David Hernández](dhernandez.md)
 
 Ausiàs Dalmau
 
