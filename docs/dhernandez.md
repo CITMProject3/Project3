@@ -5,13 +5,22 @@
 **Name:** David Hernandez    
 
 **Contact:**     
-     
 [Linkedin](https://www.linkedin.com/in/davidhlazaro/)    
 [GitHub](https://github.com/Vulpem)    
 Mail: davidher96@gmail.com    
+    
+    
+**_My Job:_**    
+    
+I started as the "Level Programmer", creating and fixing the different tools the level designers and artists were going to use, especially those regarding the terrain and the prop placement; as well as creating any features that were needed, such as the "Turbo Pads" or the checkpoint system.
 
+Later on, I had to stop working on the terrain to get into gameplay, where i had to remove the "Bullet Raycast PhysCar" that was causing a lot of trouble and created a custom Kart from scratch, keeping Bullet3D only on the raycast and the collision detection, not the kart behavior.
 
-**_My Job:_**
+From there on, i pretty much stuck working on the Kart, as well as still improving some tools for the level designers and, above all, cleaning bugs and putting out fires.
+    
+       
+       
+**_What i've done:_**
 
 - Created component collider:
    - Component that can be added to any GameObject in order to make them exist in the physics world.
