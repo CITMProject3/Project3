@@ -318,7 +318,7 @@ bool GameObject::IsStatic() const
 	return is_static;
 }
 
-void GameObject::SetStatic(bool value)
+void GameObject::SetStatic(bool value, bool changeChilds)
 {	//Conditions: if is static parent MUST be static too. If is dynamic childs must be dynamic too.
 	if (is_static != value && App->go_manager->IsRoot(this) == false)
 	{
@@ -338,6 +338,13 @@ void GameObject::SetStatic(bool value)
 				LOG("REMOVING FAILED");
 			for (std::vector<GameObject*>::iterator child = childs.begin(); child != childs.end(); ++child)
 				(*child)->SetStatic(false);
+		}
+		if (changeChilds && childs.empty() == false)
+		{
+			for (std::vector<GameObject*>::iterator it = childs.begin(); it != childs.end(); it++)
+			{
+				(*it)->SetStatic(value, changeChilds);
+			}
 		}
 	}
 }
