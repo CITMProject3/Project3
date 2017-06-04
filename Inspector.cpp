@@ -47,7 +47,7 @@ void Inspector::Draw()
 		ImGui::InputText("###goname", selected_GO->name._Myptr(), selected_GO->name.capacity());
 
 		//Static
-		ImGui::Text("Static:");
+		/*ImGui::Text("Static:");
 		ImGui::SameLine();
 		bool is_static = selected_GO->IsStatic();
 		if (ImGui::Checkbox("###static_option", &is_static))
@@ -69,7 +69,7 @@ void Inspector::Draw()
 			{
 				selected_GO->SetStatic(is_static, true);
 			}
-		}
+		}*/
 
 		if (selected_GO->IsPrefab())
 		{
