@@ -448,11 +448,18 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 		return;
 	
 	//Use shader
-	if (!material->has_normal)
-		ms_render->RenderDefaultShader(obj, cam, material, &light);
+	if (material->rc_material == nullptr)
+	{
+		if (!material->has_normal)
+			ms_render->RenderDefaultShader(obj, cam, material, &light);
+		else
+			ms_render->RenderNormalShader(obj, cam, material, &light);
+	}
 	else
-		ms_render->RenderNormalShader(obj, cam, material, &light);
-
+	{
+		glUseProgram(material->rc_material->GetShaderId());
+		SetShaderUniforms(material->rc_material->GetShaderId(), obj, cam, material, light, float4(material->color));
+	}
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
