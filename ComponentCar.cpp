@@ -622,6 +622,8 @@ void ComponentCar::SteerKart()
 	float rotateAngle = (maxSteer + mods.bonusMaxSteering) * steerReduction * currentSteer * time->DeltaTime();
 	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -(rotateAngle* invert_value) * DEGTORAD);
 	kart_trs->Rotate(tmp);
+	//kart_front_wheel_1->Rotate(tmp);
+	//kart_back_wheel_2->Rotate(tmp);
 }
 
 void ComponentCar::RotateKart(float3 desiredUp)

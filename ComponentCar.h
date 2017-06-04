@@ -158,6 +158,8 @@ private:
 	float testVar = 0.0f;
 
 	ComponentTransform* kart_trs = nullptr;
+	ComponentTransform* kart_front_wheel_1 = nullptr;
+	ComponentTransform* kart_back_wheel_2 = nullptr;
 
 	std::vector<Wheel> wheels;
 
