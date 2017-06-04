@@ -1,15 +1,17 @@
 [HOME](index.md)
 
-**Role:** Programmer
+**Role:** Programmer    
 
-**Name:** David Hernandez
+**Name:** David Hernandez    
 
-**Contact:**
-[Linkedin](https://www.linkedin.com/in/davidhlazaro/)
-[GitHub](https://github.com/Vulpem)
-Mail: davidher96@gmail.com
+**Contact:**     
+     
+[Linkedin](https://www.linkedin.com/in/davidhlazaro/)    
+[GitHub](https://github.com/Vulpem)    
+Mail: davidher96@gmail.com    
 
-**My Job:**
+
+**_My Job:_**
 
 - Created component collider:
    - Component that can be added to any GameObject in order to make them exist in the physics world.
