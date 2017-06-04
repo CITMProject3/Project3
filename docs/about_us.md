@@ -36,7 +36,7 @@ Iván Pérez
 
 Adrià Gómez
 
-Roger Olasz
+[Roger Olasz](rolasz.md)
 
 Ian Trueba
 
