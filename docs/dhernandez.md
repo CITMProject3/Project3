@@ -2,7 +2,7 @@
 
 **Role:** Programmer
 
-**Name:** David Hernàndez
+**Name:** David Hernandez
 
 **My Job:**
 
