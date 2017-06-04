@@ -502,7 +502,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		}
 	}
 
-	if (go != nullptr)
+	if (go != nullptr && go->bounding_box != nullptr)
 	{
 		//Space partioning
 		if (go->IsStatic())
