@@ -804,6 +804,11 @@ void ComponentCar::TurboPad()
 		NewTurbo(turboPicker.turboPadOnEvil);	
 }
 
+DRIFT_STATE ComponentCar::GetDriftState() const
+{
+	return drifting;
+}
+
 void ComponentCar::SetP2AnimationState(Player2_State state, float blend_ratio)
 {
 	if (p2_animation != nullptr)

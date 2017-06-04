@@ -294,6 +294,8 @@ public:
 
 	void NewTurbo(Turbo turboToApply);
 	void TurboPad();
+
+	DRIFT_STATE GetDriftState()const;
 private:
 
 	void UpdateP1Animation();

@@ -74,6 +74,8 @@ namespace Player_Car
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
 	GameObject* ps_hit_manager = nullptr;
+	GameObject* drift_go_left = nullptr;
+	GameObject* drift_go_right = nullptr;
 
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
@@ -116,6 +118,8 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("makibishi_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_hit_manager", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_drift_left", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_drift_right", nullptr));
 
 	}
 
@@ -152,6 +156,8 @@ namespace Player_Car
 		scene_manager = script->public_gos.at("scene_manager");
 		makibishi_manager = script->public_gos.at("makibishi_manager");
 		ps_hit_manager = script->public_gos.at("ps_hit_manager");
+		drift_go_left = script->public_gos.at("ps_drift_left");
+		drift_go_right = script->public_gos.at("ps_drift_right");
 
 	}
 
@@ -187,6 +193,8 @@ namespace Player_Car
 		script->public_gos.at("scene_manager") = scene_manager;
 		script->public_gos.at("makibishi_manager") = makibishi_manager;
 		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
+		script->public_gos.at("ps_drift_left") = drift_go_left;
+		script->public_gos.at("ps_drift_right") = drift_go_right;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -214,6 +222,24 @@ namespace Player_Car
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
 		ps_hit_wall_func = (PSHit_WallCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_WallCollision");
+
+		unsigned int kart_model;
+		if (car_id == 0) kart_model = App->go_manager->team1_car;
+		else kart_model = App->go_manager->team2_car;
+
+		if (kart_model == 0)
+		{
+			drift_go_left->transform->SetPosition(float3(1.021f, 0.578f, -1.464f));
+			drift_go_right->transform->SetPosition(float3(-1.021f, 0.578f, -1.464f));
+		}
+		else
+		{
+			drift_go_left->transform->SetPosition(float3(1.8f, 0.623f, -1.1f));
+			drift_go_right->transform->SetPosition(float3(-1.8f, 0.623f, -1.1f));
+		}
+
+		drift_go_left->SetActive(false);
+		drift_go_right->SetActive(false);
 	}
 
 #pragma region Forward Declarations
@@ -287,6 +313,19 @@ namespace Player_Car
 
 		//TMP Makibishi
 		Player_Car_TMP_Use_Makibishi(game_object, car);
+
+		//Drifting
+		DRIFT_STATE drift_state = car->GetDriftState();
+		if (drift_state != DRIFT_STATE::drift_failed && drift_state != DRIFT_STATE::drift_none)
+		{
+			drift_go_left->SetActive(true);
+			drift_go_right->SetActive(true);
+		}
+		else
+		{
+			drift_go_left->SetActive(false);
+			drift_go_right->SetActive(false);
+		}
 	}
 
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
