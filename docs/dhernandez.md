@@ -4,6 +4,11 @@
 
 **Name:** David Hernandez
 
+**Contact:**
+[Linkedin](https://www.linkedin.com/in/davidhlazaro/)
+[GitHub](https://github.com/Vulpem)
+Mail: davidher96@gmail.com
+
 **My Job:**
 
 - Created component collider:
@@ -37,5 +42,7 @@
    - More bugfix than i can count.
    
    
-- And, in general:
+   
+- And, in general:    
+
 ![Code](https://image.spreadshirtmedia.com/image-server/v1/compositions/110357305/views/1,width=300,height=300,appearanceId=2,backgroundColor=E8E8E8,version=1452254899/a-programmer-life-men-s-t-shirt-by-american-apparel.jpg)
