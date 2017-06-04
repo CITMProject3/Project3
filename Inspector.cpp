@@ -52,7 +52,23 @@ void Inspector::Draw()
 		bool is_static = selected_GO->IsStatic();
 		if (ImGui::Checkbox("###static_option", &is_static))
 		{
-			selected_GO->SetStatic(is_static);
+			selected_GO->SetStatic(is_static, staticAffectsChilds);
+		}
+		ImGui::Text("Change childs static option:");
+		ImGui::SameLine();
+		if (ImGui::Checkbox("###StaticAffectsChildsOption", &staticAffectsChilds))
+		{
+			if (staticAffectsChilds)
+			{
+				selected_GO->SetStatic(is_static, staticAffectsChilds);
+			}
+		}
+		else
+		{
+			if (ImGui::Button("Change all childs to non static"))
+			{
+				selected_GO->SetStatic(is_static, true);
+			}
 		}
 
 		if (selected_GO->IsPrefab())
