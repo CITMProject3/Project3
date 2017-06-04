@@ -334,6 +334,7 @@ namespace Player_Car
 						item->SetActive(false);
 						col->GetCollider()->SetActive(false);
 						car->RemoveHitodama();
+						ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 					}
 					else if (item->name == item_box_name.c_str())
 					{
