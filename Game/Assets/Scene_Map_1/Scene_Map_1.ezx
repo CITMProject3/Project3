@@ -3868,7 +3868,10 @@
                     "firecracker": 1230011776,
                     "other_car": 2807956156,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463,
+                    "ps_drift_left": 3640404008,
+                    "ps_drift_right": 155473842
                 },
                 {
                     "type": 18,
@@ -12199,7 +12202,10 @@
                     "firecracker": 717367660,
                     "other_car": 726386159,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463,
+                    "ps_drift_left": 1291604620,
+                    "ps_drift_right": 4224374142
                 },
                 {
                     "type": 18,
@@ -53739,7 +53745,10 @@
                     "UUID": 953847107,
                     "active": true,
                     "script_path": "ParticleHit",
-                    "script_num": 0
+                    "script_num": 0,
+                    "Car Hit": 4257448802,
+                    "Wall Hit 1": 1492875322,
+                    "Wall Hit 2": 3895184671
                 }
             ]
         },
