@@ -54,18 +54,18 @@
                     "UUID": 2663299906,
                     "active": true,
                     "matrix": [
-                        1,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0.202932,
-                        -0.979213,
-                        0,
-                        0,
-                        0.979213,
-                        0.202932,
-                        0,
+                        0.992529,
+                        -0.031587,
+                        -0.117823,
+                        -34.930794,
+                        -0.117758,
+                        0.003740,
+                        -0.993076,
+                        120.003387,
+                        0.031806,
+                        0.999533,
+                        -0.000007,
+                        39.829361,
                         0,
                         0,
                         0,
@@ -322,7 +322,7 @@
                     "active": true,
                     "rect_size": [
                         1920,
-                        1017
+                        1057
                     ],
                     "matrix": [
                         1.200000,
@@ -330,7 +330,7 @@
                         0,
                         960,
                         0,
-                        1.130000,
+                        1.174444,
                         0,
                         0,
                         0,
@@ -3834,6 +3834,8 @@
                     "driftJumpSpeed": 10,
                     "driftJumpGravityMultiplier": 3,
                     "driftVisualTurn": 25,
+                    "collisionsUntilStopDrifting": 5,
+                    "driftCollisionRecovery": 3,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -3866,10 +3868,7 @@
                     "firecracker": 1230011776,
                     "other_car": 2807956156,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135,
-                    "ps_hit_manager": 3896765463,
-                    "ps_drift_left": 3640404008,
-                    "ps_drift_right": 155473842
+                    "makibishi_manager": 2937051135
                 },
                 {
                     "type": 18,
@@ -12061,7 +12060,7 @@
                         0
                     ],
                     "rotation": [
-                        -0.000000,
+                        0,
                         2.039653,
                         0.000172
                     ]
@@ -12166,6 +12165,8 @@
                     "driftJumpSpeed": 10,
                     "driftJumpGravityMultiplier": 3,
                     "driftVisualTurn": 25,
+                    "collisionsUntilStopDrifting": 5,
+                    "driftCollisionRecovery": 3,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -12198,10 +12199,7 @@
                     "firecracker": 717367660,
                     "other_car": 726386159,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135,
-                    "ps_hit_manager": 3896765463,
-                    "ps_drift_left": 1291604620,
-                    "ps_drift_right": 4224374142
+                    "makibishi_manager": 2937051135
                 },
                 {
                     "type": 18,
@@ -20512,7 +20510,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.813951,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -20555,7 +20553,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -20601,7 +20599,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.813951,
+                    "aspect_ratio": 3.669619,
                     "color": [
                         0,
                         0,
@@ -20644,7 +20642,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -20690,7 +20688,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.887906,
+                    "aspect_ratio": 1.816462,
                     "color": [
                         0,
                         0,
@@ -53741,10 +53739,7 @@
                     "UUID": 953847107,
                     "active": true,
                     "script_path": "ParticleHit",
-                    "script_num": 0,
-                    "Car Hit": 4257448802,
-                    "Wall Hit 1": 1492875322,
-                    "Wall Hit 2": 3895184671
+                    "script_num": 0
                 }
             ]
         },
