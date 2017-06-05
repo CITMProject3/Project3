@@ -103,7 +103,7 @@ namespace Scene_Manager
 	float delay_to_start;
 	double start_timer;
 	bool start_timer_on = false;
-	uint current_countdown_number = 4;
+	bool number_timer_on = false;
 	uint countdown_sound = 4;
 
 	RaceTimer timer;
@@ -215,12 +215,7 @@ namespace Scene_Manager
 
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
 	void Scene_Manager_SetStartTimerText(unsigned int number, GameObject* game_object)
-	{
-		if (current_countdown_number != number)
-		{
-			current_countdown_number = number;
-		}		
-		
+	{		
 		if (start_timer_text != nullptr && start_timer_text2 != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
@@ -255,8 +250,12 @@ namespace Scene_Manager
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
-		delay_to_start = 0.0f;
+		if (topdriver_number)
+			delay_to_start = 0.0f;
+		else
+			delay_to_start = 4.0f;
 		start_timer_on = false;
+		number_timer_on = false;
 		race_finished = false;
 		team1_finished = false;
 		team2_finished = false;
@@ -512,10 +511,32 @@ namespace Scene_Manager
 		{
 			if (race_timer_number != 1) // When race_timer_number is 1, the race has begun!
 			{
-				if (delay_to_start > 3.0f && !start_timer_on)
+				if (delay_to_start > 3.0f && !number_timer_on)
+				{
+					if (topdriver_number)
+						topdriver_number->SetActive(true);
+					if (topgunner_number)
+						topgunner_number->SetActive(true);
+					if (botdriver_number)
+						botdriver_number->SetActive(true);
+					if (botgunner_number)
+						botgunner_number->SetActive(true);
+					number_timer_on = true;
+				}
+				else if (delay_to_start > 5.0f && !start_timer_on)
 				{
 					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
 					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
+
+					if (topdriver_number)
+						topdriver_number->SetActive(false);
+					if (topgunner_number)
+						topgunner_number->SetActive(false);
+					if (botdriver_number)
+						botdriver_number->SetActive(false);
+					if (botgunner_number)
+						botgunner_number->SetActive(false);
+
 					start_timer_on = true;
 				}
 				else
