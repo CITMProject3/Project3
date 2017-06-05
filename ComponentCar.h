@@ -182,6 +182,11 @@ private:
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
 
+	int collisionwWhileDrifting = 0;
+	int collisionsUntilStopDrifting = 5;
+	float driftCollisionTimer = 0.0f;
+	float driftCollisionRecovery = 3.0f;
+
 	MashButtonCounter driftButtonMasher;
 
 	float acrobaticsDelay = 0.5f;

@@ -142,7 +142,9 @@ void ComponentMesh::SetResourceMesh(ResourceFileMesh* resource)
 
 void ComponentMesh::RecalculateBoundingBox()
 {
-	math::OBB ob = aabb.Transform(game_object->GetGlobalMatrix());
+	math::OBB ob = aabb;
+	ob.Transform(game_object->GetGlobalMatrix());
+	
 	bounding_box = ob.MinimalEnclosingAABB();
 	game_object->bounding_box = &bounding_box;
 }
