@@ -7,6 +7,7 @@
 **Contact:** 
 [LinkedIn](https://www.linkedin.com/in/rolaszf/)
 [Github](https://github.com/RogerOlasz)
+
 Mail: rogerolasz96@gmail.com
 
 **My Job:** 
@@ -30,8 +31,8 @@ _**What i've done:**_
 ![TerrainPainting1](http://i.imgur.com/aV3L0db.png) ![TerrainPainting2](http://i.imgur.com/hI3xB7K.png)
 
 	- Watermill with some animations, 10.000 triangles entire prop (In-engine footages).
-![Watermillv1_1](http://i.imgur.com/pq7ArWQ.gifv) ![Watermillv1_2](http://i.imgur.com/9Nx4z1V.gifv)
-![Watermillv1_3](http://i.imgur.com/vd1h9Bz.gifv) ![Watermillv1_4](http://i.imgur.com/Jjx0vG4.gifv)
+![Watermillv1_1](http://i.imgur.com/pq7ArWQ.gif) ![Watermillv1_2](http://i.imgur.com/9Nx4z1V.gif)
+![Watermillv1_3](http://i.imgur.com/vd1h9Bz.gif) ![Watermillv1_4](http://i.imgur.com/Jjx0vG4.gif)
 
 	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
 ![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
