@@ -67,7 +67,8 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (drifting != drift_none)
 	{
-		drifting = drift_failed;
+		collisionwWhileDrifting++;
+		driftCollisionTimer = 0.0f;
 	}
 }
 
@@ -468,7 +469,7 @@ void ComponentCar::DriftManagement()
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
 	{
 		//Checking we have enough speed to drift
-		if (onTheGround && speed > maxSpeed * minimumSpeedRatioToStartDrifting)
+		if (speed > maxSpeed * minimumSpeedRatioToStartDrifting)
 		{
 			//If we weren't drifting, we enter the state of drift
 			if (drifting == drift_none)
@@ -500,6 +501,25 @@ void ComponentCar::DriftManagement()
 	else if(drifting != drift_failed)
 	{
 		drifting = drift_none;
+	}
+
+	if (collisionwWhileDrifting >= collisionsUntilStopDrifting)
+	{
+		drifting = drift_failed;
+		collisionwWhileDrifting = 0;
+	}
+
+	if (collisionwWhileDrifting > 0)
+	{
+		driftCollisionTimer += time->DeltaTime();
+		if (driftCollisionTimer > driftCollisionRecovery)
+		{
+			collisionwWhileDrifting = 0;
+		}
+	}
+	else
+	{
+		driftCollisionTimer = 0.0f;
 	}
 
 	//Avoid drifting from stopping when the kart is jumping in the air
