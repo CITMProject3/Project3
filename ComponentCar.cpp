@@ -474,7 +474,7 @@ void ComponentCar::DriftManagement()
 		if (speed > maxSpeed * minimumSpeedRatioToStartDrifting)
 		{
 			//If we weren't drifting, we enter the state of drift
-			if (drifting == drift_none)
+			if (drifting == drift_none && onTheGround)
 			{
 				if (currentSteer > minimumSteerToStartDrifting)
 				{
