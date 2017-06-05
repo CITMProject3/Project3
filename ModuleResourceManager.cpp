@@ -69,7 +69,7 @@ bool ModuleResourceManager::Start()
 	LoadDefaults();
 
 	if (App->StartInGame() == false)
-		//UpdateAssetsAuto();
+		UpdateAssetsAuto();
 	return true;
 }
 

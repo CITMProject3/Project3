@@ -213,6 +213,8 @@ update_status ModuleRenderer3D::PostUpdate()
 {
 	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
 
+	shadow_map->Render(App->lighting->GetLightInfo().directional_mat, objects_to_draw);
+
 	for (uint i = 0; i < cameras.size(); i++)
 	{
 		DrawScene(cameras[i]);
@@ -333,8 +335,6 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 {
 	BROFILER_CATEGORY("ModuleRenderer3D::DrawScene", Profiler::Color::NavajoWhite);
 
-	shadow_map->Render(App->lighting->GetLightInfo().directional_mat, objects_to_draw, cam->GetFrustum());
-
 	glViewport(cam->viewport_position.x, cam->viewport_position.y, cam->viewport_size.x, cam->viewport_size.y);
 
 	glLoadIdentity();
@@ -423,8 +423,6 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	//DrawSprites(cam);
 
 	DrawParticles(cam);
-
-	
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
