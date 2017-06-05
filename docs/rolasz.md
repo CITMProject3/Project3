@@ -71,6 +71,6 @@ _**What i've done:**_
 ![SceneMap2_v2_4]() ![SceneMap2_v2_5]() ![SceneMap2_v2_6]()
 
 And here i show 45 min of terraforming with our engine tools (from a total of 8h for the first terrain) reduced to 3:30 min with time lapse.
-![Terraforming](https://youtu.be/7-ABw7wDyYE)
+[![Terraforming](http://img.youtube.com/vi/7-ABw7wDyYE/0.jpg)](http://www.youtube.com/watch?v=7-ABw7wDyYE)
 
 - And finally just be all what team needed in crunch periods :D.
