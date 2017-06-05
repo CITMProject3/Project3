@@ -40,10 +40,10 @@ namespace MapSelectUI
 
 	// On Assets
 	string assets_path_map1 = "/Assets/Scene_Map_1/Scene_Map_1.ezx";
-	string assets_path_map2 = "/Assets/Scene_Map_2/Scene_Map_2.ezx";
+	string assets_path_map2 = "/Assets/Scene_Map_2_NEW/Scene_Map_2NEW.ezx";
 	// On Library
 	string library_path_map1 = "/Library/1441726200/2271634307/2271634307.ezx";
-	string library_path_map2 = "/Library/3645291025/3212315065/3212315065.ezx";
+	string library_path_map2 = "/Library/2159977326/1290996728/1290996728.ezx";
 
 	bool players_ready[4] = { false, false, false, false };
 
