@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentAnimation.h"
+#include "ComponentAudioSource.h"
 
 #include "imgui/imgui.h"
 
@@ -67,7 +68,8 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 
 	if (drifting != drift_none)
 	{
-		drifting = drift_failed;
+		collisionwWhileDrifting++;
+		driftCollisionTimer = 0.0f;
 	}
 }
 
@@ -463,12 +465,13 @@ void ComponentCar::DriftManagement()
 	if (drifting == drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) != KEY_REPEAT))
 	{
 		drifting = drift_none;
+		if (audio) audio->PlayAudio(7);	// Reduce Drifting
 	}
 
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
 	{
 		//Checking we have enough speed to drift
-		if (onTheGround && speed > maxSpeed * minimumSpeedRatioToStartDrifting)
+		if (speed > maxSpeed * minimumSpeedRatioToStartDrifting)
 		{
 			//If we weren't drifting, we enter the state of drift
 			if (drifting == drift_none)
@@ -478,28 +481,53 @@ void ComponentCar::DriftManagement()
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
+					if (audio) audio->PlayAudio(6);	// Init Drifting
 				}
 				else if (currentSteer < -minimumSteerToStartDrifting)
 				{
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
+					if (audio) audio->PlayAudio(6);	// Init Drifting
 				}
 			}
 		}
 		else if (lastFrame_drifting != drift_none && drifting != drift_none)
-		{
+		{			
 			//If we don't have enough speed, the drift is considered a failure
 			drifting = drift_failed;
+			if (audio) audio->PlayAudio(8); // Stopping Drifting
 		}
 		else
 		{
+			//if (audio) audio->PlayAudio(7);	// Reduce Drifting
 			drifting = drift_none;
 		}
 	}
 	else if(drifting != drift_failed)
 	{
+		//if (audio) audio->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
+	}
+
+	if (collisionwWhileDrifting >= collisionsUntilStopDrifting)
+	{
+		drifting = drift_failed;
+		collisionwWhileDrifting = 0;
+		if (audio) audio->PlayAudio(8); // Stopping Drifting
+	}
+
+	if (collisionwWhileDrifting > 0)
+	{
+		driftCollisionTimer += time->DeltaTime();
+		if (driftCollisionTimer > driftCollisionRecovery)
+		{
+			collisionwWhileDrifting = 0;
+		}
+	}
+	else
+	{
+		driftCollisionTimer = 0.0f;
 	}
 
 	//Avoid drifting from stopping when the kart is jumping in the air
@@ -526,6 +554,7 @@ void ComponentCar::DriftManagement()
 			NewTurbo(turboPicker.drift2);
 			break;
 		}
+		if (audio) audio->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 	lastFrame_drifting = drifting;
@@ -695,6 +724,8 @@ void ComponentCar::OnPlay()
 	collider = App->physics->AddVehicle(collShape, this);
 
 	lastFrame_drifting = drifting = drift_none;
+
+	audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
@@ -1461,6 +1492,9 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftJumpGravityMultiplier", driftJumpGravityMultiplier);
 	data.AppendFloat("driftVisualTurn", driftVisualTurn);
 
+	data.AppendInt("collisionsUntilStopDrifting", collisionsUntilStopDrifting);
+	data.AppendFloat("driftCollisionRecovery", driftCollisionRecovery);
+
 	//Controls settings , Unique for each--------------
 
 	//Hitodamas
@@ -1531,6 +1565,10 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("driftVisualTurn");
 	if (tmp != 0.0f) { driftVisualTurn = tmp; }
 
+	tmp = conf.GetFloat("collisionsUntilStopDrifting");
+	if (tmp != 0.0f) { collisionsUntilStopDrifting = tmp; }
+	tmp = conf.GetFloat("driftCollisionRecovery");
+	if (tmp != 0.0f) { driftCollisionRecovery = tmp; }
 
 
 	//Game loop settings
@@ -1693,6 +1731,20 @@ void ComponentCar::OnInspector(bool debug)
 									"the drifting itself. Values Too high may result in\n"
 									"an \"unresponsive\" drift ending");
 			ImGui::InputFloat("##DriftVisualTurn", &driftVisualTurn);
+
+			ImGui::Text("Amount of collisions until drift failure");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Amount of times the function \"OnWallHit\" must be\n"
+									"called in order to consider a drifting failed.\n"
+									"Take in account that the most direct colisions will call\n"
+									"it more than once during a collision.");
+			ImGui::InputInt("##collisionsUntilStopDrifting", &collisionsUntilStopDrifting);
+
+			ImGui::Text("Timer until collision recovery");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Time until the kart \"forgets\" that it hit a wall\n"
+									"and the collision counter resets back to 0.");
+			ImGui::InputFloat("##driftCollisionRecovery", &driftCollisionRecovery);
 
 			ImGui::TreePop();
 		}

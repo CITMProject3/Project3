@@ -28,6 +28,7 @@ using namespace std;
 class ComponentAnimation;
 class ComponentCollider;
 class ComponentTransform;
+class ComponentAudioSource;
 
 class PhysBody3D;
 
@@ -161,6 +162,8 @@ private:
 	ComponentTransform* kart_front_wheel_1 = nullptr;
 	ComponentTransform* kart_back_wheel_2 = nullptr;
 
+	ComponentAudioSource *audio = nullptr;
+
 	std::vector<Wheel> wheels;
 
 public:
@@ -181,6 +184,11 @@ private:
 	//Drifting
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
+
+	int collisionwWhileDrifting = 0;
+	int collisionsUntilStopDrifting = 5;
+	float driftCollisionTimer = 0.0f;
+	float driftCollisionRecovery = 3.0f;
 
 	MashButtonCounter driftButtonMasher;
 
