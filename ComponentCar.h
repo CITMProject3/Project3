@@ -185,8 +185,8 @@ private:
 	DRIFT_STATE drifting;
 	DRIFT_STATE lastFrame_drifting;
 
-	uint collisionwWhileDrifting = 0;
-	uint collisionsUntilStopDrifting = 5;
+	int collisionwWhileDrifting = 0;
+	int collisionsUntilStopDrifting = 5;
 	float driftCollisionTimer = 0.0f;
 	float driftCollisionRecovery = 3.0f;
 
