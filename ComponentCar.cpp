@@ -1481,6 +1481,9 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("driftJumpGravityMultiplier", driftJumpGravityMultiplier);
 	data.AppendFloat("driftVisualTurn", driftVisualTurn);
 
+	data.AppendInt("collisionsUntilStopDrifting", collisionsUntilStopDrifting);
+	data.AppendFloat("driftCollisionRecovery", driftCollisionRecovery);
+
 	//Controls settings , Unique for each--------------
 
 	//Hitodamas
@@ -1551,6 +1554,10 @@ void ComponentCar::Load(Data& conf)
 	tmp = conf.GetFloat("driftVisualTurn");
 	if (tmp != 0.0f) { driftVisualTurn = tmp; }
 
+	tmp = conf.GetFloat("collisionsUntilStopDrifting");
+	if (tmp != 0.0f) { collisionsUntilStopDrifting = tmp; }
+	tmp = conf.GetFloat("driftCollisionRecovery");
+	if (tmp != 0.0f) { driftCollisionRecovery = tmp; }
 
 
 	//Game loop settings
@@ -1713,6 +1720,20 @@ void ComponentCar::OnInspector(bool debug)
 									"the drifting itself. Values Too high may result in\n"
 									"an \"unresponsive\" drift ending");
 			ImGui::InputFloat("##DriftVisualTurn", &driftVisualTurn);
+
+			ImGui::Text("Amount of collisions until drift failure");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Amount of times the function \"OnWallHit\" must be\n"
+									"called in order to consider a drifting failed.\n"
+									"Take in account that the most direct colisions will call\n"
+									"it more than once during a collision.");
+			ImGui::InputInt("##collisionsUntilStopDrifting", &collisionsUntilStopDrifting);
+
+			ImGui::Text("Timer until collision recovery");
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip(	"Time until the kart \"forgets\" that it hit a wall\n"
+									"and the collision counter resets back to 0.");
+			ImGui::InputFloat("##driftCollisionRecovery", &driftCollisionRecovery);
 
 			ImGui::TreePop();
 		}
