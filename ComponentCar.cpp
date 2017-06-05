@@ -9,6 +9,7 @@
 #include "GameObject.h"
 #include "ComponentTransform.h"
 #include "ComponentAnimation.h"
+#include "ComponentAudioSource.h"
 
 #include "imgui/imgui.h"
 
@@ -464,6 +465,7 @@ void ComponentCar::DriftManagement()
 	if (drifting == drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) != KEY_REPEAT))
 	{
 		drifting = drift_none;
+		if (audio) audio->PlayAudio(7);	// Reduce Drifting
 	}
 
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
@@ -479,27 +481,32 @@ void ComponentCar::DriftManagement()
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
+					if (audio) audio->PlayAudio(6);	// Init Drifting
 				}
 				else if (currentSteer < -minimumSteerToStartDrifting)
 				{
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
+					if (audio) audio->PlayAudio(6);	// Init Drifting
 				}
 			}
 		}
 		else if (lastFrame_drifting != drift_none && drifting != drift_none)
-		{
+		{			
 			//If we don't have enough speed, the drift is considered a failure
 			drifting = drift_failed;
+			if (audio) audio->PlayAudio(8); // Stopping Drifting
 		}
 		else
 		{
+			//if (audio) audio->PlayAudio(7);	// Reduce Drifting
 			drifting = drift_none;
 		}
 	}
 	else if(drifting != drift_failed)
 	{
+		//if (audio) audio->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 
@@ -507,6 +514,7 @@ void ComponentCar::DriftManagement()
 	{
 		drifting = drift_failed;
 		collisionwWhileDrifting = 0;
+		if (audio) audio->PlayAudio(8); // Stopping Drifting
 	}
 
 	if (collisionwWhileDrifting > 0)
@@ -546,6 +554,7 @@ void ComponentCar::DriftManagement()
 			NewTurbo(turboPicker.drift2);
 			break;
 		}
+		if (audio) audio->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 	lastFrame_drifting = drifting;
@@ -715,6 +724,8 @@ void ComponentCar::OnPlay()
 	collider = App->physics->AddVehicle(collShape, this);
 
 	lastFrame_drifting = drifting = drift_none;
+
+	audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
