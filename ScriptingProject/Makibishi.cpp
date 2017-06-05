@@ -11,6 +11,7 @@
 #include "../GameObject.h"
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
+#include "../ComponentAudioSource.h"
 #include "../SDL/include/SDL_scancode.h"
 #include "../PhysBody3D.h"
 #include "../ComponentCollider.h"
@@ -48,6 +49,7 @@ namespace Makibishi
 
 	void Makibishi_Start(GameObject* game_object)
 	{
+		
 	}
 
 	void Makibishi_Update(GameObject* game_object)

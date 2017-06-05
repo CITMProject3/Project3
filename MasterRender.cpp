@@ -37,6 +37,7 @@ void MasterRender::Init()
 	InitAnimNormalShader();
 	InitTerrainShader();
 	InitShadowShader();
+	InitParticleShader();
 }
 
 void MasterRender::RenderDefaultShader(const GameObject* obj, const ComponentCamera* cam, const ComponentMaterial* material, const LightInfo* light) const
@@ -315,4 +316,24 @@ void MasterRender::InitShadowShader()
 
 	shadow_shader.has_anim = glGetUniformLocation(shadow_shader.id, "has_anim");
 	shadow_shader.bones = glGetUniformLocation(shadow_shader.id, "bones");
+}
+
+void MasterRender::InitParticleShader()
+{
+	unsigned int vertex = ShaderCompiler::CompileVertex("Resources/Particles/particleV.ver");
+	unsigned int fragment = ShaderCompiler::CompileFragment("Resources/Particles/particleF.fra");
+
+	particle_shader.id = ShaderCompiler::CompileShader(vertex, fragment);
+
+	particle_shader.projection = glGetUniformLocation(particle_shader.id, "projection");
+	particle_shader.view = glGetUniformLocation(particle_shader.id, "view");
+
+	particle_shader.size = glGetUniformLocation(particle_shader.id, "size");
+	particle_shader.tex = glGetUniformLocation(particle_shader.id, "tex");
+	particle_shader.s_color = glGetUniformLocation(particle_shader.id, "s_color");
+	particle_shader.use_color_time = glGetUniformLocation(particle_shader.id, "use_color_time");
+
+	particle_shader.texture_anim = glGetUniformLocation(particle_shader.id, "texture_anim");
+	particle_shader.life_time = glGetUniformLocation(particle_shader.id, "life_time");
+	particle_shader.tex_anim_data = glGetUniformLocation(particle_shader.id, "tex_anim_data");
 }

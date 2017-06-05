@@ -12,6 +12,7 @@
 #include "../GameObject.h"
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
+#include "../ComponentAudioSource.h"
 #include "../SDL/include/SDL_scancode.h"
 #include "../PhysBody3D.h"
 #include "../ComponentCollider.h"
@@ -19,6 +20,10 @@
 #include "../Globals.h"
 #include "../Random.h"
 #include "../Time.h"
+
+//To call functions from another script
+typedef void(*PSHit_CarCollision)(const math::float3& point);
+typedef void(*PSHit_WallCollision)(int car_id, const math::float3& point);
 
 enum Item_Type
 {
@@ -68,6 +73,13 @@ namespace Player_Car
 	GameObject* other_car = nullptr;
 	GameObject* scene_manager = nullptr;
 	GameObject* makibishi_manager = nullptr;
+	GameObject* ps_hit_manager = nullptr;
+	GameObject* drift_go_left = nullptr;
+	GameObject* drift_go_right = nullptr;
+
+	//Particles
+	PSHit_CarCollision ps_hit_func = nullptr;
+	PSHit_WallCollision ps_hit_wall_func = nullptr;
 
 
 	std::vector<GameObject*> makibishis_1;
@@ -105,6 +117,9 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("other_car", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("scene_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("makibishi_manager", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_hit_manager", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_drift_left", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("ps_drift_right", nullptr));
 
 	}
 
@@ -140,6 +155,9 @@ namespace Player_Car
 		other_car = script->public_gos.at("other_car");
 		scene_manager = script->public_gos.at("scene_manager");
 		makibishi_manager = script->public_gos.at("makibishi_manager");
+		ps_hit_manager = script->public_gos.at("ps_hit_manager");
+		drift_go_left = script->public_gos.at("ps_drift_left");
+		drift_go_right = script->public_gos.at("ps_drift_right");
 
 	}
 
@@ -174,6 +192,9 @@ namespace Player_Car
 		script->public_gos.at("other_car") = other_car;
 		script->public_gos.at("scene_manager") = scene_manager;
 		script->public_gos.at("makibishi_manager") = makibishi_manager;
+		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
+		script->public_gos.at("ps_drift_left") = drift_go_left;
+		script->public_gos.at("ps_drift_right") = drift_go_right;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -193,6 +214,32 @@ namespace Player_Car
 				break;
 			}
 		}	
+
+		// Start Sound Engine
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(2);
+
+		//Init particles
+		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
+		ps_hit_wall_func = (PSHit_WallCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_WallCollision");
+
+		unsigned int kart_model;
+		if (car_id == 0) kart_model = App->go_manager->team1_car;
+		else kart_model = App->go_manager->team2_car;
+
+		if (kart_model == 0)
+		{
+			drift_go_left->transform->SetPosition(float3(1.021f, 0.578f, -1.464f));
+			drift_go_right->transform->SetPosition(float3(-1.021f, 0.578f, -1.464f));
+		}
+		else
+		{
+			drift_go_left->transform->SetPosition(float3(1.8f, 0.623f, -1.1f));
+			drift_go_right->transform->SetPosition(float3(-1.8f, 0.623f, -1.1f));
+		}
+
+		drift_go_left->SetActive(false);
+		drift_go_right->SetActive(false);
 	}
 
 #pragma region Forward Declarations
@@ -214,6 +261,12 @@ namespace Player_Car
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 		if (car == nullptr)
 			return;
+
+		// DEBUG CRZ for Audio Testing
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		{
+			Player_Car_UseEvilSpirit(game_object, car);
+		}
 
 		if (current_item != -1 && evil_spirit_effect == false)
 		{
@@ -260,6 +313,19 @@ namespace Player_Car
 
 		//TMP Makibishi
 		Player_Car_TMP_Use_Makibishi(game_object, car);
+
+		//Drifting
+		DRIFT_STATE drift_state = car->GetDriftState();
+		if (drift_state != DRIFT_STATE::drift_failed && drift_state != DRIFT_STATE::drift_none)
+		{
+			drift_go_left->SetActive(true);
+			drift_go_right->SetActive(true);
+		}
+		else
+		{
+			drift_go_left->SetActive(false);
+			drift_go_right->SetActive(false);
+		}
 	}
 
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
@@ -272,6 +338,9 @@ namespace Player_Car
 			float3 myPos = ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition();
 			float3 norm = myPos - otherCarPos;
 			car->WallHit(norm.Normalized());
+
+			float3 col_point = otherCarPos + (norm * 0.5f);
+			ps_hit_func(col_point);
 		}
 
 		if (col->IsTrigger())
@@ -300,10 +369,11 @@ namespace Player_Car
 					else if (item->name == "Makibishi")
 					{
 						car->OnGetHit(makibishi_collision_velocity_reduction);
-						((ComponentCollider*)item->GetComponent(ComponentType::C_COLLIDER))->body->SetPos(0, 0, 0);//avoid collision
+						col->SetPos(0, 0, 0);//avoid collision
 						item->SetActive(false);
-						item->GetComponent(ComponentType::C_COLLIDER)->SetActive(false);
+						col->GetCollider()->SetActive(false);
 						car->RemoveHitodama();
+						ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 					}
 					else if (item->name == item_box_name.c_str())
 					{
@@ -312,6 +382,13 @@ namespace Player_Car
 						Player_Car_CallUpdateItems();
 					}
 				}
+			}
+		}
+		else
+		{
+			if (col->GetCollider()->GetGameObject()->layer == 2) //Wall
+			{
+				ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 			}
 		}
 	}
@@ -415,6 +492,10 @@ namespace Player_Car
 		{
 			evil_spirit_effect = true;
 		}
+
+		// Playing Evil Spirit 
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(3);
 	}
 
 	void Player_Car_UseMakibishi(GameObject* game_object, ComponentCar* car)
@@ -428,10 +509,15 @@ namespace Player_Car
 			return;
 		}
 
+		// Play Makibishi Sound
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		audio->PlayAudio(5);
+
 		//Activating everything
 		makibishi->SetActive(true);
 		makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 		ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
+		makibishi_collider->body->Stop();
 		((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 		makibishi_collider->body->SetActivationState(1);
 
@@ -443,7 +529,7 @@ namespace Player_Car
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
-			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + ((car->GetVelocity() / 3.6f) / 10.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.25f)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			item_size--;
 			Player_Car_CallUpdateItems();
@@ -456,7 +542,7 @@ namespace Player_Car
 			{
 				float3 new_pos = game_object->transform->GetPosition();
 				new_pos -= car->kartZ  * car->collShape.size.z;
-				new_pos += car->kartY * (car->collShape.size.y + 2);
+				new_pos += car->kartY * (car->collShape.size.y + 1);
 				makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 				float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
@@ -472,7 +558,7 @@ namespace Player_Car
 				makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
 				float x_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
-				float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + ((car->GetVelocity() / 3.6f) / 10.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+				float3 new_vel = ((game_object->transform->GetForward().Normalized() * y_joy_input * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi * 0.25f)));
 				new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 				Player_Car_CallUpdateItems();
@@ -507,6 +593,10 @@ namespace Player_Car
 		using_firecracker = true;
 		current_item = -1;
 		car->NewTurbo(Turbo(turbo_max_acc_time, turbo_lifetime, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
+
+		// Playing Firecracker sound
+		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio) audio->PlayAudio(0);
 	}
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
@@ -552,6 +642,13 @@ namespace Player_Car
 					evil_spirit_object[car_id]->SetActive(false);
 				}
 			}
+
+			if (!evil_spirit_effect)
+			{
+				// Stopping Evil Spirit Sound
+				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio) audio->PlayAudio(4);
+			}
 		}
 	}
 
@@ -566,8 +663,7 @@ namespace Player_Car
 			if (firecracker)
 				firecracker->SetActive(false);
 			current_item = -1;
-			Player_Car_CallUpdateItems();
-			
+			Player_Car_CallUpdateItems();		
 		}
 		else
 		{
@@ -580,11 +676,17 @@ namespace Player_Car
 				if(firecracker)
 					firecracker->SetActive(false);
 				current_item = -1;
-				Player_Car_CallUpdateItems();
-				
+				Player_Car_CallUpdateItems();							
 			}
-		}		
+		}	
 
+		// If current_item is -1 or using_firecracker is false, firecracker has finished
+		if (!using_firecracker)
+		{
+			// Stopping Firecracker sound
+			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (audio) audio->PlayAudio(1);
+		}
 	}
 
 	void Player_Car_CallUpdateItems()
@@ -621,6 +723,7 @@ namespace Player_Car
 				makibishi->SetActive(true);
 				makibishi->GetComponent(ComponentType::C_COLLIDER)->SetActive(true);
 				ComponentCollider* makibishi_collider = (ComponentCollider*)makibishi->GetComponent(ComponentType::C_COLLIDER);
+				makibishi_collider->body->Stop();
 				((ComponentScript*)makibishi->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 				makibishi_collider->body->SetActivationState(1);
 
@@ -631,7 +734,7 @@ namespace Player_Car
 					new_pos += car->kartY * (car->collShape.size.y + 2);
 					makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 					makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
-					float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + ((car->GetVelocity() / 3.6f) / 10.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi / 2)));
+					float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.25f)));
 					makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 				}
 				else
@@ -646,7 +749,7 @@ namespace Player_Car
 					{
 						float3 new_pos = game_object->transform->GetPosition();
 						new_pos -= car->kartZ  * car->collShape.size.z;
-						new_pos += car->kartY * (car->collShape.size.y + 2);
+						new_pos += car->kartY * (car->collShape.size.y + 1);
 						makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 						makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 						float3 new_vel = (game_object->transform->GetForward().Normalized() * -1);
@@ -666,7 +769,7 @@ namespace Player_Car
 							x_joy_input = -App->input->GetJoystickAxis(car->GetBackPlayer(), JOY_AXIS::LEFT_STICK_X);
 						else
 							x_joy_input = -App->input->GetJoystickAxis(car->GetFrontPlayer(), JOY_AXIS::LEFT_STICK_X);
-						float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi / 2) + ((car->GetVelocity() / 3.6f) / 10.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi / 2)));
+						float3 new_vel = ((game_object->transform->GetForward().Normalized() * y_joy_input * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi * 0.25f)));
 						new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 						makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 					}

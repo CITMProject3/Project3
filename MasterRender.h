@@ -73,6 +73,20 @@ struct ShadowShader
 	unsigned int bones;
 };
 
+struct ParticleShader
+{
+	unsigned int id;
+
+	unsigned int view, projection;
+	unsigned int size;
+	unsigned int tex;
+	unsigned int s_color;
+	unsigned int use_color_time;
+	unsigned int texture_anim;
+	unsigned int life_time;
+	unsigned int tex_anim_data;
+};
+
 class GameObject;
 class ComponentCamera;
 class ComponentMaterial;
@@ -98,6 +112,8 @@ private:
 	void InitAnimNormalShader();
 	void InitTerrainShader();
 	void InitShadowShader();
+	void InitParticleShader();
+
 
 public:
 	DFShader df_shader;
@@ -106,6 +122,8 @@ public:
 	AnimNormalShader anim_normal_shader;
 	TerrainShader terrain_shader;
 	ShadowShader shadow_shader; //Gets rendered in the ShadowMap class
+	ParticleShader particle_shader;
+
 };
 
 

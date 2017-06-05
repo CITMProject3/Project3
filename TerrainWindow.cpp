@@ -193,6 +193,20 @@ void TerrainWindow::Draw()
 		ImGui::RadioButton("Raise/Lower", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_raise); ImGui::SameLine();
 		ImGui::RadioButton("Flatten", (int*)&App->physics->sculptTool, SculptModeTools::sculpt_flatten);
 		
+		toolBool = App->physics->sculptTool == SculptModeTools::sculpt_smooth;
+		if (toolBool)
+		{
+			ImGui::NewLine();
+			ImGui::Text("Size of the sample the smooth tool will use when averaging vertices. Default is 6.");
+			ImGui::InputInt("##SampleSize", &App->physics->smoothSampleSize);
+			ImGui::NewLine();
+			ImGui::Text("Filter by texture:");
+			ImGui::RadioButton("None", (int*)&App->physics->smoothMask, -1);
+			for (int n = 0; n < 4, n < App->physics->textures.size(); n++)
+			{
+				ImGui::RadioButton(App->physics->textures[n].second.data(), (int*)&App->physics->smoothMask, n);
+			}
+		}
 	}
 
 	ImGui::NewLine();

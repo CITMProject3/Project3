@@ -57,6 +57,9 @@ extern "C"
 			script_names->push_back("Item_Timer");
 			// Audio related...
 			script_names->push_back("Audio_PlaySound");
+
+			//Particles
+			script_names->push_back("ParticleHit");
 		}
 	}
 

@@ -95,13 +95,16 @@ namespace Scene_Manager
 	GameObject* topgunner_label = nullptr;
 	GameObject* botdriver_label = nullptr;
 	GameObject* botgunner_label = nullptr;
-
-	string main_menu_scene = "/Assets/Main_menu.ezx";
+	
+	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
+	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
 
 	//"Private" variables
+	float delay_to_start;
 	double start_timer;
-	bool start_timer_on;
-	uint current_countdown_number;
+	bool start_timer_on = false;
+	uint current_countdown_number = 4;
+	uint countdown_sound = 4;
 
 	RaceTimer timer;
 	int race_timer_number = 4;
@@ -122,7 +125,7 @@ namespace Scene_Manager
 
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
-		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
+		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", assets_main_menu_scene));
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Car1", car_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Car2", car_2_go));
@@ -168,7 +171,7 @@ namespace Scene_Manager
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
+		assets_main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
 
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];
@@ -207,7 +210,7 @@ namespace Scene_Manager
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-		script->public_chars.at("Main_Menu_Scene") = main_menu_scene;
+		script->public_chars.at("Main_Menu_Scene") = assets_main_menu_scene;
 	}
 
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
@@ -215,8 +218,6 @@ namespace Scene_Manager
 	{
 		if (current_countdown_number != number)
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(1);  // Second and third countdown
 			current_countdown_number = number;
 		}		
 		
@@ -246,17 +247,16 @@ namespace Scene_Manager
 	void Scene_Manager_Start(GameObject* game_object)
 	{
 		music_played = false;
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp)	a_comp->PlayAudio(1);  // First countdown
-
 		race_timer_number = 4;
+		countdown_sound = 3;
 		finish_timer = 0;
 		second_position_timer = 0;
 		goingToDisqualify = 0;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
-		start_timer_on = true;
+		delay_to_start = 0.0f;
+		start_timer_on = false;
 		race_finished = false;
 		team1_finished = false;
 		team2_finished = false;
@@ -293,10 +293,12 @@ namespace Scene_Manager
 		if (start_timer_go)
 		{
 			start_timer_text = (ComponentUiText*)start_timer_go->GetComponent(C_UI_TEXT);
+			if (start_timer_text) start_timer_text->GetGameObject()->SetActive(false);
 		}
 		if (start_timer_go2)
 		{
 			start_timer_text2 = (ComponentUiText*)start_timer_go2->GetComponent(C_UI_TEXT);
+			if(start_timer_text2) start_timer_text2->GetGameObject()->SetActive(false);
 		}
 		if (item_ui_1_go)
 		{
@@ -367,7 +369,13 @@ namespace Scene_Manager
 				{
 					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
-					App->LoadScene(main_menu_scene.c_str());
+
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+
 					return;
 				}
 			}
@@ -446,6 +454,14 @@ namespace Scene_Manager
 
 	void Scene_Manager_UpdateStartCountDown(GameObject* game_object)
 	{
+		// Sound management
+		if (countdown_sound != race_timer_number && countdown_sound != 2) 
+		{
+			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (a_comp) a_comp->PlayAudio(1);  // Countdowns
+			countdown_sound = race_timer_number;
+		}
+
 		start_timer += time->DeltaTime();
 		if (start_timer >= 1)
 		{
@@ -494,10 +510,20 @@ namespace Scene_Manager
 		}
 		else
 		{
-			if (start_timer_on == true)
+			if (race_timer_number != 1) // When race_timer_number is 1, the race has begun!
 			{
+				if (delay_to_start > 3.0f && !start_timer_on)
+				{
+					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
+					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
+					start_timer_on = true;
+				}
+				else
+					delay_to_start += time->DeltaTime();
+			}			
+
+			if (start_timer_on)
 				Scene_Manager_UpdateStartCountDown(game_object);
-			}
 
 			if (race_timer_number == 0)
 			{

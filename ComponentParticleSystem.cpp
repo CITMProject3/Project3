@@ -261,7 +261,7 @@ void ComponentParticleSystem::Load(Data & conf)
 	}
 
 	bb_pos_offset = conf.GetFloat3("bb_pos_offset");
-	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+	bounding_box.Translate((game_object->transform->GetGlobalMatrix().TranslatePart() + bb_pos_offset) - bounding_box.CenterPoint());
 	bb_size = conf.GetFloat3("bb_size");
 	float3 center = bounding_box.CenterPoint();
 	float3 half = bb_size * 0.5f;
@@ -444,7 +444,7 @@ void ComponentParticleSystem::OnTransformModified()
 	sphere_shape.pos = game_object->GetGlobalMatrix().TranslatePart();
 
 
-	bounding_box.Translate((game_object->transform->GetPosition() + bb_pos_offset) - bounding_box.CenterPoint());
+	bounding_box.Translate((game_object->transform->GetGlobalMatrix().TranslatePart() + bb_pos_offset) - bounding_box.CenterPoint());
 }
 
 void ComponentParticleSystem::OnPlay()
@@ -540,12 +540,9 @@ void ComponentParticleSystem::StopAll()
 
 void ComponentParticleSystem::Play()
 {
-	if (state != PSState::PS_PLAYING)
-	{
-		state = PSState::PS_PLAYING;
-		system_life = 0.0f;
-		cycles = 0;
-	}
+	state = PSState::PS_PLAYING;
+	system_life = 0.0f;
+	cycles = 0;
 }
 
 void ComponentParticleSystem::Pause()

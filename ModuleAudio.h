@@ -10,6 +10,7 @@
 class SoundBank;
 class AudioEvent;
 class ComponentCamera;
+class ComponentCar;
 
 // Wwise docuemntation:
 // https://www.audiokinetic.com/library/edge/?source=Help&id=welcome_to_wwise
@@ -57,6 +58,9 @@ public:
 	// Attenuation
 	void ModifyAttenuationFactor(float factor, unsigned int wwise_go_id);
 
+	// RTPC values
+	void SetRTPCValue(const char *name, const float *value, unsigned int wwise_go_id);
+
 	// Listeners
 	void UpdateListenerPos(ComponentCamera *cam, unsigned int listener_id); // Update pos and orientation
 	void SetListeners(unsigned int wwise_go_id) const;
@@ -92,10 +96,11 @@ private:
 	// Soundbank related
 	bool IsSoundBank(const std::string &file_to_check) const;
 
+	void SaveBeforeClosing(Data& data) const;
+
 	unsigned char active_listeners = 0; // Listeners
 
 	Timer check_timer;
-
 };
 
 #endif // __ModuleAudio_H__

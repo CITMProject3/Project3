@@ -279,6 +279,9 @@ public:
 	float brushStrength = 1.0f;
 	SculptModeTools sculptTool = SculptModeTools::sculpt_smooth;
 
+	short int smoothMask = -1;
+	int smoothSampleSize = 6;
+
 	std::string GO_toPaint_libPath;
 	GameObject* last_placed_go = nullptr;
 	float last_placed_rot;

@@ -158,6 +158,8 @@ private:
 	float testVar = 0.0f;
 
 	ComponentTransform* kart_trs = nullptr;
+	ComponentTransform* kart_front_wheel_1 = nullptr;
+	ComponentTransform* kart_back_wheel_2 = nullptr;
 
 	std::vector<Wheel> wheels;
 
@@ -265,6 +267,7 @@ public:
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
+	const float *GetSpeed() const; // For RTPC Wwise used
 	unsigned int GetFrontPlayer();
 	unsigned int GetBackPlayer();
 	bool GetGroundState() const;
@@ -291,6 +294,8 @@ public:
 
 	void NewTurbo(Turbo turboToApply);
 	void TurboPad();
+
+	DRIFT_STATE GetDriftState()const;
 private:
 
 	void UpdateP1Animation();

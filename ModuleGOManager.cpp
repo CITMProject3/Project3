@@ -250,7 +250,10 @@ void ModuleGOManager::DuplicateGameObject(GameObject* object)
 		{
 			if (object->rc_prefab)
 			{
-				object->rc_prefab->LoadPrefabAsCopy();
+				GameObject* new_go = object->rc_prefab->LoadPrefabAsCopy();
+				ComponentTransform* transform = (ComponentTransform*)new_go->GetComponent(C_TRANSFORM);
+				transform->Set(((ComponentTransform*)object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix());
+				App->editor->SelectSingle(new_go);
 			}
 			LOG("Error: GameObject prefab has no resource prefab!");
 		}
@@ -260,13 +263,17 @@ void ModuleGOManager::DuplicateGameObject(GameObject* object)
 			App->editor->RefreshAssets();
 			if (prefab)
 			{
-				GameObject* duplicated = prefab->LoadPrefabAsCopy();
+				GameObject* new_go = prefab->LoadPrefabAsCopy();
 				object->UnlinkPrefab();
-				duplicated->UnlinkPrefab();
+				new_go->UnlinkPrefab();
 				//Funny stuff. Adding assets here because files are managed on ImGui class x)
 				std::string asset_file = App->editor->assets->FindAssetFileFromLibrary(prefab->GetFile());
 				AssetFile* file = App->editor->assets->FindAssetFile(asset_file);
 				App->editor->assets->DeleteAssetFile(file);
+
+				ComponentTransform* transform = (ComponentTransform*)new_go->GetComponent(C_TRANSFORM);
+				transform->Set(((ComponentTransform*)object->GetComponent(C_TRANSFORM))->GetLocalTransformMatrix());
+				App->editor->SelectSingle(new_go);
 			}
 			else
 			{
@@ -495,7 +502,7 @@ GameObject * ModuleGOManager::LoadGameObject(const Data & go_data)
 		}
 	}
 
-	if (go != nullptr)
+	if (go != nullptr && go->bounding_box != nullptr)
 	{
 		//Space partioning
 		if (go->IsStatic())

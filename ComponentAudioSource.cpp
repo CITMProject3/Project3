@@ -5,6 +5,7 @@
 
 #include "GameObject.h"
 #include "ComponentTransform.h"
+#include "ComponentCar.h"
 #include "Random.h"
 
 #include "AudioEvent.h"
@@ -24,17 +25,23 @@ ComponentAudioSource::ComponentAudioSource(ComponentType type, GameObject* game_
 ComponentAudioSource::~ComponentAudioSource()
 { 
 	if (attenuation_sphere != nullptr) delete attenuation_sphere;
-	//StopAllEvents();
 	RemoveAllEvents();
 	App->audio->UnregisterGameObject(wwise_id_go);
 }
 
 void ComponentAudioSource::Update()
 { 
-	math::float3 pos = game_object->transform->GetPosition();
-	AkListenerPosition ak_pos;
-	ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
-	AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);	
+	// No 3D sound on game
+	/*for (std::vector<AudioEvent*>::iterator curr_event = list_of_events.begin(); curr_event != list_of_events.end(); ++curr_event)
+	{
+		if ((*curr_event) && (*curr_event)->sound_3D)
+		{
+			math::float3 pos = game_object->transform->GetPosition();
+			AkListenerPosition ak_pos;
+			ak_pos.Set(pos.x, pos.z, pos.y, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f);
+			AK::SoundEngine::SetPosition(wwise_id_go, ak_pos);
+		}		
+	}	*/
 
 	// Scripting needs THIS to properly trigger audio! What the fuck!
 	if (play_event_pending)
@@ -42,6 +49,9 @@ void ComponentAudioSource::Update()
 		PlayEvent(play_event_pending_index);
 		play_event_pending = false;
 	}
+
+	// Sending RTPC values
+	if (car_linked) App->audio->SetRTPCValue("Car_speed", car_linked->GetSpeed(), wwise_id_go);
 }
 
 void ComponentAudioSource::OnInspector(bool debug)
@@ -122,7 +132,8 @@ void ComponentAudioSource::PlayAudio(unsigned id_audio)
 
 void ComponentAudioSource::OnPlay()
 {
-	//PlayEvent();
+	// Is this audio source on a Car?
+	car_linked = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 }
 
 void ComponentAudioSource::OnStop()

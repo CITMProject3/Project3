@@ -208,8 +208,8 @@
                     "scale_factor_attenuation": 1,
                     "audio_events": [
                         {
-                            "event_id": 1313592992,
-                            "event_name": "Play_RiKarts_main_theme",
+                            "event_id": 2932040671,
+                            "event_name": "Play_Music",
                             "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
@@ -226,9 +226,9 @@
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         },
                         {
-                            "event_id": 3054248522,
-                            "event_name": "Stop_RiKarts_main_theme",
-                            "sound_3D": true,
+                            "event_id": 452547817,
+                            "event_name": "Stop_All",
+                            "sound_3D": false,
                             "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
                         }
                     ]
@@ -321,16 +321,16 @@
                     "UUID": 2331915982,
                     "active": true,
                     "rect_size": [
-                        1600,
-                        900
+                        1920,
+                        1017
                     ],
                     "matrix": [
-                        1,
+                        1.200000,
                         0,
                         0,
-                        800,
+                        960,
                         0,
-                        1,
+                        1.130000,
                         0,
                         0,
                         0,
@@ -3785,10 +3785,10 @@
                         -41.793579,
                         -0.000003,
                         1,
-                        0,
+                        0.000000,
                         32.341846,
                         0.035591,
-                        0,
+                        0.000000,
                         0.999377,
                         44.200470,
                         0,
@@ -3825,6 +3825,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -3857,7 +3866,55 @@
                     "firecracker": 1230011776,
                     "other_car": 2807956156,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463,
+                    "ps_drift_left": 3640404008,
+                    "ps_drift_right": 155473842
+                },
+                {
+                    "type": 18,
+                    "UUID": 2617983114,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 1300784916,
+                            "event_name": "Start_Engine",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2703982544,
+                            "event_name": "Play_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2740656682,
+                            "event_name": "Stop_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -11898,16 +11955,16 @@
                     "active": true,
                     "matrix": [
                         -0.787947,
-                        0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.499996,
-                        -0.000000,
-                        -0.000000,
+                        0,
+                        0,
                         -0.878228,
                         1.899998,
-                        -0.000000,
+                        0,
                         -0.787946,
-                        -0.000000,
+                        0,
                         -0.000004,
                         0,
                         0,
@@ -11951,6 +12008,93 @@
             ]
         },
         {
+            "name": "DriftParticles",
+            "UUID": 3644985607,
+            "local_UUID": 0,
+            "parent": 726386159,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2968109158,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Blue_Drift",
+            "UUID": 3640404008,
+            "local_UUID": 3500411370,
+            "parent": 3644985607,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3640404008,
+            "prefab_path": "\/Library\/2355968024\/4262612829\/\/1215808426\/1215808426.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        -0.000000,
+                        2.039653,
+                        0.000172
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Blue_Drift_Fli",
+            "UUID": 155473842,
+            "local_UUID": 3857524567,
+            "parent": 3644985607,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 155473842,
+            "prefab_path": "\/Library\/2355968024\/4262612829\/\/1020283546\/1020283546.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        -0.000003,
+                        2.039623,
+                        0.000172
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
             "name": "Kart_scene 2",
             "UUID": 2807956156,
             "local_UUID": 0,
@@ -11973,10 +12117,10 @@
                         -52.230869,
                         -0.000002,
                         1,
-                        0,
+                        0.000000,
                         32.341846,
                         0.017849,
-                        0,
+                        0.000000,
                         0.999834,
                         47.850910,
                         0,
@@ -12013,6 +12157,15 @@
                     "maxSteerReduction": 0.500000,
                     "driftPhaseChange": 3,
                     "lose_height": 2,
+                    "driftingFixedTurn": 0.850000,
+                    "driftingAdjustableTurn": 0.650000,
+                    "steerChangeSpeed": 1.500000,
+                    "horizontalSpeedDrifting": 0.800000,
+                    "minimumSteerToStartDrifting": 0.600000,
+                    "minimumSpeedRatioToStartDrifting": 0.400000,
+                    "driftJumpSpeed": 10,
+                    "driftJumpGravityMultiplier": 3,
+                    "driftVisualTurn": 25,
                     "max_hitodamas": 10,
                     "bonus_hitodamas": 2
                 },
@@ -12045,7 +12198,55 @@
                     "firecracker": 717367660,
                     "other_car": 726386159,
                     "scene_manager": 144932385,
-                    "makibishi_manager": 2937051135
+                    "makibishi_manager": 2937051135,
+                    "ps_hit_manager": 3896765463,
+                    "ps_drift_left": 1291604620,
+                    "ps_drift_right": 4224374142
+                },
+                {
+                    "type": 18,
+                    "UUID": 4277540918,
+                    "active": true,
+                    "init_soundbank_lib_path": "\/Library\/667146543\/809386760\/809386760.bnk",
+                    "scale_factor_attenuation": 1,
+                    "audio_events": [
+                        {
+                            "event_id": 387320433,
+                            "event_name": "Play_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 3898358255,
+                            "event_name": "Stop_Firecracker",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 1300784916,
+                            "event_name": "Start_Engine",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2703982544,
+                            "event_name": "Play_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 2740656682,
+                            "event_name": "Stop_Evil_Spirit",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        },
+                        {
+                            "event_id": 104204679,
+                            "event_name": "Play_Makibishi",
+                            "sound_3D": false,
+                            "soundbank_lib_path": "\/Library\/667146543\/2981910690\/2981910690.bnk"
+                        }
+                    ]
                 }
             ]
         },
@@ -20093,16 +20294,16 @@
                     "active": true,
                     "matrix": [
                         -0.787948,
-                        -0.000000,
-                        0.000000,
+                        0,
+                        0,
                         1.700000,
-                        -0.000000,
-                        -0.000000,
+                        0,
+                        0,
                         -0.878228,
                         1.900000,
-                        0.000000,
+                        0,
                         -0.787946,
-                        -0.000000,
+                        0,
                         0,
                         0,
                         0,
@@ -20144,6 +20345,93 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "DriftParticles",
+            "UUID": 2007123876,
+            "local_UUID": 0,
+            "parent": 2807956156,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2017833009,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Blue_Drift",
+            "UUID": 1291604620,
+            "local_UUID": 3500411370,
+            "parent": 2007123876,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1291604620,
+            "prefab_path": "\/Library\/2355968024\/4262612829\/\/1215808426\/1215808426.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        -0.000001,
+                        1.022734,
+                        0.000115
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "Blue_Drift_Fli",
+            "UUID": 4224374142,
+            "local_UUID": 3857524567,
+            "parent": 2007123876,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 4224374142,
+            "prefab_path": "\/Library\/2355968024\/4262612829\/\/1020283546\/1020283546.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        -0.000001,
+                        1.022734,
+                        0.000115
+                    ]
+                }
+            ],
+            "children_uuids": []
         },
         {
             "name": "Cameras",
@@ -20224,7 +20512,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 518.919006,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.813951,
                     "color": [
                         0,
                         0,
@@ -20313,7 +20601,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.813951,
                     "color": [
                         0,
                         0,
@@ -20402,13 +20690,13 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.887906,
                     "color": [
                         0,
                         0,
                         0
                     ],
-                    "layer_mask": -2,
+                    "layer_mask": -6,
                     "render_texture_path": "",
                     "render_texture_path_lib": "",
                     "viewport_rel_pos_x": 0,
@@ -20469,7 +20757,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20561,7 +20849,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20653,7 +20941,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20745,7 +21033,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20837,7 +21125,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -20929,7 +21217,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21021,7 +21309,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21113,7 +21401,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21205,7 +21493,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21297,7 +21585,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21389,7 +21677,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21481,7 +21769,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21573,7 +21861,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21665,7 +21953,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21757,7 +22045,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21849,7 +22137,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -21941,7 +22229,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22033,7 +22321,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22125,7 +22413,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22217,7 +22505,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22309,7 +22597,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22401,7 +22689,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22493,7 +22781,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22585,7 +22873,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22677,7 +22965,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22769,7 +23057,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22861,7 +23149,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -22953,7 +23241,7 @@
             "is_prefab": false,
             "prefab_root_uuid": 0,
             "prefab_path": "",
-            "layer": 0,
+            "layer": 2,
             "static": false,
             "components": [
                 {
@@ -24826,1518 +25114,378 @@
         },
         {
             "name": "Makibishi",
-            "UUID": 4028936068,
-            "local_UUID": 0,
+            "UUID": 3900054576,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3900054576,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 3476469481,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        1,
-                        1.205000,
-                        1
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 192739089,
-            "local_UUID": 0,
+            "UUID": 3939910556,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3939910556,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 981267220,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1449597664,
-            "local_UUID": 0,
+            "UUID": 702118582,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 702118582,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1785388064,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3202722747,
-            "local_UUID": 0,
+            "UUID": 2195161326,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2195161326,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2196883169,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2303303522,
-            "local_UUID": 0,
+            "UUID": 2279305498,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 2279305498,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 691901569,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3340087499,
-            "local_UUID": 0,
+            "UUID": 983892420,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 983892420,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1411188356,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3001624139,
-            "local_UUID": 0,
+            "UUID": 686829226,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 686829226,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2060838974,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1292998730,
-            "local_UUID": 0,
+            "UUID": 1361599712,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1361599712,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 3127402327,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3031546124,
-            "local_UUID": 0,
+            "UUID": 3344567813,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3344567813,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 69952587,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2959217933,
-            "local_UUID": 0,
+            "UUID": 194738899,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 194738899,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 749854235,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 790061073,
-            "local_UUID": 0,
+            "UUID": 1080636854,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1080636854,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 2493558864,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 2166854957,
-            "local_UUID": 0,
+            "UUID": 98021805,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 98021805,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1027498677,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3188570542,
-            "local_UUID": 0,
+            "UUID": 3300729155,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3300729155,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 506910035,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 1774959173,
-            "local_UUID": 0,
+            "UUID": 1569943159,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 1569943159,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1420425540,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Makibishi",
-            "UUID": 3575747148,
-            "local_UUID": 0,
+            "UUID": 3205473342,
+            "local_UUID": 2596882937,
             "parent": 2937051135,
             "active": false,
-            "is_prefab": false,
-            "prefab_root_uuid": 0,
-            "prefab_path": "",
-            "layer": 0,
-            "static": false,
+            "is_prefab": true,
+            "prefab_root_uuid": 3205473342,
+            "prefab_path": "\/Library\/643644559\/3001038513\/238027060\/\/4063334128\/4063334128.pfb",
             "components": [
                 {
-                    "type": 0,
-                    "UUID": 1672887961,
-                    "active": true,
-                    "matrix": [
-                        0.310000,
-                        0,
-                        0,
+                    "position": [
                         -0.110091,
-                        0,
-                        1.768580,
-                        0,
                         2.160625,
-                        0,
-                        0,
-                        0.310000,
-                        0,
-                        0,
-                        0,
-                        0,
-                        1
-                    ]
-                },
-                {
-                    "type": 1,
-                    "UUID": 2850764640,
-                    "active": true,
-                    "path": "\/Library\/643644559\/3001038513\/\/238027060\/1043048476\/451644246.msh"
-                },
-                {
-                    "type": 2,
-                    "UUID": 3067526286,
-                    "active": true,
-                    "path": "",
-                    "path_assets": "",
-                    "properties_set": true,
-                    "alpha": 0,
-                    "blend_type": 0,
-                    "alpha_test": 0.250000,
-                    "color": [
-                        1,
-                        1,
-                        1
+                        0
                     ],
-                    "specular": 0,
-                    "texture_changed": false,
-                    "id_to_render": 0,
-                    "textures": [
-                        {
-                            "path": "\/Library\/643644559\/3001038513\/\/238027060\/\/3316640629\/3316640629.dds"
-                        },
-                        {
-                            "path": ""
-                        }
-                    ]
-                },
-                {
-                    "type": 10,
-                    "UUID": 3284868736,
-                    "active": true,
-                    "script_path": "Makibishi",
-                    "script_num": 0,
-                    "time_trowing_makibishi": 90,
-                    "current_time_throwing_makibishi": 0
-                },
-                {
-                    "type": 8,
-                    "UUID": 300673606,
-                    "active": true,
-                    "CheckpointN": 0,
-                    "shape": 1,
-                    "static": false,
-                    "mass": 10,
-                    "offset_pos": [
-                        0.100000,
-                        0.200000,
-                        -0.229000
-                    ],
-                    "is_trigger": true,
-                    "trigger_type": 0,
-                    "is_transparent": false,
-                    "size": [
-                        0.818000,
-                        1.205000,
-                        0.989000
+                    "rotation": [
+                        0,
+                        0,
+                        0
                     ]
                 }
-            ]
+            ],
+            "children_uuids": []
         },
         {
             "name": "Hitodamas",
@@ -27403,7 +26551,7 @@
         {
             "name": "Tree2",
             "UUID": 2236140128,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27428,7 +26576,7 @@
         {
             "name": "Tree2",
             "UUID": 2445435068,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27453,7 +26601,7 @@
         {
             "name": "Tree2",
             "UUID": 868044250,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27478,7 +26626,7 @@
         {
             "name": "Tree2",
             "UUID": 2100551289,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27503,7 +26651,7 @@
         {
             "name": "Tree2",
             "UUID": 763664994,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27528,7 +26676,7 @@
         {
             "name": "Tree2",
             "UUID": 831803755,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27553,7 +26701,7 @@
         {
             "name": "Tree2",
             "UUID": 2113947066,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27578,7 +26726,7 @@
         {
             "name": "Tree2",
             "UUID": 2070808788,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27603,7 +26751,7 @@
         {
             "name": "Tree2",
             "UUID": 2781361298,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27628,7 +26776,7 @@
         {
             "name": "Tree2",
             "UUID": 1025373027,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27653,7 +26801,7 @@
         {
             "name": "Tree2",
             "UUID": 2226032640,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27678,7 +26826,7 @@
         {
             "name": "Tree2",
             "UUID": 3478371342,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27703,7 +26851,7 @@
         {
             "name": "Tree2",
             "UUID": 2691904750,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27728,7 +26876,7 @@
         {
             "name": "Tree2",
             "UUID": 4195336109,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27753,7 +26901,7 @@
         {
             "name": "Tree2",
             "UUID": 3768916170,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27778,7 +26926,7 @@
         {
             "name": "Tree2",
             "UUID": 2597884833,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27803,7 +26951,7 @@
         {
             "name": "Tree2",
             "UUID": 162701169,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27828,7 +26976,7 @@
         {
             "name": "Tree2",
             "UUID": 1170417177,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27853,7 +27001,7 @@
         {
             "name": "Tree2",
             "UUID": 255494303,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27878,7 +27026,7 @@
         {
             "name": "Tree2",
             "UUID": 651449008,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27903,7 +27051,7 @@
         {
             "name": "Tree2",
             "UUID": 4225457097,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27928,7 +27076,7 @@
         {
             "name": "Tree2",
             "UUID": 4038385550,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27953,7 +27101,7 @@
         {
             "name": "Tree2",
             "UUID": 965798203,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -27978,7 +27126,7 @@
         {
             "name": "Tree2",
             "UUID": 4285970648,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28003,7 +27151,7 @@
         {
             "name": "Tree2",
             "UUID": 2964990899,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28028,7 +27176,7 @@
         {
             "name": "Tree2",
             "UUID": 3001623661,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28053,7 +27201,7 @@
         {
             "name": "Tree2",
             "UUID": 2914748108,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28078,7 +27226,7 @@
         {
             "name": "Tree2",
             "UUID": 3889349490,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28103,7 +27251,7 @@
         {
             "name": "Tree2",
             "UUID": 1279034665,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28128,7 +27276,7 @@
         {
             "name": "Tree2",
             "UUID": 1531433705,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28153,7 +27301,7 @@
         {
             "name": "Tree2",
             "UUID": 2796254708,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28178,7 +27326,7 @@
         {
             "name": "Tree2",
             "UUID": 2346025672,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28203,7 +27351,7 @@
         {
             "name": "Tree2",
             "UUID": 535653282,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28228,7 +27376,7 @@
         {
             "name": "Tree2",
             "UUID": 3664313001,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28253,7 +27401,7 @@
         {
             "name": "Tree2",
             "UUID": 1654075092,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28278,7 +27426,7 @@
         {
             "name": "Tree2",
             "UUID": 51472791,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28303,7 +27451,7 @@
         {
             "name": "Tree2",
             "UUID": 2608788901,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28328,7 +27476,7 @@
         {
             "name": "Tree2",
             "UUID": 4178077136,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28353,7 +27501,7 @@
         {
             "name": "Tree2",
             "UUID": 3378025294,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28378,7 +27526,7 @@
         {
             "name": "Tree1",
             "UUID": 3685937933,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28403,7 +27551,7 @@
         {
             "name": "Tree1",
             "UUID": 3395977203,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28428,7 +27576,7 @@
         {
             "name": "Tree1",
             "UUID": 1223236878,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28453,7 +27601,7 @@
         {
             "name": "Tree1",
             "UUID": 439519273,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28478,7 +27626,7 @@
         {
             "name": "Tree1",
             "UUID": 3868961513,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28503,7 +27651,7 @@
         {
             "name": "Tree1",
             "UUID": 964460955,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28528,7 +27676,7 @@
         {
             "name": "Tree1",
             "UUID": 1287815209,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28553,7 +27701,7 @@
         {
             "name": "Tree1",
             "UUID": 3057044109,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28578,7 +27726,7 @@
         {
             "name": "Tree1",
             "UUID": 2240353362,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28603,7 +27751,7 @@
         {
             "name": "Tree1",
             "UUID": 3589570381,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28628,7 +27776,7 @@
         {
             "name": "Tree1",
             "UUID": 929435301,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28653,7 +27801,7 @@
         {
             "name": "Tree1",
             "UUID": 675913522,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28678,7 +27826,7 @@
         {
             "name": "Tree1",
             "UUID": 410027847,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28703,7 +27851,7 @@
         {
             "name": "Tree1",
             "UUID": 4273520080,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28728,7 +27876,7 @@
         {
             "name": "Tree1",
             "UUID": 1792688521,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28753,7 +27901,7 @@
         {
             "name": "Tree1",
             "UUID": 1218380739,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28778,7 +27926,7 @@
         {
             "name": "Tree1",
             "UUID": 3122410527,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28803,7 +27951,7 @@
         {
             "name": "Tree1",
             "UUID": 2406740740,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28828,7 +27976,7 @@
         {
             "name": "Tree1",
             "UUID": 2955644533,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28853,7 +28001,7 @@
         {
             "name": "Tree1",
             "UUID": 2497833115,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28878,7 +28026,7 @@
         {
             "name": "Tree1",
             "UUID": 739085081,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28903,7 +28051,7 @@
         {
             "name": "Tree1",
             "UUID": 4188871967,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28928,7 +28076,7 @@
         {
             "name": "Tree1",
             "UUID": 3162044726,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28953,7 +28101,7 @@
         {
             "name": "Tree1",
             "UUID": 582620768,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -28978,7 +28126,7 @@
         {
             "name": "Tree1",
             "UUID": 1433217305,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29003,7 +28151,7 @@
         {
             "name": "Tree1",
             "UUID": 4098749422,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29028,7 +28176,7 @@
         {
             "name": "Tree1",
             "UUID": 4006810696,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29053,7 +28201,7 @@
         {
             "name": "Tree1",
             "UUID": 1734367571,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29078,7 +28226,7 @@
         {
             "name": "Tree1",
             "UUID": 180971034,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29103,7 +28251,7 @@
         {
             "name": "Tree1",
             "UUID": 171027653,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29128,7 +28276,7 @@
         {
             "name": "Tree1",
             "UUID": 3090839744,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29153,7 +28301,7 @@
         {
             "name": "Tree1",
             "UUID": 1452284764,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29178,7 +28326,7 @@
         {
             "name": "Tree1",
             "UUID": 1965836654,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29203,7 +28351,7 @@
         {
             "name": "Tree1",
             "UUID": 1543053601,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29228,7 +28376,7 @@
         {
             "name": "Tree1",
             "UUID": 2696576215,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29253,7 +28401,7 @@
         {
             "name": "Tree1",
             "UUID": 2186243595,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29278,7 +28426,7 @@
         {
             "name": "Tree1",
             "UUID": 2009354435,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29303,7 +28451,7 @@
         {
             "name": "Tree1",
             "UUID": 3697058357,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29328,7 +28476,7 @@
         {
             "name": "Tree1",
             "UUID": 47469911,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29353,7 +28501,7 @@
         {
             "name": "Tree1",
             "UUID": 1565709683,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29378,7 +28526,7 @@
         {
             "name": "Tree1",
             "UUID": 2637723300,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29403,7 +28551,7 @@
         {
             "name": "Tree1",
             "UUID": 2026829581,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29428,7 +28576,7 @@
         {
             "name": "Tree1",
             "UUID": 1568563007,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29453,7 +28601,7 @@
         {
             "name": "Tree1",
             "UUID": 3601273881,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29478,7 +28626,7 @@
         {
             "name": "Tree1",
             "UUID": 1570230215,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29503,7 +28651,7 @@
         {
             "name": "Tree1",
             "UUID": 2302371492,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29528,7 +28676,7 @@
         {
             "name": "Tree1",
             "UUID": 3603069087,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29553,7 +28701,7 @@
         {
             "name": "Tree1",
             "UUID": 1319102624,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29578,7 +28726,7 @@
         {
             "name": "Tree1",
             "UUID": 3610389365,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29603,7 +28751,7 @@
         {
             "name": "Tree1",
             "UUID": 436167326,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29628,7 +28776,7 @@
         {
             "name": "Tree1",
             "UUID": 469833202,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29653,7 +28801,7 @@
         {
             "name": "Tree1",
             "UUID": 723572378,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29678,7 +28826,7 @@
         {
             "name": "Tree1",
             "UUID": 1060502797,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29703,7 +28851,7 @@
         {
             "name": "Tree1",
             "UUID": 1778460059,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29728,7 +28876,7 @@
         {
             "name": "Tree1",
             "UUID": 3404460820,
-            "local_UUID": 1857326705,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29753,7 +28901,7 @@
         {
             "name": "Tree2",
             "UUID": 167446267,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29778,7 +28926,7 @@
         {
             "name": "Tree2",
             "UUID": 180753983,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29803,7 +28951,7 @@
         {
             "name": "Tree2",
             "UUID": 1716133939,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29828,7 +28976,7 @@
         {
             "name": "Tree2",
             "UUID": 3550470142,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29853,7 +29001,7 @@
         {
             "name": "Tree2",
             "UUID": 1211815637,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29878,7 +29026,7 @@
         {
             "name": "Tree2",
             "UUID": 2829418247,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29903,7 +29051,7 @@
         {
             "name": "Tree2",
             "UUID": 3600478640,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29928,7 +29076,7 @@
         {
             "name": "Tree2",
             "UUID": 1814374710,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29953,7 +29101,7 @@
         {
             "name": "Tree2",
             "UUID": 2029667770,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -29978,7 +29126,7 @@
         {
             "name": "Tree2",
             "UUID": 926069559,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30003,7 +29151,7 @@
         {
             "name": "Tree2",
             "UUID": 2048409841,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30028,7 +29176,7 @@
         {
             "name": "Tree2",
             "UUID": 3928848910,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30053,7 +29201,7 @@
         {
             "name": "Tree2",
             "UUID": 2018230646,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30078,7 +29226,7 @@
         {
             "name": "Tree2",
             "UUID": 2525972336,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30103,7 +29251,7 @@
         {
             "name": "Tree2",
             "UUID": 530680920,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30128,7 +29276,7 @@
         {
             "name": "Tree2",
             "UUID": 2244643462,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30153,7 +29301,7 @@
         {
             "name": "Tree2",
             "UUID": 3963626974,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30178,7 +29326,7 @@
         {
             "name": "Tree2",
             "UUID": 3347454210,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30203,7 +29351,7 @@
         {
             "name": "Tree2",
             "UUID": 2072068473,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30228,7 +29376,7 @@
         {
             "name": "Tree2",
             "UUID": 2588224368,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30253,7 +29401,7 @@
         {
             "name": "Tree2",
             "UUID": 1968759839,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30278,7 +29426,7 @@
         {
             "name": "Tree2",
             "UUID": 3293728148,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30303,7 +29451,7 @@
         {
             "name": "Tree2",
             "UUID": 1271657524,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30328,7 +29476,7 @@
         {
             "name": "Tree2",
             "UUID": 3113751825,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30353,7 +29501,7 @@
         {
             "name": "Tree2",
             "UUID": 3300738715,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30378,7 +29526,7 @@
         {
             "name": "Tree2",
             "UUID": 115989778,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30403,7 +29551,7 @@
         {
             "name": "Tree2",
             "UUID": 2637377732,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30428,7 +29576,7 @@
         {
             "name": "Tree2",
             "UUID": 686473972,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30453,7 +29601,7 @@
         {
             "name": "Tree2",
             "UUID": 3663693549,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30478,7 +29626,7 @@
         {
             "name": "Tree2",
             "UUID": 3896443763,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30503,7 +29651,7 @@
         {
             "name": "Tree2",
             "UUID": 60189982,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30528,7 +29676,7 @@
         {
             "name": "Tree2",
             "UUID": 3298363048,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30553,7 +29701,7 @@
         {
             "name": "Tree2",
             "UUID": 3166263403,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30578,7 +29726,7 @@
         {
             "name": "Tree2",
             "UUID": 2608014437,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30603,7 +29751,7 @@
         {
             "name": "Tree2",
             "UUID": 2832072730,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30628,7 +29776,7 @@
         {
             "name": "Tree2",
             "UUID": 1316577806,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30653,7 +29801,7 @@
         {
             "name": "Tree2",
             "UUID": 2645351370,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30678,7 +29826,7 @@
         {
             "name": "Tree2",
             "UUID": 855986610,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30703,7 +29851,7 @@
         {
             "name": "Tree2",
             "UUID": 3289369711,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30728,7 +29876,7 @@
         {
             "name": "Tree2",
             "UUID": 3157922948,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30753,7 +29901,7 @@
         {
             "name": "Tree2",
             "UUID": 1567746927,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30778,7 +29926,7 @@
         {
             "name": "Tree2",
             "UUID": 1900611824,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30803,7 +29951,7 @@
         {
             "name": "Tree2",
             "UUID": 2368466118,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30828,7 +29976,7 @@
         {
             "name": "Tree2",
             "UUID": 2799211726,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30853,7 +30001,7 @@
         {
             "name": "Tree2",
             "UUID": 3051543459,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30878,7 +30026,7 @@
         {
             "name": "Tree2",
             "UUID": 4112067536,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30903,7 +30051,7 @@
         {
             "name": "Tree2",
             "UUID": 418220054,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30928,7 +30076,7 @@
         {
             "name": "Tree2",
             "UUID": 3841475935,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30953,7 +30101,7 @@
         {
             "name": "Tree2",
             "UUID": 3948639255,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -30978,7 +30126,7 @@
         {
             "name": "Tree2",
             "UUID": 1598364277,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31003,7 +30151,7 @@
         {
             "name": "Tree2",
             "UUID": 3052359380,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31028,7 +30176,7 @@
         {
             "name": "Tree2",
             "UUID": 480305930,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31053,7 +30201,7 @@
         {
             "name": "Tree2",
             "UUID": 526812454,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31078,7 +30226,7 @@
         {
             "name": "Tree2",
             "UUID": 98703529,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31103,7 +30251,7 @@
         {
             "name": "Tree2",
             "UUID": 3729272030,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31128,7 +30276,7 @@
         {
             "name": "Tree2",
             "UUID": 3924940993,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31153,7 +30301,7 @@
         {
             "name": "Tree2",
             "UUID": 3926415708,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31178,7 +30326,7 @@
         {
             "name": "Tree2",
             "UUID": 1548089549,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31203,7 +30351,7 @@
         {
             "name": "Tree2",
             "UUID": 350708154,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31228,7 +30376,7 @@
         {
             "name": "Tree2",
             "UUID": 2109829805,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31253,7 +30401,7 @@
         {
             "name": "Tree2",
             "UUID": 1354095367,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31278,7 +30426,7 @@
         {
             "name": "Tree2",
             "UUID": 712540563,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31303,7 +30451,7 @@
         {
             "name": "Tree2",
             "UUID": 137306376,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31328,7 +30476,7 @@
         {
             "name": "Tree2",
             "UUID": 2516526289,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31353,7 +30501,7 @@
         {
             "name": "Tree2",
             "UUID": 4052058046,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31378,7 +30526,7 @@
         {
             "name": "Tree2",
             "UUID": 2057137240,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31403,7 +30551,7 @@
         {
             "name": "Tree2",
             "UUID": 1905825962,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31428,7 +30576,7 @@
         {
             "name": "Tree2",
             "UUID": 2344283721,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31453,7 +30601,7 @@
         {
             "name": "Tree2",
             "UUID": 1590205030,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31478,7 +30626,7 @@
         {
             "name": "Tree2",
             "UUID": 2100055222,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31503,7 +30651,7 @@
         {
             "name": "Tree2",
             "UUID": 2094379488,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31528,7 +30676,7 @@
         {
             "name": "Tree2",
             "UUID": 1734057229,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31553,7 +30701,7 @@
         {
             "name": "Tree2",
             "UUID": 2133616968,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31578,7 +30726,7 @@
         {
             "name": "Tree2",
             "UUID": 1646003816,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31603,7 +30751,7 @@
         {
             "name": "Tree2",
             "UUID": 1735468589,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31628,7 +30776,7 @@
         {
             "name": "Tree2",
             "UUID": 3954181793,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31653,7 +30801,7 @@
         {
             "name": "Tree2",
             "UUID": 871627642,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31678,7 +30826,7 @@
         {
             "name": "Tree2",
             "UUID": 3712132975,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -31703,7 +30851,7 @@
         {
             "name": "Tree2",
             "UUID": 4040150377,
-            "local_UUID": 2978880168,
+            "local_UUID": 0,
             "parent": 162904158,
             "active": true,
             "is_prefab": true,
@@ -54515,6 +53663,242 @@
                     "local_uuid": 1673415026
                 }
             ]
+        },
+        {
+            "name": "Particles",
+            "UUID": 4052763669,
+            "local_UUID": 0,
+            "parent": 965909917,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3068561206,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "PSHitManager",
+            "UUID": 3896765463,
+            "local_UUID": 0,
+            "parent": 4052763669,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 520982541,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 10,
+                    "UUID": 953847107,
+                    "active": true,
+                    "script_path": "ParticleHit",
+                    "script_num": 0,
+                    "Car Hit": 4257448802,
+                    "Wall Hit 1": 1492875322,
+                    "Wall Hit 2": 3895184671
+                }
+            ]
+        },
+        {
+            "name": "Hit_Particle",
+            "UUID": 4257448802,
+            "local_UUID": 0,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3638982790,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 20,
+                    "UUID": 2594069294,
+                    "active": true,
+                    "life_time": 0.300000,
+                    "max_particles": 1000,
+                    "emission_rate": 200,
+                    "speed": 12,
+                    "size": 0.200000,
+                    "play_on_awake": false,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "duration": 0.100000,
+                    "looping": false,
+                    "simulation_space": true,
+                    "color_over_time": true,
+                    "colors": [
+                        {
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "alpha": 1,
+                            "position": 0
+                        },
+                        {
+                            "color": [
+                                1,
+                                0.941176,
+                                0
+                            ],
+                            "alpha": 1,
+                            "position": 60
+                        },
+                        {
+                            "color": [
+                                1,
+                                0.271357,
+                                0
+                            ],
+                            "alpha": 0.100000,
+                            "position": 100
+                        }
+                    ],
+                    "shape_type": 1,
+                    "sphere_radius": 1,
+                    "sphere_emit_from_shell": false,
+                    "texture_anim": false,
+                    "texture": "\/Library\/2355968024\/\/1272527194\/\/253423466\/253423466.dds",
+                    "bb_pos_offset": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "bb_size": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "bursts": []
+                }
+            ]
+        },
+        {
+            "name": "WallParticle1",
+            "UUID": 1492875322,
+            "local_UUID": 403984585,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 1492875322,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
+        },
+        {
+            "name": "WallParticle2",
+            "UUID": 3895184671,
+            "local_UUID": 403984585,
+            "parent": 3896765463,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 3895184671,
+            "prefab_path": "\/Library\/2355968024\/1272527194\/\/1018063665\/1018063665.pfb",
+            "components": [
+                {
+                    "position": [
+                        0,
+                        0,
+                        0
+                    ],
+                    "rotation": [
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ],
+            "children_uuids": []
         }
     ],
     "current_assets_scene_path": "\/Assets\/Scene_Map_1\/Scene_Map_1.ezx",

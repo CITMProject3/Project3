@@ -13,6 +13,7 @@ public:
 
 public:
 	bool debug = false;
+	bool staticAffectsChilds = false;
 
 };
 
