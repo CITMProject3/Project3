@@ -6,6 +6,7 @@
 
 **Contact:** 
 [LinkedIn](https://www.linkedin.com/in/rolaszf/)
+
 [Github](https://github.com/RogerOlasz)
 
 Mail: rogerolasz96@gmail.com
@@ -24,15 +25,15 @@ Finally, i transformed into a level designer to change one of the two tracks int
 _**What i've done:**_
 
 - Creating environment props (In chronological order):
-	- Old temple columns with farols, Screenshot 1: 1732 triangles Screenshot 2: 2064 triangles (In-engine screenshots). (Finally not included because of the map aesthetic direction had changed.)
-![AncientTempleColumns1](http://i.imgur.com/bpOPCB7.png) ![AncientTempleColumns2](http://i.imgur.com/a8PmUaF.png)
+	- Old temple columns with farols, Screenshot 1: 1732 triangles Screenshot 2: 2064 triangles (In-engine screenshots). ( Finally not included because of the map aesthetic direction had changed. )
+<img src="http://i.imgur.com/bpOPCB7.png" width="360" height="250"> | <img src="http://i.imgur.com/a8PmUaF.png" width="360" height="250">
 
 	- Firsts map texture creation and painting to test (In-engine screenshots). (Before have tools enough to paint it in engine and have a good textures and textures resolution.)
-![TerrainPainting1](http://i.imgur.com/aV3L0db.png) ![TerrainPainting2](http://i.imgur.com/hI3xB7K.png)
+<img src="http://i.imgur.com/aV3L0db.png" width="370" height="250"> | <img src="http://i.imgur.com/hI3xB7K.png" width="370" height="250">
 
 	- Watermill with some animations, 10.000 triangles entire prop (In-engine footages).
-![Watermillv1_1](http://i.imgur.com/pq7ArWQ.gif) ![Watermillv1_2](http://i.imgur.com/9Nx4z1V.gif)
-![Watermillv1_3](http://i.imgur.com/vd1h9Bz.gif) ![Watermillv1_4](http://i.imgur.com/Jjx0vG4.gif)
+<img src="http://i.imgur.com/pq7ArWQ.gif" width="370" height="250"> | <img src="http://i.imgur.com/9Nx4z1V.gif" width="370" height="250">
+<img src="http://i.imgur.com/vd1h9Bz.gif" width="370" height="250"> | <img src="http://i.imgur.com/Jjx0vG4.gif" width="370" height="250">
 
 	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
 ![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
@@ -77,3 +78,5 @@ And here i show 45 min of terraforming with our engine tools (from a total of 8h
 [![Terraforming](http://img.youtube.com/vi/7-ABw7wDyYE/0.jpg)](http://www.youtube.com/watch?v=7-ABw7wDyYE)
 
 - And finally just be all what team needed in crunch periods :D.
+
+To see all screenshots and gifs go [here](http://rogerolaszfuentes.imgur.com/all/).
