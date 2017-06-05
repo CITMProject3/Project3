@@ -17,14 +17,19 @@
 			<Path>InGame.bnk</Path>
 			<IncludedEvents>
 				<Event Id="2175797879" Name="Play_Countdown" ObjectPath="\Events\InGame\Play_Countdown" GUID="{F775C297-3A39-4AD7-89F1-EF18A9450959}" DurationType="OneShot" DurationMin="1.017483" DurationMax="1.017483"/>
+				<Event Id="732712977" Name="Play_Drifting" ObjectPath="\Events\InGame\Play_Drifting" GUID="{67B995E4-2390-4447-88DE-FF9411766BD6}" DurationType="Infinite"/>
 				<Event Id="639345804" Name="Play_Engine" ObjectPath="\Events\InGame\Play_Engine" GUID="{208A9721-1FB7-4AD6-93E6-4F44A2ED9E27}" DurationType="Infinite"/>
 				<Event Id="2703982544" Name="Play_Evil_Spirit" ObjectPath="\Events\InGame\Play_Evil_Spirit" GUID="{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}" DurationType="OneShot" DurationMin="12.028770" DurationMax="12.028770"/>
 				<Event Id="387320433" Name="Play_Firecracker" ObjectPath="\Events\InGame\Play_Firecracker" GUID="{F429BC6B-73AF-4330-AAD7-0043F197FB9F}" DurationType="Infinite"/>
 				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
+				<Event Id="2758958439" Name="Play_Hitodama" ObjectPath="\Events\InGame\Play_Hitodama" GUID="{58143CF8-573E-49B3-9516-A7B3886D2876}" DurationType="OneShot" DurationMin="0.904218" DurationMax="0.904218"/>
+				<Event Id="3646616982" Name="Play_ItemBox" ObjectPath="\Events\InGame\Play_ItemBox" GUID="{31F48344-3418-41D3-9B4D-B887EAFE8D8D}" DurationType="OneShot" DurationMin="0.992857" DurationMax="0.992857"/>
 				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
+				<Event Id="3227588549" Name="Reduce_Drifting" ObjectPath="\Events\InGame\Reduce_Drifting" GUID="{472CDB34-C993-4F65-9BB7-A65613760150}" DurationType="OneShot" DurationMin="0.949660" DurationMax="0.949660"/>
 				<Event Id="1300784916" Name="Start_Engine" ObjectPath="\Events\InGame\Start_Engine" GUID="{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="452547817" Name="Stop_All" ObjectPath="\Events\InGame\Stop_All" GUID="{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
+				<Event Id="201644199" Name="Stop_Drifting" ObjectPath="\Events\InGame\Stop_Drifting" GUID="{189FE692-54B8-4B3F-A105-245C9A748966}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="2740656682" Name="Stop_Evil_Spirit" ObjectPath="\Events\InGame\Stop_Evil_Spirit" GUID="{8A5DE00B-CA4B-4FE8-88AA-5D1336C5EE6E}" DurationType="OneShot" DurationMin="3.109292" DurationMax="3.109292"/>
 				<Event Id="3898358255" Name="Stop_Firecracker" ObjectPath="\Events\InGame\Stop_Firecracker" GUID="{EE510AF4-13C5-4156-8259-915079C2344F}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 			</IncludedEvents>
@@ -41,9 +46,25 @@
 					<ShortName>Firecracker_loop1.wav</ShortName>
 					<Path>SFX\Firecracker_loop1_9E69E797.wem</Path>
 				</File>
+				<File Id="210477128" Language="SFX">
+					<ShortName>Drifting_loop1.wav</ShortName>
+					<Path>SFX\Drifting_loop1_9E69E797.wem</Path>
+				</File>
 				<File Id="257147469" Language="SFX">
 					<ShortName>Countdown.wav</ShortName>
 					<Path>SFX\Countdown_4AFEA6D2.wem</Path>
+				</File>
+				<File Id="308429929" Language="SFX">
+					<ShortName>Drifting_end.wav</ShortName>
+					<Path>SFX\Drifting_end_9E69E797.wem</Path>
+				</File>
+				<File Id="341773679" Language="SFX">
+					<ShortName>Hitodama_mixed.wav</ShortName>
+					<Path>SFX\Hitodama_mixed_9E69E797.wem</Path>
+				</File>
+				<File Id="439002456" Language="SFX">
+					<ShortName>Drifting_loop4.wav</ShortName>
+					<Path>SFX\Drifting_loop4_9E69E797.wem</Path>
 				</File>
 				<File Id="440931321" Language="SFX">
 					<ShortName>RiKarts_Master_Full.wav</ShortName>
@@ -53,9 +74,21 @@
 					<ShortName>metalic_scrape3.wav</ShortName>
 					<Path>SFX\metalic_scrape3_4AFEA6D2.wem</Path>
 				</File>
+				<File Id="521601325" Language="SFX">
+					<ShortName>Drifting_start.wav</ShortName>
+					<Path>SFX\Drifting_start_9E69E797.wem</Path>
+				</File>
 				<File Id="526641992" Language="SFX">
 					<ShortName>Marine_diesel_engine.wav</ShortName>
 					<Path>SFX\Marine_diesel_engine_8FDCC4EC.wem</Path>
+				</File>
+				<File Id="528602494" Language="SFX">
+					<ShortName>Drifting_loop5.wav</ShortName>
+					<Path>SFX\Drifting_loop5_9E69E797.wem</Path>
+				</File>
+				<File Id="537384502" Language="SFX">
+					<ShortName>ItemBox.wav</ShortName>
+					<Path>SFX\ItemBox_9E69E797.wem</Path>
 				</File>
 				<File Id="547640341" Language="SFX">
 					<ShortName>Countdown_Go.wav</ShortName>
@@ -77,6 +110,10 @@
 					<ShortName>Firecracker_loop4.wav</ShortName>
 					<Path>SFX\Firecracker_loop4_9E69E797.wem</Path>
 				</File>
+				<File Id="942144408" Language="SFX">
+					<ShortName>Drifting_loop3.wav</ShortName>
+					<Path>SFX\Drifting_loop3_9E69E797.wem</Path>
+				</File>
 				<File Id="961727349" Language="SFX">
 					<ShortName>metalic_scrape1.wav</ShortName>
 					<Path>SFX\metalic_scrape1_4AFEA6D2.wem</Path>
@@ -84,6 +121,10 @@
 				<File Id="966138208" Language="SFX">
 					<ShortName>makibishi_launch.wav</ShortName>
 					<Path>SFX\makibishi_launch_4AFEA6D2.wem</Path>
+				</File>
+				<File Id="968585807" Language="SFX">
+					<ShortName>Drifting_loop2.wav</ShortName>
+					<Path>SFX\Drifting_loop2_9E69E797.wem</Path>
 				</File>
 				<File Id="977190329" Language="SFX">
 					<ShortName>Evil_Spirit_cancelled.wav</ShortName>

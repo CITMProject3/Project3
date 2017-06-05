@@ -28,6 +28,7 @@ using namespace std;
 class ComponentAnimation;
 class ComponentCollider;
 class ComponentTransform;
+class ComponentAudioSource;
 
 class PhysBody3D;
 
@@ -160,6 +161,8 @@ private:
 	ComponentTransform* kart_trs = nullptr;
 	ComponentTransform* kart_front_wheel_1 = nullptr;
 	ComponentTransform* kart_back_wheel_2 = nullptr;
+
+	ComponentAudioSource *audio = nullptr;
 
 	std::vector<Wheel> wheels;
 
