@@ -1,8 +1,8 @@
 [HOME](index.md)
 
-**Role:** Gameplay Designer
-
 **Name:** Alexis Cosano Rodríguez
+
+**Role:** Gameplay Designer
 
 **My job:**
 - Tema
