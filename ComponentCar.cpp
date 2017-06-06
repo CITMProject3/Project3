@@ -645,8 +645,34 @@ void ComponentCar::SteerKart()
 	float rotateAngle = (maxSteer + mods.bonusMaxSteering) * steerReduction * currentSteer * time->DeltaTime();
 	Quat tmp = kart_trs->GetRotation().RotateAxisAngle(kartY, -(rotateAngle* invert_value) * DEGTORAD);
 	kart_trs->Rotate(tmp);
-	//kart_front_wheel_1->Rotate(tmp);
-	//kart_back_wheel_2->Rotate(tmp);
+
+	if (kart_front_wheel_l != nullptr)
+	{
+		float3 rotation = kart_front_wheel_l->GetRotationEuler();
+		rotation.x += (1000 * speed * time->DeltaTime());
+		rotation.y = 40 * currentSteer;
+		kart_front_wheel_l->SetRotation(rotation);
+	}
+	if (kart_front_wheel_r != nullptr)
+	{
+		float4x4 transform = kart_front_wheel_r->GetTransformMatrix();
+		transform.SetRotatePartY(40 * DEGTORAD * currentSteer);
+		transform.RotateX(speed * time->DeltaTime() * 100);
+		float3 rotation = transform.ToEulerXYX();
+		kart_front_wheel_r->SetRotation(rotation);
+	}
+	if (kart_back_wheel_l != nullptr)
+	{
+		float3 rotation = kart_back_wheel_l->GetRotationEuler();
+		rotation.x += (1000 * speed * time->DeltaTime());
+		kart_back_wheel_l->SetRotation(rotation);
+	}
+	if (kart_back_wheel_r != nullptr)
+	{
+		float3 rotation = kart_back_wheel_r->GetRotationEuler();
+		rotation.x += (1000 * speed * time->DeltaTime());
+		kart_back_wheel_r->SetRotation(rotation);
+	}
 }
 
 void ComponentCar::RotateKart(float3 desiredUp)

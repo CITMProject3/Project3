@@ -77,6 +77,16 @@ namespace Player_Car
 	GameObject* drift_go_left = nullptr;
 	GameObject* drift_go_right = nullptr;
 
+	GameObject* wheel_front_r_0 = nullptr;
+	GameObject* wheel_front_l_0 = nullptr;
+	GameObject* wheel_back_r_0 = nullptr;
+	GameObject* wheel_back_l_0 = nullptr;
+
+	GameObject* wheel_front_r_1 = nullptr;
+	GameObject* wheel_front_l_1= nullptr;
+	GameObject* wheel_back_r_1 = nullptr;
+	GameObject* wheel_back_l_1 = nullptr;
+
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
 	PSHit_WallCollision ps_hit_wall_func = nullptr;
@@ -121,6 +131,15 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_left", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_right", nullptr));
 
+		(*public_gos)["Wheel_Front_R_0"] = wheel_front_r_0;
+		(*public_gos)["Wheel_Front_L_0"] = wheel_front_l_0;
+		(*public_gos)["Wheel_Back_R_0"] = wheel_back_r_0;
+		(*public_gos)["Wheel_Back_L_0"] = wheel_back_l_0;
+
+		(*public_gos)["Wheel_Front_R_1"] = wheel_front_r_1;
+		(*public_gos)["Wheel_Front_L_1"] = wheel_front_l_1;
+		(*public_gos)["Wheel_Back_R_1"] = wheel_back_r_1;
+		(*public_gos)["Wheel_Back_L_1"] = wheel_back_l_1;
 	}
 
 	void Player_Car_UpdatePublics(GameObject* game_object)
@@ -151,6 +170,16 @@ namespace Player_Car
 		turbo_speed_bonus = script->public_floats.at("turbo_speed_bonus");
 		turbo_dec_time = script->public_floats.at("turbo_dec_time");
 		
+		wheel_front_r_0 = script->public_gos["Wheel_Front_R_0"];
+		wheel_front_l_0 = script->public_gos["Wheel_Front_L_0"];
+		wheel_back_r_0 = script->public_gos["Wheel_Back_R_0"];
+		wheel_back_l_0 = script->public_gos["Wheel_Back_L_0"];
+
+		wheel_front_r_1 = script->public_gos["Wheel_Front_R_1"];
+		wheel_front_l_1 = script->public_gos["Wheel_Front_L_1"];
+		wheel_back_r_1 = script->public_gos["Wheel_Back_R_1"];
+		wheel_back_l_1 = script->public_gos["Wheel_Back_L_1"];
+
 		firecracker = script->public_gos.at("firecracker");
 		other_car = script->public_gos.at("other_car");
 		scene_manager = script->public_gos.at("scene_manager");
@@ -222,6 +251,24 @@ namespace Player_Car
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
 		ps_hit_wall_func = (PSHit_WallCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_WallCollision");
+
+		//Init wheel pointers
+		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
+
+		if (App->go_manager->team1_car == 0)
+		{
+			if (wheel_front_l_0 != nullptr) car->kart_front_wheel_l = (ComponentTransform*)wheel_front_l_0->GetComponent(C_TRANSFORM);
+			if (wheel_front_r_0 != nullptr) car->kart_front_wheel_r = (ComponentTransform*)wheel_front_r_0->GetComponent(C_TRANSFORM);
+			if (wheel_back_l_0!= nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_0->GetComponent(C_TRANSFORM);
+			if (wheel_back_r_0 != nullptr) car->kart_back_wheel_r = (ComponentTransform*)wheel_back_r_0->GetComponent(C_TRANSFORM);
+		}
+		else
+		{
+			if (wheel_front_l_1 != nullptr) car->kart_front_wheel_l = (ComponentTransform*)wheel_front_l_1->GetComponent(C_TRANSFORM);
+			if (wheel_front_r_1 != nullptr) car->kart_front_wheel_r = (ComponentTransform*)wheel_front_r_1->GetComponent(C_TRANSFORM);
+			if (wheel_back_l_1 != nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_1->GetComponent(C_TRANSFORM);
+			if (wheel_back_r_1 != nullptr) car->kart_back_wheel_r = (ComponentTransform*)wheel_back_r_1->GetComponent(C_TRANSFORM);
+		}
 
 		unsigned int kart_model;
 		if (car_id == 0) kart_model = App->go_manager->team1_car;
