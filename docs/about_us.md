@@ -25,7 +25,7 @@ Guillem Travila
 
 Josep Atencia
 
-[Aleix Borrell](aleixbv.md)
+[Aleix Borrell](aborrell.md)
 
 
 **Art:**
