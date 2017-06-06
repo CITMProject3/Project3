@@ -159,8 +159,6 @@ private:
 	float testVar = 0.0f;
 
 	ComponentTransform* kart_trs = nullptr;
-	ComponentTransform* kart_front_wheel_1 = nullptr;
-	ComponentTransform* kart_back_wheel_2 = nullptr;
 
 	ComponentAudioSource *audio = nullptr;
 
@@ -177,6 +175,13 @@ public:
 
 	//Collider
 	Cube_P collShape;
+
+	ComponentTransform* kart_front_wheel_l = nullptr;
+	ComponentTransform* parent_front_l = nullptr;
+	ComponentTransform* kart_front_wheel_r = nullptr;
+	ComponentTransform* parent_front_r = nullptr;
+	ComponentTransform* kart_back_wheel_l = nullptr;
+	ComponentTransform* kart_back_wheel_r = nullptr;
 private:
 	float3 collOffset = float3(0, 0.8, 0);
 	PhysBody3D* collider = nullptr;
