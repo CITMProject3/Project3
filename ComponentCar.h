@@ -346,7 +346,7 @@ private:
 	bool inverted_controls = false;
 	int invert_value = 1;
 	//Reset
-	float loose_height = -50.0f;
+	float loose_height = 1.0f;
 
 
 	//Update variables (change during game)----------------------------------------------------------------
