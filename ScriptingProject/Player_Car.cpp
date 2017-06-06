@@ -456,7 +456,7 @@ namespace Player_Car
 					(car_id == 0 ? makibishis_1 : makibishis_2).clear();
 					for (uint i = 0; i < item_size; i++)
 					{
-						(car_id == 0 ? makibishis_1 : makibishis_2).push_back(get_makibishi());
+						(car_id == 0 ? makibishis_1 : makibishis_2).push_back(get_makibishi(i));
 						((ComponentScript*)(car_id == 0 ? makibishis_1 : makibishis_2).back()->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 					}
 				}
@@ -712,7 +712,7 @@ namespace Player_Car
 			path.append("_GetMakibishi");
 			if (f_GetMakibishi get_makibishi = (f_GetMakibishi)GetProcAddress(App->scripting->scripts_lib->lib, path.c_str()))
 			{
-				(car_id == 0 ? makibishis_1 : makibishis_2).push_back(get_makibishi());
+				(car_id == 0 ? makibishis_1 : makibishis_2).push_back(get_makibishi(0));
 				((ComponentScript*)(car_id == 0 ? makibishis_1 : makibishis_2).back()->GetComponent(ComponentType::C_SCRIPT))->public_floats.at("current_time_throwing_makibishi") = 0.0f;
 
 				GameObject* makibishi = (*(car_id == 0 ? makibishis_1 : makibishis_2).begin());

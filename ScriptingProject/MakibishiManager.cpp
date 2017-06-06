@@ -43,9 +43,13 @@ namespace MakibishiManager
 	}
 
 	//Gets first inactive makibishi or first thrown in scene
-	GameObject* MakibishiManager_GetMakibishi()
+	GameObject* MakibishiManager_GetMakibishi(int num)
 	{
 		ComponentScript* older = (ComponentScript*)(*makibishis.begin())->GetComponent(C_SCRIPT);
+		ComponentScript* older1 = (ComponentScript*)(*makibishis.begin())->GetComponent(C_SCRIPT);
+		ComponentScript* older2 = (ComponentScript*)(*makibishis.begin())->GetComponent(C_SCRIPT);
+		int finded = 0;
+
 		for (std::vector<GameObject*>::iterator it = makibishis.begin(); it != makibishis.end(); it++)
 		{
 			ComponentScript* current_script = (ComponentScript*)(*it)->GetComponent(C_SCRIPT);
@@ -53,13 +57,23 @@ namespace MakibishiManager
 
 			if ((*it)->IsActive() == false)
 			{
-				return (*it);
+				if (finded == num)
+					return (*it);
+				else
+					finded++;
 			}
 			else if (current_script->public_floats["current_time_throwing_makibishi"] > older->public_floats["current_time_throwing_makibishi"])
 			{
+				older2 = older1;
+				older1 = older;
 				older = current_script;
 			}
 		}
-		return older->GetGameObject();
+		if(num == 2)
+			return older2->GetGameObject();
+		else if (num == 1)
+			return older1->GetGameObject();
+		else
+			return older->GetGameObject();
 	}
 }

@@ -16,7 +16,7 @@ typedef void(*f_Start)(GameObject* game_object);
 typedef void(*f_Update)(GameObject* game_object);
 typedef void(*f_OnCollision)(GameObject* game_object, PhysBody3D* col);
 typedef void(*f_UpdateItems)(unsigned int team, int item_id, int item_size);
-typedef GameObject*(*f_GetMakibishi)();
+typedef GameObject*(*f_GetMakibishi)(int num);
 
 class ComponentScript : public Component
 {
