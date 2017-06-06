@@ -78,6 +78,18 @@ void ComponentCar::WallHit(const float3 & normal)
 	WallHit(normal, kartZ, kartX);
 }
 
+void ComponentCar::SetPos(float3 pos)
+{
+	setpos = pos;
+	wantToSetPos = true;
+}
+
+void ComponentCar::SetRot(Quat rot)
+{
+	setrot = rot;
+	wantToSetRot = true;
+}
+
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
@@ -136,6 +148,18 @@ void ComponentCar::Update()
 		{
 			TrueReset();
 			wantToReset = false;
+		}
+
+		if (wantToSetPos)
+		{
+			wantToSetPos = false;
+			kart_trs->SetPosition(setpos);
+		}
+
+		if (wantToSetRot)
+		{
+			wantToSetRot = false;
+			kart_trs->SetRotation(setrot);
 		}
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());

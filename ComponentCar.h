@@ -197,7 +197,9 @@ private:
 	float acrobaticsDelay = 0.5f;
 	Timer p1AcrobaticsPress;
 	Timer p2AcrobaticsPress;
+public:
 	bool acrobaticsDone = false;
+private:
 
 	//Feedback stuff
 	float4x4 kartTransform = float4x4::identity;
@@ -273,6 +275,13 @@ private:
 public:
 	void WallHit(const float3 &normal);
 
+	void SetPos(float3 pos);
+	bool wantToSetPos = false;
+	float3 setpos;
+	void SetRot(Quat rot);
+	bool wantToSetRot = false;
+	Quat setrot;
+
 	void Reset();
 private:
 	void TrueReset();
@@ -346,7 +355,7 @@ private:
 	bool inverted_controls = false;
 	int invert_value = 1;
 	//Reset
-	float loose_height = -50.0f;
+	float loose_height = 1.0f;
 
 
 	//Update variables (change during game)----------------------------------------------------------------
