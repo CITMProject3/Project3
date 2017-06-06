@@ -17,8 +17,8 @@ struct DFNormalShader
 {
 	unsigned int id;
 
-	unsigned int model, view, projection;
-	unsigned int texture, normal;
+	unsigned int model, view, projection, shadow_view, shadow_projection;
+	unsigned int texture, normal, shadowmap;
 	unsigned int Ia, Id, Is;
 	unsigned int Ka, Kd;
 	unsigned int L;
@@ -29,8 +29,8 @@ struct AnimShader
 {
 	unsigned int id;
 
-	unsigned int model, view, projection;
-	unsigned int has_texture, texture;
+	unsigned int model, view, projection, shadow_view, shadow_projection;
+	unsigned int has_texture, texture, shadowmap;
 	unsigned int Ia, Id, Is;
 	unsigned int Ka, Kd;
 	unsigned int L;
@@ -42,8 +42,8 @@ struct AnimNormalShader
 {
 	unsigned int id;
 
-	unsigned int model, view, projection;
-	unsigned int texture, normal;
+	unsigned int model, view, projection, shadow_view, shadow_projection;
+	unsigned int texture, normal, shadowmap;
 	unsigned int Ia, Id, Is;
 	unsigned int Ka, Kd;
 	unsigned int L;

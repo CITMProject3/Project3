@@ -89,6 +89,9 @@ void MasterRender::RenderNormalShader(const GameObject * obj, const ComponentCam
 	glUniformMatrix4fv(normal_shader.projection, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
 	glUniformMatrix4fv(normal_shader.view, 1, GL_FALSE, *cam->GetViewMatrix().v);
 
+	glUniformMatrix4fv(normal_shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+	glUniformMatrix4fv(normal_shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
+
 	std::map<std::string, uint>::const_iterator tex = material->texture_ids.find("0");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, (*tex).second);
@@ -98,6 +101,10 @@ void MasterRender::RenderNormalShader(const GameObject * obj, const ComponentCam
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, (*tex).second);
 	glUniform1i(normal_shader.normal, 1);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+	glUniform1i(normal_shader.shadowmap, 2);
 	
 	glUniform1f(normal_shader.Ia, light->ambient_intensity);
 	glUniform3f(normal_shader.Ka, light->ambient_color.x, light->ambient_color.y, light->ambient_color.z);
@@ -117,6 +124,9 @@ void MasterRender::RenderAnimShader(const GameObject * obj, const ComponentCamer
 	glUniformMatrix4fv(anim_shader.projection, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
 	glUniformMatrix4fv(anim_shader.view, 1, GL_FALSE, *cam->GetViewMatrix().v);
 
+	glUniformMatrix4fv(anim_shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+	glUniformMatrix4fv(anim_shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
+
 	std::map<std::string, uint>::const_iterator tex = material->texture_ids.find("0");
 	if (tex->second != 0)
 	{
@@ -132,6 +142,10 @@ void MasterRender::RenderAnimShader(const GameObject * obj, const ComponentCamer
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+	glUniform1i(anim_shader.shadowmap, 1);
 
 	glUniform1f(anim_shader.Ia, light->ambient_intensity);
 	glUniform3f(anim_shader.Ka, light->ambient_color.x, light->ambient_color.y, light->ambient_color.z);
@@ -154,6 +168,9 @@ void MasterRender::RenderAnimNormalShader(const GameObject * obj, const Componen
 	glUniformMatrix4fv(anim_normal_shader.projection, 1, GL_FALSE, *cam->GetProjectionMatrix().v);
 	glUniformMatrix4fv(anim_normal_shader.view, 1, GL_FALSE, *cam->GetViewMatrix().v);
 
+	glUniformMatrix4fv(anim_normal_shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+	glUniformMatrix4fv(anim_normal_shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
+
 	std::map<std::string, uint>::const_iterator tex = material->texture_ids.find("0");
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, (*tex).second);
@@ -163,6 +180,10 @@ void MasterRender::RenderAnimNormalShader(const GameObject * obj, const Componen
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, (*tex).second);
 	glUniform1i(anim_normal_shader.normal, 1);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+	glUniform1i(anim_normal_shader.shadowmap, 2);
 
 	glUniform1f(anim_normal_shader.Ia, light->ambient_intensity);
 	glUniform3f(anim_normal_shader.Ka, light->ambient_color.x, light->ambient_color.y, light->ambient_color.z);
@@ -214,6 +235,10 @@ void MasterRender::InitDefaultNormalShader()
 	normal_shader.projection = glGetUniformLocation(normal_shader.id, "projection");
 	normal_shader.view = glGetUniformLocation(normal_shader.id, "view");
 
+	normal_shader.shadow_view = glGetUniformLocation(normal_shader.id, "shadowView");
+	normal_shader.shadow_projection = glGetUniformLocation(normal_shader.id, "shadowProjection");
+	normal_shader.shadowmap = glGetUniformLocation(normal_shader.id, "shadowMap");
+
 	normal_shader.texture = glGetUniformLocation(normal_shader.id, "_Texture");
 	normal_shader.normal = glGetUniformLocation(normal_shader.id, "_NormalMap");
 
@@ -236,6 +261,11 @@ void MasterRender::InitAnimShader()
 	anim_shader.model = glGetUniformLocation(anim_shader.id, "model");
 	anim_shader.projection = glGetUniformLocation(anim_shader.id, "projection");
 	anim_shader.view = glGetUniformLocation(anim_shader.id, "view");
+
+	anim_shader.shadow_view = glGetUniformLocation(anim_shader.id, "shadowView");
+	anim_shader.shadow_projection = glGetUniformLocation(anim_shader.id, "shadowProjection");
+
+	anim_shader.shadowmap = glGetUniformLocation(anim_shader.id, "shadowMap");
 
 	anim_shader.has_texture = glGetUniformLocation(anim_shader.id, "_HasTexture");
 	anim_shader.texture = glGetUniformLocation(anim_shader.id, "_Texture");
@@ -260,6 +290,11 @@ void MasterRender::InitAnimNormalShader()
 	anim_normal_shader.model = glGetUniformLocation(anim_normal_shader.id, "model");
 	anim_normal_shader.projection = glGetUniformLocation(anim_normal_shader.id, "projection");
 	anim_normal_shader.view = glGetUniformLocation(anim_normal_shader.id, "view");
+
+	anim_normal_shader.shadow_view = glGetUniformLocation(anim_normal_shader.id, "shadowView");
+	anim_normal_shader.shadow_projection = glGetUniformLocation(anim_normal_shader.id, "shadowProjection");
+
+	anim_normal_shader.shadowmap = glGetUniformLocation(anim_normal_shader.id, "shadowMap");
 
 	anim_normal_shader.texture = glGetUniformLocation(anim_normal_shader.id, "_Texture");
 	anim_normal_shader.normal = glGetUniformLocation(anim_normal_shader.id, "_NormalMap");
