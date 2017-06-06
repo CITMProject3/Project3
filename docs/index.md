@@ -12,7 +12,3 @@ Game developed on CITM-UPC college, in the Project III subject.
 
 ![IMAGE ALT TEXT HERE](https://cdnb.artstation.com/p/assets/images/images/005/283/511/large/marti-pinos-melo-portrait-oni-4-4.jpg)
 
-<dl>
-  <link rel="icon" href="http://i.imgur.com/D5DbDvM.png">
-</dl>
-
