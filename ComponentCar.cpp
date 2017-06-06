@@ -1221,6 +1221,7 @@ void ComponentCar::TrueReset()
 		kart_trs->SetRotation(last_check_rot);
 		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.5f));
 	}
+	wrongDirection = false;
 	acrobaticsDone = false;
 	currentSteer = 0;
 	OnGetHit(1.0f);
