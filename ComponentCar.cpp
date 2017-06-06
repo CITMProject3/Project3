@@ -30,7 +30,7 @@
 #include "Brofiler\include\Brofiler.h"
 
 
-#define DISTANCE_FROM_GROUND 1.1f
+#define DISTANCE_FROM_GROUND 1.3f
 
 #define ITERATE_WHEELS for (std::vector<Wheel>::iterator it = wheels.begin(); wheels.empty() == false && it != wheels.end(); it++)
 
@@ -1197,6 +1197,7 @@ void ComponentCar::TrueReset()
 		kart_trs->SetRotation(last_check_rot);
 		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.5f));
 	}
+	acrobaticsDone = false;
 	currentSteer = 0;
 	OnGetHit(1.0f);
 	lastFrame_drifting = drifting = drift_none;
