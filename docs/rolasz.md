@@ -70,12 +70,18 @@ _**What i've done:**_
 ![SceneMap2_v1_1](http://i.imgur.com/lDveYcd.png) ![SceneMap2_v1_2](http://i.imgur.com/wXd5yyh.png) ![SceneMap2_v1_3](http://i.imgur.com/0fS4tJv.png)
 
 	- And now some screenshots after remake:
-![SceneMap2_v2_1]() ![SceneMap2_v2_2]() ![SceneMap2_v2_3]()
-![SceneMap2_v2_4]() ![SceneMap2_v2_5]() ![SceneMap2_v2_6]()
+![SceneMap2_v2_1](http://i.imgur.com/L0nOkVE.png) ![SceneMap2_v2_2](http://i.imgur.com/IVMHXK9.png) ![SceneMap2_v2_3](http://i.imgur.com/RSmC9JI.png)
+![SceneMap2_v2_4](http://i.imgur.com/WJXZE7g.png) ![SceneMap2_v2_5](http://i.imgur.com/5k7kyX3.png) ![SceneMap2_v2_6](http://i.imgur.com/99jwl3z.png)
+![SceneMap2_v2_4](http://i.imgur.com/4oiXVYr.png) ![SceneMap2_v2_5](http://i.imgur.com/rtD8AAs.png) ![SceneMap2_v2_6](http://i.imgur.com/L8CIQaI.png)
+![SceneMap2_v2_7](http://i.imgur.com/aYvYQsO.png) ![SceneMap2_v2_8](http://i.imgur.com/X2ykEIK.png) ![SceneMap2_v2_9](http://i.imgur.com/RaM6YUt.png)
 
 And here i show 45 min of terraforming with our engine tools (from a total of 8h for the first terrain) reduced to 3:30 min with time lapse.
 
 [![Terraforming](http://img.youtube.com/vi/7-ABw7wDyYE/0.jpg)](http://www.youtube.com/watch?v=7-ABw7wDyYE)
+
+And here i show 35 min of prop placement with our engine tools reduced to 2:10 min with time lapse.
+
+[![PlacingProps](http://img.youtube.com/vi/xkaNH-Ar9cs/0.jpg)](http://www.youtube.com/watch?v=xkaNH-Ar9cs)
 
 - And finally just be all what team needed in crunch periods :D.
 
