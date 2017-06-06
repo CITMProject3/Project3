@@ -76,7 +76,13 @@
                     "type": 4,
                     "UUID": 328043340,
                     "active": true,
-                    "light_type": 0
+                    "light_type": 0,
+                    "intensity": 0.800000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ]
                 }
             ]
         },

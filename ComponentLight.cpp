@@ -80,6 +80,8 @@ void ComponentLight::Save(Data & file) const
 	data.AppendUInt("UUID", uuid);
 	data.AppendBool("active", active);
 	data.AppendInt("light_type", light_type);
+	data.AppendFloat("intensity", intensity);
+	data.AppendFloat3("color", color.ptr());
 	file.AppendArrayValue(data);
 }
 
@@ -88,6 +90,8 @@ void ComponentLight::Load(Data & conf)
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
 	light_type = (LightType)conf.GetInt("light_type");
+	intensity = conf.GetFloat("intensity");
+	color = conf.GetFloat3("color");
 }
 
 LightType ComponentLight::GetLightType() const
