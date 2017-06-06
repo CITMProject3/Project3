@@ -38,7 +38,7 @@ Josep Atencia
 
 Martí Pinós - Lead Artist
 
-Iván Pérez
+[Iván Pérez](iperez.md)
 
 Adrià Gómez
 
