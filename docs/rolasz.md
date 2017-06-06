@@ -6,11 +6,15 @@
 
 **Contact:** 
 
-[LinkedIn](https://www.linkedin.com/in/rolaszf/)
+**LinkedIn:** [LinkedIn](https://www.linkedin.com/in/rolaszf/)
 
-[Github](https://github.com/RogerOlasz)
+**Github:** [Github](https://github.com/RogerOlasz)
 
-Mail: rogerolasz96@gmail.com
+**Mail:** rogerolasz96@gmail.com
+
+**Programs used in this project**: ![Maya](https://cdna.artstation.com/p/softwares/icons/000/000/024/default/Maya.png?1424684349) ![Photoshop](https://cdna.artstation.com/p/softwares/icons/000/000/032/default/Photoshop.png?1424684351) ![SubstancePainter2](https://cdnb.artstation.com/p/softwares/icons/000/000/041/default/Substance_Painter_Icon.png?1456833230) 
+
+And Edwix Engine, our own game engine.
 
 **My Job:** 
 
