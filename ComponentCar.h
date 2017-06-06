@@ -177,7 +177,9 @@ public:
 	Cube_P collShape;
 
 	ComponentTransform* kart_front_wheel_l = nullptr;
+	ComponentTransform* parent_front_l = nullptr;
 	ComponentTransform* kart_front_wheel_r = nullptr;
+	ComponentTransform* parent_front_r = nullptr;
 	ComponentTransform* kart_back_wheel_l = nullptr;
 	ComponentTransform* kart_back_wheel_r = nullptr;
 private:

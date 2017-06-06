@@ -649,28 +649,43 @@ void ComponentCar::SteerKart()
 	if (kart_front_wheel_l != nullptr)
 	{
 		float3 rotation = kart_front_wheel_l->GetRotationEuler();
-		rotation.x += (1000 * speed * time->DeltaTime());
-		rotation.y = 40 * currentSteer;
+		rotation.x += (3000 * speed * time->DeltaTime());
 		kart_front_wheel_l->SetRotation(rotation);
+
+		if (parent_front_l == nullptr)
+		{
+			parent_front_l = (ComponentTransform*)(kart_front_wheel_l->GetGameObject()->GetParent()->GetComponent(C_TRANSFORM));
+		}
+
+		float3 parent_rotation = parent_front_l->GetRotationEuler();
+		parent_rotation.y = -40 * currentSteer;
+		parent_front_l->SetRotation(parent_rotation);
 	}
 	if (kart_front_wheel_r != nullptr)
 	{
-		float4x4 transform = kart_front_wheel_r->GetTransformMatrix();
-		transform.SetRotatePartY(40 * DEGTORAD * currentSteer);
-		transform.RotateX(speed * time->DeltaTime() * 100);
-		float3 rotation = transform.ToEulerXYX();
+		float3 rotation = kart_front_wheel_r->GetRotationEuler();
+		rotation.x += (3000 * speed * time->DeltaTime());
 		kart_front_wheel_r->SetRotation(rotation);
+
+		if (parent_front_r == nullptr)
+		{
+			parent_front_r = (ComponentTransform*)kart_front_wheel_r->GetGameObject()->GetParent()->GetComponent(C_TRANSFORM);
+		}
+
+		float3 parent_rotation = parent_front_r->GetRotationEuler();
+		parent_rotation.y = -40 * currentSteer;
+		parent_front_r->SetRotation(parent_rotation);
 	}
 	if (kart_back_wheel_l != nullptr)
 	{
 		float3 rotation = kart_back_wheel_l->GetRotationEuler();
-		rotation.x += (1000 * speed * time->DeltaTime());
+		rotation.x += (3000 * speed * time->DeltaTime());
 		kart_back_wheel_l->SetRotation(rotation);
 	}
 	if (kart_back_wheel_r != nullptr)
 	{
 		float3 rotation = kart_back_wheel_r->GetRotationEuler();
-		rotation.x += (1000 * speed * time->DeltaTime());
+		rotation.x += (3000 * speed * time->DeltaTime());
 		kart_back_wheel_r->SetRotation(rotation);
 	}
 }
