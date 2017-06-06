@@ -91,10 +91,8 @@ namespace Scene_Manager
 	ComponentMaterial* bd_number = nullptr;
 	ComponentMaterial* bg_number = nullptr;
 
-	GameObject* topdriver_label = nullptr;
-	GameObject* topgunner_label = nullptr;
-	GameObject* botdriver_label = nullptr;
-	GameObject* botgunner_label = nullptr;
+	GameObject* top_wrongdirection = nullptr;
+	GameObject* bot_wrongdirection = nullptr;
 	
 	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
 	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
@@ -161,10 +159,8 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Number", botdriver_number));
 		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Number", botgunner_number));
 
-		public_gos->insert(std::pair<const char*, GameObject*>("TopDriver_Label", topdriver_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("TopGunner_Label", topgunner_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Label", botdriver_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Label", botgunner_label));
+		public_gos->insert(std::pair<const char*, GameObject*>("Top_Wrong", top_wrongdirection));
+		public_gos->insert(std::pair<const char*, GameObject*>("Bot_Wrong", bot_wrongdirection));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -201,10 +197,8 @@ namespace Scene_Manager
 		botdriver_number = script->public_gos["BotDriver_Number"];
 		botgunner_number = script->public_gos["BotGunner_Number"];
 
-		topdriver_label = script->public_gos["TopDriver_Label"];
-		topgunner_label = script->public_gos["TopGunner_Label"];
-		botdriver_label = script->public_gos["BotDriver_Label"];
-		botgunner_label = script->public_gos["BotGunner_Label"];
+		top_wrongdirection = script->public_gos["Top_Wrong"];
+		bot_wrongdirection = script->public_gos["Bot_Wrong"];
 	}
 
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
@@ -336,7 +330,7 @@ namespace Scene_Manager
 			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
 		}
 
-		if (topdriver_number)
+		if (topdriver_number) //
 		{
 			td_number = ((ComponentUiImage*)topdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
@@ -347,6 +341,12 @@ namespace Scene_Manager
 			topgunner_number->SetActive(false);
 			botdriver_number->SetActive(false);
 			botgunner_number->SetActive(false);
+		}
+
+		if (top_wrongdirection && bot_wrongdirection)
+		{
+			top_wrongdirection->SetActive(false);
+			bot_wrongdirection->SetActive(false);
 		}
 	}
 
@@ -581,6 +581,11 @@ namespace Scene_Manager
 				{
 					car_1->finished = true;
 				}
+
+				//Wrong Direction
+				if (top_wrongdirection)
+					top_wrongdirection->SetActive(car_1->wrongDirection);
+
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
@@ -644,6 +649,11 @@ namespace Scene_Manager
 				{
 					car_2->finished = true;
 				}
+
+				//Wrong Direction
+				if (bot_wrongdirection)
+					bot_wrongdirection->SetActive(car_2->wrongDirection);
+
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
 				{
