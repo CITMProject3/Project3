@@ -5,6 +5,7 @@
 **Name:** Roger Olasz Fuentes
 
 **Contact:** 
+
 [LinkedIn](https://www.linkedin.com/in/rolaszf/)
 
 [Github](https://github.com/RogerOlasz)
