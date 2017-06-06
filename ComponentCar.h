@@ -190,6 +190,8 @@ private:
 	float driftCollisionTimer = 0.0f;
 	float driftCollisionRecovery = 3.0f;
 
+	float driftAirTimer = 0.0f;
+
 	MashButtonCounter driftButtonMasher;
 
 	float acrobaticsDelay = 0.5f;
