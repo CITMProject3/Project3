@@ -583,7 +583,7 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (top_wrongdirection)
+				if (top_wrongdirection && car_1->wrongDirection != top_wrongdirection->IsActive())
 					top_wrongdirection->SetActive(car_1->wrongDirection);
 
 				//Update lap counter
@@ -651,7 +651,7 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (bot_wrongdirection)
+				if (bot_wrongdirection && car_2->wrongDirection != bot_wrongdirection->IsActive())
 					bot_wrongdirection->SetActive(car_2->wrongDirection);
 
 				//Update lap counter

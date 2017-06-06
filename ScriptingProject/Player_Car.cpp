@@ -20,6 +20,7 @@
 #include "../Globals.h"
 #include "../Random.h"
 #include "../Time.h"
+#include "../ComponentParticleSystem.h"
 
 //To call functions from another script
 typedef void(*PSHit_CarCollision)(GameObject *game_object, const math::float3& point);
@@ -76,10 +77,14 @@ namespace Player_Car
 	GameObject* ps_hit_manager = nullptr;
 	GameObject* drift_go_left = nullptr;
 	GameObject* drift_go_right = nullptr;
+	GameObject* acrobatics_ps_go = nullptr;
 
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
 	PSHit_WallCollision ps_hit_wall_func = nullptr;
+	ComponentParticleSystem* ps_acrobatics = nullptr;
+	float acrobatic_timer = 0.0f;
+	bool acrobatic_enabled = false;
 
 	std::vector<GameObject*> makibishis_1;
 	std::vector<GameObject*> makibishis_2;
@@ -119,6 +124,7 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("ps_hit_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_left", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_right", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("acrobatics_ps_go", nullptr));
 
 	}
 
@@ -157,6 +163,7 @@ namespace Player_Car
 		ps_hit_manager = script->public_gos.at("ps_hit_manager");
 		drift_go_left = script->public_gos.at("ps_drift_left");
 		drift_go_right = script->public_gos.at("ps_drift_right");
+		acrobatics_ps_go = script->public_gos.at("acrobatics_ps_go");
 
 	}
 
@@ -194,6 +201,7 @@ namespace Player_Car
 		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
 		script->public_gos.at("ps_drift_left") = drift_go_left;
 		script->public_gos.at("ps_drift_right") = drift_go_right;
+		script->public_gos.at("acrobatics_ps_go") = acrobatics_ps_go;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -239,6 +247,9 @@ namespace Player_Car
 
 		drift_go_left->SetActive(false);
 		drift_go_right->SetActive(false);
+
+		ps_acrobatics = (ComponentParticleSystem*)acrobatics_ps_go->GetComponent(ComponentType::C_PARTICLE_SYSTEM);
+		ps_acrobatics->StopAll();
 	}
 
 #pragma region Forward Declarations
@@ -324,6 +335,25 @@ namespace Player_Car
 		{
 			drift_go_left->SetActive(false);
 			drift_go_right->SetActive(false);
+		}
+
+		//Acrobatics
+		if (car->acrobaticsDone)
+		{
+			if (acrobatic_enabled == false)
+			{
+				ps_acrobatics->Play();
+				acrobatic_enabled = true;
+			}
+		}
+		if (acrobatic_enabled)
+		{
+			acrobatic_timer += time->DeltaTime();
+			if (acrobatic_timer >= 5.0f)
+			{
+				acrobatic_timer = 0.0f;
+				acrobatic_enabled = false;
+			}
 		}
 	}
 
