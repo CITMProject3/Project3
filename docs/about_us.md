@@ -4,12 +4,16 @@
 
 ![IMAGE ALT TEXT HERE](http://i.imgur.com/VABALcI.png)
 
-Ri-Karts is a game developed entirely (engine included) by CITM Videogames degree 3rd course class (2016/17).
+Ri-Karts is a game developed entirely (engine included) by CITM Videogames degree 3rd course class (2016/17).   
 A group of 21 people, divided in 3 departments: Code, Art and Game Design (with a leader in each one) and also a Producer.
+
+***
 
 **Developers:**
 
 [Producer: Jordi Nunes](jnunes.md)
+
+***
 
 **Code:**
 
@@ -27,6 +31,8 @@ Josep Atencia
 
 [Aleix Borrell](aborrell.md)
 
+***
+
 
 **Art:**
 
@@ -40,9 +46,11 @@ Adrià Gómez
 
 Ian Trueba
 
-[Miquel Gironés](mgirones.md)
+Miquel Gironés
 
 Aleix Bueso
+
+***
 
 
 **Game Design:**
