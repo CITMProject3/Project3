@@ -79,6 +79,8 @@ public:
 	void Play();
 	void Pause();
 
+	bool operator<(ComponentParticleSystem& b);
+
 private:
 
 	void InspectorDelete();
@@ -167,6 +169,9 @@ public:
 	math::float2 img_size;
 	math::float3 color;
 	float life_time = 5.0f;
+
+	//To sort the entire system
+	float cam_distance = 0.0f;
 };
 
 #endif // !__COMPONENTPARTICLESYTEM_H__

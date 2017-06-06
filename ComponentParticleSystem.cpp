@@ -550,6 +550,11 @@ void ComponentParticleSystem::Pause()
 	state = PSState::PS_PAUSE;
 }
 
+bool ComponentParticleSystem::operator<(ComponentParticleSystem & b)
+{
+	return this->cam_distance > b.cam_distance;;
+}
+
 void ComponentParticleSystem::InspectorDelete()
 {
 	if (ImGui::IsItemClicked(1))

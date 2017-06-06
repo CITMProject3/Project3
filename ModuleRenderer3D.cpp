@@ -628,7 +628,7 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 	
 }
 
-void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
+void ModuleRenderer3D::DrawParticles(ComponentCamera * cam)
 {
 
 	ParticleShader shader = ms_render->particle_shader;
@@ -644,8 +644,14 @@ void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//Sort systems
+	float3 cam_pos = cam->GetPos();
+	for (vector<ComponentParticleSystem*>::iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
+		(*particle)->cam_distance = cam_pos.DistanceSq((*particle)->GetGameObject()->transform->GetGlobalMatrix().TranslatePart());
+	std::sort(particles_to_draw.begin(), particles_to_draw.end());
 	
-	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
+	for (vector<ComponentParticleSystem*>::iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
 		if (cam->Intersects((*particle)->bounding_box) == false)
 			continue;

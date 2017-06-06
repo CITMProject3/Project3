@@ -63,7 +63,7 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void DrawSprites(ComponentCamera* cam)const;
-	void DrawParticles(ComponentCamera* cam)const;
+	void DrawParticles(ComponentCamera* cam);
 
 	bool SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color)const;
