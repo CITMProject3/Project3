@@ -30,7 +30,7 @@
 #include "Brofiler\include\Brofiler.h"
 
 
-#define DISTANCE_FROM_GROUND 1.1f
+#define DISTANCE_FROM_GROUND 1.3f
 
 #define ITERATE_WHEELS for (std::vector<Wheel>::iterator it = wheels.begin(); wheels.empty() == false && it != wheels.end(); it++)
 
@@ -477,8 +477,13 @@ void ComponentCar::DriftManagement()
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
 	{
 		//Checking we have enough speed to drift
-		if (speed > maxSpeed * minimumSpeedRatioToStartDrifting)
+		if (speed > maxSpeed * minimumSpeedRatioToStartDrifting && driftAirTimer < 0.65f)
 		{
+			if (onTheGround == false)
+			{
+				driftAirTimer += time->DeltaTime();
+			}
+
 			//If we weren't drifting, we enter the state of drift
 			if (drifting == drift_none && onTheGround)
 			{
@@ -514,6 +519,11 @@ void ComponentCar::DriftManagement()
 	{
 		//if (audio) audio->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
+	}
+
+	if (onTheGround == true)
+	{
+		driftAirTimer = 0.0f;
 	}
 
 	if (collisionwWhileDrifting >= collisionsUntilStopDrifting)
@@ -1187,6 +1197,7 @@ void ComponentCar::TrueReset()
 		kart_trs->SetRotation(last_check_rot);
 		kart_trs->SetPosition(last_check_pos + float3(kartX * front_player * 0.5f));
 	}
+	acrobaticsDone = false;
 	currentSteer = 0;
 	OnGetHit(1.0f);
 	lastFrame_drifting = drifting = drift_none;

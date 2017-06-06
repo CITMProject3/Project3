@@ -11,7 +11,7 @@ struct turboOutput
 	bool alive = true;
 
 	float accelerationBonus = 0.0f;
-	float accelerationMin = 0.0f;
+	float accelerationMin = -1000.0f;
 	float maxSpeedBonus = 0.0f;
 };
 
@@ -46,6 +46,7 @@ private:
 		turbo_done = 3
 	};
 	turbo_phases currentPhase = turbo_done;
+	turbo_phases lastFrame_Phase = turbo_done;
 
 	float times[turbo_done];
 	//First phase
@@ -69,6 +70,9 @@ private:
 	float timer = 0.0;
 
 public:
+	bool beganThisFrame = false;
+	bool endedThisFrame = false;
+
 	void TurnOn()
 	{
 		currentPhase = (turbo_phases)0;
@@ -107,6 +111,8 @@ public:
 	{
 		turboOutput ret;
 
+		beganThisFrame = endedThisFrame = false;
+
 		switch (currentPhase)
 		{
 		case Turbo::turbo_accelerating:
@@ -138,6 +144,17 @@ public:
 			timer = 0.0f;
 			currentPhase = (turbo_phases)(currentPhase + 1);
 		}		
+
+		if (currentPhase != turbo_done && lastFrame_Phase == turbo_done)
+		{
+			beganThisFrame = true;
+		}
+		if ((currentPhase == turbo_deaccelerating && lastFrame_Phase != turbo_deaccelerating) || (currentPhase == turbo_done && lastFrame_Phase != turbo_done))
+		{
+			endedThisFrame = true;
+		}
+
+		lastFrame_Phase = currentPhase;
 
 		return ret;
 	}

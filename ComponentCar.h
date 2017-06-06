@@ -190,6 +190,8 @@ private:
 	float driftCollisionTimer = 0.0f;
 	float driftCollisionRecovery = 3.0f;
 
+	float driftAirTimer = 0.0f;
+
 	MashButtonCounter driftButtonMasher;
 
 	float acrobaticsDelay = 0.5f;
@@ -344,7 +346,7 @@ private:
 	bool inverted_controls = false;
 	int invert_value = 1;
 	//Reset
-	float loose_height = -50.0f;
+	float loose_height = 1.0f;
 
 
 	//Update variables (change during game)----------------------------------------------------------------
