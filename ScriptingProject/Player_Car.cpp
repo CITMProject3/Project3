@@ -601,6 +601,11 @@ namespace Player_Car
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
 	{
+		if (car->place != 1)
+		{
+			spirit_duration = spirit_max_duration + 1;
+		}
+
 		if (spirit_duration == 0.0f && car->GetInvertStatus() == false)
 		{
 			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
