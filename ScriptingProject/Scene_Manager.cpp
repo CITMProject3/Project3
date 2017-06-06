@@ -342,6 +342,18 @@ namespace Scene_Manager
 			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bd_number = ((ComponentUiImage*)botdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bg_number = ((ComponentUiImage*)botgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
+
+			topdriver_number->SetActive(true);
+			td_number->SetIdToRender(App->go_manager->team1_front);
+
+			topgunner_number->SetActive(true);
+			tg_number->SetIdToRender(App->go_manager->team1_back);
+
+			botdriver_number->SetActive(true);
+			bd_number->SetIdToRender(App->go_manager->team2_front);
+
+			botgunner_number->SetActive(true);
+			bg_number->SetIdToRender(App->go_manager->team2_back);
 		}
 	}
 
@@ -511,17 +523,44 @@ namespace Scene_Manager
 		{
 			if (race_timer_number != 0) // When race_timer_number is 1, the race has begun!
 			{
-				if (delay_to_start > 3.0f && !number_timer_on)
+				if (delay_to_start > 1.0f && !number_timer_on)
 				{
-					if (topdriver_number)
+					/*if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
+					{
 						topdriver_number->SetActive(true);
-					if (topgunner_number)
+						td_number->SetIdToRender(App->go_manager->team1_front);
+
 						topgunner_number->SetActive(true);
-					if (botdriver_number)
+						tg_number->SetIdToRender(App->go_manager->team1_back);
+
 						botdriver_number->SetActive(true);
-					if (botgunner_number)
+						bd_number->SetIdToRender(App->go_manager->team2_front);
+
 						botgunner_number->SetActive(true);
+						bg_number->SetIdToRender(App->go_manager->team2_back);
+					}*/
 					number_timer_on = true;
+				}
+				else if (delay_to_start > 5.0f && !start_timer_on)
+				{
+					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
+					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
+
+					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
+					{
+						td_number->SetIdToRender(App->go_manager->team1_front);
+						topdriver_number->SetActive(false);
+
+						tg_number->SetIdToRender(App->go_manager->team1_back);
+						topgunner_number->SetActive(false);
+
+						bd_number->SetIdToRender(App->go_manager->team2_front);
+						botdriver_number->SetActive(false);
+
+						bg_number->SetIdToRender(App->go_manager->team2_back);
+						botgunner_number->SetActive(false);
+					}
+					start_timer_on = true;
 				}
 				else if (delay_to_start > 5.0f && !start_timer_on)
 				{
