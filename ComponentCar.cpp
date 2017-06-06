@@ -132,6 +132,12 @@ void ComponentCar::Update()
 	{
 		DebugInput();
 
+		if (wantToReset == true)
+		{
+			TrueReset();
+			wantToReset = false;
+		}
+
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
 		KartLogic();
 		CastShadowRay();
@@ -1165,6 +1171,11 @@ void ComponentCar::WentThroughEnd(int checkpoint, float3 resetPos, Quat resetRot
 //--------------------------------------
 
 void ComponentCar::Reset()
+{
+	wantToReset = true;
+}
+
+void ComponentCar::TrueReset()
 {
 	if (checkpoints >= MAXUINT - 20)
 	{
