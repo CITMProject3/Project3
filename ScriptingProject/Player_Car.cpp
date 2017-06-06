@@ -292,7 +292,7 @@ namespace Player_Car
 			}
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN ) && evil_spirit_effect == false)
+		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN) && evil_spirit_effect == false)
 		{
 			evil_spirit_effect = true;
 		}
@@ -701,7 +701,7 @@ namespace Player_Car
 
 	void Player_Car_TMP_Use_Makibishi(GameObject* game_object, ComponentCar* car)
 	{
-		if (App->input->GetJoystickButton(car->GetFrontPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 		{
 			string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 			path.append("_GetMakibishi");
