@@ -292,7 +292,7 @@ namespace Player_Car
 			}
 		}
 
-		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN || App->input->GetJoystickButton(car->GetFrontPlayer(),JOY_BUTTON::LB) == KEY_DOWN ) && evil_spirit_effect == false)
+		if ((App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN) && evil_spirit_effect == false)
 		{
 			evil_spirit_effect = true;
 		}
@@ -312,7 +312,7 @@ namespace Player_Car
 		}
 
 		//TMP Makibishi
-		Player_Car_TMP_Use_Makibishi(game_object, car);
+		//Player_Car_TMP_Use_Makibishi(game_object, car);
 
 		//Drifting
 		DRIFT_STATE drift_state = car->GetDriftState();
@@ -529,7 +529,7 @@ namespace Player_Car
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
-			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.25f)));
+			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.5f) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.05f)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			item_size--;
 			Player_Car_CallUpdateItems();
@@ -601,6 +601,11 @@ namespace Player_Car
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
 	{
+		if (car->place != 1)
+		{
+			spirit_duration = spirit_max_duration + 1;
+		}
+
 		if (spirit_duration == 0.0f && car->GetInvertStatus() == false)
 		{
 			//car->SetMaxVelocity(car->GetMaxVelocity() * (1 - evil_spirit_vel_reduction));
@@ -701,7 +706,7 @@ namespace Player_Car
 
 	void Player_Car_TMP_Use_Makibishi(GameObject* game_object, ComponentCar* car)
 	{
-		if (App->input->GetJoystickButton(car->GetFrontPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::Y) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
+		if (App->input->GetKey(SDL_SCANCODE_U) == KEY_DOWN)
 		{
 			string path = ((ComponentScript*)makibishi_manager->GetComponent(C_SCRIPT))->GetPath();
 			path.append("_GetMakibishi");
