@@ -6,6 +6,7 @@
 #include "../ComponentScript.h"
 #include "../ComponentParticleSystem.h"
 #include "../ComponentTransform.h"
+#include "../ComponentAudioSource.h"
 #include "../Time.h"
 
 //Testing
@@ -97,17 +98,21 @@ namespace ParticleHit
 		}
 	}
 
-	void ParticleHit_CarCollision(const math::float3& point)
+	void ParticleHit_CarCollision(GameObject* game_object, const math::float3& point)
 	{
 		if (car_ps_active == false)
 		{
 			go_car_hit->transform->SetPosition(point);
 			ps_car->Play();
 			car_ps_active = true;
+
+			// Playing impact sound
+			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (audio) audio->PlayAudio(10);
 		}
 	}
 
-	void ParticleHit_WallCollision(int car_id, const math::float3& point)
+	void ParticleHit_WallCollision(GameObject *game_object, int car_id, const math::float3& point)
 	{
 		if (car_id == 0)
 		{
@@ -116,6 +121,10 @@ namespace ParticleHit
 				go_wall_hit1->transform->SetPosition(point);
 				ps_wall1->Play();
 				wall_ps_active1 = true;
+
+				// Playing impact sound
+				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio) audio->PlayAudio(10);
 			}	
 		}
 		else
@@ -125,6 +134,10 @@ namespace ParticleHit
 				go_wall_hit2->transform->SetPosition(point);
 				ps_wall2->Play();
 				wall_ps_active2 = true;
+
+				// Playing impact sound
+				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio) audio->PlayAudio(10);
 			}
 		}
 	}

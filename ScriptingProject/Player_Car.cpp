@@ -22,8 +22,8 @@
 #include "../Time.h"
 
 //To call functions from another script
-typedef void(*PSHit_CarCollision)(const math::float3& point);
-typedef void(*PSHit_WallCollision)(int car_id, const math::float3& point);
+typedef void(*PSHit_CarCollision)(GameObject *game_object, const math::float3& point);
+typedef void(*PSHit_WallCollision)(GameObject *game_object, int car_id, const math::float3& point);
 
 enum Item_Type
 {
@@ -80,7 +80,6 @@ namespace Player_Car
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
 	PSHit_WallCollision ps_hit_wall_func = nullptr;
-
 
 	std::vector<GameObject*> makibishis_1;
 	std::vector<GameObject*> makibishis_2;
@@ -340,7 +339,7 @@ namespace Player_Car
 			car->WallHit(norm.Normalized());
 
 			float3 col_point = otherCarPos + (norm * 0.5f);
-			ps_hit_func(col_point);
+			ps_hit_func(game_object, col_point);
 		}
 
 		if (col->IsTrigger())
@@ -373,7 +372,11 @@ namespace Player_Car
 						item->SetActive(false);
 						col->GetCollider()->SetActive(false);
 						car->RemoveHitodama();
-						ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
+						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
+
+						// Play Impact with Makibishi
+						ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+						if (audio) audio->PlayAudio(9);
 					}
 					else if (item->name == item_box_name.c_str())
 					{
@@ -388,7 +391,7 @@ namespace Player_Car
 		{
 			if (col->GetCollider()->GetGameObject()->layer == 2) //Wall
 			{
-				ps_hit_wall_func(car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
+				ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 			}
 		}
 	}

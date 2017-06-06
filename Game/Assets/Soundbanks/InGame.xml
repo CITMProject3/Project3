@@ -13,6 +13,9 @@
 			<ShortName>InGame</ShortName>
 			<Path>InGame.bnk</Path>
 			<IncludedEvents>
+				<Event Id="515960748" Name="Play_Car_Crash_Makibishi" ObjectPath="\Events\InGame\Play_Car_Crash_Makibishi" GUID="{343A8CD3-D4CE-44EE-B472-45FFBDA3ABD1}" DurationType="OneShot" DurationMin="0.593810" DurationMax="0.593810"/>
+				<Event Id="1525161066" Name="Play_Car_Crash_Terrain" ObjectPath="\Events\InGame\Play_Car_Crash_Terrain" GUID="{5B904D0A-2C15-44D6-93BA-8EEE3581A7B8}" DurationType="OneShot" DurationMin="0.575419" DurationMax="0.960998"/>
+				<Event Id="3280191520" Name="Play_Car_Crash_Water" ObjectPath="\Events\InGame\Play_Car_Crash_Water" GUID="{EA5CE57A-59B0-4147-88C9-1F4F26514EF4}" DurationType="OneShot" DurationMin="3.781111" DurationMax="3.881111"/>
 				<Event Id="2175797879" Name="Play_Countdown" ObjectPath="\Events\InGame\Play_Countdown" GUID="{F775C297-3A39-4AD7-89F1-EF18A9450959}" DurationType="OneShot" DurationMin="1.017483" DurationMax="1.017483"/>
 				<Event Id="732712977" Name="Play_Drifting" ObjectPath="\Events\InGame\Play_Drifting" GUID="{67B995E4-2390-4447-88DE-FF9411766BD6}" DurationType="Infinite"/>
 				<Event Id="639345804" Name="Play_Engine" ObjectPath="\Events\InGame\Play_Engine" GUID="{208A9721-1FB7-4AD6-93E6-4F44A2ED9E27}" DurationType="Infinite"/>
@@ -23,7 +26,7 @@
 				<Event Id="3646616982" Name="Play_ItemBox" ObjectPath="\Events\InGame\Play_ItemBox" GUID="{31F48344-3418-41D3-9B4D-B887EAFE8D8D}" DurationType="OneShot" DurationMin="0.992857" DurationMax="0.992857"/>
 				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
-				<Event Id="3227588549" Name="Reduce_Drifting" ObjectPath="\Events\InGame\Reduce_Drifting" GUID="{472CDB34-C993-4F65-9BB7-A65613760150}" DurationType="OneShot" DurationMin="0.949660" DurationMax="0.949660"/>
+				<Event Id="3227588549" Name="Reduce_Drifting" ObjectPath="\Events\InGame\Reduce_Drifting" GUID="{472CDB34-C993-4F65-9BB7-A65613760150}" DurationType="OneShot" DurationMin="1.006130" DurationMax="1.006130"/>
 				<Event Id="1300784916" Name="Start_Engine" ObjectPath="\Events\InGame\Start_Engine" GUID="{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="452547817" Name="Stop_All" ObjectPath="\Events\InGame\Stop_All" GUID="{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="201644199" Name="Stop_Drifting" ObjectPath="\Events\InGame\Stop_Drifting" GUID="{189FE692-54B8-4B3F-A105-245C9A748966}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -43,9 +46,17 @@
 					<ShortName>Firecracker_loop1.wav</ShortName>
 					<Path>SFX\Firecracker_loop1_9E69E797.wem</Path>
 				</File>
+				<File Id="183828897" Language="SFX">
+					<ShortName>Medium_Smash3.wav</ShortName>
+					<Path>SFX\Medium_Smash3_9E69E797.wem</Path>
+				</File>
 				<File Id="210477128" Language="SFX">
 					<ShortName>Drifting_loop1.wav</ShortName>
 					<Path>SFX\Drifting_loop1_9E69E797.wem</Path>
+				</File>
+				<File Id="223360863" Language="SFX">
+					<ShortName>Makibishi_metal_impact2.wav</ShortName>
+					<Path>SFX\Makibishi_metal_impact2_9E69E797.wem</Path>
 				</File>
 				<File Id="257147469" Language="SFX">
 					<ShortName>Countdown.wav</ShortName>
@@ -55,9 +66,17 @@
 					<ShortName>Drifting_end.wav</ShortName>
 					<Path>SFX\Drifting_end_9E69E797.wem</Path>
 				</File>
+				<File Id="337376034" Language="SFX">
+					<ShortName>Heavy_Smash1.wav</ShortName>
+					<Path>SFX\Heavy_Smash1_9E69E797.wem</Path>
+				</File>
 				<File Id="341773679" Language="SFX">
 					<ShortName>Hitodama_mixed.wav</ShortName>
 					<Path>SFX\Hitodama_mixed_9E69E797.wem</Path>
+				</File>
+				<File Id="358818971" Language="SFX">
+					<ShortName>Medium_Smash1.wav</ShortName>
+					<Path>SFX\Medium_Smash1_9E69E797.wem</Path>
 				</File>
 				<File Id="439002456" Language="SFX">
 					<ShortName>Drifting_loop4.wav</ShortName>
@@ -83,6 +102,10 @@
 					<ShortName>Drifting_loop5.wav</ShortName>
 					<Path>SFX\Drifting_loop5_9E69E797.wem</Path>
 				</File>
+				<File Id="532552577" Language="SFX">
+					<ShortName>Makibishi_metal_impact1.wav</ShortName>
+					<Path>SFX\Makibishi_metal_impact1_9E69E797.wem</Path>
+				</File>
 				<File Id="537384502" Language="SFX">
 					<ShortName>ItemBox.wav</ShortName>
 					<Path>SFX\ItemBox_9E69E797.wem</Path>
@@ -90,6 +113,14 @@
 				<File Id="547640341" Language="SFX">
 					<ShortName>Countdown_Go.wav</ShortName>
 					<Path>SFX\Countdown_Go_4AFEA6D2.wem</Path>
+				</File>
+				<File Id="574244369" Language="SFX">
+					<ShortName>Heavy_Smash2.wav</ShortName>
+					<Path>SFX\Heavy_Smash2_9E69E797.wem</Path>
+				</File>
+				<File Id="628004041" Language="SFX">
+					<ShortName>Makibishi_metal_impact3.wav</ShortName>
+					<Path>SFX\Makibishi_metal_impact3_9E69E797.wem</Path>
 				</File>
 				<File Id="664393915" Language="SFX">
 					<ShortName>Evil_Spirit.wav</ShortName>
@@ -99,9 +130,21 @@
 					<ShortName>metalic_scrape2.wav</ShortName>
 					<Path>SFX\metalic_scrape2_4AFEA6D2.wem</Path>
 				</File>
+				<File Id="762374421" Language="SFX">
+					<ShortName>Makibishi_hit.wav</ShortName>
+					<Path>SFX\Makibishi_hit_9E69E797.wem</Path>
+				</File>
+				<File Id="811891371" Language="SFX">
+					<ShortName>Medium_Smash2.wav</ShortName>
+					<Path>SFX\Medium_Smash2_9E69E797.wem</Path>
+				</File>
 				<File Id="854809436" Language="SFX">
 					<ShortName>Engine_vibrations.wav</ShortName>
 					<Path>SFX\Engine_vibrations_8FDCC4EC.wem</Path>
+				</File>
+				<File Id="917152495" Language="SFX">
+					<ShortName>Car_Impact_Water.wav</ShortName>
+					<Path>SFX\Car_Impact_Water_9E69E797.wem</Path>
 				</File>
 				<File Id="919387555" Language="SFX">
 					<ShortName>Firecracker_loop4.wav</ShortName>

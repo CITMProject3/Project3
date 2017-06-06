@@ -1482,7 +1482,7 @@ void ComponentCar::Save(Data& file) const
 	data.AppendInt("driftPhaseChange", driftPhaseChange);
 
 	//Game loop settings
-	data.AppendFloat("lose_height", loose_height);
+	//data.AppendFloat("lose_height", loose_height);
 
 	//Drifting Values
 	data.AppendFloat("driftingFixedTurn", driftingFixedTurn);
@@ -1511,7 +1511,6 @@ void ComponentCar::Load(Data& conf)
 {
 	uuid = conf.GetUInt("UUID");
 	active = conf.GetBool("active");
-
 
 	//Physics 2.0 values
 
@@ -1575,7 +1574,7 @@ void ComponentCar::Load(Data& conf)
 
 
 	//Game loop settings
-	loose_height = conf.GetFloat("lose_height");
+	//loose_height = conf.GetFloat("lose_height");
 
 	//Gameplay settings-----------------
 

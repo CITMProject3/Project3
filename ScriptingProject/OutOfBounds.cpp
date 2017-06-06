@@ -5,6 +5,7 @@
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
 #include "../ComponentCollider.h"
+#include "../ComponentAudioSource.h"
 #include "../ModuleGOManager.h"
 #include "../ComponentCar.h"
 #include "../GameObject.h"
@@ -38,6 +39,10 @@ namespace OutOfBounds
 		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
 		if (car && trs)
 		{
+			// Playing Car impacting water
+			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+			if (audio) audio->PlayAudio(11);
+
 			car->Reset();
 		}
 	}
