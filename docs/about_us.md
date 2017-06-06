@@ -47,7 +47,7 @@ Aleix Bueso
 
 **Game Design:**
 
-Sergi Pérez - Lead Game Designer
+[Sergi Pérez - Lead Game Designer](sperez.md)
 
 [Alexis Cosano](acosano.md)
 
