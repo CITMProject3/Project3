@@ -617,12 +617,6 @@ void ComponentCar::PlayersInput()
 			}
 		}
 	}
-
-	//Reset button
-	if (App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
-	{
-		Reset();
-	}
 }
 
 void ComponentCar::SteerKart()
@@ -1246,6 +1240,11 @@ void ComponentCar::DebugInput()
 		NewTurbo(turboPicker.acrobatic);
 	}
 	if (App->input->GetKey(SDL_SCANCODE_R) == KEY_DOWN)
+	{
+		Reset();
+	}
+	//Reset button
+	if (onTheGround && App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
 	{
 		Reset();
 	}
