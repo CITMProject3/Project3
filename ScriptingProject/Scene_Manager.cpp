@@ -330,7 +330,7 @@ namespace Scene_Manager
 			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
 		}
 
-		if (topdriver_number) //
+		if (topdriver_number && topgunner_number && botdriver_number && botgunner_number) //
 		{
 			td_number = ((ComponentUiImage*)topdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
