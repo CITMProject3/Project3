@@ -195,7 +195,9 @@ private:
 	float acrobaticsDelay = 0.5f;
 	Timer p1AcrobaticsPress;
 	Timer p2AcrobaticsPress;
+public:
 	bool acrobaticsDone = false;
+private:
 
 	//Feedback stuff
 	float4x4 kartTransform = float4x4::identity;
