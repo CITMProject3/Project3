@@ -48,10 +48,6 @@ namespace Character_Selection_UI
 	GameObject* Player3_num = nullptr;
 	GameObject* Player4_num = nullptr;
 
-	GameObject* Player1_num_port = nullptr;
-	GameObject* Player2_num_port = nullptr;
-	GameObject* Player3_num_port = nullptr;
-	GameObject* Player4_num_port = nullptr;
 
 	ComponentUiButton* but_driver1 = nullptr;
 	ComponentUiButton* but_support1 = nullptr;
@@ -78,11 +74,6 @@ namespace Character_Selection_UI
 	ComponentMaterial* mat_Player2_num = nullptr;
 	ComponentMaterial* mat_Player3_num = nullptr;
 	ComponentMaterial* mat_Player4_num = nullptr;
-
-	ComponentMaterial* mat_Player1_num_port = nullptr;
-	ComponentMaterial* mat_Player2_num_port = nullptr;
-	ComponentMaterial* mat_Player3_num_port = nullptr;
-	ComponentMaterial* mat_Player4_num_port = nullptr;
 
 	ComponentRectTransform* rect_driver1 = nullptr;
 	ComponentRectTransform* rect_support1 = nullptr;
@@ -125,11 +116,6 @@ namespace Character_Selection_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("Player 3 num", Player3_num));
 		public_gos->insert(std::pair<const char*, GameObject*>("Player 4 num", Player4_num));
 
-		public_gos->insert(std::pair<const char*, GameObject*>("Player 1 num port", Player1_num_port));
-		public_gos->insert(std::pair<const char*, GameObject*>("Player 2 num port", Player2_num_port));
-		public_gos->insert(std::pair<const char*, GameObject*>("Player 3 num port", Player3_num_port));
-		public_gos->insert(std::pair<const char*, GameObject*>("Player 4 num port", Player4_num_port));
-
 	}
 
 	void Character_Selection_UI_UpdatePublics(GameObject* game_object)
@@ -156,11 +142,6 @@ namespace Character_Selection_UI
 		Player3_num = test_script->public_gos.at("Player 3 num");
 		Player4_num = test_script->public_gos.at("Player 4 num");
 
-		Player1_num_port = test_script->public_gos.at("Player 1 num port");
-		Player2_num_port = test_script->public_gos.at("Player 2 num port");
-		Player3_num_port = test_script->public_gos.at("Player 3 num port");
-		Player4_num_port = test_script->public_gos.at("Player 4 num port");
-
 		but_driver1 = (ComponentUiButton*)driver1->GetComponent(C_UI_BUTTON);
 		but_support1 = (ComponentUiButton*)support1->GetComponent(C_UI_BUTTON);
 		but_driver2 = (ComponentUiButton*)driver2->GetComponent(C_UI_BUTTON);
@@ -185,11 +166,6 @@ namespace Character_Selection_UI
 		mat_Player2_num = ((ComponentUiImage*)Player2_num->GetComponent(C_UI_IMAGE))->UImaterial;
 		mat_Player3_num = ((ComponentUiImage*)Player3_num->GetComponent(C_UI_IMAGE))->UImaterial;
 		mat_Player4_num = ((ComponentUiImage*)Player4_num->GetComponent(C_UI_IMAGE))->UImaterial;
-
-		mat_Player1_num_port = ((ComponentUiImage*)Player1_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player2_num_port = ((ComponentUiImage*)Player2_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player3_num_port = ((ComponentUiImage*)Player3_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player4_num_port = ((ComponentUiImage*)Player4_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
 
 		mat_Player1 = but_Player1->UImaterial;
 		mat_Player2 = but_Player2->UImaterial;
@@ -224,11 +200,6 @@ namespace Character_Selection_UI
 		test_script->public_gos.at("Player 3 num") = Player3_num;
 		test_script->public_gos.at("Player 4 num") = Player4_num;
 
-		test_script->public_gos.at("Player 1 num port") = Player1_num_port;
-		test_script->public_gos.at("Player 2 num port") = Player2_num_port;
-		test_script->public_gos.at("Player 3 num port") = Player3_num_port;
-		test_script->public_gos.at("Player 4 num port") = Player4_num_port;
-
 		but_driver1 = (ComponentUiButton*)driver1->GetComponent(C_UI_BUTTON);
 		but_support1 = (ComponentUiButton*)support1->GetComponent(C_UI_BUTTON);
 		but_driver2 = (ComponentUiButton*)driver2->GetComponent(C_UI_BUTTON);
@@ -254,10 +225,6 @@ namespace Character_Selection_UI
 		mat_Player3_num = ((ComponentUiImage*)Player3_num->GetComponent(C_UI_IMAGE))->UImaterial;
 		mat_Player4_num = ((ComponentUiImage*)Player4_num->GetComponent(C_UI_IMAGE))->UImaterial;
 
-		mat_Player1_num_port = ((ComponentUiImage*)Player1_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player2_num_port = ((ComponentUiImage*)Player2_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player3_num_port = ((ComponentUiImage*)Player3_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
-		mat_Player4_num_port = ((ComponentUiImage*)Player4_num_port->GetComponent(C_UI_IMAGE))->UImaterial;
 
 		mat_Player1 = but_Player1->UImaterial;
 		mat_Player2 = but_Player2->UImaterial;
@@ -329,11 +296,6 @@ namespace Character_Selection_UI
 		mat_Player3_num->SetIdToRender(player_order[2]);
 		mat_Player4_num->SetIdToRender(player_order[3]);
 
-		mat_Player1_num_port->SetIdToRender(player_order[0]);
-		mat_Player2_num_port->SetIdToRender(player_order[1]);
-		mat_Player3_num_port->SetIdToRender(player_order[2]);
-		mat_Player4_num_port->SetIdToRender(player_order[3]);
-
 		but_driver1->UImaterial->SetIdToRender(player_order[0]);
 		but_support1->UImaterial->SetIdToRender(player_order[1]);
 		but_driver2->UImaterial->SetIdToRender(player_order[2]);
@@ -363,7 +325,7 @@ namespace Character_Selection_UI
 				case 0:
 					if (p_pos[id] == 0 && player1_select == false)
 					{
-						rect_driver1->Move(float3(214, 0, 0));
+						rect_driver1->Move(float3(224, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 1;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -372,7 +334,7 @@ namespace Character_Selection_UI
 				case 1:
 					if (p_pos[id] == 0 && player2_select == false)
 					{
-						rect_support1->Move(float3(214, 0, 0));
+						rect_support1->Move(float3(224, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 1;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -381,7 +343,7 @@ namespace Character_Selection_UI
 				case 2:
 					if (p_pos[id] == 0 && player3_select == false)
 					{
-						rect_driver2->Move(float3(214, 0, 0));
+						rect_driver2->Move(float3(224, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] = 1;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -390,7 +352,7 @@ namespace Character_Selection_UI
 				case 3:
 					if (p_pos[id] == 0 && player4_select == false)
 					{
-						rect_support2->Move(float3(214, 0, 0));
+						rect_support2->Move(float3(224, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 1;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -409,7 +371,7 @@ namespace Character_Selection_UI
 				case 0:
 					if (p_pos[id] == 1 && player1_select == false)
 					{
-						rect_driver1->Move(float3(-214, 0, 0));
+						rect_driver1->Move(float3(-224, 0, 0));
 						but_Player1->OnPress();
 						p_pos[id] = 0;	
 						if (a_comp) a_comp->PlayAudio(0);
@@ -418,7 +380,7 @@ namespace Character_Selection_UI
 				case 1:
 					if (p_pos[id] == 1 && player2_select == false)
 					{
-						rect_support1->Move(float3(-214, 0, 0));
+						rect_support1->Move(float3(-224, 0, 0));
 						but_Player2->OnPress();
 						p_pos[id] = 0;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -427,7 +389,7 @@ namespace Character_Selection_UI
 				case 2:
 					if (p_pos[id] == 1 && player3_select == false)
 					{
-						rect_driver2->Move(float3(-214, 0, 0));
+						rect_driver2->Move(float3(-224, 0, 0));
 						but_Player3->OnPress();
 						p_pos[id] =0;
 						if (a_comp) a_comp->PlayAudio(0);
@@ -436,7 +398,7 @@ namespace Character_Selection_UI
 				case 3:
 					if (p_pos[id] == 1 && player4_select == false)
 					{
-						rect_support2->Move(float3(-214, 0, 0));
+						rect_support2->Move(float3(-224, 0, 0));
 						but_Player4->OnPress();
 						p_pos[id] = 0;
 						if (a_comp) a_comp->PlayAudio(0);

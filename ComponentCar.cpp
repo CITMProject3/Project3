@@ -30,7 +30,7 @@
 #include "Brofiler\include\Brofiler.h"
 
 
-#define DISTANCE_FROM_GROUND 1.0
+#define DISTANCE_FROM_GROUND 1.1f
 
 #define ITERATE_WHEELS for (std::vector<Wheel>::iterator it = wheels.begin(); wheels.empty() == false && it != wheels.end(); it++)
 
@@ -222,7 +222,7 @@ void ComponentCar::KartLogic()
 	{
 		ITERATE_WHEELS
 		{
-			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.65f) && it->distance < DISTANCE_FROM_GROUND + 1.0f))
+			if ((it->angleFromY > 45.0f * DEGTORAD && (it->hitNormal.y < 0.65f && it->hitNormal.y > -0.65f) && it->distance < DISTANCE_FROM_GROUND + 0.25f))
 			{
 				WallHit(it->hitNormal, kartZ, kartX);
 			}
@@ -693,18 +693,18 @@ void ComponentCar::HorizontalDrag()
 
 void ComponentCar::OnPlay()
 {
-	float x = 0.45f;
-	float y = 0.75f;
-	float3 dir = float3(0.4, 1, 0.5);
+	float x = 0.5f;
+	float z = 0.8f;
+	float3 dir = float3(0.8, 1, 0.9);
 
 	//Front left
-	wheels.push_back(Wheel(this, float2(-x, y), float3(-dir.x, -dir.y, dir.z)));
+	wheels.push_back(Wheel(this, float2(-x, z), float3(-dir.x, -dir.y, dir.z)));
 	//Front Right
-	wheels.push_back(Wheel(this, float2(x, y), float3(dir.x, -dir.y, dir.z)));
+	wheels.push_back(Wheel(this, float2(x, z), float3(dir.x, -dir.y, dir.z)));
 	//Back left
-	wheels.push_back(Wheel(this, float2(-x, -y), float3(-dir.x, -dir.y, -dir.z)));
+	wheels.push_back(Wheel(this, float2(-x, -z), float3(-dir.x, -dir.y, -dir.z)));
 	//Back Right
-	wheels.push_back(Wheel(this, float2(x, -y), float3(dir.x, -dir.y, -dir.z)));
+	wheels.push_back(Wheel(this, float2(x, -z), float3(dir.x, -dir.y, -dir.z)));
 
 	if (kart_trs)
 	{
@@ -1248,9 +1248,17 @@ void ComponentCar::DebugInput()
 		Reset();
 	}
 	//Reset button
-	if (onTheGround && App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
+	if (resetTimer > 2.0f)
 	{
-		Reset();
+		if (App->input->GetJoystickButton(front_player, JOY_BUTTON::SELECT) == KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::START) == KEY_REPEAT)
+		{
+			Reset();
+			resetTimer = 0.0f;
+		}
+	}
+	else
+	{
+		resetTimer += time->DeltaTime();
 	}
 	if (App->input->GetKey(SDL_SCANCODE_C) == KEY_DOWN)
 	{
