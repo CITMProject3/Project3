@@ -26,15 +26,19 @@ Finally, i transformed into a level designer to change one of the two tracks int
 _**What i've done:**_
 
 - Creating environment props (In chronological order):
-	- Old temple columns with farols, Screenshot 1: 1732 triangles Screenshot 2: 2064 triangles (In-engine screenshots). ( Finally not included because of the map aesthetic direction had changed. )
-<img src="http://i.imgur.com/bpOPCB7.png" width="360" height="250"> | <img src="http://i.imgur.com/a8PmUaF.png" width="360" height="250">
+
+	- Old temple columns with farols, Screenshot 1: 1732 triangles Screenshot 2: 2064 triangles (In-engine screenshots). (Finally not included because of the map aesthetic direction had changed.)
+![AncientTempleColumns1](http://i.imgur.com/bpOPCB7.png) ![AncientTempleColumns2](http://i.imgur.com/a8PmUaF.png)
 
 	- Firsts map texture creation and painting to test (In-engine screenshots). (Before have tools enough to paint it in engine and have a good textures and textures resolution.)
-<img src="http://i.imgur.com/aV3L0db.png" width="370" height="250"> | <img src="http://i.imgur.com/hI3xB7K.png" width="370" height="250">
+![TerrainPainting1](http://i.imgur.com/aV3L0db.png) ![TerrainPainting2](http://i.imgur.com/hI3xB7K.png)
 
 	- Watermill with some animations, 10.000 triangles entire prop (In-engine footages).
-<img src="http://i.imgur.com/pq7ArWQ.gif" width="370" height="250"> | <img src="http://i.imgur.com/9Nx4z1V.gif" width="370" height="250">
-<img src="http://i.imgur.com/vd1h9Bz.gif" width="370" height="250"> | <img src="http://i.imgur.com/Jjx0vG4.gif" width="370" height="250">
+![Watermillv1_1](http://i.imgur.com/pq7ArWQ.gif) ![Watermillv1_2](http://i.imgur.com/9Nx4z1V.gif)
+![Watermillv1_3](http://i.imgur.com/vd1h9Bz.gif) ![Watermillv1_4](http://i.imgur.com/Jjx0vG4.gif)
+
+	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
+![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
 
 	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
 ![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
