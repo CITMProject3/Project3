@@ -49,7 +49,7 @@ Aleix Bueso
 
 Sergi Pérez - Lead Game Designer
 
-Alexis Cosano
+[Alexis Cosano](acosano.md)
 
 Samuel Navarro
 
