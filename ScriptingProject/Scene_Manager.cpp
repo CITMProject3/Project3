@@ -509,7 +509,7 @@ namespace Scene_Manager
 		}
 		else
 		{
-			if (race_timer_number != 1) // When race_timer_number is 1, the race has begun!
+			if (race_timer_number != 0) // When race_timer_number is 1, the race has begun!
 			{
 				if (delay_to_start > 3.0f && !number_timer_on)
 				{
@@ -544,7 +544,9 @@ namespace Scene_Manager
 			}			
 
 			if (start_timer_on)
+			{
 				Scene_Manager_UpdateStartCountDown(game_object);
+			}				
 
 			if (race_timer_number == 0)
 			{

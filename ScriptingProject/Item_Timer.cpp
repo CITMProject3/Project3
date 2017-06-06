@@ -7,6 +7,7 @@
 #include "../ComponentCollider.h"
 #include "../ComponentCar.h"
 #include "../ComponentMesh.h"
+#include "../ComponentAudioSource.h"
 #include "../ComponentParticleSystem.h"
 #include "../Time.h"
 #include "../Globals.h"
@@ -108,6 +109,10 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 					go_col->SetActive(false);
 					//Particle sytem here no mesh
 					go_mesh->SetActive(false);
+
+					// Playing Hitodama sound
+					ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (audio) audio->PlayAudio(0);
 				}
 			}
 			else
@@ -118,6 +123,10 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 				{
 					go_col->SetActive(false);
 					go_mesh->SetActive(false);
+
+					// Playing ItemBox sound
+					ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+					if (audio) audio->PlayAudio(0);
 				}
 			}
 		}
