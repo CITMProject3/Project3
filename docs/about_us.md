@@ -46,7 +46,7 @@ Adrià Gómez
 
 Ian Trueba
 
-Miquel Gironés
+[Miquel Gironés](mgirones.md)
 
 Aleix Bueso
 
