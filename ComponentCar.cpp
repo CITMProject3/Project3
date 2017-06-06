@@ -58,12 +58,12 @@ void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const floa
 	if (p.IsInPositiveDirection(normal))
 	{
 		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		//if (speed < 0) { speed = 0; }
+		if (speed < 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
 	}
 	else
 	{
 		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		//if (speed > 0) { speed = 0; }
+		if (speed > 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
 	}
 
 	if (drifting != drift_none)
@@ -158,15 +158,15 @@ void ComponentCar::KartLogic()
 		//Casting the weel ray and updating it's values
 		it->Cast();
 
-	if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
-	{
-		onTheGround = true;
-		desiredUp += it->hitNormal;
-	}
-	else
-	{
-		checkOffTrack = true;
-	}
+		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
+		{
+			onTheGround = true;
+			desiredUp += it->hitNormal;
+		}
+		else
+		{
+			checkOffTrack = true;
+		}
 	}
 
 		//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
@@ -693,14 +693,18 @@ void ComponentCar::HorizontalDrag()
 
 void ComponentCar::OnPlay()
 {
+	float x = 0.45f;
+	float y = 0.75f;
+	float3 dir = float3(0.4, 1, 0.5);
+
 	//Front left
-	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(-0.7, -1, 0.7)));
+	wheels.push_back(Wheel(this, float2(-x, y), float3(-dir.x, -dir.y, dir.z)));
 	//Front Right
-	wheels.push_back(Wheel(this, float2(0.0f, 0.8f), float3(0.7, -1, 0.7)));
+	wheels.push_back(Wheel(this, float2(x, y), float3(dir.x, -dir.y, dir.z)));
 	//Back left
-	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(-0.7, -1, -0.7)));
+	wheels.push_back(Wheel(this, float2(-x, -y), float3(-dir.x, -dir.y, -dir.z)));
 	//Back Right
-	wheels.push_back(Wheel(this, float2(0.0f, -0.8f), float3(0.7, -1, -0.7)));
+	wheels.push_back(Wheel(this, float2(x, -y), float3(dir.x, -dir.y, -dir.z)));
 
 	if (kart_trs)
 	{
