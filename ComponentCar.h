@@ -273,6 +273,8 @@ public:
 
 	void Reset();
 
+	float resetTimer = 0.0f;
+
 	float GetVelocity();
 	float GetMaxVelocity()const;
 	const float *GetSpeed() const; // For RTPC Wwise used
