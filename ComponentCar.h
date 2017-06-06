@@ -273,6 +273,13 @@ private:
 public:
 	void WallHit(const float3 &normal);
 
+	void SetPos(float3 pos);
+	bool wantToSetPos = false;
+	float3 setpos;
+	void SetRot(Quat rot);
+	bool wantToSetRot = false;
+	Quat setrot;
+
 	void Reset();
 private:
 	void TrueReset();
