@@ -272,8 +272,12 @@ public:
 	void WallHit(const float3 &normal);
 
 	void Reset();
+private:
+	void TrueReset();
+public:
 
 	float resetTimer = 0.0f;
+	bool wantToReset = false;
 
 	float GetVelocity();
 	float GetMaxVelocity()const;
