@@ -312,7 +312,7 @@ namespace Player_Car
 		}
 
 		//TMP Makibishi
-		Player_Car_TMP_Use_Makibishi(game_object, car);
+		//Player_Car_TMP_Use_Makibishi(game_object, car);
 
 		//Drifting
 		DRIFT_STATE drift_state = car->GetDriftState();
@@ -529,7 +529,7 @@ namespace Player_Car
 			makibishi_collider->body->SetTransform(game_object->transform->GetTransformMatrix().Transposed().ptr());
 			makibishi_collider->body->SetPos(new_pos.x, new_pos.y, new_pos.z);
 
-			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.25f)));
+			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.5f) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.05f)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			item_size--;
 			Player_Car_CallUpdateItems();
