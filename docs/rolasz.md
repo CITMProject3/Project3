@@ -78,7 +78,7 @@ _**What i've done:**_
 	- Some photos from track before my remake.
 ![SceneMap2_v1_1](http://i.imgur.com/lDveYcd.png) ![SceneMap2_v1_2](http://i.imgur.com/wXd5yyh.png) ![SceneMap2_v1_3](http://i.imgur.com/0fS4tJv.png)
 
-	- And now some screenshots after remake:
+	- And now some screenshots after remake, where i changed all heightmap, repainted and placed all enviornment props:
 ![SceneMap2_v2_1](http://i.imgur.com/L0nOkVE.png) ![SceneMap2_v2_2](http://i.imgur.com/IVMHXK9.png) ![SceneMap2_v2_3](http://i.imgur.com/RSmC9JI.png)
 ![SceneMap2_v2_4](http://i.imgur.com/WJXZE7g.png) ![SceneMap2_v2_5](http://i.imgur.com/5k7kyX3.png) ![SceneMap2_v2_6](http://i.imgur.com/99jwl3z.png)
 ![SceneMap2_v2_4](http://i.imgur.com/4oiXVYr.png) ![SceneMap2_v2_5](http://i.imgur.com/rtD8AAs.png) ![SceneMap2_v2_6](http://i.imgur.com/L8CIQaI.png)
