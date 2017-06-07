@@ -217,6 +217,8 @@ private:
 	int driftPhaseChange = 3;
 
 	float driftingFixedTurn = 0.85f;
+	float current_driftingFixedTurn = 0.0f;
+
 	float driftingAdjustableTurn = 0.65f;
 	float steerChangeSpeed = 1.5f;
 	float horizontalSpeedDrifting = 0.8f;
@@ -284,12 +286,16 @@ public:
 	void SetRot(Quat rot);
 	bool wantToSetRot = false;
 	Quat setrot;
+	void SetScale(float3 scale);
+	bool wantToSetScale = false;
+	float3 setscale;
 
 	void Reset();
 private:
 	void TrueReset();
 public:
 
+	float hitWallTimer = 0.0f;
 	float resetTimer = 0.0f;
 	bool wantToReset = false;
 

@@ -192,8 +192,8 @@ public:
 	Turbo turboPadOnEvil = Turbo(0.1f, 0.3f, 1.5f, 0.2f, 0.2f, -0.1f);
 	Turbo acrobatic = Turbo(0.2f, 0.2f, 0.8f, 0.5f, 0.3f, 0.4f);
 
-	Turbo drift1 = Turbo(0.2f, 0.4f, 1.0f, 0.5f, 0.3f, 0.4f);
-	Turbo drift2 = Turbo(0.4f, 0.4f, 1.0f, 0.7f, 0.4f, 0.6f);
+	Turbo drift1 = Turbo(0.1f, 0.2f, 0.5f, 0.7f, 0.3f, 0.7f);
+	Turbo drift2 = Turbo(0.1f, 0.25f, 0.5f, 0.9f, 0.4f, 0.8f);
 
 	//We have two turbos for the rocket: One that will activate when using the item. If this turbo goes into (turbo_done), the rocket will explode.
 	//If the player releases the rocket, we'll apply rocket_deacceleration to slow the player down

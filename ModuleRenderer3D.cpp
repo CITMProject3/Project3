@@ -1164,7 +1164,7 @@ void ModuleRenderer3D::RemoveTextureBuffer(unsigned int id)
 
 void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
 {
-	if (App->StartInGame() == false)
+	if (App->StartInGame() == false && App->physics->renderColliders)
 	{
 		glDisable(GL_LIGHTING);
 
@@ -1179,7 +1179,7 @@ void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
 
 void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
 {
-	if (App->IsGameRunning() == false)
+	if (App->IsGameRunning() == false && App->physics->renderColliders)
 	{
 		glDisable(GL_LIGHTING);
 
@@ -1215,47 +1215,50 @@ void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
 
 void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(1.5f);
-	glColor4fv(color.ptr());
-	glBegin(GL_QUADS);
+	if (App->physics->renderColliders)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glLineWidth(1.5f);
+		glColor4fv(color.ptr());
+		glBegin(GL_QUADS);
 
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glNormal3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
 
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(0.0f, 0.0f, -1.0f);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glNormal3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
 
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(-1.0f, 0.0f, 0.0f);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glNormal3f(0.0f, -1.0f, 0.0f);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
 
-	glEnd();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnd();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }
