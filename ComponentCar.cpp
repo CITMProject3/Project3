@@ -204,12 +204,13 @@ void ComponentCar::KartLogic()
 		//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
 		if (checkOffTrack == false && onTheGround && fallSpeed < 1.5f)
 		{
-			newPos.y = 0.0f;
+			newPos.y = shadowRayResult.point.y;
+			/*newPos.y = 0.0f;
 			ITERATE_WHEELS
 			{
 				newPos.y += it->hitPoint.y;
 			}
-			newPos.y /= wheels.size();
+			newPos.y /= wheels.size();*/
 		}
 
 	//We use on the ground, 'cause it's true if at least one of the
