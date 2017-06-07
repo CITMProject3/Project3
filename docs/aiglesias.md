@@ -25,4 +25,4 @@ we came out with the way, by using heightmaps. This is the development of the he
 ![map5](http://i.imgur.com/kluKRVR.png?1)
 
 - And over everything always test!   
-![QA](http://i.imgur.com/Iozef3R.jpg?1)
+![QA](http://i.imgur.com/Iozef3R.jpg?2)
