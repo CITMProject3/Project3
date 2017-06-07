@@ -53,5 +53,5 @@ They boost the general morale of the team and they're fun... somewhat fun? What 
 - Ezwix engine's logo:
 ![Traguill](http://i.imgur.com/ktUf4RG.png)
 
-And a bunch of slack emojis, though not all of them are mine (most of them are :^D)!
+- And a bunch of slack emojis, though not all of them are mine (most of them are :^D)!
 ![Emojis](http://i.imgur.com/egnhbcy.png?1)
