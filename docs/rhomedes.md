@@ -2,15 +2,25 @@
 ### Name: Roger Homedes
 ### Role: Designer
 ### My Job:
-#### - Concept Discovery & Vertical Slice:
+#### - Concept Discovery & Vertical Slice 1/2/3:
 In the early phases of the project my main objective was to look for information about other "kart-racing" games and collect their most remarkable tracks. With those tracks, i had to document every design decision that i found interesting and viable for our game.
 
 ##### [Link to the first analysis and proposal (with concept)](https://docs.google.com/document/d/1KWESt4w4Brao5CY0e-7IxbD-YmUMBvV2zlyQ825Itq4/edit)
 
 Besides, i started doing some concepts of possible tracks for our game. Lots of them were discarted, but i got some good ideas that could be implemented in the current game. You can see some of them here: 
 
-![alt text][concept1] ![alt text][concept2] ![alt text][concept3]
+![alt text][concept1] ![alt text][concept2]
 
 [concept1]: http://i.imgur.com/VABjLmYm.jpg "Concept 1"
-[concept2]: http://i.imgur.com/84o67m3m.jpg "Concept 2"
-[concept3]: http://i.imgur.com/OcYWVvGm.jpg?1 "Concept 3"
+[concept2]: http://i.imgur.com/OcYWVvGm.jpg?1 "Concept 2"
+
+Finally, one of my ideas was the implementation of a two-sides map, with mountain roads and a dock, what is still in the final map. And also the bifurcation and trifurcation to allow the players to make decisions. 
+
+#### - Alpha 1/2/3: 
+In this phase we found the heightmaps. The designers had to learn this way of tracks creation and at this point was when my first track appeared in the engine. I had to do several iterations to create a map with a correct flow and strategic player decisions. This is the final heightmap i used to work with: 
+
+![alt text][heightmap]
+
+[heightmap]: http://i.imgur.com/wqkFk4Rl.png "Heightmap"
+
+My map inspired some of my teammates and allowed them to create things like the amazing final map. 
