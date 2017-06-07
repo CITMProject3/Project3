@@ -5,7 +5,7 @@
 **Name:** Asier Iglesias
 
 **Contact:**
-[Linkedin](https://www.linkedin.com/in/asier-iglesias-gavarro/)
+[Linkedin](https://www.linkedin.com/in/asier-iglesias-gavarro/)   
 Mail: asier.iglesias@yahoo.es
 
 **My job:** 
@@ -15,7 +15,7 @@ and loved the work there. I'm proud to say that I'm the designer of the Umi Goha
 **What I've done:**
 - First we did a lot of testing with the technologies we were developing to see how we could start designing the levels, and finilly 
 we came out with the way, by using heightmaps. This is the development of the heightmaps until the actual one:
-![HeightmapGif](https://imgflip.com/gif/1qgkaa)
+![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)
 
 - Here you have some images of the development of the map:
 ![map1](https://drive.google.com/drive/folders/0B2arEBaFtuXKN0gyOXE5VVRzUDg)
