@@ -183,13 +183,15 @@ void ComponentCar::KartLogic()
 	onTheGround = false;
 	//Setting the "desired up" value, taking in account if both rays are close enough to the ground or none of them
 	float3 desiredUp = float3(0, 0, 0);
+	float offset = 0.0f;
 	ITERATE_WHEELS
 	{
 		//Casting the weel ray and updating it's values
 		it->Cast();
 
-		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f && it->angleFromY < 45 * DEGTORAD)
+		if (it->hit && it->distance < DISTANCE_FROM_GROUND + 1.5f + offset && it->angleFromY < 45 * DEGTORAD)
 		{
+			offset = 0.5f;
 			onTheGround = true;
 			desiredUp += it->hitNormal;
 		}
@@ -754,7 +756,7 @@ void ComponentCar::RotateKart(float3 desiredUp)
 		}
 		else
 		{
-			nextStep = kartY.Lerp(desiredUp, (1.0f / recoveryTime) * time->DeltaTime());
+			nextStep = kartY.Lerp(desiredUp, 0.05f * time->DeltaTime());
 		}
 		Quat normal_rot = Quat::RotateFromTo(kartY, nextStep);
 		kart_trs->Rotate(normal_rot);
@@ -1579,7 +1581,6 @@ void ComponentCar::Save(Data& file) const
 	data.AppendFloat("max_push_force", max_push_force);
 	data.AppendFloat("push_threshold", push_threshold);
 
-	data.AppendFloat("recoveryTime", recoveryTime);
 	data.AppendFloat("WallsBounciness", WallsBounciness);
 
 	data.AppendFloat("maxSteerReduction", maxSteerReduction);
@@ -1642,8 +1643,6 @@ void ComponentCar::Load(Data& conf)
 	if (tmp != 0.0f) { max_push_force = tmp; }
 	tmp = conf.GetFloat("push_threshold");
 	if (tmp != 0.0f) { push_threshold = tmp; }
-	tmp = conf.GetFloat("recoveryTime");
-	if (tmp != 0.0f) { recoveryTime = tmp; }
 	tmp = conf.GetFloat("WallsBounciness");
 	if (tmp != 0.0f) { WallsBounciness = tmp; }
 
