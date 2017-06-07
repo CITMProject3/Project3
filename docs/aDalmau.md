@@ -44,15 +44,23 @@ Finally, I returned to UI to finish the menus and add more cool functionality.
         - OnPress function that handles.
     - Grid Component:
         - Grid organizes in a grid form several elements.
-        
+
+![UI EXAMPLE](https://lh3.google.com/u/0/d/0B8s5jSxw8e1td1JUdXhhc1hxSUk=w982-h909-iv1)
+
  -  Camera improvements:
     - Bullet physics made the car go crazy, and the camera was going crazy as well.
         - Fixed the camera to not go crazy, and to follow the car smoothly till he comes back to normal.
     - Smoothed a bit the camera when turning.
     
+![CameraFixing]( https://lh4.googleusercontent.com/pmkUFnVXiy0MYSb94_biPmspuF9CWx144rrWgaKa5agIZj1tnCocrZFpIffBK3JTfJbB0tT3_K_Lo8REg-ciDkLMfqZkf0ZAz-M-3OyL8x2JJz0njwMPDGneXArpnC-6laEm)
+
  -  Evil spirit item:
     - Main features:
       - Reverse control.
       - Debuf to lower the max speed and the acceleration.
     - Second player defense:
       - Second player can remove the evil spirit earlier pressing LT and RT continuosly.
+      
+  - Hitodamas
+    - Made that Hitodama increases the max speed.
+    - Hitodama was removed from the game.
