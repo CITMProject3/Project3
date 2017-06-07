@@ -21,7 +21,7 @@ Marc Garrigó - Lead Programmer
 
 [David Hernández](dhernandez.md)
 
-Ausiàs Dalmau
+[Ausiàs Dalmau](aDalmau.md)
 
 Carlos Randino
 
