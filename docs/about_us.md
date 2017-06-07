@@ -63,7 +63,7 @@ Ian Trueba
 
 [Laura Ripoll](lripoll.md)
 
-Roger Homedes
+[Roger Homedes](rhomedes.md)
 
 [Asier Iglesias](aiglesias.md)
 
