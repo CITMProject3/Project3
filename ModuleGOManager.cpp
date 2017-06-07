@@ -57,7 +57,7 @@ bool ModuleGOManager::Init(Data & config)
 	team2_car = 0;
 
 	team1_p1_c = 0;
-	team1_p2_c = 2;
+	team1_p2_c = 3;
 
 	team2_p1_c = 0;
 	team2_p2_c = 2;
