@@ -4,21 +4,25 @@
 
 **Name:** Asier Iglesias
 
-**Contact:**
+**Contact:**   
 [Linkedin](https://www.linkedin.com/in/asier-iglesias-gavarro/)   
 Mail: asier.iglesias@yahoo.es
 
-**My job:** 
+**My job:**    
 First I started as a kart designer and after giving some concept ideas I knew that it wasn't what I liked, so I changed to level designer
 and loved the work there. I'm proud to say that I'm the designer of the Umi Gohan level.
 
-**What I've done:**
+**What I've done:**   
 - First we did a lot of testing with the technologies we were developing to see how we could start designing the levels, and finilly 
-we came out with the way, by using heightmaps. This is the development of the heightmaps until the actual one:
-![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)
+we came out with the way, by using heightmaps. This is the development of the heightmaps until the actual one:   
+![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)    
 
-- Here you have some images of the development of the map:
-![map1](https://drive.google.com/file/d/0B2arEBaFtuXKNWp4NDJ6V3dwTGM/view?usp=sharing)
-![map2](https://drive.google.com/drive/folders/0B2arEBaFtuXKdWpadWg2cDZlUEk.jpg)
+- Here you have some images of the development of the map with lots of iterations between them:     
+![map1](http://i.imgur.com/aRDbdkr.jpg) 
+![map2](http://i.imgur.com/I9fEi6y.png) 
+![map3](http://i.imgur.com/TYYRD2S.jpg)
+![map4](http://i.imgur.com/nQzEiEP.jpg)
+![map5](http://i.imgur.com/kluKRVR.png)
 
-![map3](https://drive.google.com/open?id=0B2arEBaFtuXKNWp4NDJ6V3dwTGM)
+- And over everything always test!   
+![QA](http://i.imgur.com/Iozef3R.jpg)
