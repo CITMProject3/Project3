@@ -4,11 +4,13 @@
 
 **Name:** Aleix Bueso
 
-**LinkedIn:** [LinkedIn](https://www.linkedin.com/in/aleix-bueso-fern%C3%A1ndez-05b166115/)
+**Contact:**
 
-**Github:** [Github](https://github.com/AleixBueso)
+* To [LinkedIn](https://www.linkedin.com/in/aleix-bueso-fern%C3%A1ndez-05b166115/)
 
-**Mail:** aleix.bueso@gmail.com
+* To [Github](https://github.com/AleixBueso)
+
+* Mail: aleix.bueso@gmail.com
 
 **Programs used in this project**: ![Maya](https://cdna.artstation.com/p/softwares/icons/000/000/024/default/Maya.png?1424684349) ![Photoshop](https://cdna.artstation.com/p/softwares/icons/000/000/032/default/Photoshop.png?1424684351)
 
