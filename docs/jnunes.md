@@ -81,3 +81,11 @@ All the tasks were logged in our task management software: HacknPlan. In HakcnPl
 
 HacknPlan for Vertical Slice 3 (Gameplay scrum):
 ![HacknPlan](http://i.imgur.com/zsPuOcG.png)
+
+### Crunchs
+After some problems in the firsts deliveries, merging all the work done by all departments, we decided to stablish 2 days before every delivery where all team members had to be on a reserved college's clasroom all day. This way we improved the communication and we reduced last minute issues. We have met the 2 days before of every delivery to ensure that everything is ok since the Vertical Slice 3 (included).
+
+Some images during the crunch:
+![CRUNCH](http://i.imgur.com/nqLCNol.jpg)
+![CRUNCH](http://i.imgur.com/Jck1L5L.jpg)
+![CRUNCH](http://i.imgur.com/AjPYSnG.jpg)
