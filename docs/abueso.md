@@ -16,14 +16,13 @@
 
 **My Job:** 
 
-First of all i started being 3D environment artist, creating props to use on our tracks with their concept arts or references, their UV and textures. 
+At the start of the sprints I started at the Art department making concepts and and theme propositions.
 
-Afterwards on the development, when gameplay had evolved, i had to start creating (following the same method we used for the objects) models like Daruma (random box to collect in-game items)
-and some item like Makibishis.
+Later i started modeling and texturing as many props as i could so we could choose from a large list and adapt them later.
 
-Then, i had to take again two of the props created to make a rework, because they have been created fast to fulfill the deliveries.
+Then we needed to adapt the maps and build them so I started placing props to an early verion of the Umi Gohan.
 
-Finally, i transformed into a level designer to change one of the two tracks into something beautiful and enjoyable to wander, from filling the map with props to changing the entire heightmap and repainting it.
+At the end I ended up doing QA and basicaly tweaking the drifting so that you could take the curves properly (which was a difficult task at the time)
 
 _**What i've done:**_
 
