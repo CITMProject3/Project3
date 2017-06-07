@@ -18,7 +18,7 @@ The project starts officially 10th of Febraury. Subject's teacher, simulated to 
 Also gave us subject's calendar. I modified a little bit adding Alpha 2 delivery to split 4 weeks sprint in 2.
 ![Calendar](http://i.imgur.com/9rOFM1B.png)
 
-In Concept Discovery and Vertical Slice 1 the team work by departments, because we were gathering info and making some tests, so it wasn't necessary create interdepartmental scrums. In this period of the production, leads had a lot of work supervising their departments (pre-production is a chaotic period).
+In Concept Discovery and Vertical Slice 1 & 2 the team work by departments, because we were gathering info and making some tests, so it wasn't necessary create interdepartmental scrums. In this period of the production, leads had a lot of work supervising their departments (pre-production is a chaotic period).
 
 The first delivery, Concept Discovery, was an information gathering in all aspects of the project. 
 - Code studied viability of different technologies and all the time needed to develop it. 
@@ -28,3 +28,12 @@ The first delivery, Concept Discovery, was an information gathering in all aspec
 After this first approach to the game, we decide the theme of the game: Yo-kais. What matches perfectly with the game pillars. The process was a little bit complicated, but briefly, we decided democratically.
 
 Vertical Slice 1 & 2 were a very early prototypes, without nothing similar to a final level or art implmented, very fwe mechanics, etc.
+![Vertical Slice 1 & 2](http://i.imgur.com/NXjy6aQ.png)
+After this prototypes we saw in what direction we had to advance and leads and I decided pass to Scrums productions instead of departments production. For the firsts sprints we had the following scrums: Gameplay, Levels, UI, Engine and Art-Heroes. 
+- Gameplay was responsible of karts behaviours, player mechanics, items and animations.
+- Levels had to develop tools for import heightmaps in order to create levels, create props and design and iterate circuits.
+- UI designed and developed all menu's and in-game UI.
+- Engine was a full programmers scrum, focused on improved and add funcionality to the engine.
+- Art-Heroes was a full artists scrum in charge of modelling and texturized characters and karts.
+
+We have maintained this scrums for almost all production. The only significant change was the dissolution of Art-Heroes scrum once all characters and karts were finished. These artists were moved to Gameplay scrum to help in characters' animations in the Alpha 2 sprint.
