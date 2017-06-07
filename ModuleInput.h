@@ -85,6 +85,7 @@ public:
 	int GetNumberJoysticks() const;
 
 	bool Quit() const;
+	void SetQuit();
 	void ResetQuit();
 
 	void InfiniteHorizontal();

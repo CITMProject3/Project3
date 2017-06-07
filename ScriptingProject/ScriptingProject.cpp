@@ -60,6 +60,8 @@ extern "C"
 
 			//Particles
 			script_names->push_back("ParticleHit");
+
+			script_names->push_back("ReloadScene");
 		}
 	}
 

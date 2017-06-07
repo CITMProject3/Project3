@@ -92,6 +92,7 @@ namespace Scene_Manager
 	ComponentMaterial* bd_number = nullptr;
 	ComponentMaterial* bg_number = nullptr;
 
+	GameObject* focus_result;
 	ComponentAudioSource *audio_source = nullptr;
 
 	GameObject* top_wrongdirection = nullptr;
@@ -99,6 +100,12 @@ namespace Scene_Manager
 	
 	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
 	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
+
+	string assets_scene_1_reload = "/Assets/Scene_Map_1/Map_1_rematch.ezx"; // On Assets
+	string library_scene_1_reload = "/Library/1441726200/554669074/554669074.ezx"; // On Library
+
+	string assets_scene_2_reload = "/Assets/Scene_Map_2_NEW/Map_2_rematch.ezx"; // On Assets
+	string library_scene_2_reload = "/Library/2159977326/1069121338/1069121338.ezx"; // On Library
 
 	//"Private" variables
 	float delay_to_start;
@@ -126,6 +133,12 @@ namespace Scene_Manager
 	bool music_played = false;
 	string team1_text = "";
 	string team2_text = "";
+
+	//Result Window
+
+	int result_focus_pos = 0;
+
+	bool triggers_pressed[4];
 
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -167,6 +180,7 @@ namespace Scene_Manager
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Top_Wrong", top_wrongdirection));
 		public_gos->insert(std::pair<const char*, GameObject*>("Bot_Wrong", bot_wrongdirection));
+		public_gos->insert(std::pair<const char*, GameObject*>("Focus_result", focus_result));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -205,6 +219,8 @@ namespace Scene_Manager
 
 		top_wrongdirection = script->public_gos["Top_Wrong"];
 		bot_wrongdirection = script->public_gos["Bot_Wrong"];
+
+		focus_result = script->public_gos["Focus_result"];
 	}
 
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
@@ -240,6 +256,7 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		result_focus_pos = 0;
 		music_played = false;
 		race_timer_number = 4;
 		countdown_sound = 3;
@@ -364,11 +381,12 @@ namespace Scene_Manager
 			top_wrongdirection->SetActive(false);
 			bot_wrongdirection->SetActive(false);
 		}
-
+		if (result_window) result_window->SetActive(false);
 		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
+	void Scene_Manager_ResultWindow(GameObject* game_object);
 
 	void Scene_Manager_Update(GameObject* game_object)
 	{
@@ -384,21 +402,7 @@ namespace Scene_Manager
 		}
 		else
 		{
-			for (uint joystick = 0; joystick < 4; joystick++)
-			{
-				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-				{
-					if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
-
-					// Selecting Assets or Library version depending on Game mode
-					if (App->StartInGame())
-						App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
-					else
-						App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
-
-					return;
-				}
-			}
+			Scene_Manager_ResultWindow(game_object);
 		}
 	}
 
@@ -608,7 +612,10 @@ namespace Scene_Manager
 						wrong_dir_timer_1 = 0.0f;
 				}
 				else
+				{
+					top_wrongdirection->SetActive(false);
 					wrong_dir_timer_1 = 0.0f;
+				}
 
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
@@ -688,7 +695,10 @@ namespace Scene_Manager
 						wrong_dir_timer_2 = 0.0f;
 				}
 				else
+				{
+					bot_wrongdirection->SetActive(false);
 					wrong_dir_timer_2 = 0.0f;
+				}
 
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
@@ -749,6 +759,148 @@ namespace Scene_Manager
 			if (timer_text != nullptr)
 			{
 				Scene_Manager_UpdateUIRaceTimer();
+			}
+		}
+	}
+
+	void Scene_Manager_ResultWindow(GameObject* game_object)
+	{
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		{
+			if (result_focus_pos == 2)
+			{
+				result_focus_pos = 0;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -200, 0));
+			}
+			else
+			{
+				result_focus_pos++;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 100, 0));
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		{
+			if (result_focus_pos == 0)
+			{
+				result_focus_pos = 2;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 200, 0));
+			}
+			else
+			{
+				result_focus_pos--;
+				if(focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -100, 0));
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
+			switch (result_focus_pos)
+			{
+			case 0: 
+
+			// Selecting Assets or Library version depending on Game mode
+				if (App->StartInGame())
+					App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+				else
+					App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+				break;
+			case 1:
+																// Selecting Assets or Library version depending on Game mode
+				if (App->go_manager->current_scene == 0)
+				{
+					if (App->StartInGame())
+						App->LoadScene(library_scene_1_reload.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_scene_1_reload.c_str());		// Using Assets Scene files
+					
+				}
+				else if (App->go_manager->current_scene == 1)
+				{
+					if (App->StartInGame())
+						App->LoadScene(library_scene_2_reload.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_scene_2_reload.c_str());		// Using Assets Scene file
+				}
+				break;
+			case 2:
+				App->input->SetQuit();
+				break;
+			}
+		}
+
+		for (uint joystick = 0; joystick < 4; joystick++)
+		{
+			if (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) < 0.2f && App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) > -0.2f && triggers_pressed[joystick] == true)
+			{
+				triggers_pressed[joystick] = false;
+			}
+
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) > 0.75f && triggers_pressed[joystick] == false))
+			{
+				triggers_pressed[joystick] = true;
+				if (result_focus_pos == 2)
+				{
+					result_focus_pos = 0;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -200, 0));
+				}
+				else
+				{
+					result_focus_pos++;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 100, 0));
+				}
+			}
+
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::DPAD_UP) == KEY_DOWN || (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) < -0.75f && triggers_pressed[joystick] == false))
+			{
+				triggers_pressed[joystick] = true;
+				if (result_focus_pos == 0)
+				{
+					result_focus_pos = 2;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 200, 0));
+				}
+				else
+				{
+					result_focus_pos--;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -100, 0));
+				}
+			}
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN)
+			{
+				if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
+				switch (result_focus_pos)
+				{
+				case 0:
+
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+					break;
+				case 1:
+					// Selecting Assets or Library version depending on Game mode
+					if (App->go_manager->current_scene == 0)
+					{
+						if (App->StartInGame())
+							App->LoadScene(library_scene_1_reload.c_str());	// Using Library Scene files
+						else
+							App->LoadScene(assets_scene_1_reload.c_str());		// Using Assets Scene files
+
+					}
+					else if (App->go_manager->current_scene == 1)
+					{
+						if (App->StartInGame())
+							App->LoadScene(library_scene_2_reload.c_str());	// Using Library Scene files
+						else
+							App->LoadScene(assets_scene_2_reload.c_str());		// Using Assets Scene file
+					}
+					break;
+				case 2:
+					App->input->SetQuit();
+					break;
+				}
 			}
 		}
 	}

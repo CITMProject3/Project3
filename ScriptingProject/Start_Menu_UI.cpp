@@ -37,7 +37,6 @@ namespace Start_Menu_UI
 
 	GameObject* roles_portrait[4] = { nullptr, nullptr, nullptr, nullptr };
 
-	GameObject* players = nullptr;
 	GameObject* start_but = nullptr;
 	GameObject* choose_team = nullptr;
 
@@ -56,7 +55,6 @@ namespace Start_Menu_UI
 
 	int player_order[4][2];
 	//  Player_Order
-	//  [X] [X] [X] [X]
 	//  [0]         [1]
 	//  [2]         [3]
 
@@ -84,7 +82,6 @@ namespace Start_Menu_UI
 		public_gos->insert(std::pair<const char*, GameObject*>("GunnerR Grid", roles_portrait[3]));
 		public_gos->insert(std::pair<const char*, GameObject*>("Start Button", start_but));
 		public_gos->insert(std::pair<const char*, GameObject*>("Choose team", choose_team));
-		public_gos->insert(std::pair<const char*, GameObject*>("Players", players));
 		public_ints->insert(std::pair<const char*, int>("Player1", player_order[0][0]));
 		public_ints->insert(std::pair<const char*, int>("Player2", player_order[1][0]));
 		public_ints->insert(std::pair<const char*, int>("Player3", player_order[2][0]));
@@ -115,7 +112,6 @@ namespace Start_Menu_UI
 		roles_portrait[1] = test_script->public_gos.at("GunnerL Grid");
 		roles_portrait[2] = test_script->public_gos.at("DriverR Grid");
 		roles_portrait[3] = test_script->public_gos.at("GunnerR Grid");
-		players = test_script->public_gos.at("Players");
 		start_but = test_script->public_gos.at("Start Button");
 		choose_team = test_script->public_gos.at("Choose team");
 		player_order[0][0] = test_script->public_ints.at("Player1");
@@ -148,7 +144,6 @@ namespace Start_Menu_UI
 		test_script->public_gos.at("GunnerL Grid") = roles_portrait[1];
 		test_script->public_gos.at("DriverR Grid") = roles_portrait[2];
 		test_script->public_gos.at("GunnerR Grid") = roles_portrait[3];
-		test_script->public_gos.at("Players") = players;
 		test_script->public_gos.at("Start Button") = start_but;
 		test_script->public_gos.at("Choose team") = choose_team;
 		test_script->public_ints.at("Player1") = player_order[0][0];
@@ -164,7 +159,6 @@ namespace Start_Menu_UI
 	void Start_Menu_UI_Start(GameObject* game_object)
 	{
 		start_but->SetActive(false);
-		players->SetActive(false);
 		Start_Menu_UI_ActualizePublics(game_object);
 
 		controller[0][1] = PP_DriverLeft;
@@ -343,11 +337,9 @@ namespace Start_Menu_UI
 				switch (controller[k][0])
 				{
 				case PP_StandBy:
-					//m_p[k]->SetIdToRender(1);
 					break;
 				case PP_DriverLeft:
 					controller_focus[k][0]->SetActive(false);
-					//m_lb->SetIdToRender(k);
 					player_order[0][0] = -1;
 					break;
 				case PP_GunnerLeft:
@@ -496,7 +488,6 @@ namespace Start_Menu_UI
 			if (total == 4)
 			{
 				start_but->SetActive(true);
-				players->SetActive(false);
 				ComponentScript* main_canvas_script = (ComponentScript*)App->go_manager->current_scene_canvas->GetGameObject()->GetComponent(C_SCRIPT);
 				for (int i = 0; i < 4; i++)
 				{
@@ -523,7 +514,6 @@ namespace Start_Menu_UI
 			else
 			{
 				start_but->SetActive(false);
-				players->SetActive(false);
 			}
 		
 	}

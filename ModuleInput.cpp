@@ -352,6 +352,11 @@ bool ModuleInput::Quit() const
 	return wants_to_quit;
 }
 
+void ModuleInput::SetQuit()
+{
+	wants_to_quit = true;
+}
+
 void ModuleInput::ResetQuit()
 {
 	wants_to_quit = false;
