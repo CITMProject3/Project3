@@ -61,7 +61,7 @@ Ian Trueba
 
 Samuel Navarro
 
-Laura Ripoll
+[Laura Ripoll](lripoll.md)
 
 Roger Homedes
 
