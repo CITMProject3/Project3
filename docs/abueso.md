@@ -27,11 +27,20 @@ At the end I ended up doing QA and basicaly tweaking the drifting so that you co
 
 _**What i've done:**_
 
-- Creating environment props (In chronological order):
+First Circuit Version
 
-Fishing Cotagge
+![First Circuit Version](http://i.imgur.com/Hhz4mgJ.png)
 
-![Fishing Cotagge](http://i.imgur.com/9MhfCtB.png)
+*Props:*
+
+Harbor Full
+
+![Harbor Full](http://i.imgur.com/LtOqKFH.png)
+
+
+Fishing Rack
+
+![Fishing Rack](http://i.imgur.com/Pk0oOF8.jpg)
 
 
 Paper Carps
@@ -39,61 +48,55 @@ Paper Carps
 ![Paper Carps](http://i.imgur.com/mkBClQt.png)
 
 
-First Circuit Version
-
-![First Circuit Version](http://i.imgur.com/mkBClQt.png)
-
-
-Trees V2
-
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
-
-
-Fishing Rack
-
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
-
-
-Harbor Full
-
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
-
-
 Fish Stand
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Fish Stand](http://i.imgur.com/xfsoXK0.jpg)
+
+
+Fishing Cotagge
+
+![Fishing Cotagge](http://i.imgur.com/9MhfCtB.png)
 
 
 Stone Wall
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
-
-
-Wood Fences
-
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Stone Wall](http://i.imgur.com/g4X9sop.png)
 
 
 Tree V1
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Tree V1](http://i.imgur.com/sLurw7P.png)
+
+
+Trees V2
+
+![Trees V2](http://i.imgur.com/GiiMGL8.png)
 
 
 Torii
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Torii](http://i.imgur.com/VUdBBUN.png)
 
+
+Wood Texture
+
+![Wood Texture](http://i.imgur.com/T7e7gUS.png)
 
 Wood Plank
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Wood Plank](http://i.imgur.com/a3bvLBW.png)
+
+
+Wood Fences
+
+![Wood Fences](http://i.imgur.com/T9jwW0U.png)
 
 
 Harbor Parts
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Harbor Parts](http://i.imgur.com/RJ8nq4T.png)
 
 
 Bridge
 
-![Paper Carps](http://i.imgur.com/mkBClQt.png)
+![Bridge](http://i.imgur.com/SFftlqB.png)
