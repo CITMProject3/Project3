@@ -1,7 +1,7 @@
 #ifndef __EVENTQUEUE_H__
 #define __EVENTQUEUE_H__
 
-#define MAX_PENDING 16
+#define MAX_PENDING 32
 
 #include <assert.h>
 

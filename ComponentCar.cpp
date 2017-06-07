@@ -300,6 +300,7 @@ float ComponentCar::AccelerationInput()
 		// Pushing is applied when speed / maxSpeed is below push_threshold (60%-70%)
 		if (speed / maxSpeed < push_threshold)
 		{
+			//LOG("Max speed %f", maxSpeed);
 			push_timer.Start();
 			pushing = true;
 		}
@@ -313,7 +314,7 @@ float ComponentCar::AccelerationInput()
 				push_force *= push_incr;
 
 			acceleration += push_force;
-			LOG("Applying Force! %f", acceleration);
+			//LOG("Applying Force! %f", acceleration);
 		}
 		else
 		{
@@ -1735,6 +1736,7 @@ void ComponentCar::OnInspector(bool debug)
 				"Horizontal speed: %f\n"
 				"Vertical speed: %f\n"
 				"Current Steer: %f\n"
+				"Pushing: %s\n"
 				"Steering: %s\n"
 				"On The Ground: %s\n"
 				"DriftButtonMashing: %u\n"
@@ -1742,7 +1744,7 @@ void ComponentCar::OnInspector(bool debug)
 				"Last checkpoint: %i\n"
 				"Last 2checkpoint: %i\n"
 				"TestVar: %f"
-				,place, speed, horizontalSpeed, fallSpeed, currentSteer, steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(), wrongDirection ? "true" : "false", lastCheckpoint, last2Checkpoint, testVar);
+				,place, speed, horizontalSpeed, fallSpeed, currentSteer, pushing ? "true" : "false", steering ? "true" : "false", onTheGround ? "true" : "false", driftButtonMasher.GetNTaps(), wrongDirection ? "true" : "false", lastCheckpoint, last2Checkpoint, testVar);
 
 
 			string currentDriftPhase;

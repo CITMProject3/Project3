@@ -41,7 +41,7 @@ namespace OutOfBounds
 		{
 			// Playing Car impacting water
 			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (audio) audio->PlayAudio(11);
+			if (audio) audio->PlayAudio(0);
 
 			car->Reset();
 		}
