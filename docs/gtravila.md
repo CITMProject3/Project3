@@ -51,12 +51,14 @@ At the begining, the team decided to go with a cell shading style.
 
 In the end, it was decided to go with a more realistic style, so I changed the shaders to Phong. I did several variations of the shader: the classic one, with a normal map, with the mesh animated and with the mesh animated and a normal map.
 
-(insert phong photo, phong with normal, animation)
+![phong](http://i.imgur.com/Z1UNqze.png) ![phong_normal](http://i.imgur.com/xzq2xLq.png) ![animation](http://i.imgur.com/kcVmgJ3.gif)
 
 The vertex deformation of a GameObject with animation was done through shaders to take advantage of the GPU and reduce the CPU computational cost.
 Also, I was asked to do a shader for the water similar to the one in The Legend of Zelda: The Wind Waker. Here is the result:
 
-(insert water gif)
+<p align="center">
+  <img src="http://i.imgur.com/gBMc1A2.gif" alt="water"/>
+</p>
 
 <a name="particles"></a> **Particle System**
 
@@ -67,10 +69,14 @@ I was responsible of making the particle system from scratch as well as implemen
 - Color over lifetime 
 - An editor to simulate the states of the particle (Play/Pause/Stop)
 
-(some gifs of the particles in the game)
+<p align="center">
+  <img src="http://i.imgur.com/PhJjLGN.gif" alt="particles"/>
+</p>
+
+![burst](http://i.imgur.com/RPQHfHk.gif)![particle_anim](http://i.imgur.com/BHQHyM1.gif)![particle_game](http://i.imgur.com/MIhIUaz.gif)
 
 <a name="shadows"></a> **Shadows**
 
 This feature was implemented at the end and due to time limitations the shadows are in low resolution and perform very poorly (but do their job!). The shadows are mapped in a 4096x4096 texture and udpated at real time for the whole map (very optimal...). However, I had time to improved it a little bit implementing the Percentage Close Filtering method.
 
-(some ugly pictures of the shadows)
+![shadow_big](http://i.imgur.com/BjmRIOE.png)![shadow_small](http://i.imgur.com/GgixscC.png)
