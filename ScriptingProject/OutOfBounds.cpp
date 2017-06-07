@@ -14,7 +14,7 @@
 namespace OutOfBounds
 {
 	//Public
-	float timer;
+	float timer = 0.0f;
 	bool sound_played = false;
 
 	ComponentAudioSource *audio_source = nullptr;
@@ -35,7 +35,7 @@ namespace OutOfBounds
 	void OutOfBounds_Start(GameObject* game_object)
 	{
 		timer = 0.0f;
-		sound_played = false;
+		sound_played = true;
 
 		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
@@ -44,11 +44,14 @@ namespace OutOfBounds
 	{
 		if (sound_played)
 		{
-			timer += time->DeltaTime();
-			if (timer > 1.0f)
+			if (timer > 2.0f)
 			{
 				sound_played = false;
 				timer = 0.0f;
+			}
+			else
+			{
+				timer += time->DeltaTime();
 			}
 		}
 
@@ -56,18 +59,18 @@ namespace OutOfBounds
 
 	void OutOfBounds_OnCollision(GameObject* game_object, PhysBody3D* col)
 	{
-		ComponentCar* car = col->GetCar();
-		ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-		if (car && trs)
+		if (sound_played == false)
 		{
-			if (!sound_played)
+			ComponentCar* car = col->GetCar();
+			ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
+			if (car && trs)
 			{
 				sound_played = true;
 				// Playing Car impacting water
 				if (audio_source) audio_source->PlayAudio(0);
-			}
 
-			car->Reset();
+				car->Reset();
+			}
 		}
 	}
 }

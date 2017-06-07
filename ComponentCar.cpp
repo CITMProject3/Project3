@@ -36,40 +36,43 @@
 
 void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
 {
-	float3 fw, side;
-
-	normal.Decompose(kartZ, fw, side);
-
-	Plane p;
-	p.Set(kart_trs->GetPosition(), kartX);
-
-	if (p.IsInPositiveDirection(normal))
+	if (hitWallTimer > 2.0f)
 	{
-		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (horizontalSpeed < 0) { horizontalSpeed = 0; }
-	}
-	else
-	{
-		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (horizontalSpeed > 0) { horizontalSpeed = 0; }
-	}
+		float3 fw, side;
 
-	p.Set(kart_trs->GetPosition(), kartZ);
-	if (p.IsInPositiveDirection(normal))
-	{
-		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (speed < 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
-	}
-	else
-	{
-		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (speed > 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
-	}
+		normal.Decompose(kartZ, fw, side);
 
-	if (drifting != drift_none)
-	{
-		collisionwWhileDrifting++;
-		driftCollisionTimer = 0.0f;
+		Plane p;
+		p.Set(kart_trs->GetPosition(), kartX);
+
+		if (p.IsInPositiveDirection(normal))
+		{
+			horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (horizontalSpeed < 0) { horizontalSpeed = 0; }
+		}
+		else
+		{
+			horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (horizontalSpeed > 0) { horizontalSpeed = 0; }
+		}
+
+		p.Set(kart_trs->GetPosition(), kartZ);
+		if (p.IsInPositiveDirection(normal))
+		{
+			speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (speed < 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
+		}
+		else
+		{
+			speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (speed > 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
+		}
+
+		if (drifting != drift_none)
+		{
+			collisionwWhileDrifting++;
+			driftCollisionTimer = 0.0f;
+		}
 	}
 }
 
@@ -88,6 +91,12 @@ void ComponentCar::SetRot(Quat rot)
 {
 	setrot = rot;
 	wantToSetRot = true;
+}
+
+void ComponentCar::SetScale(float3 scale)
+{
+	setscale = scale;
+	wantToSetScale = true;
 }
 
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
@@ -155,11 +164,24 @@ void ComponentCar::Update()
 			wantToSetPos = false;
 			kart_trs->SetPosition(setpos);
 		}
-
 		if (wantToSetRot)
 		{
 			wantToSetRot = false;
 			kart_trs->SetRotation(setrot);
+		}
+		if (wantToSetScale)
+		{
+			wantToSetScale = false;
+			kart_trs->SetScale(setscale);
+		}
+		float3 scale = kart_trs->GetScale();
+		if (scale.x > 1.2f || scale.y > 1.2f || scale.z > 1.2f)
+		{
+			SetScale(float3(1, 1, 1));
+		}
+		if (hitWallTimer < 10.0f)
+		{
+			hitWallTimer += time->DeltaTime();
 		}
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
@@ -407,6 +429,8 @@ void ComponentCar::Steer(float amount)
 	amount = math::Clamp(amount, -1.0f, 1.0f);
 	if (drifting == drift_none || drifting == drift_failed)
 	{
+		current_driftingFixedTurn = 0.0f;
+
 		if (amount < -0.1 || amount > 0.1)
 		{
 			currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime() * amount;
@@ -453,6 +477,15 @@ void ComponentCar::Drift(float dir)
 		return;
 	}
 
+	if (current_driftingFixedTurn <= driftingFixedTurn)
+	{
+		current_driftingFixedTurn += 1.0f * time->DeltaTime();
+	}
+	else
+	{
+		current_driftingFixedTurn = driftingFixedTurn;
+	}
+
 	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
 
 	if (driftButtonMasher.GetNTaps() > driftPhaseChange || App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
@@ -476,12 +509,12 @@ void ComponentCar::Drift(float dir)
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		desiredCurrentSteer = -driftingFixedTurn + (dir * driftingAdjustableTurn);
+		desiredCurrentSteer = -current_driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir += 0.6f;
 	}
 	else
 	{
-		desiredCurrentSteer = driftingFixedTurn + (dir * driftingAdjustableTurn);
+		desiredCurrentSteer = current_driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
@@ -1319,7 +1352,11 @@ bool ComponentCar::GetGroundState() const
 
 float ComponentCar::GetAngularVelocity() const
 {
-	return currentSteer * (maxSteer + mods.bonusMaxSteering) * DEGTORAD;
+	float tmp = currentSteer;
+	if (tmp > 1.0f) { tmp = 1.0f; }
+	else if (tmp < -1.0f) { tmp = -1.0f; }
+
+	return tmp * (maxSteer + mods.bonusMaxSteering) * DEGTORAD;
 }
 
 Turbo ComponentCar::GetAppliedTurbo() const
