@@ -28,6 +28,7 @@ typedef void(*PSHit_WallCollision)(GameObject *game_object, int car_id, const ma
 
 enum Item_Type
 {
+	NONE = -1,
 	MAKIBISHI = 0,
 	FIRECRACKER,
 	EVIL_SPIRIT,
@@ -39,7 +40,7 @@ namespace Player_Car
 	int car_id = 0;
 
 	//New Player_Car
-	int current_item = -1;
+	Item_Type current_item = NONE;
 
 	float launched_firecracker_lifetime = -1.0f;
 	bool using_firecracker = false;
@@ -153,7 +154,7 @@ namespace Player_Car
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
 		//New Player_Car
-		current_item = script->public_ints["current_item"];
+		current_item = (Item_Type) script->public_ints["current_item"];
 		launched_firecracker_lifetime = script->public_floats["launched_firecracker_lifetime"];
 		car_id = script->public_ints["car_id"];
 		item_size = script->public_ints["item_size"];
@@ -323,7 +324,13 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 			Player_Car_UseFirecracker(game_object, car);
 		}
 
-		if (current_item != -1 && evil_spirit_effect == false)
+		if (car->place == 1 && current_item == EVIL_SPIRIT)
+		{
+			current_item = NONE;
+			Player_Car_CallUpdateItems();
+		}
+
+		if (current_item != NONE && evil_spirit_effect == false)
 		{
 			if (App->input->GetJoystickButton(car->GetBackPlayer(), JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Q) == KEY_DOWN)
 			{
@@ -385,8 +392,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		//Turbo (Particles)
 		if (car->GetAppliedTurbo().beganThisFrame)
 		{
-			LOG("bEGIN");
-			if (turbo_particle_go != nullptr)
+			if (turbo_particle_go != nullptr && car->GetInvertStatus() == false)
 			{
 				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
 				ps_turbo->Play();
@@ -395,7 +401,6 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 		if (car->GetAppliedTurbo().endedThisFrame)
 		{
-			LOG("END");
 			if (turbo_particle_go != nullptr)
 			{
 				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
@@ -451,7 +456,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 						car->RemoveHitodama();
 						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition(), true);
 					}
-					else if (item->name == item_box_name.c_str())
+					else if (item->name == item_box_name.c_str() && current_item == NONE)
 					{
 						Player_Car_ChooseItem(game_object);
 						Player_Car_OnPickItem(game_object);
@@ -556,7 +561,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 	void Player_Car_UseEvilSpirit(GameObject* game_object, ComponentCar* car)
 	{
-		current_item = -1;
+		current_item = NONE;
 		Player_Car_CallUpdateItems();
 		if (car->place == 2)
 		{
@@ -579,7 +584,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 		if (makibishi == nullptr)
 		{
-			current_item = -1;
+			current_item = NONE;
 			Player_Car_CallUpdateItems();
 			return;
 		}
@@ -655,7 +660,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		}
 		if (item_size == 0)
 		{
-			current_item = -1;
+			current_item = NONE;
 			item_size = 1;
 			Player_Car_CallUpdateItems();
 		}
@@ -665,7 +670,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 	{
 		//car->UseItem();
 		using_firecracker = true;
-		current_item = -1;
+		current_item = NONE;
 		car->NewTurbo(Turbo(turbo_max_acc_time, turbo_lifetime, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
 
 		// Playing Firecracker sound
@@ -739,7 +744,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 			using_firecracker = false;
 			if (firecracker)
 				firecracker->SetActive(false);
-			current_item = -1;
+			current_item = NONE;
 			Player_Car_CallUpdateItems();		
 		}
 		else
@@ -752,7 +757,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 				using_firecracker = false;
 				if(firecracker)
 					firecracker->SetActive(false);
-				current_item = -1;
+				current_item = NONE;
 				Player_Car_CallUpdateItems();							
 			}
 		}	
@@ -790,7 +795,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 				if (makibishi == nullptr)
 				{
-					current_item = -1;
+					current_item = NONE;
 					Player_Car_CallUpdateItems();
 					return;
 				}
@@ -867,7 +872,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 				if ((car_id == 0 ? makibishis_1 : makibishis_2).size() == 0)
 				{
-					current_item = -1;
+					current_item = NONE;
 					Player_Car_CallUpdateItems();
 				}
 			}

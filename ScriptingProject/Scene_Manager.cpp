@@ -97,6 +97,7 @@ namespace Scene_Manager
 
 	GameObject* top_wrongdirection = nullptr;
 	GameObject* bot_wrongdirection = nullptr;
+	GameObject* credits = nullptr;
 	
 	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
 	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
@@ -139,6 +140,9 @@ namespace Scene_Manager
 	int result_focus_pos = 0;
 
 	bool triggers_pressed[4];
+	bool quit = false;
+	float quit_timer = 0;
+	float quit_max_timer = 5;
 
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -181,6 +185,7 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("Top_Wrong", top_wrongdirection));
 		public_gos->insert(std::pair<const char*, GameObject*>("Bot_Wrong", bot_wrongdirection));
 		public_gos->insert(std::pair<const char*, GameObject*>("Focus_result", focus_result));
+		public_gos->insert(std::pair<const char*, GameObject*>("credits", credits));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
@@ -221,6 +226,7 @@ namespace Scene_Manager
 		bot_wrongdirection = script->public_gos["Bot_Wrong"];
 
 		focus_result = script->public_gos["Focus_result"];
+		credits = script->public_gos["credits"];
 	}
 
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
@@ -256,6 +262,7 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		quit = false;
 		result_focus_pos = 0;
 		music_played = false;
 		race_timer_number = 4;
@@ -352,7 +359,7 @@ namespace Scene_Manager
 		{
 			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
 		}
-
+		if (credits)credits->SetActive(false);
 		if (topdriver_number && topgunner_number && botdriver_number && botgunner_number) //
 		{
 			number_pos_timer = 1.0f;
@@ -765,6 +772,13 @@ namespace Scene_Manager
 
 	void Scene_Manager_ResultWindow(GameObject* game_object)
 	{
+		if (quit == true)
+		{
+			if (quit_timer >= quit_max_timer)
+				App->input->SetQuit();
+			else
+				quit_timer += time->DeltaTime();
+		}
 		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		{
 			if (result_focus_pos == 2)
@@ -825,7 +839,8 @@ namespace Scene_Manager
 				}
 				break;
 			case 2:
-				App->input->SetQuit();
+				quit = true;
+				if (credits)credits->SetActive(true);
 				break;
 			}
 		}
@@ -898,7 +913,8 @@ namespace Scene_Manager
 					}
 					break;
 				case 2:
-					App->input->SetQuit();
+					quit = true;
+					if (credits)credits->SetActive(true);
 					break;
 				}
 			}
