@@ -61,7 +61,7 @@ _**What i've done:**_
 	- REMAKE posts with farols, 1832 triangles (In-engine screenshot).
 ![FarolPosts](http://i.imgur.com/ioysSpi.png)
 
-	- REMAKE watermill, 3634 triangles without props inside (In-engine screenshot).
+	- REMAKE watermill, 3634 triangles without props inside (In-engine screenshots).
 ![WatermillV2_1](http://i.imgur.com/1nzTaZA.png) ![WatermillV2_2](http://i.imgur.com/j5laSYs.png)
 ![WatermillV2_3](http://i.imgur.com/6lpA2Hm.png)
 
