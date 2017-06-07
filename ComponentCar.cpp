@@ -216,7 +216,7 @@ void ComponentCar::KartLogic()
 	//We use on the ground, 'cause it's true if at least one of the
 	if (onTheGround == false)
 	{
-		desiredUp = float3(0, 1, 0);
+		desiredUp = float3(0, 1, 0) + kartZ * 0.4f;
 	}
 	desiredUp.Normalize();
 
@@ -276,8 +276,14 @@ void ComponentCar::KartLogic()
 		}
 	}
 
+	float3 speedDir = kartZ;
 	//And finally, we move the kart!
-	newPos += kartZ * speed;
+	if (onTheGround == false)
+	{
+		speedDir.y = max(speedDir.y, 0.0f);
+	}
+	newPos += speedDir * speed;
+
 	newPos += kartX * horizontalSpeed;
 	kart_trs->SetPosition(newPos);
 
@@ -757,7 +763,7 @@ void ComponentCar::RotateKart(float3 desiredUp)
 		}
 		else
 		{
-			nextStep = kartY.Lerp(desiredUp, 0.05f * time->DeltaTime());
+			nextStep = kartY.Lerp(desiredUp, 0.01f * time->DeltaTime());
 		}
 		Quat normal_rot = Quat::RotateFromTo(kartY, nextStep);
 		kart_trs->Rotate(normal_rot);
