@@ -18,7 +18,7 @@ My job as a designer was mostly related with relegating Yokai characters to a ka
 
 Although these tasks came under the initial stages of the project, I took them into consideration to carry out my other tasks as, for instance, when assisting the artists with encapsuling the attitude of the characters in their animations. All the other varied tasks I had dealt with can be ascertained below.
 
-*May main areas of work:*
+*My main areas of work:*
 
 
 * Looking for references
@@ -58,7 +58,7 @@ Although these tasks came under the initial stages of the project, I took them i
 	- Help with design of animations (possible keyframes as a guide for artists)
 
 
-* Particles’ first design approach	_(Most of them used as references, and many may not be implemented due to time limitations)_
+* Particles’ first design approach _(Most of them used as references, and many may not be implemented due to time limitations)_
 
 	- Particle systems that could help giving feedback
 	- Design of particle systems (moment of activation, location of emitter, division in subsistems, priority...)
