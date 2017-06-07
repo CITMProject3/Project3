@@ -48,7 +48,7 @@ Ian Trueba
 
 [Miquel Gironés](mgirones.md)
 
-Aleix Bueso
+[Aleix Bueso](abueso.md)
 
 ***
 
