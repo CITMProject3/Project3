@@ -90,6 +90,12 @@ void ComponentCar::SetRot(Quat rot)
 	wantToSetRot = true;
 }
 
+void ComponentCar::SetScale(float3 scale)
+{
+	setscale = scale;
+	wantToSetScale = true;
+}
+
 ComponentCar::ComponentCar(GameObject* GO) : Component(C_CAR, GO)
 {
 	SetCarType(T_KOJI);
@@ -155,11 +161,15 @@ void ComponentCar::Update()
 			wantToSetPos = false;
 			kart_trs->SetPosition(setpos);
 		}
-
 		if (wantToSetRot)
 		{
 			wantToSetRot = false;
 			kart_trs->SetRotation(setrot);
+		}
+		if (wantToSetScale)
+		{
+			wantToSetScale = false;
+			kart_trs->SetScale(setscale);
 		}
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
@@ -407,6 +417,8 @@ void ComponentCar::Steer(float amount)
 	amount = math::Clamp(amount, -1.0f, 1.0f);
 	if (drifting == drift_none || drifting == drift_failed)
 	{
+		current_driftingFixedTurn = 0.0f;
+
 		if (amount < -0.1 || amount > 0.1)
 		{
 			currentSteer += (maneuverability + mods.bonusManeuverability) * time->DeltaTime() * amount;
@@ -453,6 +465,15 @@ void ComponentCar::Drift(float dir)
 		return;
 	}
 
+	if (current_driftingFixedTurn <= driftingFixedTurn)
+	{
+		current_driftingFixedTurn += 1.0f * time->DeltaTime();
+	}
+	else
+	{
+		current_driftingFixedTurn = driftingFixedTurn;
+	}
+
 	driftButtonMasher.Update(JOY_BUTTON::A, back_player);
 
 	if (driftButtonMasher.GetNTaps() > driftPhaseChange || App->input->GetKey(SDL_SCANCODE_KP_2) == KEY_DOWN)
@@ -476,12 +497,12 @@ void ComponentCar::Drift(float dir)
 
 	if (drifting == drift_left_0 || drifting == drift_left_1 || drifting == drift_left_2)
 	{
-		desiredCurrentSteer = -driftingFixedTurn + (dir * driftingAdjustableTurn);
+		desiredCurrentSteer = -current_driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir += 0.6f;
 	}
 	else
 	{
-		desiredCurrentSteer = driftingFixedTurn + (dir * driftingAdjustableTurn);
+		desiredCurrentSteer = current_driftingFixedTurn + (dir * driftingAdjustableTurn);
 		dir -= 0.6f;
 	}
 	dir *= 2.0f;
@@ -817,6 +838,8 @@ void ComponentCar::OnPlay()
 	n_checkpoints = 0;
 	speed = 0.0f;
 	fallSpeed = 0.0f;
+
+	SetScale(float3(1, 1, 1));
 
 	collider = App->physics->AddVehicle(collShape, this);
 
@@ -1319,7 +1342,11 @@ bool ComponentCar::GetGroundState() const
 
 float ComponentCar::GetAngularVelocity() const
 {
-	return currentSteer * (maxSteer + mods.bonusMaxSteering) * DEGTORAD;
+	float tmp = currentSteer;
+	if (tmp > 1.0f) { tmp = 1.0f; }
+	else if (tmp < -1.0f) { tmp = -1.0f; }
+
+	return tmp * (maxSteer + mods.bonusMaxSteering) * DEGTORAD;
 }
 
 Turbo ComponentCar::GetAppliedTurbo() const
