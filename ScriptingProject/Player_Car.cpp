@@ -219,19 +219,19 @@ namespace Player_Car
 		script->public_floats.at("current_defense_value") = current_defense_value;
 		script->public_chars.at("item_box_name") = item_box_name;
 
-		script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
-		script->public_floats.at("turbo_acc_bonus_over_time") = turbo_acc_bonus_over_time;
-		script->public_floats.at("turbo_speed_bonus") = turbo_speed_bonus;
-		script->public_floats.at("turbo_dec_time") = turbo_dec_time;
-		
-		script->public_gos.at("firecracker") = firecracker;
-		script->public_gos.at("other_car") = other_car;
-		script->public_gos.at("scene_manager") = scene_manager;
-		script->public_gos.at("makibishi_manager") = makibishi_manager;
-		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
-		script->public_gos.at("ps_drift_left") = drift_go_left;
-		script->public_gos.at("ps_drift_right") = drift_go_right;
-		script->public_gos.at("turbo_ps") = turbo_particle_go;
+script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
+script->public_floats.at("turbo_acc_bonus_over_time") = turbo_acc_bonus_over_time;
+script->public_floats.at("turbo_speed_bonus") = turbo_speed_bonus;
+script->public_floats.at("turbo_dec_time") = turbo_dec_time;
+
+script->public_gos.at("firecracker") = firecracker;
+script->public_gos.at("other_car") = other_car;
+script->public_gos.at("scene_manager") = scene_manager;
+script->public_gos.at("makibishi_manager") = makibishi_manager;
+script->public_gos.at("ps_hit_manager") = ps_hit_manager;
+script->public_gos.at("ps_drift_left") = drift_go_left;
+script->public_gos.at("ps_drift_right") = drift_go_right;
+script->public_gos.at("turbo_ps") = turbo_particle_go;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -250,7 +250,7 @@ namespace Player_Car
 				evil_spirit_start_pos = evil_spirit_object[car_id]->transform->GetPosition();
 				break;
 			}
-		}	
+		}
 
 		// Start Sound Engine
 		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
@@ -267,7 +267,7 @@ namespace Player_Car
 		{
 			if (wheel_front_l_0 != nullptr) car->kart_front_wheel_l = (ComponentTransform*)wheel_front_l_0->GetComponent(C_TRANSFORM);
 			if (wheel_front_r_0 != nullptr) car->kart_front_wheel_r = (ComponentTransform*)wheel_front_r_0->GetComponent(C_TRANSFORM);
-			if (wheel_back_l_0!= nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_0->GetComponent(C_TRANSFORM);
+			if (wheel_back_l_0 != nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_0->GetComponent(C_TRANSFORM);
 			if (wheel_back_r_0 != nullptr) car->kart_back_wheel_r = (ComponentTransform*)wheel_back_r_0->GetComponent(C_TRANSFORM);
 		}
 		else
@@ -295,7 +295,7 @@ namespace Player_Car
 
 		drift_go_left->SetActive(false);
 		drift_go_right->SetActive(false);
-		
+
 	}
 
 #pragma region Forward Declarations
@@ -317,6 +317,11 @@ namespace Player_Car
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(ComponentType::C_CAR);
 		if (car == nullptr)
 			return;
+
+		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+		{
+			Player_Car_UseFirecracker(game_object, car);
+		}
 
 		if (current_item != -1 && evil_spirit_effect == false)
 		{
