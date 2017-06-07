@@ -18,11 +18,11 @@ we came out with the way, by using heightmaps. This is the development of the he
 ![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)    
 
 - Here you have some images of the development of the map with lots of iterations between them:     
-![map1](http://i.imgur.com/aRDbdkr.jpg) 
-![map2](http://i.imgur.com/I9fEi6y.png) 
-![map3](http://i.imgur.com/TYYRD2S.jpg)
-![map4](http://i.imgur.com/nQzEiEP.jpg)
-![map5](http://i.imgur.com/kluKRVR.png)
+![map1](http://i.imgur.com/aRDbdkr.jpg?1) 
+![map2](http://i.imgur.com/I9fEi6y.png?1) 
+![map3](http://i.imgur.com/TYYRD2S.jpg?1)
+![map4](http://i.imgur.com/nQzEiEP.jpg?1)
+![map5](http://i.imgur.com/kluKRVR.png?1)
 
 - And over everything always test!   
-![QA](http://i.imgur.com/Iozef3R.jpg)
+![QA](http://i.imgur.com/Iozef3R.jpg?1)
