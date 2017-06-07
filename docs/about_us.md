@@ -17,7 +17,7 @@ A group of 21 people, divided in 3 departments: Code, Art and Game Design (with 
 
 **Code:**
 
-Marc Garrigó - Lead Programmer
+[Marc Garrigó - Lead Programmer](mgarrigo.md)
 
 [David Hernández](dhernandez.md)
 
