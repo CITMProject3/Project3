@@ -294,41 +294,41 @@ float ComponentCar::AccelerationInput()
 	float lTrigger = (App->input->GetJoystickAxis(front_player, JOY_AXIS::LEFT_TRIGGER) + 1.0f) / 2.0f;
 	if (lTrigger == 0.5f) { lTrigger = 0.0f; }
 
-	// Pushing (always, when going forward and backwards)
-	if (!lock_input && ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN && front_player == PLAYER::PLAYER_1)))
-	{
-		// Pushing is applied when speed / maxSpeed is below push_threshold (60%-70%)
-		if (speed / maxSpeed < push_threshold)
-		{
-			//LOG("Max speed %f", maxSpeed);
-			push_timer.Start();
-			pushing = true;
-		}
-	}
-
-	if (pushing)
-	{
-		if (push_timer.ReadSec() < time_between_pushes)
-		{
-			if (push_force < max_push_force)
-				push_force *= push_incr;
-
-			acceleration += push_force;
-			//LOG("Applying Force! %f", acceleration);
-		}
-		else
-		{
-			pushing = false;
-			push_force = 0.001f;
-			LOG("Stopping Force!");
-		}
-	}
-
 	//Accelerating
 	if (!lock_input && ((App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT && front_player == PLAYER_1) || rTrigger > 0.2f))
 	{
 		if (rTrigger < 0.1f) { rTrigger = 1.0f; }
 		//We recieved the order to move forward
+
+		// Pushing (always, when going forward and backwards)
+		if (!lock_input && ((App->input->GetJoystickButton(back_player, JOY_BUTTON::A) == KEY_DOWN && drifting == drift_none) || (App->input->GetKey(SDL_SCANCODE_G) == KEY_DOWN && front_player == PLAYER::PLAYER_1)))
+		{
+			// Pushing is applied when speed / maxSpeed is below push_threshold (60%-70%)
+			if (speed / maxSpeed < push_threshold)
+			{
+				//LOG("Max speed %f", maxSpeed);
+				push_timer.Start();
+				pushing = true;
+			}
+		}
+
+		if (pushing)
+		{
+			if (push_timer.ReadSec() < time_between_pushes)
+			{
+				if (push_force < max_push_force)
+					push_force *= push_incr;
+
+				acceleration += push_force;
+				//LOG("Applying Force! %f", acceleration);
+			}
+			else
+			{
+				pushing = false;
+				push_force = 0.001f;
+				//LOG("Stopping Force!");
+			}
+		}
 
 		if (speed < -0.01f)
 		{
