@@ -36,7 +36,7 @@ Josep Atencia
 
 **Art:**
 
-Martí Pinós - Lead Artist
+[Martí Pinós - Lead Artist](mpinos.md)
 
 [Iván Pérez](iperez.md)
 
