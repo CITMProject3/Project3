@@ -1121,22 +1121,22 @@ void ComponentCar::UpdateP2Animation()
 				case drift_right_0:
 				case drift_right_1:
 				case drift_right_2:
-					SetP2AnimationState(P2DRIFT_RIGHT);
+					SetP2AnimationState(P2DRIFT_RIGHT, 0.5f);
 					break;
 				case drift_left_0:
 				case drift_left_1:
 				case drift_left_2:
-					SetP2AnimationState(P2DRIFT_LEFT);
+					SetP2AnimationState(P2DRIFT_LEFT, 0.5f);
 					break;
 				}
 			}
 			else if (pushing == true)
 			{
-				SetP2AnimationState(P2PUSH_START);
+				SetP2AnimationState(P2PUSH_START, 0.5f);
 			}
 			else
 			{
-				if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE);
+				if (p2_animation->current_animation->index != 3) SetP2AnimationState(P2IDLE, 0.5f);
 				p2_animation->current_animation->ticks_per_second = 8.0f + 24.0f * Clamp((speed / maxSpeed), 0.3f, 1.5f);
 			}
 			break;
@@ -1145,11 +1145,11 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (p2_animation->playing == false && pushing == true)
 			{
-				SetP2AnimationState(P2PUSH_LOOP);
+				SetP2AnimationState(P2PUSH_LOOP, 0.5f);
 			}
 			else if (p2_animation->playing == false)
 			{
-				SetP2AnimationState(P2PUSH_END);
+				SetP2AnimationState(P2PUSH_END, 0.5f);
 			}
 			break;
 		}
@@ -1157,7 +1157,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (pushing == false)
 			{
-				SetP2AnimationState(P2PUSH_END);
+				SetP2AnimationState(P2PUSH_END, 0.5f);
 			}
 			break;
 		}
@@ -1165,7 +1165,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (p2_animation->playing == false)
 			{
-				SetP2AnimationState(P2IDLE);
+				SetP2AnimationState(P2IDLE, 0.5f);
 			}
 			break;
 		}
@@ -1174,11 +1174,11 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (drifting == drift_none)
 			{
-				SetP2AnimationState(P2IDLE);
+				SetP2AnimationState(P2IDLE, 0.5f);
 			}
 			else if (drifting == drift_failed)
 			{
-				SetP2AnimationState(P2GET_HIT);
+				SetP2AnimationState(P2GET_HIT, 0.5f);
 			}
 			break;
 		}
@@ -1186,7 +1186,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (p2_animation->playing == false)
 			{
-				SetP2AnimationState(P2IDLE, 0.0f);
+				SetP2AnimationState(P2IDLE, 0.5f);
 			}
 			break;
 		}
@@ -1194,7 +1194,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (p2_animation->playing == false)
 			{
-				SetP2AnimationState(P2IDLE);
+				SetP2AnimationState(P2IDLE, 0.5f);
 			}
 			break;
 		}
@@ -1202,7 +1202,7 @@ void ComponentCar::UpdateP2Animation()
 		{
 			if (p2_animation->playing == false)
 			{
-				SetP2AnimationState(P2IDLE);
+				SetP2AnimationState(P2IDLE, 0.5f);
 			}
 			break;
 		}
@@ -1218,7 +1218,7 @@ void ComponentCar::OnGetHit(float velocity_reduction)
 
 	if (p2_animation != nullptr)
 	{
-		SetP2AnimationState(P2GET_HIT, 0.0f);
+		SetP2AnimationState(P2GET_HIT, 0.5f);
 	}
 	if (p1_animation != nullptr)
 	{
