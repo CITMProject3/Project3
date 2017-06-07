@@ -17,10 +17,14 @@ Besides, i started doing some concepts of possible tracks for our game. Lots of 
 Finally, one of my ideas was the implementation of a two-sides map, with mountain roads and a dock, what is still in the final map. And also the bifurcation and trifurcation to allow the players to make decisions. 
 
 #### - Alpha 1/2/3: 
-In this phase we found the heightmaps. The designers had to learn this way of tracks creation and at this point was when my first track appeared in the engine. I had to do several iterations to create a map with a correct flow and strategic player decisions. This is the final heightmap i used to work with: 
+In this phase we found the heightmaps. The designers had to learn this way of tracks creation and at this point was when my first track appeared in the engine. I had to do several iterations to create a map with a correct flow and strategic player decisions. In adittion, in this phase i worked on checkpoints and colliders distribution. This is the final heightmap i used to work with and checkpoints/colliders distribution: 
 
-![alt text][heightmap]
+![alt text][heightmap] ![alt text][colliders/checkpoints]
 
-[heightmap]: http://i.imgur.com/wqkFk4Rl.png "Heightmap"
+[heightmap]: http://i.imgur.com/wqkFk4Rm.png "Heightmap"
+[colliders/checkpoints]: http://i.imgur.com/rKfmSvjm.png "Colliders/Checkpoints"
+
 
 My map inspired some of my teammates and allowed them to create things like the amazing final map. 
+
+------
