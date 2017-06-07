@@ -1174,6 +1174,6 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="icon1.ico" />
-    <Image Include="..\..\_UNI\Project3\rikart_icon.ico" />
+    <Image Include="rikart_icon.ico" />
   </ItemGroup>
 </Project>
