@@ -46,9 +46,6 @@ _**What i've done:**_
 	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
 ![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
 
-	- Low poly Mushrooms, 30 triangles each one (In-engine screenshot). 
-![Mushrooms](http://i.imgur.com/T8nN6SQ.png)
-
 	- Wooden crates, in screenshot order: 12 triangles/76 triangles/96 triangles.
 ![WoodenCrates](http://i.imgur.com/FLLuSOh.png)
 
