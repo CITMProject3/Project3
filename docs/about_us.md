@@ -27,7 +27,7 @@ Carlos Randino
 
 [Guillem Travila](gtravila.md)
 
-Josep Atencia
+[Josep Atencia](jatencia.md)
 
 [Aleix Borrell](aborrell.md)
 
