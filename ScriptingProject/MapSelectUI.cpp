@@ -145,11 +145,14 @@ namespace MapSelectUI
 		player_order[2] = App->go_manager->team2_front;
 		player_order[3] = App->go_manager->team2_back;
 
+		map_fields->SetActive(false);
+		map_umi->SetActive(true);
+
 	}
 
 	void MapSelectUI_Update(GameObject* game_object)
 	{
-		if (current_level != current_level_lastFrame)
+		/*if (current_level != current_level_lastFrame)
 		{
 			if (!current_level)
 			{
@@ -162,9 +165,9 @@ namespace MapSelectUI
 				map_umi->SetActive(true);
 			}
 			current_level_lastFrame = current_level;
-		}
+		}*/
 
-		if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
+		/*if (App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN)
 		{
 			// Play Move Sound
 			ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
@@ -191,7 +194,7 @@ namespace MapSelectUI
 				c_left_arrow->OnPress();
 			}
 			arrow_counter_left = 0;
-		}
+		}*/
 
 		for (int playerID = 0; playerID < 4; playerID++)
 		{
@@ -209,7 +212,7 @@ namespace MapSelectUI
 				ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 				if (a_comp) a_comp->PlayAudio(3);
 
-				if (!current_level)
+				/*if (!current_level)
 				{
 					App->go_manager->current_scene = 0;
 					// Selecting Assets or Library version depending on Game mode
@@ -219,14 +222,14 @@ namespace MapSelectUI
 						App->LoadScene(assets_path_map1.data());		// Using Assets Scene files
 				}
 				else
-				{
+				{*/
 					App->go_manager->current_scene = 1;
 					// Selecting Assets or Library version depending on Game mode
 					if (App->StartInGame())
 						App->LoadScene(library_path_map2.data());	// Using Library Scene files
 					else
 						App->LoadScene(assets_path_map2.data());		// Using Assets Scene files
-				}
+				//}
 			}
 
 			if (App->input->GetJoystickButton(playerID, JOY_BUTTON::B) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_B) == KEY_DOWN)
