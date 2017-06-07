@@ -108,6 +108,15 @@
       "DurationMax": "0.904218"
      },
      {
+      "Id": "4206446143",
+      "Name": "Play_Loser_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Loser_player",
+      "GUID": "{88211089-5976-428C-B841-A0A40A0B1CB9}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.201088",
+      "DurationMax": "5.201088"
+     },
+     {
       "Id": "104204679",
       "Name": "Play_Makibishi",
       "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
@@ -124,6 +133,16 @@
       "DurationType": "Infinite"
      },
      {
+      "Id": "1341198258",
+      "Name": "Play_Results_Menu",
+      "ObjectPath": "\\Events\\InGame\\Play_Results_Menu",
+      "GUID": "{10EC2A27-0343-4F0A-BDE5-F343377F75D4}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
       "Id": "2349472246",
       "Name": "Play_Turbo",
       "ObjectPath": "\\Events\\InGame\\Play_Turbo",
@@ -133,6 +152,15 @@
       "DurationMax": "2.086395"
      },
      {
+      "Id": "4277723509",
+      "Name": "Play_Winner_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Winner_player",
+      "GUID": "{F196C9B4-331A-4BE2-8DFA-1B8E8AAF6F4F}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.123628",
+      "DurationMax": "5.123628"
+     },
+     {
       "Id": "3227588549",
       "Name": "Reduce_Drifting",
       "ObjectPath": "\\Events\\InGame\\Reduce_Drifting",
@@ -140,6 +168,16 @@
       "DurationType": "OneShot",
       "DurationMin": "1.006130",
       "DurationMax": "1.006130"
+     },
+     {
+      "Id": "7884061",
+      "Name": "Reduce_Volume_Engine",
+      "ObjectPath": "\\Events\\InGame\\Reduce_Volume_Engine",
+      "GUID": "{26F138BE-5233-40B0-A352-CBA4AE84571A}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
      },
      {
       "Id": "1300784916",
@@ -355,6 +393,12 @@
       "Path": "SFX\\Medium_Smash2_9E69E797.wem"
      },
      {
+      "Id": "826059435",
+      "Language": "SFX",
+      "ShortName": "Loser_player.wav",
+      "Path": "SFX\\Loser_player_9E69E797.wem"
+     },
+     {
       "Id": "854809436",
       "Language": "SFX",
       "ShortName": "Engine_vibrations.wav",
@@ -383,6 +427,12 @@
       "Language": "SFX",
       "ShortName": "Drifting_loop3.wav",
       "Path": "SFX\\Drifting_loop3_9E69E797.wem"
+     },
+     {
+      "Id": "950107977",
+      "Language": "SFX",
+      "ShortName": "Winner_player.wav",
+      "Path": "SFX\\Winner_player_9E69E797.wem"
      },
      {
       "Id": "961727349",
