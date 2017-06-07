@@ -26,10 +26,14 @@
 				<Event Id="387320433" Name="Play_Firecracker" ObjectPath="\Events\InGame\Play_Firecracker" GUID="{F429BC6B-73AF-4330-AAD7-0043F197FB9F}" DurationType="Infinite"/>
 				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
 				<Event Id="3646616982" Name="Play_ItemBox" ObjectPath="\Events\InGame\Play_ItemBox" GUID="{31F48344-3418-41D3-9B4D-B887EAFE8D8D}" DurationType="OneShot" DurationMin="0.904218" DurationMax="0.904218"/>
+				<Event Id="4206446143" Name="Play_Loser_player" ObjectPath="\Events\InGame\Play_Loser_player" GUID="{88211089-5976-428C-B841-A0A40A0B1CB9}" DurationType="OneShot" DurationMin="5.201088" DurationMax="5.201088"/>
 				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
+				<Event Id="1341198258" Name="Play_Results_Menu" ObjectPath="\Events\InGame\Play_Results_Menu" GUID="{10EC2A27-0343-4F0A-BDE5-F343377F75D4}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="2349472246" Name="Play_Turbo" ObjectPath="\Events\InGame\Play_Turbo" GUID="{0616588B-179F-4CCE-AA02-8B57D43B4B60}" DurationType="OneShot" DurationMin="2.081633" DurationMax="2.086395"/>
+				<Event Id="4277723509" Name="Play_Winner_player" ObjectPath="\Events\InGame\Play_Winner_player" GUID="{F196C9B4-331A-4BE2-8DFA-1B8E8AAF6F4F}" DurationType="OneShot" DurationMin="5.123628" DurationMax="5.123628"/>
 				<Event Id="3227588549" Name="Reduce_Drifting" ObjectPath="\Events\InGame\Reduce_Drifting" GUID="{472CDB34-C993-4F65-9BB7-A65613760150}" DurationType="OneShot" DurationMin="1.006130" DurationMax="1.006130"/>
+				<Event Id="7884061" Name="Reduce_Volume_Engine" ObjectPath="\Events\InGame\Reduce_Volume_Engine" GUID="{26F138BE-5233-40B0-A352-CBA4AE84571A}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="1300784916" Name="Start_Engine" ObjectPath="\Events\InGame\Start_Engine" GUID="{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="452547817" Name="Stop_All" ObjectPath="\Events\InGame\Stop_All" GUID="{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
 				<Event Id="201644199" Name="Stop_Drifting" ObjectPath="\Events\InGame\Stop_Drifting" GUID="{189FE692-54B8-4B3F-A105-245C9A748966}" MaxAttenuation="0.000000" DurationType="OneShot" DurationMin="0.000000" DurationMax="0.000000"/>
@@ -145,6 +149,10 @@
 					<ShortName>Medium_Smash2.wav</ShortName>
 					<Path>SFX\Medium_Smash2_9E69E797.wem</Path>
 				</File>
+				<File Id="826059435" Language="SFX">
+					<ShortName>Loser_player.wav</ShortName>
+					<Path>SFX\Loser_player_9E69E797.wem</Path>
+				</File>
 				<File Id="854809436" Language="SFX">
 					<ShortName>Engine_vibrations.wav</ShortName>
 					<Path>SFX\Engine_vibrations_8FDCC4EC.wem</Path>
@@ -164,6 +172,10 @@
 				<File Id="942144408" Language="SFX">
 					<ShortName>Drifting_loop3.wav</ShortName>
 					<Path>SFX\Drifting_loop3_9E69E797.wem</Path>
+				</File>
+				<File Id="950107977" Language="SFX">
+					<ShortName>Winner_player.wav</ShortName>
+					<Path>SFX\Winner_player_9E69E797.wem</Path>
 				</File>
 				<File Id="961727349" Language="SFX">
 					<ShortName>metalic_scrape1.wav</ShortName>

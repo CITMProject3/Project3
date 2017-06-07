@@ -457,6 +457,8 @@ namespace Scene_Manager
 
 	void Scene_Manager_FinishRace()
 	{
+		if (audio_source) audio_source->PlayAudio(6);  // Lowering music volume and engine
+
 		race_finished = true;
 		if (race_HUD) race_HUD->SetActive(false);
 		if (result_window) result_window->SetActive(true);
@@ -631,6 +633,15 @@ namespace Scene_Manager
 					{
 						car_1->finished = true;
 
+						if (car_1->place == 1)
+						{
+							if (audio_source) audio_source->PlayAudio(4);
+						}
+						else
+						{
+							if (audio_source) audio_source->PlayAudio(5);
+						}
+
 						if (goingToDisqualify == 0)
 						{
 							goingToDisqualify = 2;
@@ -713,6 +724,15 @@ namespace Scene_Manager
 					if (car_2->lap > 3)
 					{
 						car_2->finished = true;
+
+						if (car_2->place == 1)
+						{
+							if (audio_source) audio_source->PlayAudio(4);
+						}							
+						else
+						{
+							if (audio_source) audio_source->PlayAudio(5);
+						}							
 
 						if (goingToDisqualify == 0)
 						{

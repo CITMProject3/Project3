@@ -321,7 +321,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			Player_Car_UseFirecracker(game_object, car);
+			Player_Car_UseEvilSpirit(game_object, car);
 		}
 
 		if (car->place == 1 && current_item == EVIL_SPIRIT)
