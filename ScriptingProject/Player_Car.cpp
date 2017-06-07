@@ -295,8 +295,11 @@ namespace Player_Car
 		drift_go_left->SetActive(false);
 		drift_go_right->SetActive(false);
 
-		ps_acrobatics = (ComponentParticleSystem*)acrobatics_ps_go->GetComponent(ComponentType::C_PARTICLE_SYSTEM);
-		ps_acrobatics->StopAll();
+		if (ps_acrobatics != nullptr)
+		{
+			ps_acrobatics = (ComponentParticleSystem*)acrobatics_ps_go->GetComponent(ComponentType::C_PARTICLE_SYSTEM);
+			ps_acrobatics->StopAll();
+		}
 	}
 
 #pragma region Forward Declarations

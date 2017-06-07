@@ -689,7 +689,11 @@ void ComponentCar::SteerKart()
 	if (kart_front_wheel_l != nullptr)
 	{
 		float3 rotation = kart_front_wheel_l->GetRotationEuler();
-		rotation.x += (3000 * speed * time->DeltaTime());
+		//God damn it somebody kill me for this please
+		if ((*kart_front_wheel_l->GetGameObject()->name.begin()) == 'I')
+			rotation.x -= (3000 * speed * time->DeltaTime());
+		else
+			rotation.x += (3000 * speed * time->DeltaTime());
 		kart_front_wheel_l->SetRotation(rotation);
 
 		if (parent_front_l == nullptr)
@@ -704,7 +708,11 @@ void ComponentCar::SteerKart()
 	if (kart_front_wheel_r != nullptr)
 	{
 		float3 rotation = kart_front_wheel_r->GetRotationEuler();
-		rotation.x += (3000 * speed * time->DeltaTime());
+		//God damn it somebody kill me for this please
+		if ((*kart_front_wheel_r->GetGameObject()->name.begin()) == 'I')
+			rotation.x -= (3000 * speed * time->DeltaTime());
+		else
+			rotation.x += (3000 * speed * time->DeltaTime());
 		kart_front_wheel_r->SetRotation(rotation);
 
 		if (parent_front_r == nullptr)
