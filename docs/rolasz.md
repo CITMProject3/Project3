@@ -4,6 +4,8 @@
 
 **Name:** Roger Olasz Fuentes
 
+<img src="http://i.imgur.com/4NYlcfa.png" height="150" width="90">
+
 **Contact:** 
 
 **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/rolaszf/)
