@@ -263,7 +263,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		//Init wheel pointers
 		ComponentCar* car = (ComponentCar*)game_object->GetComponent(C_CAR);
 
-		if (App->go_manager->team1_car == 0)
+		if ((car_id == 0 ? App->go_manager->team1_car : App->go_manager->team2_car) == 0)
 		{
 			if (wheel_front_l_0 != nullptr) car->kart_front_wheel_l = (ComponentTransform*)wheel_front_l_0->GetComponent(C_TRANSFORM);
 			if (wheel_front_r_0 != nullptr) car->kart_front_wheel_r = (ComponentTransform*)wheel_front_r_0->GetComponent(C_TRANSFORM);
@@ -386,17 +386,22 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		if (car->GetAppliedTurbo().beganThisFrame)
 		{
 			LOG("bEGIN");
-			ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
-			ps_turbo->Play();
+			if (turbo_particle_go != nullptr)
+			{
+				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
+				ps_turbo->Play();
+			}
 		}
 
 		if (car->GetAppliedTurbo().endedThisFrame)
 		{
 			LOG("END");
-			ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
-			ps_turbo->StopAll();
-		}
-		
+			if (turbo_particle_go != nullptr)
+			{
+				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
+				ps_turbo->StopAll();
+			}
+		}		
 	}
 
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
