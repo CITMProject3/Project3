@@ -133,16 +133,6 @@
       "DurationType": "Infinite"
      },
      {
-      "Id": "1341198258",
-      "Name": "Play_Results_Menu",
-      "ObjectPath": "\\Events\\InGame\\Play_Results_Menu",
-      "GUID": "{10EC2A27-0343-4F0A-BDE5-F343377F75D4}",
-      "MaxAttenuation": "0.000000",
-      "DurationType": "OneShot",
-      "DurationMin": "0.000000",
-      "DurationMax": "0.000000"
-     },
-     {
       "Id": "2349472246",
       "Name": "Play_Turbo",
       "ObjectPath": "\\Events\\InGame\\Play_Turbo",
@@ -170,10 +160,10 @@
       "DurationMax": "1.006130"
      },
      {
-      "Id": "7884061",
-      "Name": "Reduce_Volume_Engine",
-      "ObjectPath": "\\Events\\InGame\\Reduce_Volume_Engine",
-      "GUID": "{26F138BE-5233-40B0-A352-CBA4AE84571A}",
+      "Id": "198924816",
+      "Name": "Reduce_Volume_Music",
+      "ObjectPath": "\\Events\\InGame\\Reduce_Volume_Music",
+      "GUID": "{84C4D7CF-ED7B-4180-ACAB-80F11E42B0CA}",
       "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.000000",
@@ -194,10 +184,9 @@
       "Name": "Stop_All",
       "ObjectPath": "\\Events\\InGame\\Stop_All",
       "GUID": "{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}",
-      "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
-      "DurationMin": "0.000000",
-      "DurationMax": "0.000000"
+      "DurationMin": "0.312925",
+      "DurationMax": "0.312925"
      },
      {
       "Id": "201644199",
@@ -312,7 +301,7 @@
       "Id": "440931321",
       "Language": "SFX",
       "ShortName": "RiKarts_Master_Full.wav",
-      "Path": "SFX\\RiKarts_Master_Full_9A87C55A.wem"
+      "Path": "SFX\\RiKarts_Master_Full_2F1BF31A.wem"
      },
      {
       "Id": "501485239",
@@ -379,6 +368,12 @@
       "Language": "SFX",
       "ShortName": "metalic_scrape2.wav",
       "Path": "SFX\\metalic_scrape2_4AFEA6D2.wem"
+     },
+     {
+      "Id": "761089316",
+      "Language": "SFX",
+      "ShortName": "Selection.wav",
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
      },
      {
       "Id": "762374421",
