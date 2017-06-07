@@ -452,6 +452,7 @@ void ComponentParticleSystem::OnPlay()
 	if (play_on_awake)
 	{
 		state = PSState::PS_PLAYING;
+		spawn_timer = spawn_time;
 	}
 }
 
