@@ -108,6 +108,9 @@ namespace Scene_Manager
 	bool number_timer_on = false;
 	uint countdown_sound = 4;
 
+	float wrong_dir_timer_1;
+	float wrong_dir_timer_2;
+
 	RaceTimer timer;
 	int race_timer_number = 4;
 	bool race_finished = false;
@@ -244,6 +247,8 @@ namespace Scene_Manager
 		finish_timer = 0;
 		second_position_timer = 0;
 		goingToDisqualify = 0;
+		wrong_dir_timer_1 = 0.0f;
+		wrong_dir_timer_2 = 0.0f;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
@@ -609,8 +614,20 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (top_wrongdirection && car_1->wrongDirection != top_wrongdirection->IsActive())
-					top_wrongdirection->SetActive(car_1->wrongDirection);
+				if (top_wrongdirection && car_1->wrongDirection == true)
+				{
+					if (wrong_dir_timer_1 <= 0.75f)
+						top_wrongdirection->SetActive(true);
+					else
+						top_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_1 += time->DeltaTime();
+
+					if (wrong_dir_timer_1 >= 1.5f)
+						wrong_dir_timer_1 = 0.0f;
+				}
+				else
+					wrong_dir_timer_1 = 0.0f;
 
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
@@ -677,8 +694,20 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (bot_wrongdirection && car_2->wrongDirection != bot_wrongdirection->IsActive())
-					bot_wrongdirection->SetActive(car_2->wrongDirection);
+				if (bot_wrongdirection && car_2->wrongDirection == true)
+				{
+					if (wrong_dir_timer_2 <= 0.75f)
+						bot_wrongdirection->SetActive(true);
+					else
+						bot_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_2 += time->DeltaTime();
+
+					if (wrong_dir_timer_2 >= 1.5f)
+						wrong_dir_timer_2 = 0.0f;
+				}
+				else
+					wrong_dir_timer_2 = 0.0f;
 
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
