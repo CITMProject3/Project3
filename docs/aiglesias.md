@@ -10,8 +10,8 @@
 Mail: asier.iglesias@yahoo.es
 
 **My job:**    
-First I started as a kart designer and after giving some concept ideas I knew that it wasn't what I liked, so I changed to level designer
-and loved the work there. I'm proud to say that I'm the designer of the Umi Gohan level.
+First I started as a kart designer and after giving some concept ideas I knew that it wasn't what I liked, so I changed to level designer.
+And I loved it! I'm proud to say that I'm the designer of the Umi Gohan level.
 
 **What I've done:**   
 - First we did a lot of testing with the technologies we were developing to see how we could start designing the levels, and finilly 
