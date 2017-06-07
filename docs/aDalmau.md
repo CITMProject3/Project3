@@ -37,11 +37,16 @@ Finally, I returned to UI to finish the menus and add more cool functionality.
         - Texture.
         - Color.
         - Alpha/Blend.
+        - Rendering function
     - Button Component:
         - Texture.
         - Color.
         - Alpha/Blend.
         - OnPress function that handles.
+        - Rendering function
+    - Simple Text Component
+      - Rendering function
+      - Text related functionality
     - Grid Component:
         - Grid organizes in a grid form several elements.
 
