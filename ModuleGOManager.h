@@ -132,6 +132,7 @@ public:
 
 	uint team2_p1_c = 1;
 	uint team2_p2_c = 3;
+	uint current_scene = 1; // 0 - ROGER; 1 - ASIER
 
 	PLAYER team1_front;
 	PLAYER team1_back;

@@ -195,6 +195,7 @@
     <ClCompile Include="PlayerObjectSelector.cpp" />
     <ClCompile Include="Player_Camera.cpp" />
     <ClCompile Include="Player_Car.cpp" />
+    <ClCompile Include="ReloadScene.cpp" />
     <ClCompile Include="Scene_Manager.cpp" />
     <ClCompile Include="ScriptingProject.cpp" />
     <ClCompile Include="Start_Menu_UI.cpp" />

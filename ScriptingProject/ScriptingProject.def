@@ -54,6 +54,7 @@ EXPORTS
 	Scene_Manager_UpdateUIRaceTimer
 	Scene_Manager_UpdateStartCountDown
 	Scene_Manager_UpdateDuringRace
+	Scene_Manager_ResultWindow
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics
@@ -167,3 +168,6 @@ EXPORTS
 	ParticleHit_Update
 	ParticleHit_CarCollision
 	ParticleHit_WallCollision
+
+	ReloadScene_GetPublics
+	ReloadScene_Start

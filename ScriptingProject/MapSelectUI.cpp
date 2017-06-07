@@ -211,6 +211,7 @@ namespace MapSelectUI
 
 				if (!current_level)
 				{
+					App->go_manager->current_scene = 0;
 					// Selecting Assets or Library version depending on Game mode
 					if (App->StartInGame())
 						App->LoadScene(library_path_map1.data());	// Using Library Scene files
@@ -219,6 +220,7 @@ namespace MapSelectUI
 				}
 				else
 				{
+					App->go_manager->current_scene = 1;
 					// Selecting Assets or Library version depending on Game mode
 					if (App->StartInGame())
 						App->LoadScene(library_path_map2.data());	// Using Library Scene files
