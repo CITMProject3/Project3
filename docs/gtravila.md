@@ -18,9 +18,11 @@ Mail: traguill1@gmail.com
 
 **My Job:** 
 
-I spent the whole project working on the engine. 
+Because we started from the basic Engine I created for another class, I've spent almost all the development working on the engine and improving it's functionality. At some points, I've worked in the graphics part creating the shaders that were needed for the game.
 
 **What I've done:**
+
+During the project I've worked in the following features:
 
 - [Resource Manager](#resource)
 - [Prefabs](#prefabs)
@@ -62,7 +64,9 @@ Also, I was asked to do a shader for the water similar to the one in The Legend 
 
 <a name="particles"></a> **Particle System**
 
-I was responsible of making the particle system from scratch as well as implementing all the particles in the game. Some of the most interesting features of the system are:
+I was responsible of making the particle system from scratch as well as implementing all the particles in the game. At the begining, I implemented the system all updated through the GPU, the particles position were updated in the GPU so the CPU just had to manage the creation. This method was discarted because sorting each particle position depending on the camera distance in the GPU was too complex. After that, I changed the system to update the positions through the CPU and I added all the functionality that the artist need it.
+
+Some of the most interesting features of the system are:
 
 - Shape of emission (cube or sphere)
 - Texture animation
