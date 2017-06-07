@@ -11,6 +11,6 @@ Besides, i started doing some concepts of possible tracks for our game. Lots of 
 
 ![alt text][concept1] ![alt text][concept2] ![alt text][concept3]
 
-[concept1]: http://imgur.com/VABjLmY "Concept 1"
-[concept2]: http://imgur.com/84o67m3 "Concept 2"
-[concept3]: http://imgur.com/OcYWVvG "Concept 3"
+[concept1]: http://i.imgur.com/VABjLmY.jpg "Concept 1"
+[concept2]: http://i.imgur.com/84o67m3.jpg "Concept 2"
+[concept3]: http://i.imgur.com/OcYWVvG.jpg?1 "Concept 3"
