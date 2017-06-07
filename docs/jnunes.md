@@ -71,11 +71,13 @@ In every delivery each scrum presented its work. All team members had 1 or 2 sli
 
 ### Sprint Plannings
 After each Sprint Review, in the same class, studio's CEO gave us a sketch of Backlog. Later I polish that sketch and distributed to all team members. This way every scrum had enough information to planning the sprint.  
-Every sprint lasted all the days between deliveries, so most of them last 2 weeks. Everybody had to put his availability during the days of the sprint in a common excel. Later the scrum master adjudicated tasks to cover the availability of everybody. Most times this process was too long, and scrum masters had to finish it at home and I try to help them.   
+Every sprint lasted all the days between deliveries, so most of them last 2 weeks. Everybody had to put his availability during the days of the sprint in a common excel. Later the scrum master adjudicated tasks to cover the availability of everybody. Most times this process was too long, and scrum masters had to finish it at home and I try to help them.
+
 Personal Availability for Alpha 1:
 ![Availability](http://i.imgur.com/f2ti1E3.png)
 
 ### During the Sprints
-All the tasks were logged in our task management software: HacknPlan. In HakcnPlan we were able of divide tasks in function of each scrum or department, add estimated hours for each task and log the real hours later, stablish dependencies, etc.  
+All the tasks were logged in our task management software: HacknPlan. In HakcnPlan we were able of divide tasks in function of each scrum or department, add estimated hours for each task and log the real hours later, stablish dependencies, etc. Everyone should move his tasks once it was completed to Testing and take another one from Planned to In Progress. Only the leaders could move tasks from Testing to Completed independently of the scrum.
+
 HacknPlan for Vertical Slice 3 (Gameplay scrum):
 ![HacknPlan](http://i.imgur.com/zsPuOcG.png)
