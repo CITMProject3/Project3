@@ -40,7 +40,7 @@ A group of 21 people, divided in 3 departments: Code, Art and Game Design (with 
 
 [Iván Pérez](iperez.md)
 
-Adrià Gómez
+[Adrià Gómez](agomez.md)
 
 [Roger Olasz](rolasz.md)
 
