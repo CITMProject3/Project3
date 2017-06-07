@@ -22,8 +22,7 @@
 				<Event Id="2703982544" Name="Play_Evil_Spirit" ObjectPath="\Events\InGame\Play_Evil_Spirit" GUID="{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}" DurationType="OneShot" DurationMin="12.028770" DurationMax="12.028770"/>
 				<Event Id="387320433" Name="Play_Firecracker" ObjectPath="\Events\InGame\Play_Firecracker" GUID="{F429BC6B-73AF-4330-AAD7-0043F197FB9F}" DurationType="Infinite"/>
 				<Event Id="2279634092" Name="Play_Go" ObjectPath="\Events\InGame\Play_Go" GUID="{BA69F920-8566-4A70-B47C-4300E5C54269}" DurationType="OneShot" DurationMin="2.084195" DurationMax="2.084195"/>
-				<Event Id="2758958439" Name="Play_Hitodama" ObjectPath="\Events\InGame\Play_Hitodama" GUID="{58143CF8-573E-49B3-9516-A7B3886D2876}" DurationType="OneShot" DurationMin="0.904218" DurationMax="0.904218"/>
-				<Event Id="3646616982" Name="Play_ItemBox" ObjectPath="\Events\InGame\Play_ItemBox" GUID="{31F48344-3418-41D3-9B4D-B887EAFE8D8D}" DurationType="OneShot" DurationMin="0.992857" DurationMax="0.992857"/>
+				<Event Id="3646616982" Name="Play_ItemBox" ObjectPath="\Events\InGame\Play_ItemBox" GUID="{31F48344-3418-41D3-9B4D-B887EAFE8D8D}" DurationType="OneShot" DurationMin="0.904218" DurationMax="0.904218"/>
 				<Event Id="104204679" Name="Play_Makibishi" ObjectPath="\Events\InGame\Play_Makibishi" GUID="{2E5EE286-7C23-4269-AF77-08C922E43B8D}" DurationType="OneShot" DurationMin="0.236500" DurationMax="0.257354"/>
 				<Event Id="2932040671" Name="Play_Music" ObjectPath="\Events\InGame\Play_Music" GUID="{615A9A6B-0C9E-4294-A6CD-50462A8F9721}" DurationType="Infinite"/>
 				<Event Id="2349472246" Name="Play_Turbo" ObjectPath="\Events\InGame\Play_Turbo" GUID="{0616588B-179F-4CCE-AA02-8B57D43B4B60}" DurationType="OneShot" DurationMin="2.081633" DurationMax="2.086395"/>
@@ -110,10 +109,6 @@
 				<File Id="532552577" Language="SFX">
 					<ShortName>Makibishi_metal_impact1.wav</ShortName>
 					<Path>SFX\Makibishi_metal_impact1_9E69E797.wem</Path>
-				</File>
-				<File Id="537384502" Language="SFX">
-					<ShortName>ItemBox.wav</ShortName>
-					<Path>SFX\ItemBox_9E69E797.wem</Path>
 				</File>
 				<File Id="547640341" Language="SFX">
 					<ShortName>Countdown_Go.wav</ShortName>

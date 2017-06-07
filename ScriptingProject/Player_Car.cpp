@@ -24,7 +24,7 @@
 
 //To call functions from another script
 typedef void(*PSHit_CarCollision)(GameObject *game_object, const math::float3& point);
-typedef void(*PSHit_WallCollision)(GameObject *game_object, int car_id, const math::float3& point);
+typedef void(*PSHit_WallCollision)(GameObject *game_object, int car_id, const math::float3& point, bool with_makibishi);
 
 enum Item_Type
 {
@@ -449,10 +449,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 						item->SetActive(false);
 						col->GetCollider()->SetActive(false);
 						car->RemoveHitodama();
-						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
-
-						// Play Impact with Makibishi
-						if (audio_source) audio_source->PlayAudio(9);
+						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition(), true);
 					}
 					else if (item->name == item_box_name.c_str())
 					{
@@ -467,7 +464,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		{
 			if (col->GetCollider()->GetGameObject()->layer == 2) //Wall
 			{
-				ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
+				ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition(), false);
 			}
 		}
 	}

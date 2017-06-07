@@ -24,6 +24,7 @@ namespace ParticleHit
 	GameObject* go_wall_hit2 = nullptr;
 	ComponentParticleSystem* ps_wall1 = nullptr;
 	ComponentParticleSystem* ps_wall2 = nullptr;
+	ComponentAudioSource *audio_source = nullptr;
 
 	float car_timer = 0.0f;
 	bool car_ps_active = false;
@@ -107,12 +108,11 @@ namespace ParticleHit
 			car_ps_active = true;
 
 			// Playing impact sound
-			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (audio) audio->PlayAudio(10);
+			if (audio_source) audio_source->PlayAudio(10);
 		}
 	}
 
-	void ParticleHit_WallCollision(GameObject *game_object, int car_id, const math::float3& point)
+	void ParticleHit_WallCollision(GameObject *game_object, int car_id, const math::float3& point, bool with_makibishi)
 	{
 		if (car_id == 0)
 		{
@@ -123,8 +123,14 @@ namespace ParticleHit
 				wall_ps_active1 = true;
 
 				// Playing impact sound
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(10);
+				audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio_source)
+				{					
+					if(with_makibishi)
+						audio_source->PlayAudio(9);  // Makibishi
+					else
+						audio_source->PlayAudio(10); // Terrain
+				}
 			}	
 		}
 		else
@@ -136,8 +142,14 @@ namespace ParticleHit
 				wall_ps_active2 = true;
 
 				// Playing impact sound
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(10);
+				audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+				if (audio_source)
+				{
+					if (with_makibishi)
+						audio_source->PlayAudio(9);  // Makibishi	
+					else
+						audio_source->PlayAudio(10); // Terrain
+				}
 			}
 		}
 	}

@@ -54,7 +54,6 @@ namespace OutOfBounds
 				timer += time->DeltaTime();
 			}
 		}
-
 	}
 
 	void OutOfBounds_OnCollision(GameObject* game_object, PhysBody3D* col)
