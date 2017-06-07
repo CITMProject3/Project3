@@ -4,6 +4,7 @@
 #include "../ModuleScripting.h"
 #include "../ComponentScript.h"
 #include "../ComponentTransform.h"
+#include "../ComponentAudioSource.h"
 #include "../ComponentCollider.h"
 #include "../ModuleGOManager.h"
 #include "../ComponentCar.h"
@@ -16,6 +17,8 @@ namespace TurboPad
 {
 	//Public
 	//int Checkpoint_N = 1;
+
+	ComponentAudioSource* audio_source = nullptr;
 
 	void TurboPad_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -35,7 +38,9 @@ namespace TurboPad
 	}
 
 	void TurboPad_Start(GameObject* game_object)
-	{}
+	{
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+	}
 
 	void TurboPad_Update(GameObject* game_object)
 	{}
@@ -45,6 +50,7 @@ namespace TurboPad
 		ComponentCar* car = col->GetCar();
 		if (car)
 		{
+			if (audio_source) audio_source->PlayAudio(0); // Playing Turbo
 			car->TurboPad();
 		}
 	}

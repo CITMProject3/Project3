@@ -204,12 +204,13 @@ void ComponentCar::KartLogic()
 		//WE use CheckOffTrack 'cause if it's false it means that all wheels hit
 		if (checkOffTrack == false && onTheGround && fallSpeed < 1.5f)
 		{
-			newPos.y = 0.0f;
+			newPos.y = shadowRayResult.point.y;
+			/*newPos.y = 0.0f;
 			ITERATE_WHEELS
 			{
 				newPos.y += it->hitPoint.y;
 			}
-			newPos.y /= wheels.size();
+			newPos.y /= wheels.size();*/
 		}
 
 	//We use on the ground, 'cause it's true if at least one of the
@@ -498,7 +499,7 @@ void ComponentCar::DriftManagement()
 	if (drifting == drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) != KEY_REPEAT))
 	{
 		drifting = drift_none;
-		if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 	}
 
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
@@ -519,14 +520,14 @@ void ComponentCar::DriftManagement()
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
-					if (audio) audio->PlayAudio(6);	// Init Drifting
+					if (audio_source) audio_source->PlayAudio(6);	// Init Drifting
 				}
 				else if (currentSteer < -minimumSteerToStartDrifting)
 				{
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
-					if (audio) audio->PlayAudio(6);	// Init Drifting
+					if (audio_source) audio_source->PlayAudio(6);	// Init Drifting
 				}
 			}
 		}
@@ -534,17 +535,17 @@ void ComponentCar::DriftManagement()
 		{			
 			//If we don't have enough speed, the drift is considered a failure
 			drifting = drift_failed;
-			if (audio) audio->PlayAudio(8); // Stopping Drifting
+			if (audio_source) audio_source->PlayAudio(8); // Stopping Drifting
 		}
 		else
 		{
-			//if (audio) audio->PlayAudio(7);	// Reduce Drifting
+			//if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 			drifting = drift_none;
 		}
 	}
 	else if(drifting != drift_failed)
 	{
-		//if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		//if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 
@@ -557,7 +558,7 @@ void ComponentCar::DriftManagement()
 	{
 		drifting = drift_failed;
 		collisionwWhileDrifting = 0;
-		if (audio) audio->PlayAudio(8); // Stopping Drifting
+		if (audio_source) audio_source->PlayAudio(8); // Stopping Drifting
 	}
 
 	if (collisionwWhileDrifting > 0)
@@ -597,7 +598,7 @@ void ComponentCar::DriftManagement()
 			NewTurbo(turboPicker.drift2);
 			break;
 		}
-		if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 	lastFrame_drifting = drifting;
@@ -815,7 +816,7 @@ void ComponentCar::OnPlay()
 
 	lastFrame_drifting = drifting = drift_none;
 
-	audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+	audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)
