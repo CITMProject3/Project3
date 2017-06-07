@@ -171,6 +171,11 @@ void ComponentCar::Update()
 			wantToSetScale = false;
 			kart_trs->SetScale(setscale);
 		}
+		float3 scale = kart_trs->GetScale();
+		if (scale.x > 1.2f || scale.y > 1.2f || scale.z > 1.2f)
+		{
+			SetScale(float3(1, 1, 1));
+		}
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());
 		KartLogic();
@@ -838,8 +843,6 @@ void ComponentCar::OnPlay()
 	n_checkpoints = 0;
 	speed = 0.0f;
 	fallSpeed = 0.0f;
-
-	SetScale(float3(1, 1, 1));
 
 	collider = App->physics->AddVehicle(collShape, this);
 
