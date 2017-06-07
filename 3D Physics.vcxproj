@@ -250,6 +250,7 @@
     <ClInclude Include="Profiler.h" />
     <ClInclude Include="RaceTimer.h" />
     <ClInclude Include="RenderTexEditorWindow.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="ResourceFileAnimation.h" />
     <ClInclude Include="ResourceFileBone.h" />
     <ClInclude Include="ResourceFileAudio.h" />
@@ -541,6 +542,13 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release Library|Win32'">true</ExcludedFromBuild>
     </Xsd>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\_UNI\Project3\rikart_icon.ico" />
+    <Image Include="icon1.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
