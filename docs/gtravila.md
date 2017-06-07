@@ -45,7 +45,9 @@ This was another feature required to work fluently in a large group. The prefab 
 
 At the begining, the team decided to go with a cell shading style. 
 
-(insert cell shading photo)
+<p align="center">
+  <img src="http://i.imgur.com/0PtlJMj.png" alt="cell_shading"/>
+</p>
 
 In the end, it was decided to go with a more realistic style, so I changed the shaders to Phong. I did several variations of the shader: the classic one, with a normal map, with the mesh animated and with the mesh animated and a normal map.
 
