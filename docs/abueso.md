@@ -12,7 +12,8 @@
 
 * Mail: aleix.bueso@gmail.com
 
-**Programs used in this project**: ![Maya](https://cdna.artstation.com/p/softwares/icons/000/000/024/default/Maya.png?1424684349) ![Photoshop](https://cdna.artstation.com/p/softwares/icons/000/000/032/default/Photoshop.png?1424684351)
+**Programs used in this project:** ![Maya](https://cdna.artstation.com/p/softwares/icons/000/000/024/default/Maya.png?1424684349) 
+![Photoshop](https://cdna.artstation.com/p/softwares/icons/000/000/032/default/Photoshop.png?1424684351)
 
 **My Job:** 
 
@@ -28,3 +29,71 @@ _**What i've done:**_
 
 - Creating environment props (In chronological order):
 
+Fishing Cotagge
+
+![Fishing Cotagge](http://i.imgur.com/9MhfCtB.png)
+
+
+Paper Carps
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+First Circuit Version
+
+![First Circuit Version](http://i.imgur.com/mkBClQt.png)
+
+
+Trees V2
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Fishing Rack
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Harbor Full
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Fish Stand
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Stone Wall
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Wood Fences
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Tree V1
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Torii
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Wood Plank
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Harbor Parts
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
+
+
+Bridge
+
+![Paper Carps](http://i.imgur.com/mkBClQt.png)
