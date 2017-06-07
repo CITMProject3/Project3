@@ -7,4 +7,10 @@ In the early phases of the project my main objective was to look for information
 
 ##### [Link to the first analysis and proposal (with concept)](https://docs.google.com/document/d/1KWESt4w4Brao5CY0e-7IxbD-YmUMBvV2zlyQ825Itq4/edit)
 
-Besides, i started doing some concepts of possible tracks for our game. Lots of them were discarted, but i got some good ideas that could be implemented in the current game.
+Besides, i started doing some concepts of possible tracks for our game. Lots of them were discarted, but i got some good ideas that could be implemented in the current game. You can see some of them here: 
+
+![alt text][concept1] ![alt text][concept2] ![alt text][concept3]
+
+[concept1]: http://imgur.com/VABjLmY "Concept 1"
+[concept2]: http://imgur.com/84o67m3 "Concept 2"
+[concept3]: http://imgur.com/OcYWVvG "Concept 3"
