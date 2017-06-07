@@ -28,11 +28,16 @@ namespace Main_Menu_UI
 	GameObject* select_menu = nullptr;
 	GameObject* select_vehicle = nullptr;
 	GameObject* select_level = nullptr;
+
+	GameObject* citm_logo = nullptr;
+	GameObject* ezwix_logo = nullptr;
+
 	ComponentCanvas* canvas = nullptr;
 	int current_scene = 0;
 	int current_canvas_scene = 0;
 	int player_order[4];
-	float timer = 1.5f;
+	float title_pos_timer;
+	float timer = 3.0f;
 	float current_time = 0;
 	void Main_Menu_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -49,6 +54,9 @@ namespace Main_Menu_UI
 		public_ints->insert(std::pair<const char*, int>("Player2", player_order[1]));
 		public_ints->insert(std::pair<const char*, int>("Player3", player_order[2]));
 		public_ints->insert(std::pair<const char*, int>("Player4", player_order[3]));
+
+		public_gos->insert(std::pair<const char*, GameObject*>("CITM Logo", citm_logo));
+		public_gos->insert(std::pair<const char*, GameObject*>("Ezwix Logo", ezwix_logo));
 	}
 
 	void Main_Menu_UI_UpdatePublics(GameObject* game_object)
@@ -62,6 +70,10 @@ namespace Main_Menu_UI
 		select_vehicle = test_script->public_gos.at("Select vehicle Menu");
 		select_level = test_script->public_gos.at("Select level Menu");
 		citm_menu = test_script->public_gos.at("Citm Menu");
+
+		citm_logo = test_script->public_gos["CITM Logo"];
+		ezwix_logo = test_script->public_gos["Ezwix Logo"];
+
 		canvas = (ComponentCanvas*)game_object->GetComponent(ComponentType::C_CANVAS);
 
 		player_order[0] = test_script->public_ints.at("Player1");
@@ -93,6 +105,7 @@ namespace Main_Menu_UI
 
 	void Main_Menu_UI_Start(GameObject* game_object)
 	{
+		title_pos_timer = 0.35f;
 		current_scene = -1;
 		current_canvas_scene = -1;
 		citm_menu->SetActive(true);
@@ -108,6 +121,7 @@ namespace Main_Menu_UI
 		ComponentAudioSource *a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 		if (a_comp) a_comp->PlayAudio(0);
 			
+		ezwix_logo->SetActive(false);
 		//canvas->go_focus = title_menu;
 	}
 
@@ -115,6 +129,11 @@ namespace Main_Menu_UI
 	{
 		if (current_canvas_scene == -1)
 		{
+			if (current_time >= (timer/2))
+			{
+				citm_logo->SetActive(false);
+				ezwix_logo->SetActive(true);
+			}
 			if (current_time > timer)
 				current_scene = 0;
 			else
