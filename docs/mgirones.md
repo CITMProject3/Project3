@@ -26,15 +26,23 @@
 
 **At the "Prop phase" of the project i did:**
 
+- Barrack: 320 Tris
 ![House](http://i.imgur.com/jWhdmeR.jpg)
 
+- Torii: 338 Tris
 ![Torii](http://i.imgur.com/PFH8tzA.jpg)
 
+- Pot: 76 Tris
 ![Pot](http://i.imgur.com/uyIGdug.jpg)
 
+- Boat 1: 330 Tris
 ![Boat1](http://i.imgur.com/Pl244Ml.jpg)
 
+- Boat 2: 356 Tris
 ![Boat2](http://i.imgur.com/G84OxQM.jpg)
+
+- Tree: 624 Tris
+![Tree](http://imgur.com/8KSAKY4)
 
 
 
