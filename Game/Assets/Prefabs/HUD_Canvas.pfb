@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 561512028,
+                    "UUID": 929125512,
                     "active": true,
                     "matrix": [
                         1,
@@ -1804,7 +1804,7 @@
                             "path": "",
                             "path_assets": "",
                             "properties_set": true,
-                            "alpha": 0,
+                            "alpha": 2,
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
@@ -1909,7 +1909,7 @@
                             "path": "",
                             "path_assets": "",
                             "properties_set": true,
-                            "alpha": 0,
+                            "alpha": 2,
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
@@ -2014,7 +2014,7 @@
                             "path": "",
                             "path_assets": "",
                             "properties_set": true,
-                            "alpha": 0,
+                            "alpha": 2,
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
@@ -2119,7 +2119,7 @@
                             "path": "",
                             "path_assets": "",
                             "properties_set": true,
-                            "alpha": 0,
+                            "alpha": 2,
                             "blend_type": 0,
                             "alpha_test": 0.250000,
                             "color": [
