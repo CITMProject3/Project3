@@ -37,3 +37,19 @@ After this prototypes we saw in what direction we had to advance and leads and I
 - Art-Heroes was a full artists scrum in charge of modelling and texturized characters and karts.
 
 We have maintained this scrums for almost all production. The only significant change was the dissolution of Art-Heroes scrum once all characters and karts were finished. These artists were moved to Gameplay scrum to help in characters' animations in the Alpha 2 sprint.
+
+During the Vertical Slice 3, Alpha 1, 2 & 3 we develop the most part of the game. Finishing with this level:
+![Vertical Slice 1 & 2](http://i.imgur.com/4lI8uNy.png)
+
+Due to technical problems we had to change the physical engine (remove Bullet and pass to own physics system). This provoked a huge change on the scrums, for the Beta we formed the following scrums:
+- Physics: Formed by programmers and designers to adapt the gameplay to the new physics system.
+- Items: Focused on polish the items that we had produced till the date.
+- Animations: Formed by one programmer and artists to make and implement animations.
+- Levels: In the same line that previous sprints.
+
+Thanks God our own physics worked perfectlly (our programmers are the best) and we advance to Post-Production. To face the Gold we change again the scrums to the next structure:
+- Gameplay: Polish all mechanics, karts behaviours and physics bugs.
+- Levels: Formed by artists and level designers, responsible of enhance levels and make them beautiful.
+- Audio: Formed by one audio designer and one programmer, they made all FX and implemented them on the game.
+- Particles & Shadows: Formed by programmers and artists, their mission add particles and shadows everywhere. 
+- QA: In charge of test the game and notify all the bugs or problems found.
