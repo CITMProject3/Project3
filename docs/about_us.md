@@ -59,7 +59,7 @@ Ian Trueba
 
 [Alexis Cosano](acosano.md)
 
-Samuel Navarro
+[Samuel Navarro](snavarro.md)
 
 [Laura Ripoll](lripoll.md)
 
