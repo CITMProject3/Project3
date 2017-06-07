@@ -23,7 +23,7 @@ Marc Garrigó - Lead Programmer
 
 [Ausiàs Dalmau](aDalmau.md)
 
-Carlos Randino
+[Carlos Randino](crandino.md)
 
 [Guillem Travila](gtravila.md)
 
