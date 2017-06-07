@@ -458,7 +458,8 @@ namespace Scene_Manager
 	void Scene_Manager_FinishRace()
 	{
 		race_finished = true;
-		if (race_HUD) race_HUD->SetActive(false);
+		if (race_HUD) race_HUD->SetActive(false
+		);
 		if (result_window) result_window->SetActive(true);
 		if (timer_1_text)timer_1_text->SetDisplayText(team1_text);
 		if (timer_2_text)timer_2_text->SetDisplayText(team2_text);
@@ -631,6 +632,21 @@ namespace Scene_Manager
 					{
 						car_1->finished = true;
 
+						if (car_1->place == 1)
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(4);
+							}								
+						}
+						else
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(5);
+							}
+						}
+
 						if (goingToDisqualify == 0)
 						{
 							goingToDisqualify = 2;
@@ -652,7 +668,9 @@ namespace Scene_Manager
 						if (player1_finish) player1_finish->SetActive(true);
 						if (car_2 && car_2->finished == true)
 						{
+							if (audio_source) audio_source->PlayAudio(6);  // Mutting music and lowering audio
 							finish_timer_on = true;
+
 							return;
 						}
 					}
@@ -714,6 +732,21 @@ namespace Scene_Manager
 					{
 						car_2->finished = true;
 
+						if (car_2->place == 1)
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(4);
+							}
+						}
+						else
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(5);
+							}
+						}
+
 						if (goingToDisqualify == 0)
 						{
 							goingToDisqualify = 1;
@@ -735,6 +768,7 @@ namespace Scene_Manager
 						if (player2_finish) player2_finish->SetActive(true);
 						if (car_1 && car_1->finished == true)
 						{
+							if (audio_source) audio_source->PlayAudio(6); // Mutting music and lowering audio
 							finish_timer_on = true;
 							return;
 						}
@@ -781,6 +815,7 @@ namespace Scene_Manager
 		}
 		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
 		{
+			if (audio_source) audio_source->PlayAudio(7);   // Movement
 			if (result_focus_pos == 2)
 			{
 				result_focus_pos = 0;
@@ -795,6 +830,7 @@ namespace Scene_Manager
 
 		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
 		{
+			if (audio_source) audio_source->PlayAudio(7);   // Movement
 			if (result_focus_pos == 0)
 			{
 				result_focus_pos = 2;
@@ -809,7 +845,7 @@ namespace Scene_Manager
 
 		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 		{
-			if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
+			if (audio_source) audio_source->PlayAudio(3);   // Stopping all sounds and playing Selection FX
 			switch (result_focus_pos)
 			{
 			case 0: 

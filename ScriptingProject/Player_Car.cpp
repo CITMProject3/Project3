@@ -321,7 +321,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			Player_Car_UseFirecracker(game_object, car);
+			Player_Car_UseEvilSpirit(game_object, car);
 		}
 
 		if (car->place == 1 && current_item == EVIL_SPIRIT)
@@ -456,7 +456,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 						car->RemoveHitodama();
 						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition(), true);
 					}
-					else if (item->name == item_box_name.c_str() && current_item == NONE)
+					else if (item->name == item_box_name.c_str() && current_item == NONE && item->GetComponent(C_MESH)->IsActive() == true)
 					{
 						Player_Car_ChooseItem(game_object);
 						Player_Car_OnPickItem(game_object);

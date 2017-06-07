@@ -108,6 +108,15 @@
       "DurationMax": "0.904218"
      },
      {
+      "Id": "4206446143",
+      "Name": "Play_Loser_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Loser_player",
+      "GUID": "{88211089-5976-428C-B841-A0A40A0B1CB9}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.201088",
+      "DurationMax": "5.201088"
+     },
+     {
       "Id": "104204679",
       "Name": "Play_Makibishi",
       "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
@@ -133,6 +142,15 @@
       "DurationMax": "2.086395"
      },
      {
+      "Id": "4277723509",
+      "Name": "Play_Winner_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Winner_player",
+      "GUID": "{F196C9B4-331A-4BE2-8DFA-1B8E8AAF6F4F}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.123628",
+      "DurationMax": "5.123628"
+     },
+     {
       "Id": "3227588549",
       "Name": "Reduce_Drifting",
       "ObjectPath": "\\Events\\InGame\\Reduce_Drifting",
@@ -140,6 +158,16 @@
       "DurationType": "OneShot",
       "DurationMin": "1.006130",
       "DurationMax": "1.006130"
+     },
+     {
+      "Id": "198924816",
+      "Name": "Reduce_Volume_Music",
+      "ObjectPath": "\\Events\\InGame\\Reduce_Volume_Music",
+      "GUID": "{84C4D7CF-ED7B-4180-ACAB-80F11E42B0CA}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
      },
      {
       "Id": "1300784916",
@@ -156,10 +184,9 @@
       "Name": "Stop_All",
       "ObjectPath": "\\Events\\InGame\\Stop_All",
       "GUID": "{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}",
-      "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
-      "DurationMin": "0.000000",
-      "DurationMax": "0.000000"
+      "DurationMin": "0.312925",
+      "DurationMax": "0.312925"
      },
      {
       "Id": "201644199",
@@ -274,7 +301,7 @@
       "Id": "440931321",
       "Language": "SFX",
       "ShortName": "RiKarts_Master_Full.wav",
-      "Path": "SFX\\RiKarts_Master_Full_9A87C55A.wem"
+      "Path": "SFX\\RiKarts_Master_Full_2F1BF31A.wem"
      },
      {
       "Id": "501485239",
@@ -343,6 +370,12 @@
       "Path": "SFX\\metalic_scrape2_4AFEA6D2.wem"
      },
      {
+      "Id": "761089316",
+      "Language": "SFX",
+      "ShortName": "Selection.wav",
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
+     },
+     {
       "Id": "762374421",
       "Language": "SFX",
       "ShortName": "Makibishi_hit.wav",
@@ -353,6 +386,12 @@
       "Language": "SFX",
       "ShortName": "Medium_Smash2.wav",
       "Path": "SFX\\Medium_Smash2_9E69E797.wem"
+     },
+     {
+      "Id": "826059435",
+      "Language": "SFX",
+      "ShortName": "Loser_player.wav",
+      "Path": "SFX\\Loser_player_9E69E797.wem"
      },
      {
       "Id": "854809436",
@@ -383,6 +422,12 @@
       "Language": "SFX",
       "ShortName": "Drifting_loop3.wav",
       "Path": "SFX\\Drifting_loop3_9E69E797.wem"
+     },
+     {
+      "Id": "950107977",
+      "Language": "SFX",
+      "ShortName": "Winner_player.wav",
+      "Path": "SFX\\Winner_player_9E69E797.wem"
      },
      {
       "Id": "961727349",

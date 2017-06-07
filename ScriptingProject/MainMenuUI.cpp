@@ -38,7 +38,7 @@ namespace Main_Menu_UI
 	int current_canvas_scene = 0;
 	int player_order[4];
 	float title_pos_timer;
-	float timer = 4.5f;
+	float timer = 5.0f;
 	float current_time = 0;
 	void Main_Menu_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
