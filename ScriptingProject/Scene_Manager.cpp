@@ -21,6 +21,7 @@
 #include "../ComponentMaterial.h"
 #include "../ComponentAudioSource.h"
 #include "../ComponentUiButton.h"
+#include "../ComponentRectTransform.h"
 
 #include "../ModuleGOManager.h"
 #include "../ModuleResourceManager.h"
@@ -99,6 +100,7 @@ namespace Scene_Manager
 
 	//"Private" variables
 	float delay_to_start;
+	double number_pos_timer;
 	double start_timer;
 	bool start_timer_on = false;
 	bool number_timer_on = false;
@@ -332,15 +334,25 @@ namespace Scene_Manager
 
 		if (topdriver_number && topgunner_number && botdriver_number && botgunner_number) //
 		{
+			number_pos_timer = 1.0f;
+
 			td_number = ((ComponentUiImage*)topdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bd_number = ((ComponentUiImage*)botdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bg_number = ((ComponentUiImage*)botgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
 
-			topdriver_number->SetActive(false);
-			topgunner_number->SetActive(false);
-			botdriver_number->SetActive(false);
-			botgunner_number->SetActive(false);
+			topdriver_number->SetActive(true);
+			topgunner_number->SetActive(true);
+			botdriver_number->SetActive(true);
+			botgunner_number->SetActive(true);
+
+			td_number->SetIdToRender(App->go_manager->team1_front);
+
+			tg_number->SetIdToRender(App->go_manager->team1_back);
+
+			bd_number->SetIdToRender(App->go_manager->team2_front);
+
+			bg_number->SetIdToRender(App->go_manager->team2_back);
 		}
 
 		if (top_wrongdirection && bot_wrongdirection)
@@ -497,6 +509,18 @@ namespace Scene_Manager
 
 	}
 
+	void Scene_Manager_MoveElementsUI(ComponentRectTransform* go, double timeLeft, float destination, float margin)
+	{
+		float distance = destination - go->GetLocalPos().y;
+
+		double relation = timeLeft / time->DeltaTime();
+		
+		float fMovement = distance / relation;
+
+		if ((distance >= margin && distance > 0) || (-distance >= margin && distance < 0))
+			go->Move(float3(0, fMovement, 0));
+	}
+
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object)
 	{
 		if (goingToDisqualify != 0)
@@ -516,25 +540,31 @@ namespace Scene_Manager
 		{
 			if (race_timer_number != 0) // When race_timer_number is 1, the race has begun!
 			{
-				if (delay_to_start > 1.0f && delay_to_start < 2.0f && !number_timer_on)
+				if (delay_to_start > 0.0f && delay_to_start < 1.0f)
 				{
 					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
 					{
-						topdriver_number->SetActive(true);
-						td_number->SetIdToRender(App->go_manager->team1_front);
+						number_pos_timer -= time->DeltaTime();
 
-						topgunner_number->SetActive(true);
-						tg_number->SetIdToRender(App->go_manager->team1_back);
-
-						botdriver_number->SetActive(true);
-						bd_number->SetIdToRender(App->go_manager->team2_front);
-
-						botgunner_number->SetActive(true);
-						bg_number->SetIdToRender(App->go_manager->team2_back);
+						Scene_Manager_MoveElementsUI((ComponentRectTransform*)topdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 120.0f, 1);
+						Scene_Manager_MoveElementsUI((ComponentRectTransform*)topgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 120.0f, 1);
+						Scene_Manager_MoveElementsUI((ComponentRectTransform*)botdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 600.0f, 1);
+						Scene_Manager_MoveElementsUI((ComponentRectTransform*)botgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 600.0f, 1);
 					}
-					number_timer_on = true;
 				}
-				if (delay_to_start > 3.0f && number_timer_on)
+				else if (delay_to_start > 1.0f && !number_timer_on)
+				{
+					number_timer_on = true;
+					number_pos_timer = 1.0f;
+				}
+				else if (delay_to_start > 3.0f && delay_to_start < 4.0f)
+				{
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
+				}
+				if (delay_to_start > 4.0f && !start_timer_on)
 				{
 					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
 					{
@@ -551,10 +581,6 @@ namespace Scene_Manager
 						botgunner_number->SetActive(false);
 					}
 
-					number_timer_on = false;
-				}
-				else if (delay_to_start > 4.0f && !start_timer_on)
-				{
 					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
 					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
 					start_timer_on = true;

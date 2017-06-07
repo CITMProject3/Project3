@@ -46,6 +46,7 @@ EXPORTS
 	Scene_Manager_SetStartTimerText
 	Scene_Manager_StartRace
 	Scene_Manager_Start
+	Scene_Manager_MoveElementsUI
 	Scene_Manager_UpdateDuringRace
 	Scene_Manager_Update
 	Scene_Manager_UpdateItems
