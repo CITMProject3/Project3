@@ -63,3 +63,17 @@ Thanks God our own physics worked perfectlly (our programmers are the best) and 
 - QA: In charge of test the game and notify all the bugs or problems found.
 
 ___
+
+## Team Dynamics
+
+### Sprint Reviews
+In every delivery each scrum presented its work. All team members had 1 or 2 slides to explain what he did. This way at the end of every sprint everbody knew the current state of the project and what their teammates had done. [Example: Sprint Review Gameplay Alpha 3](https://docs.google.com/presentation/d/1EDqHSIO4lqltei5bc3w3j3v1_oKHCK9aR0GbdBq1IoQ/edit?usp=sharing)
+
+### Sprint Plannings
+After each Sprint Review, in the same class, studio's CEO gave us a sketch of Backlog. Later I polish that sketch and distributed to all team members. This way every scrum had enough information to planning the sprint.  
+Every sprint lasted all the days between deliveries, so most of them last 2 weeks. Everybody had to put his availability during the days of the sprint in a common excel. Later the scrum master adjudicated tasks to cover the availability of everybody. Most times this process was too long, and scrum masters had to finish it at home and I try to help them. 
+![Availability](http://i.imgur.com/f2ti1E3.png)
+
+### During the Sprints
+All the tasks were logged in our task management software: HacknPlan. In HakcnPlan we were able of divide tasks in function of each scrum or department, add estimated hours for each task and log the real hours later, stablish dependencies, etc.
+![HacknPlan](http://i.imgur.com/zsPuOcG.png)
