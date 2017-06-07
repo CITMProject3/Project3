@@ -789,14 +789,14 @@ void ComponentCar::OnPlay()
 	float z = 0.8f;
 	float3 dir = float3(0.8, 1, 0.9);
 
-	//Front left
-	wheels.push_back(Wheel(this, float2(-x, z), float3(-dir.x, -dir.y, dir.z)));
-	//Front Right
-	wheels.push_back(Wheel(this, float2(x, z), float3(dir.x, -dir.y, dir.z)));
 	//Back left
 	wheels.push_back(Wheel(this, float2(-x, -z), float3(-dir.x, -dir.y, -dir.z)));
 	//Back Right
 	wheels.push_back(Wheel(this, float2(x, -z), float3(dir.x, -dir.y, -dir.z)));
+	//Front left
+	wheels.push_back(Wheel(this, float2(-x, z), float3(-dir.x, -dir.y, dir.z)));
+	//Front Right
+	wheels.push_back(Wheel(this, float2(x, z), float3(dir.x, -dir.y, dir.z)));
 
 	if (kart_trs)
 	{
