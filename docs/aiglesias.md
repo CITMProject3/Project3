@@ -3,7 +3,7 @@
 **Role:** Level Designer
 
 **Name:** Asier Iglesias   
-![Profile](http://i.imgur.com/7xnXiAj.jpg)
+![Profile](http://i.imgur.com/7xnXiAj.jpg?1)
 
 **Contact:**   
 [Linkedin](https://www.linkedin.com/in/asier-iglesias-gavarro/)   
