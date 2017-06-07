@@ -36,40 +36,43 @@
 
 void ComponentCar::WallHit(const float3 &normal, const float3 &kartZ, const float3 &kartX)
 {
-	float3 fw, side;
-
-	normal.Decompose(kartZ, fw, side);
-
-	Plane p;
-	p.Set(kart_trs->GetPosition(), kartX);
-
-	if (p.IsInPositiveDirection(normal))
+	if (hitWallTimer > 2.0f)
 	{
-		horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (horizontalSpeed < 0) { horizontalSpeed = 0; }
-	}
-	else
-	{
-		horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (horizontalSpeed > 0) { horizontalSpeed = 0; }
-	}
+		float3 fw, side;
 
-	p.Set(kart_trs->GetPosition(), kartZ);
-	if (p.IsInPositiveDirection(normal))
-	{
-		speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (speed < 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
-	}
-	else
-	{
-		speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
-		if (speed > 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
-	}
+		normal.Decompose(kartZ, fw, side);
 
-	if (drifting != drift_none)
-	{
-		collisionwWhileDrifting++;
-		driftCollisionTimer = 0.0f;
+		Plane p;
+		p.Set(kart_trs->GetPosition(), kartX);
+
+		if (p.IsInPositiveDirection(normal))
+		{
+			horizontalSpeed += side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (horizontalSpeed < 0) { horizontalSpeed = 0; }
+		}
+		else
+		{
+			horizontalSpeed -= side.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (horizontalSpeed > 0) { horizontalSpeed = 0; }
+		}
+
+		p.Set(kart_trs->GetPosition(), kartZ);
+		if (p.IsInPositiveDirection(normal))
+		{
+			speed += fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (speed < 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
+		}
+		else
+		{
+			speed -= fw.Length() * Clamp((math::Abs(speed) / maxSpeed), 0.2f, 9999.0f) * (WallsBounciness + mods.bonusWallBounciness);
+			if (speed > 0 && fw.LengthSq() > side.LengthSq()) { speed = 0; }
+		}
+
+		if (drifting != drift_none)
+		{
+			collisionwWhileDrifting++;
+			driftCollisionTimer = 0.0f;
+		}
 	}
 }
 
@@ -175,6 +178,10 @@ void ComponentCar::Update()
 		if (scale.x > 1.2f || scale.y > 1.2f || scale.z > 1.2f)
 		{
 			SetScale(float3(1, 1, 1));
+		}
+		if (hitWallTimer < 10.0f)
+		{
+			hitWallTimer += time->DeltaTime();
 		}
 
 		turbo_mods = turbo.UpdateTurbo(time->DeltaTime());

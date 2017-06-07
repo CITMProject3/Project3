@@ -295,6 +295,7 @@ private:
 	void TrueReset();
 public:
 
+	float hitWallTimer = 0.0f;
 	float resetTimer = 0.0f;
 	bool wantToReset = false;
 
