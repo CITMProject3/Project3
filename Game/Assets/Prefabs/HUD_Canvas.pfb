@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 763491977,
+                    "UUID": 586125462,
                     "active": true,
                     "matrix": [
                         1,
@@ -1339,6 +1339,105 @@
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/3621864792\/\/\/203970898\/203970898.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Credits",
+            "UUID": 1162074210,
+            "local_UUID": 1162074210,
+            "parent": 445700002,
+            "active": true,
+            "is_prefab": true,
+            "prefab_root_uuid": 2871570994,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2731590884,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 3408402342,
+                    "active": true,
+                    "rect_size": [
+                        1600,
+                        900
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -800,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 634068593,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 3080810711,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/3026213975\/\/586117033\/586117033.dds"
                                 },
                                 {
                                     "path": ""

@@ -392,8 +392,7 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		//Turbo (Particles)
 		if (car->GetAppliedTurbo().beganThisFrame)
 		{
-			LOG("bEGIN");
-			if (turbo_particle_go != nullptr)
+			if (turbo_particle_go != nullptr && car->GetInvertStatus() == false)
 			{
 				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
 				ps_turbo->Play();
@@ -402,7 +401,6 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 
 		if (car->GetAppliedTurbo().endedThisFrame)
 		{
-			LOG("END");
 			if (turbo_particle_go != nullptr)
 			{
 				ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
