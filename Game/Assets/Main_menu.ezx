@@ -124,7 +124,8 @@
                     "Select level Menu": 470889133,
                     "Citm Menu": 1718182664,
                     "CITM Logo": 2986443443,
-                    "Ezwix Logo": 1304981430
+                    "Ezwix Logo": 1304981430,
+                    "Wwise Logo": 717801179
                 },
                 {
                     "type": 3,
@@ -8966,6 +8967,105 @@
                             "textures": [
                                 {
                                     "path": "\/Library\/4086913788\/\/\/2626224443\/2626224443.dds"
+                                },
+                                {
+                                    "path": ""
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Wwise Logo",
+            "UUID": 717801179,
+            "local_UUID": 0,
+            "parent": 1718182664,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 1,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2268286459,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 11,
+                    "UUID": 925363020,
+                    "active": true,
+                    "rect_size": [
+                        460,
+                        250
+                    ],
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        -230,
+                        0,
+                        1,
+                        0,
+                        300,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ],
+                    "Order": 0
+                },
+                {
+                    "type": 13,
+                    "UUID": 618338840,
+                    "active": true,
+                    "Material": [
+                        {
+                            "type": 2,
+                            "UUID": 1356108378,
+                            "active": true,
+                            "path": "",
+                            "path_assets": "",
+                            "properties_set": true,
+                            "alpha": 2,
+                            "blend_type": 0,
+                            "alpha_test": 0.250000,
+                            "color": [
+                                1,
+                                1,
+                                1
+                            ],
+                            "specular": 0,
+                            "texture_changed": false,
+                            "id_to_render": 0,
+                            "textures": [
+                                {
+                                    "path": "\/Library\/4086913788\/\/\/578261514\/578261514.dds"
                                 },
                                 {
                                     "path": ""

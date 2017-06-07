@@ -31,13 +31,14 @@ namespace Main_Menu_UI
 
 	GameObject* citm_logo = nullptr;
 	GameObject* ezwix_logo = nullptr;
+	GameObject* wwise_logo = nullptr;
 
 	ComponentCanvas* canvas = nullptr;
 	int current_scene = 0;
 	int current_canvas_scene = 0;
 	int player_order[4];
 	float title_pos_timer;
-	float timer = 3.0f;
+	float timer = 4.5f;
 	float current_time = 0;
 	void Main_Menu_UI_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
@@ -57,6 +58,7 @@ namespace Main_Menu_UI
 
 		public_gos->insert(std::pair<const char*, GameObject*>("CITM Logo", citm_logo));
 		public_gos->insert(std::pair<const char*, GameObject*>("Ezwix Logo", ezwix_logo));
+		public_gos->insert(std::pair<const char*, GameObject*>("Wwise Logo", wwise_logo));
 	}
 
 	void Main_Menu_UI_UpdatePublics(GameObject* game_object)
@@ -73,6 +75,7 @@ namespace Main_Menu_UI
 
 		citm_logo = test_script->public_gos["CITM Logo"];
 		ezwix_logo = test_script->public_gos["Ezwix Logo"];
+		wwise_logo = test_script->public_gos["Wwise Logo"];
 
 		canvas = (ComponentCanvas*)game_object->GetComponent(ComponentType::C_CANVAS);
 
@@ -122,6 +125,7 @@ namespace Main_Menu_UI
 		if (a_comp) a_comp->PlayAudio(0);
 			
 		ezwix_logo->SetActive(false);
+		wwise_logo->SetActive(false);
 		//canvas->go_focus = title_menu;
 	}
 
@@ -129,11 +133,17 @@ namespace Main_Menu_UI
 	{
 		if (current_canvas_scene == -1)
 		{
-			if (current_time >= (timer/2))
+			if (current_time >= (timer/3) && current_time < ((timer / 3) * 2))
 			{
 				citm_logo->SetActive(false);
 				ezwix_logo->SetActive(true);
 			}
+			else if (current_time >= ((timer / 3) * 2))
+			{
+				ezwix_logo->SetActive(false);
+				wwise_logo->SetActive(true);
+			}
+
 			if (current_time > timer)
 				current_scene = 0;
 			else
