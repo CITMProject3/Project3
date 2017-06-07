@@ -144,8 +144,6 @@ private:
 	float max_push_force = 1.0f;
 	float push_threshold = 0.70f; // Ratio below which push is applied
 	
-	float recoveryTime = 2.0f; //Time that takes a car on the air to put itself straight again
-
 	float WallsBounciness = 0.5f;
 
 	//Variable values that directly affect the car frame by frame

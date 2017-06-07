@@ -77,7 +77,6 @@ namespace Player_Car
 	GameObject* ps_hit_manager = nullptr;
 	GameObject* drift_go_left = nullptr;
 	GameObject* drift_go_right = nullptr;
-	GameObject* acrobatics_ps_go = nullptr;
 
 	GameObject* wheel_front_r_0 = nullptr;
 	GameObject* wheel_front_l_0 = nullptr;
@@ -89,12 +88,11 @@ namespace Player_Car
 	GameObject* wheel_back_r_1 = nullptr;
 	GameObject* wheel_back_l_1 = nullptr;
 
+	GameObject* turbo_particle_go = nullptr;
+
 	//Particles
 	PSHit_CarCollision ps_hit_func = nullptr;
 	PSHit_WallCollision ps_hit_wall_func = nullptr;
-	ComponentParticleSystem* ps_acrobatics = nullptr;
-	float acrobatic_timer = 0.0f;
-	bool acrobatic_enabled = false;
 
 	std::vector<GameObject*> makibishis_1;
 	std::vector<GameObject*> makibishis_2;
@@ -137,7 +135,7 @@ namespace Player_Car
 		public_gos->insert(pair<const char*, GameObject*>("ps_hit_manager", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_left", nullptr));
 		public_gos->insert(pair<const char*, GameObject*>("ps_drift_right", nullptr));
-		public_gos->insert(pair<const char*, GameObject*>("acrobatics_ps_go", nullptr));
+		public_gos->insert(pair<const char*, GameObject*>("turbo_ps", turbo_particle_go));
 
 		(*public_gos)["Wheel_Front_R_0"] = wheel_front_r_0;
 		(*public_gos)["Wheel_Front_L_0"] = wheel_front_l_0;
@@ -195,7 +193,7 @@ namespace Player_Car
 		ps_hit_manager = script->public_gos.at("ps_hit_manager");
 		drift_go_left = script->public_gos.at("ps_drift_left");
 		drift_go_right = script->public_gos.at("ps_drift_right");
-		acrobatics_ps_go = script->public_gos.at("acrobatics_ps_go");
+		turbo_particle_go = script->public_gos.at("turbo_ps");
 
 	}
 
@@ -233,7 +231,7 @@ namespace Player_Car
 		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
 		script->public_gos.at("ps_drift_left") = drift_go_left;
 		script->public_gos.at("ps_drift_right") = drift_go_right;
-		script->public_gos.at("acrobatics_ps_go") = acrobatics_ps_go;
+		script->public_gos.at("turbo_ps") = turbo_particle_go;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -297,12 +295,7 @@ namespace Player_Car
 
 		drift_go_left->SetActive(false);
 		drift_go_right->SetActive(false);
-
-		if (ps_acrobatics != nullptr)
-		{
-			ps_acrobatics = (ComponentParticleSystem*)acrobatics_ps_go->GetComponent(ComponentType::C_PARTICLE_SYSTEM);
-			ps_acrobatics->StopAll();
-		}
+		
 	}
 
 #pragma region Forward Declarations
@@ -383,25 +376,22 @@ namespace Player_Car
 			drift_go_left->SetActive(false);
 			drift_go_right->SetActive(false);
 		}
+		
+		//Turbo (Particles)
+		if (car->GetAppliedTurbo().beganThisFrame)
+		{
+			LOG("bEGIN");
+			ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
+			ps_turbo->Play();
+		}
 
-		//Acrobatics
-		if (car->acrobaticsDone)
+		if (car->GetAppliedTurbo().endedThisFrame)
 		{
-			if (acrobatic_enabled == false)
-			{
-				ps_acrobatics->Play();
-				acrobatic_enabled = true;
-			}
+			LOG("END");
+			ComponentParticleSystem* ps_turbo = (ComponentParticleSystem*)turbo_particle_go->GetComponent(C_PARTICLE_SYSTEM);
+			ps_turbo->StopAll();
 		}
-		if (acrobatic_enabled)
-		{
-			acrobatic_timer += time->DeltaTime();
-			if (acrobatic_timer >= 5.0f)
-			{
-				acrobatic_timer = 0.0f;
-				acrobatic_enabled = false;
-			}
-		}
+		
 	}
 
 	void Player_Car_OnCollision(GameObject* game_object, PhysBody3D* col)
