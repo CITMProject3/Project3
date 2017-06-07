@@ -25,7 +25,7 @@ Ausiàs Dalmau
 
 Carlos Randino
 
-Guillem Travila
+[Guillem Travila](gtravila.md)
 
 Josep Atencia
 
