@@ -18,7 +18,7 @@ we came out with the way, by using heightmaps. This is the development of the he
 ![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)
 
 - Here you have some images of the development of the map:
-![map1](https://drive.google.com/drive/folders/0B2arEBaFtuXKN0gyOXE5VVRzUDg.jpg)
+![map1](https://drive.google.com/file/d/0B2arEBaFtuXKNWp4NDJ6V3dwTGM/view?usp=sharing)
 ![map2](https://drive.google.com/drive/folders/0B2arEBaFtuXKdWpadWg2cDZlUEk.jpg)
 
-
+![map3](https://drive.google.com/open?id=0B2arEBaFtuXKNWp4NDJ6V3dwTGM)
