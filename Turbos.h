@@ -149,7 +149,7 @@ public:
 		{
 			beganThisFrame = true;
 		}
-		if ((currentPhase == turbo_deaccelerating && lastFrame_Phase != turbo_deaccelerating) || (currentPhase == turbo_done && lastFrame_Phase != turbo_done))
+		if ((currentPhase == turbo_done && lastFrame_Phase != turbo_done))
 		{
 			endedThisFrame = true;
 		}
