@@ -51,7 +51,7 @@ void ComponentCollider::Update()
 				body->SetTransform(primitive->transform.ptr());
 			}
 
-			if (App->StartInGame() == false)
+			if (App->StartInGame() == false && App->physics->renderColliders)
 			{
 				primitive->Render();
 			}
@@ -68,7 +68,7 @@ void ComponentCollider::Update()
 			body->GetTransform().Transposed().Decompose(translate, rotation, scale);
 			primitive->SetPos(translate.x, translate.y, translate.z);
 			primitive->SetRotation(rotation.Inverted());
-			if (App->StartInGame() == false)
+			if (App->StartInGame() == false && App->physics->renderColliders)
 			{
 				primitive->Render();
 			}

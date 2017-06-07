@@ -584,6 +584,8 @@ void ModuleEditor::WindowsMenu()
 
 void ModuleEditor::EditMenu()
 {
+	ImGui::Checkbox("Debug render", &App->physics->renderColliders);
+
 	if (ImGui::MenuItem("Camera"))
 	{
 		camera_win->SetActive(true);

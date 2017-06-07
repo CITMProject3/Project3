@@ -139,7 +139,7 @@ void ComponentCar::Update()
 				collider->SetTransform(tmp.ptr());
 			}
 			collShape.transform = tmp;
-			if (App->StartInGame() == false)
+			if (App->StartInGame() == false && App->physics->renderColliders)
 			{
 				collShape.Render();
 			}

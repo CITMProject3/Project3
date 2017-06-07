@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ModulePhysics3D.h"
 #include "ComponentCamera.h"
 #include "imgui\imgui.h"
 #include "DebugDraw.h"
@@ -66,7 +67,7 @@ void ComponentCamera::PreUpdate()
 
 void ComponentCamera::Update()
 {
-	if (App->StartInGame() == false && App->IsGameRunning() == false)
+	if (App->StartInGame() == false && App->IsGameRunning() == false && App->physics->renderColliders)
 			g_Debug->AddFrustum(frustum, 30.0f, g_Debug->blue, 2.0f);
 }
 
