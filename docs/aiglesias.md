@@ -24,6 +24,7 @@ we came out with the way, by using heightmaps. This is the development of the he
 ![map3](http://i.imgur.com/TYYRD2S.jpg?1)
 ![map4](http://i.imgur.com/nQzEiEP.jpg?1)
 ![map5](http://i.imgur.com/kluKRVR.png?1)
+![map6](http://i.imgur.com/KITnvvU.jpg)
 
 - And over everything always test!   
 ![QA](http://i.imgur.com/Iozef3R.jpg?2)
