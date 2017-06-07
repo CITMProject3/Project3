@@ -92,6 +92,8 @@ namespace Scene_Manager
 	ComponentMaterial* bd_number = nullptr;
 	ComponentMaterial* bg_number = nullptr;
 
+	ComponentAudioSource *audio_source = nullptr;
+
 	GameObject* top_wrongdirection = nullptr;
 	GameObject* bot_wrongdirection = nullptr;
 	
@@ -103,8 +105,10 @@ namespace Scene_Manager
 	double number_pos_timer;
 	double start_timer;
 	bool start_timer_on = false;
-	bool number_timer_on = false;
 	uint countdown_sound = 4;
+
+	float wrong_dir_timer_1;
+	float wrong_dir_timer_2;
 
 	RaceTimer timer;
 	int race_timer_number = 4;
@@ -228,8 +232,7 @@ namespace Scene_Manager
 		if (car_1 == nullptr || car_2 == nullptr)
 			LOG("Error: Could not find the cars in the scene!");
 
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(2);  // GO
+		if (audio_source) audio_source->PlayAudio(2);  // GO
 
 		timer.Start();
 	}
@@ -243,6 +246,8 @@ namespace Scene_Manager
 		finish_timer = 0;
 		second_position_timer = 0;
 		goingToDisqualify = 0;
+		wrong_dir_timer_1 = 0.0f;
+		wrong_dir_timer_2 = 0.0f;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
@@ -251,7 +256,6 @@ namespace Scene_Manager
 		else
 			delay_to_start = 4.0f;
 		start_timer_on = false;
-		number_timer_on = false;
 		race_finished = false;
 		team1_finished = false;
 		team2_finished = false;
@@ -360,6 +364,8 @@ namespace Scene_Manager
 			top_wrongdirection->SetActive(false);
 			bot_wrongdirection->SetActive(false);
 		}
+
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
@@ -368,8 +374,7 @@ namespace Scene_Manager
 	{
 		if (!music_played)
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(0);   // Playing Music
+			if (audio_source) audio_source->PlayAudio(0);   // Playing Music
 			music_played = true;
 		}
 
@@ -383,8 +388,7 @@ namespace Scene_Manager
 			{
 				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 				{
-					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
+					if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
 
 					// Selecting Assets or Library version depending on Game mode
 					if (App->StartInGame())
@@ -473,8 +477,7 @@ namespace Scene_Manager
 		// Sound management
 		if (countdown_sound != race_timer_number && countdown_sound != 2) 
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(1);  // Countdowns
+			if (audio_source) audio_source->PlayAudio(1); // Countdowns
 			countdown_sound = race_timer_number;
 		}
 
@@ -540,31 +543,14 @@ namespace Scene_Manager
 		{
 			if (race_timer_number != 0) // When race_timer_number is 1, the race has begun!
 			{
-				if (delay_to_start > 0.0f && delay_to_start < 1.0f)
-				{
-					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
-					{
-						number_pos_timer -= time->DeltaTime();
-
-						Scene_Manager_MoveElementsUI((ComponentRectTransform*)topdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 120.0f, 1);
-						Scene_Manager_MoveElementsUI((ComponentRectTransform*)topgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 120.0f, 1);
-						Scene_Manager_MoveElementsUI((ComponentRectTransform*)botdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 600.0f, 1);
-						Scene_Manager_MoveElementsUI((ComponentRectTransform*)botgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 600.0f, 1);
-					}
-				}
-				else if (delay_to_start > 1.0f && !number_timer_on)
-				{
-					number_timer_on = true;
-					number_pos_timer = 1.0f;
-				}
-				else if (delay_to_start > 3.0f && delay_to_start < 4.0f)
+				if (delay_to_start > 2.0f && delay_to_start < 3.0f)
 				{
 					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
 					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
 					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
 					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
 				}
-				if (delay_to_start > 4.0f && !start_timer_on)
+				if (delay_to_start > 3.0f && !start_timer_on)
 				{
 					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
 					{
@@ -609,8 +595,20 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (top_wrongdirection && car_1->wrongDirection != top_wrongdirection->IsActive())
-					top_wrongdirection->SetActive(car_1->wrongDirection);
+				if (top_wrongdirection && car_1->wrongDirection == true)
+				{
+					if (wrong_dir_timer_1 <= 0.6f)
+						top_wrongdirection->SetActive(true);
+					else
+						top_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_1 += time->DeltaTime();
+
+					if (wrong_dir_timer_1 >= 1.2f)
+						wrong_dir_timer_1 = 0.0f;
+				}
+				else
+					wrong_dir_timer_1 = 0.0f;
 
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
@@ -677,8 +675,20 @@ namespace Scene_Manager
 				}
 
 				//Wrong Direction
-				if (bot_wrongdirection && car_2->wrongDirection != bot_wrongdirection->IsActive())
-					bot_wrongdirection->SetActive(car_2->wrongDirection);
+				if (bot_wrongdirection && car_2->wrongDirection == true)
+				{
+					if (wrong_dir_timer_2 <= 0.6f)
+						bot_wrongdirection->SetActive(true);
+					else
+						bot_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_2 += time->DeltaTime();
+
+					if (wrong_dir_timer_2 >= 1.2f)
+						wrong_dir_timer_2 = 0.0f;
+				}
+				else
+					wrong_dir_timer_2 = 0.0f;
 
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))

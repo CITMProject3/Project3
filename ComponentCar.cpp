@@ -216,7 +216,7 @@ void ComponentCar::KartLogic()
 	//We use on the ground, 'cause it's true if at least one of the
 	if (onTheGround == false)
 	{
-		desiredUp = float3(0, 1, 0);
+		desiredUp = float3(0, 1, 0) + kartZ * 0.4f;
 	}
 	desiredUp.Normalize();
 
@@ -276,8 +276,14 @@ void ComponentCar::KartLogic()
 		}
 	}
 
+	float3 speedDir = kartZ;
 	//And finally, we move the kart!
-	newPos += kartZ * speed;
+	if (onTheGround == false)
+	{
+		speedDir.y = max(speedDir.y, 0.0f);
+	}
+	newPos += speedDir * speed;
+
 	newPos += kartX * horizontalSpeed;
 	kart_trs->SetPosition(newPos);
 
@@ -499,7 +505,7 @@ void ComponentCar::DriftManagement()
 	if (drifting == drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) != KEY_REPEAT && App->input->GetJoystickButton(front_player, JOY_BUTTON::X) != KEY_REPEAT))
 	{
 		drifting = drift_none;
-		if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 	}
 
 	if (drifting != drift_failed && (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetJoystickButton(front_player, JOY_BUTTON::X) == KEY_REPEAT))
@@ -520,14 +526,14 @@ void ComponentCar::DriftManagement()
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_right_0;
 					driftButtonMasher.Reset();
-					if (audio) audio->PlayAudio(6);	// Init Drifting
+					if (audio_source) audio_source->PlayAudio(6);	// Init Drifting
 				}
 				else if (currentSteer < -minimumSteerToStartDrifting)
 				{
 					fb_jumpSpeed = driftJumpSpeed;
 					drifting = drift_left_0;
 					driftButtonMasher.Reset();
-					if (audio) audio->PlayAudio(6);	// Init Drifting
+					if (audio_source) audio_source->PlayAudio(6);	// Init Drifting
 				}
 			}
 		}
@@ -535,17 +541,17 @@ void ComponentCar::DriftManagement()
 		{			
 			//If we don't have enough speed, the drift is considered a failure
 			drifting = drift_failed;
-			if (audio) audio->PlayAudio(8); // Stopping Drifting
+			if (audio_source) audio_source->PlayAudio(8); // Stopping Drifting
 		}
 		else
 		{
-			//if (audio) audio->PlayAudio(7);	// Reduce Drifting
+			//if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 			drifting = drift_none;
 		}
 	}
 	else if(drifting != drift_failed)
 	{
-		//if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		//if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 
@@ -558,7 +564,7 @@ void ComponentCar::DriftManagement()
 	{
 		drifting = drift_failed;
 		collisionwWhileDrifting = 0;
-		if (audio) audio->PlayAudio(8); // Stopping Drifting
+		if (audio_source) audio_source->PlayAudio(8); // Stopping Drifting
 	}
 
 	if (collisionwWhileDrifting > 0)
@@ -598,7 +604,7 @@ void ComponentCar::DriftManagement()
 			NewTurbo(turboPicker.drift2);
 			break;
 		}
-		if (audio) audio->PlayAudio(7);	// Reduce Drifting
+		if (audio_source) audio_source->PlayAudio(7);	// Reduce Drifting
 		drifting = drift_none;
 	}
 	lastFrame_drifting = drifting;
@@ -757,7 +763,7 @@ void ComponentCar::RotateKart(float3 desiredUp)
 		}
 		else
 		{
-			nextStep = kartY.Lerp(desiredUp, 0.05f * time->DeltaTime());
+			nextStep = kartY.Lerp(desiredUp, 0.01f * time->DeltaTime());
 		}
 		Quat normal_rot = Quat::RotateFromTo(kartY, nextStep);
 		kart_trs->Rotate(normal_rot);
@@ -816,7 +822,7 @@ void ComponentCar::OnPlay()
 
 	lastFrame_drifting = drifting = drift_none;
 
-	audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+	audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void ComponentCar::SetFrontPlayer(PLAYER player)

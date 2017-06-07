@@ -19,6 +19,7 @@ float max_time = 0.0f;
 ComponentCollider* go_col = nullptr;
 ComponentMesh* go_mesh = nullptr;
 ComponentParticleSystem* go_part = nullptr;
+ComponentAudioSource* audio_source = nullptr;
 bool taken = false;
 
 void Item_Timer_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
@@ -59,6 +60,8 @@ void Item_Timer_Start(GameObject* game_object)
 	}
 	
 	taken = false;
+
+	audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void Item_Timer_Update(GameObject* game_object)
@@ -111,8 +114,7 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 					go_mesh->SetActive(false);
 
 					// Playing Hitodama sound
-					ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (audio) audio->PlayAudio(0);
+					if (audio_source) audio_source->PlayAudio(0);
 				}
 			}
 			else
@@ -125,8 +127,7 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 					go_mesh->SetActive(false);
 
 					// Playing ItemBox sound
-					ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (audio) audio->PlayAudio(0);
+					if (audio_source) audio_source->PlayAudio(0);
 				}
 			}
 		}

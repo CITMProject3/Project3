@@ -17,6 +17,8 @@ namespace OutOfBounds
 	float timer;
 	bool sound_played = false;
 
+	ComponentAudioSource *audio_source = nullptr;
+
 	void OutOfBounds_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 	}
@@ -34,6 +36,8 @@ namespace OutOfBounds
 	{
 		timer = 0.0f;
 		sound_played = false;
+
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
 
 	void OutOfBounds_Update(GameObject* game_object)
@@ -60,8 +64,7 @@ namespace OutOfBounds
 			{
 				sound_played = true;
 				// Playing Car impacting water
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(0);
+				if (audio_source) audio_source->PlayAudio(0);
 			}
 
 			car->Reset();

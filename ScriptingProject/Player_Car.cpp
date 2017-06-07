@@ -98,6 +98,9 @@ namespace Player_Car
 	std::vector<GameObject*> makibishis_2;
 	int item_size = 1;
 
+	// Audio
+	ComponentAudioSource *audio_source = nullptr;
+
 	void Player_Car_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
 		//New Player_Car
@@ -216,19 +219,19 @@ namespace Player_Car
 		script->public_floats.at("current_defense_value") = current_defense_value;
 		script->public_chars.at("item_box_name") = item_box_name;
 
-		script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
-		script->public_floats.at("turbo_acc_bonus_over_time") = turbo_acc_bonus_over_time;
-		script->public_floats.at("turbo_speed_bonus") = turbo_speed_bonus;
-		script->public_floats.at("turbo_dec_time") = turbo_dec_time;
-		
-		script->public_gos.at("firecracker") = firecracker;
-		script->public_gos.at("other_car") = other_car;
-		script->public_gos.at("scene_manager") = scene_manager;
-		script->public_gos.at("makibishi_manager") = makibishi_manager;
-		script->public_gos.at("ps_hit_manager") = ps_hit_manager;
-		script->public_gos.at("ps_drift_left") = drift_go_left;
-		script->public_gos.at("ps_drift_right") = drift_go_right;
-		script->public_gos.at("turbo_ps") = turbo_particle_go;
+script->public_floats.at("turbo_max_acc_time") = turbo_max_acc_time;
+script->public_floats.at("turbo_acc_bonus_over_time") = turbo_acc_bonus_over_time;
+script->public_floats.at("turbo_speed_bonus") = turbo_speed_bonus;
+script->public_floats.at("turbo_dec_time") = turbo_dec_time;
+
+script->public_gos.at("firecracker") = firecracker;
+script->public_gos.at("other_car") = other_car;
+script->public_gos.at("scene_manager") = scene_manager;
+script->public_gos.at("makibishi_manager") = makibishi_manager;
+script->public_gos.at("ps_hit_manager") = ps_hit_manager;
+script->public_gos.at("ps_drift_left") = drift_go_left;
+script->public_gos.at("ps_drift_right") = drift_go_right;
+script->public_gos.at("turbo_ps") = turbo_particle_go;
 	}
 
 	void Player_Car_Start(GameObject* game_object)
@@ -247,11 +250,11 @@ namespace Player_Car
 				evil_spirit_start_pos = evil_spirit_object[car_id]->transform->GetPosition();
 				break;
 			}
-		}	
+		}
 
 		// Start Sound Engine
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(2);
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
+		if (audio_source) audio_source->PlayAudio(2);
 
 		//Init particles
 		ps_hit_func = (PSHit_CarCollision)GetProcAddress(App->scripting->scripts_lib->lib, "ParticleHit_CarCollision");
@@ -264,7 +267,7 @@ namespace Player_Car
 		{
 			if (wheel_front_l_0 != nullptr) car->kart_front_wheel_l = (ComponentTransform*)wheel_front_l_0->GetComponent(C_TRANSFORM);
 			if (wheel_front_r_0 != nullptr) car->kart_front_wheel_r = (ComponentTransform*)wheel_front_r_0->GetComponent(C_TRANSFORM);
-			if (wheel_back_l_0!= nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_0->GetComponent(C_TRANSFORM);
+			if (wheel_back_l_0 != nullptr) car->kart_back_wheel_l = (ComponentTransform*)wheel_back_l_0->GetComponent(C_TRANSFORM);
 			if (wheel_back_r_0 != nullptr) car->kart_back_wheel_r = (ComponentTransform*)wheel_back_r_0->GetComponent(C_TRANSFORM);
 		}
 		else
@@ -292,7 +295,7 @@ namespace Player_Car
 
 		drift_go_left->SetActive(false);
 		drift_go_right->SetActive(false);
-		
+
 	}
 
 #pragma region Forward Declarations
@@ -315,10 +318,9 @@ namespace Player_Car
 		if (car == nullptr)
 			return;
 
-		// DEBUG CRZ for Audio Testing
 		if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
 		{
-			Player_Car_UseEvilSpirit(game_object, car);
+			Player_Car_UseFirecracker(game_object, car);
 		}
 
 		if (current_item != -1 && evil_spirit_effect == false)
@@ -445,8 +447,7 @@ namespace Player_Car
 						ps_hit_wall_func(game_object, car_id, ((ComponentTransform*)(car->GetGameObject()->GetComponent(C_TRANSFORM)))->GetPosition());
 
 						// Play Impact with Makibishi
-						ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-						if (audio) audio->PlayAudio(9);
+						if (audio_source) audio_source->PlayAudio(9);
 					}
 					else if (item->name == item_box_name.c_str())
 					{
@@ -567,8 +568,7 @@ namespace Player_Car
 		}
 
 		// Playing Evil Spirit 
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(3);
+		if (audio_source) audio_source->PlayAudio(3);
 	}
 
 	void Player_Car_UseMakibishi(GameObject* game_object, ComponentCar* car)
@@ -583,8 +583,7 @@ namespace Player_Car
 		}
 
 		// Play Makibishi Sound
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		audio->PlayAudio(5);
+		if (audio_source) audio_source->PlayAudio(5);
 
 		//Activating everything
 		makibishi->SetActive(true);
@@ -668,8 +667,7 @@ namespace Player_Car
 		car->NewTurbo(Turbo(turbo_max_acc_time, turbo_lifetime, 0.0f, turbo_acc_bonus_over_time, 0.0f, turbo_speed_bonus));
 
 		// Playing Firecracker sound
-		ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (audio) audio->PlayAudio(0);
+		if (audio_source) audio_source->PlayAudio(0);
 	}
 
 	void Player_Car_UpdateSpiritEffect(GameObject* game_object, ComponentCar* car)
@@ -724,8 +722,7 @@ namespace Player_Car
 			if (!evil_spirit_effect)
 			{
 				// Stopping Evil Spirit Sound
-				ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-				if (audio) audio->PlayAudio(4);
+				if (audio_source) audio_source->PlayAudio(4);
 			}
 		}
 	}
@@ -762,8 +759,7 @@ namespace Player_Car
 		if (!using_firecracker)
 		{
 			// Stopping Firecracker sound
-			ComponentAudioSource *audio = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (audio) audio->PlayAudio(1);
+			if (audio_source) audio_source->PlayAudio(1);
 		}
 	}
 
