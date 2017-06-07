@@ -10,6 +10,10 @@
 
 My job has consisted on manage all the team, stablish pipelines of production, coordinate diferents departments and scrums, take strategical decisions & keep track the development. 
 
+___
+
+## Production
+
 The project starts officially 10th of Febraury. Subject's teacher, simulated to be studio's CEO and explained us the new game we were going to develop. An asymmetric co-op kart racing game, with the following game pillars:
 - Stylized kart racing game with relatable characters.
 - Asymmetric cooperative experience.
@@ -18,6 +22,7 @@ The project starts officially 10th of Febraury. Subject's teacher, simulated to 
 Also gave us subject's calendar. I modified a little bit adding Alpha 2 delivery to split 4 weeks sprint in 2.
 ![Calendar](http://i.imgur.com/9rOFM1B.png)
 
+### Pre-Production
 In Concept Discovery and Vertical Slice 1 & 2 the team work by departments, because we were gathering info and making some tests, so it wasn't necessary create interdepartmental scrums. In this period of the production, leads had a lot of work supervising their departments (pre-production is a chaotic period).
 
 The first delivery, Concept Discovery, was an information gathering in all aspects of the project. 
@@ -29,7 +34,9 @@ After this first approach to the game, we decide the theme of the game: Yo-kais.
 
 Vertical Slice 1 & 2 were a very early prototypes, without nothing similar to a final level or art implmented, very fwe mechanics, etc.
 ![Vertical Slice 1 & 2](http://i.imgur.com/NXjy6aQ.png)
-After this prototypes we saw in what direction we had to advance and leads and I decided pass to Scrums productions instead of departments production. For the firsts sprints we had the following scrums: Gameplay, Levels, UI, Engine and Art-Heroes. 
+
+### Production
+After this prototypes we saw in what direction we had to advance and leads and I decided pass to Scrums productions instead of departments production. For the firsts sprints we had the following scrums: 
 - Gameplay was responsible of karts behaviours, player mechanics, items and animations.
 - Levels had to develop tools for import heightmaps in order to create levels, create props and design and iterate circuits.
 - UI designed and developed all menu's and in-game UI.
@@ -47,9 +54,12 @@ Due to technical problems we had to change the physical engine (remove Bullet an
 - Animations: Formed by one programmer and artists to make and implement animations.
 - Levels: In the same line that previous sprints.
 
+### Post-Production
 Thanks God our own physics worked perfectlly (our programmers are the best) and we advance to Post-Production. To face the Gold we change again the scrums to the next structure:
 - Gameplay: Polish all mechanics, karts behaviours and physics bugs.
 - Levels: Formed by artists and level designers, responsible of enhance levels and make them beautiful.
 - Audio: Formed by one audio designer and one programmer, they made all FX and implemented them on the game.
 - Particles & Shadows: Formed by programmers and artists, their mission add particles and shadows everywhere. 
 - QA: In charge of test the game and notify all the bugs or problems found.
+
+___
