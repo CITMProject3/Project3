@@ -92,6 +92,8 @@ namespace Scene_Manager
 	ComponentMaterial* bd_number = nullptr;
 	ComponentMaterial* bg_number = nullptr;
 
+	ComponentAudioSource *audio_source = nullptr;
+
 	GameObject* top_wrongdirection = nullptr;
 	GameObject* bot_wrongdirection = nullptr;
 	
@@ -228,8 +230,7 @@ namespace Scene_Manager
 		if (car_1 == nullptr || car_2 == nullptr)
 			LOG("Error: Could not find the cars in the scene!");
 
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(2);  // GO
+		if (audio_source) audio_source->PlayAudio(2);  // GO
 
 		timer.Start();
 	}
@@ -360,6 +361,8 @@ namespace Scene_Manager
 			top_wrongdirection->SetActive(false);
 			bot_wrongdirection->SetActive(false);
 		}
+
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
@@ -368,8 +371,7 @@ namespace Scene_Manager
 	{
 		if (!music_played)
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(0);   // Playing Music
+			if (audio_source) audio_source->PlayAudio(0);   // Playing Music
 			music_played = true;
 		}
 
@@ -383,8 +385,7 @@ namespace Scene_Manager
 			{
 				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
 				{
-					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
+					if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
 
 					// Selecting Assets or Library version depending on Game mode
 					if (App->StartInGame())
@@ -473,8 +474,7 @@ namespace Scene_Manager
 		// Sound management
 		if (countdown_sound != race_timer_number && countdown_sound != 2) 
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(1);  // Countdowns
+			if (audio_source) audio_source->PlayAudio(1); // Countdowns
 			countdown_sound = race_timer_number;
 		}
 

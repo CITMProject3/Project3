@@ -133,6 +133,15 @@
       "DurationType": "Infinite"
      },
      {
+      "Id": "2349472246",
+      "Name": "Play_Turbo",
+      "ObjectPath": "\\Events\\InGame\\Play_Turbo",
+      "GUID": "{0616588B-179F-4CCE-AA02-8B57D43B4B60}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.081633",
+      "DurationMax": "2.086395"
+     },
+     {
       "Id": "3227588549",
       "Name": "Reduce_Drifting",
       "ObjectPath": "\\Events\\InGame\\Reduce_Drifting",
@@ -203,6 +212,12 @@
       "Language": "SFX",
       "ShortName": "Engine_ignition.wav",
       "Path": "SFX\\Engine_ignition_4AFEA6D2.wem"
+     },
+     {
+      "Id": "135500521",
+      "Language": "SFX",
+      "ShortName": "Turbo_Fire2.wav",
+      "Path": "SFX\\Turbo_Fire2_9E69E797.wem"
      },
      {
       "Id": "154759909",
@@ -331,6 +346,12 @@
       "Path": "SFX\\Evil_Spirit_9E69E797.wem"
      },
      {
+      "Id": "701038464",
+      "Language": "SFX",
+      "ShortName": "Turbo_Flash.wav",
+      "Path": "SFX\\Turbo_Flash_9E69E797.wem"
+     },
+     {
       "Id": "750843032",
       "Language": "SFX",
       "ShortName": "metalic_scrape2.wav",
@@ -353,6 +374,12 @@
       "Language": "SFX",
       "ShortName": "Engine_vibrations.wav",
       "Path": "SFX\\Engine_vibrations_8FDCC4EC.wem"
+     },
+     {
+      "Id": "857546337",
+      "Language": "SFX",
+      "ShortName": "Turbo_Fire1.wav",
+      "Path": "SFX\\Turbo_Fire1_9E69E797.wem"
      },
      {
       "Id": "917152495",

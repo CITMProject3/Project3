@@ -160,7 +160,7 @@ private:
 
 	ComponentTransform* kart_trs = nullptr;
 
-	ComponentAudioSource *audio = nullptr;
+	ComponentAudioSource *audio_source = nullptr;
 
 	std::vector<Wheel> wheels;
 
