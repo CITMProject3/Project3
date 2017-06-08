@@ -14,9 +14,9 @@
 
 **My Job:**
 
-I started working in the engine fixing some bugs, improving some features and adding new ones. From VS3, we needed to start developing a UI system. And that was my primary job. I developed all the UI system: rendering, components and behaviours. Once that was done, I started making the specific menus of the game using our scripting system.
+I started working in the engine fixing some bugs, improving some features and adding new ones. Since VS3, we needed to start developing a UI system. And that was my primary job. I developed all the UI system: rendering, components and behaviours. Once that was done, I started making the specific menus of the game using our scripting system.
 
-Later when UI was more advanced than gameplay, I've been asked to help in that scrum to be able to reach our goals. So, I helped developing the Evil spirit behaviour and improving the camera.
+Later when UI was more advanced than gameplay, I've been asked to help in that scrum to be able to reach our goals. So, I helped developing the Evil spirit behaviour, the hitodma  and improved the camera.
 
 Finally, I returned to UI to finish the menus and add more cool functionality.
 
