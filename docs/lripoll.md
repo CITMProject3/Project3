@@ -4,7 +4,7 @@
 
 **Name:** Laura Ripoll
 
-![Profile picture](http://i.imgur.com/UlZjVs4.jpg)
+![Profile picture](http://i.imgur.com/NQiQfGz.jpg)
 
 **Contact:**
 
@@ -23,6 +23,9 @@ Although these tasks came under the initial stages of the project, I took them i
 
 * Looking for references
 
+	- Main features of Kart games that could be applied to the project (taken as reference, subsequently, for the design of the camera or in other areas)
+	- Extensive search of Yokai games to detect the most popular Yokai characters afterwards
+	
 ![References](http://i.imgur.com/WZyyQG1.png)
 
 
@@ -39,7 +42,7 @@ Although these tasks came under the initial stages of the project, I took them i
 * Narrative
 	
 	- Short, concise and coherent
-	- Mix the Yokai topic :mount_fuji: :ghost: with cars :car:
+	- Mix the Yokai topic with cars
 
 ![Narrative](http://i.imgur.com/pRKDnKe.png)
 
@@ -68,6 +71,9 @@ Although these tasks came under the initial stages of the project, I took them i
 * Items design assistance (Evil spirit redesign) _(Redesign kept but with input changed)_
 
 	- Redesign of Evil Spirit
+	- More involvement of the second player, now having two roles:
+		- Attacker: Launches the firecracker making the other kart go slower and inverting its controls
+		- Defender: When a kart is affected by the Evil Spirit, the second player can drive it away by pressing continuously RT and LT
 	- Set Evil Spirit's parameters, balancing and testing
 
 ![EvilSpirit](http://i.imgur.com/eGyCFv4.gif)
