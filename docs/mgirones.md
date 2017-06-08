@@ -1,6 +1,9 @@
 
 [HOME](index.md)
 
+
+![Profile](http://imgur.com/ebDPn2g)
+
 **Role** Artist
 
 **Name** Miquel Girones
@@ -62,4 +65,6 @@
 
 **At the "QA phase" of the project i did:**
 - Testing gameplay of the map 1 and 2
-- managing some aspects of the qa
+- Managing some aspects of the qa                                      
+    -re labeling some issues
+    -checking and closing bugs
