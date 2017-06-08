@@ -457,9 +457,10 @@ namespace Scene_Manager
 
 	void Scene_Manager_FinishRace()
 	{
+		if (audio_source) audio_source->PlayAudio(6);  // Mutting music and lowering audio
+
 		race_finished = true;
-		if (race_HUD) race_HUD->SetActive(false
-		);
+		if (race_HUD) race_HUD->SetActive(false);
 		if (result_window) result_window->SetActive(true);
 		if (timer_1_text)timer_1_text->SetDisplayText(team1_text);
 		if (timer_2_text)timer_2_text->SetDisplayText(team2_text);
@@ -668,9 +669,7 @@ namespace Scene_Manager
 						if (player1_finish) player1_finish->SetActive(true);
 						if (car_2 && car_2->finished == true)
 						{
-							if (audio_source) audio_source->PlayAudio(6);  // Mutting music and lowering audio
 							finish_timer_on = true;
-
 							return;
 						}
 					}
@@ -768,7 +767,6 @@ namespace Scene_Manager
 						if (player2_finish) player2_finish->SetActive(true);
 						if (car_1 && car_1->finished == true)
 						{
-							if (audio_source) audio_source->PlayAudio(6); // Mutting music and lowering audio
 							finish_timer_on = true;
 							return;
 						}
