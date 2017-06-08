@@ -11,11 +11,11 @@
 
 **--- My job ---**
 
-As the Gameplay Designer, I have been in charge of creating an experience that the players will enjoy when playing the game. Since the beginning, I have been creating, balancing, modifying and testing either the karts, the players' behaviours, the maps, the items or the camera, to see what made the gameplay worse or better and also new ways to improve it every time a problem appeared.
+As the Gameplay Designer, I have been in charge of creating an experience that the players will enjoy when playing the game. Since the beginning, I have been creating, balancing, modifying or testing either the karts, the players' behaviours, the maps, the items or the camera, to see what made the gameplay worse or better and also new ways to improve it every time a problem appeared.
 
 Trying to have a well balanced kart, with a well balanced drifting that make them enjoyable and make the players be comfortable with it is a big process of iteration, a small change can have a big impact in the game.
 
-Apart from creating the players controls, determine the values needed for the karts and the drifting and all the work related to testing, balancing and modification of these, I have also contributed to other aspects of the project.
+Apart from taking a part in creating the players controls, determine the values needed for the karts and the drifting and all the work related to testing, balancing and modification of these, I have also contributed to other aspects of the project.
 
 * The first core mechanic I proposed was related with the Soapbox Races, here in Catalonia called "Curses d'Andròmines". The gameplay consisted in levels that were entirely steep segments going down. The karts would have no engine and the player would not have to press any button to accelerate, but it would have some way to stop the kart (something similar to Kirby's Air Ride, where the machines run by themselves and the player can press the "A" button to stop them). This concept was cancelled due to problems with the first engine of physics that we used and the limitations of the engine itself. We opted for a more classical way to face the game and followed the path that the Mario Kart saga follows.
 
