@@ -46,3 +46,10 @@ I leave some screenshots of the current state of the map:
 [screen2]: http://i.imgur.com/WMBly8tm.png "Screen 2"
 [screen3]: http://i.imgur.com/zhM67Ytm.png "Screen 3"
 [screen4]: http://i.imgur.com/xhNQd3cm.png "Screen 4"
+
+### - Conclusion:
+In this semester as a designer i have learned so much about the concept of IDEA, and the feeling of frustration. Now i know that there are not good or bad ideas. An idea is a door, you face one and you can close it or open it. Most of the times you close it, but it guides you to another one that will make you reach the best way to create. 
+
+![alt text][designer]
+
+[designer]: http://i.imgur.com/oMeRtjfm.jpg "ideas"
