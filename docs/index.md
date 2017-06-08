@@ -17,5 +17,7 @@ Game developed on CITM-UPC college, in the Project III subject, 2016/17 course.
 </dl>
 
 **Trailer:**
-[![Trailer](http://img.youtube.com/vi/ROf3YBpUonI/0.jpg)](https://www.youtube.com/watch?v=ROf3YBpUonI)
 
+
+
+[![Trailer](http://img.youtube.com/vi/ROf3YBpUonI/0.jpg)](https://www.youtube.com/watch?v=ROf3YBpUonI)
