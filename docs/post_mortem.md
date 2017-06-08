@@ -39,4 +39,4 @@ In conclusion, we have learned, what it means develop a FULL 3D game by your sel
 
 
 
-Written by: Jordi Nunes, Producer of the project.
+_Written by: Jordi Nunes, Producer of the project._
