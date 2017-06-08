@@ -7,8 +7,11 @@
 **Name:** Ian Trueba
 
 **Contact:**
+
 [LinkedIn](https://www.linkedin.com/in/ian-trueba-l%C3%B3pez-051baba3/)
+
 [Twitter](https://twitter.com/ian_trueba)
+
 Mail: itrueba0809@gmail.com
 
 **My Job:**
