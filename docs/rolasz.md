@@ -64,7 +64,7 @@ _**What i've done:**_
 
 
 - Creating items:
-	- Daruma item box, 128 triangles (In-engine screenshot).
+	- Daruma item box, 128 triangles (In-engine screenshot). (Finally this texture wasn't used on gold version)
 ![FinalModel](http://i.imgur.com/MtJdgBq.png) ![DarumaConceptArt](http://i.imgur.com/pw6X57h.png)
 
 	- Makibishi item, 16 triangles (In-engine screenshot).
