@@ -1,0 +1,18 @@
+[HOME](index.md)
+
+**Name:** Miquel Sans Canudas
+
+**Role:** Game Designer
+
+**Mail:** mickie.snas.11@gmail.com
+
+**Programs used in the project:** 
+
+![Img](https://pbs.twimg.com/profile_images/727893133976055808/ZN0Tq53e.jpg)
+
+**My Job:**
+
+In this project I have been mainly in charge of designing and testing all the items in the game. This includes testing and iterating them 
+until they reached an optimal point.  
+
+Addittionally I've been doing QA during the development of the project. 
