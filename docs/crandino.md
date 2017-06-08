@@ -1,7 +1,7 @@
 [HOME](index.md)
     
 **Name:** Carlos Randino    
-![Profile picture]()      
+<img src="http://i.imgur.com/Is4iFzU.jpg?1" height="200" width="200">
     
 **Role:** Engine and Audio Programmer   
       
@@ -20,7 +20,7 @@ At the very beginning I worked within the Engine department, adding and improvin
 
 ![Wwise_Hierarchy](http://i.imgur.com/DL5Rlj2.png)
 
-- _Sound designer:_ 
+- _Sound designer:_ Design and creation of mainly all sound effects shown in game using own recorded sounds, [FreeSound](https://www.freesound.org/) sound database and Audacity as an edition tool. 
 
 ![RTCP_on_Engine](http://i.imgur.com/BcuOBcp.png)
 
@@ -29,7 +29,7 @@ At the very beginning I worked within the Engine department, adding and improvin
     - Extract soundbank information: Wwise event information within soundbanks was extracted and classified to show it in engine on the correspondings components. 
     - Soundbank management: Soundbanks were loaded only when requiered, so memory wasn't wasted.
     - Create AudioSource component: This component contains the Wwise events. An infinite number of them can be added and tested with the Play/Stop buttons.
-    [ComponentAudioSource](http://i.imgur.com/Zfjr48B.png)
+    ![ComponentAudioSource](http://i.imgur.com/Zfjr48B.png)
     - Create Audio Listener component: Up to 8 audio listeners can be added on the engine, and audio events can be filtered to only use the selected ones.
 - _MONO scripting libray_: Somewhere during the project, a scripting module started to be a must. So, two different approaches were taken (C++/C#). I implemented the [C# Mono Scripting Library](http://www.mono-project.com/) version on our engine, useful to create C# scripts to control all gameplay and gameflow details.
 - _Event Queue_: When loading our scenes, components with other gameobject references where not correctly loaded due to the sequencial loading process, trying to link the referenced ones when they wasn't loaded yet. So, an event queue was created to decouple loading and linking processes.
