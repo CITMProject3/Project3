@@ -1,8 +1,8 @@
 ![IMAGE ALT TEXT HERE](http://i.imgur.com/ET8jwLb.png)
 
-Ri-Karts is a co-op asymmetric kart racing game set in Yo-Kais world. 
+Ri-Karts is a competitive 2 versus 2 kart racing game with an asymmetrical cooperation aspect added to it. Similar to Mario Kart Double Dash!!, two players are located on one same car, they will have to work together in order to win the other team of players getting to the finish line in first place.
 
-Game developed on CITM-UPC college, in the Project III subject, 2016/17 course.
+*Game developed on CITM-UPC college, in the Project III subject, 2016/17 course.*
 
 **Studio Developer**: First CITM videogames degree promotion, also called the heroes.
 
