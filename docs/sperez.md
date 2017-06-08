@@ -5,9 +5,9 @@
 **Name:** Sergi Pérez  
 ![Picture_SPC](https://lh3.google.com/u/0/d/0B9qKspr9frSTcFFvWXh1ZF9ka0k=w1040-h950-iv1)
 
-**Contact:**
-[LinkedIn](https://www.linkedin.com/in/sergi-p%C3%A9rez-crespo-b828a5aa/)    
-Mail: sergi.p.crespo@gmail.com  
+**Contact:**     
+[LinkedIn](https://www.linkedin.com/in/sergi-p%C3%A9rez-crespo-b828a5aa/)
+Mail: sergi.p.crespo@gmail.com
 
 **_My Job:_**  
 As Lead Designer, I was in charge of coordinating the design team and responsible for a good communication inside and outside the design department. In turn, I have made sure that the tasks of my team will be completed on time and trying to follow the delimited schedule, as well as defining a minimum of quality in it.
