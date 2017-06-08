@@ -67,4 +67,4 @@ A group of 23 people (with some losses during the process), divided in 3 departm
 
 [Asier Iglesias](aiglesias.md)
 
-Miquel Sans
+[Miquel Sans](msans.md)
