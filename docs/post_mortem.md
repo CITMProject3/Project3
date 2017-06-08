@@ -37,4 +37,6 @@ We are the first to recognize that the final result is not the best, it isn't wh
 
 In conclusion, we have learned, what it means develop a FULL 3D game by your self. And it is very difficult, I must say. But Ri-Karts is just the beginning, in this group there are great people with a lot of skill in what they do. I'm looking forward to seeing what can they achieve, amazing things for sure.
 
+
+
 Written by: Jordi Nunes, Producer of the project.
