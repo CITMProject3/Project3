@@ -16,3 +16,7 @@ In this project I have been mainly in charge of designing and testing all the it
 until they reached an optimal point.  
 
 Addittionally I've been doing QA during the development of the project. 
+
+**What I've done**
+
+[GDD](https://docs.google.com/document/d/1k6KV7MVOpu-7udsmstsEyU5YoC1FWJgVynyMWljkHas/edit?usp=sharing)
