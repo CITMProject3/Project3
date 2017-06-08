@@ -51,7 +51,7 @@
 
 - Tree: 624 Tris
 
-![Tree](http://imgur.com/8KSAKY4)
+![Tree](http://i.imgur.com/8KSAKY4.jpg)
 
 
 
