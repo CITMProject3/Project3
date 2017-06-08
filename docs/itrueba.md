@@ -4,7 +4,7 @@
 
 **Name:** Ian Trueba
 
-**Contact:
+**Contact:**
 [LinkedIn](https://www.linkedin.com/in/ian-trueba-l%C3%B3pez-051baba3/)
 [Twitter](https://twitter.com/ian_trueba)
 Mail: itrueba0809@gmail.com
@@ -20,15 +20,15 @@ Finally, when every UI element was finished, I made the trailers for the game an
 **What have I done:**
 * Portraits:
   * Hitotsume Kozo:
-  [Imgur](http://i.imgur.com/TLpfsy7.png)
+  ![Kozo Portrait](http://i.imgur.com/TLpfsy7.png)
   * Kappa:
-  [Imgur](http://i.imgur.com/uAt6V8F.png)
+  ![Kappa Portrait](http://i.imgur.com/uAt6V8F.png)
   * Koji Lion Kart:
-  [Imgur](http://i.imgur.com/9QTF1AI.png)
+  ![Koji Portrait](http://i.imgur.com/9QTF1AI.png)
   * Kabuto Kart (in colaboration with [Martí](mpinos.db)):
-  [Imgur](http://i.imgur.com/jeTTKKY.png)
+  ![Kabuto Portrait](http://i.imgur.com/jeTTKKY.png)
   * Firecracker:
-  [Imgur](http://i.imgur.com/Z70s4eL.png)
+  ![Firecracker Portrait](http://i.imgur.com/Z70s4eL.png)
 
 * User Interface Art:
   * Start Screen
