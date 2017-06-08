@@ -17,3 +17,5 @@ After I finished it, I started working with the gameplay team doing the items, w
 Finally, I made that the engine can recognise the connection/disconnection of controllers in-game and the makibishi behaviour improved and fixed.
 
 **What i’ve done:**
+
+![Add script](https://i.gyazo.com/332c83b21a6454429dae920d684bb3cd.gif)
