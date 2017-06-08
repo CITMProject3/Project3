@@ -53,14 +53,14 @@ Placing all the props in the map. Which ended up not being on the final build.
 
   * **Fish Stand**
   
-  Design to conform the shopping zone of the village, next to the fishing racks. Tris 100 aprox.
+  Design to conform the shopping zone of the village, next to the fishing racks. Tris 120 aprox.
   
   ![Fish Stand](http://i.imgur.com/xfsoXK0.jpg)
 
 
   * **Fishing Cotagge**
   
-  Multi purpose small house with long legs so it could be placed over the water. Tris 300 aprox.
+  Multi purpose small house with long legs so it could be placed over the water. Tris 400 aprox.
   
   ![Fishing Cotagge](http://i.imgur.com/9MhfCtB.png)
 
@@ -81,14 +81,14 @@ Placing all the props in the map. Which ended up not being on the final build.
 
   * **Trees V2**
   
-  Second and final attempt for the trees. More in the art direction of the final game. Tris 180 aprox.
+  Second and final attempt for the trees. More in the art direction of the final game. Tris 250 aprox.
   
   ![Trees V2](http://i.imgur.com/GiiMGL8.png)
 
 
   * **Torii**
   
-  Simple stone statue for different places of the map. Tris 60 aprox.
+  Simple stone statue for different places of the map. Tris 150 aprox.
   
   ![Torii](http://i.imgur.com/VUdBBUN.png)
 
@@ -116,7 +116,7 @@ Placing all the props in the map. Which ended up not being on the final build.
 
   * **Harbor Parts**
   
-  Set of 3 parts of a wooden harbor used to make a part of the curcuit. tris 40 aprox per piece.
+  Set of 3 parts of a wooden harbor used to make a part of the curcuit. tris 50 aprox per piece.
   
   ![Harbor Parts](http://i.imgur.com/RJ8nq4T.png)
 
@@ -130,7 +130,7 @@ Placing all the props in the map. Which ended up not being on the final build.
 
   * **Bridge**
   
-  Oriental simple bridge thought for a version of the map that didn't see the light. The final map has a couple though. Tris 1200 aprox.
+  Oriental simple bridge thought for a version of the map that didn't see the light. The final map has a couple though. Tris 1300 aprox.
   
   ![Bridge](http://i.imgur.com/SFftlqB.png)
 
