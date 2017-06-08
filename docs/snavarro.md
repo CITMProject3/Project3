@@ -19,7 +19,7 @@ I have also been **UI Programmer** of the interface during the half of the proje
 In addition, I have been an **Item Designer**, specifically I have been in charge of finishing the item Makibishi (ancient japanese artifact used to slow down the enemies by placing it on the ground), and helped as **Vehicle Designer**, at the very early stages of production.
 
 **What I've done:**  
-- Design - *User Interface*  
+- **Design - *User Interface***  
   - User Movement Flowchart.  
   - All Screens and HUD, with which I had to do:  
     - Visual Scheme of Elements disposition.  
@@ -29,14 +29,14 @@ In addition, I have been an **Item Designer**, specifically I have been in charg
   
   ![Design Extracts](http://i.imgur.com/5rUaxOX.png)
   
-- Code - *User Interface*  
+- **Code - *User Interface***  
   - Team Selection Screen.  
   - Player Position displayed at the beginning of the race.  
   - Wrong Direction on the HUD.  
   - Use of Left Stick on the Main Menu.
   - Minor UI bug fixes.
 
-- Design - *Makibishi*
+- **Design - *Makibishi***
   - Balancing the Slow and duration while active on the ground.
   - Improving Feedback on hit.
   
