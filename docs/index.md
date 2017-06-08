@@ -16,3 +16,5 @@ Game developed on CITM-UPC college, in the Project III subject, 2016/17 course.
   <a href="https://github.com/CITMProject3/Project3/releases/download/G1.0.3/Ri-Karts.G1.0.3.zip" class="btn">Download Latest Build</a>
 </dl>
 
+[![Trailer](http://img.youtube.com/vi/ROf3YBpUonI/0.jpg)](https://www.youtube.com/watch?v=ROf3YBpUonI)
+
