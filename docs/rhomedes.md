@@ -1,6 +1,13 @@
 [HOME](index.md)
 ## Name: Roger Homedes
+
 ## Role: Designer
+
+## Contact: 
+[LinkedIn](https://www.linkedin.com/in/roger-homedes-rius-472bb2a3/) 
+
+Mail: *rohomedesrius@gmail.com*
+
 ## My Job:
 ### - Concept Discovery & Vertical Slice 1/2/3:
 In the early phases of the project my main objective was to look for information about other "kart-racing" games and collect their most remarkable tracks. With those tracks, i had to document every design decision that i found interesting and viable for our game.
