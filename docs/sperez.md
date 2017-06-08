@@ -3,7 +3,7 @@
 **Role:** Lead Designer
 
 **Name:** Sergi Pérez  
-![Picture](https://drive.google.com/drive/u/0/folders/0B9qKspr9frSTc3lKSjdKekl0Y2s)
+![Picture_02](https://lh3.google.com/u/0/d/0B9qKspr9frSTeDg5eTFIU05EbXM=w1040-h950-iv1)
 
 **Contact:**     
 [LinkedIn](https://www.linkedin.com/in/sergi-p%C3%A9rez-crespo-b828a5aa/)    
