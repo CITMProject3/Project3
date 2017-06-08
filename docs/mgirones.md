@@ -69,6 +69,6 @@
 
 - Managing some aspects of the qa  
 
-    -re labeling some issues
+    -re-labeling some issues
     
     -checking and closing bugs
