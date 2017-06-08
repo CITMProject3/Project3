@@ -18,6 +18,8 @@ And I loved it! I'm proud to say that I'm the designer of the Umi Gohan level.
 we came out with the way, by using heightmaps. This is the development of the heightmaps until the actual one:   
 ![HeightmapGif](https://i.imgflip.com/1qgkaa.gif)    
 
+- After every heighmap I had to put all the colliders, checkpoints, paint the terrain and put some props, where the artists really helped.
+
 - Here you have some images of the development of the map with lots of iterations between them:     
 ![map1](http://i.imgur.com/aRDbdkr.jpg?1) 
 ![map2](http://i.imgur.com/I9fEi6y.png?1) 
