@@ -44,7 +44,7 @@ A group of 21 people, divided in 3 departments: Code, Art and Game Design (with 
 
 [Roger Olasz](rolasz.md)
 
-Ian Trueba
+[Ian Trueba](itrueba.md)
 
 [Miquel Gironés](mgirones.md)
 
