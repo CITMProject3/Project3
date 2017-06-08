@@ -4,8 +4,8 @@
 
 ![IMAGE ALT TEXT HERE](http://i.imgur.com/CBjIL5i.png)
 
-Ri-Karts is a game developed entirely (engine included) by CITM Videogames degree 3rd course class (2016/17).   
-A group of 21 people, divided in 3 departments: Code, Art and Game Design (with a leader in each one) and also a Producer.
+Ri-Karts is a game developed entirely, engine included, by CITM Videogames degree 3rd course class 2016/17. Music in-game composed entirely by Oscar Villalonga, special tahnks to helps us in this project!   
+A group of 23 people (with some losses during the process), divided in 3 departments: Code, Art and Game Design, with a leader in each one and also a Producer.
 
 ***
 
