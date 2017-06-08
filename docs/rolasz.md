@@ -75,7 +75,7 @@ _**What i've done:**_
 
 
 - Level created:
-	- Some photos from track before my remake.
+	- Some photos from track before my remake (Map base design and terrain done by Asier Iglesias).
 ![SceneMap2_v1_1](http://i.imgur.com/lDveYcd.png) ![SceneMap2_v1_2](http://i.imgur.com/wXd5yyh.png) ![SceneMap2_v1_3](http://i.imgur.com/0fS4tJv.png)
 
 	- And now some screenshots after remake, where i changed all heightmap, repainted and placed all enviornment props:
