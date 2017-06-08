@@ -52,6 +52,7 @@ public:
 	void SetCar(bool value);
 	bool IsCar() const;
 	bool IsTrigger() const;
+	void SetActivationState(int state);
 
 private:
 

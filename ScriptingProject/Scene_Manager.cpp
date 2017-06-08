@@ -18,8 +18,10 @@
 #include "../ComponentCar.h"
 #include "../ComponentUiText.h"
 #include "../ComponentUiImage.h"
+#include "../ComponentMaterial.h"
 #include "../ComponentAudioSource.h"
 #include "../ComponentUiButton.h"
+#include "../ComponentRectTransform.h"
 
 #include "../ModuleGOManager.h"
 #include "../ModuleResourceManager.h"
@@ -90,21 +92,39 @@ namespace Scene_Manager
 	ComponentMaterial* bd_number = nullptr;
 	ComponentMaterial* bg_number = nullptr;
 
-	GameObject* topdriver_label = nullptr;
-	GameObject* topgunner_label = nullptr;
-	GameObject* botdriver_label = nullptr;
-	GameObject* botgunner_label = nullptr;
+	GameObject* focus_result;
+	ComponentAudioSource *audio_source = nullptr;
 
-	string main_menu_scene = "/Assets/Main_menu.ezx";
+	GameObject* top_wrongdirection = nullptr;
+	GameObject* bot_wrongdirection = nullptr;
+	GameObject* credits = nullptr;
+	
+	string assets_main_menu_scene = "/Assets/Main_menu.ezx"; // On Assets
+	string library_main_menu_scene = "/Library/3680778901/3680778901.ezx"; // On Library
+
+	string assets_scene_1_reload = "/Assets/Scene_Map_1/Map_1_rematch.ezx"; // On Assets
+	string library_scene_1_reload = "/Library/1441726200/554669074/554669074.ezx"; // On Library
+
+	string assets_scene_2_reload = "/Assets/Scene_Map_2_NEW/Map_2_rematch.ezx"; // On Assets
+	string library_scene_2_reload = "/Library/2159977326/1069121338/1069121338.ezx"; // On Library
 
 	//"Private" variables
+	float delay_to_start;
+	double number_pos_timer;
 	double start_timer;
-	bool start_timer_on;
-	uint current_countdown_number;
+	bool start_timer_on = false;
+	uint countdown_sound = 4;
+
+	float wrong_dir_timer_1;
+	float wrong_dir_timer_2;
 
 	RaceTimer timer;
 	int race_timer_number = 4;
 	bool race_finished = false;
+
+	// Disqualification
+	int goingToDisqualify = 0;
+	double second_position_timer = 0;
 
 	double finish_timer = 0;
 	bool finish_timer_on = false;
@@ -115,9 +135,18 @@ namespace Scene_Manager
 	string team1_text = "";
 	string team2_text = "";
 
+	//Result Window
+
+	int result_focus_pos = 0;
+
+	bool triggers_pressed[4];
+	bool quit = false;
+	float quit_timer = 0;
+	float quit_max_timer = 5;
+
 	void Scene_Manager_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 	{
-		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", main_menu_scene));
+		public_chars->insert(std::pair<const char*, string>("Main_Menu_Scene", assets_main_menu_scene));
 
 		public_gos->insert(std::pair<const char*, GameObject*>("Car1", car_1_go));
 		public_gos->insert(std::pair<const char*, GameObject*>("Car2", car_2_go));
@@ -153,17 +182,17 @@ namespace Scene_Manager
 		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Number", botdriver_number));
 		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Number", botgunner_number));
 
-		public_gos->insert(std::pair<const char*, GameObject*>("TopDriver_Label", topdriver_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("TopGunner_Label", topgunner_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("BotDriver_Label", botdriver_label));
-		public_gos->insert(std::pair<const char*, GameObject*>("BotGunner_Label", botgunner_label));
+		public_gos->insert(std::pair<const char*, GameObject*>("Top_Wrong", top_wrongdirection));
+		public_gos->insert(std::pair<const char*, GameObject*>("Bot_Wrong", bot_wrongdirection));
+		public_gos->insert(std::pair<const char*, GameObject*>("Focus_result", focus_result));
+		public_gos->insert(std::pair<const char*, GameObject*>("credits", credits));
 	}
 
 	void Scene_Manager_UpdatePublics(GameObject* game_object)
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
+		assets_main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
 
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];
@@ -193,28 +222,22 @@ namespace Scene_Manager
 		botdriver_number = script->public_gos["BotDriver_Number"];
 		botgunner_number = script->public_gos["BotGunner_Number"];
 
-		topdriver_label = script->public_gos["TopDriver_Label"];
-		topgunner_label = script->public_gos["TopGunner_Label"];
-		botdriver_label = script->public_gos["BotDriver_Label"];
-		botgunner_label = script->public_gos["BotGunner_Label"];
+		top_wrongdirection = script->public_gos["Top_Wrong"];
+		bot_wrongdirection = script->public_gos["Bot_Wrong"];
+
+		focus_result = script->public_gos["Focus_result"];
+		credits = script->public_gos["credits"];
 	}
 
 	void Scene_Manager_ActualizePublics(GameObject* game_object)
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-		script->public_chars.at("Main_Menu_Scene") = main_menu_scene;
+		script->public_chars.at("Main_Menu_Scene") = assets_main_menu_scene;
 	}
 
 	//Call for 3 2 1 audio in this function. When number is 0, "GO" is displayed
 	void Scene_Manager_SetStartTimerText(unsigned int number, GameObject* game_object)
-	{
-		if (current_countdown_number != number)
-		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp) a_comp->PlayAudio(1);  // Second and third countdown
-			current_countdown_number = number;
-		}		
-		
+	{		
 		if (start_timer_text != nullptr && start_timer_text2 != nullptr)
 		{
 			start_timer_text->SetDisplayText(std::to_string(number));
@@ -231,8 +254,7 @@ namespace Scene_Manager
 		if (car_1 == nullptr || car_2 == nullptr)
 			LOG("Error: Could not find the cars in the scene!");
 
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp) a_comp->PlayAudio(2);  // GO
+		if (audio_source) audio_source->PlayAudio(2);  // GO
 
 		timer.Start();
 	}
@@ -240,16 +262,24 @@ namespace Scene_Manager
 	//WARNING: variables are only assigned in start: Two scripts in the same scene will cause problems
 	void Scene_Manager_Start(GameObject* game_object)
 	{
+		quit = false;
+		result_focus_pos = 0;
 		music_played = false;
-		ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-		if (a_comp)	a_comp->PlayAudio(1);  // First countdown
-
 		race_timer_number = 4;
+		countdown_sound = 3;
 		finish_timer = 0;
+		second_position_timer = 0;
+		goingToDisqualify = 0;
+		wrong_dir_timer_1 = 0.0f;
+		wrong_dir_timer_2 = 0.0f;
 		finish_timer_on = false;
 		Scene_Manager_UpdatePublics(game_object);
 		start_timer = 0;
-		start_timer_on = true;
+		if (topdriver_number)
+			delay_to_start = 0.0f;
+		else
+			delay_to_start = 4.0f;
+		start_timer_on = false;
 		race_finished = false;
 		team1_finished = false;
 		team2_finished = false;
@@ -286,10 +316,12 @@ namespace Scene_Manager
 		if (start_timer_go)
 		{
 			start_timer_text = (ComponentUiText*)start_timer_go->GetComponent(C_UI_TEXT);
+			if (start_timer_text) start_timer_text->GetGameObject()->SetActive(false);
 		}
 		if (start_timer_go2)
 		{
 			start_timer_text2 = (ComponentUiText*)start_timer_go2->GetComponent(C_UI_TEXT);
+			if(start_timer_text2) start_timer_text2->GetGameObject()->SetActive(false);
 		}
 		if (item_ui_1_go)
 		{
@@ -327,24 +359,47 @@ namespace Scene_Manager
 		{
 			win2_button = (ComponentUiButton*)win2_finish->GetComponent(C_UI_BUTTON);
 		}
-
-		if (topdriver_number)
+		if (credits)credits->SetActive(false);
+		if (topdriver_number && topgunner_number && botdriver_number && botgunner_number) //
 		{
+			number_pos_timer = 1.0f;
+
 			td_number = ((ComponentUiImage*)topdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			tg_number = ((ComponentUiImage*)topgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bd_number = ((ComponentUiImage*)botdriver_number->GetComponent(C_UI_IMAGE))->UImaterial;
 			bg_number = ((ComponentUiImage*)botgunner_number->GetComponent(C_UI_IMAGE))->UImaterial;
+
+			topdriver_number->SetActive(true);
+			topgunner_number->SetActive(true);
+			botdriver_number->SetActive(true);
+			botgunner_number->SetActive(true);
+
+			td_number->SetIdToRender(App->go_manager->team1_front);
+
+			tg_number->SetIdToRender(App->go_manager->team1_back);
+
+			bd_number->SetIdToRender(App->go_manager->team2_front);
+
+			bg_number->SetIdToRender(App->go_manager->team2_back);
 		}
+
+		if (top_wrongdirection && bot_wrongdirection)
+		{
+			top_wrongdirection->SetActive(false);
+			bot_wrongdirection->SetActive(false);
+		}
+		if (result_window) result_window->SetActive(false);
+		audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 	}
 
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object);
+	void Scene_Manager_ResultWindow(GameObject* game_object);
 
 	void Scene_Manager_Update(GameObject* game_object)
 	{
 		if (!music_played)
 		{
-			ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-			if (a_comp)	a_comp->PlayAudio(0);   // Playing Music
+			if (audio_source) audio_source->PlayAudio(0);   // Playing Music
 			music_played = true;
 		}
 
@@ -354,39 +409,56 @@ namespace Scene_Manager
 		}
 		else
 		{
-			for (uint joystick = 0; joystick < 4; joystick++)
-			{
-				if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN || App->input->GetJoystickButton(joystick, JOY_BUTTON::A) || App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
-				{
-					ComponentAudioSource* a_comp = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
-					if (a_comp)	a_comp->PlayAudio(3);   // Stopping Music
-					App->LoadScene(main_menu_scene.c_str());
-					return;
-				}
-			}
+			Scene_Manager_ResultWindow(game_object);
 		}
 	}
 
-	void Scene_Manager_UpdateItems(unsigned int team, bool has_item)
+	void Scene_Manager_UpdateItems(unsigned int team, int item_id, int item_size)
 	{
+		//Choosing image to display
+		bool active = (item_id != -1);
+		int image_to_display = 0;
+
+		if (active == true)
+		{
+			if (item_id > 0)
+			{
+				image_to_display = item_id + 2;
+			}
+			else
+			{
+				image_to_display = item_size - 1;
+			}
+		}
+
 		if (team == 0 && car_1 != nullptr)
 		{
 			if (item_ui_1 != nullptr)
 			{
-				item_ui_1->GetGameObject()->SetActive(has_item);
+				item_ui_1->GetGameObject()->SetActive(active);
+				if (active == true)
+				{
+					item_ui_1->UImaterial->SetIdToRender(image_to_display);
+				}
 			}
 		}
 		else if (team == 1 && car_2 != nullptr)
 		{
 			if (item_ui_2 != nullptr)
 			{
-				item_ui_2->GetGameObject()->SetActive(has_item);
+				item_ui_2->GetGameObject()->SetActive(active);
+				if (active == true)
+				{
+					item_ui_2->UImaterial->SetIdToRender(image_to_display);
+				}
 			}
 		}
 	}
 
 	void Scene_Manager_FinishRace()
 	{
+		if (audio_source) audio_source->PlayAudio(6);  // Mutting music and lowering audio
+
 		race_finished = true;
 		if (race_HUD) race_HUD->SetActive(false);
 		if (result_window) result_window->SetActive(true);
@@ -410,11 +482,18 @@ namespace Scene_Manager
 
 		string timer_string = min_str + ":" + sec_str + ":" + mil_str;
 		timer_text->SetDisplayText(timer_string);
-		LOG("Text set: %s", timer_string.c_str());
+		//LOG("Text set: %s", timer_string.c_str());
 	}
 
 	void Scene_Manager_UpdateStartCountDown(GameObject* game_object)
 	{
+		// Sound management
+		if (countdown_sound != race_timer_number && countdown_sound != 2) 
+		{
+			if (audio_source) audio_source->PlayAudio(1); // Countdowns
+			countdown_sound = race_timer_number;
+		}
+
 		start_timer += time->DeltaTime();
 		if (start_timer >= 1)
 		{
@@ -446,8 +525,25 @@ namespace Scene_Manager
 
 	}
 
+	void Scene_Manager_MoveElementsUI(ComponentRectTransform* go, double timeLeft, float destination, float margin)
+	{
+		float distance = destination - go->GetLocalPos().y;
+
+		double relation = timeLeft / time->DeltaTime();
+		
+		float fMovement = distance / relation;
+
+		if ((distance >= margin && distance > 0) || (-distance >= margin && distance < 0))
+			go->Move(float3(0, fMovement, 0));
+	}
+
 	void Scene_Manager_UpdateDuringRace(GameObject* game_object)
 	{
+		if (goingToDisqualify != 0)
+		{
+			second_position_timer += time->DeltaTime();
+		}
+
 		if (finish_timer_on == true)
 		{
 			finish_timer += time->DeltaTime();
@@ -458,10 +554,44 @@ namespace Scene_Manager
 		}
 		else
 		{
-			if (start_timer_on == true)
+			if (race_timer_number != 0) // When race_timer_number is 1, the race has begun!
+			{
+				if (delay_to_start > 2.0f && delay_to_start < 3.0f)
+				{
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)topgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, -500.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botdriver_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
+					Scene_Manager_MoveElementsUI((ComponentRectTransform*)botgunner_number->GetComponent(C_RECT_TRANSFORM), number_pos_timer, 1220.0f, 1);
+				}
+				if (delay_to_start > 3.0f && !start_timer_on)
+				{
+					if (topdriver_number && topgunner_number && botdriver_number && botgunner_number)
+					{
+						td_number->SetIdToRender(App->go_manager->team1_front);
+						topdriver_number->SetActive(false);
+
+						tg_number->SetIdToRender(App->go_manager->team1_back);
+						topgunner_number->SetActive(false);
+
+						bd_number->SetIdToRender(App->go_manager->team2_front);
+						botdriver_number->SetActive(false);
+
+						bg_number->SetIdToRender(App->go_manager->team2_back);
+						botgunner_number->SetActive(false);
+					}
+
+					if (start_timer_text) start_timer_text->GetGameObject()->SetActive(true);
+					if (start_timer_text2) start_timer_text2->GetGameObject()->SetActive(true);
+					start_timer_on = true;
+				}
+				else
+					delay_to_start += time->DeltaTime();
+			}			
+
+			if (start_timer_on)
 			{
 				Scene_Manager_UpdateStartCountDown(game_object);
-			}
+			}				
 
 			if (race_timer_number == 0)
 			{
@@ -471,10 +601,60 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_1 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 1)
+				{
+					car_1->finished = true;
+				}
+
+				//Wrong Direction
+				if (top_wrongdirection && car_1->wrongDirection == true)
+				{
+					if (wrong_dir_timer_1 <= 0.6f)
+						top_wrongdirection->SetActive(true);
+					else
+						top_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_1 += time->DeltaTime();
+
+					if (wrong_dir_timer_1 >= 1.2f)
+						wrong_dir_timer_1 = 0.0f;
+				}
+				else
+				{
+					top_wrongdirection->SetActive(false);
+					wrong_dir_timer_1 = 0.0f;
+				}
+
 				//Update lap counter
 				if (car_1->lap + 1 > timer.GetCurrentLap(0))
 				{
-					if (car_1->finished == true)
+					if (car_1->lap > 3)
+					{
+						car_1->finished = true;
+
+						if (car_1->place == 1)
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(4);
+							}								
+						}
+						else
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(5);
+							}
+						}
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 2;
+						}
+					}
+
+					if (car_1->finished == true )
 					{
 						if (team1_finished == false && timer_1_text != nullptr && timer_text != nullptr)
 						{
@@ -497,7 +677,15 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap1_text != nullptr)
 					{
-						string str = std::to_string(car_1->lap);
+						string str;
+						if (car_1->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_1->lap);
+						}
 						lap1_text->SetDisplayText(str);
 					}
 				}
@@ -511,14 +699,63 @@ namespace Scene_Manager
 			//Updating invidual HUD
 			if (car_2 != nullptr)
 			{
+				//Disqualification
+				if (second_position_timer >= 20 && goingToDisqualify == 2)
+				{
+					car_2->finished = true;
+				}
+
+				//Wrong Direction
+				if (bot_wrongdirection && car_2->wrongDirection == true)
+				{
+					if (wrong_dir_timer_2 <= 0.6f)
+						bot_wrongdirection->SetActive(true);
+					else
+						bot_wrongdirection->SetActive(false);
+
+					wrong_dir_timer_2 += time->DeltaTime();
+
+					if (wrong_dir_timer_2 >= 1.2f)
+						wrong_dir_timer_2 = 0.0f;
+				}
+				else
+				{
+					bot_wrongdirection->SetActive(false);
+					wrong_dir_timer_2 = 0.0f;
+				}
+
 				//Update lap counter
 				if (car_2->lap + 1 > timer.GetCurrentLap(1))
 				{
+					if (car_2->lap > 3)
+					{
+						car_2->finished = true;
+
+						if (car_2->place == 1)
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(4);
+							}
+						}
+						else
+						{
+							if (audio_source)
+							{
+								audio_source->PlayAudio(5);
+							}
+						}
+
+						if (goingToDisqualify == 0)
+						{
+							goingToDisqualify = 1;
+						}
+					}
+
 					if (car_2->finished == true)
 					{
 						if (team2_finished == false && timer_2_text != nullptr && timer_text != nullptr)
 						{
-
 							team2_text = timer_text->GetText();
 							if (team1_finished == false && win1_button != nullptr)
 							{
@@ -538,7 +775,15 @@ namespace Scene_Manager
 					//Update current lap text
 					if (lap2_text != nullptr)
 					{
-						string str = std::to_string(car_2->lap);
+						string str;
+						if (car_2->lap >= 3)
+						{
+							str = std::to_string(3);
+						}
+						else
+						{
+							str = std::to_string(car_2->lap);
+						}
 						lap2_text->SetDisplayText(str);
 					}
 				}
@@ -553,6 +798,159 @@ namespace Scene_Manager
 			if (timer_text != nullptr)
 			{
 				Scene_Manager_UpdateUIRaceTimer();
+			}
+		}
+	}
+
+	void Scene_Manager_ResultWindow(GameObject* game_object)
+	{
+		if (quit == true)
+		{
+			if (quit_timer >= quit_max_timer)
+				App->input->SetQuit();
+			else
+				quit_timer += time->DeltaTime();
+		}
+		if (App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN)
+		{
+			if (audio_source) audio_source->PlayAudio(7);   // Movement
+			if (result_focus_pos == 2)
+			{
+				result_focus_pos = 0;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -200, 0));
+			}
+			else
+			{
+				result_focus_pos++;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 100, 0));
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN)
+		{
+			if (audio_source) audio_source->PlayAudio(7);   // Movement
+			if (result_focus_pos == 0)
+			{
+				result_focus_pos = 2;
+				if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 200, 0));
+			}
+			else
+			{
+				result_focus_pos--;
+				if(focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -100, 0));
+			}
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN)
+		{
+			if (audio_source) audio_source->PlayAudio(3);   // Stopping all sounds and playing Selection FX
+			switch (result_focus_pos)
+			{
+			case 0: 
+
+			// Selecting Assets or Library version depending on Game mode
+				if (App->StartInGame())
+					App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+				else
+					App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+				break;
+			case 1:
+																// Selecting Assets or Library version depending on Game mode
+				if (App->go_manager->current_scene == 0)
+				{
+					if (App->StartInGame())
+						App->LoadScene(library_scene_1_reload.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_scene_1_reload.c_str());		// Using Assets Scene files
+					
+				}
+				else if (App->go_manager->current_scene == 1)
+				{
+					if (App->StartInGame())
+						App->LoadScene(library_scene_2_reload.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_scene_2_reload.c_str());		// Using Assets Scene file
+				}
+				break;
+			case 2:
+				quit = true;
+				if (credits)credits->SetActive(true);
+				break;
+			}
+		}
+
+		for (uint joystick = 0; joystick < 4; joystick++)
+		{
+			if (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) < 0.2f && App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) > -0.2f && triggers_pressed[joystick] == true)
+			{
+				triggers_pressed[joystick] = false;
+			}
+
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::DPAD_DOWN) == KEY_DOWN || (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) > 0.75f && triggers_pressed[joystick] == false))
+			{
+				triggers_pressed[joystick] = true;
+				if (result_focus_pos == 2)
+				{
+					result_focus_pos = 0;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -200, 0));
+				}
+				else
+				{
+					result_focus_pos++;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 100, 0));
+				}
+			}
+
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::DPAD_UP) == KEY_DOWN || (App->input->GetJoystickAxis(joystick, JOY_AXIS::LEFT_STICK_Y) < -0.75f && triggers_pressed[joystick] == false))
+			{
+				triggers_pressed[joystick] = true;
+				if (result_focus_pos == 0)
+				{
+					result_focus_pos = 2;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, 200, 0));
+				}
+				else
+				{
+					result_focus_pos--;
+					if (focus_result)((ComponentRectTransform*)focus_result->GetComponent(C_RECT_TRANSFORM))->Move(float3(0, -100, 0));
+				}
+			}
+			if (App->input->GetJoystickButton(joystick, JOY_BUTTON::A) == KEY_DOWN)
+			{
+				if (audio_source) audio_source->PlayAudio(3);   // Stopping Music
+				switch (result_focus_pos)
+				{
+				case 0:
+
+					// Selecting Assets or Library version depending on Game mode
+					if (App->StartInGame())
+						App->LoadScene(library_main_menu_scene.c_str());	// Using Library Scene files
+					else
+						App->LoadScene(assets_main_menu_scene.c_str());		// Using Assets Scene files
+					break;
+				case 1:
+					// Selecting Assets or Library version depending on Game mode
+					if (App->go_manager->current_scene == 0)
+					{
+						if (App->StartInGame())
+							App->LoadScene(library_scene_1_reload.c_str());	// Using Library Scene files
+						else
+							App->LoadScene(assets_scene_1_reload.c_str());		// Using Assets Scene files
+
+					}
+					else if (App->go_manager->current_scene == 1)
+					{
+						if (App->StartInGame())
+							App->LoadScene(library_scene_2_reload.c_str());	// Using Library Scene files
+						else
+							App->LoadScene(assets_scene_2_reload.c_str());		// Using Assets Scene file
+					}
+					break;
+				case 2:
+					quit = true;
+					if (credits)credits->SetActive(true);
+					break;
+				}
 			}
 		}
 	}

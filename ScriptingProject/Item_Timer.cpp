@@ -7,6 +7,7 @@
 #include "../ComponentCollider.h"
 #include "../ComponentCar.h"
 #include "../ComponentMesh.h"
+#include "../ComponentAudioSource.h"
 #include "../ComponentParticleSystem.h"
 #include "../Time.h"
 #include "../Globals.h"
@@ -18,20 +19,32 @@ float max_time = 0.0f;
 ComponentCollider* go_col = nullptr;
 ComponentMesh* go_mesh = nullptr;
 ComponentParticleSystem* go_part = nullptr;
+ComponentAudioSource* audio_source = nullptr;
 bool taken = false;
 
 void Item_Timer_GetPublics(map<const char*, string>* public_chars, map<const char*, int>* public_ints, map<const char*, float>* public_float, map<const char*, bool>* public_bools, map<const char*, GameObject*>* public_gos)
 {
 	public_float->insert(pair<const char*, float>("max_time",max_time));
 	public_bools->insert(pair<const char*, bool>("isHitodama", isHitodama));
+	public_bools->insert(pair<const char*, bool>("taken", taken));
 }
 
 void Item_Timer_UpdatePublics(GameObject* game_object)
 {
 	ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
-
+	go_col = (ComponentCollider*)game_object->GetComponent(C_COLLIDER);
+	go_part = (ComponentParticleSystem*)game_object->GetComponent(C_PARTICLE_SYSTEM);
+	go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 	isHitodama = script->public_bools.at("isHitodama");
+	taken = script->public_bools.at("taken");
 	max_time = script->public_floats.at("max_time");
+}
+
+void Item_Timer_ActualizePublics(GameObject* game_object)
+{
+	ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
+	script->public_bools.at("taken") = taken;
+	
 }
 
 void Item_Timer_Start(GameObject* game_object)
@@ -39,7 +52,7 @@ void Item_Timer_Start(GameObject* game_object)
 	go_col = (ComponentCollider*)game_object->GetComponent(C_COLLIDER);
 	if (isHitodama)
 	{
-		go_part = (ComponentParticleSystem*)game_object->GetComponent(C_PARTICLE_SYSTEM);
+		go_mesh = (ComponentMesh*)game_object->GetComponent(C_MESH);
 	}
 	else
 	{
@@ -47,6 +60,8 @@ void Item_Timer_Start(GameObject* game_object)
 	}
 	
 	taken = false;
+
+	audio_source = (ComponentAudioSource*)game_object->GetComponent(ComponentType::C_AUDIO_SOURCE);
 }
 
 void Item_Timer_Update(GameObject* game_object)
@@ -61,7 +76,7 @@ void Item_Timer_Update(GameObject* game_object)
 			{
 				go_col->SetActive(true);
 				//Particle sytem here no mesh
-				go_part->SetActive(true);
+				go_mesh->SetActive(true);
 				taken = false;
 				timer = 0.0f;
 			}
@@ -84,8 +99,9 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 {
 	ComponentCar* car = col->GetCar();
 	ComponentTransform* trs = (ComponentTransform*)game_object->GetComponent(C_TRANSFORM);
-	if (car && trs)
+	if (car && trs && taken == false)
 	{
+		Item_Timer_UpdatePublics(game_object);
 		if (go_col->IsActive())
 		{
 			if (isHitodama)
@@ -95,16 +111,23 @@ void Item_Timer_OnCollision(GameObject* game_object, PhysBody3D* col)
 				{
 					go_col->SetActive(false);
 					//Particle sytem here no mesh
-					go_part->SetActive(false);
+					go_mesh->SetActive(false);
+
+					// Playing Hitodama sound
+					if (audio_source) audio_source->PlayAudio(0);
 				}
 			}
 			else
 			{
+				taken = true;
 				//Pep do your magic
 				if (taken)
 				{
 					go_col->SetActive(false);
 					go_mesh->SetActive(false);
+
+					// Playing ItemBox sound
+					if (audio_source) audio_source->PlayAudio(0);
 				}
 			}
 		}

@@ -32,6 +32,9 @@
 
 #include "SDL\include\SDL_opengl.h"
 
+#include "MasterRender.h"
+#include "ShadowMap.h"
+
 #include "ResourceFileMaterial.h"
 #include "ResourceFileRenderTexture.h"
 
@@ -165,6 +168,12 @@ bool ModuleRenderer3D::Init(Data& config)
 	OnResize(App->window->GetScreenWidth(), App->window->GetScreenHeight(), 60.0f);
 
 	ImGui_ImplSdlGL3_Init(App->window->window);
+
+	ms_render = new MasterRender();
+	ms_render->Init();
+
+	shadow_map = new ShadowMap();
+	shadow_map->Init(2048,2048);
 	
 	return ret;
 }
@@ -204,6 +213,8 @@ update_status ModuleRenderer3D::PostUpdate()
 {
 	BROFILER_CATEGORY("ModuleRenderer3d::PostUpdate", Profiler::Color::MediumOrchid)
 
+	shadow_map->Render(App->lighting->GetLightInfo().directional_mat, objects_to_draw);
+
 	for (uint i = 0; i < cameras.size(); i++)
 	{
 		DrawScene(cameras[i]);
@@ -220,6 +231,7 @@ update_status ModuleRenderer3D::PostUpdate()
 bool ModuleRenderer3D::CleanUp()
 {
 	LOG("Destroying 3D Renderer");
+	delete ms_render;
 	ImGui_ImplSdlGL3_Shutdown();
 	SDL_GL_DeleteContext(context);
 
@@ -265,6 +277,25 @@ void ModuleRenderer3D::SetCamera(ComponentCamera* camera)
 		}
 		cameras.push_back(camera);
 		UpdateProjectionMatrix(cameras.back());
+	}
+}
+
+void ModuleRenderer3D::CleanCameras()
+{
+	ComponentCamera* editorCam = nullptr;
+	for (int n = 0; n < cameras.size(); n++)
+	{
+		if (cameras[n]->GetGameObject() == nullptr)
+		{
+			editorCam = cameras[n];
+		}
+	}
+
+	cameras.clear();
+
+	if (editorCam)
+	{
+		AddCamera(editorCam);
 	}
 }
 
@@ -378,6 +409,9 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 		}
 	}
 
+	if (cam->render_skybox)
+		App->editor->skybox.Render(cam);
+
 	std::multimap<float, GameObject*>::reverse_iterator it = alpha_objects.rbegin();
 	for (; it != alpha_objects.rend(); it++)
 	{
@@ -386,11 +420,11 @@ void ModuleRenderer3D::DrawScene(ComponentCamera* cam, bool has_render_tex)
 	}
 	alpha_objects.clear();
 
-	DrawSprites(cam);
+	//DrawSprites(cam);
 
 	DrawParticles(cam);
 
-	App->editor->skybox.Render(cam);
+	glUseProgram(0);
 
 	if(has_render_tex)
 		cam->render_texture->Unbind();
@@ -414,24 +448,24 @@ void ModuleRenderer3D::Draw(GameObject* obj, const LightInfo& light, ComponentCa
 
 	BROFILER_CATEGORY("ModuleRenderer3D::Draw", Profiler::Color::YellowGreen);
 
-	uint shader_id = 0;
-	float4 color = { 1.0f,1.0f,1.0f,1.0f };
-	color = float4(material->color);
-
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultShaderId();
 
 	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
 	if (ret_alpha == false)
 		return;
 	
 	//Use shader
-	glUseProgram(shader_id);
-
-	SetShaderUniforms(shader_id, obj, cam, material, light, color);
-
+	if (material->rc_material == nullptr)
+	{
+		if (!material->has_normal)
+			ms_render->RenderDefaultShader(obj, cam, material, &light);
+		else
+			ms_render->RenderNormalShader(obj, cam, material, &light);
+	}
+	else
+	{
+		glUseProgram(material->rc_material->GetShaderId());
+		SetShaderUniforms(material->rc_material->GetShaderId(), obj, cam, material, light, float4(material->color));
+	}
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, obj->mesh_to_draw->id_vertices);
@@ -474,31 +508,16 @@ void ModuleRenderer3D::DrawAnimated(GameObject * obj, const LightInfo & light, C
 	if (material == nullptr)
 		return;
 
-	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
-
-	float4 color = { 1.0f,1.0f,1.0f,1.0f };
-	color = float4(material->color);
-
-	uint shader_id = 0;
-	if (material->rc_material)
-		shader_id = material->rc_material->GetShaderId();
-	else
-		shader_id = App->resource_manager->GetDefaultAnimShaderId();
-
 	bool ret_alpha = SetShaderAlpha(material, cam, obj, alpha_object, alpha_render);
 	if (ret_alpha == false)
 		return;
 
-	//Use shader
-	glUseProgram(shader_id);
+	if (!material->has_normal)
+		ms_render->RenderAnimShader(obj, cam, material, &light);
+	else
+		ms_render->RenderAnimNormalShader(obj, cam, material, &light);
 
-	
-	SetShaderUniforms(shader_id, obj, cam, material, light, color);
-
-	//Array of bone transformations
-	GLint bone_location = glGetUniformLocation(shader_id, "bones");
-	glUniformMatrix4fv(bone_location, c_mesh->bones_trans.size(), GL_FALSE, reinterpret_cast<GLfloat*>(c_mesh->bones_trans.data()));
-
+	ComponentMesh* c_mesh = (ComponentMesh*)obj->GetComponent(C_MESH);
 
 	//Buffer vertices == 0
 	glEnableVertexAttribArray(0);
@@ -609,52 +628,52 @@ void ModuleRenderer3D::DrawSprites(ComponentCamera* cam) const
 	
 }
 
-void ModuleRenderer3D::DrawParticles(ComponentCamera * cam) const
+void ModuleRenderer3D::DrawParticles(ComponentCamera * cam)
 {
-	unsigned int shader_id = App->resource_manager->GetDefaultParticleShaderId();
-	glUseProgram(shader_id);
+
+	ParticleShader shader = ms_render->particle_shader;
+	glUseProgram(shader.id);
 
 	Mesh* bil_mesh = App->resource_manager->GetDefaultBillboardMesh();
 	if (bil_mesh == nullptr)
 		return;
 
-	GLint projection_location = glGetUniformLocation(shader_id, "projection");
-	GLint view_location = glGetUniformLocation(shader_id, "view");
 	math::float4x4 projection_m = cam->GetProjectionMatrix();
 	math::float4x4 view_m = cam->GetViewMatrix();
 
-	GLint size_location = glGetUniformLocation(shader_id, "size");
-	GLint texture_location = glGetUniformLocation(shader_id, "tex");
-	GLint position_texture_location = glGetUniformLocation(shader_id, "position_tex");
-	GLint color_location = glGetUniformLocation(shader_id, "s_color");
-	GLint use_color_time_location = glGetUniformLocation(shader_id, "use_color_time");
-
-	GLint texture_anim_location = glGetUniformLocation(shader_id, "texture_anim");
-	GLint lifetime_location = glGetUniformLocation(shader_id, "life_time");
-	GLint tex_anim_data_location = glGetUniformLocation(shader_id, "tex_anim_data");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//Sort systems
+	float3 cam_pos = cam->GetPos();
+	for (vector<ComponentParticleSystem*>::iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
+		(*particle)->cam_distance = cam_pos.DistanceSq((*particle)->GetGameObject()->transform->GetGlobalMatrix().TranslatePart());
+	std::sort(particles_to_draw.begin(), particles_to_draw.end());
 	
-	for (vector<ComponentParticleSystem*>::const_iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
+	for (vector<ComponentParticleSystem*>::iterator particle = particles_to_draw.begin(); particle != particles_to_draw.end(); ++particle)
 	{
+		if (cam->Intersects((*particle)->bounding_box) == false)
+			continue;
+
 		(*particle)->SortParticles(cam);
 
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *projection_m.v);
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *view_m.v);
+		glUniformMatrix4fv(shader.projection, 1, GL_FALSE, *projection_m.v);
+		glUniformMatrix4fv(shader.view, 1, GL_FALSE, *view_m.v);
 
-		glUniform2fv(size_location, 1, reinterpret_cast<GLfloat*>(float2((*particle)->size).ptr()));
-		glUniform3fv(color_location, 1, (*particle)->color.ptr());
-		glUniform1i(use_color_time_location, (*particle)->color_over_time_active);
+		float2 p_size = (*particle)->img_size * (*particle)->size;
+		glUniform2fv(shader.size, 1, reinterpret_cast<GLfloat*>(p_size.ptr()));
+		glUniform3fv(shader.s_color, 1, (*particle)->color.ptr());
+		glUniform1i(shader.use_color_time, (*particle)->color_over_time_active);
 
-		glUniform1i(texture_anim_location, (*particle)->texture_anim);
-		glUniform1f(lifetime_location, (*particle)->life_time);
+		glUniform1i(shader.texture_anim, (*particle)->texture_anim);
+		glUniform1f(shader.life_time, (*particle)->life_time);
 		if((*particle)->texture_anim)
-			glUniform3fv(tex_anim_data_location, 1, (*particle)->tex_anim_data.ptr());
+			glUniform3fv(shader.tex_anim_data, 1, (*particle)->tex_anim_data.ptr());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, (*particle)->GetTextureId());
-		glUniform1i(texture_location, 0);
+		glUniform1i(shader.tex, 0);
 		
 
 		//Buffer vertices == 0
@@ -804,15 +823,16 @@ void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentM
 	}
 
 	//Reset Texture and Normal if doesn't have
-	if (material->texture_ids.size() < 2)
+	if (count < 2)
 	{
 		GLint has_normal_location = glGetUniformLocation(shader_id, "_HasNormalMap");
 		glUniform1i(has_normal_location, 0);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+	
 
-	if (material->texture_ids.empty() == true)
+	if (count < 1)
 	{
 		GLint has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
 		glUniform1i(has_tex_location, 0);
@@ -824,26 +844,22 @@ void ModuleRenderer3D::ShaderTexturesUniforms(unsigned int shader_id, ComponentM
 void ModuleRenderer3D::ShaderLightUniforms(unsigned int shader_id, const LightInfo& light) const
 {
 	//Ambient
-	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
+	GLint ambient_intensity_location = glGetUniformLocation(shader_id, "Ia");
 	if (ambient_intensity_location != -1)
 		glUniform1f(ambient_intensity_location, light.ambient_intensity);
-	GLint ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
+	GLint ambient_color_location = glGetUniformLocation(shader_id, "Ka");
 	if (ambient_color_location != -1)
 		glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
-	//Directional
-	GLint has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
-	glUniform1i(has_directional_location, light.has_directional);
-
 	if (light.has_directional)
 	{
-		GLint directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
+		GLint directional_intensity_location = glGetUniformLocation(shader_id, "Id");
 		if (directional_intensity_location != -1)
 			glUniform1f(directional_intensity_location, light.directional_intensity);
-		GLint directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
+		GLint directional_color_location = glGetUniformLocation(shader_id, "Kd");
 		if (directional_color_location != -1)
 			glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-		GLint directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
+		GLint directional_direction_location = glGetUniformLocation(shader_id, "L");
 		if (directional_direction_location != -1)
 			glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
 	}
@@ -920,7 +936,7 @@ void ModuleRenderer3D::ShaderBuiltInUniforms(unsigned int shader_id, ComponentCa
 			material->rc_material->material.has_color = true;
 	}
 	//Specular
-	GLint specular_location = glGetUniformLocation(shader_id, "_specular");
+	GLint specular_location = glGetUniformLocation(shader_id, "Is");
 	if (specular_location != -1)
 		glUniform1f(specular_location, material->specular);
 	//EyeWorld
@@ -1148,19 +1164,22 @@ void ModuleRenderer3D::RemoveTextureBuffer(unsigned int id)
 
 void ModuleRenderer3D::DrawLine(float3 a, float3 b, float4 color)
 {
-	glDisable(GL_LIGHTING);
+	if (App->StartInGame() == false && App->physics->renderColliders)
+	{
+		glDisable(GL_LIGHTING);
 
-	glColor4f(color.x, color.y, color.z, color.w);
-	glBegin(GL_LINES);
-	glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
-	glEnd();
+		glColor4f(color.x, color.y, color.z, color.w);
+		glBegin(GL_LINES);
+		glVertex3fv(a.ptr()); glVertex3fv(b.ptr());
+		glEnd();
 
-	glEnable(GL_LIGHTING);
+		glEnable(GL_LIGHTING);
+	}
 }
 
 void ModuleRenderer3D::DrawLocator(float4x4 transform, float4 color)
 {
-	if (App->IsGameRunning() == false)
+	if (App->IsGameRunning() == false && App->physics->renderColliders)
 	{
 		glDisable(GL_LIGHTING);
 
@@ -1196,47 +1215,50 @@ void ModuleRenderer3D::DrawLocator(float3 pos, Quat rot, float4 color)
 
 void ModuleRenderer3D::DrawAABB(float3 minPoint, float3 maxPoint, float4 color)
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glLineWidth(1.5f);
-	glColor4fv(color.ptr());
-	glBegin(GL_QUADS);
+	if (App->physics->renderColliders)
+	{
+		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glLineWidth(1.5f);
+		glColor4fv(color.ptr());
+		glBegin(GL_QUADS);
 
-	glNormal3f(0.0f, 0.0f, 1.0f);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glNormal3f(0.0f, 0.0f, 1.0f);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
 
-	glNormal3f(0.0f, 0.0f, -1.0f);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(0.0f, 0.0f, -1.0f);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(1.0f, 0.0f, 0.0f);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glNormal3f(1.0f, 0.0f, 0.0f);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
 
-	glNormal3f(-1.0f, 0.0f, 0.0f);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(-1.0f, 0.0f, 0.0f);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(0.0f, 1.0f, 0.0f);
-	glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
-	glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
-	glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
+		glNormal3f(0.0f, 1.0f, 0.0f);
+		glVertex3f(minPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, maxPoint.z);
+		glVertex3f(maxPoint.x, maxPoint.y, minPoint.z);
+		glVertex3f(minPoint.x, maxPoint.y, minPoint.z);
 
-	glNormal3f(0.0f, -1.0f, 0.0f);
-	glVertex3f(minPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
-	glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
-	glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
+		glNormal3f(0.0f, -1.0f, 0.0f);
+		glVertex3f(minPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, minPoint.z);
+		glVertex3f(maxPoint.x, minPoint.y, maxPoint.z);
+		glVertex3f(minPoint.x, minPoint.y, maxPoint.z);
 
-	glEnd();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		glEnd();
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 }

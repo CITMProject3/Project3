@@ -20,9 +20,14 @@ EXPORTS
 	Player_Car_ActualizePublics
 	Player_Car_OnCollision
 	Player_Car_ChooseItem
-	Player_Car_PickItem
-	Player_Car_LoseItem
-	
+	Player_Car_OnPickItem
+	Player_Car_UseEvilSpirit
+	Player_Car_UseMakibishi
+	Player_Car_UseFirecracker
+	Player_Car_UpdateSpiritEffect
+	Player_Car_SpiritEffectDefense
+	Player_Car_CallUpdateItems
+
 	Makibishi_GetPublics
 	Makibishi_Start
 	Makibishi_Update
@@ -41,6 +46,7 @@ EXPORTS
 	Scene_Manager_SetStartTimerText
 	Scene_Manager_StartRace
 	Scene_Manager_Start
+	Scene_Manager_MoveElementsUI
 	Scene_Manager_UpdateDuringRace
 	Scene_Manager_Update
 	Scene_Manager_UpdateItems
@@ -48,6 +54,7 @@ EXPORTS
 	Scene_Manager_UpdateUIRaceTimer
 	Scene_Manager_UpdateStartCountDown
 	Scene_Manager_UpdateDuringRace
+	Scene_Manager_ResultWindow
 
 	Main_Menu_UI_GetPublics
 	Main_Menu_UI_UpdatePublics
@@ -143,6 +150,24 @@ EXPORTS
 
 	Item_Timer_GetPublics
 	Item_Timer_UpdatePublics
+	Item_Timer_ActualizePublics
 	Item_Timer_Start
 	Item_Timer_Update
 	Item_Timer_OnCollision
+
+	MakibishiManager_GetPublics
+	MakibishiManager_UpdatePublics
+	MakibishiManager_Start
+	MakibishiManager_Update
+	MakibishiManager_GetMakibishi
+
+	ParticleHit_GetPublics
+	ParticleHit_UpdatePublics
+	ParticleHit_ActualizePublics
+	ParticleHit_Start
+	ParticleHit_Update
+	ParticleHit_CarCollision
+	ParticleHit_WallCollision
+
+	ReloadScene_GetPublics
+	ReloadScene_Start

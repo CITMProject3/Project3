@@ -51,14 +51,13 @@ void ComponentRectTransform::Update()
  		local_position.Set(local_middle_position.x - (rect_size.x / 2), local_middle_position.y, 0.0f);
 		transform_matrix = transform_matrix.FromTRS(local_position, Quat::identity, size);
 		
-		game_object->TransformModified(); 
+		 
 		CalculateFinalTransform();
+		game_object->TransformModified();
 		ResizePlane();
 		
 		apply_transformation = false;
 	}
-
-	//App->renderer3D->DrawUI(game_object);
 }
 
 void ComponentRectTransform::OnInspector(bool debug)
@@ -180,7 +179,7 @@ void ComponentRectTransform::CalculateFinalTransform()
 
 void ComponentRectTransform::OnTransformModified()
 {
-	//apply_transformation = true;
+	apply_transformation = true;
 }
 
 math::float4x4 ComponentRectTransform::GetFinalTransform()
@@ -222,6 +221,18 @@ void ComponentRectTransform::SetLocalPos(const float2 & local_pos)
 void ComponentRectTransform::SetSize(const float2 & size)
 {
 	rect_size = size;
+	apply_transformation = true;
+}
+
+void ComponentRectTransform::SetScale(const float2 & scale)
+{
+	size.Set(scale.x, scale.y, 1.0f);
+	apply_transformation = true;
+}
+
+void ComponentRectTransform::SetZPlane(float z)
+{
+	local_middle_position.z = z;
 	apply_transformation = true;
 }
 

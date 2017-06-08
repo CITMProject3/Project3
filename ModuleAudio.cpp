@@ -33,6 +33,13 @@ bool ModuleAudio::Init(Data& config)
 	InitMusicEngine();
 	InitCommunicationModule();
 
+	// Loading library path whether there's one available...
+	if(config.GetString("soundbanks_library"))                            
+		lib_base_path.assign(config.GetString("soundbanks_library"));		// Soundbanks on Library
+
+	if (lib_base_path.empty() )  // Not found on Library, look for soundbanks on Assets!
+		lib_base_path = App->resource_manager->FindFile("Assets/Soundbanks");
+
 	return ret;
 }
 
@@ -40,15 +47,6 @@ bool ModuleAudio::Start()
 {
 	// Initiating timer
 	check_timer.Start();
-
-	// Looking for library directory for Soundbanks
-	char *buf;
-	if(App->file_system->Load("Assets/Soundbanks.meta", &buf) > 0)
-	{
-		Data sb(buf);
-		lib_base_path = sb.GetString("library_path");
-		delete buf;
-	}
 
 	// Saving Soundbank related information: events, switches, states, RTCP...
 	if (!lib_base_path.empty())
@@ -194,6 +192,11 @@ void ModuleAudio::ModifyAttenuationFactor(float factor, unsigned int wwise_go_id
 	AK::SoundEngine::SetAttenuationScalingFactor(wwise_go_id, factor);
 }
 
+void ModuleAudio::SetRTPCValue(const char *name, const float *value, unsigned int wwise_go_id)
+{
+	AK::SoundEngine::SetRTPCValue(name, (AkRtpcValue)*value, wwise_go_id);
+}
+
 unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 {
 	char *buf;
@@ -234,7 +237,8 @@ unsigned int ModuleAudio::ExtractSoundBankInfo(std::string soundbank_path)
 			if (attenuation != nullptr)
 			{
 				a_event->max_attenuation = std::stof(attenuation);
-				a_event->sound_3D = true;
+				if(a_event->max_attenuation != 0.0f)
+					a_event->sound_3D = true;				
 			}			
 		}
 		
@@ -302,8 +306,9 @@ void ModuleAudio::StopEvent(const AudioEvent *ev, unsigned int id)
 {
 	if (ev)
 	{
-		AK::SoundEngine::StopPlayingID(ev->playing_id, 500L, AkCurveInterpolation::AkCurveInterpolation_Log1);
-		//AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+		//AK::SoundEngine::StopPlayingID(ev->playing_id, 500L, AkCurveInterpolation::AkCurveInterpolation_Log1);
+		AK::SoundEngine::ExecuteActionOnEvent(ev->name.c_str(), AK::SoundEngine::AkActionOnEventType_Stop, id);
+		//ev->playing_id = 0L;
 	}	
 }
 
@@ -532,4 +537,9 @@ bool ModuleAudio::StopCommunicationModule()
 	#endif
 
 	return true;
+}
+
+void ModuleAudio::SaveBeforeClosing(Data& data) const
+{
+	lib_base_path.empty() ? data.AppendString("soundbanks_library", "") : data.AppendString("soundbanks_library", lib_base_path.c_str());
 }

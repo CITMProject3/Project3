@@ -33,7 +33,7 @@ private:
 
 private:
 	LightType light_type = LightType::DIRECTIONAL_LIGHT;
-	float intensity = 1.0f;
+	float intensity = 0.8f;
 	math::float3 color = math::float3::one;
 };
 #endif // !__COMPONENT_LIGHT_H__

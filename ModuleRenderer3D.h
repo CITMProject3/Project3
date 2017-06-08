@@ -21,6 +21,8 @@ class ComponentMaterial;
 typedef void *SDL_GLContext;
 class ComponentSprite;
 class ComponentParticleSystem;
+class MasterRender;
+class ShadowMap;
 
 class ModuleRenderer3D : public Module, public Subject
 {
@@ -38,6 +40,7 @@ public:
 	const ComponentCamera* GetCamera() const;
 	void SetCamera(ComponentCamera* camera);
 	void AddCamera(ComponentCamera* camera);
+	void CleanCameras();
 
 	void AddToDraw(GameObject* obj);
 	void AddToDrawSprite(ComponentSprite* sprite);
@@ -60,7 +63,7 @@ private:
 	void Draw(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object,bool alpha_render = false)const;
 	void DrawAnimated(GameObject* obj, const LightInfo& light, ComponentCamera* cam, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void DrawSprites(ComponentCamera* cam)const;
-	void DrawParticles(ComponentCamera* cam)const;
+	void DrawParticles(ComponentCamera* cam);
 
 	bool SetShaderAlpha(ComponentMaterial* material, ComponentCamera* cam, GameObject* obj, std::pair<float, GameObject*>& alpha_object, bool alpha_render = false)const;
 	void SetShaderUniforms(unsigned int shader_id, GameObject* obj, ComponentCamera* cam, ComponentMaterial* material, const LightInfo& light, const float4& color)const;
@@ -79,6 +82,8 @@ public:
 	float4x4 ModelMatrix, ViewMatrix, ProjectionMatrix;
 	std::vector<ComponentCamera*> cameras;
 
+	MasterRender* ms_render;
+	ShadowMap* shadow_map;
 private:
 
 	std::vector<GameObject*> objects_to_draw;

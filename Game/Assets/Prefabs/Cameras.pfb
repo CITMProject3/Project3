@@ -14,7 +14,7 @@
             "components": [
                 {
                     "type": 0,
-                    "UUID": 3635641729,
+                    "UUID": 3740113639,
                     "active": true,
                     "matrix": [
                         1,
@@ -77,9 +77,9 @@
                     "UUID": 214756153,
                     "active": true,
                     "near_plane": 0.300000,
-                    "far_plane": 300,
+                    "far_plane": 508.108032,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.697670,
                     "color": [
                         0,
                         0,
@@ -95,7 +95,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -104,11 +105,11 @@
                     "script_path": "Player_Camera",
                     "script_num": 0,
                     "dist_y": 3.900000,
-                    "dist_z": -8.500000,
-                    "camera_y": 2,
+                    "dist_z": -10.500000,
+                    "camera_y": 2.500000,
                     "inclination y max min": 1,
                     "inclination z max min": 1,
-                    "fov change boost": 6,
+                    "fov change boost": 0.200000,
                     "fov_increment": 1,
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
@@ -121,7 +122,7 @@
                     "type": 17,
                     "UUID": 3691713440,
                     "active": true,
-                    "listener ID": 0
+                    "listener ID": 2
                 }
             ]
         },
@@ -165,9 +166,9 @@
                     "UUID": 3601715822,
                     "active": true,
                     "near_plane": 0.300000,
-                    "far_plane": 300,
+                    "far_plane": 497.297028,
                     "fov": 35,
-                    "aspect_ratio": 3.591470,
+                    "aspect_ratio": 3.697670,
                     "color": [
                         0,
                         0,
@@ -183,7 +184,8 @@
                     "followSmooth": true,
                     "followMovSpeed": 0.700000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": true
+                    "render_terrain": true,
+                    "render_skybox": true
                 },
                 {
                     "type": 10,
@@ -192,11 +194,11 @@
                     "script_path": "Player_Camera",
                     "script_num": 0,
                     "dist_y": 3.900000,
-                    "dist_z": -8.500000,
-                    "camera_y": 2,
+                    "dist_z": -10.500000,
+                    "camera_y": 2.500000,
                     "inclination y max min": 1,
                     "inclination z max min": 1,
-                    "fov change boost": 6,
+                    "fov change boost": 0.200000,
                     "fov_increment": 1,
                     "fov_decrement": 3.500000,
                     "max_vel_relative": 120,
@@ -209,7 +211,7 @@
                     "type": 17,
                     "UUID": 126400043,
                     "active": true,
-                    "listener ID": 1
+                    "listener ID": 3
                 }
             ]
         },
@@ -233,14 +235,14 @@
                         1,
                         0,
                         0,
+                        600,
                         0,
                         0,
-                        -0.000000,
-                        -1.000000,
-                        -118.000008,
+                        -1,
+                        -200,
                         0,
-                        1.000000,
-                        -0.000000,
+                        1,
+                        0,
                         0,
                         0,
                         0,
@@ -255,7 +257,7 @@
                     "near_plane": 0.300000,
                     "far_plane": 1000,
                     "fov": 60,
-                    "aspect_ratio": 1.777778,
+                    "aspect_ratio": 1.830346,
                     "color": [
                         0,
                         0,
@@ -271,7 +273,8 @@
                     "followSmooth": false,
                     "followMovSpeed": 0.100000,
                     "followRotSpeed": 0.100000,
-                    "render_terrain": false
+                    "render_terrain": false,
+                    "render_skybox": false
                 }
             ]
         }

@@ -1,0 +1,370 @@
+{
+    "GameObjects": [
+        {
+            "name": "Root",
+            "UUID": 322237743,
+            "local_UUID": 0,
+            "parent": 0,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 534158045,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Directional Light",
+            "UUID": 2780347795,
+            "local_UUID": 0,
+            "parent": 322237743,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3108583499,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 4,
+                    "UUID": 2328241370,
+                    "active": true,
+                    "light_type": 0
+                }
+            ]
+        },
+        {
+            "name": "Plane",
+            "UUID": 1393544271,
+            "local_UUID": 0,
+            "parent": 322237743,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 2399360349,
+                    "active": true,
+                    "matrix": [
+                        17.116678,
+                        0,
+                        0,
+                        0,
+                        0,
+                        -0.000002,
+                        17.116659,
+                        0,
+                        0,
+                        -17.116659,
+                        -0.000002,
+                        11.343784,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 2147000003,
+                    "active": true,
+                    "path": "Resources\/Primitives\/2147000003.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 555490244,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": ""
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Lion_Kart_scaled",
+            "UUID": 2772605055,
+            "local_UUID": 0,
+            "parent": 322237743,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1405991350,
+                    "active": true,
+                    "matrix": [
+                        0.047482,
+                        -0.549857,
+                        0.833916,
+                        0,
+                        0.280198,
+                        0.808662,
+                        0.517262,
+                        0,
+                        -0.958779,
+                        0.209096,
+                        0.192465,
+                        -6.181566,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "KojiKart",
+            "UUID": 1311988409,
+            "local_UUID": 0,
+            "parent": 2772605055,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 1640326321,
+                    "active": true,
+                    "matrix": [
+                        0.010000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.010000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0.010000,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Body",
+            "UUID": 3648846044,
+            "local_UUID": 0,
+            "parent": 1311988409,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3032499066,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        -14.687423,
+                        0,
+                        0,
+                        1,
+                        -44.234051,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 1537974960,
+                    "active": true,
+                    "path": "\/Library\/551853009\/1222616990\/3072182998.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 2575176079,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/551853009\/\/569807310\/569807310.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "Head",
+            "UUID": 3960979736,
+            "local_UUID": 0,
+            "parent": 1311988409,
+            "active": true,
+            "is_prefab": false,
+            "prefab_root_uuid": 0,
+            "prefab_path": "",
+            "layer": 0,
+            "static": false,
+            "components": [
+                {
+                    "type": 0,
+                    "UUID": 3819434599,
+                    "active": true,
+                    "matrix": [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0.000001,
+                        0,
+                        0,
+                        1,
+                        126.792244,
+                        0,
+                        0,
+                        0,
+                        1
+                    ]
+                },
+                {
+                    "type": 1,
+                    "UUID": 417134094,
+                    "active": true,
+                    "path": "\/Library\/551853009\/1222616990\/773309129.msh"
+                },
+                {
+                    "type": 2,
+                    "UUID": 3553188383,
+                    "active": true,
+                    "path": "",
+                    "path_assets": "",
+                    "properties_set": true,
+                    "alpha": 0,
+                    "blend_type": 0,
+                    "alpha_test": 0.250000,
+                    "color": [
+                        1,
+                        1,
+                        1
+                    ],
+                    "specular": 0,
+                    "texture_changed": false,
+                    "id_to_render": 0,
+                    "textures": [
+                        {
+                            "path": "\/Library\/551853009\/\/3593477099\/3593477099.dds"
+                        },
+                        {
+                            "path": ""
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "current_assets_scene_path": "\/Assets\/SHADOW.ezx",
+    "current_library_scene_path": "\/Library\/\/2677401974\/2677401974.ezx"
+} 

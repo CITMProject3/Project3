@@ -31,6 +31,8 @@ public:
 	int GetScreenHeight()const;
 	void SetScreenSize(int width, int height);
 
+	void SaveBeforeClosing(Data& data) const;
+
 public:
 
 	//The window we'll be rendering to
@@ -40,8 +42,12 @@ public:
 	SDL_Surface* screen_surface;
 
 private:
-	int width = 1600;
-	int height = 900;
+
+	char window_title[128];
+	int width = 0;
+	int height = 0;
+
+	unsigned int flags = 0;
 };
 
 #endif // __ModuleWindow_H__

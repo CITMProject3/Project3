@@ -24,35 +24,194 @@
     "Path": "InGame.bnk",
     "IncludedEvents": [
      {
+      "Id": "515960748",
+      "Name": "Play_Car_Crash_Makibishi",
+      "ObjectPath": "\\Events\\InGame\\Play_Car_Crash_Makibishi",
+      "GUID": "{343A8CD3-D4CE-44EE-B472-45FFBDA3ABD1}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.593810",
+      "DurationMax": "0.593810"
+     },
+     {
+      "Id": "1525161066",
+      "Name": "Play_Car_Crash_Terrain",
+      "ObjectPath": "\\Events\\InGame\\Play_Car_Crash_Terrain",
+      "GUID": "{5B904D0A-2C15-44D6-93BA-8EEE3581A7B8}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.575419",
+      "DurationMax": "0.960998"
+     },
+     {
+      "Id": "3280191520",
+      "Name": "Play_Car_Crash_Water",
+      "ObjectPath": "\\Events\\InGame\\Play_Car_Crash_Water",
+      "GUID": "{EA5CE57A-59B0-4147-88C9-1F4F26514EF4}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.781111",
+      "DurationMax": "3.881111"
+     },
+     {
       "Id": "2175797879",
       "Name": "Play_Countdown",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Countdown",
+      "ObjectPath": "\\Events\\InGame\\Play_Countdown",
       "GUID": "{F775C297-3A39-4AD7-89F1-EF18A9450959}",
       "DurationType": "OneShot",
       "DurationMin": "1.017483",
       "DurationMax": "1.017483"
      },
      {
+      "Id": "732712977",
+      "Name": "Play_Drifting",
+      "ObjectPath": "\\Events\\InGame\\Play_Drifting",
+      "GUID": "{67B995E4-2390-4447-88DE-FF9411766BD6}",
+      "DurationType": "Infinite"
+     },
+     {
+      "Id": "639345804",
+      "Name": "Play_Engine",
+      "ObjectPath": "\\Events\\InGame\\Play_Engine",
+      "GUID": "{208A9721-1FB7-4AD6-93E6-4F44A2ED9E27}",
+      "DurationType": "Infinite"
+     },
+     {
+      "Id": "2703982544",
+      "Name": "Play_Evil_Spirit",
+      "ObjectPath": "\\Events\\InGame\\Play_Evil_Spirit",
+      "GUID": "{F9721F40-3C68-4FBD-BC2A-652BA0A0013E}",
+      "DurationType": "OneShot",
+      "DurationMin": "12.028770",
+      "DurationMax": "12.028770"
+     },
+     {
+      "Id": "387320433",
+      "Name": "Play_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\Play_Firecracker",
+      "GUID": "{F429BC6B-73AF-4330-AAD7-0043F197FB9F}",
+      "DurationType": "Infinite"
+     },
+     {
       "Id": "2279634092",
       "Name": "Play_Go",
-      "ObjectPath": "\\Events\\InGame\\FX\\Play_Go",
+      "ObjectPath": "\\Events\\InGame\\Play_Go",
       "GUID": "{BA69F920-8566-4A70-B47C-4300E5C54269}",
       "DurationType": "OneShot",
       "DurationMin": "2.084195",
       "DurationMax": "2.084195"
      },
      {
-      "Id": "1313592992",
-      "Name": "Play_RiKarts_main_theme",
-      "ObjectPath": "\\Events\\InGame\\Music\\Play_RiKarts_main_theme",
-      "GUID": "{497B20D8-53C9-47F4-8094-65B9D473F1F1}",
+      "Id": "3646616982",
+      "Name": "Play_ItemBox",
+      "ObjectPath": "\\Events\\InGame\\Play_ItemBox",
+      "GUID": "{31F48344-3418-41D3-9B4D-B887EAFE8D8D}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.904218",
+      "DurationMax": "0.904218"
+     },
+     {
+      "Id": "4206446143",
+      "Name": "Play_Loser_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Loser_player",
+      "GUID": "{88211089-5976-428C-B841-A0A40A0B1CB9}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.201088",
+      "DurationMax": "5.201088"
+     },
+     {
+      "Id": "104204679",
+      "Name": "Play_Makibishi",
+      "ObjectPath": "\\Events\\InGame\\Play_Makibishi",
+      "GUID": "{2E5EE286-7C23-4269-AF77-08C922E43B8D}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.236500",
+      "DurationMax": "0.257354"
+     },
+     {
+      "Id": "2932040671",
+      "Name": "Play_Music",
+      "ObjectPath": "\\Events\\InGame\\Play_Music",
+      "GUID": "{615A9A6B-0C9E-4294-A6CD-50462A8F9721}",
       "DurationType": "Infinite"
      },
      {
-      "Id": "3054248522",
-      "Name": "Stop_RiKarts_main_theme",
-      "ObjectPath": "\\Events\\InGame\\Music\\Stop_RiKarts_main_theme",
-      "GUID": "{8083B93C-AD34-47CD-B13E-76E9DABB5ABB}",
+      "Id": "2349472246",
+      "Name": "Play_Turbo",
+      "ObjectPath": "\\Events\\InGame\\Play_Turbo",
+      "GUID": "{0616588B-179F-4CCE-AA02-8B57D43B4B60}",
+      "DurationType": "OneShot",
+      "DurationMin": "2.081633",
+      "DurationMax": "2.086395"
+     },
+     {
+      "Id": "4277723509",
+      "Name": "Play_Winner_player",
+      "ObjectPath": "\\Events\\InGame\\Play_Winner_player",
+      "GUID": "{F196C9B4-331A-4BE2-8DFA-1B8E8AAF6F4F}",
+      "DurationType": "OneShot",
+      "DurationMin": "5.123628",
+      "DurationMax": "5.123628"
+     },
+     {
+      "Id": "3227588549",
+      "Name": "Reduce_Drifting",
+      "ObjectPath": "\\Events\\InGame\\Reduce_Drifting",
+      "GUID": "{472CDB34-C993-4F65-9BB7-A65613760150}",
+      "DurationType": "OneShot",
+      "DurationMin": "1.006130",
+      "DurationMax": "1.006130"
+     },
+     {
+      "Id": "198924816",
+      "Name": "Reduce_Volume_Music",
+      "ObjectPath": "\\Events\\InGame\\Reduce_Volume_Music",
+      "GUID": "{84C4D7CF-ED7B-4180-ACAB-80F11E42B0CA}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
+      "Id": "1300784916",
+      "Name": "Start_Engine",
+      "ObjectPath": "\\Events\\InGame\\Start_Engine",
+      "GUID": "{47C0E7F7-3384-4EE3-9680-9DB2305E82BD}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
+      "Id": "452547817",
+      "Name": "Stop_All",
+      "ObjectPath": "\\Events\\InGame\\Stop_All",
+      "GUID": "{A9543FF8-4F2D-4038-B22F-6732E8B3B7A2}",
+      "DurationType": "OneShot",
+      "DurationMin": "0.312925",
+      "DurationMax": "0.312925"
+     },
+     {
+      "Id": "201644199",
+      "Name": "Stop_Drifting",
+      "ObjectPath": "\\Events\\InGame\\Stop_Drifting",
+      "GUID": "{189FE692-54B8-4B3F-A105-245C9A748966}",
+      "MaxAttenuation": "0.000000",
+      "DurationType": "OneShot",
+      "DurationMin": "0.000000",
+      "DurationMax": "0.000000"
+     },
+     {
+      "Id": "2740656682",
+      "Name": "Stop_Evil_Spirit",
+      "ObjectPath": "\\Events\\InGame\\Stop_Evil_Spirit",
+      "GUID": "{8A5DE00B-CA4B-4FE8-88AA-5D1336C5EE6E}",
+      "DurationType": "OneShot",
+      "DurationMin": "3.109292",
+      "DurationMax": "3.109292"
+     },
+     {
+      "Id": "3898358255",
+      "Name": "Stop_Firecracker",
+      "ObjectPath": "\\Events\\InGame\\Stop_Firecracker",
+      "GUID": "{EE510AF4-13C5-4156-8259-915079C2344F}",
       "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
       "DurationMin": "0.000000",
@@ -61,22 +220,256 @@
     ],
     "IncludedMemoryFiles": [
      {
-      "Id": "427291038",
+      "Id": "1056845",
       "Language": "SFX",
-      "ShortName": "RiKarts_main_theme.wav",
-      "Path": "SFX\\RiKarts_main_theme_5F599105.wem"
+      "ShortName": "Firecracker_whistle.wav",
+      "Path": "SFX\\Firecracker_whistle_4B8CC0C5.wem"
+     },
+     {
+      "Id": "97393134",
+      "Language": "SFX",
+      "ShortName": "Engine_ignition.wav",
+      "Path": "SFX\\Engine_ignition_4AFEA6D2.wem"
+     },
+     {
+      "Id": "135500521",
+      "Language": "SFX",
+      "ShortName": "Turbo_Fire2.wav",
+      "Path": "SFX\\Turbo_Fire2_9E69E797.wem"
+     },
+     {
+      "Id": "154759909",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop1.wav",
+      "Path": "SFX\\Firecracker_loop1_9E69E797.wem"
+     },
+     {
+      "Id": "183828897",
+      "Language": "SFX",
+      "ShortName": "Medium_Smash3.wav",
+      "Path": "SFX\\Medium_Smash3_9E69E797.wem"
+     },
+     {
+      "Id": "210477128",
+      "Language": "SFX",
+      "ShortName": "Drifting_loop1.wav",
+      "Path": "SFX\\Drifting_loop1_9E69E797.wem"
+     },
+     {
+      "Id": "223360863",
+      "Language": "SFX",
+      "ShortName": "Makibishi_metal_impact2.wav",
+      "Path": "SFX\\Makibishi_metal_impact2_9E69E797.wem"
+     },
+     {
+      "Id": "257147469",
+      "Language": "SFX",
+      "ShortName": "Countdown.wav",
+      "Path": "SFX\\Countdown_4AFEA6D2.wem"
+     },
+     {
+      "Id": "308429929",
+      "Language": "SFX",
+      "ShortName": "Drifting_end.wav",
+      "Path": "SFX\\Drifting_end_9E69E797.wem"
+     },
+     {
+      "Id": "337376034",
+      "Language": "SFX",
+      "ShortName": "Heavy_Smash1.wav",
+      "Path": "SFX\\Heavy_Smash1_9E69E797.wem"
+     },
+     {
+      "Id": "341773679",
+      "Language": "SFX",
+      "ShortName": "Hitodama_mixed.wav",
+      "Path": "SFX\\Hitodama_mixed_9E69E797.wem"
+     },
+     {
+      "Id": "358818971",
+      "Language": "SFX",
+      "ShortName": "Medium_Smash1.wav",
+      "Path": "SFX\\Medium_Smash1_9E69E797.wem"
+     },
+     {
+      "Id": "439002456",
+      "Language": "SFX",
+      "ShortName": "Drifting_loop4.wav",
+      "Path": "SFX\\Drifting_loop4_9E69E797.wem"
+     },
+     {
+      "Id": "440931321",
+      "Language": "SFX",
+      "ShortName": "RiKarts_Master_Full.wav",
+      "Path": "SFX\\RiKarts_Master_Full_5DF82155.wem"
+     },
+     {
+      "Id": "501485239",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape3.wav",
+      "Path": "SFX\\metalic_scrape3_4AFEA6D2.wem"
+     },
+     {
+      "Id": "521601325",
+      "Language": "SFX",
+      "ShortName": "Drifting_start.wav",
+      "Path": "SFX\\Drifting_start_9E69E797.wem"
+     },
+     {
+      "Id": "526641992",
+      "Language": "SFX",
+      "ShortName": "Marine_diesel_engine.wav",
+      "Path": "SFX\\Marine_diesel_engine_8FDCC4EC.wem"
+     },
+     {
+      "Id": "528602494",
+      "Language": "SFX",
+      "ShortName": "Drifting_loop5.wav",
+      "Path": "SFX\\Drifting_loop5_9E69E797.wem"
+     },
+     {
+      "Id": "532552577",
+      "Language": "SFX",
+      "ShortName": "Makibishi_metal_impact1.wav",
+      "Path": "SFX\\Makibishi_metal_impact1_9E69E797.wem"
      },
      {
       "Id": "547640341",
       "Language": "SFX",
       "ShortName": "Countdown_Go.wav",
-      "Path": "SFX\\Countdown_Go_9E69E797.wem"
+      "Path": "SFX\\Countdown_Go_4AFEA6D2.wem"
      },
      {
-      "Id": "726579198",
+      "Id": "574244369",
       "Language": "SFX",
-      "ShortName": "Countdown.wav",
-      "Path": "SFX\\Countdown_9E69E797.wem"
+      "ShortName": "Heavy_Smash2.wav",
+      "Path": "SFX\\Heavy_Smash2_9E69E797.wem"
+     },
+     {
+      "Id": "628004041",
+      "Language": "SFX",
+      "ShortName": "Makibishi_metal_impact3.wav",
+      "Path": "SFX\\Makibishi_metal_impact3_9E69E797.wem"
+     },
+     {
+      "Id": "664393915",
+      "Language": "SFX",
+      "ShortName": "Evil_Spirit.wav",
+      "Path": "SFX\\Evil_Spirit_9E69E797.wem"
+     },
+     {
+      "Id": "701038464",
+      "Language": "SFX",
+      "ShortName": "Turbo_Flash.wav",
+      "Path": "SFX\\Turbo_Flash_9E69E797.wem"
+     },
+     {
+      "Id": "750843032",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape2.wav",
+      "Path": "SFX\\metalic_scrape2_4AFEA6D2.wem"
+     },
+     {
+      "Id": "761089316",
+      "Language": "SFX",
+      "ShortName": "Selection.wav",
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
+     },
+     {
+      "Id": "762374421",
+      "Language": "SFX",
+      "ShortName": "Makibishi_hit.wav",
+      "Path": "SFX\\Makibishi_hit_9E69E797.wem"
+     },
+     {
+      "Id": "811891371",
+      "Language": "SFX",
+      "ShortName": "Medium_Smash2.wav",
+      "Path": "SFX\\Medium_Smash2_9E69E797.wem"
+     },
+     {
+      "Id": "826059435",
+      "Language": "SFX",
+      "ShortName": "Loser_player.wav",
+      "Path": "SFX\\Loser_player_9E69E797.wem"
+     },
+     {
+      "Id": "854809436",
+      "Language": "SFX",
+      "ShortName": "Engine_vibrations.wav",
+      "Path": "SFX\\Engine_vibrations_8FDCC4EC.wem"
+     },
+     {
+      "Id": "857546337",
+      "Language": "SFX",
+      "ShortName": "Turbo_Fire1.wav",
+      "Path": "SFX\\Turbo_Fire1_9E69E797.wem"
+     },
+     {
+      "Id": "917152495",
+      "Language": "SFX",
+      "ShortName": "Car_Impact_Water.wav",
+      "Path": "SFX\\Car_Impact_Water_9E69E797.wem"
+     },
+     {
+      "Id": "919387555",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop4.wav",
+      "Path": "SFX\\Firecracker_loop4_9E69E797.wem"
+     },
+     {
+      "Id": "942144408",
+      "Language": "SFX",
+      "ShortName": "Drifting_loop3.wav",
+      "Path": "SFX\\Drifting_loop3_9E69E797.wem"
+     },
+     {
+      "Id": "950107977",
+      "Language": "SFX",
+      "ShortName": "Winner_player.wav",
+      "Path": "SFX\\Winner_player_9E69E797.wem"
+     },
+     {
+      "Id": "961727349",
+      "Language": "SFX",
+      "ShortName": "metalic_scrape1.wav",
+      "Path": "SFX\\metalic_scrape1_4AFEA6D2.wem"
+     },
+     {
+      "Id": "966138208",
+      "Language": "SFX",
+      "ShortName": "makibishi_launch.wav",
+      "Path": "SFX\\makibishi_launch_4AFEA6D2.wem"
+     },
+     {
+      "Id": "968585807",
+      "Language": "SFX",
+      "ShortName": "Drifting_loop2.wav",
+      "Path": "SFX\\Drifting_loop2_9E69E797.wem"
+     },
+     {
+      "Id": "977190329",
+      "Language": "SFX",
+      "ShortName": "Evil_Spirit_cancelled.wav",
+      "Path": "SFX\\Evil_Spirit_cancelled_9E69E797.wem"
+     },
+     {
+      "Id": "1026459605",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop2.wav",
+      "Path": "SFX\\Firecracker_loop2_9E69E797.wem"
+     },
+     {
+      "Id": "1060689355",
+      "Language": "SFX",
+      "ShortName": "Firecracker_loop3.wav",
+      "Path": "SFX\\Firecracker_loop3_9E69E797.wem"
+     },
+     {
+      "Id": "1065970683",
+      "Language": "SFX",
+      "ShortName": "Firecracker_start.wav",
+      "Path": "SFX\\Firecracker_start_9E69E797.wem"
      }
     ]
    },
@@ -99,7 +492,7 @@
      {
       "Id": "2989164515",
       "Name": "Play_CursorMovement",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_CursorMovement",
+      "ObjectPath": "\\Events\\UI\\Play_CursorMovement",
       "GUID": "{96EF3D45-30D2-40B5-87BC-4E0A9ECE83E7}",
       "DurationType": "OneShot",
       "DurationMin": "0.646667",
@@ -108,7 +501,7 @@
      {
       "Id": "4285633163",
       "Name": "Play_Deselection",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_Deselection",
+      "ObjectPath": "\\Events\\UI\\Play_Deselection",
       "GUID": "{8C7387E4-608A-44BA-A6B1-AA812A9B403E}",
       "DurationType": "OneShot",
       "DurationMin": "0.341633",
@@ -117,7 +510,7 @@
      {
       "Id": "949269160",
       "Name": "Play_LoadingGame",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_LoadingGame",
+      "ObjectPath": "\\Events\\UI\\Play_LoadingGame",
       "GUID": "{5EB06474-B67C-488C-8F61-A3AC34D0424C}",
       "DurationType": "OneShot",
       "DurationMin": "3.997165",
@@ -126,7 +519,7 @@
      {
       "Id": "4121431383",
       "Name": "Play_LogoIntro",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_LogoIntro",
+      "ObjectPath": "\\Events\\UI\\Play_LogoIntro",
       "GUID": "{9A775442-E513-4CB9-8C6D-2CD2151BEFE1}",
       "DurationType": "OneShot",
       "DurationMin": "5.867256",
@@ -135,7 +528,7 @@
      {
       "Id": "1085325237",
       "Name": "Play_PressStart",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_PressStart",
+      "ObjectPath": "\\Events\\UI\\Play_PressStart",
       "GUID": "{FD7739D6-54E5-4ACE-BF32-A14613E171B7}",
       "DurationType": "OneShot",
       "DurationMin": "3.720000",
@@ -144,7 +537,7 @@
      {
       "Id": "3659285072",
       "Name": "Play_Selection",
-      "ObjectPath": "\\Events\\UI\\FX\\Play_Selection",
+      "ObjectPath": "\\Events\\UI\\Play_Selection",
       "GUID": "{22F5CFBF-071C-4F73-A105-6F9992B494D7}",
       "DurationType": "OneShot",
       "DurationMin": "0.312925",
@@ -153,14 +546,14 @@
      {
       "Id": "1976156205",
       "Name": "Play_UI_Music_Loop",
-      "ObjectPath": "\\Events\\UI\\Music\\Play_UI_Music_Loop",
+      "ObjectPath": "\\Events\\UI\\Play_UI_Music_Loop",
       "GUID": "{7C54D16A-F2F6-489A-9F4D-1D4D6BD42237}",
       "DurationType": "Infinite"
      },
      {
       "Id": "2486230223",
       "Name": "Stop_UI_Music_Loop",
-      "ObjectPath": "\\Events\\UI\\Music\\Stop_UI_Music_Loop",
+      "ObjectPath": "\\Events\\UI\\Stop_UI_Music_Loop",
       "GUID": "{D4364878-F695-45E0-95E8-13E6AD3DC1EE}",
       "MaxAttenuation": "0.000000",
       "DurationType": "OneShot",
@@ -173,43 +566,43 @@
       "Id": "390271277",
       "Language": "SFX",
       "ShortName": "LoadingGame.wav",
-      "Path": "SFX\\LoadingGame_9E69E797.wem"
+      "Path": "SFX\\LoadingGame_4AFEA6D2.wem"
      },
      {
       "Id": "432115999",
       "Language": "SFX",
       "ShortName": "UI_Music_Loop.wav",
-      "Path": "SFX\\UI_Music_Loop_4B8CC0C5.wem"
+      "Path": "SFX\\UI_Music_Loop_8FDCC4EC.wem"
      },
      {
       "Id": "445115088",
       "Language": "SFX",
       "ShortName": "Deselection.wav",
-      "Path": "SFX\\Deselection_9E69E797.wem"
+      "Path": "SFX\\Deselection_4AFEA6D2.wem"
      },
      {
       "Id": "596469982",
       "Language": "SFX",
       "ShortName": "CursorMovement.wav",
-      "Path": "SFX\\CursorMovement_9E69E797.wem"
+      "Path": "SFX\\CursorMovement_4AFEA6D2.wem"
      },
      {
       "Id": "698381521",
       "Language": "SFX",
       "ShortName": "PressStart.wav",
-      "Path": "SFX\\PressStart_9E69E797.wem"
+      "Path": "SFX\\PressStart_4AFEA6D2.wem"
      },
      {
       "Id": "761089316",
       "Language": "SFX",
       "ShortName": "Selection.wav",
-      "Path": "SFX\\Selection_9E69E797.wem"
+      "Path": "SFX\\Selection_4AFEA6D2.wem"
      },
      {
       "Id": "1057882787",
       "Language": "SFX",
       "ShortName": "LogoIntro.wav",
-      "Path": "SFX\\LogoIntro_9E69E797.wem"
+      "Path": "SFX\\LogoIntro_4AFEA6D2.wem"
      }
     ]
    }

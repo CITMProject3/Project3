@@ -9,6 +9,7 @@
 #include "ModuleLighting.h"
 #include "ModuleCamera3D.h"
 #include "ModuleGOManager.h"
+#include "MasterRender.h"
 
 #include "GameObject.h"
 #include "ComponentMesh.h"
@@ -19,12 +20,13 @@
 #include "ComponentScript.h"
 
 #include "PhysBody3D.h"
-#include "PhysVehicle3D.h"
 #include "Primitive.h"
 
 #include "Assets.h"
 #include "RaycastHit.h"
 #include "Time.h"
+#include "Random.h"
+#include "ShadowMap.h"
 
 #include "Devil/include/il.h"
 #include "Devil/include/ilut.h"
@@ -98,9 +100,7 @@ bool ModulePhysics3D::Start()
 	world = new btDiscreteDynamicsWorld(dispatcher, broad_phase, solver, collision_conf);
 	//world->setDebugDrawer(debug_draw);
 	world->setGravity(GRAVITY);
-	vehicle_raycaster = new btDefaultVehicleRaycaster(world);
 	CreateGround();
-	GetShaderLocations();
 	return true;
 }
 
@@ -331,7 +331,7 @@ update_status ModulePhysics3D::Update()
 								rot = Quat::RotateFromTo(float3(0, 1, 0), hit.normal);
 							}
 							trs->SetPosition(hit.point);
-							trs->SetRotation(rot);
+							trs->SetRotation(Quat::RotateAxisAngle(rot.WorldY(), last_placed_rot) * rot);
 						}
 					}
 					if (App->input->GetMouseButton(1) == KEY_UP && GO_toPaint_libPath.length() > 4 && last_placed_go != nullptr)
@@ -375,40 +375,9 @@ bool ModulePhysics3D::CleanUp()
 		terrainOriginalUvBuffer = 0;
 	}
 
-	delete vehicle_raycaster;
 	delete world;
 
 	return true;
-}
-
-void ModulePhysics3D::GetShaderLocations()
-{
-	shader_id = App->resource_manager->GetDefaultTerrainShaderId();
-
-	model_location = glGetUniformLocation(shader_id, "model");
-	projection_location = glGetUniformLocation(shader_id, "projection");
-	view_location = glGetUniformLocation(shader_id, "view");
-	n_texs_location = glGetUniformLocation(shader_id, "_nTextures");
-	tex_distributor_location = glGetUniformLocation(shader_id, "_TextureDistributor");
-	texture_location_0 = glGetUniformLocation(shader_id, "_Texture_0");
-	texture_location_1 = glGetUniformLocation(shader_id, "_Texture_1");
-	texture_location_2 = glGetUniformLocation(shader_id, "_Texture_2");
-	texture_location_3 = glGetUniformLocation(shader_id, "_Texture_3");
-	texture_location_4 = glGetUniformLocation(shader_id, "_Texture_4");
-	texture_location_5 = glGetUniformLocation(shader_id, "_Texture_5");
-	texture_location_6 = glGetUniformLocation(shader_id, "_Texture_6");
-	texture_location_7 = glGetUniformLocation(shader_id, "_Texture_7");
-	texture_location_8 = glGetUniformLocation(shader_id, "_Texture_8");
-	texture_location_9 = glGetUniformLocation(shader_id, "_Texture_9");
-	has_tex_location = glGetUniformLocation(shader_id, "_HasTexture");
-	texture_location = glGetUniformLocation(shader_id, "_Texture");
-	colorLoc = glGetUniformLocation(shader_id, "material_color");
-	ambient_intensity_location = glGetUniformLocation(shader_id, "_AmbientIntensity");
-	ambient_color_location = glGetUniformLocation(shader_id, "_AmbientColor");
-	has_directional_location = glGetUniformLocation(shader_id, "_HasDirectional");
-	directional_intensity_location = glGetUniformLocation(shader_id, "_DirectionalIntensity");
-	directional_color_location = glGetUniformLocation(shader_id, "_DirectionalColor");
-	directional_direction_location = glGetUniformLocation(shader_id, "_DirectionalDirection");
 }
 
 void ModulePhysics3D::UpdateTriggerList()
@@ -547,6 +516,13 @@ void ModulePhysics3D::OnCollision(PhysBody3D *bodyA, PhysBody3D *bodyB)
 void ModulePhysics3D::OnPlay()
 {
 	AddTerrain();
+
+	if (realTerrainData != nullptr)
+	{
+		delete[] realTerrainData;
+		realTerrainData = nullptr;
+	}
+
 }
 
 void ModulePhysics3D::OnStop()
@@ -590,14 +566,6 @@ void ModulePhysics3D::CleanWorld()
 
 	bodies.clear();
 
-	for (list<PhysVehicle3D*>::iterator item = vehicles.begin(); item != vehicles.end(); item++)
-	{
-		world->removeVehicle((*item)->vehicle);
-		delete *item;
-	}
-
-	vehicles.clear();
-
 	for (list<TriggerState*>::iterator item = triggers.begin(); item != triggers.end(); item++)
 	{
 		delete *item;
@@ -620,63 +588,83 @@ void ModulePhysics3D::CreateGround()
 	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape);
 
 	btRigidBody* body = new btRigidBody(rbInfo);
-	world->addRigidBody(body);
+	world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
 }
 
 bool ModulePhysics3D::RayCast(Ray raycast, RaycastHit & hit_OUT)
 {
 	BROFILER_CATEGORY("ModulePhysics3D::Terrain_Raycast", Profiler::Color::HoneyDew);
-
 	RaycastHit hit_info;
 	bool ret = false;
-
-	std::map<float, chunk> firstPass;
-	float dNear = 0;
-	float dFar = 0;
-
-	for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+	if (App->IsGameRunning())
 	{
-		for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
-		{			
-			if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
-			{
-				firstPass.insert(std::pair<float, chunk>(dNear,it_x->second));
-			}
+		btVector3 Start(raycast.pos.x, raycast.pos.y, raycast.pos.z);
+		btVector3 End(raycast.pos.x + raycast.dir.x * 100.0f, raycast.pos.y + raycast.dir.y * 100.0f, raycast.pos.z + raycast.dir.z * 100.0f);
+
+		btCollisionWorld::ClosestRayResultCallback RayCallback(Start, End);
+
+		// Perform raycast
+		world->rayTest(Start, End, RayCallback);
+		if (RayCallback.hasHit()) {
+			hit_OUT.normal = float3(RayCallback.m_hitNormalWorld.x(), RayCallback.m_hitNormalWorld.y(), RayCallback.m_hitNormalWorld.z());
+			hit_OUT.point = float3(RayCallback.m_hitPointWorld.x(), RayCallback.m_hitPointWorld.y(), RayCallback.m_hitPointWorld.z());
+			hit_OUT.distance = hit_OUT.point.Distance(raycast.pos);
+			App->renderer3D->DrawLine(raycast.pos, hit_OUT.point);
+			App->renderer3D->DrawLine(hit_OUT.point, hit_OUT.point + hit_OUT.normal * 2.0f, float4(1,1,0,1));
+			return true;
 		}
+		App->renderer3D->DrawLine(raycast.pos, raycast.pos + raycast.dir * 100.0f);
 	}
-
-	uint u1, u2, u3;
-	float distance;
-	vec hit_point;
-	Triangle triangle;
-
-	for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
+	else
 	{
-		for (uint n = 0; n < it->second.GetNIndices(); n += 3)
-		{
-			u1 = it->second.indices[n];
-			u2 = it->second.indices[n + 1];
-			u3 = it->second.indices[n + 2];
-			triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+		std::map<float, chunk> firstPass;
+		float dNear = 0;
+		float dFar = 0;
 
-			if (raycast.Intersects(triangle, &distance, &hit_point))
+		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
+		{
+			for (std::map<int, chunk>::iterator it_x = it_z->second.begin(); it_x != it_z->second.end(); it_x++)
 			{
-				ret = true;
-				if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+				if (raycast.Intersects(it_x->second.GetAABB(), dNear, dFar))
 				{
-					hit_OUT.distance = distance;
-					hit_OUT.point = hit_point;
-					hit_OUT.normal = triangle.NormalCCW();
+					firstPass.insert(std::pair<float, chunk>(dNear, it_x->second));
 				}
 			}
 		}
-		if (ret == true)
+
+		uint u1, u2, u3;
+		float distance;
+		vec hit_point;
+		Triangle triangle;
+
+		for (std::map<float, chunk>::iterator it = firstPass.begin(); it != firstPass.end(); it++)
 		{
-			hit_OUT.object = nullptr;
-			hit_OUT.normal.Normalize();
-			return true;
+			for (uint n = 0; n < it->second.GetNIndices(); n += 3)
+			{
+				u1 = it->second.indices[n];
+				u2 = it->second.indices[n + 1];
+				u3 = it->second.indices[n + 2];
+				triangle = Triangle(vertices[u1], vertices[u2], vertices[u3]);
+
+				if (raycast.Intersects(triangle, &distance, &hit_point))
+				{
+					ret = true;
+					if (hit_OUT.distance > distance || hit_OUT.distance == 0)
+					{
+						hit_OUT.distance = distance;
+						hit_OUT.point = hit_point;
+						hit_OUT.normal = triangle.NormalCCW();
+					}
+				}
+			}
+			if (ret == true)
+			{
+				hit_OUT.object = nullptr;
+				hit_OUT.normal.Normalize();
+				return true;
+			}
 		}
-	}	
+	}
 	return false;
 }
 
@@ -1227,7 +1215,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Sphere_P& sphere, ComponentCollider* 
 
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1256,7 +1251,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cube_P& cube, ComponentCollider* col,
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1285,7 +1287,14 @@ PhysBody3D* ModulePhysics3D::AddBody(const Cylinder_P& cylinder, ComponentCollid
 	if (isTransparent) body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
@@ -1336,85 +1345,49 @@ PhysBody3D* ModulePhysics3D::AddBody(const ComponentMesh& mesh, ComponentCollide
 	delete colShape;
 
 	body->setUserPointer(pbody);
-	world->addRigidBody(body);
+	if (isTransparent)
+	{
+		world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	}
+	else
+	{
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
+	}
 	bodies.push_back(pbody);
 
 	return pbody;
 }
 
 // ---------------------------------------------------------
-PhysVehicle3D* ModulePhysics3D::AddVehicle(const VehicleInfo& info, ComponentCar* col)
+PhysBody3D* ModulePhysics3D::AddVehicle(const Cube_P& cube, ComponentCar* col)
 {
-	btCompoundShape* comShape = new btCompoundShape();
-	shapes.push_back(comShape);
-
-	//Base
-	btCollisionShape* colBase = new btBoxShape(btVector3(info.chassis_size.x*0.5f, info.chassis_size.y*0.5f, info.chassis_size.z*0.5f));
-	shapes.push_back(colBase);
-	
-	btCollisionShape* colNose = new btBoxShape(btVector3(info.nose_size.x * 0.5f, info.nose_size.y* 0.5f, info.nose_size.z*0.5f));
-	shapes.push_back(colNose);
-
-	btTransform transBase;
-	transBase.setIdentity();
-	transBase.setOrigin(btVector3(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z));
-
-	comShape->addChildShape(transBase, colBase);
-
-	btTransform transNose;
-	transNose.setIdentity();
-	transNose.setOrigin(btVector3(info.nose_offset.x, info.nose_offset.y, info.nose_offset.z));
-
-	comShape->addChildShape(transNose, colNose);
+	btCollisionShape* colShape = new btBoxShape(btVector3(cube.size.x*0.5f, cube.size.y*0.5f, cube.size.z*0.5f));
+	shapes.push_back(colShape);
 
 	btTransform startTransform;
-	startTransform.setIdentity();
+	startTransform.setFromOpenGLMatrix(*cube.transform.v);
 
 	btVector3 localInertia(0, 0, 0);
-	comShape->calculateLocalInertia(info.mass, localInertia);
 
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(info.mass, myMotionState, comShape, localInertia);
-	
+	motions.push_back(myMotionState);
+	btRigidBody::btRigidBodyConstructionInfo rbInfo(0.0f, myMotionState, colShape, localInertia);
+
 	btRigidBody* body = new btRigidBody(rbInfo);
-	body->setContactProcessingThreshold(BT_LARGE_FLOAT);
+	PhysBody3D* pbody = new PhysBody3D(body, col);
+
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_NO_CONTACT_RESPONSE);
+	body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 	body->setActivationState(DISABLE_DEACTIVATION);
-	body->setCcdMotionThreshold(1e-7);
-	body->setCcdSweptSphereRadius(1.0);
 
-	world->addRigidBody(body);
+	body->setUserPointer(pbody);
+	world->addRigidBody(body, COL_TRANSPARENT, COL_SOLID | COL_TRANSPARENT);
+	bodies.push_back(pbody);
 
-	btRaycastVehicle::btVehicleTuning tuning;
-	tuning.m_frictionSlip = info.frictionSlip;
-	tuning.m_maxSuspensionForce = info.maxSuspensionForce;
-	tuning.m_maxSuspensionTravelCm = info.maxSuspensionTravelCm;
-	tuning.m_suspensionCompression = info.suspensionCompression;
-	tuning.m_suspensionDamping = info.suspensionDamping;
-	tuning.m_suspensionStiffness = info.suspensionStiffness;
+	pbody->SetTrigger(true, TriggerType::T_ON_TRIGGER);
+	pbody->SetCar(true);
 
-	btRaycastVehicle* vehicle = new btRaycastVehicle(tuning, body, vehicle_raycaster);
-
-	vehicle->setCoordinateSystem(0, 1, 2);
-
-	for(int i = 0; i < info.num_wheels; ++i)
-	{
-		btVector3 conn(info.wheels[i].connection.x, info.wheels[i].connection.y, info.wheels[i].connection.z);
-		btVector3 dir(info.wheels[i].direction.x, info.wheels[i].direction.y, info.wheels[i].direction.z);
-		btVector3 axis(info.wheels[i].axis.x, info.wheels[i].axis.y, info.wheels[i].axis.z);
-
-		vehicle->addWheel(conn, dir, axis, info.wheels[i].suspensionRestLength, info.wheels[i].radius, tuning, info.wheels[i].front);
-	}
-	// ---------------------
-
-	PhysVehicle3D* pvehicle = new PhysVehicle3D(body, vehicle, info, col);
-	world->addVehicle(vehicle);
-	vehicles.push_back(pvehicle);
-
-	pvehicle->SetTrigger(true, TriggerType::T_ON_ENTER);
-	pvehicle->SetCar(true);
-	pvehicle->SetTransform(info.transform.Transposed().ptr());
-
-	return pvehicle;
+	return pbody;
 }
 
 void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
@@ -1451,25 +1424,39 @@ void ModulePhysics3D::Sculpt(int x, int y, bool inverse)
 										{
 											if (_x2 >= 0 && _x2 < terrainW)
 											{
-												n++;
-												value += terrainData[_y2 * terrainW + _x2];
+												if (smoothMask >= 0 && smoothMask < 4)
+												{
+													if (READ_TEX_VAL(smoothMask, textureMap[(terrainH - _y2) * terrainW + _x2]) > 150)
+													{
+														n++;
+														value += terrainData[_y2 * terrainW + _x2];
+													}
+												}
+												else
+												{
+													n++;
+													value += terrainData[_y2 * terrainW + _x2];
+												}
 											}
 										}
 									}
 								}
-								value /= n;
+								if (n > 0)
+								{
+									value /= n;
 
-								if (math::Abs(vertices[_y * terrainW + _x].y - value) < brushStrength* time->RealDeltaTime())
-								{
-									vertices[_y * terrainW + _x].y = value;
-								}
-								else if (vertices[_y * terrainW + _x].y > value)
-								{
-									vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
-								}
-								else
-								{
-									vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
+									if (math::Abs(vertices[_y * terrainW + _x].y - value) < brushStrength* time->RealDeltaTime())
+									{
+										vertices[_y * terrainW + _x].y = value;
+									}
+									else if (vertices[_y * terrainW + _x].y > value)
+									{
+										vertices[_y * terrainW + _x].y -= brushStrength* time->RealDeltaTime();
+									}
+									else
+									{
+										vertices[_y * terrainW + _x].y += brushStrength* time->RealDeltaTime();
+									}
 								}
 							}
 						}
@@ -1554,6 +1541,10 @@ void ModulePhysics3D::PlaceGO(float3 pos, Quat rot)
 	if (trs == nullptr) { return; }
 	last_placed_go = go;
 	trs->SetPosition(pos);
+
+	last_placed_rot = App->rnd->RandomFloat(0.0f, 360.0f) * DEGTORAD;
+	rot = Quat::RotateAxisAngle(rot.WorldY(), last_placed_rot) * rot;
+
 	trs->SetRotation(rot);
 }
 
@@ -1572,7 +1563,7 @@ void ModulePhysics3D::AddTerrain()
 
 		btRigidBody* body = new btRigidBody(rbInfo);
 
-		world->addRigidBody(body);
+		world->addRigidBody(body, COL_SOLID, COL_SOLID | COL_TRANSPARENT | COL_RAYTEST);
 	}
 }
 
@@ -1722,22 +1713,21 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 
-		uint shader_id = App->resource_manager->GetDefaultTerrainShaderId();
-		//Use shader
-		glUseProgram(shader_id);
+		TerrainShader shader = App->renderer3D->ms_render->terrain_shader;
 
-		//Set uniforms
+		//Use shader
+		glUseProgram(shader.id);
 
 		//Matrices
-		glUniformMatrix4fv(model_location, 1, GL_FALSE, *(float4x4::identity).v);
-		glUniformMatrix4fv(projection_location, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
-		glUniformMatrix4fv(view_location, 1, GL_FALSE, *camera->GetViewMatrix().v);
+		glUniformMatrix4fv(shader.model, 1, GL_FALSE, *(float4x4::identity).v);
+		glUniformMatrix4fv(shader.projection, 1, GL_FALSE, *camera->GetProjectionMatrix().v);
+		glUniformMatrix4fv(shader.view, 1, GL_FALSE, *camera->GetViewMatrix().v);
 
-		glUniform1i(n_texs_location, textures.size());
+		glUniform1i(shader.n_textures, textures.size());
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-		glUniform1i(tex_distributor_location, 0);
+		glUniform1i(shader.texture_distributor, 0);
 
 		int count = 0;
 		if (textures.size() > 0)
@@ -1746,7 +1736,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 0
 			if (0 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_0, 1);
+				glUniform1i(shader.tex0, 1);
 				glActiveTexture(GL_TEXTURE1);
 				glBindTexture(GL_TEXTURE_2D, textures[0].first->GetTexture());
 			}
@@ -1759,7 +1749,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 1			
 			if (1 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_1, 2);
+				glUniform1i(shader.tex1, 2);
 				glActiveTexture(GL_TEXTURE2);
 				glBindTexture(GL_TEXTURE_2D, textures[1].first->GetTexture());
 			}
@@ -1772,7 +1762,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 2
 			if (2 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_2, 3);
+				glUniform1i(shader.tex2, 3);
 				glActiveTexture(GL_TEXTURE3);
 				glBindTexture(GL_TEXTURE_2D, textures[2].first->GetTexture());
 			}
@@ -1785,7 +1775,7 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 			//TEXTURE 3
 			if (3 < nTextures && wired == false)
 			{
-				glUniform1i(texture_location_3, 4);
+				glUniform1i(shader.tex3, 4);
 				glActiveTexture(GL_TEXTURE4);
 				glBindTexture(GL_TEXTURE_2D, textures[3].first->GetTexture());
 			}
@@ -1795,123 +1785,26 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 				glBindTexture(GL_TEXTURE_2D, 0);
 			}
 
-			//TEXTURE 4
-			if (4 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_4, 5);
-				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, textures[4].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE5);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 5
-			if (5 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_5, 6);
-				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, textures[5].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE6);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 6
-			if (6 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_6, 7);
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, textures[6].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE7);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 7
-			if (7 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_7, 8);
-				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, textures[7].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE8);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 8
-			if (8 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_8, 9);
-				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, textures[8].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE9);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-			//TEXTURE 9
-			if (9 < nTextures && wired == false)
-			{
-				glUniform1i(texture_location_9, 10);
-				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, textures[9].first->GetTexture());
-			}
-			else
-			{
-				glActiveTexture(GL_TEXTURE10);
-				glBindTexture(GL_TEXTURE_2D, 0);
-			}
-
-		}
-		else
-		{
-			glUniform1i(has_tex_location, 1);
-
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, textureMapBufferID);
-			glUniform1i(texture_location, 0);
 		}
 
-		if (colorLoc != -1)
-		{
-			float4 color(1.0f, 1.0f, 1.0f, 1.0f);
-			glUniform4fv(colorLoc, 1, color.ptr());
-		}
+		//Shadows
+		glUniformMatrix4fv(shader.shadow_view, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowView().v);
+		glUniformMatrix4fv(shader.shadow_projection, 1, GL_FALSE, *App->renderer3D->shadow_map->GetShadowProjection().v);
 
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, App->renderer3D->shadow_map->GetShadowMapId());
+		glUniform1i(shader.shadowmap, 5);
 
 		//Lighting
 		LightInfo light = App->lighting->GetLightInfo();
 		//Ambient
-		if (ambient_intensity_location != -1)
-			glUniform1f(ambient_intensity_location, light.ambient_intensity);
-		if (ambient_color_location != -1)
-			glUniform3f(ambient_color_location, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
+		glUniform1f(shader.Ia, light.ambient_intensity);
+		glUniform3f(shader.Ka, light.ambient_color.x, light.ambient_color.y, light.ambient_color.z);
 
-		//Directional
-		glUniform1i(has_directional_location, light.has_directional);
-
-		if (light.has_directional)
-		{
-			if (directional_intensity_location != -1)
-				glUniform1f(directional_intensity_location, light.directional_intensity);
-			if (directional_color_location != -1)
-				glUniform3f(directional_color_location, light.directional_color.x, light.directional_color.y, light.directional_color.z);
-			if (directional_direction_location != -1)
-				glUniform3f(directional_direction_location, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
-		}
-
-
+		glUniform1f(shader.Id, light.directional_intensity);
+		glUniform3f(shader.Kd, light.directional_color.x, light.directional_color.y, light.directional_color.z);
+		glUniform3f(shader.L, light.directional_direction.x, light.directional_direction.y, light.directional_direction.z);
+		
 		//Buffer vertices == 0
 		glEnableVertexAttribArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainVerticesBuffer);
@@ -1927,10 +1820,10 @@ void ModulePhysics3D::RealRenderTerrain(ComponentCamera * camera, bool wired)
 		glBindBuffer(GL_ARRAY_BUFFER, terrainNormalBuffer);
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_TRUE, 0, (GLvoid*)0);
 
-		//Buffer terrainUVs == 4
-		glEnableVertexAttribArray(4);
+		//Buffer terrainUVs == 3
+		glEnableVertexAttribArray(3);
 		glBindBuffer(GL_ARRAY_BUFFER, terrainOriginalUvBuffer);
-		glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*)0);
 
 		for (std::map<int, std::map<int, chunk>>::iterator it_z = chunks.begin(); it_z != chunks.end(); it_z++)
 		{

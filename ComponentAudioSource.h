@@ -8,6 +8,7 @@
 class Primitive;
 class ResourceFileAudio;
 class AudioEvent;
+class ComponentCar;
 
 class ComponentAudioSource : public Component
 {
@@ -61,6 +62,9 @@ private:
 	void ShowAddRemoveButtons();
 	void ShowListOfEvents();
 	void ShowPlayStopButtons(unsigned index);
+
+	// RTCP related values. Uniquely, with car
+	ComponentCar *car_linked = nullptr;
 };
 
 
