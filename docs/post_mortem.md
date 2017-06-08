@@ -22,10 +22,8 @@ The Yo-Kais theme was chosen later by us, cause it matches wll with the game pil
 
 ### What went wrong
 
-1. 
+1. **Lack of DoD and breach internal deadlines**. A lot of times during the development we stablished that tasks must be done for X day and later if someone breached the deadline there was no consequence. This caused bad costumes inside the team and some people let tasks for the last day, etc.
 
-2. 
+2. **Not enough gameplay for player 2**. As I said before, we focused on the kart's behaviour and the player 1, hoping that some items will be enough for the player 2. But the fact is that player 2 in our game does not have much to do. We should assigned some designer to ensure player 2 gameplay, like we did with the player 1.
 
-3. 
-
-4. 
+3. **Physics system**. We started the development with a realistic physics engine, Bullet. It gave us a lot of problems with shocks and ramps. We finally had to remove Bullet and pass to own physics system, developed by our programmers.
