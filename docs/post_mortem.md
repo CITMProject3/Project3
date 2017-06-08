@@ -27,3 +27,14 @@ The Yo-Kais theme was chosen later by us, cause it matches wll with the game pil
 2. **Not enough gameplay for player 2**. As I said before, we focused on the kart's behaviour and the player 1, hoping that some items will be enough for the player 2. But the fact is that player 2 in our game does not have much to do. We should assigned some designer to ensure player 2 gameplay, like we did with the player 1.
 
 3. **Physics system**. We started the development with a realistic physics engine, Bullet. It gave us a lot of problems with shocks and ramps. We finally had to remove Bullet and pass to own physics system, developed by our programmers.
+
+
+### Conclusions
+
+Ri-Karts is the first 3D game that we ever developed. Also is the first time that we have the challenge of developing the game and the engine at the same time. And none of us had worked before in a group with more than 20 people. All this factors caused, that costed us a lot of time to find dynamics to work well together and keep some control.
+
+We are the first to recognize that the final result is not the best, it isn't what our minds imagined when we started at the beginning. But the process and what we learned is what real matters. We have lived what means develop a game and its engine at the same time. Difficulty of make a lot of assets by different people and keep some artistic coherence. Throw a lot of work to the trash, because lack of communication, some mechanic doesn't work or whatever. 
+
+In conclusion, we have learned, what it means develop a FULL 3D game by your self. And it is very difficult, I must say. But Ri-Karts is just the beginning, in this group there are great people with a lot of skill in what they do. I'm looking forward to seeing what can they achieve, amazing things for sure.
+
+Written by: Jordi Nunes, Producer of the project.
