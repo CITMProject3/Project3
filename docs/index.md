@@ -13,7 +13,7 @@ Ri-Karts is a competitive 2 versus 2 kart racing game with an asymmetrical coope
 [Post Mortem](post_mortem.md)
 
 <dl>
-  <a href="https://github.com/CITMProject3/Project3/releases/download/G1.0.3/Ri-Karts.G1.0.3.zip" class="btn">Download Latest Build</a>
+  <a href="https://github.com/CITMProject3/Project3/releases/download/G1.RC4/Ri-KartsG1.R4.zip" class="btn">Download Latest Build</a>
 </dl>
 
 **Trailer:**
