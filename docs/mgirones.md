@@ -64,7 +64,11 @@
 ![Map_3](http://i.imgur.com/GKrPpyv.jpg)
 
 **At the "QA phase" of the project i did:**
+
 - Testing gameplay of the map 1 and 2
-- Managing some aspects of the qa                                      
+
+- Managing some aspects of the qa  
+
     -re labeling some issues
+    
     -checking and closing bugs
