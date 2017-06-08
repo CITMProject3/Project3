@@ -13,7 +13,9 @@
 **My Job:**
 
 In this project I have been mainly in charge of designing and testing all the items in the game. This includes testing and iterating them 
-until they reached an optimal point.  
+until they reached an optimal point. 
+
+Items changed a lot through the sprints. Some of them were dismissed :( 
 
 Addittionally I've been doing QA during the development of the project. 
 
