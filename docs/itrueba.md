@@ -16,9 +16,11 @@ Mail: itrueba0809@gmail.com
 
 **My Job:**
 
-I started helping with some concept arts, helping in characters like the Kappa, and making the initial concept of the Koji Lion kart.
+I started making with some concept arts, helping in characters like the Kappa, and making the initial concept of the Koji Lion kart.
 
 After that I focused on making the whole UI visuals, being my most remarkable role in this project. I've made the game logo, the character portraits of Hitotsume Kozo and Kappa, both karts portraits, the Firecracker Item portrait and every UI element from the start screen to the results screen.
+
+I also contributed to the levels scrum with three textures (grass, rock and path).
 
 Finally, when every UI element was finished, I made the trailers for the [game](https://www.youtube.com/watch?v=ROf3YBpUonI&ab_channel=Ian) and the [engine](https://www.youtube.com/watch?v=5AqESXxJxqw&ab_channel=Ian).
 
@@ -60,4 +62,15 @@ Finally, when every UI element was finished, I made the trailers for the [game](
   
   ![Result](http://i.imgur.com/zSs48zl.png)
   
+  
+* **Level Textures:**
+  * Grass
+  
+  ![Grass](http://i.imgur.com/x2AU5py.png)
+  * Rock
+  
+  ![Rock](http://i.imgur.com/6AXlliO.png)
+  * Path
+  
+  ![Path](http://i.imgur.com/MN8VfXV.png)
   
