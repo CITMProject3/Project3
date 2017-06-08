@@ -20,10 +20,10 @@ I started helping with some concept arts, helping in characters like the Kappa, 
 
 After that I focused on making the whole UI visuals, being my most remarkable role in this project. I've made the game logo, the character portraits of Hitotsume Kozo and Kappa, both karts portraits, the Firecracker Item portrait and every UI element from the start screen to the results screen.
 
-Finally, when every UI element was finished, I made the trailers for the game and the engine.
+Finally, when every UI element was finished, I made the trailers for the [game](https://www.youtube.com/watch?v=ROf3YBpUonI&ab_channel=Ian) and the [engine](https://www.youtube.com/watch?v=5AqESXxJxqw&ab_channel=Ian).
 
 **What have I done:**
-* Portraits:
+* **Portraits:**
   * Hitotsume Kozo
   
   ![Kozo Portrait](http://i.imgur.com/TLpfsy7.png)
@@ -40,7 +40,7 @@ Finally, when every UI element was finished, I made the trailers for the game an
   
   ![Firecracker Portrait](http://i.imgur.com/Z70s4eL.png)
 
-* User Interface Art:
+* **User Interface Art:**
   * Start Screen
   
   ![Start](http://i.imgur.com/Ugnza46.png)
