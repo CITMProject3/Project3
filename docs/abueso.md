@@ -4,7 +4,7 @@
 
 **Name:** Aleix Bueso
 
-![](http://i.imgur.com/2uVfkDLt.gif)
+![](http://i.imgur.com/2uVfkDLm.gif)
 
 **Contact:**
 
