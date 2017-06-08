@@ -1,6 +1,7 @@
 [HOME](index.md)
 
 ![Profile](http://i.imgur.com/FKTaBmG.jpg?1)
+
 **Role:** 2D Artist
 
 **Name:** Ian Trueba
@@ -39,21 +40,21 @@ Finally, when every UI element was finished, I made the trailers for the game an
 * User Interface Art:
   * Start Screen
   
-  -![Start](http://i.imgur.com/Ugnza46.png)
+  ![Start](http://i.imgur.com/Ugnza46.png)
   * Team Selection Screen
   
-  -![Team](http://i.imgur.com/TyuBis4.jpg)
+  ![Team](http://i.imgur.com/TyuBis4.jpg)
   * Character Selection Screen
   
-  -![Char](http://i.imgur.com/u8uwpWn.jpg)
+  ![Char](http://i.imgur.com/u8uwpWn.jpg)
   * Vehicle Selection Screen
   
-  -![Vehicle](http://i.imgur.com/aiE0GH7.jpg)
+  ![Vehicle](http://i.imgur.com/aiE0GH7.jpg)
   * Track Selection Screen
   
-  -![Track](http://i.imgur.com/sp54zWk.jpg)
+  ![Track](http://i.imgur.com/sp54zWk.jpg)
   * Result Screen
   
-  -![Result](http://i.imgur.com/zSs48zl.png)
+  ![Result](http://i.imgur.com/zSs48zl.png)
   
   
