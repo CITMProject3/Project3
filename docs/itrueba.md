@@ -33,7 +33,7 @@ Finally, when every UI element was finished, I made the trailers for the game an
   * Koji Lion Kart
   
   ![Koji Portrait](http://i.imgur.com/9QTF1AI.png)
-  * Kabuto Kart (in colaboration with [Martí](mpinos.db))
+  * Kabuto Kart (in colaboration with [Martí](mpinos.md))
   
   ![Kabuto Portrait](http://i.imgur.com/jeTTKKY.png)
   * Firecracker
