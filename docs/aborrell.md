@@ -16,7 +16,7 @@
 After I finished it, I started working with the gameplay team doing the script that control the camera position regarding the kart and doing the items, where I did the first approach of the items and after I focused on finishing the makibishis (and triple makibishis).
 Finally, I made that the engine can recognise the connection/disconnection of controllers in-game and the makibishi behaviour improved and fixed.
 
-**What i’ve done:**
+**Visual examples of what I've done**
 
 - Script component:
 
