@@ -2,7 +2,7 @@
 [HOME](index.md)
 
 
-![Profile](http://imgur.com/ebDPn2g)
+![Profile](http://i.imgur.com/ebDPn2gs.jpg)
 
 **Role** Artist
 
