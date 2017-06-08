@@ -1,10 +1,9 @@
 [HOME](index.md)
     
+
+![Profile pic](http://i.imgur.com/qQoSRQ1.png)         
+**Name:** Martí Pinós     
 **Role:** Lead Artist    
-
-
-**Name:** Martí Pinós   
-![Profile pic](http://i.imgur.com/qQoSRQ1.png)       
 
 
 **Contact:**     
@@ -13,9 +12,12 @@
 Mail: martivacarisses@gmail.com    
     
     
-**_My Role:_**    
-    
-       
+**_My Role:_**   
+
+As a Lead Artist, my job consisted in organize the art department and manage art tasks inside Hack & Plan. Also had the responsibility to do quality checks and advise on style decisions within the team.
+I started working inside the UI scrum doing a few pixelart portraits of the characters. Later on, I moved to the Levels scrum to work on some environment textures. Finally, I worked with [Guillem](gtravila.md) to implement particles inside the game.
+   
+   
        
 **_Project Contributions:_**
 
@@ -29,6 +31,15 @@ Mail: martivacarisses@gmail.com
    - Samebito's portrait (character didn't make the cut):  
   ![Samebito portrait](http://i.imgur.com/JpOa7EI.gif)
   
+   - Evil Spirit item portrait:  
+  ![Evil Spirit portrait](http://i.imgur.com/Jakl3iJ.png)
+  
+- Level textures:  
+  - Rock texture:  
+  ![Rock](http://i.imgur.com/QIbe0vO.png)
+  
+  - Grass texture:  
+  ![Grass](http://i.imgur.com/hqtoMvi.png)
   
 - Particles:
   - Hit:  
@@ -53,5 +64,5 @@ They boost the general morale of the team and they're fun... somewhat fun? What 
 - Ezwix engine's logo:
 ![Traguill](http://i.imgur.com/ktUf4RG.png)
 
-- And a bunch of slack emojis, though not all of them are mine (most of them are :^D)!
+- And a bunch of slack emojis, to spice up the messages!  
 ![Emojis](http://i.imgur.com/egnhbcy.png?1)
