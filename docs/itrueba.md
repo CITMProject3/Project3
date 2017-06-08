@@ -1,5 +1,6 @@
 [HOME](index.md)
 
+![Profile Picture](http://i.imgur.com/FKTaBmG.jpg)
 **Role:** 2D Artist
 
 **Name:** Ian Trueba
@@ -19,29 +20,29 @@ Finally, when every UI element was finished, I made the trailers for the game an
 
 **What have I done:**
 * Portraits:
-  * Hitotsume Kozo⋅⋅
-  ⋅⋅⋅![Kozo Portrait](http://i.imgur.com/TLpfsy7.png)
-  * Kappa⋅⋅
-  ⋅⋅⋅![Kappa Portrait](http://i.imgur.com/uAt6V8F.png)
-  * Koji Lion Kart⋅⋅
-  ⋅⋅⋅![Koji Portrait](http://i.imgur.com/9QTF1AI.png)
-  * Kabuto Kart (in colaboration with [Martí](mpinos.db))⋅⋅
-  ⋅⋅⋅![Kabuto Portrait](http://i.imgur.com/jeTTKKY.png)
-  * Firecracker⋅⋅
-  ⋅⋅⋅![Firecracker Portrait](http://i.imgur.com/Z70s4eL.png)
+  * Hitotsume Kozo
+  -![Kozo Portrait](http://i.imgur.com/TLpfsy7.png)
+  * Kappa
+  -![Kappa Portrait](http://i.imgur.com/uAt6V8F.png)
+  * Koji Lion Kart
+  -![Koji Portrait](http://i.imgur.com/9QTF1AI.png)
+  * Kabuto Kart (in colaboration with [Martí](mpinos.db))
+  -![Kabuto Portrait](http://i.imgur.com/jeTTKKY.png)
+  * Firecracker
+  -![Firecracker Portrait](http://i.imgur.com/Z70s4eL.png)
 
 * User Interface Art:
-  * Start Screen⋅⋅
-  ⋅⋅⋅![Start](http://i.imgur.com/Ugnza46.png)
-  * Team Selection Screen⋅⋅
-  ⋅⋅⋅![Team](http://i.imgur.com/TyuBis4.jpg)
-  * Character Selection Screen⋅⋅
-  ⋅⋅⋅![Char](http://i.imgur.com/u8uwpWn.jpg)
-  * Vehicle Selection Scree⋅⋅
-  ⋅⋅⋅![Vehicle](http://i.imgur.com/aiE0GH7.jpg)
-  * Track Selection Screen⋅⋅
-  ⋅⋅⋅![Track](http://i.imgur.com/sp54zWk.jpg)
-  * Result Screen⋅⋅
-  ⋅⋅⋅![Result](http://i.imgur.com/zSs48zl.png)
+  * Start Screen
+  -![Start](http://i.imgur.com/Ugnza46.png)
+  * Team Selection Screen
+  -![Team](http://i.imgur.com/TyuBis4.jpg)
+  * Character Selection Screen
+  -![Char](http://i.imgur.com/u8uwpWn.jpg)
+  * Vehicle Selection Screen
+  -![Vehicle](http://i.imgur.com/aiE0GH7.jpg)
+  * Track Selection Screen
+  -![Track](http://i.imgur.com/sp54zWk.jpg)
+  * Result Screen
+  -![Result](http://i.imgur.com/zSs48zl.png)
   
   
