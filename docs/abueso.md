@@ -4,6 +4,8 @@
 
 **Name:** Aleix Bueso
 
+![Profile](http://i.imgur.com/2uVfkDL.gif)
+
 **Contact:**
 
 - To [LinkedIn](https://www.linkedin.com/in/aleix-bueso-fern%C3%A1ndez-05b166115/)
