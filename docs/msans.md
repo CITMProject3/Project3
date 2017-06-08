@@ -21,4 +21,4 @@ Addittionally I've been doing QA during the development of the project.
 
 ![Img](http://i.imgur.com/0Myr534.png)
 
-[GDD](https://docs.google.com/document/d/1k6KV7MVOpu-7udsmstsEyU5YoC1FWJgVynyMWljkHas/edit?usp=sharing)
+Link to [GDD](https://docs.google.com/document/d/1k6KV7MVOpu-7udsmstsEyU5YoC1FWJgVynyMWljkHas/edit?usp=sharing)
