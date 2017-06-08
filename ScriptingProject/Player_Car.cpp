@@ -611,7 +611,6 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 			float3 new_vel = ((game_object->transform->GetForward().Normalized() * ((velocity_makibishi * 0.5f) + (car->GetVelocity() / 3.6f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * (velocity_makibishi * 0.05f)));
 			makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
 			item_size--;
-			Player_Car_CallUpdateItems();
 		}
 		else
 		{
@@ -640,7 +639,6 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 				float3 new_vel = ((game_object->transform->GetForward().Normalized() * y_joy_input * ((velocity_makibishi * 0.75f) + ((car->GetVelocity() / 3.6f) / 2.0f))) + (game_object->GetGlobalMatrix().WorldY().Normalized() * y_joy_input * (velocity_makibishi * 0.25f)));
 				new_vel += (game_object->transform->GetGlobalMatrix().WorldX().Normalized() * x_joy_input * (velocity_makibishi / 2));
 				makibishi_collider->body->SetLinearSpeed(new_vel.x, new_vel.y, new_vel.z);
-				Player_Car_CallUpdateItems();
 			}
 			item_size--;
 		}
@@ -662,8 +660,8 @@ script->public_gos.at("turbo_ps") = turbo_particle_go;
 		{
 			current_item = NONE;
 			item_size = 1;
-			Player_Car_CallUpdateItems();
 		}
+		Player_Car_CallUpdateItems();
 	}
 
 	void Player_Car_UseFirecracker(GameObject* game_object, ComponentCar* car)
