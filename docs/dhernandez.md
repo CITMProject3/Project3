@@ -36,8 +36,11 @@ From there on, i pretty much stuck working on the Kart, as well as still improvi
    - Edit that terrain directly from the engine with sculpt tools.
    - Paint multiple textures onto the terrain.
    - Easily place GameObjects onto the terrain, following it's normals, with the GameObject Placer Tool.
-![TerrainImage](http://i.imgur.com/vJ4HBWv.jpg)
-
+   <a href="http://www.youtube.com/watch?feature=player_embedded&v=Aydv5b5T-4Y
+" target="_blank"><img src="http://i.imgur.com/vJ4HBWv.jpg" 
+alt="Terrain image" border="10" /></a>    
+[Video showcasing the terrain editor tools](https://youtu.be/Aydv5b5T-4Y)    
+     
 - Kart behaviour:
    - Kart behaviour, using Bullet Raycast and custom physics.
    - Manage player input (except items).
