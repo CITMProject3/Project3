@@ -20,7 +20,8 @@ Later on, I had to stop working on the terrain to get into gameplay, where i had
 
 From there on, i pretty much stuck working on the Kart, as well as still improving some tools for the level designers and, above all, cleaning bugs and putting out fires.
     
-       
+Everything i've done here has been in C++, using the libraries of ImGui for the Editor, MathGeoLib to handle matrix and other math, OpenGL to draw and Bullet for the collision detection.     
+
        
 **_What i've done:_**
 
