@@ -8,7 +8,7 @@
 
 **Mail:** adrigmmn@gmail.com
 
-**Linkedin:** [Linkedin](www.linkedin.com/in/adrià-gómez-méndez-042166115)
+**Linkedin:** [Linkedin](https://www.linkedin.com/in/adri%C3%A0-g%C3%B3mez-m%C3%A9ndez-042166115/)
 
 **Portfolio:** [Artstation](https://agm16.artstation.com/)
 
