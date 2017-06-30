@@ -22,12 +22,11 @@ And Edwix Engine, our own game engine.
 
 First of all i started being 3D environment artist, creating props to use on our tracks with their concept arts or references, their UV and textures. 
 
-Afterwards on the development, when gameplay had evolved, i had to start creating (following the same method we used for the objects) models like Daruma (random box to collect in-game items)
-and some item like Makibishis.
+Afterwards on the development, when gameplay had evolved, i had to start creating (following the same method we used for the objects) models like Daruma (random box to collect in-game items) and some item like Makibishis.
 
-Then, i had to take again two of the props created to make a rework, because they have been created fast to fulfill the deliveries.
+Then, i had to retake two of props created by me to make a rework, because they have been created fast to fulfill the deliveries.
 
-Finally, i transformed into a level designer to change one of the two tracks into something beautiful and enjoyable to wander, from filling the map with props to changing the entire heightmap and repainting it.
+Finally, i turned into a level designer to modify one of the two tracks to something beautiful and enjoyable to wander, from filling the map with props to changing the entire heightmap and repainting it.
 
 _**What i've done:**_
 
