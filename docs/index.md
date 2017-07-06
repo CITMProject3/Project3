@@ -20,4 +20,4 @@ Ri-Karts is a competitive 2 versus 2 kart racing game with an asymmetrical coope
 
 
 
-[![Trailer](http://img.youtube.com/vi/ROf3YBpUonI/0.jpg)](https://www.youtube.com/watch?v=ROf3YBpUonI)
+[![Trailer](http://img.youtube.com/vi/Niu3g9-Bpkc/0.jpg)](https://www.youtube.com/watch?v=Niu3g9-Bpkc&ab_channel=Ian)
