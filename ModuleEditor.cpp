@@ -727,9 +727,9 @@ void ModuleEditor::PhysicsMenu()
 					{
 						string lib_file = App->resource_manager->FindFile(textures_list[i]);
 
-						char* tmp_it = textures_list[i]._Myptr();
+						char* tmp_it = &textures_list[i].front();
 						tmp_it += textures_list[i].length();
-						for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+						for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != &textures_list[i].front(); tmp_it--) {}
 						tmp_it++;
 
 						App->physics->LoadTexture(lib_file, -1, tmp_it);
@@ -767,9 +767,9 @@ void ModuleEditor::PhysicsMenu()
 							{
 								string lib_file = App->resource_manager->FindFile(textures_list[i]);
 
-								char* tmp_it = textures_list[i]._Myptr();
+								char* tmp_it = &textures_list[i].front();
 								tmp_it += textures_list[i].length();
-								for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != textures_list[i]._Myptr(); tmp_it--) {}
+								for (; *tmp_it != '\\' && *tmp_it != '/' && tmp_it != &textures_list[i].front(); tmp_it--) {}
 								tmp_it++;
 
 								App->physics->LoadTexture(lib_file, n, tmp_it);
@@ -965,7 +965,7 @@ void ModuleEditor::SaveSceneWindow()
 		{
 			if (scene_name_to_save == "")
 				scene_name_to_save = "Untiled";
-			ImGui::InputText("", scene_name_to_save._Myptr(), scene_name_to_save.capacity());
+			ImGui::InputText("", &scene_name_to_save.front(), scene_name_to_save.capacity());
 			if (ImGui::Button("Save ##save_scene_button"))
 			{
 				string scene = scene_name_to_save.data();

@@ -205,12 +205,12 @@ void Material::Load(const char * path)
 
 		vertex_path.resize(header[0]);
 		bytes = sizeof(char) * header[0];
-		memcpy(vertex_path._Myptr(), cursor, bytes);
+		memcpy(&vertex_path.front(), cursor, bytes);
 		cursor += bytes;
 
 		fragment_path.resize(header[1]);
 		bytes = sizeof(char) * header[1];
-		memcpy(fragment_path._Myptr(), cursor, bytes);
+		memcpy(&fragment_path.front(), cursor, bytes);
 		cursor += bytes;
 
 		int num_uniforms = header[2];
@@ -226,7 +226,7 @@ void Material::Load(const char * path)
 
 			bytes = sizeof(char) * name_size;
 			uniform->name.resize(bytes);
-			memcpy(uniform->name._Myptr(), cursor, bytes);
+			memcpy(&uniform->name.front(), cursor, bytes);
 			cursor += bytes;
 
 			bytes = sizeof(int);

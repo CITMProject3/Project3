@@ -162,7 +162,7 @@ void ComponentScript::OnInspector(bool debug)
 			if (ImGui::BeginPopup("Select Script"))
 			{
 
-				ImGui::InputText("Filter", filter._Myptr(), 50);
+				ImGui::InputText("Filter", &filter.front(), 50);
 				string f = filter.data();
 
 				for (int x = 0; x < App->scripting->GetScriptNamesList().size(); x++)
@@ -214,7 +214,7 @@ void ComponentScript::OnInspector(bool debug)
 				ImGui::SameLine();
 				str = "##";
 				str += (*it).first;
-				ImGui::InputText(str.c_str(), (*it).second._Myptr(), 30);
+				ImGui::InputText(str.c_str(), &(*it).second.front(), 30);
 			}
 		}
 		if (!public_ints.empty())

@@ -38,7 +38,7 @@ bool ModuleWindow::Init(Data& config)
 		if (config.GetBool("win_resizable")) flags |= SDL_WINDOW_RESIZABLE;
 		if (config.GetBool("win_borderless")) flags |= SDL_WINDOW_BORDERLESS;
 		if (config.GetBool("win_fullscreen_desktop")) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
-		
+
 		sprintf_s(window_title, 128, config.GetString("window_title"));
 		width = config.GetInt("window_width");
 		height = config.GetInt("window_height");

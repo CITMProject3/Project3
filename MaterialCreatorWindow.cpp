@@ -24,7 +24,7 @@ void MaterialCreatorWindow::Draw()
 	ImGui::Begin("Material Creator", &active, flags);
 
 	ImGui::Text("Save path: "); ImGui::SameLine();
-	ImGui::InputText("###save_path", save_path._Myptr(), save_path.capacity());
+	ImGui::InputText("###save_path", &save_path.front(), save_path.capacity());
 	
 	ImGui::Text("Vertex program: "); ImGui::SameLine();
 	string vertex_name = vertex + "###vertex_title";
@@ -94,7 +94,7 @@ void MaterialCreatorWindow::SetUniforms()
 {
 	ImGui::Separator();
 	ImGui::Text("Variable name: "); ImGui::SameLine();
-	ImGui::InputText("###variable_name", uniform_name._Myptr(), uniform_name.capacity());
+	ImGui::InputText("###variable_name", &uniform_name.front(), uniform_name.capacity());
 	ImGui::Text("Type: "); ImGui::SameLine();
 	if (ImGui::BeginMenu(uniform_type_char.data()))
 	{
@@ -327,7 +327,7 @@ void MaterialCreatorWindow::PrintUniforms()
 			int sampler_size = *(reinterpret_cast<int*>((*it)->value));
 			string sampler_name;
 			sampler_name.resize(sampler_size);
-			memcpy(sampler_name._Myptr(), (*it)->value + sizeof(int), sampler_size);
+			memcpy(&sampler_name.front(), (*it)->value + sizeof(int), sampler_size);
 			ImGui::Text("Value: %s", sampler_name.data());
 			break;
 		}

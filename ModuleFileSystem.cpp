@@ -93,6 +93,8 @@ unsigned int ModuleFileSystem::Load(const char* file, char** buffer) const
 {
 	unsigned int ret = 0;
 
+	char** tmp = PHYSFS_getSearchPath();
+
 	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
 	if (fs_file != NULL)

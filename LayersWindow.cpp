@@ -24,7 +24,7 @@ void LayersWindow::Draw()
 		ImGui::SameLine();
 		string id = "###layerid" + std::to_string(i);
 		if (i != 0)
-			ImGui::InputText(id.data(), layers->at(i)._Myptr(), layers->at(i).capacity());
+			ImGui::InputText(id.data(), &layers->at(i).front(), layers->at(i).capacity());
 		else
 			ImGui::Text(layers->at(i).data());
 	}

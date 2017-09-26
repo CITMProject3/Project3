@@ -80,7 +80,7 @@ void ComponentMaterial::OnInspector(bool debug)
 								string texture_path;
 								int name_size = *reinterpret_cast<int*>((*uni)->value);
 								texture_path.resize(name_size);
-								memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
+								memcpy(&texture_path.front(), (*uni)->value + sizeof(int), name_size);
 
 								ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());
 
@@ -221,7 +221,7 @@ void ComponentMaterial::Load(Data & conf)
 					string texture_path;
 					int name_size = *reinterpret_cast<int*>((*uni)->value);
 					texture_path.resize(name_size);
-					memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
+					memcpy(&texture_path.front(), (*uni)->value + sizeof(int), name_size);
 
 
 					ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());
@@ -418,7 +418,7 @@ void ComponentMaterial::PrintMaterialProperties()
 		case U_SAMPLER2D:
 			string tex_name;
 			tex_name.resize(*reinterpret_cast<int*>((*it)->value));
-			memcpy(tex_name._Myptr(), (*it)->value + sizeof(int), *reinterpret_cast<int*>((*it)->value));
+			memcpy(&tex_name.front(), (*it)->value + sizeof(int), *reinterpret_cast<int*>((*it)->value));
 
 			//Commented because its to hard to serialize each time you change it in runtime, better use create Material window for custom shaders.
 			ChangeTexture(tex_name, (*it));
@@ -612,7 +612,7 @@ void ComponentMaterial::RefreshTextures()
 			string texture_path;
 			int name_size = *reinterpret_cast<int*>((*uni)->value);
 			texture_path.resize(name_size);
-			memcpy(texture_path._Myptr(), (*uni)->value + sizeof(int), name_size);
+			memcpy(&texture_path.front(), (*uni)->value + sizeof(int), name_size);
 
 
 			ResourceFileType type = App->resource_manager->GetResourceType(texture_path.data());

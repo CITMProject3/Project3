@@ -192,7 +192,7 @@ namespace Scene_Manager
 	{
 		ComponentScript* script = (ComponentScript*)game_object->GetComponent(ComponentType::C_SCRIPT);
 
-		assets_main_menu_scene.copy(script->public_chars["Main_Menu_Scene"]._Myptr(), script->public_chars["Main_Menu_Scene"].size());
+		assets_main_menu_scene.copy(&script->public_chars["Main_Menu_Scene"].front(), script->public_chars["Main_Menu_Scene"].size());
 
 		car_1_go = script->public_gos["Car1"];
 		car_2_go = script->public_gos["Car2"];

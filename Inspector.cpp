@@ -44,7 +44,7 @@ void Inspector::Draw()
 			selected_GO->SetAllActive(is_active);
 		//Name
 		ImGui::SameLine();
-		ImGui::InputText("###goname", selected_GO->name._Myptr(), selected_GO->name.capacity());
+		ImGui::InputText("###goname", &selected_GO->name.front(), selected_GO->name.capacity());
 
 		//Static
 		/*ImGui::Text("Static:");

@@ -232,7 +232,7 @@ void ComponentUiText::SetText(string &text)
 	string str = string("Change Text: ") + text;
 	if (ImGui::Begin(str.c_str(),&change_text))
 	{
-		ImGui::InputText("", current_text_changing._Myptr(), current_text_changing.capacity());
+		ImGui::InputText("", &current_text_changing.front(), current_text_changing.capacity());
 		if (ImGui::Button("Save ##change_text"))
 		{
 			text = current_text_changing.c_str();
